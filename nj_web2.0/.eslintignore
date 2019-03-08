@@ -1,0 +1,10 @@
+build/*.js
+config/*.js
+static/*.js
+src/axios/*.js
+src/lib/*.js
+src/router/*.js
+src/vuex/*.js
+src/vuex/modules/*.js
+src/*.js
+src/pages/homePage/*.js

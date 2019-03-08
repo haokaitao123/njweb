@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css"/>
+  <script type="text/javascript" src="static/md5.js"></script>
+  <script type="text/javascript" src="static/layui/layui.js"></script>
+  <script type="text/javascript" src="static/util.js"></script>
+  <script type="text/javascript" src="./static/pub_source.js"></script>
+  <script type="text/javascript" src="static/websocketconfig.js" ></script>
+  <script type="text/javascript" src="static/message.js"></script>
+  <script type="text/javascript" src="static/messagebody.js"></script>
+  <script type="text/javascript" src="static/layIMsetFunction.js"></script>
+
+  <title>人力资源共享服务平台</title>
+  <style>
+
+    .mu-timepicker-pointer{
+      top:28% !important;
+      height: 60% !important;
+    }
+    .mu-timepicker-number{
+      /*transform:translate(0px, 10px)  !important;*/
+    }
+    .mu-tab-link-highlight{
+      display: none !important;
+    }
+    .mu-text-field-input{
+      border-bottom: 0.5px solid #E3E3E3 !important;
+      font-size: 16px !important;
+      height: 0.626667rem !important;
+    }
+    .mu-select-input{
+      border-bottom: 0.5px solid #E3E3E3 !important;
+    }
+    .mu-radio-label{
+      font-size: 0.413333rem !important;
+    }
+    /* 去除下拉框的线*/
+    .mu-input-line{
+      height: 0 !important;
+    }
+    .mu-select-action{
+      display: none !important;
+    }
+    .mu-timepicker-circle{
+      top:-6% !important;
+      left: 26% !important;
+      width: 7rem !important;
+      height: 7rem !important;
+    }
+    .mu-picker-container{
+      height: 6rem !important;
+    }
+    .mu-datepicker{
+      width:6rem !important;
+      margin: auto;
+    }
+    .mu-day-button-bg{
+      top:4px !important;
+    }
+    .mu-picker-display{
+      margin-bottom: 20px !important;
+    }
+    @media screen and (max-width: 320px) {
+      .mu-timepicker-circle{
+        top:2% !important;
+        left: 24% !important;
+        width: 7.5rem !important;
+        height: 7.5rem !important;
+      }
+      .mu-timepicker-number{
+        left: calc(50% - 10px) !important;
+      }
+      .date{
+        padding-top:50px !important;
+      }
+    }
+    .mu-bottom-item{
+      max-width:3.066667rem !important;
+    }
+    .mu-bottom-item-icon{
+      margin: auto 1.2rem !important;
+    }
+    .mu-tab{
+      min-width: 3rem !important;
+    }
+    .mint-loadmore-content{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .mint-loadmore{
+      width:100%;
+    }
+    .mint-cell-wrapper{
+      font-size: 0.413333rem !important;
+    }
+    .mu-chip{
+      line-height:0.926667rem !important;
+      border-radius: 0.613333rem !important;
+      font-size: 0.573333rem !important;
+    }
+    /*日历*/
+    .picker-slot{
+      font-size: 0.64rem !important;
+    }
+    .mint-datetime-action{
+      font-size: 0.513333rem !important;
+    }
+    .picker-toolbar{
+        line-height: 0.933333rem !important;
+        height: 0.933333rem !important;
+    }
+    .mint-datetime-action{
+      height: 0.933333rem !important;
+      line-height: 0.933333rem !important;
+    }
+    /*日历*/
+    /*Toast*/
+    .mint-toast-text{
+      font-size: 0.586667rem !important;
+    }
+    /*
+      薪资查询日历框
+    */
+    .el-date-editor.el-input, .el-date-editor.el-input__inner{
+      width:3.52rem !important;
+    }
+    .el-input{
+      font-size: 16px !important;
+    }
+    .el-input__prefix, .el-input__suffix{
+      top:15px !important;
+    }
+    .el-input--prefix .el-input__inner{
+      padding-left: 0.6rem !important;
+    }
+    .el-date-picker{
+      width:7.293333rem !important;
+    }
+    .el-picker-panel__content{
+      width:100% !important;
+    }
+    .el-month-table td .cell, .el-year-table td .cell{
+      width:100% !important;
+    }
+    .el-month-table td{
+      font-size: 16px !important;
+    }
+    .el-date-picker__header-label{
+      font-size: 16px !important;
+    }
+    .el-month-table td{
+      padding:0.466667rem 0.04rem !important;
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+<script src="//at.alicdn.com/t/font_722517_ytvnqmsx4x.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+.cover{
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,.5);
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+  .box{
+    position:relative;
+    width: 900px;
+    background-color: #fff;
+    padding: 60px 20px 30px 20px;
+    border-radius: 10px;
+    .form{
+      max-height: 800px;
+      overflow-y: auto;
+    }
+    .title{
+      display: flex;
+      position: absolute;
+      height: 40px;
+      width: 100%;
+      line-height: 40px;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 20px;
+      top: 0;
+      border-bottom: 1px solid #efefef;
+      left: 0;
+      .title-text{
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+  }
+}
