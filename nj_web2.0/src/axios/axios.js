@@ -5,6 +5,28 @@ import axios from 'axios';
 // import pubsource from '../lib/pub_source';
 import store from '../vuex/index'
 import { encrypt, encryptNew, getCookie, encryptSenior, encryptNew2,encryptNew3 } from '../lib/util';
+
+// 首次触发生成验证码
+export const getNoteCodeFirst = () => {
+  let params = {
+    _mt: "verifycode.genVerifyCode",
+    clientId: pubsource.clientId,
+    clientPass: pubsource.clientPass,
+    clientIp: "127.0.0.1"
+  };
+  let requestData = {
+    data: params,
+    level: 'None'
+  };
+  var data = encrypt(requestData.level, requestData.data);
+  console.log(data)
+  return axios({
+    method: 'post',
+    url: pubsource.pub_getCaptcha,
+    withCredentials: true,            //跨域请求时是否需要使用凭证
+    params:data,
+  })
+}
 /*
 * 获取图形验证码的方法
 * */
