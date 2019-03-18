@@ -1,12 +1,12 @@
 var pubsource = {
 	// 以下为开发环境变量配置
 
-      pub_getlink : "http://192.168.101.120:8099/api/v1",
-      pub_getCaptcha : "http://192.168.101.120:8099/api/v1",
-      pub_pubf_uploadlink : "http://192.168.101.120:9709/upload?groupId=0",
-      pub_prvf_uploadlink : "http://192.168.101.120:9709/upload?groupId=1",
-      pub_pubf_downlink : "http://192.168.101.120:8088/",
-      pub_prvf_downlink : "http://192.168.101.120:9709/file?",
+      pub_getlink : "http://najie.hrocloud.com:8099/api/v1",
+      pub_getCaptcha : "http://najie.hrocloud.com:8099/api/v1",
+      pub_pubf_uploadlink : "http://najie.hrocloud.com:9709/upload?groupId=0",
+      pub_prvf_uploadlink : "http://najie.hrocloud.com:9709/upload?groupId=1",
+      pub_pubf_downlink : "http://najie.hrocloud.com:8088/",
+      pub_prvf_downlink : "http://najie.hrocloud.com:9709/file?",
       clientId: '1000',
       clientPass: '6cc1c430aed64d3bb8516011195a5b56',
       webSocketURL: 'ws://192.168.11.66:3048/ws',
