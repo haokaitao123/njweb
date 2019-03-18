@@ -190,7 +190,7 @@
       window.onbeforeunload = function () {
         t.$store.commit('clearAllTags')
       }
-      // this.getUser()
+      this.getUser()
     },
     methods: {
       clearIM() {

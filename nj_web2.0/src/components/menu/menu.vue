@@ -15,7 +15,7 @@
       text-color="#fff"
       active-text-color="#2DB7F5">
 
-<template v-for="(item,index) in menu">
+      <template v-for="(item,index) in menu">
         <el-submenu v-if="item.children" :index="item.id" :key="index">
           <template slot="title">
             <Icon :type="item.funImg" size="16" color="#fff" style="margin-right: 5px;width: 15px;text-align: center"></Icon>
