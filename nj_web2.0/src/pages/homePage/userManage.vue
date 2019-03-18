@@ -66,7 +66,7 @@
       }
     },
     mounted() {
-      // this.getIndexFun()
+      this.getIndexFun()
     },
     methods: {
       getIndexFun() {
