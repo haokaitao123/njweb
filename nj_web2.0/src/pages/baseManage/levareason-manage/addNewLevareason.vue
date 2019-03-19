@@ -27,13 +27,8 @@
         </Row>
         <Row>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseLevareason.levaCname')" prop="levaCname">
-            <Input v-model="formValidate.levaCname" :placeholder="$t('lang_baseManage.baseLevareason.levaCnameDis')"></Input>
-          </FormItem>
-          </Col>
-          <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseLevareason.levaEname')" prop="levaEname">
-            <Input v-model="formValidate.levaEname" :placeholder="$t('lang_baseManage.baseLevareason.levaEnameDis')"></Input>
+          <FormItem :label="$t('lang_baseManage.baseLevareason.levaCname')" prop="levaName">
+            <Input v-model="formValidate.levaName" :placeholder="$t('lang_baseManage.baseLevareason.levaCnameDis')"></Input>
           </FormItem>
           </Col>
         </Row>
@@ -71,8 +66,7 @@
           funId: '1',
           levaCode: '',
           levaReatype: '',
-          levaCname: '',
-          levaEname: '',
+          levaName: '',
           comment: '',
         },
         ruleValidate: {
@@ -82,11 +76,8 @@
           levaReatype: [
             { required: true, message: this.$t('lang_baseManage.baseLevareason.levaReatypeNameDis'), trigger: 'blur' },
           ],
-          levaCname: [
+          levaName: [
             { required: true, message: this.$t('lang_baseManage.baseLevareason.levaCnameDis'), trigger: 'blur' },
-          ],
-          levaEname: [
-            { required: true, message: this.$t('lang_baseManage.baseLevareason.levaEnameDis'), trigger: 'blur' },
           ],
         },
       }
@@ -113,8 +104,7 @@
           if (isSuccess(res, t)) {
             t.formValidate.levaCode = res.data.content[0].levaCode
             t.formValidate.levaReatype = res.data.content[0].levaReatype
-            t.formValidate.levaCname = res.data.content[0].levaCname
-            t.formValidate.levaEname = res.data.content[0].levaEname
+            t.formValidate.levaName = res.data.content[0].levaName
             t.formValidate.comment = res.data.content[0].comment
           }
         }).catch(() => {
