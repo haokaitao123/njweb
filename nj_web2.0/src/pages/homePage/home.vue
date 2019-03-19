@@ -3,19 +3,19 @@
     <Row>
       <toDoList v-if="roleType==='3user' || roleType==='3user-hrbp'"></toDoList>
       <emailCount v-if="roleType==='1admin'"></emailCount>
-      <quickMove :roleType="roleType" height="height" v-if="roleType==='0root'"></quickMove>
-      <calendarList :roleType="roleType" ></calendarList>
+      <!--<quickMove :roleType="roleType" height="height" v-if="roleType==='0root'"></quickMove>-->
+      <calendarList :roleType="roleType" v-if="roleType!='0root'"></calendarList>
       <quickMove :roleType="roleType" height="short"  v-if="roleType==='3user'||roleType==='1admin' || roleType==='3user-hrbp'"></quickMove>
       <message v-if="roleType==='1admin'"></message>
       <mailMsg :roleType="roleType" v-if="roleType==='3user'||roleType==='1admin' || roleType==='3user-hrbp'"></mailMsg>
-      <employeeId v-if="roleType==='1admin'"></employeeId>
-      <question v-if="roleType==='3user' || roleType==='3user-hrbp'"></question>
-      <employee v-if="roleType==='3user' || roleType==='3user-hrbp'"></employee>
-      <bookstore v-if="roleType==='3user' || roleType==='3user-hrbp'"></bookstore>
-      <tools v-if="roleType==='3user' || roleType==='3user-hrbp'"></tools>
-      <userManage v-if="roleType==='0root'"></userManage>
-      <autoCount v-if="roleType==='1admin'"></autoCount>
-      <autoZxCount v-if="roleType==='1admin'"></autoZxCount>
+      <!--<employeeId v-if="roleType==='1admin'"></employeeId>-->
+      <!--<question v-if="roleType==='3user' || roleType==='3user-hrbp'"></question>-->
+      <!--<employee v-if="roleType==='3user' || roleType==='3user-hrbp'"></employee>-->
+      <!--<bookstore v-if="roleType==='3user' || roleType==='3user-hrbp'"></bookstore>-->
+      <!--<tools v-if="roleType==='3user' || roleType==='3user-hrbp'"></tools>-->
+      <!--<userManage v-if="roleType==='0root'"></userManage>-->
+      <!--<autoCount v-if="roleType==='1admin'"></autoCount>-->
+      <!--<autoZxCount v-if="roleType==='1admin'"></autoZxCount>-->
     </Row>
   </div>
 </template>
