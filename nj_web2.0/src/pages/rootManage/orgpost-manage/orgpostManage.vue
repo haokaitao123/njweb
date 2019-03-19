@@ -9,7 +9,7 @@
         </p>
         <Row>
           <Col span="6" class="colTree" >
-            <div :loading="isloding"  class="divtree" :style="{height:treeheight + 'px'}">
+            <div :loading="loading"  class="divtree" :style="{height:treeheight + 'px'}">
               <Tree v-if="dataTree != ''" :data="dataTree" @on-select-change="selectChange" :render="renderContent"></Tree>
               <Spin v-if="loading" size="large" :style="{height:treeheight + 'px'}"></Spin>
             </div>
