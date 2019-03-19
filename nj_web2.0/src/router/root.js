@@ -23,6 +23,8 @@ import orgCostcenterList from '@/pages/rootManage/orgcostcenter-manage/orgcostce
 
 //岗位信息
 import orgPostList from '@/pages/rootManage/orgpost-manage/orgpostManage'
+//demo
+import demo from '@/pages/rootManage/demo/orgcostcenterManage'
 export default [
 
   {
@@ -60,5 +62,9 @@ export default [
     path: 'orgPostList',
     name: 'orgPostList',
     component: orgPostList,
+  }, {
+    path: 'demo',
+    name: 'demo',
+    component: demo,
   },
 ]
