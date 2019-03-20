@@ -129,12 +129,8 @@ const searchTable = {
     valueText: 'levaName',
     searchCloumns: [
       {
-        title: '离职原因中文',
-        key: 'levaCname',
-      },
-      {
-        title: '离职原因英文',
-        key: 'levaEname',
+        title: '离职原因',
+        key: 'levaName',
       },
     ],
     param: {
