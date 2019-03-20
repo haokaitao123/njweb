@@ -71,14 +71,14 @@
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseCity.cityIssbName')" prop="cityIshf">
             <RadioGroup v-model="formValidate.cityIshf">
-              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" key="index">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" :key="index">{{item.paramInfoCn}}</Radio>
             </RadioGroup>
           </FormItem>
           </Col>
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseCity.cityIstaxName')" prop="cityIstax">
             <RadioGroup v-model="formValidate.cityIstax">
-              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" key="index">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" :key="index">{{item.paramInfoCn}}</Radio>
             </RadioGroup>
           </FormItem>
           </Col>
