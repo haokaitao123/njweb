@@ -150,12 +150,8 @@ const searchTable = {
     valueText: 'nerName',
     searchCloumns: [
       {
-        title: '未入职原因中文',
-        key: 'nerCname',
-      },
-      {
-        title: '未入职原因英文',
-        key: 'nerEname',
+        title: '未入职原因',
+        key: 'nerName',
       },
     ],
     param: {
