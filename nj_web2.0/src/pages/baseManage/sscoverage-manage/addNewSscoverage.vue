@@ -27,13 +27,8 @@
         </Row>
         <Row>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseSscoverage.sscCname')" prop="sscCname">
-            <Input v-model="formValidate.sscCname" :placeholder="$t('lang_baseManage.baseSscoverage.sscCnameDis')"></Input>
-          </FormItem>
-          </Col>
-          <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseSscoverage.sscEname')" prop="sscEname">
-            <Input v-model="formValidate.sscEname" :placeholder="$t('lang_baseManage.baseSscoverage.sscEnameDis')"></Input>
+          <FormItem :label="$t('lang_baseManage.baseSscoverage.sscCname')" prop="sscName">
+            <Input v-model="formValidate.sscName" :placeholder="$t('lang_baseManage.baseSscoverage.sscCnameDis')"></Input>
           </FormItem>
           </Col>
         </Row>
@@ -71,8 +66,7 @@
           funId: '1',
           sscCode: '',
           sscType: '',
-          sscCname: '',
-          sscEname: '',
+          sscName: '',
           comment: '',
         },
         ruleValidate: {
@@ -82,11 +76,8 @@
           sscType: [
             { required: true, message: this.$t('lang_baseManage.baseSscoverage.sscTypeNameDis'), trigger: 'blur' },
           ],
-          sscCname: [
+          sscName: [
             { required: true, message: this.$t('lang_baseManage.baseSscoverage.sscCnameDis'), trigger: 'blur' },
-          ],
-          sscEname: [
-            { required: true, message: this.$t('lang_baseManage.baseSscoverage.sscEnameDis'), trigger: 'blur' },
           ],
         },
       }
@@ -113,8 +104,7 @@
           if (isSuccess(res, t)) {
             t.formValidate.sscCode = res.data.content[0].sscCode
             t.formValidate.sscType = res.data.content[0].sscType
-            t.formValidate.sscCname = res.data.content[0].sscCname
-            t.formValidate.sscEname = res.data.content[0].sscEname
+            t.formValidate.sscName = res.data.content[0].sscName
             t.formValidate.comment = res.data.content[0].comment
           }
         }).catch(() => {

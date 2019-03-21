@@ -220,11 +220,7 @@
           },
           {
             title: this.$t('lang_organization.orgcostcenter.cname'),
-            key: 'cname',
-          },
-          {
-            title: this.$t('lang_organization.orgcostcenter.ename'),
-            key: 'ename',
+            key: 'costName',
           },
         ],
         ruleValidate: {

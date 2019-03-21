@@ -289,7 +289,7 @@ const searchTable = {
       },
       {
         title: '成本中心名称',
-        key: 'name',
+        key: 'costName',
       },
     ],
     param: {

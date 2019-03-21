@@ -106,7 +106,7 @@ export default {
       passig2: '请输入社保区域编码',
       cost_searchText: '请输入成本中心名称',
       costCode: '成本中心编码',
-      cname: '中文名称',
+      cname: '成本中心名称',
       payssCode: '账套编码',
       payssCN: '账套名称中文',
       payssEN: '账套名称英文',

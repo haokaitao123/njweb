@@ -177,7 +177,7 @@ export default{
         },
         {
           title: this.$t('lang_role.adminuser.cname'),
-          key: 'cname',
+          key: 'costName',
         },
       ],
       cost_data: [],

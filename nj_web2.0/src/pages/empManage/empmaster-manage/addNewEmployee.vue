@@ -1071,7 +1071,7 @@
           },
           {
             title: this.$t('lang_organization.orgcostcenter.cname'),
-            key: 'cname',
+            key: 'costName',
           },
           {
             title: this.$t('lang_organization.orgcostcenter.ename'),

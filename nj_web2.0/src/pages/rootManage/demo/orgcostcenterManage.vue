@@ -53,11 +53,7 @@
           },
           {
             title: this.$t('lang_organization.orgcostcenter.cname'),
-            key: 'cname',
-          },
-          {
-            title: this.$t('lang_organization.orgcostcenter.ename'),
-            key: 'ename',
+            key: 'costName',
           },
           {
             title: this.$t('lang_organization.orgcostcenter.validdate'),
@@ -237,8 +233,7 @@
         const t = this
         t.openUpdate = false
         t.$refs.update.formValidate.costCode = ''
-        t.$refs.update.formValidate.cname = ''
-        t.$refs.update.formValidate.ename = ''
+        t.$refs.update.formValidate.costName = ''
         t.$refs.update.formValidate.validdate = ''
         t.$refs.update.formValidate.invdate = ''
         t.$refs.update.formValidate.comment = ''

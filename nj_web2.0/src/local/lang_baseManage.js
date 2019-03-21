@@ -174,7 +174,7 @@ export default {
       title: '社保险种管理',
       sscCodeDis: '请输入编码',
       sscTypeNameDis: '请输入险种类型',
-      sscCnameDis: '请输入中文',
+      sscCnameDis: '请输入名称',
       sscEnameDis: '请输入英文',
       commentDis: '请输入备注',
       sscCode: '编码',
