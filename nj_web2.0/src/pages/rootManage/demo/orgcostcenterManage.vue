@@ -54,12 +54,14 @@
             sortable: 'id',
           },
           {
+
             title:'orgDemoname',
             key: 'orgDemoname',
           },
           {
             title: '查看',
             title: '查看',
+
             key: 'action',
             width: 64,
             fixed: 'right',
@@ -225,8 +227,7 @@
         const t = this
         t.openUpdate = false
         t.$refs.update.formValidate.costCode = ''
-        t.$refs.update.formValidate.cname = ''
-        t.$refs.update.formValidate.ename = ''
+        t.$refs.update.formValidate.costName = ''
         t.$refs.update.formValidate.validdate = ''
         t.$refs.update.formValidate.invdate = ''
         t.$refs.update.formValidate.comment = ''

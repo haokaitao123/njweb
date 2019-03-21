@@ -18,12 +18,14 @@
           </FormItem>
           </Col>
           <Col span="11" offset="1">
+
           <FormItem :label="$t('demoname')" prop="orgDemoname">
             <Input v-model="formValidate.orgDemoname" :placeholder="$t('请输入demoname')"></Input>
           </FormItem>
           </Col>
         </Row>
         <Row>
+
           <Col span="10" offset="1">
             <FormItem :label="$t('lang_baseManage.baseCity.cityName')" prop="cityName">
               <Input v-model="formValidate.cityName" :placeholder="$t('lang_baseManage.baseCity.cityNameDis')"></Input>
@@ -54,9 +56,17 @@
         formValidate: {
           _mt: 'orgCostcenter.addOrUpd',
           funId: '1',
+
           orgDemocode: '',
           orgDemoname: '',
-          cityType: ''
+          cityType: '',
+          costCode: '',
+          costName: '',
+          validdate: '',
+          invdate: '',
+          invreason: '',
+          comment: '',
+
         },
         /*验证信息*/
         ruleValidate: {
@@ -87,8 +97,10 @@
           logType: '根据id获取数据',
         }).then((res) => {
           if (isSuccess(res, t)) {
+
             t.formValidate.orgDemocode= res.data.content[0].orgDemocode
             t.formValidate.orgDemoname = res.data.content[0].orgDemoname
+
           }
         }).catch(() => {
           this.$Modal.error({
