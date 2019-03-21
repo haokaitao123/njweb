@@ -13,94 +13,59 @@
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <Row>
           <Col span="11">
-          <FormItem :label="$t('lang_organization.orgcostcenter.costCode')" prop="costCode">
-            <Input v-model="formValidate.costCode" :placeholder="$t('lang_organization.orgcostcenter.costCodeDis')"></Input>
+          <FormItem :label="$t('democode')" prop="orgDemocode">
+            <Input v-model="formValidate.orgDemocode" :placeholder="$t('请输入democode')"></Input>
           </FormItem>
           </Col>
           <Col span="11" offset="1">
-          <FormItem :label="$t('lang_organization.orgcostcenter.cname')" prop="cname">
-            <Input v-model="formValidate.cname" :placeholder="$t('lang_organization.orgcostcenter.cnameDis')"></Input>
+          <FormItem :label="$t('demoname')" prop="orgDemoname">
+            <Input v-model="formValidate.orgDemoname" :placeholder="$t('请输入demoname')"></Input>
           </FormItem>
           </Col>
         </Row>
         <Row>
-          <Col span="11">
-          <FormItem :label="$t('lang_organization.orgcostcenter.ename')" prop="ename">
-            <Input v-model="formValidate.ename" :placeholder="$t('lang_organization.orgcostcenter.enameDis')"></Input>
-          </FormItem>
-          </Col>
-          <Col span="11" offset="1">
-          <FormItem :label="$t('lang_organization.orgcostcenter.validdate')" prop="validdate">
-            <DatePicker type="date" :placeholder="$t('lang_organization.orgcostcenter.validdateDis')" :editable="false" v-model="formValidate.validdate" style="width: 100%"></DatePicker>
-          </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="11" >
-          <FormItem :label="$t('lang_organization.orgcostcenter.invdate')" prop="invdate">
-            <DatePicker type="date" :placeholder="$t('lang_organization.orgcostcenter.invdateDis')" :editable="false" v-model="formValidate.invdate" style="width: 100%"></DatePicker>
-          </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="23">
-          <FormItem :label="$t('lang_organization.orgcostcenter.invreason')" prop="invreason">
-            <Input v-model="formValidate.invreason" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_organization.orgcostcenter.invreasonDis')"></Input>
-          </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="23">
-          <FormItem :label="$t('lang_organization.orgcostcenter.comment')" prop="comment">
-            <Input v-model="formValidate.comment" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_organization.orgcostcenter.commentDis')"></Input>
-          </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="23">
-          <Row type="flex" justify="end">
-            <FormItem>
-              <Button type="ghost" @click="handleReset" style="margin-left: 8px">{{$t('button.cal')}}</Button>
-              <Button type="primary" @click="handleSubmit">{{$t('button.sav')}}</Button>
+          <Col span="10" offset="1">
+            <FormItem :label="$t('lang_baseManage.baseCity.cityName')" prop="cityName">
+              <Input v-model="formValidate.cityName" :placeholder="$t('lang_baseManage.baseCity.cityNameDis')"></Input>
             </FormItem>
-          </Row>
+          </Col>
+          <Col span="10" offset="1">
+            <FormItem :label="$t('练习下拉框')" prop="cityType">
+              <Select v-model="formValidate.cityType" @on-change="typeChange"  :placeholder="$t('选择城市')">
+                <Option :value="item.paramCode" v-for="(item,index) in selectCityType" key="index">{{item.paramInfoCn}}</Option>
+              </Select>
+            </FormItem>
           </Col>
         </Row>
+
       </Form>
     </div>
   </div>
 </template>
 <script>
+  /*？？？？*/
   import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
   import { isSuccess, deepCopy } from '../../../lib/util'
 
   export default {
     data() {
       return {
+        selectCityType: [],
         formValidate: {
           _mt: 'orgCostcenter.addOrUpd',
           funId: '1',
-          costCode: '',
-          cname: '',
-          ename: '',
-          validdate: '',
-          invdate: '',
-          invreason: '',
-          comment: '',
+          orgDemocode: '',
+          orgDemoname: '',
+          cityType: ''
         },
+        /*验证信息*/
         ruleValidate: {
-          costCode: [
-            { required: true, message: this.$t('lang_organization.orgcostcenter.costCodeDis'), trigger: 'blur' },
+          orgDemocode: [
+            { required: true, message: '请输入democode', trigger: 'blur' },
           ],
-          cname: [
-            { required: true, message: this.$t('lang_organization.orgcostcenter.cnameDis'), trigger: 'blur' },
-          ],
-          ename: [
-            { required: true, message: this.$t('lang_organization.orgcostcenter.enameDis'), trigger: 'blur' },
-          ],
-          validdate: [
-            { required: true, type: 'date', message: this.$t('lang_organization.orgcostcenter.validdateDis'), trigger: 'change' },
-          ],
+          orgDemoname: [
+            { required: true, message: '请输入demoname', trigger: 'blur' },
+          ]
         },
       }
     },
@@ -122,13 +87,8 @@
           logType: '根据id获取数据',
         }).then((res) => {
           if (isSuccess(res, t)) {
-            t.formValidate.costCode = res.data.content[0].costCode
-            t.formValidate.cname = res.data.content[0].cname
-            t.formValidate.ename = res.data.content[0].ename
-            t.formValidate.validdate = res.data.content[0].validdate
-            t.formValidate.invdate = res.data.content[0].invdate
-            t.formValidate.invreason = res.data.content[0].invreason
-            t.formValidate.comment = res.data.content[0].comment
+            t.formValidate.orgDemocode= res.data.content[0].orgDemocode
+            t.formValidate.orgDemoname = res.data.content[0].orgDemoname
           }
         }).catch(() => {
           this.$Modal.error({
@@ -137,6 +97,26 @@
           })
         })
       },
+      getSelect() {
+        const t = this
+        getDataLevelUserLogin({
+          _mt: 'baseParmInfo.getSelectValue',
+          typeCode: 'citytype',
+        }).then((res) => {
+          if (isSuccess(res, t)) {
+            t.selectCityType = res.data.content[0].value[0].paramList
+          }
+        }).catch(() => {
+          this.$Modal.error({
+            title: this.$t('reminder.err'),
+            content: this.$t('reminder.errormessage'),
+          })
+        })
+      },
+      typeChange(){
+
+      },
+      /**/
       handleSubmit() {
         const t = this
         const data = deepCopy(t.formValidate)
@@ -187,6 +167,7 @@
     },
   }
 </script>
+<!--样式-->
 <style lang="scss" scoped>
   @import "../../../sass/updateAndAdd";
 </style>
