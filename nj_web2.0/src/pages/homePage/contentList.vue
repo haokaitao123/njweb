@@ -5,7 +5,7 @@
       <span style="margin-left: 10px">{{$t('lang_homePage.contentList.title')}}</span>
     </div>
     <div class="message_box">
-      <div class="message" v-for="(item,index) in messageData" @click="showPerInfo(item)">
+      <div class="message" v-for="(item,index) in messageData" :key="index" @click="showPerInfo(item)">
         <div class="right" style="padding-left: 10px;">
           <p>
             <Icon type="person" />{{item.platSerConperson}}</p>
