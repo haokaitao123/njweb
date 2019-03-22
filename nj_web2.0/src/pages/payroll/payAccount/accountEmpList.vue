@@ -147,12 +147,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'compFnameCnDis',
-            sortable: 'custom',
-          },
-          {
-            title: this.$t('lang_employee.searchColumn.compEnFullName'),
-            key: 'compFnameEnDis',
+            key: 'unitsFname',
             sortable: 'custom',
           },
         ],

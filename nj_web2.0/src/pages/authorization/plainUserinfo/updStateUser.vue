@@ -324,10 +324,6 @@ export default{
       },
         /* 把后台数据转化为tree的格式 */
       toTree(data) {
-        console.log(data)
-        console.log(data[0])
-        console.log(typeof data[0])
-        console.log(data[0].compFnameCnDis)
         data.forEach((item) => {
           item.expand = false
           item.checked = item.isCheck === '1'

@@ -2,7 +2,7 @@
   <div class="content-main">
     <Row>
       <Input :placeholder="$t('lang_sysform.formField.p_sffPhyfield')" style="width: 200px" v-model="sffPhyfield"/>
-      <Input :placeholder="$t('lang_sysform.formField.p_cnen')" style="width: 200px" v-model="sffFieldNameCnDis"/>
+      <Input :placeholder="$t('lang_sysform.formField.p_cnen')" style="width: 200px" v-model="sffName"/>
       <span style="margin: 0;"><Button type="primary" icon="search" @click="getdata(1)">{{$t('button.ser')}}</Button></span>
       <Button type="primary" @click="openUp(NaN, $t('button.add'))">{{$t('button.add')}}</Button>
       <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -31,7 +31,7 @@
         page: 1,
         showMsg: false,
         sffPhyfield: '',
-        sffFieldNameCnDis: '',
+        sffName: '',
         columns: [
           {
             type: 'selection',
@@ -50,11 +50,7 @@
           },
           {
             title: this.$t('lang_sysform.formField.sffFieldNameCnDis'),
-            key: 'sffFieldNameCnDis',
-          },
-          {
-            title: this.$t('lang_sysform.formField.sffFieldNameEnDis'),
-            key: 'sffFieldNameEnDis',
+            key: 'sffName',
           },
           {
             title: this.$t('button.opr'),
@@ -96,7 +92,7 @@
           order: t.order,
           rows: t.rows,
           page: t.page,
-          sffFieldNameCnDis: t.sffFieldNameCnDis,
+          sffName: t.sffName,
           sffPhyfield: t.sffPhyfield,
           sffForm: t.$store.state.sysData.mainId,
         }
@@ -205,7 +201,7 @@
       clear() {
         const t = this
         t.sffPhyfield = ''
-        t.sffFieldNameCnDis = ''
+        t.sffName = ''
         t.page = 1
         t.rows = 10
       }

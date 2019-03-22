@@ -19,26 +19,21 @@
         </i-col>
         <i-col span="21"></i-col>
         <i-col span="11" >
-          <FormItem :label="$t('lang_flow.step.flstepCnName')" prop="flstepCnName">
-            <Input v-model="formValidate.flstepCnName" :placeholder="$t('lang_flow.step.p_flstepCnName')"></Input>
+          <FormItem :label="$t('lang_flow.step.flstepCnName')" prop="flstepName">
+            <Input v-model="formValidate.flstepName" :placeholder="$t('lang_flow.step.p_flstepCnName')"></Input>
           </FormItem>
         </i-col>
         <i-col span="11" offset="1">
-          <FormItem :label="$t('lang_flow.step.flstepEnName')" prop="flstepEnName">
-            <Input v-model="formValidate.flstepEnName" :placeholder="$t('lang_flow.step.p_flstepEnName')"></Input>
-          </FormItem>
-        </i-col>
-        <i-col span="11" >
           <FormItem :label="$t('lang_flow.step.flstepStddealtime')" prop="flstepStddealtime">
             <Input v-model="formValidate.flstepStddealtime" :placeholder="$t('lang_flow.step.p_flstepStddealtime')"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('lang_flow.step.flstepCaudealtime')" prop="flstepCaudealtime">
             <Input v-model="formValidate.flstepCaudealtime" :placeholder="$t('lang_flow.step.p_flstepCaudealtime')"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" prop="flstepIsapprove">
+        <i-col span="11" prop="flstepIsapprove" offset="1">
           <FormItem :label="$t('lang_flow.step.flstepIsapprove')">
             <RadioGroup  v-model="formValidate.flstepIsapprove" disabled="true">
               <Radio :label="item.paramCode" v-for="(item,index) in yerOrNoOption" :key="index">{{item.paramInfoCn}}</Radio>
@@ -85,8 +80,7 @@
           flstepCode: '',
           flstepDisorder: '',
           flstepIsapprove: '',
-          flstepCnName: '',
-          flstepEnName: '',
+          flstepName: '',
           comment: '',
           nodeClass: '',
         },
@@ -97,11 +91,8 @@
           flstepDisorder: [
             { required: true, message: this.$t('lang_flow.step.rule_flstepDisorder'), trigger: 'blur' },
           ],
-          flstepCnName: [
+          flstepName: [
             { required: true, message: this.$t('lang_flow.step.rule_flstepCnName'), trigger: 'blur' },
-          ],
-          flstepEnName: [
-            { required: true, message: this.$t('lang_flow.step.rule_flstepEnName'), trigger: 'blur' },
           ],
           flstepStddealtime: [
             { required: true, message: this.$t('lang_flow.step.rule_flstepStddealtime'), trigger: 'blur' },
@@ -160,8 +151,7 @@
                 t.formValidate.flstepDisorder = res.data.content[0].flstepDisorder
                 t.$store.commit('flowStepData/setflstepDisorder', res.data.content[0].flstepDisorder)
                 t.flstepFlowDis = res.data.content[0].flstepFlowDis
-                t.formValidate.flstepCnName = res.data.content[0].flstepCnName
-                t.formValidate.flstepEnName = res.data.content[0].flstepEnName
+                t.formValidate.flstepName = res.data.content[0].flstepName
                 t.formValidate.flstepStddealtime = res.data.content[0].flstepStddealtime
                 t.formValidate.flstepCaudealtime = res.data.content[0].flstepCaudealtime
                 t.formValidate.flstepIsapprove = res.data.content[0].flstepIsapprove
@@ -251,8 +241,7 @@
         this.formValidate.flstepCode = ''
         this.formValidate.flstepDisorder = ''
         this.flstepFlowDis = ''
-        this.flstepCnName = ''
-        this.flstepEnName = ''
+        this.flstepName = ''
         this.formValidate.flstepStddealtime = ''
         this.formValidate.flstepCaudealtime = ''
         this.formValidate.flstepIsapprove = ''

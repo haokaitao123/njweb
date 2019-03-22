@@ -172,7 +172,7 @@
           },
           {
             title: this.$t('lang_flow.mailAttach.sffFieldNameCnDis'),
-            key: 'sffFieldNameCnDis',
+            key: 'sffName',
             width: 253,
           },
         ],

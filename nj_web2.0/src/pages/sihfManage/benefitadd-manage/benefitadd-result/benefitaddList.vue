@@ -89,12 +89,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.departCnFullName'),
-            key: 'compFnameCnDis',
-            sortable: 'custom',
-          },
-          {
-            title: this.$t('lang_employee.searchColumn.departEnFullName'),
-            key: 'compFnameEnDis',
+            key: 'unitsFname',
             sortable: 'custom',
           },
         ],
@@ -117,11 +112,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'compFnameCnDis',
-          },
-          {
-            title: this.$t('lang_employee.searchColumn.compEnFullName'),
-            key: 'compFnameEnDis',
+            key: 'unitsFname',
           },
         ],
         paramsHCompany: {

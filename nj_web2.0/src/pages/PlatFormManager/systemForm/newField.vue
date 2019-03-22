@@ -112,7 +112,7 @@
           },
           {
             title: this.$t('lang_sysform.fieldCloumns.sffFieldNameCnDis'),
-            key: 'sffFieldNameCnDis',
+            key: 'sffName',
             width: 189,
           },
         ],

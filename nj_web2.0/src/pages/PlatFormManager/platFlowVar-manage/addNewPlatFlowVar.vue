@@ -193,7 +193,7 @@
           },
           {
             title: this.$t('lang_platform.platFlowVar.sffFieldNameCnDis'),
-            key: 'sffFieldNameCnDis',
+            key: 'sffName',
             width: 253,
           },
 

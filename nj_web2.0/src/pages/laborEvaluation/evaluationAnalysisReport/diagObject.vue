@@ -38,11 +38,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'compFnameCnDis',
-          },
-          {
-            title: this.$t('lang_employee.searchColumn.compEnFullName'),
-            key: 'compFnameEnDis',
+            key: 'unitsFname',
           },
         ],
         sort: 'id',
@@ -64,14 +60,14 @@
       getData() {
         const t = this
         const data = {
-	      _mt: 'orgUnits.getByOrgFramePageList',
-	      rows: t.rows,
-	      page: t.page,
-	      sort: t.sort,
-	      order: t.order,
-	      logType: '雇佣公司',
-	      unitsName: t.pmtypeCode,
-	      unitType: '01company',
+          _mt: 'orgUnits.getByOrgFramePageList',
+          rows: t.rows,
+          page: t.page,
+          sort: t.sort,
+          order: t.order,
+          logType: '雇佣公司',
+          unitsFname: t.pmtypeCode,
+          unitType: '01company',
         }
         for (const dat in data) {
           if (data[dat] === '') {

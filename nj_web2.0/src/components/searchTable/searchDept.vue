@@ -10,7 +10,7 @@
         </Button>
       </div>
       <Row class="table-form">
-        <Input :placeholder="$t('lang_employee.searchColumn.departDis')" style="width: 200px" v-model="unitsName"/>
+        <Input :placeholder="$t('lang_employee.searchColumn.departDis')" style="width: 200px" v-model="unitsFname"/>
         <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(params, id, 1)">{{$t('button.ser')}}</Button></span>
         <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">{{$t('button.cle')}}</Button></span>
       </Row>
@@ -30,7 +30,7 @@
       return {
       	data: [],
         total: NaN,
-        unitsName: '',
+        unitsFname: '',
       }
     },
     props: {
@@ -51,7 +51,7 @@
         t.params.unitPid = id
       }
       const data = deepCopy(t.params)
-      data.unitsName = t.unitsName
+      data.unitsFname = t.unitsFname
       for (const dat in data) {
 				if (data[dat] === '') {
 					delete data[dat]
@@ -71,7 +71,7 @@
 		},
 		close() {
 			const t = this
-      t.unitsName = ''
+      t.unitsFname = ''
       t.data = []
       t.total = NaN
       this.params.page = 1
@@ -79,7 +79,7 @@
     	},
     	clear() {
     		const t = this
-        t.unitsName = ''
+        t.unitsFname = ''
         t.data = []
         t.total = NaN
         this.params.page = 1
@@ -88,7 +88,7 @@
     	dbCkick(row) {
     		const t = this
         this.close()
-	        t.$emit('inputDept', row.unitsName, row.id)
+	        t.$emit('inputDept', row.unitsFname, row.id)
 	        t.$emit('closeDept')
     	},
     	sortable(column) {

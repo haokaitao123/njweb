@@ -68,7 +68,7 @@
           },
           {
             title: '字段显示名',
-            key: 'sffFieldNameDis',
+            key: 'sffName',
             align: 'center',
           },
           {
@@ -281,10 +281,10 @@
         // 去重
         if (t.selectedFieldData.length !== 0) {
           for (const dat1 in t.optSelected) {
-            if (t.optSelected[dat1].sffFieldNameDis) {
+            if (t.optSelected[dat1].sffName) {
               for (const dat2 in t.selectedFieldData) {
                 if (t.selectedFieldData[dat2].flsdbfdFieldDis) {
-                  if (t.optSelected[dat1].sffFieldNameDis === t.selectedFieldData[dat2].flsdbfdFieldDis) {
+                  if (t.optSelected[dat1].sffName === t.selectedFieldData[dat2].flsdbfdFieldDis) {
                     t.optSelected.splice(dat1, 1)
                     // return
                   }
@@ -295,7 +295,7 @@
         }
         t.selectedFieldData.push(...t.optSelected)
         t.selectedFieldData.forEach((item, index) => {
-          let flag1 = item.sffFieldNameDis
+          let flag1 = item.sffName
           let flag2 = item.sffLayoutDis
           let flag3 = item.sffPhyfield
           if (flag1) {
@@ -319,7 +319,7 @@
           let flag2 = item.layouType
           let flag3 = item.flsdbfdField
           if (flag1) {
-            item['sffFieldNameDis'] = flag1
+            item['sffName'] = flag1
             item['sffLayoutDis'] = flag2
             item['sffPhyfield'] = flag3
           }
@@ -432,10 +432,10 @@
       // 向左移动字段公共方法
       removeSet(arr1, arr2) {
         for (const dat1 in arr1) {
-          if (arr1[dat1].sffFieldNameDis) {
+          if (arr1[dat1].sffName) {
             for (const dat2 in arr2) {
-              if (arr2[dat2].sffFieldNameDis) {
-                if (arr1[dat1].sffFieldNameDis === arr2[dat2].sffFieldNameDis) {
+              if (arr2[dat2].sffName) {
+                if (arr1[dat1].sffName === arr2[dat2].sffName) {
                   arr2.splice(dat2, 1)
                 }
               }
@@ -460,8 +460,8 @@
         for (const dat1 in arr1) {
           if (arr1[dat1].flsdbfdFieldDis) {
             for (const dat2 in arr2) {
-              if (arr2[dat2].sffFieldNameDis) {
-                if (arr1[dat1].flsdbfdFieldDis === arr2[dat2].sffFieldNameDis) {
+              if (arr2[dat2].sffName) {
+                if (arr1[dat1].flsdbfdFieldDis === arr2[dat2].sffName) {
                   arr2.splice(dat2, 1)
                 }
               }

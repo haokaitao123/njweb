@@ -17,7 +17,7 @@
           <Col span="18" style="width: 73.3333% !important">
           <Row>
             <Input :placeholder="$t('lang_organization.orgpost.postCodeInp')" style="width: 200px" v-model="postCode"/>
-            <Input :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')" style="width: 200px" v-model="postFnameCnDis"/>
+            <Input :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')" style="width: 200px" v-model="postFname"/>
             <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
             <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
 
@@ -74,25 +74,13 @@
             title: this.$t('lang_organization.orgpost.postFnameCnDis'),
             width: 180,
 //          width: 105,
-            key: 'postFnameCnDis',
+            key: 'postFname',
           },
           {
             title: this.$t('lang_organization.orgpost.postSnameCnDis'),
             width: 180,
 //          width: 105,
-            key: 'postSnameCnDis',
-          },
-          {
-            title: this.$t('lang_organization.orgpost.postFnameEnDis'),
-            width: 180,
-//          width: 105,
-            key: 'postFnameEnDis',
-          },
-          {
-            title: this.$t('lang_organization.orgpost.postSnameEnDis'),
-            width: 180,
-//          width: 105,
-            key: 'postSnameEnDis',
+            key: 'postSname',
           },
           {
             title: this.$t('lang_organization.orgpost.postUnitName'),
@@ -147,7 +135,7 @@
         page: 1,
         funId: '1000',
         postCode: '',
-        postFnameCnDis: '',
+        postFname: '',
         treeid: '',
       }
     },
@@ -173,7 +161,7 @@
           logType: '岗位查询',
           postCode: t.postCode,
           funId: '1000',
-          postFnameCnDis: t.postFnameCnDis,
+          postFname: t.postFname,
           postUnit: id || '',
         }
         for (const dat in data) {
@@ -345,10 +333,8 @@
         const t = this
         t.openUpdate = false
         t.$refs.update.formValidate.postCode = ''
-        t.$refs.update.formValidate.postFnameCnDis = ''
-        t.$refs.update.formValidate.postFnameEnDis = ''
-        t.$refs.update.formValidate.postSnameCnDis = ''
-        t.$refs.update.formValidate.postSnameEnDis = ''
+        t.$refs.update.formValidate.postFname = ''
+        t.$refs.update.formValidate.postSname = ''
         t.$refs.update.formValidate.postDfpslevel = ''
         t.$refs.update.formValidate.postDfsallevel = ''
         t.$refs.update.formValidate.postDftrvlevel = ''

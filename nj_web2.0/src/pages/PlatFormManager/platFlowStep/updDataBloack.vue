@@ -24,16 +24,11 @@
             </FormItem>
           </i-col>
           <i-col span="11">
-            <FormItem :label="$t('lang_flow.dataBlock.flsdbCnName')" prop="flsdbCnName">
-              <Input v-model="formValidate.flsdbCnName" :placeholder="$t('lang_flow.dataBlock.p_flsdbCnName')"></Input>
+            <FormItem :label="$t('lang_flow.dataBlock.flsdbCnName')" prop="flsdbName">
+              <Input v-model="formValidate.flsdbName" :placeholder="$t('lang_flow.dataBlock.p_flsdbCnName')"></Input>
             </FormItem>
           </i-col>
-          <i-col span="11" offset="1">
-            <FormItem :label="$t('lang_flow.dataBlock.flsdbEnName')" prop="flsdbEnName">
-              <Input v-model="formValidate.flsdbEnName" :placeholder="$t('lang_flow.dataBlock.p_flsdbEnName')"></Input>
-            </FormItem>
-          </i-col>
-          <i-col span="11">
+          <i-col span="11" offset="1" >
             <FormItem :label="$t('lang_flow.dataBlock.flsdbDisclms')" prop="flsdbDisclms" v-if ="formValidate.flsdbType ==='01form'">
               <Select  v-model="formValidate.flsdbDisclms" :placeholder="$t('lang_flow.dataBlock.p_flsdbDisclms')">
                 <Option :value="item.paramCode" v-for="(item,index2) in displayCol" :key="index2">{{item.paramInfoName}}</Option>
@@ -134,8 +129,7 @@
           flsdbStep: '',
           flsdbOrder: '',
           flsdbType: '01form',
-          flsdbCnName: '',
-          flsdbEnName: '',
+          flsdbName: '',
           flsdbDiscondition: '',
           flsdbconditionMark: '',
           flsdbOptauth: '',
@@ -181,11 +175,8 @@
           flsdbType: [
             { required: true, message: this.$t('lang_flow.dataBlock.p_flsdbType'), trigger: 'blur' },
           ],
-          flsdbCnName: [
+          flsdbName: [
             { required: true, message: this.$t('lang_flow.dataBlock.p_flsdbCnName'), trigger: 'blur' },
-          ],
-          flsdbEnName: [
-            { required: true, message: this.$t('lang_flow.dataBlock.p_flsdbEnName'), trigger: 'blur' },
           ],
           flsdbOptauth: [
             { required: true, message: this.$t('lang_flow.dataBlock.p_flsdbOptauth'), trigger: 'change' },
@@ -231,8 +222,7 @@
           if (isSuccess(res, t)) {
             t.formValidate.flsdbOrder = res.data.content[0].flsdbOrder
             t.formValidate.flsdbType = res.data.content[0].flsdbType
-            t.formValidate.flsdbCnName = res.data.content[0].flsdbCnName
-            t.formValidate.flsdbEnName = res.data.content[0].flsdbEnName
+            t.formValidate.flsdbName = res.data.content[0].flsdbName
             t.formValidate.flsdbDiscondition = res.data.content[0].flsdbDiscondition
             t.formValidate.flsdbconditionMark = res.data.content[0].flsdbconditionMark
             t.formValidate.flsdbOptauth = res.data.content[0].flsdbOptauth
@@ -358,8 +348,7 @@
         const t = this
         t.formValidate.flsdbOrder = ''
         t.formValidate.flsdbType = '01form'
-        t.formValidate.flsdbCnName = ''
-        t.formValidate.flsdbEnName = ''
+        t.formValidate.flsdbName = ''
         t.formValidate.flsdbDiscondition = ''
         t.formValidate.flsdbconditionMark = ''
         t.formValidate.flsdbOptauth = ''

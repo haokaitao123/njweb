@@ -19,23 +19,13 @@
             </FormItem>
           </i-col>
           <i-col span="11" offset="1">
-            <FormItem :label="$t('lang_organization.orgpost.postFnameCnDis')" prop="postFnameCnDis">
-              <Input v-model="formValidate.postFnameCnDis" :placeholder="$t('lang_organization.orgpost.postFnameCnDisInp')"></Input>
+            <FormItem :label="$t('lang_organization.orgpost.postFnameCnDis')" prop="postFname">
+              <Input v-model="formValidate.postFname" :placeholder="$t('lang_organization.orgpost.postFnameCnDisInp')"></Input>
             </FormItem>
           </i-col>
-          <i-col span="11">
-            <FormItem :label="$t('lang_organization.orgpost.postFnameEnDis')" prop="postFnameEnDis">
-              <Input v-model="formValidate.postFnameEnDis" :placeholder="$t('lang_organization.orgpost.postFnameEnDisInp')"></Input>
-            </FormItem>
-          </i-col>
-          <i-col span="11" offset="1">
-            <FormItem :label="$t('lang_organization.orgpost.postSnameCnDis')" prop="postSnameCnDis">
-              <Input v-model="formValidate.postSnameCnDis" :placeholder="$t('lang_organization.orgpost.postSnameCnDisInp')"></Input>
-            </FormItem>
-          </i-col>
-          <i-col span="11">
-            <FormItem :label="$t('lang_organization.orgpost.postSnameEnDis')" prop="postSnameEnDis">
-              <Input v-model="formValidate.postSnameEnDis" :placeholder="$t('lang_organization.orgpost.postSnameEnDisInp')"></Input>
+          <i-col span="11" >
+            <FormItem :label="$t('lang_organization.orgpost.postSnameCnDis')" prop="postSname">
+              <Input v-model="formValidate.postSname" :placeholder="$t('lang_organization.orgpost.postSnameCnDisInp')"></Input>
             </FormItem>
           </i-col>
           <i-col span="11" offset="1" >
@@ -128,10 +118,8 @@
           postDftrvlevel: '',
           postUnit: '',
           postDfcostcenter: '',
-          postSnameCnDis: '',
-          postSnameEnDis: '',
-          postFnameCnDis: '',
-          postFnameEnDis: '',
+          postSname: '',
+          postFname: '',
           validdate: '',
           invdate: '',
           invreason: '',
@@ -162,7 +150,7 @@
           },
           {
             title: this.$t('lang_organization.orgframe.compCOrEName'),
-            key: 'unitsName',
+            key: 'unitsFname',
           },
           {
             title: this.$t('lang_organization.orgframe.unitTypeName'),
@@ -208,17 +196,11 @@
           postCode: [
             { required: true, message: this.$t('lang_organization.orgpost.postCodeInp'), trigger: 'blur' },
           ],
-          postFnameCnDis: [
+          postFname: [
             { required: true, message: this.$t('lang_organization.orgpost.postFnameCnDisInp'), trigger: 'blur' },
           ],
-          postFnameEnDis: [
-            { required: true, message: this.$t('lang_organization.orgpost.postFnameEnDisInp'), trigger: 'blur' },
-          ],
-          postSnameCnDis: [
+          postSname: [
             { required: true, message: this.$t('lang_organization.orgpost.postSnameCnDisInp'), trigger: 'blur' },
-          ],
-          postSnameEnDis: [
-            { required: true, message: this.$t('lang_organization.orgpost.postSnameEnDisInp'), trigger: 'blur' },
           ],
           postUnit: [
             { required: true, message: this.$t('lang_organization.orgpost.postUnitNameInp'), trigger: 'blur' },
@@ -256,10 +238,8 @@
           if (isSuccess(res, t)) {
             console.log(res.data.content[0])
             t.formValidate.postCode = res.data.content[0].postCode
-            t.formValidate.postFnameCnDis = res.data.content[0].postFnameCnDis
-            t.formValidate.postFnameEnDis = res.data.content[0].postFnameEnDis
-            t.formValidate.postSnameCnDis = res.data.content[0].postSnameCnDis
-            t.formValidate.postSnameEnDis = res.data.content[0].postSnameEnDis
+            t.formValidate.postFname = res.data.content[0].postFname
+            t.formValidate.postSname = res.data.content[0].postSname
             t.formValidate.validdate = res.data.content[0].validdate
             t.formValidate.invdate = res.data.content[0].invdate
             t.formValidate.invreason = res.data.content[0].invreason

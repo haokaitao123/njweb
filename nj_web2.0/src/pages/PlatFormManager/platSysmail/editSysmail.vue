@@ -362,7 +362,7 @@
       close2() {
         const t = this
         t.openPick2 = false
-        t.$refs.searchTable2.flstepCnName = ''
+        t.$refs.searchTable2.flstepName = ''
       },
     },
   }
