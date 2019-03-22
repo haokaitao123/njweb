@@ -16,8 +16,8 @@
                   <!--<Icon type="ios-telephone" size="16"></Icon>-->
                 <!--</Badge>-->
               </div>
-              <contact slot="content" ref="contact" v-if="isFinish">
-              </contact>
+              <!-- <contact slot="content" ref="contact" v-if="isFinish">
+              </contact> -->
             </Poptip>
             <div class="button-item" @click="upLayIM" v-show="cur_roleType === '3user' || cur_roleType === '3user-hrbp'">
               <Icon type="social-twitch-outline" style="margin-right: 5px;"></Icon>{{$t('lang_homePage.menuItem.iquestion')}}
@@ -75,7 +75,7 @@
                 </a>
                 <DropdownMenu slot="list">
                   <DropdownItem name="userinfo" >{{$t('user.userCenter')}}</DropdownItem>
-                  <DropdownItem name="setBusiness" >{{$t('lang_homePage.menuItem.businessupport')}}</DropdownItem>
+                  <!-- <DropdownItem name="setBusiness" >{{$t('lang_homePage.menuItem.businessupport')}}</DropdownItem> -->
                   <DropdownItem name="setApproval" v-show="cur_roleType === '3user' || cur_roleType === '3user-hrbp'" >{{$t('lang_homePage.menuItem.platsetting')}}</DropdownItem>
                   <DropdownItem name="loginout" >{{$t('user.quit')}}</DropdownItem>
                 </DropdownMenu>
@@ -130,7 +130,7 @@
   import hrmenu from '../components/menu/menu'
   import pagetab from '../components/pagetab/pagetab'
   import message from '../pages/homePage/messageList'
-  import contact from '../pages/homePage/contentList'
+  // import contact from '../pages/homePage/contentList'
   import loginim from '../pages/homePage/loginIM'
   import { getDataLevelUserLogin2, getDataLevelUserLogin,getDataLevelUserLoginNew  } from '../axios/axios'
   import {setCookie, isSuccess, deepCopy} from '../lib/util'
@@ -179,7 +179,7 @@
       pagetab,
       userinfo,
       message,
-      contact,
+      // contact,
       loginim,
     },
     created() {
