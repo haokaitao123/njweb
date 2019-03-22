@@ -6,7 +6,7 @@
         <Row>员工档案 在职<strong style="color: red">{{active}}</strong>人 试用期<strong style="color: red">{{probation}}</strong>人</Row>
         <Row>
           <Select style="width: 200px"  v-model="empcompDept"  placeholder="请选择部门">
-            <Option :value="item.id"  v-for="(item,index) in selectDept" key="index">{{item.unitsFname}}</Option>
+            <Option :value="item.id"  v-for="(item,index) in selectDept" key="index">{{item.unitFname}}</Option>
           </Select>
           <Select style="width: 200px"  v-model="empcompPost"  placeholder="请选择岗位">
             <Option :value="item.id"  v-for="(item,index) in selectPost" key="index">{{item.postFname}}</Option>

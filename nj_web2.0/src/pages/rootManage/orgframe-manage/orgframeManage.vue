@@ -17,7 +17,7 @@
           <Col span="18" style="width: 73.3333% !important">
           <Row>
             <Input :placeholder="$t('lang_organization.orgframe.unitCodeInp')" style="width: 200px" v-model="unitCode"/>
-            <Input :placeholder="$t('lang_organization.orgframe.compCOrENameInp')" style="width: 200px" v-model="unitsFname"/>
+            <Input :placeholder="$t('lang_organization.orgframe.compCOrENameInp')" style="width: 200px" v-model="unitFname"/>
             <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
             <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
             <Button type="primary" @click="pickData">{{$t('lang_organization.orgChart.title')}}</Button>
@@ -80,13 +80,13 @@
             title: this.$t('lang_organization.orgframe.compFnameCnDis'),
             width: 140,
 //          width: 105,
-            key: 'unitsFname',
+            key: 'unitFname',
           },
           {
             title: this.$t('lang_organization.orgframe.compSnameCnDis'),
             width: 140,
 //          width: 105,
-            key: 'unitsSname',
+            key: 'unitSname',
           },
           {
             title: this.$t('lang_organization.orgframe.unitTypeName'),
@@ -148,7 +148,7 @@
         page: 1,
         funId: '1000',
         unitCode: '',
-        unitsFname: '',
+        unitFname: '',
         treeid: '',
         UnitName: '',
         openPick: false,
@@ -171,7 +171,7 @@
           },
           {
             title: this.$t('lang_organization.orgframe.compCOrEName'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
           {
             title: this.$t('lang_organization.orgframe.unitTypeName'),
@@ -222,7 +222,7 @@
           logType: '组织架构查询',
           unitCode: t.unitCode,
           funId: '1000',
-          unitsFname: t.unitsFname,
+          unitFname: t.unitFname,
           unitPid: id || '0',
         }
         for (const dat in data) {
@@ -283,7 +283,7 @@
         data.forEach((item) => {
           item.expand = false
           item.checked = item.authRoleFunDis === '1'
-          item.title = item.unitCode + ' ' + item.unitsSname
+          item.title = item.unitCode + ' ' + item.unitSname
           delete item.children
         })
         const map = {}
@@ -386,8 +386,8 @@
         t.openUpdate = false
         t.$refs.update.formValidate.unitCode = ''
         t.$refs.update.formValidate.unitType = ''
-        t.$refs.update.formValidate.unitsFname = ''
-        t.$refs.update.formValidate.unitsSname = ''
+        t.$refs.update.formValidate.unitFname = ''
+        t.$refs.update.formValidate.unitSname = ''
         t.$refs.update.formValidate.unitPid = ''
         t.$refs.update.unitPname = ''
         t.$refs.update.formValidate.unitDfcostcenter = ''

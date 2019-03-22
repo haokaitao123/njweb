@@ -289,7 +289,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.departCnFullName'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
         ],
         //      雇佣公司
@@ -301,7 +301,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
         ],
         flowEmpCompDis: '',

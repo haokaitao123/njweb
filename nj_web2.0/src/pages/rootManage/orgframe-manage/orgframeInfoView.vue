@@ -25,13 +25,13 @@
               </FormItem>
             </i-col>
             <i-col span="11"  >
-              <FormItem :label="$t('lang_organization.orgframe.compFnameCnDis')" prop="unitsFname">
-                <Input v-model="formValidate.unitsFname" :placeholder="$t('lang_organization.orgframe.compFnameCnDisInp')"></Input>
+              <FormItem :label="$t('lang_organization.orgframe.compFnameCnDis')" prop="unitFname">
+                <Input v-model="formValidate.unitFname" :placeholder="$t('lang_organization.orgframe.compFnameCnDisInp')"></Input>
               </FormItem>
             </i-col>
             <i-col span="11"  >
-              <FormItem :label="$t('lang_organization.orgframe.compSnameCnDis')" prop="unitsFname">
-                <Input v-model="formValidate.unitsFname" :placeholder="$t('lang_organization.orgframe.compSnameCnDisInp')"></Input>
+              <FormItem :label="$t('lang_organization.orgframe.compSnameCnDis')" prop="unitFname">
+                <Input v-model="formValidate.unitFname" :placeholder="$t('lang_organization.orgframe.compSnameCnDisInp')"></Input>
               </FormItem>
             </i-col>
             <i-col span="11"  >
@@ -185,7 +185,7 @@
           },
           {
             title: this.$t('lang_organization.orgframe.compCOrEName'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
           {
             title: this.$t('lang_organization.orgframe.unitTypeName'),
@@ -221,10 +221,10 @@
           unitCode: [
             { required: true, message: this.$t('lang_organization.orgframe.unitCodeInp'), trigger: 'blur' },
           ],
-          unitsFname: [
+          unitFname: [
             { required: true, message: this.$t('lang_organization.orgframe.compFnameCnDisInp'), trigger: 'blur' },
           ],
-          unitsSname: [
+          unitSname: [
             { required: true, message: this.$t('lang_organization.orgframe.compSnameCnDisInp'), trigger: 'blur' },
           ],
           unitAgentno: [
@@ -270,8 +270,8 @@
           if (isSuccess(res, t)) {
             console.log(res.data.content[0])
             t.formValidate.unitCode = res.data.content[0].unitCode
-            t.formValidate.unitsFname = res.data.content[0].unitsFname
-            t.formValidate.unitsSname = res.data.content[0].unitsSname
+            t.formValidate.unitFname = res.data.content[0].unitFname
+            t.formValidate.unitSname = res.data.content[0].unitSname
             t.formValidate.unitAgentno = res.data.content[0].unitAgentno
             t.formValidate.validdate = res.data.content[0].validdate
             t.formValidate.invdate = res.data.content[0].invdate

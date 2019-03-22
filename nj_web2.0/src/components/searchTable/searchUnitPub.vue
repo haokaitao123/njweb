@@ -10,7 +10,7 @@
         </Button>
       </div>
       <Row class="table-form">
-        <Input placeholder="请输入部门名称" style="width: 200px" v-model="unitsFname"/>
+        <Input placeholder="请输入部门名称" style="width: 200px" v-model="unitFname"/>
         <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(unitPid, 1)">{{$t('button.ser')}}</Button></span>
       </Row>
       <row class="table-form" ref="table-form">
@@ -40,7 +40,7 @@
           },
           {
             title: '部门名称',
-            key: 'unitsFname',
+            key: 'unitFname',
 //            sortable: 'custom',
             width: 379,
           },
@@ -54,7 +54,7 @@
           logType: this.$t('button.ser'),
           data: '{"unitType":"02dept"}',
         },
-        unitsFname: '',
+        unitFname: '',
         unitPid: '',
       }
     },
@@ -70,7 +70,7 @@
           this.params.page = page
         }
         const data = deepCopy(this.params)
-        data['unitsFname'] = t.unitsFname
+        data['unitFname'] = t.unitFname
         data['unitType'] = '02dept'
         data['unitPid'] = unitPid
         for (const dat in data) {
@@ -92,7 +92,7 @@
       },
       close() {
         this.unitPid = ''
-        this.unitsFname = ''
+        this.unitFname = ''
         this.params.page = 1
         this.$emit('closeUp')
       },
@@ -114,7 +114,7 @@
       },
       clear() {
         this.unitPid = ''
-        this.unitsFname = ''
+        this.unitFname = ''
         this.params.page = 1
         this.$emit('clear')
         this.$emit('closeUp')

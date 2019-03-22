@@ -42,7 +42,7 @@ export default{
       searchCloumns: [
         {
           title: this.$t('lang_organization.searchOrgCompany.compFnameCnDis'),
-          key: 'unitsFname',
+          key: 'unitFname',
           sortable: 'custom',
           width: 379,
         },
@@ -61,7 +61,7 @@ export default{
         t.page = page
       }
       const data = deepCopy(t.params)
-      data['unitsFname'] = t.pmtypeCode
+      data['unitFname'] = t.pmtypeCode
       for (const dat in data) {
         if (data[dat] === '') {
           delete data[dat]

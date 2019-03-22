@@ -49,7 +49,7 @@ export default{
 	      },
 	      {
 	        title: $t('lang_evaluation.evaluation.unitName'),
-	        key: 'unitsFname',
+	        key: 'unitFname',
 	      }
       ],
     }

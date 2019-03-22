@@ -327,7 +327,7 @@ export default{
         data.forEach((item) => {
           item.expand = false
           item.checked = item.isCheck === '1'
-          item.title = item.unitCode + ' ' + item.unitsSname
+          item.title = item.unitCode + ' ' + item.unitSname
           delete item.children
         })
         const map = {}

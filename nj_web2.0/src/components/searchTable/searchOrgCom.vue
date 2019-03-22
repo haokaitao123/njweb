@@ -43,7 +43,7 @@ export default{
       searchCloumns: [
         {
           title: '公司中文全称',
-          key: 'unitsFname',
+          key: 'unitFname',
 //          sortable: 'custom',
           width: 379,
         },
@@ -59,7 +59,7 @@ export default{
     getData() {
       const t = this
       const data = deepCopy(t.params)
-      data['unitsFname'] = t.pmtypeCode
+      data['unitFname'] = t.pmtypeCode
       for (const dat in data) {
         if (data[dat] === '') {
           delete data[dat]

@@ -10,7 +10,7 @@
         </Button>
       </div>
       <Row class="table-form">
-        <Input :placeholder="type ==='01company' ? searchText : searchText2" style="width: 200px" v-model="unitsFname" />
+        <Input :placeholder="type ==='01company' ? searchText : searchText2" style="width: 200px" v-model="unitFname" />
         <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(type, 1)">{{$t('button.ser')}}</Button></span>
         <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">{{$t('button.cel')}}</Button></span>
       </Row>
@@ -31,7 +31,7 @@ export default{
       data: [],
       total: NaN,
       type: '',
-      unitsFname: '',
+      unitFname: '',
       searchText: this.$t('lang_payroll.salaryBase.unitsNameIns'),
       searchText2: this.$t('lang_payroll.salaryBase.unitsNameIns2'),
       params: {
@@ -50,7 +50,7 @@ export default{
         },
         {
           title: this.$t('lang_payroll.salaryBase.compFnameCnDis'),
-          key: 'unitsFname',
+          key: 'unitFname',
         },
       ],
       searchCloumns2: [
@@ -61,7 +61,7 @@ export default{
         },
         {
           title: this.$t('lang_payroll.salaryBase.compFnameCnDis2'),
-          key: 'unitsFname',
+          key: 'unitFname',
         },
       ],
     }
@@ -81,7 +81,7 @@ export default{
         t.params.page = page
       }
       const data = deepCopy(t.params)
-      data['unitsFname'] = t.unitsFname
+      data['unitFname'] = t.unitFname
       data['unitType'] = t.type
       for (const dat in data) {
         if (data[dat] === '') {
@@ -101,7 +101,7 @@ export default{
       })
     },
     close() {
-      this.unitsFname = ''
+      this.unitFname = ''
       this.params.page = 1
       this.$emit('closeUp')
     },

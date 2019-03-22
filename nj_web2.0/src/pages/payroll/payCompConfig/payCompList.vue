@@ -64,7 +64,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
         ],
         paramsHCompany: {

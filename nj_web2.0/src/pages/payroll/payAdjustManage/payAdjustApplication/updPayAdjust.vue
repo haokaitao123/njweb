@@ -212,7 +212,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.departCnFullName'),
-            key: 'unitsFname',
+            key: 'unitFname',
             sortable: 'custom',
           },
         ],
@@ -225,7 +225,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'unitsFname',
+            key: 'unitFname',
             sortable: 'custom',
           },
         ],

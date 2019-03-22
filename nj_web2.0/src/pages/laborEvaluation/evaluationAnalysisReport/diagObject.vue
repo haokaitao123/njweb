@@ -38,7 +38,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
         ],
         sort: 'id',
@@ -66,7 +66,7 @@
           sort: t.sort,
           order: t.order,
           logType: '雇佣公司',
-          unitsFname: t.pmtypeCode,
+          unitFname: t.pmtypeCode,
           unitType: '01company',
         }
         for (const dat in data) {

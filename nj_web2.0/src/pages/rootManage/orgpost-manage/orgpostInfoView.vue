@@ -150,7 +150,7 @@
           },
           {
             title: this.$t('lang_organization.orgframe.compCOrEName'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
           {
             title: this.$t('lang_organization.orgframe.unitTypeName'),

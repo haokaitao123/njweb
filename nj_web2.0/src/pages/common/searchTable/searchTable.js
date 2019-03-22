@@ -210,7 +210,7 @@ const searchTable = {
   'org-company-std': {
     title: '选择公司',
     searchText: '请输入公司',
-    valueText: 'unitsFname',
+    valueText: 'unitFname',
     searchCloumns: [
       {
         title: '公司编码',
@@ -218,7 +218,7 @@ const searchTable = {
       },
       {
         title: '公司名称',
-        key: 'unitsFname',
+        key: 'unitFname',
       },
     ],
     param: {
@@ -237,7 +237,7 @@ const searchTable = {
   'org-department-std': {
     title: '选择部门',
     searchText: '请输入部门名称',
-    valueText: 'unitsFname',
+    valueText: 'unitFname',
     searchCloumns: [
       {
         title: '部门编码',
@@ -245,7 +245,7 @@ const searchTable = {
       },
       {
         title: '部门名称',
-        key: 'unitsFname',
+        key: 'unitFname',
       },
     ],
     param: {

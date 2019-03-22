@@ -9,7 +9,7 @@
         </p>
         <Row>
           <Input :placeholder="$t('lang_organization.orgframe.unitCodeInp1')" style="width: 200px" v-model="unitCode"/>
-          <Input :placeholder="$t('lang_organization.orgframe.compCOrENameInp')" style="width: 200px" v-model="unitsFname"/>
+          <Input :placeholder="$t('lang_organization.orgframe.compCOrENameInp')" style="width: 200px" v-model="unitFname"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
 
@@ -53,11 +53,11 @@
           },
           {
             title: this.$t('lang_organization.orgframe.compFnameCnDis'),
-            key: 'unitsFname',
+            key: 'unitFname',
           },
           {
             title: this.$t('lang_organization.orgframe.compSnameCnDis'),
-            key: 'unitsSname',
+            key: 'unitSname',
           },
           {
             title: this.$t('lang_organization.orgframe.validdate'),
@@ -97,7 +97,7 @@
         funId: '1',
         logType: this.$t('button.ser'),
         unitCode: '',
-        unitsFname: '',
+        unitFname: '',
       }
     },
     computed: {
@@ -124,7 +124,7 @@
           funId: '1',
           logType: '反查查询',
           unitCode: t.unitCode,
-          unitsFname: t.unitsFname,
+          unitFname: t.unitFname,
         }
         for (const dat in data) {
           if (data[dat] === '') {
@@ -225,8 +225,8 @@
       closeUp() {
         const t = this
         t.$refs.update.formValidate.unitCode = ''
-        t.$refs.update.formValidate.unitsSname = ''
-        t.$refs.update.formValidate.unitsFname = ''
+        t.$refs.update.formValidate.unitSname = ''
+        t.$refs.update.formValidate.unitFname = ''
         t.$refs.update.formValidate.validdate = ''
         t.$refs.update.formValidate.invdate = ''
         t.$refs.update.formValidate.invreason = ''
