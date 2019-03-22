@@ -50,7 +50,8 @@
         imp_mt: 'baseSscoverage.importData',
         openImport: false,
         expDataTital: [{ code: 'sscCode', name: 'Code' }, { code: 'sscTypeName', name: this.$t('lang_baseManage.baseSscoverage.sscTypeName') },
-          { code: 'sscName', name: this.$t('lang_baseManage.baseSscoverage.sscCname') }, { code: 'comment', name: this.$t('lang_baseManage.baseSscoverage.comment') }],
+          { code: 'sscCname', name: this.$t('lang_baseManage.baseSscoverage.sscCname') }, { code: 'sscEname', name: this.$t('lang_baseManage.baseSscoverage.sscEname') },
+          { code: 'comment', name: this.$t('lang_baseManage.baseSscoverage.comment') }],
         openExpDow: false,
         openExp: false,
         filekey: '',
@@ -81,7 +82,12 @@
           },
           {
             title: this.$t('lang_baseManage.baseSscoverage.sscCname'),
-            key: 'sscName',
+            key: 'sscCname',
+//          width: 130,
+          },
+          {
+            title: this.$t('lang_baseManage.baseSscoverage.sscEname'),
+            key: 'sscEname',
 //          width: 130,
           },
           {
@@ -281,7 +287,8 @@
         t.openUpdate = false
         t.$refs.update.formValidate.sscCode = ''
         t.$refs.update.formValidate.sscType = ''
-        t.$refs.update.formValidate.sscName = ''
+        t.$refs.update.formValidate.sscCname = ''
+        t.$refs.update.formValidate.sscEname = ''
         t.$refs.update.formValidate.comment = ''
       },
     },

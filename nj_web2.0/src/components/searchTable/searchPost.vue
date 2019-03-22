@@ -86,7 +86,7 @@
     	dbCkick(row) {
     		const t = this
         this.close()
-	        t.$emit('inputPost', row.postFnameDis, row.id, row['postDfcostcenterName'], row['postDfcostcenter'])
+	        t.$emit('inputPost', row.postFname, row.id, row['postDfcostcenterName'], row['postDfcostcenter'])
 	        t.$emit('closePost')
     	},
     	sortable(column) {

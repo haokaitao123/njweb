@@ -49,7 +49,7 @@
           params.page = page
         }
         const data = deepCopy(params)
-        data.costName = t.name
+        data.name = t.name
         for (const dat in data) {
           if (data[dat] === '') {
             delete data[dat]

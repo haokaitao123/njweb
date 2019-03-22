@@ -9,7 +9,7 @@
         </p>
         <Row>
           <Input placeholder="请输入流程名称" style="width: 200px" v-model="flstepFlowDis"/>
-          <Input placeholder="请输入中/英文名称" style="width: 200px" v-model="flstepCnName"/>
+          <Input placeholder="请输入步骤名称" style="width: 200px" v-model="flstepName"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp('',$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -59,13 +59,8 @@
             sortable: 'custom',
           },
           {
-            title: '步骤名称中文',
-            key: 'flstepCnName',
-            width: 150,
-          },
-          {
-            title: '步骤名称英文',
-            key: 'flstepEnName',
+            title: '步骤名称',
+            key: 'flstepName',
             width: 150,
           },
           {
@@ -100,7 +95,7 @@
         rows: '10',
         page: '1',
         flstepFlowDis: '',
-        flstepCnName: '',
+        flstepName: '',
       }
     },
     /*
@@ -130,7 +125,7 @@
           funId: '1',
           logType: '查询List',
           flstepFlowDis: t.flstepFlowDis,
-          flstepCnName: t.flstepCnName,
+          flstepName: t.flstepName,
         }
         /*
         * 删除data中为空的数据，不传到后台

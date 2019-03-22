@@ -52,12 +52,7 @@
           },
           {
             title: this.$t('lang_flow.dataBlock.flsdbCnName'),
-            key: 'flsdbCnName',
-//            align: 'center',
-          },
-          {
-            title: this.$t('lang_flow.dataBlock.flsdbEnName'),
-            key: 'flsdbEnName',
+            key: 'flsdbName',
 //            align: 'center',
           },
           {

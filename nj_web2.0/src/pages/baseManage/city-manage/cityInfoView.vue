@@ -20,7 +20,7 @@
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseCity.cityTypeName')" prop="cityType">
             <Select v-model="formValidate.cityType" @on-change="typeChange"  :placeholder="$t('lang_baseManage.baseCity.cityTypeNameDis')">
-              <Option :value="item.paramCode" v-for="(item,i) in selectCityType" :key="i">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selectCityType" key="index">{{item.paramInfoCn}}</Option>
             </Select>
           </FormItem>
           </Col>
@@ -55,14 +55,14 @@
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseCity.cityIsvalidName')" prop="cityIsvalid">
             <RadioGroup v-model="formValidate.cityIsvalid">
-              <Radio :label="item.paramCode" v-for="(item,index1) in selectYesNo" :key="index1">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" key="index">{{item.paramInfoCn}}</Radio>
             </RadioGroup>
           </FormItem>
           </Col>
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseCity.cityIssbName')" prop="cityIssb">
             <RadioGroup v-model="formValidate.cityIssb">
-              <Radio :label="item.paramCode" v-for="(item,index2) in selectYesNo" :key="index2">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" key="index">{{item.paramInfoCn}}</Radio>
             </RadioGroup>
           </FormItem>
           </Col>
@@ -71,14 +71,14 @@
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseCity.cityIssbName')" prop="cityIshf">
             <RadioGroup v-model="formValidate.cityIshf">
-              <Radio :label="item.paramCode" v-for="(item,index3) in selectYesNo" :key="index3">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" key="index">{{item.paramInfoCn}}</Radio>
             </RadioGroup>
           </FormItem>
           </Col>
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseCity.cityIstaxName')" prop="cityIstax">
             <RadioGroup v-model="formValidate.cityIstax">
-              <Radio :label="item.paramCode" v-for="(item,index4) in selectYesNo" :key="index4">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectYesNo" key="index">{{item.paramInfoCn}}</Radio>
             </RadioGroup>
           </FormItem>
           </Col>

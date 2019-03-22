@@ -23,13 +23,8 @@
             </FormItem>
           </i-col>
           <i-col span="11">
-            <FormItem :label="$t('lang_sysform.formField.sffFieldNameCnDis')" prop="sffFieldNameCnDis">
-              <Input v-model="formValidate.sffFieldNameCnDis" :placeholder="$t('lang_sysform.formField.p_sffFieldNameCnDis')"></Input>
-            </FormItem>
-          </i-col>
-          <i-col span="11" offset="1">
-            <FormItem :label="$t('lang_sysform.formField.sffFieldNameEnDis')" prop="sffFieldNameEnDis">
-              <Input v-model="formValidate.sffFieldNameEnDis" :placeholder="$t('lang_sysform.formField.p_sffFieldNameEnDis')"></Input>
+            <FormItem :label="$t('lang_sysform.formField.sffFieldNameCnDis')" prop="sffName">
+              <Input v-model="formValidate.sffName" :placeholder="$t('lang_sysform.formField.p_sffFieldNameCnDis')"></Input>
             </FormItem>
           </i-col>
           <i-col span="11" >
@@ -229,8 +224,7 @@
           _mt: 'platSformfield.addOrUpd',
           sffOrder: '',
           sffPhyfield: '',
-          sffFieldNameCnDis: '',
-          sffFieldNameEnDis: '',
+          sffName: '',
           sffLayout: '',
           sffIsvalid: '1',
           sffType: '',
@@ -267,11 +261,8 @@
           sffPhyfield: [
             { required: true, message: this.$t('lang_sysform.formField.rule_sffPhyfield'), trigger: 'blur' },
           ],
-          sffFieldNameCnDis: [
+          sffName: [
             { required: true, message: this.$t('lang_sysform.formField.rule_sffFieldNameCnDis'), trigger: 'blur' },
-          ],
-          sffFieldNameEnDis: [
-            { required: true, message: this.$t('lang_sysform.formField.rule_sffFieldNameEnDis'), trigger: 'blur' },
           ],
           sffIsvalid: [
             { required: true, message: this.$t('lang_sysform.formField.rule_sffIsvalid'), trigger: 'blur' },
@@ -373,8 +364,7 @@
           if (isSuccess(res, t)) {
             t.formValidate.sffOrder = res.data.content[0].sffOrder
             t.formValidate.sffPhyfield = res.data.content[0].sffPhyfield
-            t.formValidate.sffFieldNameCnDis = res.data.content[0].sffFieldNameCnDis
-            t.formValidate.sffFieldNameEnDis = res.data.content[0].sffFieldNameEnDis
+            t.formValidate.sffName = res.data.content[0].sffName
             t.formValidate.sffIsvalid = res.data.content[0].sffIsvalid
             t.formValidate.sffLayout = res.data.content[0].sffLayout
             t.formValidate.sffProperty = res.data.content[0].sffProperty
@@ -489,8 +479,7 @@
       clear() {
         const t = this
         t.formValidate.sffPhyfield = ''
-        t.formValidate.sffFieldNameCnDis = ''
-        t.formValidate.sffFieldNameEnDis = ''
+        t.formValidate.sffName = ''
         t.formValidate.sffIsvalid = ''
         t.formValidate.sffOrder = ''
         t.formValidate.sffType = ''

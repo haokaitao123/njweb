@@ -30,7 +30,7 @@ export default {
     formField: {
       sffOrder: '编号',
       sffPhyfield: '物理字段名',
-      sffFieldNameCnDis: '字段中文名',
+      sffFieldNameCnDis: '字段名称',
       sffFieldNameEnDis: '字段英文名',
       sffType: '字段类型',
       sffIsvalid: '是否启用',
@@ -60,7 +60,7 @@ export default {
       // 填写提示信息
       p_sffOrder: '请输入编号',
       p_sffPhyfield: '请输入物理字段名称',
-      p_sffFieldNameCnDis: '请输入字段中文名',
+      p_sffFieldNameCnDis: '请输入字段名称',
       p_sffFieldNameEnDis: '请输入字段英文名',
       p_sffType: '请选择布局类型',
       p_sffLayout: '请选择布局类型',
@@ -83,7 +83,7 @@ export default {
       // 非空校验信息
       rule_sffOrder: '显示顺序不能为空',
       rule_sffPhyfield: '物理字段不能为空',
-      rule_sffFieldNameCnDis: '字段中文名称不能为空',
+      rule_sffFieldNameCnDis: '字段名称不能为空',
       rule_sffFieldNameEnDis: '字段英文名称不能为空',
       rule_sffIsvalid: '是否启用必须选择',
       rule_sffLayout: '布局类型不能为空',

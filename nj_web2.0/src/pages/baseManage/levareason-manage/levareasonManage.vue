@@ -9,7 +9,7 @@
         </p>
         <Row>
           <Input :placeholder="$t('lang_baseManage.baseLevareason.levaCodeDis')" style="width: 200px" v-model="levaCode"/>
-          <Input :placeholder="$t('lang_baseManage.baseLevareason.levaCnameDis')" style="width: 200px" v-model="levaName"/>
+          <Input :placeholder="$t('lang_baseManage.baseLevareason.levaname')" style="width: 200px" v-model="levaCname"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -51,7 +51,7 @@
         imp_mt: 'baseLevareason.importData',
         openImport: false,
         expDataTital: [{ code: 'levaCode', name: '编码' }, { code: 'levaReatypeName', name: this.$t('lang_baseManage.baseLevareason.levaReatypeName') },
-          { code: 'levaName', name: this.$t('lang_baseManage.baseLevareason.levaCname') },
+          { code: 'levaCname', name: this.$t('lang_baseManage.baseLevareason.levaCname') }, { code: 'levaEname', name: this.$t('lang_baseManage.baseLevareason.levaEname') },
           { code: 'comment', name: this.$t('lang_baseManage.baseLevareason.comment') }],
         openExpDow: false,
         openExp: false,
@@ -83,7 +83,12 @@
           },
           {
             title: this.$t('lang_baseManage.baseLevareason.levaCname'),
-            key: 'levaName',
+            key: 'levaCname',
+//          width: 130,
+          },
+          {
+            title: this.$t('lang_baseManage.baseLevareason.levaEname'),
+            key: 'levaEname',
 //          width: 130,
           },
           {
@@ -118,7 +123,7 @@
         page: 1,
         funId: '1000',
         levaCode: '',
-        levaName: '',
+        levaCname: '',
       }
     },
     computed: {
@@ -147,7 +152,7 @@
           order: t.order,
           logType: this.$t('button.ser'),
           levaCode: t.levaCode,
-          levaName: t.levaName,
+          levaCname: t.levaCname,
         }
         for (const dat in data) {
           if (data[dat] === '') {
@@ -179,7 +184,7 @@
         const t = this
         const data = {
           levaCode: t.levaCode,
-          levaName: t.levaName,
+          levaCname: t.levaCname,
         }
         this.$refs.expwindow.getData(this.expDataTital, 'baseLevareason.export', data)
         this.openExp = true
@@ -286,7 +291,8 @@
         t.openUpdate = false
         t.$refs.update.formValidate.levaCode = ''
         t.$refs.update.formValidate.levaReatype = ''
-        t.$refs.update.formValidate.levaName = ''
+        t.$refs.update.formValidate.levaCname = ''
+        t.$refs.update.formValidate.levaEname = ''
         t.$refs.update.formValidate.comment = ''
       },
     },

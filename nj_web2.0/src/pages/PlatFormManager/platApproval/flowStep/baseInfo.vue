@@ -135,7 +135,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.postFnameCnDis'),
-            key: 'postFnameCnDis',
+            key: 'postFname',
             sortable: 'custom',
           },
           {

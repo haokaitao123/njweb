@@ -10,7 +10,7 @@
         </Button>
       </div>
       <Row class="table-form">
-        <Input :placeholder="$t('lang_organization.orgframe.compFnameCnDisInp')" style="width: 200px" v-model="unitsName"/>
+        <Input :placeholder="$t('lang_organization.orgframe.compFnameCnDisInp')" style="width: 200px" v-model="unitFname"/>
         <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(params, 1)">{{$t('button.ser')}}</Button></span>
         <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">{{$t('button.cle')}}</Button></span>
       </Row>
@@ -30,7 +30,7 @@
       return {
         data: [],
         total: NaN,
-        unitsName: '',
+        unitFname: '',
       }
     },
     props: {
@@ -49,7 +49,7 @@
           params.page = page
         }
         const data = deepCopy(params)
-        data.unitsName = t.unitsName
+        data.unitFname = t.unitFname
         for (const dat in data) {
           if (data[dat] === '') {
             delete data[dat]
@@ -68,7 +68,7 @@
         })
       },
       close() {
-        this.unitsName = ''
+        this.unitFname = ''
         this.params.page = 1
         this.$emit('closeUp')
       },

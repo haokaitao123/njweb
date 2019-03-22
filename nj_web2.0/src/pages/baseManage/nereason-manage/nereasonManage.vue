@@ -49,8 +49,8 @@
       return {
         imp_mt: 'baseNereason.importData',
         openImport: false,
-        expDataTital: [{ code: 'nerCode', name: '编码' }, { code: 'nerName', name: this.$t('lang_baseManage.baseNereason.nerCname') },
-           { code: 'comment', name: this.$t('lang_baseManage.baseNereason.comment') }],
+        expDataTital: [{ code: 'nerCode', name: '编码' }, { code: 'nerCname', name: this.$t('lang_baseManage.baseNereason.nerCname') },
+          { code: 'nerEname', name: this.$t('lang_baseManage.baseNereason.nerEname') }, { code: 'comment', name: this.$t('lang_baseManage.baseNereason.comment') }],
         openExpDow: false,
         openExp: false,
         filekey: '',
@@ -75,7 +75,13 @@
           },
           {
             title: this.$t('lang_baseManage.baseNereason.nerCname'),
-            key: 'nerName',
+            key: 'nerCname',
+//            sortable: 'custom',
+//          width: 130,
+          },
+          {
+            title: this.$t('lang_baseManage.baseNereason.nerEname'),
+            key: 'nerEname',
 //            sortable: 'custom',
 //          width: 130,
           },
@@ -279,7 +285,8 @@
         const t = this
         t.openUpdate = false
         t.$refs.update.formValidate.nerCode = ''
-        t.$refs.update.formValidate.nerName = ''
+        t.$refs.update.formValidate.nerCname = ''
+        t.$refs.update.formValidate.nerEname = ''
         t.$refs.update.formValidate.comment = ''
       },
     },

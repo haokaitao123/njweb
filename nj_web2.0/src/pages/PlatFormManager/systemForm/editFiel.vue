@@ -16,7 +16,7 @@
             <div class="input-box">
               <i-col span="10">
                 <FormItem label="字段中文名称" prop="sffFieldNameCnDis" required>
-                  <Input v-model="item.sffFieldNameCnDis" placeholder="请输入编号"></Input>
+                  <Input v-model="item.sffName" placeholder="请输入编号"></Input>
                 </FormItem>
               </i-col>
               <i-col span="10" offset="1">
@@ -47,7 +47,7 @@ export default {
   data() {
     const validorsffFieldNameCnDis = (rule, value, callback) => {
       console.log(this.data)
-      if (this.data[rule.index].sffFieldNameCnDis === '') {
+      if (this.data[rule.index].sffName === '') {
         callback(new Error(rule.message))
       } else {
         callback()
@@ -67,17 +67,12 @@ export default {
       data: [
         {
 //          form: {
-            sffFieldNameCnDis: '',
-            sffFieldNameEnDis: '',
+          sffName: '',
 //          },
           rule: {
-            sffFieldNameCnDis: [
+            sffName: [
 //              { required: true, message: '请填写字段中文名', trigger: 'blur' },
-              { validator: validorsffFieldNameCnDis, message: '请填写字段中文名', trigger: 'blur', index: 0 },
-            ],
-            sffFieldNameEnDis: [
-//              { required: true, message: '请填写字段英文名', trigger: 'blur' },
-              { validator: validorsffFieldNameEnDis, message: '请填写字段英文名', trigger: 'blur', index: 0 },
+              { validator: validorsffFieldNameCnDis, message: '请填写字段名称', trigger: 'blur', index: 0 },
             ],
           },
         },
@@ -91,14 +86,10 @@ export default {
       let a = this.data.length
       this.data.push(
         {
-          sffFieldNameCnDis: '',
-          sffFieldNameEnDis: '',
+          sffName: '',
           rule: {
-            sffFieldNameCnDis: [
-              { validator: this.validorsffFieldNameCnDis, message: '请填写字段中文名', trigger: 'blur', index: a },
-            ],
-            sffFieldNameEnDis: [
-              { validator: this.validorsffFieldNameEnDis, message: '请填写字段英文名', trigger: 'blur', index: a },
+            sffName: [
+              { validator: this.validorsffFieldNameCnDis, message: '请填写字段名称', trigger: 'blur', index: a },
             ],
           },
         },
@@ -108,9 +99,8 @@ export default {
       const arr = deepCopy(this.data)
       const arrShow = []
       for (let i = 0; i < arr.length; i++) {
-        const str1 = arr[i].sffFieldNameCnDis
-        const str2 = arr[i].sffFieldNameEnDis
-        arr[i] = str1 + ',' + str2
+        const str1 = arr[i].sffName
+        arr[i] = str1
         arrShow[i] = str1
       }
       this.retureStr = arr.join(';')
@@ -124,8 +114,7 @@ export default {
     clear() {
       this.data = [
         {
-          sffFieldNameCnDis: '',
-          sffFieldNameEnDis: '',
+          sffName: '',
         },
       ]
       this.retureStr = ''

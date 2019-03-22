@@ -24,10 +24,10 @@
                 <Icon type="arrow-down-b"></Icon>
               </Button>
               <DropdownMenu slot="list" >
-                <span key="index" @click="selected('',$t('button.all'))">
+                <span :key="index" @click="selected('',$t('button.all'))">
                   <DropdownItem name="">{{$t('button.all')}}</DropdownItem>
                 </span>
-                <span v-for="(item,i) in selectCityType" :key="i" @click="selected(item.paramCode,item.paramInfoCn)">
+                <span v-for="(item,index) in selectCityType" :key="index" @click="selected(item.paramCode,item.paramInfoCn)">
                   <DropdownItem>{{item.paramInfoCn}}</DropdownItem>
                 </span>
               </DropdownMenu>

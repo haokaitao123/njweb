@@ -994,11 +994,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'compFnameCnDis',
-          },
-          {
-            title: this.$t('lang_employee.searchColumn.compEnFullName'),
-            key: 'compFnameEnDis',
+            key: 'unitFname',
           },
         ],
         paramsHCompany: {
@@ -1020,11 +1016,7 @@
           },
         	{
             title: this.$t('lang_employee.searchColumn.departCnFullName'),
-            key: 'compFnameCnDis',
-          },
-          {
-            title: this.$t('lang_employee.searchColumn.departEnFullName'),
-            key: 'compFnameEnDis',
+            key: 'unitFname',
           },
         ],
         paramsDept: {
@@ -1046,7 +1038,7 @@
           },
         	{
             title: this.$t('lang_employee.searchColumn.postFnameCnDis'),
-            key: 'postFnameCnDis',
+            key: 'postFname',
           },
           {
             title: this.$t('lang_employee.searchColumn.postFnameEnDis'),
@@ -1071,7 +1063,7 @@
           },
           {
             title: this.$t('lang_organization.orgcostcenter.cname'),
-            key: 'costName',
+            key: 'cname',
           },
           {
             title: this.$t('lang_organization.orgcostcenter.ename'),

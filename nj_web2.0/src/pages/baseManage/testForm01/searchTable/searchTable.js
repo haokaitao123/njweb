@@ -129,8 +129,12 @@ const searchTable = {
     valueText: 'levaName',
     searchCloumns: [
       {
-        title: '离职原因',
-        key: 'levaName',
+        title: '离职原因中文',
+        key: 'levaCname',
+      },
+      {
+        title: '离职原因英文',
+        key: 'levaEname',
       },
     ],
     param: {
@@ -150,8 +154,12 @@ const searchTable = {
     valueText: 'nerName',
     searchCloumns: [
       {
-        title: '未入职原因',
-        key: 'nerName',
+        title: '未入职原因中文',
+        key: 'nerCname',
+      },
+      {
+        title: '未入职原因英文',
+        key: 'nerEname',
       },
     ],
     param: {
@@ -193,7 +201,7 @@ const searchTable = {
    * */
   'org-company-std': {
     searchText: '请输入公司',
-    valueText: 'unitsName',
+    valueText: 'unitFname',
     searchCloumns: [
       {
         title: '公司编码',
@@ -201,7 +209,7 @@ const searchTable = {
       },
       {
         title: '公司名称',
-        key: 'unitsName',
+        key: 'unitFname',
       },
     ],
     param: {
@@ -219,7 +227,7 @@ const searchTable = {
    * */
   'org-department-std': {
     searchText: '请输入部门',
-    valueText: 'unitsName',
+    valueText: 'unitFname',
     searchCloumns: [
       {
         title: '公司编码',
@@ -227,7 +235,7 @@ const searchTable = {
       },
       {
         title: '公司名称',
-        key: 'unitsName',
+        key: 'unitFname',
       },
     ],
     param: {
@@ -245,7 +253,7 @@ const searchTable = {
    * */
   'org-post-std': {
     searchText: '请输入岗位',
-    valueText: 'postFnameDis',
+    valueText: 'postFname',
     searchCloumns: [
       {
         title: '岗位编码',
@@ -253,7 +261,7 @@ const searchTable = {
       },
       {
         title: '岗位名称',
-        key: 'postFnameDis',
+        key: 'postFname',
       },
     ],
     param: {
@@ -278,7 +286,7 @@ const searchTable = {
       },
       {
         title: '成本中心名称',
-        key: 'costName',
+        key: 'name',
       },
     ],
     param: {

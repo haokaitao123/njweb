@@ -49,7 +49,7 @@ export default{
 	      },
 	      {
 	        title: '公司名称',
-	        key: 'unitsName',
+	        key: 'unitFname',
 	      }
       ],
     }

@@ -124,7 +124,7 @@
                          @click="getIndex2(index2)">
                       <Checkbox @on-change="flowSelect2" :value="item2.isChecked==='1'?item2.id:false"
                                 :true-value="item2.id" false-value="false" style="font-size:12px; font-weight:normal;">
-                        {{index2 + 1}}、{{item2.flsdbCnName}}
+                        {{index2 + 1}}、{{item2.flsdbName}}
                       </Checkbox>
                       <div>
                         <span style="margin-right: 20px;">{{$t('lang_role.adminrole.floauth')}}</span>
@@ -188,7 +188,7 @@
           },
           {
             title: this.$t('lang_role.adminrole.sffFieldNameDis'),
-            key: 'sffFieldNameDis',
+            key: 'sffName',
             align: 'center',
           },
           {
@@ -207,7 +207,7 @@
           },
           {
             title: this.$t('lang_role.adminrole.sffFieldNameDis'),
-            key: 'sffFieldNameDis',
+            key: 'sffName',
             align: 'center',
           },
           {
@@ -225,7 +225,7 @@
           },
           {
             title: this.$t('lang_role.adminrole.sffFieldNameDis'),
-            key: 'sffFieldNameDis',
+            key: 'sffName',
             align: 'center',
           },
           {
@@ -249,7 +249,7 @@
           },
           {
             title: this.$t('lang_role.adminrole.sffFieldNameDis'),
-            key: 'sffFieldNameDis',
+            key: 'sffName',
             align: 'center',
           },
           {
@@ -1078,10 +1078,10 @@
       DuplicateRemove(arr1, arr2, num) {
         if (arr1.length !== 0) {
           for (const dat1 in arr1) {
-            if (arr1[dat1].sffFieldNameDis) {
+            if (arr1[dat1].sffName) {
               for (const dat2 in arr2) {
-                if (arr2[dat2].sffFieldNameDis) {
-                  if (arr1[dat1].sffFieldNameDis === arr2[dat2].sffFieldNameDis) {
+                if (arr2[dat2].sffName) {
+                  if (arr1[dat1].sffName === arr2[dat2].sffName) {
                     arr1.splice(dat1, 1)
                     // return
                   }
@@ -1101,10 +1101,10 @@
       // 向左移动字段公共方法
       moveLeft(arr1, arr2) {
         for (const dat1 in arr1) {
-          if (arr1[dat1].sffFieldNameDis) {
+          if (arr1[dat1].sffName) {
             for (const dat2 in arr2) {
-              if (arr2[dat2].sffFieldNameDis) {
-                if (arr1[dat1].sffFieldNameDis === arr2[dat2].sffFieldNameDis) {
+              if (arr2[dat2].sffName) {
+                if (arr1[dat1].sffName === arr2[dat2].sffName) {
                   arr2.splice(dat2, 1)
                 }
               }

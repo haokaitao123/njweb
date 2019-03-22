@@ -20,25 +20,13 @@
         </Row>
         <Row>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_organization.orgframe.compFnameCnDis')" prop="compFnameCnDis">
-            <Input v-model="formValidate.compFnameCnDis" :placeholder="$t('lang_organization.orgframe.compFnameCnDis')"></Input>
+          <FormItem :label="$t('lang_organization.orgframe.compFnameCnDis')" prop="unitFname">
+            <Input v-model="formValidate.unitFname" :placeholder="$t('lang_organization.orgframe.compFnameCnDis')"></Input>
           </FormItem>
           </Col>
-          <Col span="10" offset="1" >
-          <FormItem :label="$t('lang_organization.orgframe.compFnameEnDis')" prop="compFnameEnDis">
-            <Input v-model="formValidate.compFnameEnDis" :placeholder="$t('lang_organization.orgframe.compFnameEnDisInp')"></Input>
-          </FormItem>
-          </Col>
-        </Row>
-        <Row>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_organization.orgframe.compSnameCnDis')" prop="compSnameCnDis">
-            <Input v-model="formValidate.compSnameCnDis" :placeholder="$t('lang_organization.orgframe.compSnameCnDisInp')"></Input>
-          </FormItem>
-          </Col>
-          <Col span="10" offset="1" >
-          <FormItem :label="$t('lang_organization.orgframe.compSnameEnDis')" prop="compSnameEnDis">
-            <Input v-model="formValidate.compSnameEnDis" :placeholder="$t('lang_organization.orgframe.compSnameEnDisInp')"></Input>
+          <FormItem :label="$t('lang_organization.orgframe.compSnameCnDis')" prop="unitSname">
+            <Input v-model="formValidate.unitSname" :placeholder="$t('lang_organization.orgframe.compSnameCnDisInp')"></Input>
           </FormItem>
           </Col>
         </Row>
@@ -103,17 +91,11 @@
           unitCode: [
             { required: true, message: this.$t('lang_organization.orgframe.unitCodeInp1'), trigger: 'blur' },
           ],
-          compFnameCnDis: [
+          unitFname: [
             { required: true, message: this.$t('lang_organization.orgframe.compFnameCnDisInp'), trigger: 'blur' },
           ],
-          compFnameEnDis: [
-            { required: true, message: this.$t('lang_organization.orgframe.compFnameEnDisInp'), trigger: 'blur' },
-          ],
-          compSnameCnDis: [
+          unitSname: [
             { required: true, message: this.$t('lang_organization.orgframe.compSnameCnDisInp'), trigger: 'blur' },
-          ],
-          compSnameEnDis: [
-            { required: true, message: this.$t('lang_organization.orgframe.compSnameEnDisInp'), trigger: 'blur' },
           ],
           validdate: [
             { required: true, type: 'date', message: this.$t('lang_organization.orgframe.validdateInp'), trigger: 'change' },
@@ -142,10 +124,8 @@
         }).then((res) => {
           if (isSuccess(res, t)) {
             t.formValidate.unitCode = res.data.content[0].unitCode
-            t.formValidate.compFnameCnDis = res.data.content[0].compFnameCnDis
-            t.formValidate.compFnameEnDis = res.data.content[0].compFnameEnDis
-            t.formValidate.compSnameCnDis = res.data.content[0].compSnameCnDis
-            t.formValidate.compSnameEnDis = res.data.content[0].compSnameEnDis
+            t.formValidate.unitFname = res.data.content[0].unitFname
+            t.formValidate.unitSname = res.data.content[0].unitSname
             t.formValidate.validdate = res.data.content[0].validdate
             t.formValidate.invdate = res.data.content[0].invdate
             t.formValidate.invreason = res.data.content[0].invreason

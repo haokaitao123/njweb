@@ -43,15 +43,9 @@ export default{
       searchCloumns: [
         {
           title: '公司中文全称',
-          key: 'compFnameCnDis',
+          key: 'unitFname',
 //          sortable: 'custom',
           width: 379,
-        },
-        {
-          title: '公司英文全称',
-          key: 'compFnameEnDis',
-//          sortable: 'custom',
-          width: 380,
         },
       ],
     }
@@ -65,7 +59,7 @@ export default{
     getData() {
       const t = this
       const data = deepCopy(t.params)
-      data['compFnameCnDis'] = t.pmtypeCode
+      data['unitFname'] = t.pmtypeCode
       for (const dat in data) {
         if (data[dat] === '') {
           delete data[dat]

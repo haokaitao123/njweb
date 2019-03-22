@@ -5,11 +5,11 @@
       <card>
         <p slot="title">
           <Icon type="mouse"></Icon>
-          &nbsp;{{$t('lang_organization.orgcostcenter.title')}}
+          &nbsp;demo测试
         </p>
         <Row>
-          <Input :placeholder="$t('lang_organization.orgcostcenter.costCodeDis')" style="width: 200px" v-model="costCode"/>
-          <Input :placeholder="$t('lang_organization.orgcostcenter.cOrENameDis')" style="width: 200px" v-model="name"/>
+          <Input :placeholder="$t('输入code')" style="width: 200px" v-model="orgDemocode"/>
+          <Input :placeholder="$t('输入名称')" style="width: 200px" v-model="orgDemoname"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -34,6 +34,8 @@
   export default{
     data() {
       return {
+        orgDemocode:null,
+        orgdemoname:null,
         tableheight: document.body.offsetHeight - 280,
         value: '',
         logType: '',
@@ -47,26 +49,19 @@
             align: 'center',
           },
           {
-            title: this.$t('lang_organization.orgcostcenter.costCode'),
-            key: 'costCode',
-            sortable: 'custom',
+            title: 'orgdemocode',
+            key: 'orgDemocode',
+            sortable: 'id',
           },
           {
-            title: this.$t('lang_organization.orgcostcenter.cname'),
-            key: 'costName',
+
+            title:'orgDemoname',
+            key: 'orgDemoname',
           },
           {
-            title: this.$t('lang_organization.orgcostcenter.validdate'),
-            key: 'validdate',
-            sortable: 'custom',
-          },
-          {
-            title: this.$t('lang_organization.orgcostcenter.invdate'),
-            key: 'invdate',
-            sortable: 'custom',
-          },
-          {
-            title: this.$t('button.opr'),
+            title: '查看',
+            title: '查看',
+
             key: 'action',
             width: 64,
             fixed: 'right',
@@ -91,13 +86,11 @@
         data: [],
         total: 0,
         index: 0,
-        sort: 'costCode',
-        order: 'asc',
+        sort: 'id',
+        order: 'desc',
         rows: 10,
         page: 1,
-        funId: '1000',
-        costCode: '',
-        name: '',
+        funId: '1000'
       }
     },
     computed: {
@@ -115,16 +108,17 @@
         if (page) {
           this.page = page
         }
+
         const data = {
-          _mt: 'orgCostcenter.getPage',
+          _mt: 'orgDemo.getPage',
           rows: t.rows,
           page: t.page,
           sort: t.sort,
           order: t.order,
-          logType: this.$t('button.ser'),
+          logType: 'Search',
           funId: 1000,
-          costCode: t.costCode,
-          name: t.name,
+          orgDemocode: t.orgDemocode,
+          orgDemoname: t.orgDemoname
         }
         for (const dat in data) {
           if (data[dat] === '') {
@@ -190,7 +184,7 @@
         		content: this.$t('reminder.confirmdelete'),
         		onOk: () => {
         			getDataLevelUserLogin({
-          _mt: 'orgCostcenter.delByIds',
+          _mt: 'orgDemo.delByIds',
           funId: '1',
           logType: this.$t('button.del'),
           delIds: t.tableselected.toString(),

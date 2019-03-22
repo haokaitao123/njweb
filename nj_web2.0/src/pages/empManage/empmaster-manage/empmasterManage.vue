@@ -256,7 +256,7 @@
         data.forEach((item) => {
           item.expand = false
           item.checked = item.authRoleFunDis === '1'
-          item.title = item.unitCode + ' ' + item.unitsSname
+          item.title = item.unitCode + ' ' + item.unitSname
           delete item.children
         })
         const map = {}

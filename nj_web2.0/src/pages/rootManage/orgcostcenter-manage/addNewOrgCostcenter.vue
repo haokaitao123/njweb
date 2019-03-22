@@ -18,12 +18,17 @@
           </FormItem>
           </Col>
           <Col span="11" offset="1">
-          <FormItem :label="$t('lang_organization.orgcostcenter.cname')" prop="costName">
-            <Input v-model="formValidate.costName" :placeholder="$t('lang_organization.orgcostcenter.cnameDis')"></Input>
+          <FormItem :label="$t('lang_organization.orgcostcenter.cname')" prop="cname">
+            <Input v-model="formValidate.cname" :placeholder="$t('lang_organization.orgcostcenter.cnameDis')"></Input>
           </FormItem>
           </Col>
         </Row>
         <Row>
+          <Col span="11">
+          <FormItem :label="$t('lang_organization.orgcostcenter.ename')" prop="ename">
+            <Input v-model="formValidate.ename" :placeholder="$t('lang_organization.orgcostcenter.enameDis')"></Input>
+          </FormItem>
+          </Col>
           <Col span="11" offset="1">
           <FormItem :label="$t('lang_organization.orgcostcenter.validdate')" prop="validdate">
             <DatePicker type="date" :placeholder="$t('lang_organization.orgcostcenter.validdateDis')" :editable="false" v-model="formValidate.validdate" style="width: 100%"></DatePicker>
@@ -76,7 +81,8 @@
           _mt: 'orgCostcenter.addOrUpd',
           funId: '1',
           costCode: '',
-          costName: '',
+          cname: '',
+          ename: '',
           validdate: '',
           invdate: '',
           invreason: '',
@@ -86,8 +92,11 @@
           costCode: [
             { required: true, message: this.$t('lang_organization.orgcostcenter.costCodeDis'), trigger: 'blur' },
           ],
-          costName: [
+          cname: [
             { required: true, message: this.$t('lang_organization.orgcostcenter.cnameDis'), trigger: 'blur' },
+          ],
+          ename: [
+            { required: true, message: this.$t('lang_organization.orgcostcenter.enameDis'), trigger: 'blur' },
           ],
           validdate: [
             { required: true, type: 'date', message: this.$t('lang_organization.orgcostcenter.validdateDis'), trigger: 'change' },
@@ -114,7 +123,8 @@
         }).then((res) => {
           if (isSuccess(res, t)) {
             t.formValidate.costCode = res.data.content[0].costCode
-            t.formValidate.costName = res.data.content[0].costName
+            t.formValidate.cname = res.data.content[0].cname
+            t.formValidate.ename = res.data.content[0].ename
             t.formValidate.validdate = res.data.content[0].validdate
             t.formValidate.invdate = res.data.content[0].invdate
             t.formValidate.invreason = res.data.content[0].invreason

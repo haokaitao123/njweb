@@ -52,7 +52,7 @@ export default{
       }
       const data = deepCopy(params)
       data.sffPhyfield = t.pmtypeCode
-      data.sffFieldNameCnDis = t.pmtypeName
+      data.sffName = t.pmtypeName
       for (const dat in data) {
         if (data[dat] === '') {
           delete data[dat]

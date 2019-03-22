@@ -10,7 +10,7 @@
         </Button>
       </div>
       <Row class="table-form">
-        <Input :placeholder="searchText" style="width: 200px" v-model="sffFieldNameCnDis"/>
+        <Input :placeholder="searchText" style="width: 200px" v-model="sffName"/>
         <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
         <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">{{$t('button.cle')}}</Button></span>
       </Row>
@@ -30,7 +30,7 @@ export default{
     return {
       data: [],
       total: NaN,
-      sffFieldNameCnDis: '',
+      sffName: '',
       params: {
         _mt: 'platSformfield.getFieldList',
         sort: 'id',
@@ -39,14 +39,14 @@ export default{
         page: 1,
         logType: '',
         flowId: '0',
-        sffFieldNameCnDis: '',
+        sffName: '',
         sffLayout: 'p_layout_71',
       },
       searchText: this.$t('lang_platdoc.platMailAttach.searchText3'),
       searchCloumns: [
         {
           title: this.$t('lang_platdoc.platMailAttach.sffFieldNameCn'),
-          key: 'sffFieldNameCnDis',
+          key: 'sffName',
           width: 250,
         },
         {
@@ -68,7 +68,7 @@ export default{
       }
       const data = deepCopy(this.params)
       data.logType = '查询'
-      data.sffFieldNameCnDis = this.sffFieldNameCnDis
+      data.sffName = this.sffName
       if (this.$store.state.platSysMailJS.flowId) {
         data.flowId = this.$store.state.platSysMailJS.flowId
       }
@@ -90,7 +90,7 @@ export default{
       })
     },
     close() {
-      this.sffFieldNameCnDis = ''
+      this.sffName = ''
       this.$emit('closeAttach')
     },
     dbCkick(row) {

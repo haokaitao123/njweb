@@ -38,11 +38,7 @@
           },
           {
             title: this.$t('lang_employee.searchColumn.compCnFullName'),
-            key: 'compFnameCnDis',
-          },
-          {
-            title: this.$t('lang_employee.searchColumn.compEnFullName'),
-            key: 'compFnameEnDis',
+            key: 'unitFname',
           },
         ],
         sort: 'id',
@@ -69,8 +65,7 @@
 	      page: t.page,
 	      sort: t.sort,
 	      order: t.order,
-	      logType: '雇佣公司',
-	      unitsName: t.pmtypeCode,
+	      logType: '雇佣公司', unitFname: t.pmtypeCode,
 	      unitType: '01company',
         }
         for (const dat in data) {
