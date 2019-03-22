@@ -119,7 +119,7 @@
     },
     components: {},
     mounted() {
-      this.getData()
+//      this.getData()
     },
     methods: {
       getData() {

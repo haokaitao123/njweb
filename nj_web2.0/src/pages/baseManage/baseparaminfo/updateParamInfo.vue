@@ -33,18 +33,6 @@
             <Input v-model="formValidate.paramInfoName" :placeholder="$t('lang_role.adminpminfo.pparamInfoName')"></Input>
           </FormItem>
           </Col>
-          <Col span="10" offset="1">
-          <FormItem :label="$t('lang_role.adminpminfo.paramInfoCn')" prop="paramInfoCn">
-            <Input v-model="formValidate.paramInfoCn" :placeholder="$t('lang_role.adminpminfo.pparamInfoCn')"/>
-          </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="10" offset="1">
-          <FormItem :label="$t('lang_role.adminpminfo.paramInfoEn')"prop="paramInfoEn">
-            <Input v-model="formValidate.paramInfoEn":placeholder="$t('lang_role.adminpminfo.pparamInfoEn')" ></Input>
-          </FormItem>
-          </Col>
         </Row>
         <Row>
           <Col span="21" offset="1">
@@ -88,8 +76,6 @@
           paramType: '',
           paramCode: '',
           paramInfoName: '',
-          paramInfoCn: '',
-          paramInfoEn: '',
           comment: '',
         },
         openPick: false,
@@ -131,8 +117,6 @@
             t.formValidate.paramCode = res.data.content[0].paramCode
             t.formValidate.paramInfoName = res.data.content[0].paramInfoName
             t.formValidate.comment = res.data.content[0].comment
-            t.formValidate.paramInfoEn = res.data.content[0].paramInfoEn
-            t.formValidate.paramInfoCn = res.data.content[0].paramInfoCn
           }
         }).catch(() => {
           this.$Modal.error({

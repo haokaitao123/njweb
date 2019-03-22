@@ -257,9 +257,7 @@
         t.$refs.update.formValidate.paramCode = ''
         t.$refs.update.formValidate.paramInfoName = ''
         t.$refs.update.formValidate.comment = ''
-        t.$refs.update.formValidate.paramInfoCn = ''
         t.$refs.update.paramTypeDis = ''
-        t.$refs.update.formValidate.paramInfoEn = ''
         t.openUpdate = false
         t.openPick = false
       },
