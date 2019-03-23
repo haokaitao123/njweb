@@ -68,7 +68,7 @@ export default {
     quickMove: {
       title: '快捷操作',
       quickMoveOpr: '分配快捷操作',
-      funLancodeDis: '功能节点名称',
+      funName: '功能节点名称',
       funCode: '功能节点编号',
       authFunImg: '图标',
       AssImg: '分配图片',
@@ -199,7 +199,7 @@ export default {
     quickMove: {
       title: 'Quick Operation',
       quickMoveOpr: 'Assign Shortcuts',
-      funLancodeDis: 'Function Node Name',
+      funName: 'Function Node Name',
       funCode: 'Function Node Number',
       authFunImg: 'Icon',
       AssImg: 'Atrribute Icon',

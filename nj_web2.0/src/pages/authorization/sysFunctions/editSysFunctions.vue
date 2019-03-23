@@ -19,18 +19,20 @@
                 <Input v-model="formValidate.funCode" :placeholder="$t('lang_role.adminfun.pfunCode')"
                        ></Input>
               </FormItem>
-
               </Col>
               <Col span="11" offset="1">
-              <FormItem :label="$t('lang_role.adminfun.funLancodeDis')" prop="funLancode" :label-width="135">
-              <span @dblclick="clearDub">
-              <Input v-model="funLancodeDis" icon="search" :placeholder="$t('lang_role.adminfun.pfunLancodeDis')"
-                     :readonly="true"
-                     @on-click="pickData2"/>
-            </span>
+              <FormItem label="功能编码" prop="funLancode" :label-width="135">
+                <Input v-model="formValidate.funLancode" placeholder="请输入功能编码"
+                ></Input>
               </FormItem>
               </Col>
-              <Col span="11">
+              <Col span="11" >
+              <FormItem :label="$t('lang_role.adminfun.funName')" prop="funName" :label-width="135">
+                <Input v-model="formValidate.funName" :placeholder="$t('lang_role.adminfun.pfunName')"
+                ></Input>
+              </FormItem>
+              </Col>
+              <Col span="11" offset="1">
               <FormItem :label="$t('lang_role.adminfun.funTypeDis')" prop="funType" :label-width="135">
                 <Select v-model="formValidate.funType" :placeholder="$t('lang_role.adminfun.funType')"
                         :transfer="true">
@@ -40,7 +42,7 @@
                 </Select>
               </FormItem>
               </Col>
-              <Col span="11" offset="1">
+              <Col span="11" >
               <FormItem :label="$t('lang_role.adminfun.funPidDis')" prop="funPid" :label-width="135">
             <span @dblclick="clear">
               <Input v-model="funPidDis" icon="search" :placeholder="$t('lang_role.adminfun.pfunPidDis')"
@@ -255,7 +257,7 @@
         openTransfer: false,
         offsetVal3: '',
         funPidDis: '',
-        funLancodeDis: '',
+        funName: '',
         funProcesidDis: '',
         funFormDis: '',
         tabsDisable: true,
@@ -295,6 +297,7 @@
           funCode: '',
           funType: '',
           funLancode: '',
+          funName: '',
           funPid: '',
           funAction: '',
           funStyle: '',
@@ -361,7 +364,10 @@
             {required: true, message: this.$t('lang_role.adminfun.funType'), trigger: 'blur'},
           ],
           funLancode: [
-            {required: true, message: this.$t('lang_role.adminfun.pfunLancodeDis'), trigger: 'blur'},
+            {required: true, message: "请输入功能编码", trigger: 'blur'},
+          ],
+          funName: [
+            {required: true, message: "请输入系统功能名称", trigger: 'blur'},
           ],
           funStyle: [
             {required: true, message: this.$t('lang_role.adminfun.pfunStyle'), trigger: 'blur'},
@@ -413,7 +419,7 @@
             t.formValidate.funFormtype = res.data.content[0].value[0].funFormtype
             t.formValidate.funForm = res.data.content[0].value[0].funForm
             t.funFormDis = res.data.content[0].value[0].funFormDis
-            t.funLancodeDis = res.data.content[0].value[0].funLancodeDis
+            t.formValidate.funName = res.data.content[0].value[0].funName
             t.funProcesidDis = res.data.content[0].value[0].funProcesidDis
             t.formValidate.funImg = res.data.content[0].value[0].funImg
           }
@@ -501,7 +507,7 @@
       },
       clearDub() {
         const t = this
-        t.funLancodeDis = ''
+        t.funName = ''
         t.formValidate.funLancode = ''
       },
       clearDub2() {
@@ -642,7 +648,7 @@
       },
       changeinput2(name, code) {
         const t = this
-        t.funLancodeDis = name
+        t.funName = name
         t.formValidate.funLancode = code
       },
       changeinput3(name, code) {

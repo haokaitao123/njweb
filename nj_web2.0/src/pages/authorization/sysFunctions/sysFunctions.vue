@@ -15,7 +15,7 @@
           </span>
           <Input :placeholder="$t('lang_role.adminfun.pfunCode')" style="width: 200px"
                  v-model="funCode"/>
-          <Input :placeholder="$t('lang_role.adminfun.pfunLancodeDis')"style="width: 200px" v-model="funLancodeDis"/>
+          <Input :placeholder="$t('lang_role.adminfun.pfunName')"style="width: 200px" v-model="funName"/>
           <span style="margin: 0;"><Button type="primary" icon="search"
                                            @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
@@ -73,8 +73,8 @@
             width: 200,
           },
           {
-            title: this.$t('lang_role.adminfun.funLancodeDis'),
-            key: 'funLancodeDis',
+            title: this.$t('lang_role.adminfun.funName'),
+            key: 'funName',
             sortable: 'custom',
             width: 200,
 //          width: 150,
@@ -159,7 +159,7 @@
         funCode: '',
         funPid: '',
         funPidDis: '',
-        funLancodeDis: '',
+        funName: '',
         funType: '',
       }
     },
@@ -188,7 +188,7 @@
           page: t.page,
           funCode: t.funCode,
           funPid: t.funPid,
-          funLancodeDis: t.funLancodeDis,
+          funName: t.funName,
           funType: t.funType,
         }
         for (const dat in data) {
@@ -311,7 +311,7 @@
         t.$refs.update.formValidate.funType = ''
         t.$refs.update.formValidate.funPid = ''
         t.$refs.update.funPidDis = ''
-        t.$refs.update.funLancodeDis = ''
+        t.$refs.update.funName = ''
         t.$refs.update.formValidate.funLancode = ''
         t.$refs.update.formValidate.funAction = ''
         t.$refs.update.formValidate.funStyle = ''

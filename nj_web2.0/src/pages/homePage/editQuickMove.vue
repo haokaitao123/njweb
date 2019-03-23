@@ -56,8 +56,8 @@
             align: 'center',
           },
           {
-            title: this.$t('lang_homePage.quickMove.funLancodeDis'),
-            key: 'funLancodeDis',
+            title: this.$t('lang_homePage.quickMove.funName'),
+            key: 'funName',
             width: 140,
           },
           {
@@ -135,7 +135,7 @@
         const t = this
         const data = deepCopy(t.params)
         data['roletype'] = t.$store.state.user.roleType
-        data['funLancodeDis'] = t.pmtypeCode
+        data['funName'] = t.pmtypeCode
         for (const dat in data) {
           if (data[dat] === '') {
             delete data[dat]

@@ -8,7 +8,7 @@
               {{$t('lang_employee.empmaster.title1')}}
             </MenuItem>
             <MenuItem :name="item.id" v-for="(item, index) in childFun" :key="index">
-              {{item.funLancodeDis}}
+              {{item.funName}}
             </MenuItem>
           </Menu>
         </i-col>

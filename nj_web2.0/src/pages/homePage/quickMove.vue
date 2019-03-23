@@ -7,10 +7,10 @@
       </a>
       <div class="block" :class="height">
         <div class="fast_block">
-          <div class="fast_item" @click="openFun1(item.funLancodeDis , item.id , item.funCode, item.funAction)" v-for="(item , index) in sysmlvarComment.value" :key="index">
+          <div class="fast_item" @click="openFun1(item.funName , item.id , item.funCode, item.funAction)" v-for="(item , index) in sysmlvarComment.value" :key="index">
             <div class="item_admin" :style="'background-image: url(../../../static/indexImg/'+item.authFunImg +')'"></div>
             <div class="item_title">
-              {{item.funLancodeDis}}
+              {{item.funName}}
             </div>
           </div>
         </div>

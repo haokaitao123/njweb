@@ -136,7 +136,7 @@ import todoDistribution from './todoDistribution'
         data.forEach((item) => {
           item.expand = false
           item.checked = item.authRoleFunDis === '1'
-          item.title = item.funLancodeDis
+          item.title = item.funName
           delete item.children
         })
         const map = {}

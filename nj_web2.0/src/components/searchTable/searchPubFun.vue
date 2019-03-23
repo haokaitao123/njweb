@@ -42,7 +42,7 @@ export default{
       searchCloumns: [
         {
           title: this.$t('lang_role.adminfun.funLancode'),
-          key: 'funLancodeDis',
+          key: 'funName',
           width: 180,
           sortable: 'custom',
         },
@@ -70,7 +70,7 @@ export default{
         t.params.page = page
       }
       const data = deepCopy(t.params)
-      data['funLancodeDis'] = t.pmtypeCode
+      data['funName'] = t.pmtypeCode
       getDataLevelUserLoginNew(data).then((res) => {
         if (isSuccess(res, t)) {
           t.data = res.data.content[0].rows

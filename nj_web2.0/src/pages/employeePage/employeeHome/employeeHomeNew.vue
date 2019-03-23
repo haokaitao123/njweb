@@ -31,10 +31,10 @@
         <div class="btn">
           <Dropdown class="dropdown" v-for="(item, index) in funs" :key="index" @on-click="toPage">
             <Button href="javascript:void(0)" type="warning" size="large">
-              {{item.funLancodeDis}}
+              {{item.funName}}
             </Button>
             <DropdownMenu slot="list" v-if="item.children">
-              <DropdownItem v-for="(item2, index2) in item.children" :name="item2.funAction+';'+item2.id+';'+item2.funCode" :key="index2">{{item2.funLancodeDis}}</DropdownItem>
+              <DropdownItem v-for="(item2, index2) in item.children" :name="item2.funAction+';'+item2.id+';'+item2.funCode" :key="index2">{{item2.funName}}</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>

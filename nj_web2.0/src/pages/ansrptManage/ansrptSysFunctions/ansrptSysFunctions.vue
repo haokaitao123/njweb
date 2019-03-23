@@ -58,7 +58,7 @@
           },
           {
             title: '功能节点名称',
-            key: 'funLancodeDis',
+            key: 'funName',
             sortable: 'custom',
           },
 //          {

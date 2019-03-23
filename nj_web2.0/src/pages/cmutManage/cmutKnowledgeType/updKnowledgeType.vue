@@ -183,7 +183,7 @@
         searchCloumns4: [
           {
             title: this.$t('lang_knowBase.workOrderType.funLancode'),
-            key: 'funLancodeDis',
+            key: 'funName',
             width: 180,
           },
           {

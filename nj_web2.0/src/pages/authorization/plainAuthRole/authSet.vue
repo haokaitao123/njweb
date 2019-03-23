@@ -373,7 +373,7 @@
           item.expand = false
           item.checked = item.authRoleFunDis === '1'
           item.disableCheckbox = true
-          item.title = item.funLancodeDis
+          item.title = item.funName
           delete item.children
         })
         const map = {}

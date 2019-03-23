@@ -19,33 +19,33 @@
         <el-submenu v-if="item.children" :index="item.id" :key="index">
           <template slot="title">
             <Icon :type="item.funImg" size="16" color="#fff" style="margin-right: 5px;width: 15px;text-align: center"></Icon>
-            <span>{{item.funLancodeDis}}</span>
+            <span>{{item.funName}}</span>
           </template>
           <template v-for="(item2,index2) in item.children">
             <el-submenu v-if="item2.children" :index="item2.id" :key="index2">
               <template slot="title">
-                <span>{{item2.funLancodeDis}}</span>
+                <span>{{item2.funName}}</span>
               </template>
               <template v-for="(item3,index3) in item2.children">
                 <el-submenu v-if="item3.children" :index="item3.id" :key="index3">
                   <template slot="title">
-                    <span>{{item3.funLancodeDis}}</span>
+                    <span>{{item3.funName}}</span>
                   </template>
-                  <el-menu-item :index="item4.id" :route="{path:item4.funAction,query:{id:item4.id,code:item4.funCode}}" v-for="(item4,index4) in item3.children" :key="index4">{{item4.funLancodeDis}}</el-menu-item>
+                  <el-menu-item :index="item4.id" :route="{path:item4.funAction,query:{id:item4.id,code:item4.funCode}}" v-for="(item4,index4) in item3.children" :key="index4">{{item4.funName}}</el-menu-item>
                 </el-submenu>
-                <el-menu-item v-else :index="item3.id" :route="{path:item3.funAction,query:{id:item3.id,code:item3.funCode}}">{{item3.funLancodeDis}}</el-menu-item>
+                <el-menu-item v-else :index="item3.id" :route="{path:item3.funAction,query:{id:item3.id,code:item3.funCode}}">{{item3.funName}}</el-menu-item>
               </template>
               <!--<el-menu-item index="userManage" v-for="(item2,index) in item.children" :key="index">{{item2.id}}</el-menu-item>-->
             </el-submenu>
-            <el-menu-item v-else :index="item2.id" :route="{path:item2.funAction,query:{id:item2.id,code:item2.funCode}}">{{item2.funLancodeDis}}</el-menu-item>
+            <el-menu-item v-else :index="item2.id" :route="{path:item2.funAction,query:{id:item2.id,code:item2.funCode}}">{{item2.funName}}</el-menu-item>
           </template>
-          <!--<el-menu-item index="userManage" v-for="(item2,index) in item.children" :key="index">{{item2.funLancodeDis}}</el-menu-item>-->
+          <!--<el-menu-item index="userManage" v-for="(item2,index) in item.children" :key="index">{{item2.funName}}</el-menu-item>-->
         </el-submenu>
         <el-menu-item v-else :index="item.id" :route="{path:item.funAction,query:{id:item.id,code:item.funCode}}" :key="index">
         <!--<el-menu-item v-else :index="item.funAction+'?id='+item.id" :key="index">-->
           <template slot="title" v-if="!shrink">
             <Icon :type="item.funImg" size="16" color="#fff" style="margin-right: 5px;width: 15px;text-align: center"></Icon>
-            <span>{{item.funLancodeDis}}</span>
+            <span>{{item.funName}}</span>
           </template>
           <Icon v-else :type="item.funImg" size="16" color="#fff" style="margin-right: 5px;width: 15px;text-align: center"></Icon>
         </el-menu-item>
@@ -104,7 +104,7 @@ export default{
         if (this.data[i].id === id) {
           funId = this.data[i].id
           name = this.data[i].funAction
-          title = this.data[i].funLancodeDis
+          title = this.data[i].funName
           funCode = this.data[i].funCode
           break
         }
