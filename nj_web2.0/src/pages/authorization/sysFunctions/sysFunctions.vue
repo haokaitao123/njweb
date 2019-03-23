@@ -311,7 +311,9 @@
         t.$refs.update.formValidate.funType = ''
         t.$refs.update.formValidate.funPid = ''
         t.$refs.update.funPidDis = ''
-        t.$refs.update.funName = ''
+        t.$refs.update.formValidate.funName = ''
+        t.$refs.update.formValidate.funStatecode
+        t.$refs.update.formValidate.funLancode = ''
         t.$refs.update.formValidate.funLancode = ''
         t.$refs.update.formValidate.funAction = ''
         t.$refs.update.formValidate.funStyle = ''

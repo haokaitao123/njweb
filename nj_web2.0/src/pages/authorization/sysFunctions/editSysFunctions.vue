@@ -66,6 +66,12 @@
                 </Select>
               </FormItem>
               </Col>
+              <Col span="11" offset="1">
+              <FormItem label="状态编码"  :label-width="135">
+                <Input v-model="formValidate.funStatecode" placeholder="请输入状态编码"
+                ></Input>
+              </FormItem>
+              </Col>
 
               <Col span="11" offset="1">
               <FormItem :label="$t('lang_role.adminfun.funIsctrlbtn')" prop="funIsctrlbtn" :label-width="135">
@@ -74,7 +80,7 @@
                 </RadioGroup>
               </FormItem>
               </Col>
-              <Col span="11">
+              <Col span="11" >
               <FormItem :label="$t('lang_role.adminfun.funImg')" :label-width="135">
                 <Input v-model="formValidate.funImg" :placeholder="$t('lang_role.adminfun.pfunImg')"
                       ></Input>
@@ -86,9 +92,8 @@
                   <Radio :label="item.paramCode" v-for="(item,index) in radioYesOrNo" :key="index">{{item.paramInfoCn}}</Radio>
                 </RadioGroup>
               </FormItem>
-
               </Col>
-              <Col span="11">
+              <Col span="11" >
               <FormItem :label="$t('lang_role.adminfun.validDis')" prop="valid" :label-width="135">
                 <RadioGroup v-model="formValidate.valid">
                   <Radio :label="item.paramCode" v-for="(item,index) in radioYesOrNo" :key="index">{{item.paramInfoCn}}</Radio>
@@ -314,6 +319,7 @@
           comment: '',
           funIsctrlfield: '0',
           funImg: '',
+          funStatecode: '',
         },
         searchText2: this.$t('lang_role.adminfun.searchText2'),
         searchCloumns2: [
@@ -422,6 +428,7 @@
             t.formValidate.funName = res.data.content[0].value[0].funName
             t.funProcesidDis = res.data.content[0].value[0].funProcesidDis
             t.formValidate.funImg = res.data.content[0].value[0].funImg
+            t.formValidate.funStatecode = res.data.content[0].value[0].funStatecode
           }
         }).catch(() => {
           this.$Modal.error({
