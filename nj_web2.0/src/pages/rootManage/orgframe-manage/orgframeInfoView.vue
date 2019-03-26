@@ -366,7 +366,7 @@ export default {
                     { required: true, message: "请输入组织名称", trigger: 'blur' },
                 ],
                 unitPid: [
-                    { required: true, message: "请选择上级部门", trigger: 'blur' },
+                    { required: true, message: "请选择上级部门", trigger: 'change' },
                 ],
                 unitPartfunct: [
                     { required: true, message: "请选择部门职能", trigger: 'change' },
