@@ -452,6 +452,7 @@ export default {
                 logType: '组织架构查询',
                 unitFname: t.unitFname,
                 unitType: t.unitType,
+                unitPid: id
             }
             for (const dat in data) {
                 if (data[dat] === '') {
@@ -504,7 +505,8 @@ export default {
         /* 树点击事件 */
         selectChange (e) {
             this.treeid = e.id
-            this.page = 1
+            this.page = 1;
+            console.log(e.id)
             this.getData(e.id)
         },
         /* 把后台数据转化为tree的格式 */
@@ -572,7 +574,10 @@ export default {
             t.logType = logType
             t.openUpdate = true
             t.index = index
-            t.$refs.update.getSelect()
+            // t.$refs.update.getSelect()
+            t.$refs.update.getSelect("orgunittype");
+            t.$refs.update.getSelect("unitIndustry");
+            t.$refs.update.getSelect("unitPartfunct");
             if (logType === this.$t('button.upd')) {
                 t.$refs.update.getData(id)
             }

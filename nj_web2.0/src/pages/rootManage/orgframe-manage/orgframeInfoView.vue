@@ -429,7 +429,7 @@ export default {
                     t.formValidate.unitType = res.data.content[0].unitType
                     t.formValidate.unitPid = res.data.content[0].unitPid
                     t.formValidate.unitPartfunct = res.data.content[0].unitPartfunct
-                    t.formValidate.unitIndustry = res.data.content[0].unitIndustry
+                    t.formValidate.unitIndustry = res.data.content[0].unitIndustry == "0" ? "" : res.data.content[0].unitIndustry
                     t.formValidate.unitCenter = res.data.content[0].unitCenter
                     t.formValidate.unitCity = res.data.content[0].unitCity
                     t.formValidate.unitValdate = res.data.content[0].unitValdate
