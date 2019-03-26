@@ -360,7 +360,7 @@ export default {
                     { required: true, message: "请输入组织编码", trigger: 'blur' },
                 ],
                 unitType: [
-                    { required: true, message: "请选择组织类型", trigger: 'blur' },
+                    { required: true, message: "请选择组织类型", trigger: 'change' },
                 ],
                 unitFname: [
                     { required: true, message: "请输入组织名称", trigger: 'blur' },
@@ -369,10 +369,10 @@ export default {
                     { required: true, message: "请选择上级部门", trigger: 'blur' },
                 ],
                 unitPartfunct: [
-                    { required: true, message: "请选择部门职能", trigger: 'blur' },
+                    { required: true, message: "请选择部门职能", trigger: 'change' },
                 ],
                 unitIndustry: [
-                    { required: true, message: "请选择行业", trigger: 'blur' },
+                    { required: true, message: "请选择行业", trigger: 'change' },
                 ],
                 unitValdate: [
                     { required: true, type: 'date', message: "选择生效日期", trigger: 'change' },
@@ -390,7 +390,7 @@ export default {
                     { required: true, message: "请输入员工编制", trigger: 'blur' },
                 ],
                 unitSysalig: [
-                    { required: true, message: "请选择系统转正", trigger: 'blur' },
+                    { required: true, message: "请选择系统转正", trigger: 'change' },
                 ],
             },
         }
