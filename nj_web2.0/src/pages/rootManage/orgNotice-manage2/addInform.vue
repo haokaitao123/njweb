@@ -190,7 +190,7 @@ export default {
         noticeContent: "", //  发布内容
         note: "", //  备注
         noticeAttach: "", //  附件
-        noticeState: "101"
+        state: "101"
       },
       ruleValidate: {
         // noticePublish: [
