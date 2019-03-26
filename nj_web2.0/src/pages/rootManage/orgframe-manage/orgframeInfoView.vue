@@ -474,10 +474,11 @@ export default {
                         t.selectUnitType = res.data.content[0].value[0].paramList
                     }
                     if (type == "unitIndustry") {
-                        t.selectFunction = res.data.content[0].value[0].paramList
+                        t.selectIndustry = res.data.content[0].value[0].paramList
+
                     }
                     if (type == "unitPartfunct") {
-                        t.selectIndustry = res.data.content[0].value[0].paramList
+                        t.selectFunction = res.data.content[0].value[0].paramList
                     }
 
                 }

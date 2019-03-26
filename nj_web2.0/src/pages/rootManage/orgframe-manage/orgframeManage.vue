@@ -164,7 +164,7 @@ import orgframeChart from './orgframeChart'
 import update from './orgframeInfoView'
 import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import { isSuccess } from '../../../lib/util'
-import { getBtnAuth } from '../../../lib/authorityBtn'
+// import { getBtnAuth } from '../../../lib/authorityBtn'
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
 export default {
     data () {
@@ -409,6 +409,11 @@ export default {
                         t.modify = true;
                         t.btnList = content;
                         t.dropdownMenuList = content;
+                        // for (let v of content) {
+                        //     if (v.funIsdefault == "1") {
+                        //         t.statusDis = v.funName
+                        //     }
+                        // }
                     }
                 }
             }).catch(() => {
