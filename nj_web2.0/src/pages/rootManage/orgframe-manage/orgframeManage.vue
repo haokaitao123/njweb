@@ -38,7 +38,7 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        <Dropdown>
+                        <Dropdown v-show="modify">
                             <Button type="primary">
                                 {{statusDis}}
                                 <Icon type="arrow-down-b"></Icon>
@@ -46,8 +46,8 @@
                             <DropdownMenu slot="list">
                                 <span v-for="(item,index) in dropdownMenuList"
                                       :key="index"
-                                      @click="getPageByState(item.paramCode,item.paramInfoCn)">
-                                    <DropdownItem>{{item.paramInfoCn}}</DropdownItem>
+                                      @click="getPageByState(item.funStatecode,item.funName)">
+                                    <DropdownItem>{{item.funName}}</DropdownItem>
                                 </span>
                             </DropdownMenu>
                         </Dropdown>
@@ -164,8 +164,8 @@ import orgframeChart from './orgframeChart'
 import update from './orgframeInfoView'
 import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import { isSuccess } from '../../../lib/util'
+import { getBtnAuth } from '../../../lib/authorityBtn'
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
-
 export default {
     data () {
         return {
@@ -200,7 +200,7 @@ export default {
                 },
                 {
                     title: "组织架构名称",
-                    width: 140,
+                    width: 180,
                     key: 'unitFname',
                 },
                 {
@@ -211,13 +211,13 @@ export default {
                 },
                 {
                     title: "上级部门",
-                    width: 140,
+                    width: 180,
                     key: 'unitPname',
                     sortable: 'custom',
                 },
                 {
                     title: "部门职能",
-                    key: 'unitPartfunct',
+                    key: 'unitPartfunctName',
                     width: 140,
                 },
                 {
@@ -283,6 +283,14 @@ export default {
                     width: 140,
                 },
                 {
+                    title: "系统转正",
+                    key: 'unitSysalig',
+                    width: 140,
+                    render: (h, params) => {
+                        return h('div', params.row.unitSysalig == 1 ? "是" : "否")
+                    }
+                },
+                {
                     title: "备注",
                     key: 'note',
                     width: 140,
@@ -335,6 +343,22 @@ export default {
                 data: '{}',
                 unitPid: 0,
             },
+            modify: 'false',
+            btnList: {
+                // button_draft: '',    //编辑
+                // button_upd: '',      //修改
+                // button_del: '',      //删除
+                // button_add: '',      //新增
+                // button_save: '',     //保存
+                // button_submit: '',   //提交
+                // button_return: '',   //返回
+                // button_cancel: '',   //取消
+                // button_confirm: '',  //确认
+                // button_invalid: '',  //失效
+                // button_valid: '',    //生效
+                // button_export: '',   //导出
+                // button_import: '',   //导入
+            },
             searchCloumns: [
                 {
                     title: this.$t('lang_organization.orgframe.unitCode'),
@@ -343,13 +367,14 @@ export default {
                 },
                 {
                     title: this.$t('lang_organization.orgframe.compCOrEName'),
-                    key: 'unitsName',
+                    key: 'unitFname',
                 },
                 {
                     title: this.$t('lang_organization.orgframe.unitTypeName'),
                     key: 'unitTypeName',
                 },
             ],
+
         }
     },
     computed: {
@@ -365,26 +390,52 @@ export default {
         this.getTree();
         this.getSelect();
         this.unitTypeSelect();
+        this.auth();
     },
     methods: {
+        auth () {
+            const t = this
+            let data = {
+                _mt: 'sysFunctions.getStatusBtnByAuth',
+            }
+            getDataLevelUserLogin(data).then((res) => {
+                if (isSuccess(res, t)) {
+                    console.log(res, "res");
+                    let content = res.data.content[0].rows;
+                    if (res.data.content[0].isFlowNode == "0") {
+                        t.modify = false;
+                        t.btnList = content[0];
+                    } else if (res.data.content[0].isFlowNode == "1") {
+                        t.modify = true;
+                        t.btnList = content;
+                        t.dropdownMenuList = content;
+                    }
+                }
+            }).catch(() => {
+                t.$Modal.error({
+                    title: '错误',
+                    content: '网络错误',
+                })
+            })
+        },//按钮权限控制
         pickData () {
             const t = this
             t.$refs.searchOrgframe.getData(this.params)
             t.openPick = true
-        },
+        },//点击组织架构图
         changeinput (name, id, costname, costid) {
             const t = this
             t.openPick = false
             t.$refs.orgframeChart.getData(id)
             t.openChart = true
-        },
+        },//输入框
         closeFrame () {
             const t = this
             t.openPick = false
-        },
+        },//关闭Frame
         closeChart () {
             this.openChart = false
-        },
+        },//关闭组织架构图
         getData (id) {
             const t = this
             const data = {
@@ -394,8 +445,6 @@ export default {
                 sort: t.sort,
                 order: t.order,
                 logType: '组织架构查询',
-                // unitCode: t.unitCode,
-                funId: '1000',
                 unitFname: t.unitFname,
                 unitType: t.unitType,
             }
@@ -406,6 +455,7 @@ export default {
             }
             getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {
+                    // forEach(item )
                     t.data = res.data.content[0].rows
                     t.total = res.data.content[0].records
                 }
@@ -415,7 +465,7 @@ export default {
                     content: this.$t('reminder.errormessage'),
                 })
             })
-        },
+        },//获取列表数据
         getTree () {
             const t = this
             const data = {
@@ -457,7 +507,7 @@ export default {
             data.forEach((item) => {
                 item.expand = false
                 item.checked = item.authRoleFunDis === '1'
-                item.title = item.unitCode + ' ' + item.unitsSname
+                item.title = item.unitCode + ' ' + item.unitFname
                 delete item.children
             })
             const map = {}
@@ -493,68 +543,35 @@ export default {
             } else {
                 this.order = 'desc'
             }
-        },
+        },//排序
         sizeChange (size) {
             const t = this
             t.rows = size
             t.getData(this.treeid)
-        },
+        },//分页
         pageChange (page) {
             const t = this
             t.page = page
             t.getData(this.treeid)
-        },
+        },//分页
         selectedtable (selection) {
             const newArr = []
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id)
             }
             this.tableselected = newArr.toString()
-        },
-        deletemsg () {
-            const t = this
-            if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t('reminder.remind'),
-                    content: this.$t('reminder.leastone'),
-                })
-            } else {
-                t.$Modal.confirm({
-                    title: this.$t('reminder.remind'),
-                    content: this.$t('reminder.confirmdelete'),
-                    onOk: () => {
-                        getDataLevelUserLogin({
-                            _mt: 'orgUnits.deleteByIds',
-                            funId: '1',
-                            logType: this.$t('button.del'),
-                            ids: t.tableselected,
-                        }).then((res) => {
-                            if (isSuccess(res, t)) {
-                                t.getTree()
-                                t.getData()
-                            }
-                        }).catch(() => {
-                            t.$Modal.error({
-                                title: this.$t('reminder.err'),
-                                content: this.$t('reminder.errormessage'),
-                            })
-                        })
-                    },
-                    onCancel: () => { },
-                })
-            }
-        },
+        },//列表中选中的item
         openUp (id, logType, index) {
             const t = this
             t.updateId = parseInt(id, 10)
             t.logType = logType
             t.openUpdate = true
             t.index = index
-            // t.$refs.update.getSelect()
+            t.$refs.update.getSelect()
             if (logType === this.$t('button.upd')) {
                 t.$refs.update.getData(id)
             }
-        },
+        },//打开窗口
         closeUp () {
             const t = this
             t.openUpdate = false
@@ -580,17 +597,17 @@ export default {
             t.$refs.update.unitCityName = ''
             t.$refs.update.unitPname = ''
 
-        },
+        },//关闭窗口
         selected (key, name) {
             this.select = name
             this.cityTypeName = key
             this.getData()
-        },
+        },//下拉选中
         search () {
             this.treeid = ''
             this.page = 1
             this.getData()
-        },
+        },//查询
         renderContent (h, { root, node, data }) {
             return h('span', {
                 style: {
@@ -620,7 +637,7 @@ export default {
                             h('span', data.title),
                         ]),
                 ])
-        },
+        },//渲染树状图
         getSelect () {
             const t = this
             t.dropdownMenuList = []
@@ -630,8 +647,7 @@ export default {
                 typeCode: "pubuserstatus"
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    console.log(res, "res")
-                    t.dropdownMenuList = res.data.content[0].value[0].paramList
+                    // t.dropdownMenuList = res.data.content[0].value[0].paramList
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -662,7 +678,6 @@ export default {
             }
             getDataLevelUserLogin({
                 _mt: 'orgUnits.setStateById',
-                funId: t.funId,
                 logType: logType,
                 state: state,
                 ids: t.tableselected,
@@ -690,7 +705,6 @@ export default {
                 typeCode: "orgunittype"
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    console.log(res, "res");
                     t.unitTypeData = res.data.content[0].value[0].paramList;
                     let obj = {
                         'paramCode': '',
@@ -708,7 +722,7 @@ export default {
         getPageByType (paramCode) {
             this.unitTypeId = paramCode
             this.getData(1)
-        }
+        }//根据类型获取列表
     },
 }
 </script>
