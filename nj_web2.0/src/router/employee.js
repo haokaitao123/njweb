@@ -3,6 +3,7 @@
  */
 
 //用户普通角色组管理
+import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
 import empMaster from '@/pages/empManage/empmaster-manage/empMasterManage'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
 import visaAreaList from '@/pages/empManage/visaArea-manage/visaAreaList'
@@ -43,5 +44,10 @@ export default [
     path: 'abordeCountShow',
     name: 'abordeCountShow',
     component: abordeCountShow,
+  },
+  {
+    path: 'empOfficial',
+    name: 'empOfficial',
+    component: empOfficial,
   }
 ]
