@@ -161,7 +161,6 @@ export default {
       pfunPidDis: '请选择父功能节点',
       pfunCode: '请输入功能节点编号',
       pfunName: '请选择功能节点名称',
-      funCode: '功能节点编号',
       funName: '功能节点名称',
       funPidDis: '父功能节点',
       funTypeDis: '功能节点分类',
