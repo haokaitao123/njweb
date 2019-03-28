@@ -3,7 +3,7 @@
  */
 
 //用户普通角色组管理
-import empMaster from '@/pages/empManage/empmaster-manage/empMasterManage'
+import empMaster from '@/pages/empManage/empmaster-manage2/platDocTemplate.vue'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
 import visaAreaList from '@/pages/empManage/visaArea-manage/visaAreaList'
 // 出国统计看板
