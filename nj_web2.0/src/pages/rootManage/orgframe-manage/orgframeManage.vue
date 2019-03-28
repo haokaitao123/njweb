@@ -30,7 +30,8 @@
                                style="width: 200px"
                                v-model="unitFname" />
                         <Select v-model="unitType"
-                                style="width: 200px">
+                                style="width: 200px"
+                                placeholder="请输入组织类别">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in unitTypeData"
                                     :key="index"
@@ -38,7 +39,13 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        <Dropdown v-show="modify">
+                        <span style="margin: 0;">
+                            <Button type="primary"
+                                    icon="search"
+                                    @click="search()">查询
+                            </Button>
+                        </span>
+                        <!-- <Dropdown v-show="modify">
                             <Button type="primary">
                                 {{statusDis}}
                                 <Icon type="arrow-down-b"></Icon>
@@ -51,12 +58,7 @@
                                 </span>
                             </DropdownMenu>
                         </Dropdown>
-                        <span style="margin: 0;">
-                            <Button type="primary"
-                                    icon="search"
-                                    @click="search()">查询
-                            </Button>
-                        </span>
+                        
                         <Button type="primary"
                                 @click="openUp(NaN,$t('button.add'))"
                                 v-show="status ==='00all' || status ==='01draft' ? true : false">
@@ -91,7 +93,14 @@
                             </Button>
                         </span>
                         <Button type="primary"
-                                @click="pickData">组织架构图</Button>
+                                @click="pickData">组织架构图</Button>-->
+                        <btnList @buttonExport="btnEvent"
+                                 @buttonAdd="openUp(NaN,$t('button.add'))"
+                                 @buttonValid="modifystatus('02valid')"
+                                 @buttonDraft="modifystatus('01draft')"
+                                 @buttonInvalid="modifystatus('03invalid')"
+                                 @buttonUnitChart="pickData()"
+                                 @moditySelct="modityChange"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -164,8 +173,8 @@ import orgframeChart from './orgframeChart'
 import update from './orgframeInfoView'
 import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import { isSuccess } from '../../../lib/util'
-// import { getBtnAuth } from '../../../lib/authorityBtn'
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
+import btnList from '../../../components/btnAuth/btnAuth.js'
 export default {
     data () {
         return {
@@ -181,9 +190,9 @@ export default {
             tableselected: [],
             dropdownMenuList: [],   //状态下拉选择框数据
             unitTypeData: [],    //组织类型下拉选择框数据
-            statusDis: "全部",
+            statusDis: "",
             unitTypeId: NaN,
-            status: '00all',
+            status: '',
             columns: [
                 {
                     type: 'selection',
@@ -302,21 +311,57 @@ export default {
                     fixed: 'right',
                     align: 'center',
                     render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'success',
-                                    size: 'small',
-                                },
-                                on: {
-                                    click: () => {
-                                        this.openUp(params.row.id, this.$t('button.upd'), params.index)
+                        if (this.pageShow === 'button_upd') {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        size: 'small',
                                     },
-                                },
-                            }, this.$t('button.upd')),
-                        ])
-                    },
-                },
+                                    style: {
+                                        display: this.pageShow == 'button_upd' ? "inline-block" : "none"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.openUp(params.row.id, this.$t('button.upd'), params.index)
+                                        },
+                                    },
+                                }, this.$t('button.upd')),
+                                // h('Button', {
+                                //     props: {
+                                //         type: 'primary',
+                                //         size: 'small',
+                                //     },
+                                //     style: {
+                                //         display: this.pageShow == 'button_view' ? "inline-block" : "none"
+                                //     },
+                                //     on: {
+                                //         click: () => {
+                                //             this.openUp(params.row.id, '查看', params.index)
+                                //         },
+                                //     },
+                                // }, '查看'),
+                            ])
+                        } else if (this.pageShow == 'button_view') {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small',
+                                    },
+                                    style: {
+                                        display: this.pageShow == 'button_view' ? "inline-block" : "none"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.openUp(params.row.id, '查看', params.index)
+                                        },
+                                    },
+                                }, '查看'),
+                            ])
+                        }
+                    }
+                }
             ],
             data: [],
             total: 0,
@@ -374,54 +419,81 @@ export default {
                     key: 'unitTypeName',
                 },
             ],
-
+            btnOperate: localStorage.getItem("setbtnOperate")
         }
     },
     computed: {
-
+        pageShow () {
+            return this.$store.state.btnOperate.pageShow
+        }
     },
     components: {
         update,
         orgframeChart,
         searchOrgframe,
+        btnList
+    },
+    beforeCreate () {
+        if (this.pageShow == '') {
+
+        };
     },
     mounted () {
         this.getData();
         this.getTree();
         this.getSelect();
         this.unitTypeSelect();
-        this.auth();
+        console.log(this.pageShow, "2222")
     },
     methods: {
+        btnEvent (res) {
+            console.log(res, "res12345")
+        },
+        modityChange (res) {
+            console.log(res, "res54321")
+        },
         auth () {
             const t = this
-            let data = {
-                _mt: 'sysFunctions.getStatusBtnByAuth',
-            }
-            getDataLevelUserLogin(data).then((res) => {
-                if (isSuccess(res, t)) {
-                    console.log(res, "res");
-                    let content = res.data.content[0].rows;
-                    if (res.data.content[0].isFlowNode == "0") {
-                        t.modify = false;
-                        t.btnList = content[0];
-                    } else if (res.data.content[0].isFlowNode == "1") {
-                        t.modify = true;
-                        t.btnList = content;
-                        t.dropdownMenuList = content;
-                        // for (let v of content) {
-                        //     if (v.funIsdefault == "1") {
-                        //         t.statusDis = v.funName
-                        //     }
-                        // }
-                    }
-                }
-            }).catch(() => {
-                t.$Modal.error({
-                    title: '错误',
-                    content: '网络错误',
-                })
+            console.log(getBtnAuth(t), "res4321");
+            getBtnAuth().then((res) => {
+                console.log(res, "res1231")
             })
+            // let data = {
+            //     _mt: 'sysFunctions.getStatusBtnByAuth',
+            // }
+            // getDataLevelUserLogin(data).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         console.log(res, "res");
+            //         let content = res.data.content[0].rows;
+            //         if (res.data.content[0].isFlowNode == "0") {
+            //             t.modify = false;
+            //             t.btnList = content[0];
+            //         } else if (res.data.content[0].isFlowNode == "1") {
+            //             t.modify = true;
+            //             t.btnList = content;
+            //             t.dropdownMenuList = content;
+            //             let result = t.dropdownMenuList.some(function (item, index, array) {
+            //                 return item.funIsdefault == "1";
+            //             })
+            //             if (result) {
+            //                 for (let v of content) {
+            //                     if (v.funIsdefault == "1") {
+            //                         t.statusDis = v.funName
+            //                         t.status = 
+            //                     }
+            //                 }
+            //             } else {
+            //                 t.statusDis = t.dropdownMenuList[0].funName
+            //             }
+
+            //         }
+            //     }
+            // }).catch(() => {
+            //     t.$Modal.error({
+            //         title: '错误',
+            //         content: '网络错误',
+            //     })
+            // })
         },//按钮权限控制
         pickData () {
             const t = this
