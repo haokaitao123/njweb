@@ -15,7 +15,7 @@
             <Input placeholder="请输入主题" style="width: 200px" v-model="noticeTitle"/>
              
             <Input placeholder="请输入发布者" style="width: 200px" v-model="noticePeople" />
-            
+
             <Dropdown>
               <Button type="primary">
                 {{statusDis}}
@@ -44,17 +44,17 @@
               type="primary"
               v-show="state === '103'"
               @click="modifystatu('101')"
-            >审核中</Button>
+            >审核</Button>
             <Button
               type="success"
               v-show="state === '101' || state === '102' || state==='104'"
               @click="modifystatu('103')"
-            >已生效</Button>
+            >生效</Button>
             <Button
               type="error"
               v-show="state === '103'"
               @click="modifystatu('102')"
-            >已失效</Button>
+            >失效</Button>
             <Button
               type="error"
               v-show="state === '101' || state === '102' || state==='104'"
@@ -156,32 +156,32 @@ export default {
           key: "noticeTitle",
          
         },
-        {
-          title: "发布内容",
-          key: "noticeContent",
+        // {
+        //   title: "发布内容",
+        //   key: "noticeContent",
          
-        },
+        // },
         {
           title: "发布部门",
-          key: "noticeDepartment",
+          key: "unitPidDis",
           
         },
         {
           title: "发布人",
-          key: "noticePeople"
+          key: "noticePeopleDis"
         },
         {
           title: "发布日期",
           key: "noticePublish"
         },
-       {
-          title: "生效日期",
-          key: "noticeLosttime"
-        },
-        {
-          title: "状态",
-          key: "noticeState"
-        },
+      //  {
+      //     title: "生效日期",
+      //     key: "noticeLosttime"
+      //   },
+        // {
+        //   title: "状态",
+        //   key: "noticeState"
+        // },
         {
           title: "操作",
           key: "action",
@@ -463,10 +463,11 @@ export default {
         return;
       }
       // 按钮请求
+      
       getDataLevelUserLogin({
-        _mt: "",
+        _mt: "orgNotice.setStateByIds",
         logType: logType,
-        noticeState: t.state,
+        state: t.state,
         ids: t.selectedArr
       })
         .then(res => {

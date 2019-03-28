@@ -35,7 +35,7 @@ import calcJsBase from '../pages/sihfManage/calc/calcJsBase'
 import hfcalcJsBase from '../pages/sihfManage/hfcalc/hfcalcJsBase'
 import finServicesBoardList from '../pages/financialManagement/finServicesBoard/finServicesBoardList'
 import flowClmkMap from '../pages/common/entryFlow/flowClmkMap'
-
+import btnOperate from '../components/btnAuth/btnState'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -81,6 +81,7 @@ const store = new Vuex.Store({
     finServicesBoardList,
     myWorkOrderNew,
     flowClmkMap,
+    btnOperate
   }
 });
 

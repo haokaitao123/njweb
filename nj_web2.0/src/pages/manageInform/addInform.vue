@@ -85,7 +85,7 @@
           </FormItem>
           </Col>
         </Row>
-        <Row>
+        <!-- <Row>
           <Col span="10">
           <FormItem :label="$t('lang_role.cmutnotic.cmutNoticeStateDis')" prop="flowStatus">
             <Select v-model="form.cmutNoticeState" :disabled="editdisabled"
@@ -96,7 +96,7 @@
             </Select>
           </FormItem>
           </Col>
-        </Row>
+        </Row> -->
         <!-- 备注 -->
         <Row>
           <Col span="23">
