@@ -55,6 +55,7 @@ export default {
           this.btnListFilter();
           this.viewFilter();
           this.operateFilter();
+          this.tableOperate();
           console.log(res, "res123");
         }
       })
@@ -92,10 +93,11 @@ export default {
           t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
         }
       } else {
-        t.newBtnList = t.sort(t.modityList[0].funBtnList)
-        t.statusDis = t.btnList[0].funName;
-        t.status = t.btnList[0].funStatecode;
-        this.$store.commit('btnState/setModity', t.status)
+        t.newBtnList = t.sort(t.modityList[0].funBtnList);
+        console.log(t.newBtnList, "t.newBtnList")
+        t.statusDis = t.modityList[0].funName;
+        t.status = t.modityList[0].funStatecode;
+        this.$store.commit('btnOperate/setModity', t.status)
       };
     },
     /**
@@ -134,9 +136,65 @@ export default {
       }
       if (temp.length > 1) {
         pageShow = "button_opt_upd";
-        this.$store.commit('btnOperate/setPageShow', pageShow);
+        temp = temp.join(",");
+        if (temp.indexOf("button_opt_view") != -1 && temp.indexOf("button_opt_upd") != -1) {
+          temp = temp.split(",");
+          let index = temp.indexOf("button_opt_view")
+          if (index > -1) {
+            temp.splice(index, 1);
+          }
+        }
+        temp = temp.join(",");
+        console.log(temp, "temp55555")
+        this.$store.commit('btnOperate/setPageShow', temp);
+      } else if (temp.length == 1) {
+        this.$store.commit('btnOperate/setPageShow', temp[0]);
+      } else {
+        this.$store.commit('btnOperate/setPageShow', "");
       }
-      this.$store.commit('btnOperate/setPageShow', temp[0]);
+      //   this.$store.commit('btnOperate/setPageShow', temp[0]);
+    },
+    /**
+     *  数组删除
+     *
+     */
+    // remove(val) {
+    //   Array.prototype.remove = function (val) {
+    //     var index = this.indexOf(val);
+    //     if (index > -1) {
+    //       this.splice(index, 1);
+    //     }
+    //   };
+    // },
+    /**
+     *  去重方法
+     *
+     * @param {*} arr  去重数组
+     * @param {*} name 去重字段
+     * @returns
+     */
+    arrayUnique(arr, name) {
+      var hash = {};
+      return arr.reduce(function (item, next) {
+        hash[next[name]] ? '' : hash[next[name]] = true && item.push(next);
+        return item;
+      }, []);
+    },
+    /**
+     *  列表按钮初始化默认值
+     *
+     * @param {*} arr 当前去重数组
+     * @param {*} name 排序字段
+     */
+    tableOperate(arr, name) {
+      let temp = this.arrayUnique(this.operate, 'btnName');
+      for (let v of temp) {
+        let btnMod = this.btnType(v.btnName);
+        v.name = btnMod.btnName;
+        v.type = btnMod.bType;
+      }
+      this.$store.commit('btnOperate/setTableButton', temp);
+
     },
     /**
      * 按钮事件名称配置
@@ -146,6 +204,8 @@ export default {
      */
     eventName(res) {
       let name = "";
+      // 类型下拉事件  name = 'moditySelect'
+      // 搜索事件  name = 'buttonSearch'
       switch (res) {
         case "新增":
           name = 'buttonAdd'
@@ -220,6 +280,7 @@ export default {
           break
         case "button_opt_upd":
           btnName = '修改'
+          bType = 'success'
           break
         case "button_draft":
           btnName = '编辑'
@@ -292,7 +353,7 @@ export default {
           on: {
             'cc': (res) => {
               let eventName = this.eventName(res);
-              t.$emit(name, res)
+              t.$emit(eventName, res)
             }
           },
         }))
@@ -331,7 +392,7 @@ export default {
         },
         on: {
           'getPageByState': (res) => {
-            this.$emit('moditySelct', res)
+            this.$emit('moditySelect', res)
           }
         }
       }))
@@ -347,6 +408,7 @@ export default {
       nodes.unshift(searchBtn);
       this.$store.commit('btnOperate/setPageOperate', t.operate);
     }
+
     return createElement('div', {
         ref: 'btnList',
         'style': {
