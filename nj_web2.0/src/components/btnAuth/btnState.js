@@ -7,7 +7,8 @@ const btnOperate = {
     btnOperate: '',
     modity: '',
     pageOperate: [],
-    pageShow: ''
+    pageShow: '',
+    tableButton: ''
   },
   mutations: {
     setbtnOperate(state, value) {
@@ -21,6 +22,9 @@ const btnOperate = {
     },
     setPageShow(state, value) {
       state.pageShow = value
+    },
+    setTableButton(state, value) {
+      state.tableButton = value
     }
   },
 }
