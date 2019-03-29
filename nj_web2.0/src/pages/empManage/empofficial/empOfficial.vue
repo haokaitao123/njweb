@@ -111,9 +111,7 @@
 </template>
 <script>
   import update from './addEmpofficial'
-  //import searchOrgframe from '../../../components/searchTable/searchOrgframe'
   import {isSuccess} from '../../../lib/util'
-  // import { getBtnAuth } from '../../../lib/authorityBtn'
   import {getDataLevelUserLoginNew, getDataLevelUserLogin} from '../../../axios/axios'
   import btnList from '../../../components/btnAuth/btnAuth.js'
   import expwindow from "../../../components/fileOperations/expSms";
@@ -141,7 +139,7 @@
         ],
         openChart: false,
         loading: true,
-        tableheight: document.body.offsetHeight - 280,
+        tableheight: document.body.offsetHeight-280,
         value: '',
         logType: '',
         openUpdate: false,
@@ -184,65 +182,39 @@
             key: 'empoffResult',
             width: 200,
           },
-          {
-            title: this.$t('button.opr'),
-            key: 'action',
-            width: 64,
-            fixed: 'right',
-            align: 'center',
-            render: (h, params) => {
-              if (this.pageShow === 'button_upd') {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'success',
-                      size: 'small',
-                    },
-                    style: {
-                      display: this.pageShow == 'button_upd' ? "inline-block" : "none"
-                    },
-                    on: {
-                      click: () => {
-                        this.openUp(params.row.id, this.$t('button.upd'), params.index)
-                      },
-                    },
-                  }, this.$t('button.upd')),
-                  // h('Button', {
-                  //     props: {
-                  //         type: 'primary',
-                  //         size: 'small',
-                  //     },
-                  //     style: {
-                  //         display: this.pageShow == 'button_view' ? "inline-block" : "none"
-                  //     },
-                  //     on: {
-                  //         click: () => {
-                  //             this.openUp(params.row.id, '查看', params.index)
-                  //         },
-                  //     },
-                  // }, '查看'),
-                ])
-              } else if (this.pageShow == 'button_view') {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'primary',
-                      size: 'small',
-                    },
-                    style: {
-                      display: this.pageShow == 'button_view' ? "inline-block" : "none"
-                    },
-                    on: {
-                      click: () => {
-                        this.openUp(params.row.id, '查看', params.index)
-                      },
-                    },
-                  }, '查看'),
-                ])
-              }
-            }
-          },
+
         ],
+        /*列表操作项*/
+        tableBtn: {
+          title: '操作',
+          key: 'action',
+          width: 100,
+          fixed: 'right',
+          align: 'center',
+          render: (h, params) => {
+            let child = [];
+            for (let v of this.tableButton) {
+              child.push(h('Button', {
+                props: {
+                  type: v.type,
+                  size: 'small',
+                },
+                style: {
+                  marginRight: '5px',
+                  display: this.pageShow.indexOf(v.btnName) != -1 ? 'inline' : 'none',
+                },
+                on: {
+                  click: () => {
+                    this.openUp(params.row.id, v.name, params.index);
+                  },
+                },
+              }, v.name))
+            };
+            return h('div', [
+              child,
+            ])
+          },
+        },
         data: [],
         total: 0,
         index: 0,
@@ -284,7 +256,17 @@
         },
       }
     },
-    computed: {},
+    computed: {
+      pageShow () {
+        return this.$store.state.btnOperate.pageShow
+      },
+      tableButton () {
+        return this.$store.state.btnOperate.tableButton
+      },
+      tableOperate () {
+        return this.$store.state.btnOperate.tableOperate
+      }
+    },
     /*引入子页面初始化，js不需要*/
     components: {
       update,
@@ -292,6 +274,25 @@
       expwindow,
       expdow,
       importExcel,
+    },
+    //列表项的默认显示隐藏
+    created () {
+      if (this.pageShow != "") {
+        this.columns.push(this.tableBtn);
+        this.$store.commit('btnOperate/setTableOperate', 'true');
+      }
+    },
+    //单表不需要
+    watch:{
+      pageShow (val) {
+        if (val == "" && this.tableOperate == 'true') {
+          this.columns.pop();
+          this.$store.commit('btnOperate/setTableOperate', 'false');
+        } else if (this.tableOperate == 'false') {
+          this.columns.push(this.tableBtn);
+          this.$store.commit('btnOperate/setTableOperate', 'true');
+        }
+      }
     },
     mounted() {
       this.getData();
@@ -390,6 +391,7 @@
         this.openChart = false
       },//关闭员工转正图
       getData(id) {
+        //alert(1)
         const t = this
         const data = {
           _mt: 'empEmpofficial.getPage',

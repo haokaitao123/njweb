@@ -162,10 +162,10 @@ export default {
           /*必填验证*/
             ruleValidate: {
                 empIdName: [
-                    { required: true, message: "请选择员工信息", trigger: 'blur' },
+                    { required: true, message: "请选择员工姓名", trigger: 'blur' },
                 ],
                 empoffResult: [
-                    { required: true, message: "请输入员工评价结果", trigger: 'blur' },
+                    { required: true, message: "请填写试用期评价结论", trigger: 'blur' },
                 ]
             },
         }
