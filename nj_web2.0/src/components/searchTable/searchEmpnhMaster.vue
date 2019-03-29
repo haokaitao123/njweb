@@ -65,6 +65,12 @@ export default{
           sortable: 'postId',
           width: 100,
         },
+        {
+          title: '直接上级',
+          key: 'empnhPmpDis',
+          sortable: 'empnhPmp',
+          width: 100,
+        },
       ],
     }
   },
