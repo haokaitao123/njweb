@@ -39,14 +39,15 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        <span style="margin: 0;">
+                        <!-- <span style="margin: 0;">
                             <Button type="primary"
                                     icon="search"
                                     @click="search()">查询
                             </Button>
-                        </span>
+                        </span> -->
                        
-                        <btnList @buttonExport="btnEvent"
+                        <btnList @buttonExport="expData"
+                                @buttonImport="importExcel"
                                  @buttonAdd="openUp(NaN,$t('button.add'))"
                                  @buttonValid="modifystatus('02valid')"
                                  @buttonDraft="modifystatus('01draft')"
@@ -451,47 +452,47 @@ export default {
             console.log(res, "res54321")
         },
         // 导入导出默认方法 无需更改
-    closeImport() {
-      const t = this;
-      t.openImport = false;
-    },
-    // 导入导出默认方法 无需更改
-    importExcel() {
-      const t = this;
-      t.openImport = true;
-      t.$refs.importExcel.getDowModelFile();
-    },
-    // 导入导出默认方法
-    expData() {
-      const t = this;
-      // 填装查询条件
-      const data = {
-        unitCode: t.unitCode,
-        unitFname: t.unitFname,
-        unitType: t.unitType
-      };
-      // 设置导出mt参数
-      this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
-      this.openExp = true;
-    },
-    // 导入导出默认方法 无需更改
-    closeExp() {
-      const t = this;
-      t.openExp = false;
-    },
-    // 导入导出默认方法 无需更改
-    closeExpDowMain() {
-      const t = this;
-      t.openExpDow = false;
-    },
-    // 导入导出默认方法 无需更改
-    setFileKey(filekey, filename, openExpDow) {
-      const t = this;
-      t.filekey = filekey;
-      t.filename = filename;
-      t.openExpDow = openExpDow;
-      t.$refs.expdow.getPriToken(t.filekey);
-    },
+        closeImport() {
+            const t = this;
+            t.openImport = false;
+        },
+        // 导入导出默认方法 无需更改
+        importExcel() {
+            const t = this;
+            t.openImport = true;
+            t.$refs.importExcel.getDowModelFile();
+        },
+        // 导入导出默认方法
+        expData() {
+            const t = this;
+            // 填装查询条件
+            const data = {
+                unitCode: t.unitCode,
+                unitFname: t.unitFname,
+                unitType: t.unitType
+            };
+            // 设置导出mt参数
+            this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
+            this.openExp = true;
+        },
+        // 导入导出默认方法 无需更改
+        closeExp() {
+            const t = this;
+            t.openExp = false;
+        },
+        // 导入导出默认方法 无需更改
+        closeExpDowMain() {
+            const t = this;
+            t.openExpDow = false;
+        },
+        // 导入导出默认方法 无需更改
+        setFileKey(filekey, filename, openExpDow) {
+            const t = this;
+            t.filekey = filekey;
+            t.filename = filename;
+            t.openExpDow = openExpDow;
+            t.$refs.expdow.getPriToken(t.filekey);
+        },
         auth () {
             const t = this
             console.log(getBtnAuth(t), "res4321");
