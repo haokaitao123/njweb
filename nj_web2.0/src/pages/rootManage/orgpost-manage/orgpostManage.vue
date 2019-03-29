@@ -8,21 +8,27 @@
           &nbsp;{{$t('lang_organization.orgpost.title')}}
         </p>
         <Row>
-          <Col span="6" class="colTree" >
-            <div :loading="isloding"  class="divtree" :style="{height:treeheight + 'px'}">
-              <Tree v-if="dataTree != ''" :data="dataTree" @on-select-change="selectChange" :render="renderContent"></Tree>
-              <Spin v-if="loading" size="large" :style="{height:treeheight + 'px'}"></Spin>
-            </div>
-          </Col>
-          <Col span="18" style="width: 73.3333% !important">
+          
+          <Col span="18" style="width: 100% !important">
           <Row>
-            <Input :placeholder="$t('lang_organization.orgpost.postCodeInp')" style="width: 200px" v-model="postCode"/>
             <Input :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')" style="width: 200px" v-model="postFname"/>
+            <Select v-model="postDfpslevel"
+                                style="width: 200px">
+                            <Option :value="item.paramCode"
+                                    v-for="(item,index) in selectDfpslevel"
+                                    :key="index"
+                                    @click="getPageByType(item.paramCode)">
+                                {{item.paramInfoCn}}
+                            </Option>
+                        </Select>
+            
             <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
             <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
-
+            <Button type="primary"  @click="expData">导出</Button>
+             <Button type="primary" @click="importExcel">导入</Button>
             <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
           </Row>
+          <!--布置分页列表 变量通用 无需变更-->
           <row class="table-form" ref="table-form">
             <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
           </row>
@@ -33,28 +39,63 @@
       </card>
       </Col>
     </Row>
+    <!--布置子页面 v-show控制是否显示 :**是传递到子页面的值  @**是传递到子页面的方法 无需变更-->
     <transition name="fade">
       <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
+    </transition>
+     <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition >
+      <expwindow v-show="openExp" :id="tableselected" @setFileKey="setFileKey" :logType="logType"  :index="index" @closeExp="closeExp" ref="expwindow"></expwindow>
+    </transition>
+    <transition >
+      <expdow v-show="openExpDow" :filekey="filekey" :filename="filename"  @closeExpDowMain="closeExpDowMain" ref="expdow"></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel v-show="openImport" :impid="updateId" :imp_mt="imp_mt" @getData="getData"  @closeImport="closeImport"ref="importExcel"></importExcel>
     </transition>
   </div>
 </template>
 <script>
   import update from './orgpostInfoView'
+// 默认引用 无需变更
   import { isSuccess } from '../../../lib/util'
   import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
-
+  import expwindow from '../../../components/fileOperations/expSms'
+  import expdow from '../../../components/fileOperations/expdow'
+  import importExcel from '../../../components/importModel/importParam'
   export default{
     data() {
       return {
+          // 导入的mt名称
+        imp_mt: 'baseBankinfo.importData',
+        // 导出字段设置, code字段名 name列名
+        expDataTital: [{ code: 'postCode', name: '岗位编码' }, { code: 'postFnameCnDis', name: '岗位名称' },
+          { code: 'postStansalary', name: '岗位标准薪资' }, { code: 'postTrialsalary', name: '试用期薪资' },
+          { code: 'postCostsharing', name: '默认分摊成本' }, { code: 'seniorityWage', name: '工龄工资' },
+           { code: 'note', name: '备注' }],
+        // 导入导出默认参数 无需变更
+        openImport: false,
+        openExpDow: false,
+        openExp: false,
+        filekey: '',
+        filename: '',
+        // 子页面所需参数 无需变更
+        tableheight: document.body.offsetHeight - 280,
+        logType: '',
+        openUpdate: false,
+        updateId: NaN,
         loading: true,
         dataTree: [],
-        treeheight: document.body.offsetHeight - 200,
-        tableheight: document.body.offsetHeight - 280,
+        //treeheight: document.body.offsetHeight - 200,
+        //tableheight: document.body.offsetHeight - 280,
         value: '',
         logType: '',
         openUpdate: false,
         updateId: NaN,
         tableselected: [],
+        selectDfpslevel: [],
+        postDfpslevel:'',
+        postDfpslevelData:[],//
         columns: [
           {
             type: 'selection',
@@ -76,33 +117,78 @@
 //          width: 105,
             key: 'postFname',
           },
+          
           {
-            title: this.$t('lang_organization.orgpost.postSnameCnDis'),
+            title: this.$t('lang_organization.orgpost.postDfpslevel'),
+            key: 'postDfpslevelName',
+            sortable: 'custom',
             width: 180,
 //          width: 105,
-            key: 'postSname',
+          },
+            {
+            title: this.$t('lang_organization.orgpost.postStansalary'),
+            width: 180,
+//          width: 105,
+            key: 'postStansalary',
+          },
+            {
+            title: this.$t('lang_organization.orgpost.postTrialsalary'),
+            width: 180,
+//          width: 105,
+            key: 'postTrialsalary',
+          },
+          
+           {
+            title: this.$t('lang_organization.orgpost.postCostsharing'),
+            width: 180,
+//          width: 105,
+            key: 'postCostsharing',
+             render: (h, params) => {
+                        return h('div', params.row.postCostsharing == 1 ? "分摊" : "不分摊")
+                    }
           },
           {
-            title: this.$t('lang_organization.orgpost.postUnitName'),
-            key: 'postUnitName',
+           title: this.$t('lang_organization.orgpost.seniorityWage'),
+            width: 180,
+//          width: 105,
+            key: 'seniorityWage',
+             render: (h, params) => {
+                        return h('div', params.row.seniorityWage == 1 ? "有" : "无")
+                    }
+           
+          },
+        {
+            title: this.$t('lang_organization.orgpost.postStation'),
+            width: 180,
+//          width: 105,
+            key: 'postStation',
+            render: (h, params) => {
+                        return h('div', params.row.postStation == 1 ? "是" : "否")
+                    }
+           },
+
+          {
+            title: this.$t('lang_organization.orgpost.postValiddate'),
+            key: 'postValiddate',
             sortable: 'custom',
             width: 180,
 //          width: 105,
           },
           {
-            title: this.$t('lang_organization.orgpost.validdate'),
-            key: 'validdate',
+            title: this.$t('lang_organization.orgpost.postInvdate '),
+            key: 'postInvdate',
             sortable: 'custom',
             width: 180,
 //          width: 105,
           },
-          {
-            title: this.$t('lang_organization.orgpost.invdate '),
-            key: 'invdate',
+           {
+            title: this.$t('lang_organization.orgpost.postReason '),
+            key: 'postReason',
             sortable: 'custom',
             width: 180,
 //          width: 105,
           },
+           
           {
             title: this.$t('button.opr'),
             key: 'action',
@@ -130,7 +216,7 @@
         total: 0,
         index: 0,
         sort: 'postCode',
-        order: 'asc',
+        order: 'desc',
         rows: 10,
         page: 1,
         funId: '1000',
@@ -143,11 +229,18 @@
 
     },
     components: {
+     // 初始化子页面
       update,
+      expwindow,
+      expdow,
+      importExcel,
     },
+    //初始化自动调用方法
     mounted() {
       this.getData()
-      this.getTree()
+      //this.getTree()
+      this.getSelect()
+      this.postDfpslevelSelect();
     },
     methods: {
       getData(id) {
@@ -162,6 +255,7 @@
           postCode: t.postCode,
           funId: '1000',
           postFname: t.postFname,
+          postDfpslevel: t.postDfpslevel,
           postUnit: id || '',
         }
         for (const dat in data) {
@@ -181,75 +275,8 @@
           })
         })
       },
-      getTree() {
-        const t = this
-        const data = {
-          _mt: 'orgPost.getTree',
-          rows: 100,
-          page: 1,
-          sort: 'id',
-          order: 'asc',
-          logType: this.$t('button.ser'),
-          id: '0',
-        }
-        for (const dat in data) {
-          if (data[dat] === '') {
-            delete data[dat]
-          }
-        }
-        getDataLevelUserLoginNew(data).then((res) => {
-          if (isSuccess(res, t)) {
-            t.loading = false
-            setTimeout(() => {
-              t.dataTree = t.toTree(res.data.content[0].value)
-            }, 500)
-          }
-        }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
-        })
-      },
-      /* 树点击事件 */
-      selectChange(e) {
-        this.treeid = e.id
-        this.page = 1
-        this.getData(e.id)
-      },
-      /* 把后台数据转化为tree的格式 */
-      toTree(data) {
-        data.forEach((item) => {
-          item.expand = false
-          item.checked = item.authRoleFunDis === '1'
-          item.title = item.postCode
-          delete item.children
-        })
-        const map = {}
-        data.forEach((item) => {
-          map[item.id] = item
-        })
-        const val = []
-        data.forEach((item) => {
-          const parent = map[item.postUnit]
-          if (parent) {
-            (parent.children || (parent.children = [])).push(item)
-          } else {
-            val.push(item)
-          }
-        })
-        return val
-      },
-      addNewArray(res) {
-        const t = this
-        t.data.unshift(res)
-        t.getTree()
-      },
-      updateArray(res) {
-        const t = this
-        t.data.splice(t.index, 1, res)
-        t.getTree()
-      },
+
+     
       sortable(column) {
         this.sort = column.key
         this.order = column.order
@@ -296,7 +323,7 @@
         }).then((res) => {
           if (isSuccess(res, t)) {
             t.tableselected = []
-            t.getTree()
+           // t.getTree()
             t.getData()
           }
         }).catch(() => {
@@ -334,24 +361,76 @@
         t.openUpdate = false
         t.$refs.update.formValidate.postCode = ''
         t.$refs.update.formValidate.postFname = ''
-        t.$refs.update.formValidate.postSname = ''
+        t.$refs.update.formValidate.seniorityWage = ''
         t.$refs.update.formValidate.postDfpslevel = ''
-        t.$refs.update.formValidate.postDfsallevel = ''
-        t.$refs.update.formValidate.postDftrvlevel = ''
-        t.$refs.update.formValidate.postUnit = ''
-        t.$refs.update.postDfcostcenterName = ''
-        t.$refs.update.postDfcostcenter = ''
-        t.$refs.update.postUnitName = ''
-        t.$refs.update.formValidate.validdate = ''
-        t.$refs.update.formValidate.invdate = ''
-        t.$refs.update.formValidate.invreason = ''
-        t.$refs.update.formValidate.comment = ''
+        t.$refs.update.formValidate.postStansalary = ''
+        t.$refs.update.formValidate.postTrialsalary = ''
+        t.$refs.update.formValidate.postCostsharing = ''
+        t.$refs.update.formValidate.postStation = ''
+        t.$refs.update.formValidate.postValiddate = ''
+        t.$refs.update.formValidate.postInvdate = ''
+        t.$refs.update.formValidate.postReason = ''
+        t.$refs.update.formValidate.note = ''
       },
       search() {
         this.treeid = ''
         this.page = 1
         this.getData()
       },
+      // 导入导出默认方法 无需更改
+      closeImport() {
+        const t = this
+        t.openImport = false
+      },
+      // 导入导出默认方法 无需更改
+      importExcel() {
+        const t = this
+        t.openImport = true
+        t.$refs.importExcel.getDowModelFile()
+      },
+      // 导入导出默认方法
+      expData() {
+        const t = this
+        // 填装查询条件
+        const data = {
+          bankCode: t.bankCode,
+          bankCname: t.bankCname,
+          bankSwiftcode: t.bankSwiftcode,
+        }
+        // 设置导出mt参数
+        this.$refs.expwindow.getData(this.expDataTital, 'baseBankinfo.export', data)
+        this.openExp = true
+      },
+      // 导入导出默认方法 无需更改
+      closeExp() {
+        const t = this
+        t.openExp = false
+      },
+      // 导入导出默认方法 无需更改
+      closeExpDowMain() {
+        const t = this
+        t.openExpDow = false
+      },
+      // 导入导出默认方法 无需更改
+      setFileKey(filekey, filename, openExpDow) {
+        const t = this
+        t.filekey = filekey
+        t.filename = filename
+        t.openExpDow = openExpDow
+        t.$refs.expdow.getPriToken(t.filekey)
+      },
+      // 子页面新增数据后添加到本页面分页第一行  无需更改
+      addNewArray(res) {
+        const t = this
+        t.data.unshift(res)
+      },
+      // 子页面修改数据后 本页面修改对应行数的数据 无需更改
+      updateArray(res) {
+        const t = this;
+        console.log(res,"res");
+        t.data.splice(t.index, 1, res)
+      },
+
       renderContent(h, { root, node, data }) {
         return h('span', {
           style: {
@@ -382,6 +461,54 @@
             ]),
           ])
       },
+       postDfpslevelSelect () {
+           //alert("12323");
+            const t = this;
+            t.postDfpslevelData = []
+            getDataLevelUserLogin({
+                _mt: 'baseParmInfo.getSelectValue',
+                logType: t.logType,
+                typeCode: "postlevel"
+            }).then((res) => {
+                if (isSuccess(res, t)) {
+                    t.postDfpslevelData = res.data.content[0].value[0].paramList;
+                    let obj = {
+                        'paramCode': '',
+                        'paramInfoCn': '全部'
+                    }
+                    t.postDfpslevelData.unshift(obj);
+                }
+            }).catch(() => {
+                this.$Modal.error({
+                    title: this.$t('reminder.err'),
+                    content: this.$t('reminder.errormessage'),
+                })
+            })
+        },// 组织类别下拉列表数据
+     getSelect() {
+      const t = this;
+      getDataLevelUserLogin({
+        _mt: "baseParmInfo.getSelectValue",
+        typeCode: "postlevel"
+      })
+        .then(res => {
+          if (isSuccess(res, t)) {
+            t.selectDfpslevel = res.data.content[0].value[0].paramList;
+           
+          }
+        })
+        .catch(() => {
+          this.$Modal.error({
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
+          });
+        });
+    },
+        getPageByType (paramCode) {
+            this.unitTypeId = paramCode
+            this.getData(1)
+        }//根据类型获取列表
+    
     },
   }
 </script>
