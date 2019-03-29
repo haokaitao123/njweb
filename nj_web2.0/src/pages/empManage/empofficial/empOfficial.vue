@@ -18,7 +18,7 @@
                        style="width: 200px"
                        v-model="empIdIden"/>
                 <!--状态选择框-->
-                <template>
+               <!-- <template>
                   <Select v-model="state" clearable style="width:200px" @on-change="getData()">
                     <Option v-for="item in StateCode" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
@@ -40,7 +40,12 @@
                         </span>
                 <span style="margin: 0;" v-show="true">
                             <Button type="success" @click="">导出</Button>
-                        </span>
+                        </span>-->
+                <btnList @buttonExport="btnEvent"
+                         @buttonAdd="openUp(NaN,$t('button.add'))"
+                         @buttonDel="deletemsg()"
+                         @buttonValid="setState('02empoff')"
+                         @moditySelct="modityChange"></btnList>
               </Row>
               <!--table-->
               <row class="table-form"
@@ -99,6 +104,7 @@
   import {isSuccess} from '../../../lib/util'
   // import { getBtnAuth } from '../../../lib/authorityBtn'
   import {getDataLevelUserLoginNew, getDataLevelUserLogin} from '../../../axios/axios'
+  import btnList from '../../../components/btnAuth/btnAuth.js'
 
   export default {
     data() {
@@ -173,20 +179,56 @@
             fixed: 'right',
             align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small',
-                  },
-                  on: {
-                    click: () => {
-                      this.openUp(params.row.id, this.$t('button.upd'), params.index)
+              if (this.pageShow === 'button_upd') {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'success',
+                      size: 'small',
                     },
-                  },
-                }, this.$t('button.upd')),
-              ])
-            },
+                    style: {
+                      display: this.pageShow == 'button_upd' ? "inline-block" : "none"
+                    },
+                    on: {
+                      click: () => {
+                        this.openUp(params.row.id, this.$t('button.upd'), params.index)
+                      },
+                    },
+                  }, this.$t('button.upd')),
+                  // h('Button', {
+                  //     props: {
+                  //         type: 'primary',
+                  //         size: 'small',
+                  //     },
+                  //     style: {
+                  //         display: this.pageShow == 'button_view' ? "inline-block" : "none"
+                  //     },
+                  //     on: {
+                  //         click: () => {
+                  //             this.openUp(params.row.id, '查看', params.index)
+                  //         },
+                  //     },
+                  // }, '查看'),
+                ])
+              } else if (this.pageShow == 'button_view') {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'primary',
+                      size: 'small',
+                    },
+                    style: {
+                      display: this.pageShow == 'button_view' ? "inline-block" : "none"
+                    },
+                    on: {
+                      click: () => {
+                        this.openUp(params.row.id, '查看', params.index)
+                      },
+                    },
+                  }, '查看'),
+                ])
+              }
+            }
           },
         ],
         data: [],
@@ -234,6 +276,7 @@
     /*引入子页面初始化，js不需要*/
     components: {
       update,
+      btnList,
     },
     mounted() {
       this.getData();

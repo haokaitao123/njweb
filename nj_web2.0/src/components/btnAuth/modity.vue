@@ -31,10 +31,6 @@ export default {
         },
         statusDis: '',
         status: '',
-        // operate: {
-        //     type: Array,
-        //     default: [],
-        // },
     },
     mounted () {
 
@@ -53,7 +49,6 @@ export default {
                 "funName": funName
             }
             let array = this.operate;
-            console.log(this.operate, "this.operate");
             let temp = [];
             let pageShow = ""
             for (var i = 0; i < array.length; i++) {
@@ -62,7 +57,7 @@ export default {
                 }
             }
             if (temp.length > 1) {
-                pageShow = "button_upd";
+                pageShow = "button_opt_upd";
                 this.$store.commit('btnOperate/setPageShow', pageShow);
             } else if (temp.length == 1) {
                 this.$store.commit('btnOperate/setPageShow', temp[0]);

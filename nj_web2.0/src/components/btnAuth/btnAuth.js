@@ -1,5 +1,6 @@
 import normalBtn from './normalBtn.vue' // 按钮
-import modity from './modity.vue' // 按钮
+import modity from './modity.vue' // 类型下拉选择框
+import search from './search.vue' // 搜索按钮
 import {
   getDataLevelUserLogin
 } from '../../axios/axios'
@@ -20,7 +21,7 @@ export default {
       status: "", //类型默认id
       btnName: "", //按钮名称
       bType: "primary", //按钮类型
-      newBtnList: []
+      newBtnList: [] //排序过滤后的按钮数据
     }
   },
   props: {},
@@ -33,10 +34,15 @@ export default {
     },
   },
   components: {
-    normalBtn,
-    modity
+    normalBtn, //普通按钮
+    modity, //类型选择
+    search //搜索按钮
   },
   methods: {
+    /**
+     *获取按钮权限数据
+     *
+     */
     getBtnAuth() {
       const t = this
       let data = {
@@ -52,80 +58,21 @@ export default {
           console.log(res, "res123");
         }
       })
-    }, //获取按钮权限
-    btnType(data) {
-      let bType = "primary";
-      let btnName = ""
-      //   this.bType = "primary"
-      switch (data) {
-        case "button_add":
-          btnName = '新增'
-          break
-        case "button_del":
-          btnName = '删除'
-          break
-        case "button_upd":
-          btnName = '修改'
-          break
-        case "button_draft":
-          btnName = '编辑'
-          break
-        case "button_save":
-          btnName = '保存'
-          break
-        case "button_submit":
-          btnName = '提交'
-          break
-        case "button_return":
-          btnName = '返回'
-          break
-        case "button_cancel":
-          btnName = '取消'
-          break
-        case "button_confirm":
-          btnName = '确认'
-          break
-        case "button_invalid":
-          btnName = '失效'
-          bType = 'error';
-          break
-        case "button_valid":
-          btnName = '生效';
-          bType = 'success';
-          break
-        case "button_export":
-          btnName = '导出'
-          break
-        case "button_import":
-          btnName = '导入'
-          break
-        case "button_copy":
-          btnName = '复制'
-          break
-        case "button_release":
-          btnName = '释放'
-          break
-        case "button_init":
-          btnName = '初始化'
-          break
-        case "button_view":
-          btnName = '查看'
-          break
-        case "button_unitChart":
-          btnName = '组织架构图'
-          break
-      }
-      let obj = {
-        "bType": bType,
-        "btnName": btnName,
-      }
-      return obj;
-    }, //按钮类别
+    },
+    /**
+     *排序方法
+     *
+     * @param {*} arr
+     */
     sort(arr) {
       arr.sort((a, b) => {
         return a.btnOrder < b.btnOrder;
       });
-    }, //排序
+    },
+    /**
+     * 按钮数据排序过滤
+     *
+     */
     btnListFilter() {
       const t = this;
       let result = this.modityList.some(function (item, index, array) {
@@ -150,12 +97,16 @@ export default {
         t.status = t.btnList[0].funStatecode;
         this.$store.commit('btnState/setModity', t.status)
       };
-    }, //数据过滤
+    },
+    /**
+     *过滤页面表格列按钮
+     *
+     */
     viewFilter() {
       let data = this.newBtnList;
       let newArr = [];
       for (var i = 0; i < data.length; i++) {
-        if (data[i].btnLancode != "button_view" && data[i].btnLancode != "button_upd") {
+        if (data[i].btnLancode != "button_opt_view" && data[i].btnLancode != "button_opt_upd") {
           newArr.push(data[i]);
         } else {
           var obj = {
@@ -167,7 +118,11 @@ export default {
       }
       this.newBtnList = newArr;
       this.$store.commit('btnOperate/setPageOperate', this.operate)
-    }, //去除页面表格列按钮
+    },
+    /**
+     * 列表按钮默认显示
+     *
+     */
     operateFilter() {
       let array = this.operate;
       let temp = [];
@@ -178,11 +133,17 @@ export default {
         }
       }
       if (temp.length > 1) {
-        pageShow = "button_upd";
+        pageShow = "button_opt_upd";
         this.$store.commit('btnOperate/setPageShow', pageShow);
       }
       this.$store.commit('btnOperate/setPageShow', temp[0]);
     },
+    /**
+     * 按钮事件名称配置
+     *
+     * @param {*} res
+     * @returns
+     */
     eventName(res) {
       let name = "";
       switch (res) {
@@ -239,11 +200,86 @@ export default {
           break
       }
       return name;
-    } //按钮事件名称
+    },
+    /**
+     * 按钮名称配置
+     *
+     * @param {*} 按钮类型
+     * @returns
+     */
+    btnType(data) {
+      let bType = "primary";
+      let btnName = ""
+      //   this.bType = "primary"
+      switch (data) {
+        case "button_add":
+          btnName = '新增'
+          break
+        case "button_del":
+          btnName = '删除'
+          break
+        case "button_opt_upd":
+          btnName = '修改'
+          break
+        case "button_draft":
+          btnName = '编辑'
+          break
+        case "button_save":
+          btnName = '保存'
+          break
+        case "button_submit":
+          btnName = '提交'
+          break
+        case "button_return":
+          btnName = '返回'
+          break
+        case "button_cancel":
+          btnName = '取消'
+          break
+        case "button_confirm":
+          btnName = '确认'
+          break
+        case "button_invalid":
+          btnName = '失效'
+          bType = 'error';
+          break
+        case "button_valid":
+          btnName = '生效';
+          bType = 'success';
+          break
+        case "button_export":
+          btnName = '导出'
+          break
+        case "button_import":
+          btnName = '导入'
+          break
+        case "button_copy":
+          btnName = '复制'
+          break
+        case "button_release":
+          btnName = '释放'
+          break
+        case "button_init":
+          btnName = '初始化'
+          break
+        case "button_opt_view":
+          btnName = '查看'
+          break
+        case "button_unitChart":
+          btnName = '组织架构图'
+          break
+      }
+      let obj = {
+        "bType": bType,
+        "btnName": btnName,
+      }
+      return obj;
+    },
   },
   render: function (createElement) {
     const t = this;
     let nodes = [];
+    //如果有选择下拉框
     if (this.isFlowNode == "0") {
       let child = [];
       for (let v of this.modityList[0].funBtnList) {
@@ -265,6 +301,7 @@ export default {
     } else if (this.isFlowNode == "1") {
       let moditySelect = [];
       let child = [];
+      let searchBtn = [];
       let data = t.newBtnList
       for (let v of data) {
          console.log(v);
@@ -282,8 +319,10 @@ export default {
             }
           },
         }))
-        nodes.push(child)
+
       };
+      nodes.push(child)
+      //类型选择组件添加
       moditySelect.push(createElement('modity', {
         props: {
           dropdownMenuList: this.modityList,
@@ -296,7 +335,16 @@ export default {
           }
         }
       }))
+      searchBtn.push(createElement('search', {
+        props: {},
+        on: {
+          'Search': () => {
+            t.$emit('buttonSearch')
+          }
+        }
+      }))
       nodes.unshift(moditySelect);
+      nodes.unshift(searchBtn);
       this.$store.commit('btnOperate/setPageOperate', t.operate);
     }
     return createElement('div', {
