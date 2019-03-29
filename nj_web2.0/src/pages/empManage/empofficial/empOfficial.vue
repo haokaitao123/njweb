@@ -41,11 +41,12 @@
                 <span style="margin: 0;" v-show="true">
                             <Button type="success" @click="">导出</Button>
                         </span>-->
-                <btnList @buttonExport="btnEvent"
+                <btnList
+                           @moditySelct="changemodity"
                          @buttonAdd="openUp(NaN,$t('button.add'))"
                          @buttonDel="deletemsg()"
                          @buttonValid="setState('02empoff')"
-                         @moditySelct="modityChange"></btnList>
+                         ></btnList>
               </Row>
               <!--table-->
               <row class="table-form"
@@ -282,6 +283,12 @@
       this.getData();
     },
     methods: {
+      changemodity(res){
+        console.log(res,"res");
+          alert(1);
+        //this.state = res.funStatecode
+        this.getData()
+      },
       // 勾选数据方法 无需更改
       selectedtable(selection) {
         const newArr = []
