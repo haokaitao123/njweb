@@ -365,6 +365,7 @@ export default {
       let searchBtn = [];
       let data = t.newBtnList
       for (let v of data) {
+         console.log(v);
         let res = t.btnType(v.btnLancode);
         child.push(createElement('normalBtn', {
           props: {

@@ -18,31 +18,10 @@
                        style="width: 200px"
                        v-model="empIdIden"/>
                 <!--状态选择框-->
-               <!-- <template>
-                  <Select v-model="state" clearable style="width:200px" @on-change="getData()">
-                    <Option v-for="item in StateCode" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
-                </template>
-                <span style="margin: 0;">
-                          <Button type="primary" icon="search" @click="search()">查询</Button>
-                        </span>
-                <span style="margin: 0;" v-show="state ==='01empoff' ? true : false">
-                            <Button type="success" @click="openUp(NaN,$t('button.add'))">新增</Button>
-                        </span>
-                <span style="margin: 0;" v-show="state ==='01empoff' ? true : false">
-                            <Button type="success" @click="deletemsg()">删除</Button>
-                        </span>
-                <span style="margin: 0;" v-show="state ==='01empoff' ? true : false">
-                            <Button type="primary" @click="setState('02empoff')">转正</Button>
-                        </span>
-                <span style="margin: 0;" v-show="state ==='01empoff' ? true : false">
-                            <Button type="error" @click="">导入</Button>
-                        </span>
-                <span style="margin: 0;" v-show="true">
-                            <Button type="success" @click="">导出</Button>
-                        </span>-->
-                <btnList
-                           @moditySelct="changemodity"
+                <btnList @buttonExport="expData"
+                         @buttonSearch="getData"
+                         @buttonImport="importExcel"
+                         @moditySelct="changemodity"
                          @buttonAdd="openUp(NaN,$t('button.add'))"
                          @buttonDel="deletemsg()"
                          @buttonValid="setState('02empoff')"
@@ -97,6 +76,37 @@
               @closeUp="closeUp"
               ref="update"></update>
     </transition>
+    <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
+    </transition>
   </div>
 </template>
 <script>
@@ -106,20 +116,28 @@
   // import { getBtnAuth } from '../../../lib/authorityBtn'
   import {getDataLevelUserLoginNew, getDataLevelUserLogin} from '../../../axios/axios'
   import btnList from '../../../components/btnAuth/btnAuth.js'
+  import expwindow from "../../../components/fileOperations/expSms";
+  import expdow from "../../../components/fileOperations/expdow";
+  import importExcel from "../../../components/importModel/importParam";
 
   export default {
     data() {
       return {
-        /*状态code*/
-        StateCode: [
-          {
-            value: '01empoff',
-            label: '待转正'
-          },
-          {
-            value: '02empoff',
-            label: '已转正'
-          }
+        // 导入导出默认参数 无需变更
+        openImport: false,
+        openExpDow: false,
+        openExp: false,
+        filekey: "",
+        filename: "",
+        imp_mt: "empEmpofficial.importData",
+        // 导出字段设置, code字段名 name列名
+        expDataTital: [
+          { code: "empIdName", name: "员工姓名" },
+          { code: "empIdIden", name: "证件号码" },
+          { code: "deptIdDis", name: "部门" },
+          { code: "postIdDis", name: "岗位" },
+          { code: "empoffResult", name: "试用期评价结果" },
+          { code: "note", name: "备注" },
         ],
         openChart: false,
         loading: true,
@@ -136,42 +154,35 @@
           {
             type: 'selection',
             width: 54,
-            fixed: 'left',
+
             align: 'center',
           },
           {
             title: "员工姓名",
             key: 'empIdName',
             width: 140,
-            fixed: 'left',
             sortable: 'empId',
           },
           {
             title: "证件号码",
-            width: 180,
+            width: 140,
             key: 'empIdIden',
           },
           {
             title: "部门",
             width: 140,
             key: 'deptIdDis',
-            sortable: 'deptId',
           },
           {
             title: "岗位",
-            width: 180,
-            key: 'postIdDis',
-            sortable: 'postId',
-          },
-          {
-            title: "员工类型",
-            key: 'empoffType',
             width: 140,
+            key: 'postIdDis',
+
           },
           {
             title: "试用期评价",
             key: 'empoffResult',
-            width: 140,
+            width: 200,
           },
           {
             title: this.$t('button.opr'),
@@ -246,7 +257,7 @@
         empIdIden: '',
         openPick: false,
         params: {
-          _mt: 'empEmpnh.getPage',
+          _mt: 'empEmpofficial.getPage',
           sort: 'id',
           order: 'asc',
           rows: 10,
@@ -278,6 +289,9 @@
     components: {
       update,
       btnList,
+      expwindow,
+      expdow,
+      importExcel,
     },
     mounted() {
       this.getData();
@@ -285,8 +299,9 @@
     methods: {
       changemodity(res){
         console.log(res,"res");
-          alert(1);
-        //this.state = res.funStatecode
+         //alert(1);
+          //alert(res.funStatecode);
+        this.state = res.funStatecode
         this.getData()
       },
       // 勾选数据方法 无需更改
@@ -367,13 +382,6 @@
           })
         }
       },
-
-      /*导入*/
-      import() {
-      },
-      /*导出*/
-      export() {
-      },
       closeFrame() {
         const t = this
         t.openPick = false
@@ -431,13 +439,6 @@
         t.page = page
         t.getData(this.treeid)
       },//分页
-      selectedtable(selection) {
-        const newArr = []
-        for (let i = 0; i < selection.length; i++) {
-          newArr.push(selection[i].id)
-        }
-        this.tableselected = newArr.toString()
-      },//列表中选中的item
       openUp(id, logType, index) {
         const t = this
         t.updateId = parseInt(id, 10)
@@ -458,6 +459,7 @@
         t.data.splice(t.index, 1, res)
         t.getTree()
       },*/
+      //关闭
       closeUp() {
         const t = this
         t.openUpdate = false
@@ -465,8 +467,11 @@
         t.$refs.update.formValidate.empIdName = ''
         t.$refs.update.formValidate.deptIdDis = ''
         t.$refs.update.formValidate.postIdDis = ''
+        t.$refs.update.formValidate.deptId = ''
+        t.$refs.update.formValidate.postId = ''
         t.$refs.update.formValidate.empoffResult = ''
         t.$refs.update.formValidate.empoffDocument = ''
+        t.getData()
       },//关闭窗口
       selected(key, name) {
         this.select = name
@@ -478,6 +483,50 @@
         this.page = 1
         this.getData()
       },
+      /*导入、导出*/
+      // 导入导出默认方法 无需更改
+      closeImport() {
+        const t = this;
+        t.openImport = false;
+      },
+      // 导入导出默认方法 无需更改
+      importExcel() {
+        const t = this;
+        t.openImport = true;
+        t.$refs.importExcel.getDowModelFile();
+      },
+      // 导入导出默认方法
+      expData() {
+        const t = this;
+        // 填装查询条件
+        const data = {
+          empIdName: t.empIdName,
+          empIdIden: t.empIdIden,
+          state: t.state
+        };
+        // 设置导出mt参数
+        this.$refs.expwindow.getData(this.expDataTital, "empEmpofficial.export", data);
+        this.openExp = true;
+      },
+      // 导入导出默认方法 无需更改
+      closeExp() {
+        const t = this;
+        t.openExp = false;
+      },
+      // 导入导出默认方法 无需更改
+      closeExpDowMain() {
+        const t = this;
+        t.openExpDow = false;
+      },
+      // 导入导出默认方法 无需更改
+      setFileKey(filekey, filename, openExpDow) {
+        const t = this;
+        t.filekey = filekey;
+        t.filename = filename;
+        t.openExpDow = openExpDow;
+        t.$refs.expdow.getPriToken(t.filekey);
+      },
+
     },
   }
 </script>

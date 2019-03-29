@@ -133,7 +133,7 @@
                   type="textarea"
                   :autosize="{minRows: 2,maxRows: 5}"
                   :placeholder="$t('lang_organization.orgpost.postReasonInp')"
-                ></Input>
+                />
               </FormItem>
             </i-col>
             <i-col span="23">
@@ -143,7 +143,7 @@
                   type="textarea"
                   :autosize="{minRows: 2,maxRows: 5}"
                   :placeholder="$t('lang_organization.orgpost.noteInp')"
-                ></Input>
+                />
               </FormItem>
             </i-col>
           </Form>

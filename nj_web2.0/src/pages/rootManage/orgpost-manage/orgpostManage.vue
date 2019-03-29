@@ -13,7 +13,8 @@
           <Row>
             <Input :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')" style="width: 200px" v-model="postFname"/>
             <Select v-model="postDfpslevel"
-                                style="width: 200px">
+                                style="width: 200px"
+                                 placeholder="请选择职位级别">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectDfpslevel"
                                     :key="index"

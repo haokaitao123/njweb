@@ -3,16 +3,16 @@
     <div class="backbox">
       <div class="title">
         <div class="title-text">
-          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>&nbsp;{{$t('lang_personalfile.fileQuery.searchTitle2')}}
+          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>&nbsp;{{$t('选择用户')}}
         </div>
         <Button type="text"  @click="close">
           <Icon type="close-round" size="16"></Icon>
         </Button>
       </div>
       <Row class="table-form">
-        <Input :placeholder="searchText" style="width: 200px" v-model="empnhName"/>
-        <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">查询</Button></span>
-        <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">清空</Button></span>
+        <Input :placeholder="searchText" style="width: 200px" v-model="userName"/>
+        <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
+        <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">{{$t('button.cle')}}</Button></span>
       </Row>
       <row class="table-form" ref="table-form">
         <Table height="320" size="small" border ref="selection" :columns="searchCloumns" @on-sort-change="sortable" :data="data" @on-row-dblclick="dbCkick"></Table>
@@ -30,53 +30,33 @@ export default{
     return {
       data: [],
       total: NaN,
-      empnhName: '',
-      searchText: '选择员工信息',
+      userName: '',
+      searchText: this.$t('请输入用户名'),
       params: {
-        _mt: 'empEmpnh.getPage',
+        _mt: 'userMgmt.getSearchUserPage',
         sort: 'id',
-        order: 'desc',
+        order: 'asc',
         rows: 10,
         page: 1,
-        logType: '员工弹出框',
+        logType: '用户弹出框',
       },
       searchCloumns: [
         {
-          title: '员工姓名',
-          key: 'empnhName',
-          sortable: 'empnhName',
-          width: 100,
+          title: this.$t('用户名称'),
+          key: 'name',
+          sortable: 'custom',
+          width: 379,
         },
         {
-          title: '证件号码',
-          key: 'empnhIdno',
-          sortable: 'empnhIdno',
-          width: 100,
-        },
-        {
-          title: '部门',
-          key: 'deptIdDis',
-          sortable: 'deptId',
-          width: 100,
-        },
-        {
-          title: '岗位',
-          key: 'postIdDis',
-          sortable: 'postId',
-          width: 100,
-        },
-        {
-          title: '直接上级',
-          key: 'empnhPmpDis',
-          sortable: 'empnhPmp',
-          width: 100,
+          title: this.$t('手机号码'),
+          key: 'mobileNo',
+          sortable: 'custom',
+          width: 379,
         },
       ],
     }
   },
   props: {
-    empcompHirecompany: '',
-    empcompDept: '',
   },
   mounted() {
 
@@ -88,8 +68,7 @@ export default{
         t.params.page = page
       }
       const data = deepCopy(t.params)
-      data.empnhName   = t.empnhName
-     // data.empnhIdno = t.empnhName
+      data['name'] = t.userName
       for (const dat in data) {
         if (data[dat] === '') {
           delete data[dat]
@@ -108,20 +87,25 @@ export default{
       })
     },
     close() {
-      this.empnhName = ''
+      this.sort = 'id'
+      this.order = 'desc'
       this.params.page = 1
-      this.$emit('closeEmp')
+      this.userName = ''
+      this.$emit('closeUp')
     },
     dbCkick(row) {
       const t = this
       this.close()
-      t.$emit('inputEmp', row)
-      t.$emit('closeEmp')
+      this.$emit('changeinput', row)
+      this.$emit('closeUp')
     },
     clear() {
-      this.empnhName = ''
+      this.sort = 'id'
+      this.order = 'desc'
+      this.params.page = 1
+      this.userName = ''
       this.$emit('clear')
-      this.$emit('closeEmp')
+      this.$emit('closeUp')
     },
     sizeChange(size) {
       const t = this
@@ -135,8 +119,8 @@ export default{
     },
     sortable(column) {
       this.params.sort = column.key
+      this.params.order = column.order
       if (column.order !== 'normal') {
-        this.params.order = column.order
         this.getData()
       } else {
         this.params.order = 'desc'
