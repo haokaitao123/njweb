@@ -27,21 +27,21 @@
               <Input v-model="formValidate.sffName" :placeholder="$t('lang_sysform.formField.p_sffFieldNameCnDis')"></Input>
             </FormItem>
           </i-col>
-          <i-col span="11" >
+          <i-col span="11" offset="1">
             <FormItem :label="$t('lang_sysform.formField.sffType')"  prop="sffType">
               <Select  v-model="formValidate.sffType">
                 <Option :value="item.paramCode" v-for="(item,index) in fieldphyTypeOption" :key="index">{{item.paramInfoCn}}</Option>
               </Select>
             </FormItem>
           </i-col>
-          <i-col span="11" offset="1">
+          <i-col span="11" >
             <FormItem :label="$t('lang_sysform.formField.sffIsvalid')" prop="sffIsvalid">
               <RadioGroup  v-model="formValidate.sffIsvalid">
                 <Radio :label="item.paramCode" v-for="(item,index) in yerOrNoOption" :key="index">{{item.paramInfoCn}}</Radio>
               </RadioGroup>
             </FormItem>
           </i-col>
-          <i-col span="11">
+          <i-col span="11" offset="1">
             <FormItem :label="$t('lang_sysform.formField.sffLayout')" prop="sffLayout">
               <Select  v-model="formValidate.sffLayout" @on-change="setLayOut" :placeholder="$t('lang_sysform.formField.p_sffLayout')">
                 <Option :value="item.paramCode" v-for="(item,index) in layOutOption" :key="index">{{item.paramInfoCn}}</Option>
