@@ -45,55 +45,7 @@
                                     @click="search()">查询
                             </Button>
                         </span>
-                        <!-- <Dropdown v-show="modify">
-                            <Button type="primary">
-                                {{statusDis}}
-                                <Icon type="arrow-down-b"></Icon>
-                            </Button>
-                            <DropdownMenu slot="list">
-                                <span v-for="(item,index) in dropdownMenuList"
-                                      :key="index"
-                                      @click="getPageByState(item.funStatecode,item.funName)">
-                                    <DropdownItem>{{item.funName}}</DropdownItem>
-                                </span>
-                            </DropdownMenu>
-                        </Dropdown>
-                        
-                        <Button type="primary"
-                                @click="openUp(NaN,$t('button.add'))"
-                                v-show="status ==='00all' || status ==='01draft' ? true : false">
-                            新增
-                        </Button>
-                        <span style="margin: 0;"
-                              v-show="status ==='01draft' ? true : false">
-                            <Button type="success"
-                                    @click="modifystatus('02valid')">
-                                生效
-                            </Button>
-                        </span>
-                        <span style="margin: 0;"
-                              v-show="status ==='02valid' ? true : false">
-                            <Button type="primary"
-                                    @click="modifystatus('01draft')">
-                                编辑
-                            </Button>
-                        </span>
-                        <span style="margin: 0;"
-                              v-show="status ==='02valid' ? true : false">
-                            <Button type="error"
-                                    @click="modifystatus('03invalid')">
-                                失效
-                            </Button>
-                        </span>
-                        <span style="margin: 0;"
-                              v-show="status ==='03invalid' ? true : false">
-                            <Button type="success"
-                                    @click="modifystatus('02valid')">
-                                生效
-                            </Button>
-                        </span>
-                        <Button type="primary"
-                                @click="pickData">组织架构图</Button>-->
+                       
                         <btnList @buttonExport="btnEvent"
                                  @buttonAdd="openUp(NaN,$t('button.add'))"
                                  @buttonValid="modifystatus('02valid')"
@@ -101,6 +53,7 @@
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @buttonUnitChart="pickData()"
                                  @moditySelct="modityChange"></btnList>
+                                 
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -166,6 +119,37 @@
                             ref="searchOrgframe">
             </searchOrgframe>
         </transition>
+         <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
+    </transition>
     </div>
 </template>
 <script>
@@ -175,13 +159,37 @@ import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import { isSuccess } from '../../../lib/util'
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
 import btnList from '../../../components/btnAuth/btnAuth.js'
+import expwindow from "../../../components/fileOperations/expSms";
+import expdow from "../../../components/fileOperations/expdow";
+import importExcel from "../../../components/importModel/importParam";
 export default {
     data () {
         return {
+            // 导入的mt名称
+      imp_mt: "orgUnits.importData",
+      // 导出字段设置, code字段名 name列名
+      expDataTital: [
+        { code: "unitCode", name: "组织编码" },
+        { code: "unitFname", name: "组织架构全称" },
+        { code: "unitTypeName", name: "组织类型" },
+        { code: "unitPname", name: "上级部门" },
+        { code: "unitPartfunctName", name: "部门职能" },
+        { code: "unitIndustryName", name: "行业" },
+        { code: "unitCityName", name: "雇佣地点" },
+        { code: "note", name: "备注" }
+      ],
+      // 导入导出默认参数 无需变更
+      openImport: false,
+      openExpDow: false,
+      openExp: false,
+      filekey: "",
+      filename: "",
+      //左边树的默认参数
             openChart: false,
             loading: true,
             dataTree: [],
             treeheight: document.body.offsetHeight - 200,
+            //子页面所需参数，无需变更
             tableheight: document.body.offsetHeight - 280,
             value: '',
             logType: '',
@@ -327,20 +335,7 @@ export default {
                                         },
                                     },
                                 }, this.$t('button.upd')),
-                                // h('Button', {
-                                //     props: {
-                                //         type: 'primary',
-                                //         size: 'small',
-                                //     },
-                                //     style: {
-                                //         display: this.pageShow == 'button_view' ? "inline-block" : "none"
-                                //     },
-                                //     on: {
-                                //         click: () => {
-                                //             this.openUp(params.row.id, '查看', params.index)
-                                //         },
-                                //     },
-                                // }, '查看'),
+                                
                             ])
                         } else if (this.pageShow == 'button_view') {
                             return h('div', [
@@ -431,7 +426,10 @@ export default {
         update,
         orgframeChart,
         searchOrgframe,
-        btnList
+        btnList,
+        expwindow,
+    expdow,
+    importExcel
     },
     beforeCreate () {
         if (this.pageShow == '') {
@@ -452,6 +450,48 @@ export default {
         modityChange (res) {
             console.log(res, "res54321")
         },
+        // 导入导出默认方法 无需更改
+    closeImport() {
+      const t = this;
+      t.openImport = false;
+    },
+    // 导入导出默认方法 无需更改
+    importExcel() {
+      const t = this;
+      t.openImport = true;
+      t.$refs.importExcel.getDowModelFile();
+    },
+    // 导入导出默认方法
+    expData() {
+      const t = this;
+      // 填装查询条件
+      const data = {
+        unitCode: t.unitCode,
+        unitFname: t.unitFname,
+        unitType: t.unitType
+      };
+      // 设置导出mt参数
+      this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
+      this.openExp = true;
+    },
+    // 导入导出默认方法 无需更改
+    closeExp() {
+      const t = this;
+      t.openExp = false;
+    },
+    // 导入导出默认方法 无需更改
+    closeExpDowMain() {
+      const t = this;
+      t.openExpDow = false;
+    },
+    // 导入导出默认方法 无需更改
+    setFileKey(filekey, filename, openExpDow) {
+      const t = this;
+      t.filekey = filekey;
+      t.filename = filename;
+      t.openExpDow = openExpDow;
+      t.$refs.expdow.getPriToken(t.filekey);
+    },
         auth () {
             const t = this
             console.log(getBtnAuth(t), "res4321");
