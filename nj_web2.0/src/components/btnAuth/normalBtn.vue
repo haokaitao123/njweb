@@ -26,7 +26,6 @@ export default {
         }
     },
     mounted () {
-        console.log(this.$store.state.btnOperate.modity, "modity")
     },
     methods: {
         normalClick () {
