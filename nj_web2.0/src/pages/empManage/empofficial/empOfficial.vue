@@ -285,8 +285,9 @@
     methods: {
       changemodity(res){
         console.log(res,"res");
-          alert(1);
-        //this.state = res.funStatecode
+         //alert(1);
+          //alert(res.funStatecode);
+        this.state = res.funStatecode
         this.getData()
       },
       // 勾选数据方法 无需更改
@@ -458,6 +459,7 @@
         t.data.splice(t.index, 1, res)
         t.getTree()
       },*/
+      //关闭
       closeUp() {
         const t = this
         t.openUpdate = false
@@ -465,8 +467,11 @@
         t.$refs.update.formValidate.empIdName = ''
         t.$refs.update.formValidate.deptIdDis = ''
         t.$refs.update.formValidate.postIdDis = ''
+        t.$refs.update.formValidate.deptId = ''
+        t.$refs.update.formValidate.postId = ''
         t.$refs.update.formValidate.empoffResult = ''
         t.$refs.update.formValidate.empoffDocument = ''
+        t.getData()
       },//关闭窗口
       selected(key, name) {
         this.select = name
