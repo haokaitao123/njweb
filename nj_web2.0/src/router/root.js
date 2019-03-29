@@ -24,7 +24,7 @@ import orgCostcenterList from '@/pages/rootManage/orgcostcenter-manage/orgcostce
 //岗位信息
 import orgPostList from '@/pages/rootManage/orgpost-manage/orgpostManage'
 //公司公告
-import OrgNotice from '@/pages/rootManage/orgNotice-manage2/manageIndex'
+import OrgNotice from '@/pages/rootManage/orgNotice-manage/manageIndex'
 export default [
 
   {
