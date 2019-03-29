@@ -19,6 +19,7 @@
                        v-model="empIdIden"/>
                 <!--状态选择框-->
                 <btnList @buttonExport="expData"
+                         @buttonSearch="getData"
                          @buttonImport="importExcel"
                          @moditySelct="changemodity"
                          @buttonAdd="openUp(NaN,$t('button.add'))"
