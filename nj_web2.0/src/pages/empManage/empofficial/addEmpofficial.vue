@@ -107,12 +107,12 @@
                     </Form>
                 </Row>
             </div>
-            <Button type="primary" v-show="!forbidden"
-                    @click="handleSubmit"
-                    class="btn">{{$t('button.sav')}}</Button>
             <Button type="ghost"
                     @click="handleReset"
                     class="btn1">{{$t('button.cal')}}</Button>
+            <Button type="primary" v-show="!forbidden"
+                    @click="handleSubmit"
+                    class="btn">{{$t('button.sav')}}</Button>
         </div>
       <!--一个弹出框一个transition-->
       <transition name="fade">

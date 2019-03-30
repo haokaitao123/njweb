@@ -21,8 +21,8 @@
                 <btnList @buttonExport="expData"
                          @buttonSearch="getData"
                          @buttonImport="importExcel"
-                         @moditySelct="changemodity"
-                         @buttonAdd="openUp(NaN,'新增')"
+                         @moditySelect="changemodity"
+                         @buttonAdd="openUp(NaN,$t('button.add'))"
                          @buttonDel="deletemsg()"
                          @buttonValid="setState('02empoff')"
                          ></btnList>
@@ -137,14 +137,16 @@
           { code: "empoffResult", name: "试用期评价结果" },
           { code: "note", name: "备注" },
         ],
-        //高度设置
-        tableheight: document.body.offsetHeight-140,
+        openChart: false,
+        loading: true,
+        tableheight: document.body.offsetHeight-280,
+        value: '',
         logType: '',
         openUpdate: false,
         updateId: NaN,
-        //下拉框选择数据idarray
         tableselected: [],
-        //页面初始化默认状态
+        stateDis: "全部",
+        unitTypeId: NaN,
         state: '01empoff',
         columns: [
           {
@@ -178,7 +180,7 @@
           {
             title: "试用期评价",
             key: 'empoffResult',
-            width: 230,
+            width: 200,
           },
 
         ],
@@ -235,6 +237,22 @@
           funId: '1',
           logType: '员工转正查询',
           data: '{}',
+        },
+        modify: 'false',
+        btnList: {
+          // button_draft: '',    //编辑
+          // button_upd: '',      //修改
+          // button_del: '',      //删除
+          // button_add: '',      //新增
+          // button_save: '',     //保存
+          // button_submit: '',   //提交
+          // button_return: '',   //返回
+          // button_cancel: '',   //取消
+          // button_confirm: '',  //确认
+          // button_invalid: '',  //失效
+          // button_valid: '',    //生效
+          // button_export: '',   //导出
+          // button_import: '',   //导入
         },
       }
     },
@@ -425,27 +443,36 @@
       },//分页
       openUp(id, logType, index) {
         const t = this
-        debugger
         t.updateId = parseInt(id, 10)
         t.logType = logType
         t.openUpdate = true
         t.index = index
-        if (logType !='新增') {
+        if (logType === this.$t('button.upd')) {
           t.$refs.update.getData(id)
         }
       },
-      //关闭,并清除弹出页面的值
+      /*addNewArray (res) {
+        const t = this
+        t.data.unshift(res)
+        t.getTree()
+      },
+      updateArray (res) {
+        const t = this
+        t.data.splice(t.index, 1, res)
+        t.getTree()
+      },*/
+      //关闭
       closeUp() {
         const t = this
         t.openUpdate = false
-        t.forbidden = false
-        let up = t.$refs.update.formValidate
-        debugger
-        for (let s in up) {
-          up[s] = ''
-        }
-        t.$refs.update.file = ''
-        t.$refs.update.filekey = ''
+        t.$refs.update.formValidate.empId = ''
+        t.$refs.update.formValidate.empIdName = ''
+        t.$refs.update.formValidate.deptIdDis = ''
+        t.$refs.update.formValidate.postIdDis = ''
+        t.$refs.update.formValidate.deptId = ''
+        t.$refs.update.formValidate.postId = ''
+        t.$refs.update.formValidate.empoffResult = ''
+        t.$refs.update.formValidate.empoffDocument = ''
         t.getData()
       },//关闭窗口
       selected(key, name) {
