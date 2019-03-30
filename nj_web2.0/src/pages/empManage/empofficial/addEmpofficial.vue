@@ -5,7 +5,7 @@
                 <div class="title-text">
                     <Icon type="mouse"
                           size="16"
-                          style="margin-right: 10px;"></Icon>&nbsp;新增
+                          style="margin-right: 10px;"></Icon>&nbsp;{{logType}}
                 </div>
                 <Button type="text"
                         @click="handleReset">
@@ -20,11 +20,11 @@
                           :rules="ruleValidate"
                           :label-width="100">
                         <i-col span="11">
-                          <FormItem label="员工姓名" prop="empIdName">
+                          <FormItem label="员工姓名"  prop="empIdName"  >
                             <!--绑定双击清除方法-->
-                            <span >
+                            <span @dblclick="dbclean">
                           <!--v-model绑定显示字段-->
-                          <Input v-model="formValidate.empIdName" icon="search" readonly="readonly" placeholder="请选择员工"  @on-click="pickEmpData" />
+                              <Input v-model="formValidate.empIdName" icon="search" readonly="readonly" placeholder="请选择员工"  @on-click="pickEmpData" />
                         </span>
                           </FormItem>
                         </i-col>
@@ -58,6 +58,7 @@
                                     prop="empoffResult">
                               <Input v-model="formValidate.empoffResult"
                                      type="textarea"
+                                     :readonly="forbidden"
                                      :autosize="{minRows: 2,maxRows: 5}"
                                      placeholder="请输入试用期评价结论..."></Input>
                           </FormItem>
@@ -81,7 +82,7 @@
                               </Input>
                               </i-col>
                               <i-col span="2">
-                                <Button type="text"  @click="uploadLocalFile" v-if="loadingStatus">
+                                <Button type="text" v-show="!forbidden" @click="uploadLocalFile" v-if="loadingStatus">
                                   上传
                                 </Button>
                                 <Button type="text"  @click="downloadFile" v-if="!loadingStatus">
@@ -98,6 +99,7 @@
                                     prop="note">
                               <Input v-model="formValidate.note"
                                      type="textarea"
+                                     :readonly="forbidden"
                                      :autosize="{minRows: 2,maxRows: 5}"
                                      placeholder="请输入备注..."></Input>
                           </FormItem>
@@ -105,12 +107,12 @@
                     </Form>
                 </Row>
             </div>
+            <Button type="primary" v-show="!forbidden"
+                    @click="handleSubmit"
+                    class="btn">{{$t('button.sav')}}</Button>
             <Button type="ghost"
                     @click="handleReset"
                     class="btn1">{{$t('button.cal')}}</Button>
-            <Button type="primary"
-                    @click="handleSubmit"
-                    class="btn">{{$t('button.sav')}}</Button>
         </div>
       <!--一个弹出框一个transition-->
       <transition name="fade">
@@ -140,9 +142,7 @@ export default {
           loadingStatus: false,
             type: '',
             distype: false,
-            forbidden: null,
-            popup: '',
-            value: '',
+            forbidden: false,
             formValidate: {
                 _mt: 'empEmpofficial.addOrUpd', //新增接口url
                 empId:'',
@@ -186,6 +186,17 @@ export default {
         //this.getSelect("emptype");
     },
     methods: {
+      //上级清除员工选择
+      dbclean(){
+        const t = this
+        t.formValidate.empIdName = '';
+        t.formValidate.empIdIden = '';
+        t.formValidate.empId = '';
+        t.formValidate.deptIdDis = '';
+        t.formValidate.deptId = '';
+        t.formValidate.postIdDis = '';
+        t.formValidate.postId = '';
+      },
         getData (id) {
             const t = this
             getDataLevelUserLogin({
@@ -196,6 +207,7 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     console.log(res.data.content[0])
+                    t.formValidate.empId = res.data.content[0].empId
                     t.formValidate.empIdName = res.data.content[0].empIdName
                     t.formValidate.empIdIden= res.data.content[0].empIdIden
                     t.formValidate.deptIdDis= res.data.content[0].deptIdDis
@@ -203,16 +215,20 @@ export default {
                     t.formValidate.postId= res.data.content[0].postId
                     t.formValidate.postIdDis= res.data.content[0].postIdDis
                     t.formValidate.empoffResult= res.data.content[0].empoffResult
+                  //alert(res.data.content[0].empoffDocument)
+                  debugger
                     if (res.data.content[0].empoffDocument) {
+                      t.formValidate.empoffDocument = res.data.content[0].empoffDocument
                       t.file = { name: res.data.content[0].empoffDocument.split(':')[0] }
                       t.filekey = res.data.content[0].empoffDocument.split(':')[1]
                     }
                     t.formValidate.note= res.data.content[0].note
-                    if (id === res.data.content[0].companyId) {
-                        t.forbidden = 'readonly'
+                  debugger
+                    if (t.logType === '查看') {
+                        t.forbidden = true
                         t.distype = true
                     } else {
-                      t.forbidden = null
+                      t.forbidden = false
                         t.distype = false
                     }
                 }
