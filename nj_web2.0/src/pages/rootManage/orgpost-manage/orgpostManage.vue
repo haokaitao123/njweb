@@ -22,11 +22,22 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-            
-            <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
-            <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
+            <btnList 
+                @buttonSearch="search()"
+                @buttonAdd="openUp(NaN,$t('button.add'))"
+               
+                @buttonImport="importExcel"
+                 @buttonExport="expData"
+               
+            ></btnList>
+            <!--  @buttonDraft="modifystatus('01draft')"
+                @buttonValid="modifystatus('02valid')"
+                @buttonInvalid="modifystatus('03invalid')"
+                @moditySelct="modityChange"> -->
+            <!-- <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span> -->
+            <!-- <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
             <Button type="primary"  @click="expData">导出</Button>
-             <Button type="primary" @click="importExcel">导入</Button>
+             <Button type="primary" @click="importExcel">导入</Button> -->
             <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
           </Row>
           <!--布置分页列表 变量通用 无需变更-->
@@ -64,6 +75,7 @@
   import expwindow from '../../../components/fileOperations/expSms'
   import expdow from '../../../components/fileOperations/expdow'
   import importExcel from '../../../components/importModel/importParam'
+  import btnList from '../../../components/btnAuth/btnAuth'
   export default{
     data() {
       return {
@@ -227,14 +239,40 @@
       }
     },
     computed: {
-
+        pageShow () {
+                       return this.$store.state.btnOperate.pageShow
+        	},
+        	tableButton () {
+                       return this.$store.state.btnOperate.tableButton
+        	},
+        	tableOperate () {
+            	       return this.$store.state.btnOperate.tableOperate
+        	}
     },
     components: {
      // 初始化子页面
+      btnList,
       update,
       expwindow,
       expdow,
       importExcel,
+    },
+    created () { 
+       if (this.pageShow != "") {
+            this.columns.push(this.tableBtn);
+            this.$store.commit('btnOperate/setTableOperate', 'true');
+        }
+    },
+    watch: { 
+       pageShow (val) {
+            if (val == "" && this.tableOperate == 'true') {
+                this.columns.pop();
+                this.$store.commit('btnOperate/setTableOperate', 'false');
+            } else if (this.tableOperate == 'false') {
+                this.columns.push(this.tableBtn);
+                this.$store.commit('btnOperate/setTableOperate', 'true');
+            }
+        }
     },
     //初始化自动调用方法
     mounted() {
