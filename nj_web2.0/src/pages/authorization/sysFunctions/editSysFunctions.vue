@@ -469,10 +469,10 @@ export default {
                 funAction: '',
                 funStyle: '',
                 funFormtype: '',
-                funIsform: '1',
+                funIsform: '0',
                 funIsctrlbtn: '0',
                 funIsrpt: '0',
-                funIsprocess: '1',
+                funIsprocess: '0',
                 valid: '1',
                 funProcesid: '',
                 invdate: '',
@@ -594,6 +594,8 @@ export default {
                     t.funProcesidDis = res.data.content[0].value[0].funProcesidDis
                     t.formValidate.funImg = res.data.content[0].value[0].funImg
                     t.formValidate.funStatecode = res.data.content[0].value[0].funStatecode
+                    t.formValidate.funIsform = res.data.content[0].value[0].funIsform
+                    t.formValidate.funIsctrlfield = res.data.content[0].value[0].funIsctrlfield
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -780,7 +782,7 @@ export default {
                                 })
                                 t.id = res.data.content[0].id
                                 t.tabsSure(t.id)
-                                t.$refs.formValidate.resetFields()
+                                // t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
                                 t.$Modal.success({
