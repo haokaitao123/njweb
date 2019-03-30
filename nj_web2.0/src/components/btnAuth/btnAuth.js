@@ -269,6 +269,9 @@ export default {
         case "组织架构图":
           name = 'buttonUnitChart'
           break
+        case "转正":
+          name = 'buttonPositive'
+          break
       }
       return name;
     },
@@ -339,6 +342,10 @@ export default {
           break
         case "button_unitChart":
           btnName = '组织架构图'
+          break
+        case "button_positive":
+          btnName = '转正';
+          bType = 'success';
           break
       }
       let obj = {
