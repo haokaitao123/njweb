@@ -186,8 +186,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
+            // title: this.$t("reminder.err"),
+            // content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -238,8 +238,8 @@ export default {
               })
               .catch(() => {
                 t.$Modal.error({
-                  title: this.$t("reminder.err"),
-                  content: this.$t("reminder.errormessage")
+                  // title: this.$t("reminder.err"),
+                  // content: this.$t("reminder.errormessage")
                 });
               });
           },

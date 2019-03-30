@@ -43,12 +43,20 @@
 
         <i-col span="23">
           <FormItem :label="$t('是否考勤')" prop="empnhAttendynDis" :label-width="135">
-            <RadioGroup v-model="form.empnhAttendynDis">
-              <Radio
+            <RadioGroup v-model="active">
+              <Radio label="1">
+                
+                <span>是</span>
+              </Radio>
+              <Radio label="0">
+                
+                <span>否</span>
+              </Radio>
+              <!-- <Radio
                 :label="item.paramCode"
                 v-for="(item,index) in yesOrNo"
                 :key="index"
-              >{{item.paramInfoCn}}</Radio>
+              >{{item.paramInfoCn}}</Radio>-->
             </RadioGroup>
           </FormItem>
         </i-col>
@@ -63,15 +71,15 @@
             </Select>
           </FormItem>
         </i-col>
-          <i-col span="11" offset="1">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('政治面貌')" prop="empnhPoliticalDis" :label-width="135">
             <Select v-model="form.empnhPoliticalDis">
-                        <Option
-                          :value="item.paramCode"
-                          v-for="(item,index) in selectPolitical"
-                          :key="index"
-                        >{{item.paramInfoCn}}</Option>
-                      </Select>
+              <Option
+                :value="item.paramCode"
+                v-for="(item,index) in selectPolitical"
+                :key="index"
+              >{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11">
@@ -131,7 +139,7 @@ export default {
       selectTechnicaltitle: [],
       selectMarriage: [],
       selectPolitical: [],
-
+      active:'1',
       ruleValidate: {
         empnhName: [
           {
@@ -154,7 +162,7 @@ export default {
             trigger: "change"
           }
         ],
-        empnhPoliticalDis:[
+        empnhPoliticalDis: [
           {
             required: true,
             message: "选择政治面貌",
@@ -199,7 +207,6 @@ export default {
             trigger: "change"
           }
         ]
-        
       }
     };
   },
@@ -228,8 +235,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
+            // title: this.$t("reminder.err"),
+            // content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -239,8 +246,7 @@ export default {
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
         // typeCode: "actiontype,emptype,idtype",
-        typeCode:
-          "gender,techlevel,marrystatus,political"
+        typeCode: "gender,techlevel,marrystatus,political"
       })
         .then(res => {
           if (isSuccess(res, t)) {
@@ -253,8 +259,8 @@ export default {
         })
         .catch(() => {
           this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
+            // title: this.$t("reminder.err"),
+            // content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -319,8 +325,8 @@ export default {
             })
             .catch(() => {
               t.$Modal.error({
-                title: this.$t("reminder.err"),
-                content: this.$t("reminder.errormessage")
+                // title: this.$t("reminder.err"),
+                // content: this.$t("reminder.errormessage")
               });
             });
         }

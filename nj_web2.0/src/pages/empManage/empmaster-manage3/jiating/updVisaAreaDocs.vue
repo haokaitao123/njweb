@@ -229,8 +229,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
+            // title: this.$t("reminder.err"),
+            // content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -276,8 +276,8 @@ export default {
             })
             .catch(() => {
               t.$Modal.error({
-                title: this.$t("reminder.err"),
-                content: this.$t("reminder.errormessage")
+                // title: this.$t("reminder.err"),
+                // content: this.$t("reminder.errormessage")
               });
             });
         }
@@ -308,8 +308,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
+            // title: this.$t("reminder.err"),
+            // content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -355,8 +355,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
+            // title: this.$t("reminder.err"),
+            // content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -364,20 +364,20 @@ export default {
       const t = this;
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
-        typeCode: "button,selectEducationlevel,selectEdCuntry"
+        typeCode: "educ,selectEdCuntry"
       })
         .then(res => {
           if (isSuccess(res, t)) {
             // t.Visadocpreparer = res.data.content[0].value[0].paramList;
-            t.selectEducationlevel = res.data.content[0].value[10].paramList;
-            t.selectEdCuntry = res.data.content[0].value;
+            // t.selectEducationlevel = res.data.content[0].value[10].paramList;
+            // t.selectEdCuntry = res.data.content[0].value;
             t.yesOrNo = res.data.content[0].value[0].paramList;
           }
         })
         .catch(() => {
           this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
+            // title: this.$t("reminder.err"),
+            // content: this.$t("reminder.errormessage")
           });
         });
     },
