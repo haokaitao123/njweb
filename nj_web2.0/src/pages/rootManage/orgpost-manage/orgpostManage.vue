@@ -23,17 +23,9 @@
                             </Option>
                         </Select>
             <btnList 
-                @buttonSearch="search()"
-                @buttonAdd="openUp(NaN,$t('button.add'))"
                
-                @buttonImport="importExcel"
-                 @buttonExport="expData"
                
             ></btnList>
-            <!--  @buttonDraft="modifystatus('01draft')"
-                @buttonValid="modifystatus('02valid')"
-                @buttonInvalid="modifystatus('03invalid')"
-                @moditySelct="modityChange"> -->
             <!-- <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span> -->
             <!-- <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
             <Button type="primary"  @click="expData">导出</Button>
@@ -44,7 +36,8 @@
           <row class="table-form" ref="table-form">
             <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
           </row>
-          <Row style="display: flex">          <Page :total="total" :current="page" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
+          <Row style="display: flex">          <Page :total="total" :current="page" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
+          <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
           </Col>
         </Row>
 
@@ -80,7 +73,7 @@
     data() {
       return {
           // 导入的mt名称
-        imp_mt: 'baseBankinfo.importData',
+        imp_mt: 'orgPost.importData',
         // 导出字段设置, code字段名 name列名
         expDataTital: [{ code: 'postCode', name: '岗位编码' }, { code: 'postFnameCnDis', name: '岗位名称' },
           { code: 'postStansalary', name: '岗位标准薪资' }, { code: 'postTrialsalary', name: '试用期薪资' },
@@ -416,6 +409,41 @@
         this.page = 1
         this.getData()
       },
+       modifystatus (state) {
+            const t = this
+            let logType = ''
+            if (state === '02valid') {
+                logType = '生效'
+            } else if (state === '03invalid') {
+                logType = '失效'
+            }
+            if (t.tableselected.length === 0) {
+                t.$Modal.warning({
+                    title: this.$t('reminder.remind'),
+                    content: this.$t('reminder.leastone'),
+                })
+                return
+            }
+            getDataLevelUserLogin({
+                _mt: 'orgUnits.setStateById',
+                logType: logType,
+                state: state,
+                ids: t.tableselected.toString,
+            }).then((res) => {
+                if (isSuccess(res, t)) {
+                    t.getData(1)
+                    t.$Modal.success({
+                        title: this.$t('reminder.suc'),
+                        content: '操作完成',
+                    })
+                }
+            }).catch(() => {
+                t.$Modal.error({
+                    title: this.$t('reminder.err'),
+                    content: this.$t('reminder.errormessage'),
+                })
+            })
+        }, //修改状态
       // 导入导出默认方法 无需更改
       closeImport() {
         const t = this
