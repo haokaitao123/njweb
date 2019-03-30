@@ -6,62 +6,24 @@
           <p slot="title">
             <Icon type="mouse"></Icon>&nbsp;公司公告
           </p>
+
+
           <Row>
-            <!-- <Select v-model="optModel" clearable style="width:200px">
-            <Option v-for="(item, index) in noticeType" :value="item.paramCode" :key="index">{{ item.paramInfoCn }}
-            </Option>
-            </Select>-->
-            <!-- <Input v-model="infoTitle" :placeholder="$t('lang_role.cmutnotic.infoTitle')" style="width:200px;"></Input> -->
-            <Input placeholder="请输入主题" style="width: 200px" v-model="noticeTitle"/>
+          <template>
+            <div class="table">
+              <Input placeholder="请输入主题" style="width: 200px" v-model="noticeTitle"/>
 
-            <span @dblclick="clearPeople('1')">
+              <span @dblclick="clearPeople('1')">
                <Input v-model="noticePeopleDis" style="width: 200px" icon="search" :readonly="true"  :placeholder="$t('请选择发布人')"  @on-click="pickData()"/>
-          </span>
+              </span>
+              <!-- 页面中调用公共按钮组件标签<btnList> -->
+              <!-- 调用公共按钮组件方法 -->
+              <!-- @buttonAdd（配置的按钮对应方法名称） = "btnEvent"（是你当前页面对应点击事件） -->
+              <btnList  @buttonSearch="getData(1)" @buttonAdd="openUp(NaN,'新增')" @buttonDel="deletemsg" @buttonSubmit="modifystatu('101')" @buttonValid="modifystatu('102')" @buttonInvalid="modifystatu('103')" @moditySelect="changemodity"></btnList>
 
-            <Dropdown>
-              <Button type="primary">
-                {{statusDis}}
-                <Icon type="arrow-down-b"></Icon>
-              </Button>
-              <DropdownMenu slot="list">
-                <span
-                  v-for="(item,index) in dropdownMenuList"
-                  :key="index"
-                  @click="getPageByState(item.paramCode,item.paramInfoCn)"
-                >
-                  <DropdownItem>{{item.paramInfoCn}}</DropdownItem>
-                </span>
-              </DropdownMenu>
-            </Dropdown>
-            <span style="margin: 0;">
-              <Button type="primary" icon="search" @click="getData(1)">查询</Button>
-            </span>
-            <Button
-              type="primary"
-              v-show="state === '' || state === '101'"
-              @click="openUp(NaN,'新增')"
-            >新增
-            </Button>
-            <Button
-              type="primary"
-              v-show="state === '101'"
-              @click="modifystatu('101')"
-            >审核</Button>
-            <Button
-              type="success"
-              v-show="state === '102'"
-              @click="modifystatu('103')"
-            >生效</Button>
-            <Button
-              type="error"
-              v-show="state === '103'"
-              @click="modifystatu('102')"
-            >失效</Button>
-            <Button
-              type="error"
-              v-show="state === '101'"
-              @click="deletemsg"
-            >删除</Button>
+            </div>
+          </template>
+
           </Row>
           <row class="table-form" ref="table-form">
             <Table
@@ -130,8 +92,28 @@ import {
 } from "../../../axios/axios";
 import { isSuccess } from "../../../lib/util";
 import searchPeople from '../../../components/searchTable/searchPeople'
+import btnList from '../../../components/btnAuth/btnAuth'
 
 export default {
+
+  computed:{
+    pageShow () {
+      return this.$store.state.btnOperate.pageShow
+    },
+    tableButton () {
+      return this.$store.state.btnOperate.tableButton
+    },
+    tableOperate () {
+      return this.$store.state.btnOperate.tableOperate
+    }
+  },
+  created () {
+    if (this.pageShow != "") {
+      this.columns.push(this.tableBtn);
+      this.$store.commit('btnOperate/setTableOperate', 'true');
+    }
+  },
+
   data() {
     return {
       tableheight: document.body.offsetHeight - 280,
@@ -140,7 +122,7 @@ export default {
       infoTitle: "", // 选择类型
       showAdd: false, //  控制新增页面显示
       openPick: false,
-      state: "103",
+      state: "101",
       statusDis: this.$t("lang_user.rootuser.valid"),
       dropdownMenuList: [],
       comInfo: [],
@@ -181,71 +163,38 @@ export default {
         {
           title: "发布日期",
           key: "noticePublish"
-        },
-      //  {
-      //     title: "生效日期",
-      //     key: "noticeLosttime"
-      //   },
-        // {
-        //   title: "状态",
-        //   key: "noticeState"
-        // },
-        {
-          title: "操作",
-          key: "action",
-          width: 75,
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  style: {
-                    display:
-                      params.row.cmutNoticeState !== "101"
-                        ? "none"
-                        : "inline"
-                  },
-                  on: {
-                    click: () => {
-                      this.openUp(params.row.id, "查看");
-                    }
-                  }
-                },
-                "查看"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  style: {
-                    display:
-                      params.row.cmutNoticeState == "101"
-                        ? "none"
-                        : "inline"
-                  },
-                  on: {
-                    click: () => {
-                      this.openUp(
-                        params.row.id,
-                        "修改",
-                        params.index
-                      );
-                    }
-                  }
-                },
-                "修改"
-              )
-            ]);
-          }
         }
       ],
+      tableBtn: {
+        title: '操作',
+        key: 'action',
+        width: 100,
+        fixed: 'right',
+        align: 'center',
+        render: (h, params) => {
+        let child = [];
+            for (let v of this.tableButton) {
+              child.push(h('Button', {
+                props: {
+                  type: v.type,
+                  size: 'small',
+                },
+                style: {
+                  marginRight: '5px',
+                  display: this.pageShow.indexOf(v.btnName) != -1 ? 'inline' : 'none',
+                },
+                on: {
+                  click: () => {
+                  this.openUp(params.row.id, v.name, params.index);
+            },
+          },
+          }, v.name))
+        };
+        return h('div', [
+          child,
+        ])
+      },
+      },
       selectedArr: [], //  存放选中的值
       updateArr: [],
       updateId: NaN,
@@ -258,13 +207,17 @@ export default {
   },
   components: {
     addInform,
-    searchPeople
+    searchPeople,
+    btnList
   },
   mounted() {
     this.getSelect();
     this.getData(1);
   },
   methods: {
+    btnEvent (res) {
+      console.log(res, "res12345")
+    },
     // 获取参数类型
     getSelect() {
       const t = this;
@@ -352,10 +305,6 @@ export default {
     openUp(id, logType, index) {
       const t = this;
       t.select = "编辑";
-      //        t.state = '101'
-      //        t.eakeEffect = 1
-      //        t.eakeinvalid = 0
-      //        t.getData(1)
       t.showAdd = true;
       t.updateId = parseInt(id, 10);
       t.logType = logType;
@@ -365,6 +314,8 @@ export default {
         logType === this.$t("查看")
       ) {
         t.$refs.addInform.upData(id);
+      }else{
+        t.$refs.addInform.getSelectUser();
       }
     }, // 新增数据--------------------------------
     //  删除数据 需要接口
@@ -471,7 +422,12 @@ export default {
       t.openPick = false
       //t.$refs.searchFyperiod.fypdYear = ''
     },
-
+    changemodity(res){
+      console.log(res,"res");
+      const t = this;
+      t.state =res.funStatecode;
+      t.getData(1);
+    },
     /**
      * 状态的更改
      * @param paramCode
@@ -504,15 +460,18 @@ export default {
         return;
       }
       // 按钮请求
-
-      getDataLevelUserLogin({
-        _mt: "orgNotice.setStateByIds",
-        logType: logType,
-        state: t.state,
+      t.$Modal.confirm({
+        title: '提示',
+        content: '您确定要继续操作吗',
+        onOk: () => {
+        getDataLevelUserLogin({
+                                _mt: "orgNotice.setStateByIds",
+                                logType: logType,
+                                state: t.state,
         ids: t.selectedArr
-      })
+        })
         .then(res => {
-          if (isSuccess(res, t)) {
+            if (isSuccess(res, t)) {
             t.getData(1);
             t.updateArr = [];
             t.$Modal.success({
@@ -522,11 +481,15 @@ export default {
           }
         })
         .catch(() => {
-          t.$Modal.error({
+            t.$Modal.error({
             title: this.$t("reminder.err"),
             content: this.$t("reminder.errormessage")
           });
-        });
+        })
+        },
+        onCancel: () => {},
+       });
+
     }
   }
 };

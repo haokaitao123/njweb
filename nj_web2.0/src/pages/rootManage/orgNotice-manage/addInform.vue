@@ -75,11 +75,12 @@
                 </span>
           </FormItem>
           </Col>
-          <Col span="10">
+          <Col span="10" offset="3">
           <FormItem label="发布人" prop="noticePeople">
             <Input
               v-model="noticePeopleName"
               :readonly="true"
+              placeholder="默认当前用户"
             ></Input>
           </FormItem>
           </Col>
@@ -223,11 +224,10 @@ export default {
         noticeType: "", //  类型
         noticeContent: "", //  发布内容
         note: "", //  备注
-        noticeAttach: "", //  附件
         unitPid: "",
         unitPidDis:"",
         state: "101",
-        noticePeople:"",
+        noticePeople:""
       },
       ruleValidate: {
         // noticePublish: [
@@ -323,7 +323,7 @@ export default {
     searchOrgframe
   },
   mounted() {
-    this.getSelect();
+    //this.getSelectUser();
     editor.customConfig.onchange = function(html) {
       document.getElementById("txt").innerHTML = html;
     };
@@ -331,26 +331,9 @@ export default {
     console.log(this.form.state,"form")
   },
   methods: {
-   getSelect() {
-        const t = this
-        t.dropdownMenuList = []
-        getDataLevelUserLogin({
-          _mt: 'baseParmInfo.getSelectValue',
-          typeCode: 'pubuserstatus',
-        }).then((res) => {
-          if (isSuccess(res, t)) {
-            //t.CmutNoticeStatelist = res.data.content[0].value[0].paramList.splice(1, 3)
-          }
-        }).catch(() => {
-          this.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
-        })
-      },
     clearPid() {
       const t = this;
-      t.unitPidDis = "";
+      t.unitPidDis= "";
       t.form.unitPid = "";
     },//清除数据
     close() {
@@ -430,6 +413,25 @@ export default {
       })
     })
     },
+    getSelectUser() {
+      const t = this;
+      getDataLevelUserLogin({
+          _mt: "orgNotice.getUserName",
+          logType: "查询"
+        })
+          .then(res => {
+          if (isSuccess(res, t)) {
+          t.noticePeopleName = res.data.content[0].value;
+          t.form.note = res.data.content[0].note;
+        }
+      })
+      .catch(() => {
+          this.$Modal.error({
+          title: this.$t("reminder.err"),
+          content: this.$t("reminder.errormessage")
+        });
+      });
+    },
     upData(id) {
       const t = this;
 
@@ -448,6 +450,7 @@ export default {
             t.form.unitPid =res.data.content[0].unitPid;
             t.unitPidDis =res.data.content[0].unitPidDis;
             t.form.state = res.data.content[0].state;
+            t.noticePeopleName=res.data.content[0].noticePeopleDis;
 
             if (res.data.content[0].noticeAttach) {
               t.file = { name: res.data.content[0].noticeAttach.split(':')[0] }
@@ -528,8 +531,9 @@ export default {
       t.form.noticeContent = "";
       t.form.state = "";
       t.form.note = "";
-      t.form.unitPidDis = '';
+      t.unitPidDis = '';
       t.form.unitPid = '';
+      t.noticePeopleName='';
       editor.txt.clear();
       t.file = "";
       this.$refs.form.resetFields();
