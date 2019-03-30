@@ -53,7 +53,7 @@
                                  @buttonDraft="modifystatus('01draft')"
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @buttonUnitChart="pickData()"
-                                 @moditySelct="modityChange"></btnList>
+                                 @moditySelect="modityChange"></btnList>
                                  
                     </Row>
                     <row class="table-form"
@@ -313,51 +313,6 @@ export default {
                     key: 'note',
                     width: 140,
                 },
-                {
-                    title: this.$t('button.opr'),
-                    key: 'action',
-                    width: 64,
-                    fixed: 'right',
-                    align: 'center',
-                    render: (h, params) => {
-                        if (this.pageShow === 'button_upd') {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'success',
-                                        size: 'small',
-                                    },
-                                    style: {
-                                        display: this.pageShow == 'button_upd' ? "inline-block" : "none"
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.openUp(params.row.id, this.$t('button.upd'), params.index)
-                                        },
-                                    },
-                                }, this.$t('button.upd')),
-                                
-                            ])
-                        } else if (this.pageShow == 'button_view') {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small',
-                                    },
-                                    style: {
-                                        display: this.pageShow == 'button_view' ? "inline-block" : "none"
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.openUp(params.row.id, '查看', params.index)
-                                        },
-                                    },
-                                }, '查看'),
-                            ])
-                        }
-                    }
-                }
             ],
             data: [],
             total: 0,
@@ -429,8 +384,8 @@ export default {
         searchOrgframe,
         btnList,
         expwindow,
-    expdow,
-    importExcel
+        expdow,
+        importExcel,
     },
     beforeCreate () {
         if (this.pageShow == '') {
@@ -444,23 +399,29 @@ export default {
         this.unitTypeSelect();
         console.log(this.pageShow, "2222")
     },
+    modityChange(res) {
+            console.log(res,"res");
+         //alert(1);
+          alert(res.funStatecode);
+        this.state = res.funStatecode
+        this.getData()
+
+         },
     methods: {
-        btnEvent (res) {
-            console.log(res, "res12345")
-        },
-        modityChange (res) {
-            console.log(res, "res54321")
-        },
+        // btnEvent (res) {
+        //     console.log(res, "res12345")
+        // },
+         
         // 导入导出默认方法 无需更改
         closeImport() {
-            const t = this;
-            t.openImport = false;
+            const t = this
+            t.openImport = false
         },
         // 导入导出默认方法 无需更改
         importExcel() {
-            const t = this;
-            t.openImport = true;
-            t.$refs.importExcel.getDowModelFile();
+            const t = this
+            t.openImport = true
+            t.$refs.importExcel.getDowModelFile()
         },
         // 导入导出默认方法
         expData() {
@@ -469,8 +430,8 @@ export default {
             const data = {
                 unitCode: t.unitCode,
                 unitFname: t.unitFname,
-                unitType: t.unitType
-            };
+                unitType: t.unitType,
+            }
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
             this.openExp = true;
@@ -565,7 +526,8 @@ export default {
                 logType: '组织架构查询',
                 unitFname: t.unitFname,
                 unitType: t.unitType,
-                unitPid: id
+                unitPid: id,
+                state:t.state
             }
             for (const dat in data) {
                 if (data[dat] === '') {
@@ -679,7 +641,7 @@ export default {
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id)
             }
-            this.tableselected = newArr.toString()
+            this.tableselected = newArr
         },//列表中选中的item
         openUp (id, logType, index) {
             const t = this
@@ -803,7 +765,7 @@ export default {
                 _mt: 'orgUnits.setStateById',
                 logType: logType,
                 state: state,
-                ids: t.tableselected,
+                ids: t.tableselected.toString,
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     t.getData(1)
@@ -845,10 +807,18 @@ export default {
         getPageByType (paramCode) {
             this.unitTypeId = paramCode
             this.getData(1)
+            //  @buttonSearch="search()"
+            //     @buttonAdd="openUp(NaN,$t('button.add'))"
+            //     @buttonDraft="modifystatus('01draft')"
+            //     @buttonValid="modifystatus('02valid')"
+            //     @buttonInvalid="modifystatus('03invalid')"
+            //     @buttonImport="importExcel"
+            //      @buttonExport="expData"
         }//根据类型获取列表
     },
 }
 </script>
+
 <style lang="scss" scoped>
 .table-form {
     margin: 10px 0;
