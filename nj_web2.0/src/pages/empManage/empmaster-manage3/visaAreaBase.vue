@@ -11,7 +11,7 @@
             <MenuItem name="content" v-show="id">
              学历信息管理
             </MenuItem>
-            <!-- <MenuItem name="content1" v-show="id">
+            <MenuItem name="content1" v-show="id">
              合同信息管理
             </MenuItem>
             <MenuItem name="content2" v-show="id">
@@ -19,7 +19,7 @@
             </MenuItem>
             <MenuItem name="content3" v-show="id">
              家庭成员管理
-            </MenuItem> -->
+            </MenuItem>
           </Menu>
         </i-col>
         <i-col class="meau-right" span="19">
@@ -36,9 +36,9 @@
             <mOption v-show="option" :logType="logType" :Visaarea="Visaarea" ref="option" :id="id" @update="update" @newdata="newdata"></mOption>
             <!--子表分页页面 mainid为主表id-->
             <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
-            <!-- <mContent1 v-show="content1" :logType="logType" ref="content1" :mainId="id"></mContent1>
+            <mContent1 v-show="content1" :logType="logType" ref="content1" :mainId="id"></mContent1>
             <mContent2 v-show="content2" :logType="logType" ref="content2" :mainId="id"></mContent2>
-            <mContent3 v-show="content3" :logType="logType" ref="content3" :mainId="id"></mContent3> -->
+            <mContent3 v-show="content3" :logType="logType" ref="content3" :mainId="id"></mContent3>
           </div>
         </i-col>
       </row>
@@ -49,9 +49,9 @@
   import mOption from './jichu/updVisaArea'
   // import mOption from './updVisaArea2'
   import mContent from './xueli/visaAreaDocsList'
-  // import mContent1 from '@/hetong/visaAreaDocsList'
-  // import mContent2 from '@/gongzuo/visaAreaDocsList'
-  // import mContent3 from '@/jiating/visaAreaDocsList'
+  import mContent1 from './hetong/visaAreaDocsList'
+  import mContent2 from './gongzuo/visaAreaDocsList'
+  import mContent3 from './jiating/visaAreaDocsList'
 
 
   export default {
@@ -61,11 +61,11 @@
         active: 'option',
         option: true,
         content: false,
-        // content1: false,
-        // content2: false,
-        // content3: false,
+        content1: false,
+        content2: false,
+        content3: false,
         
-        id: NaN,
+        // id: NaN,
 //        主表查询单条数据的mt
         data: {
           _mt: 'empEmpnh.getById',
@@ -75,16 +75,16 @@
     components: {
       mOption,
       mContent,
-      // mContent1,
-      // mContent2,
-      // mContent3,
+      mContent1,
+      mContent2,
+      mContent3,
     },
     props: {
 //      父页面传递参数  visaare一般不传
+      id:Number,
       logType: String,
       index: Number,
-      params: Object,
-      Visaarea: Array,
+      
     },
     mounted() {
     },
@@ -114,7 +114,23 @@
       pageTo(name) {
         this.option = false
         this.content = false
+          this.content1 = false
+          this.content2 = false
+           this.content3 = false
         this.active = name
+        switch (name) {
+          case 'option':
+            this.title = "修改"
+            this.$refs.content.clear()
+            break
+          case 'content':
+            this.title = "修改"
+            break
+          case 'field':
+            this.title = "修改"
+            this.$refs.content.clear()
+            break
+        }
         this[name] = true
         if (name === 'content') {
           this.$refs.content.search()
@@ -126,22 +142,14 @@
       clear() {
         this.option = true
         this.content = false
-        // this.content1 = false
-        // this.content2 = false
-        // this.content3 = false
+        this.content1 = false
+        this.content2 = false
+        this.content3 = false
         this.id = NaN
         this.active = 'option'
-        this.$refs.option.clear()
-      },
-//      更新父页面列表 无需变更
-      update(data) {
-        this.$emit('update', data)
-      },
-//      更新父页面列表 无需变更
-      newdata(data) {
-        this.id = data.id
-        this.$emit('newdata', data)
-      },
+        
+      }
+
     },
   }
 </script>

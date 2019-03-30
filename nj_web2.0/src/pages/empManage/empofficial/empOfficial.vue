@@ -21,7 +21,7 @@
                 <btnList @buttonExport="expData"
                          @buttonSearch="getData"
                          @buttonImport="importExcel"
-                         @moditySelct="changemodity"
+                         @moditySelect="changemodity"
                          @buttonAdd="openUp(NaN,'新增')"
                          @buttonDel="deletemsg()"
                          @buttonValid="setState('02empoff')"
