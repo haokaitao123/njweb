@@ -69,6 +69,8 @@ export default {
       total: NaN,
       logType: "",
       showMsg: false,
+      rows: 10,
+        page: 1,
       columns: [
         {
           type: "selection",
@@ -132,13 +134,13 @@ export default {
       params: {
         _mt: "empEducation.getPage",
         funId: "1",
-        rows: 10,
-        page: 1,
+        rows: this.rows,
+        page: this.page,
         sort: "id",
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        empId:""
+        pkId:""
       },
       index: "",
       tableselected: []
@@ -163,7 +165,7 @@ export default {
       //        设置主表id
 
       // this.params.visaAreaId = this.mainId + "";
-      this.params.id = this.mainId + "";
+      this.params.pkId = this.mainId + "";
       this.getData();
     },
     getData() {
@@ -268,7 +270,13 @@ export default {
       const t = this;
       t.data.splice(t.index, 1, res);
     },
-    clear() {},
+    clear() {
+      const t = this;
+      t.docsName = "";
+      t.page = 1;
+      t.rows = 10;
+      
+    },
     hideMsg() {
       this.showMsg = false;
     }
