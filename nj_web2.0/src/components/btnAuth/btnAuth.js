@@ -291,6 +291,7 @@ export default {
           break
         case "button_del":
           btnName = '删除'
+          bType = 'error';
           break
         case "button_opt_upd":
           btnName = '修改'
