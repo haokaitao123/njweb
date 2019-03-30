@@ -24,7 +24,7 @@
             </FormItem>
           </i-col>
           
-          <i-col span="工作单位" offset="1">
+          <i-col span="11" offset="1">
             <FormItem label="工作单位" prop="fmCompany">
               <Input v-model="form.fmCompany" placeholder="请输入工作单位"></Input>
             </FormItem>

@@ -78,14 +78,14 @@ export default {
           align: "center"
         },
         {
-          title: "员工ID",
-          key: "empId",
+          title: "工作单位",
+          key: "weComp",
           //            width: 150,
           sortable: "custom"
         },
         {
-          title: "公司ID",
-          key: "companyId"
+          title: "工作部门",
+          key: "weDept"
           //            width: 150,
         },
         {
