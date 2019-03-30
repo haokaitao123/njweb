@@ -34,6 +34,6 @@ export default {
 <style lang="scss" scoped>
 .btnAuth {
     display: inline-block;
-    padding: 0 2px;
+    padding: 2px;
 }
 </style>

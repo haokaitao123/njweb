@@ -56,7 +56,6 @@ export default {
           this.viewFilter();
           this.operateFilter();
           this.tableOperate();
-          console.log(res, "res123");
         }
       })
     },
@@ -94,7 +93,6 @@ export default {
         }
       } else {
         t.newBtnList = t.sort(t.modityList[0].funBtnList);
-        console.log(t.newBtnList, "t.newBtnList")
         t.statusDis = t.modityList[0].funName;
         t.status = t.modityList[0].funStatecode;
         this.$store.commit('btnOperate/setModity', t.status)
@@ -108,7 +106,7 @@ export default {
       let data = this.newBtnList;
       let newArr = [];
       for (var i = 0; i < data.length; i++) {
-        if (data[i].btnLancode != "button_opt_view" && data[i].btnLancode != "button_opt_upd") {
+        if (data[i].btnLancode.indexOf("_opt_") == -1) {
           newArr.push(data[i]);
         } else {
           var obj = {
@@ -135,7 +133,6 @@ export default {
         }
       }
       if (temp.length > 1) {
-        pageShow = "button_opt_upd";
         temp = temp.join(",");
         if (temp.indexOf("button_opt_view") != -1 && temp.indexOf("button_opt_upd") != -1) {
           temp = temp.split(",");
@@ -145,14 +142,12 @@ export default {
           }
         }
         temp = temp.join(",");
-        console.log(temp, "temp55555")
         this.$store.commit('btnOperate/setPageShow', temp);
       } else if (temp.length == 1) {
         this.$store.commit('btnOperate/setPageShow', temp[0]);
       } else {
         this.$store.commit('btnOperate/setPageShow', "");
       }
-      //   this.$store.commit('btnOperate/setPageShow', temp[0]);
     },
     /**
      *  数组删除
@@ -365,7 +360,6 @@ export default {
       let searchBtn = [];
       let data = t.newBtnList
       for (let v of data) {
-         console.log(v);
         let res = t.btnType(v.btnLancode);
         child.push(createElement('normalBtn', {
           props: {

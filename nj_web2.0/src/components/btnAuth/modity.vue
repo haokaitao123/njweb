@@ -57,8 +57,16 @@ export default {
                 }
             }
             if (temp.length > 1) {
-                pageShow = "button_opt_upd";
-                this.$store.commit('btnOperate/setPageShow', pageShow);
+                temp = temp.join(",");
+                if (temp.indexOf("button_opt_view") != -1 && temp.indexOf("button_opt_upd") != -1) {
+                    temp = temp.split(",");
+                    let index = temp.indexOf("button_opt_view")
+                    if (index > -1) {
+                        temp.splice(index, 1);
+                    }
+                }
+                temp = temp.join(",");
+                this.$store.commit('btnOperate/setPageShow', temp);
             } else if (temp.length == 1) {
                 this.$store.commit('btnOperate/setPageShow', temp[0]);
             } else {
@@ -73,6 +81,6 @@ export default {
 <style lang="scss" scoped>
 .moditySelect {
     display: inline-block;
-    padding: 0 2px;
+    padding: 2px;
 }
 </style>
