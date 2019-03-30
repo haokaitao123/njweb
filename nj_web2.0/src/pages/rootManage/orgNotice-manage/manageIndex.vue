@@ -14,7 +14,7 @@
               <Input placeholder="请输入主题" style="width: 200px" v-model="noticeTitle"/>
 
               <span @dblclick="clearPeople('1')">
-               <Input v-model="noticePeopleDis" style="width: 200px" icon="search" :readonly="true"  :placeholder="$t('请选择发布人')"  @on-click="pickData()"/>
+               <Input v-model="noticePeopleDis" style="width: 200px" icon="search" :readonly="true"  placeholder="请选择发布人"  @on-click="pickData()"/>
               </span>
               <!-- 页面中调用公共按钮组件标签<btnList> -->
               <!-- 调用公共按钮组件方法 -->

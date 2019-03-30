@@ -51,9 +51,9 @@
           </FormItem>
           </Col>
           <Col span="10" offset="1">
-          <FormItem :label="$t('通知类型')" prop="noticeType">
+          <FormItem label="通知类型" prop="noticeType">
             <Select v-model="form.noticeType" :disabled="editdisabled" class="width200"
-                    :placeholder="$t('通知类型')" >
+                    placeholder="通知类型" >
               <Option v-for="(item, index) in selectType" :value="item.paramCode"
                       :key="index">{{ item.paramInfoName }}
               </Option>
@@ -107,7 +107,7 @@
         </Row>
         <Row>
           <Col span="23">
-          <FormItem :label="$t('附件上传')" prop="noticeAttach">
+          <FormItem label="'附件上传" prop="noticeAttach">
             <Row>
               <i-col span="3">
                 <Upload :before-upload="handleUpload" action=" ">
@@ -216,6 +216,7 @@ export default {
       file: '',
       filekey: '',
       loadingStatus: false,
+      noticePeopleName:'',
       form: {
         _mt: "orgNotice.addOrUpd",
         logType: "新增",
@@ -270,7 +271,7 @@ export default {
           }
         ],
         noticeType: [
-            { required: true, message: this.$t('请选择通知类型'), trigger: 'change' },
+            { required: true, message: "请选择通知类型", trigger: 'change' },
           ],
         noticeContent: [
           {
