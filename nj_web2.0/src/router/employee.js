@@ -14,6 +14,7 @@ const laterreturnRecord = resolve => require(['@/pages/empManage/laterreturn-man
 
 const goaborddetail = resolve => require(['@/pages/empManage/goaborddetail-manage/goaborddetail'], resolve)
 
+const resumeNumMange = resolve => require(['@/pages/RmResumeMange/resumeNumMange'], resolve)
 export default [
   {
     path: 'goaborddetail',
@@ -49,5 +50,10 @@ export default [
     path: 'empOfficial',
     name: 'empOfficial',
     component: empOfficial,
+  },
+  {
+    path: 'rmResume',
+    name: 'rmResume',
+    component: resumeNumMange,
   }
 ]

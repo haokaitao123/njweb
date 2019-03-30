@@ -22,18 +22,22 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-            
-            <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
-            <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
+            <btnList 
+               
+               
+            ></btnList>
+            <!-- <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span> -->
+            <!-- <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
             <Button type="primary"  @click="expData">导出</Button>
-             <Button type="primary" @click="importExcel">导入</Button>
+             <Button type="primary" @click="importExcel">导入</Button> -->
             <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
           </Row>
           <!--布置分页列表 变量通用 无需变更-->
           <row class="table-form" ref="table-form">
             <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
           </row>
-          <Row style="display: flex">          <Page :total="total" :current="page" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
+          <Row style="display: flex">          <Page :total="total" :current="page" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
+          <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
           </Col>
         </Row>
 
@@ -64,11 +68,12 @@
   import expwindow from '../../../components/fileOperations/expSms'
   import expdow from '../../../components/fileOperations/expdow'
   import importExcel from '../../../components/importModel/importParam'
+  import btnList from '../../../components/btnAuth/btnAuth'
   export default{
     data() {
       return {
           // 导入的mt名称
-        imp_mt: 'baseBankinfo.importData',
+        imp_mt: 'orgPost.importData',
         // 导出字段设置, code字段名 name列名
         expDataTital: [{ code: 'postCode', name: '岗位编码' }, { code: 'postFnameCnDis', name: '岗位名称' },
           { code: 'postStansalary', name: '岗位标准薪资' }, { code: 'postTrialsalary', name: '试用期薪资' },
@@ -227,14 +232,40 @@
       }
     },
     computed: {
-
+        pageShow () {
+                       return this.$store.state.btnOperate.pageShow
+        	},
+        	tableButton () {
+                       return this.$store.state.btnOperate.tableButton
+        	},
+        	tableOperate () {
+            	       return this.$store.state.btnOperate.tableOperate
+        	}
     },
     components: {
      // 初始化子页面
+      btnList,
       update,
       expwindow,
       expdow,
       importExcel,
+    },
+    created () { 
+       if (this.pageShow != "") {
+            this.columns.push(this.tableBtn);
+            this.$store.commit('btnOperate/setTableOperate', 'true');
+        }
+    },
+    watch: { 
+       pageShow (val) {
+            if (val == "" && this.tableOperate == 'true') {
+                this.columns.pop();
+                this.$store.commit('btnOperate/setTableOperate', 'false');
+            } else if (this.tableOperate == 'false') {
+                this.columns.push(this.tableBtn);
+                this.$store.commit('btnOperate/setTableOperate', 'true');
+            }
+        }
     },
     //初始化自动调用方法
     mounted() {
@@ -378,6 +409,41 @@
         this.page = 1
         this.getData()
       },
+       modifystatus (state) {
+            const t = this
+            let logType = ''
+            if (state === '02valid') {
+                logType = '生效'
+            } else if (state === '03invalid') {
+                logType = '失效'
+            }
+            if (t.tableselected.length === 0) {
+                t.$Modal.warning({
+                    title: this.$t('reminder.remind'),
+                    content: this.$t('reminder.leastone'),
+                })
+                return
+            }
+            getDataLevelUserLogin({
+                _mt: 'orgUnits.setStateById',
+                logType: logType,
+                state: state,
+                ids: t.tableselected.toString,
+            }).then((res) => {
+                if (isSuccess(res, t)) {
+                    t.getData(1)
+                    t.$Modal.success({
+                        title: this.$t('reminder.suc'),
+                        content: '操作完成',
+                    })
+                }
+            }).catch(() => {
+                t.$Modal.error({
+                    title: this.$t('reminder.err'),
+                    content: this.$t('reminder.errormessage'),
+                })
+            })
+        }, //修改状态
       // 导入导出默认方法 无需更改
       closeImport() {
         const t = this
