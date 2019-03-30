@@ -19,16 +19,27 @@
           :label-width="110"
         >
           <i-col span="11">
-            <FormItem label="学校" prop="edSchool">
-              <Input v-model="form.edSchool" placeholder="请输入学校"></Input>
+            <FormItem label="姓名" prop="fmCname">
+              <Input v-model="form.fmCname" placeholder="请输入姓名"></Input>
             </FormItem>
           </i-col>
+          
+          <i-col span="工作单位" offset="1">
+            <FormItem label="工作单位" prop="fmCompany">
+              <Input v-model="form.fmCompany" placeholder="请输入工作单位"></Input>
+            </FormItem>
+          </i-col> 
           <i-col span="11" offset="1">
-            <FormItem label="学位" prop="edDegree">
-              <Input v-model="form.edDegree" placeholder="请输入学位"></Input>
+            <FormItem label="职务" prop="fmPost">
+              <Input v-model="form.fmPost" placeholder="请输入职务"></Input>
             </FormItem>
           </i-col>
-          <i-col span="23">
+           <i-col span="11" >
+            <FormItem label="联系方式" prop="fmPhone">
+              <Input v-model="form.fmPost" placeholder="请输入联系方式"></Input>
+            </FormItem>
+          </i-col>
+          <!-- <i-col span="23"> -->
             <!-- <FormItem label="资料详细要求" prop="docsText">
               <Input
                 v-model="form.docsText"
@@ -37,7 +48,7 @@
                 placeholder="请输入资料详细要求"
               ></Input>
             </FormItem>-->
-            <FormItem label="国家" prop="edCuntry">
+            <!-- <FormItem label="国家" prop="edCuntry">
               <Select v-model="form.edCuntry">
                 <Option
                   :value="item.id"
@@ -46,10 +57,10 @@
                 >{{item.countryName}}</Option>
               </Select>
             </FormItem>
-          </i-col>
-          <i-col span="11">
-            <FormItem label="教育程度" prop="edEducationlevel">
-              <Select v-model="form.edEducationlevel">
+          </i-col> -->
+          <!-- <i-col span="11">
+            <FormItem label="职务" prop="fmPost">
+              <Select v-model="form.fmPost">
                 <Option
                   :value="item.paramCode"
                   v-for="(item,index) in selectEducationlevel"
@@ -57,10 +68,10 @@
                 >{{item.paramInfoCn}}</Option>
               </Select>
             </FormItem>
-          </i-col>
+          </i-col> -->
           <i-col span="23">
-            <FormItem label="是否最高学位" prop="edIshighestDis" :label-width="135">
-              <RadioGroup v-model="form.edIshighestDis">
+            <FormItem label="是否紧急联系人" prop="fmIsurgent" :label-width="135">
+              <RadioGroup v-model="form.fmIsurgent">
                 <Radio
                   :label="item.paramCode"
                   v-for="(item,index) in yesOrNo"
@@ -103,7 +114,7 @@
             <!--</FormItem>-->
             <!--</i-col>-->
             <!-- <i-col span="23"></i-col> -->
-            <i-col span="11">
+            <!-- <i-col span="11">
               <FormItem label="开始时间" prop="edSdate">
                 <DatePicker
                   type="date"
@@ -124,7 +135,7 @@
                   v-model="form.edEdate"
                 ></DatePicker>
               </FormItem>
-            </i-col>
+            </i-col> -->
             <i-col span="23">
               <FormItem label="备注" prop="note">
                 <Input
@@ -170,33 +181,18 @@ export default {
       form: {},
       rowId: "",
       ruleValidate: {
-        edSchool: [{ required: true, message: "请输入学校", trigger: "blur" }],
-        edDegree: [{ required: true, message: "请输入学位", trigger: "blur" }],
-        edCuntry: [
-          { required: true, message: "请选择国家", trigger: "change" }
+        fmCname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        fmCompany: [{ required: true, message: "请输入工作单位", trigger: "blur" }],
+        fmPost: [
+          { required: true, message: "请输入职位", trigger: "blur" }
         ],
-        edEducationlevel: [
-          { required: true, message: "请选择教育程度", trigger: "change" }
+        fmPhone: [
+          { required: true, message: "请输入联系方式", trigger: "blur" }
         ],
-        edIshighestDis: [
-          { required: true, message: "请选择是否是高学历", trigger: "change" }
-        ],
-        edSdate: [
-          {
-            required: true,
-            type: "date",
-            message: "请选择开始日期",
-            trigger: "change"
-          }
-        ],
-        edEdate: [
-          {
-            required: true,
-            type: "date",
-            message: "请选择结束日期",
-            trigger: "change"
-          }
+        fmIsurgent: [
+          { required: true, message: "请选择是否", trigger: "change" }
         ]
+        
       }
     };
   },
@@ -207,7 +203,7 @@ export default {
   },
   components: {},
   mounted() {
-    this.getSelect();
+    // this.getSelect();
   },
   methods: {
     // 新增页面
@@ -220,7 +216,7 @@ export default {
     getData() {
       const t = this;
       const params = {
-        _mt: "empEducation.getById",
+        _mt: "empFamily.getById",
         id: t.rowId,
         funId: "1",
         logType: "根据id查询信息"
@@ -241,7 +237,7 @@ export default {
     save() {
       const t = this;
       const data = deepCopy(t.form);
-      data._mt = "empEducation.addOrUpd";
+      data._mt = "empFamily.addOrUpd";
       data.logType = t.logType;
       data.id = t.rowId;
       data.visaAreaId = t.mainId; // 放入主表id
@@ -368,7 +364,7 @@ export default {
       const t = this;
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
-        typeCode: "yesOrNo,selectEducationlevel,selectEdCuntry"
+        typeCode: "button,selectEducationlevel,selectEdCuntry"
       })
         .then(res => {
           if (isSuccess(res, t)) {
