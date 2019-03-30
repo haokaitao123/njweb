@@ -31,7 +31,7 @@
                                v-model="unitFname" />
                         <Select v-model="unitType"
                                 style="width: 200px"
-                                placeholder="请输入组织类别">
+                                placeholder="请选择组织类别">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in unitTypeData"
                                     :key="index"
@@ -39,12 +39,7 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        <!-- <span style="margin: 0;">
-                            <Button type="primary"
-                                    icon="search"
-                                    @click="search()">查询
-                            </Button>
-                        </span> -->
+                        
                        
                         <btnList @buttonExport="expData"
                                 @buttonImport="importExcel"
@@ -294,11 +289,7 @@ export default {
                     key: 'unitStaff',
                     width: 140,
                 },
-                {
-                    title: "状态",
-                    key: 'stateName',
-                    width: 140,
-                },
+                
                 {
                     title: "操作记录",
                     key: 'unitOprecordName',
@@ -318,6 +309,36 @@ export default {
                     width: 140,
                 },
             ],
+            tableBtn: {
+                title: '操作',
+                key: 'action',
+                width: 100,
+                fixed: 'right',
+                align: 'center',
+                render: (h, params) => {
+                    let child = [];
+                    for (let v of this.tableButton) {
+                        child.push(h('Button', {
+                            props: {
+                                type: v.type,
+                                size: 'small',
+                            },
+                            style: {
+                                marginRight: '5px',
+                                display: this.pageShow.indexOf(v.btnName) != -1 ? 'inline' : 'none',
+                            },
+                            on: {
+                                click: () => {
+                                    this.openUp(params.row.id, v.name, params.index);
+                                },
+                            },
+                        }, v.name))
+                    };
+                    return h('div', [
+                        child,
+                    ])
+                },
+            },
             data: [],
             total: 0,
             index: 0,
@@ -344,21 +365,7 @@ export default {
                 unitPid: 0,
             },
             modify: 'false',
-            btnList: {
-                // button_draft: '',    //编辑
-                // button_upd: '',      //修改
-                // button_del: '',      //删除
-                // button_add: '',      //新增
-                // button_save: '',     //保存
-                // button_submit: '',   //提交
-                // button_return: '',   //返回
-                // button_cancel: '',   //取消
-                // button_confirm: '',  //确认
-                // button_invalid: '',  //失效
-                // button_valid: '',    //生效
-                // button_export: '',   //导出
-                // button_import: '',   //导入
-            },
+           
             searchCloumns: [
                 {
                     title: this.$t('lang_organization.orgframe.unitCode'),
@@ -380,6 +387,12 @@ export default {
     computed: {
         pageShow () {
             return this.$store.state.btnOperate.pageShow
+        },
+        tableButton () {
+            return this.$store.state.btnOperate.tableButton
+        },
+        tableOperate () {
+            return this.$store.state.btnOperate.tableOperate
         }
     },
     components: {
@@ -390,6 +403,23 @@ export default {
         expwindow,
         expdow,
         importExcel,
+    },
+    created () {
+        if (this.pageShow != "") {
+            this.columns.push(this.tableBtn);
+            this.$store.commit('btnOperate/setTableOperate', 'true');
+        }
+    },
+    watch: {
+        pageShow (val) {
+            if (val == "" && this.tableOperate == 'true') {
+                this.columns.pop();
+                this.$store.commit('btnOperate/setTableOperate', 'false');
+            } else if (this.tableOperate == 'false') {
+                this.columns.push(this.tableBtn);
+                this.$store.commit('btnOperate/setTableOperate', 'true');
+            }
+        }
     },
     beforeCreate () {
         if (this.pageShow == '') {
@@ -464,42 +494,7 @@ export default {
             getBtnAuth().then((res) => {
                 console.log(res, "res1231")
             })
-            // let data = {
-            //     _mt: 'sysFunctions.getStatusBtnByAuth',
-            // }
-            // getDataLevelUserLogin(data).then((res) => {
-            //     if (isSuccess(res, t)) {
-            //         console.log(res, "res");
-            //         let content = res.data.content[0].rows;
-            //         if (res.data.content[0].isFlowNode == "0") {
-            //             t.modify = false;
-            //             t.btnList = content[0];
-            //         } else if (res.data.content[0].isFlowNode == "1") {
-            //             t.modify = true;
-            //             t.btnList = content;
-            //             t.dropdownMenuList = content;
-            //             let result = t.dropdownMenuList.some(function (item, index, array) {
-            //                 return item.funIsdefault == "1";
-            //             })
-            //             if (result) {
-            //                 for (let v of content) {
-            //                     if (v.funIsdefault == "1") {
-            //                         t.statusDis = v.funName
-            //                         t.status = 
-            //                     }
-            //                 }
-            //             } else {
-            //                 t.statusDis = t.dropdownMenuList[0].funName
-            //             }
-
-            //         }
-            //     }
-            // }).catch(() => {
-            //     t.$Modal.error({
-            //         title: '错误',
-            //         content: '网络错误',
-            //     })
-            // })
+            
         },//按钮权限控制
         pickData () {
             const t = this
