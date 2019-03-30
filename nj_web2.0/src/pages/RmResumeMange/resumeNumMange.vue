@@ -11,13 +11,19 @@
 		<!-- 操作按钮和查询输入框 -->
         <Row>
 			<!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
-			<Input placeholder="请输入员工名称" style="width: 200px" v-model="empName"/> 
+			  <FormItem label="员工姓名" prop="empId">
+            <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
+              <span @dblclick="clearUserid">
+                  <Input v-model="empName" icon="search" :readonly="true" placeholder="请选择员工姓名"  @on-click="pickUserData" />
+              </span>
+        </FormItem>
 			<DatePicker type="date"
 				placeholder="选择简历日期"
 				:editable="false"
 				v-model="resumeDate"
 				style="width: 200px">
 			</DatePicker>
+
 			<!-- 查询按钮 @click后绑定的是一个点击事件 -->
 			<span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">查询</Button></span>
 			<!-- 页面操作按钮 -->
@@ -32,6 +38,9 @@
 			<!-- @click="importExcel" importExcel()是导入事件 -->
 			<Button type="primary" @click="importExcel">
 				导入
+			</Button>
+			<Button type="primary" @click="expData">
+				导出
 			</Button>
         </Row>
 		<!-- table 列表 @on-select @on-select-cancel @on-select-all 后面跟的事件 selectedtable 做的是列表checkbox取消、选中、全选事件 -->
@@ -57,6 +66,16 @@
 		<!--  导入弹出框 :impid="updateId" 传id :imp_mt="imp_mt" 绑定的导入接口路径 @getData="getData" 获取列表 @closeImport="closeImport" 关闭导入弹窗事件-->
      	<importExcel v-show="openImport" :impid="updateId" :imp_mt="imp_mt" @getData="getData"  @closeImport="closeImport" ref="importExcel"></importExcel>
     </transition>
+		<!--导出的弹框-->
+		<!-- <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition> -->
   </div>
 </template>
 <script>
@@ -64,13 +83,26 @@
   import { isSuccess } from '../../lib/util.js'  //调用请求判断成功的公共方法 
   import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../axios/axios.js' //调用请求接口封装的公共方法 
   import importExcel from '../../components/importModel/importParam'//引入导入的弹窗框 跟新增修改弹出框 一样
-
+	import searchEmpMaster from '../../components/searchTable/searchEmpnhMaster' //引入员工信息页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
+	// import expdow from "../../components/fileOperations/expdow";//导出的弹窗
   export default{
 	//页面初始化的所有变量值
     data() {
       	return {
 			imp_mt: 'rmResume.importData', 	//导入的路径
 			openImport: false,	//导入弹出框默认false 隐藏
+			//openExpDow: false,
+			// filekey: "",
+			// filename: "",
+			// 导出字段设置, code字段名 name列名
+        // expDataTital: [
+        //   { code: "empName", name: "员工姓名" },
+        //   { code: "entryName", name: "项目名称" },
+        //   { code: "resumeDate", name: "简历日期" },
+        //   { code: "resumeNum", name: "简历使用量" },
+        //   { code: "note", name: "备注" },
+				// ],
+			empName:'',
 			tableheight: document.body.offsetHeight - 280, //table高度
 			logType: '', //操作类型
 			openUpdate: false,//新增修改弹出框默认false 隐藏
@@ -144,12 +176,13 @@
 			rows: 10,//每页显示条数
 			page: 1,//当前页码
 			funId: '1000',//功能ID
-			empName: '',//绑定页面输入框的员工名称
+			empId: '',//绑定页面输入框的员工名称
 			resumeDate: '',//绑定页面日期选择框的简历日期
-      	}
+			}
 	},
 	//外部调用的组件注册到这里
     components: {
+		// expdow,//导出的组件
 		update,		//新增修改的组件
 		importExcel,//导入的组件
 	},
@@ -161,27 +194,27 @@
     methods: {
 		//获取当前列表数据
       	getData(page) {
-			const t = this
-			if (page) {	
-				t.page = page
-			}
-			//请求列表数据的参数
-			const data = {
-				_mt: 'rmResume.getPage',//接口路径
-				rows: t.rows, //每页显示条数
-				page: t.page, //当前页
-				sort: t.sort, //排序字段
-				order: t.order,//排序类型
-				logType: '查询',//日志描述
-				empName:'',//员工名称
-				resumeDate:''//简历日期
-			}
-			//删除请求列表数据的参数为空的参数
-			for (const dat in data) {
-				if (data[dat] === '') {
-					delete data[dat]
+				const t = this
+				if (page) {	
+					t.page = page
 				}
-			}
+			//请求列表数据的参数
+				const data = {
+					_mt: 'rmResume.getPage',//接口路径
+					rows: t.rows, //每页显示条数
+					page: t.page, //当前页
+					sort: t.sort, //排序字段
+					order: t.order,//排序类型
+					logType: '查询',//日志描述
+					empId:'',//员工名称
+					resumeDate:''//简历日期
+				}
+				//删除请求列表数据的参数为空的参数
+				for (const dat in data) {
+					if (data[dat] === '') {
+						delete data[dat]
+					}
+				}
 			//请求数据接口
 			getDataLevelUserLoginNew(data).then((res) => {
 				if (isSuccess(res, t)) {
@@ -207,6 +240,37 @@
 			t.openImport = true
 			t.$refs.importExcel.getDowModelFile()
 		},
+
+		//  expData() {
+    //     const t = this;
+    //     // 填装查询条件
+    //     const data = {
+    //       empIdName: t.empIdName,
+    //       empIdIden: t.empIdIden,
+    //     };
+    //     // 设置导出mt参数
+    //     this.$refs.expwindow.getData(this.expDataTital, "empEmpofficial.export", data);
+    //     this.openExp = true;
+    //   },
+
+		// 	 // 导入导出默认方法 无需更改
+    //   closeExp() {
+    //     const t = this;
+    //     t.openExp = false;
+    //   },
+    //   // 导入导出默认方法 无需更改
+    //   closeExpDowMain() {
+    //     const t = this;
+    //     t.openExpDow = false;
+		// 	},
+		// 	 // 导入导出默认方法 无需更改
+    //   setFileKey(filekey, filename, openExpDow) {
+    //     const t = this;
+    //     t.filekey = filekey;
+    //     t.filename = filename;
+    //     t.openExpDow = openExpDow;
+    //     t.$refs.expdow.getPriToken(t.filekey);
+    //   },
 		//新增成功添加列表事件
 		addNewArray(res) {
 			const t = this
@@ -297,17 +361,39 @@
 				t.$refs.update.getData(id) //调用子组件update里的getData方法 传了一个id值
 			}
 		},
-		//关闭新增修改弹窗 并且清空之前新增修改弹出框输入的数据
-		closeUp() {
-			const t = this
-			t.openUpdate = false //弹窗显示改为 false 关闭
-			t.$refs.update.entryName = ''
-			t.$refs.update.empName = ''
-			t.$refs.update.formValidate.resumeDate = ''
-			t.$refs.update.formValidate.resumeNum = ''
-			t.$refs.update.formValidate.note = ''
-
-		},
+		//关闭新增修改弹窗
+		closeUp () {
+				const t = this
+				t.openUpdate = false
+				t.$refs.update.entryName = ''
+				t.$refs.update.empName = ''
+				t.$refs.update.formValidate.resumeDate = ''
+				t.$refs.update.formValidate.resumeNum = ''
+				t.$refs.update.formValidate.note = ''
+		},//关闭窗口
+        //关闭员工信息弹出框
+        closeEmp() {
+            const t = this
+            t.openPickUser = false
+        },
+        //员工信息弹出框input选中事件
+        inputEmp(row) {
+            const t = this
+            t.empName = row.empnhName //员工信息name赋值
+            t.formValidate.empId = row.id //员工信息id赋值
+        },
+			 //清除员工信息
+        clearUserid() {
+            const t = this
+            t.empName = ''
+            t.empId = ''
+        },
+        //打开员工信息弹出框
+        pickUserData() {
+            const t = this
+            t.$refs.searchEmpMaster.getData() //调用员工信息子组件获取列表数据方法 列表回显数据
+            t.openPickUser = true //打开员工信息弹出框
+        },
     },
   }
 </script>
