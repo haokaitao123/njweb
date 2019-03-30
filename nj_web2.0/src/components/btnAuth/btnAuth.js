@@ -86,7 +86,6 @@ export default {
       let result = this.modityList.some(function (item, index, array) {
         return item.funIsdefault == "1";
       })
-      console.log(t.modityList, "res")
       if (result) {
         for (let v of t.modityList) {
           if (v.funIsdefault == "1") {
@@ -94,7 +93,7 @@ export default {
             t.status = v.funStatecode;
             this.$store.commit('btnOperate/setModity', t.status)
           }
-          t.sort(v.funBtnList);
+          v.funBtnList.sort(this.compare('btnOrder'));
           for (let k of v.funBtnList) {
             k.modityType = v.funStatecode
           }
@@ -111,7 +110,6 @@ export default {
           }
           t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
         };
-        console.log(t.newBtnList, "sdsds")
       };
     },
     /**
