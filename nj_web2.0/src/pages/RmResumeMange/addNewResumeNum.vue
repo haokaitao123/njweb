@@ -97,23 +97,18 @@
         entryName: '',//项目名称
         empName:'',//员工名称
         ruleValidate: { //表单验证规则
-            
-            // //项目
-            // entryId: [ 
-            //     { required: false, message: '请输入项目名称', trigger: 'blur' }
-            // ],
-            // //员工
-            // empId: [ 
-            //     { required: false, message: '请选择员工', trigger: 'change' }
-            // ],
+            //员工
+            empId: [ 
+                { required: true, message: '请选择员工', trigger: 'change' }
+            ],
             // //简历日期
             // resumeDate: [
-            //     { required: false, message: '请选择日期', trigger: 'change' }
+            //     { required: true, message: '请选择日期', trigger: 'change' }
             // ],
-            // //简历数量
-            // resumeNum: [
-            //     { required: false, message: '请输入简历数量', trigger: 'blur' }
-            // ],
+            //简历数量
+            resumeNum: [
+                { required: true, message: '请输入简历数量', trigger: 'blur' }
+            ],
         },
       }
     },
