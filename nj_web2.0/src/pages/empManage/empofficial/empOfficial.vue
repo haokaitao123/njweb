@@ -24,7 +24,7 @@
                          @moditySelect="changemodity"
                          @buttonAdd="openUp(NaN,'新增')"
                          @buttonDel="deletemsg()"
-                         @buttonValid="setState('02empoff')"
+                         @buttonPositive="setState('02empoff')"
                          ></btnList>
               </Row>
               <!--table-->
@@ -138,7 +138,7 @@
           { code: "note", name: "备注" },
         ],
         //高度设置
-        tableheight: document.body.offsetHeight-140,
+        tableheight: document.body.offsetHeight-240,
         logType: '',
         openUpdate: false,
         updateId: NaN,
@@ -289,6 +289,7 @@
       },
       // 勾选数据方法 无需更改
       selectedtable(selection) {
+        //alert(1)
         const newArr = []
         for (let i = 0; i < selection.length; i++) {
           newArr.push(selection[i].id)
@@ -425,7 +426,7 @@
       },//分页
       openUp(id, logType, index) {
         const t = this
-        debugger
+       // debugger
         t.updateId = parseInt(id, 10)
         t.logType = logType
         t.openUpdate = true
@@ -440,7 +441,7 @@
         t.openUpdate = false
         t.forbidden = false
         let up = t.$refs.update.formValidate
-        debugger
+        //debugger
         for (let s in up) {
           up[s] = ''
         }
