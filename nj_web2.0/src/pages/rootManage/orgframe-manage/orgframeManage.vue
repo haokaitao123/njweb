@@ -53,7 +53,11 @@
                                  @buttonDraft="modifystatus('01draft')"
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @buttonUnitChart="pickData()"
-                                 @moditySelect="modityChange"></btnList>
+                                 @moditySelect="modityChange"
+                                 @buttonSearch="search"
+                                 >
+                                 
+                                 </btnList>
                                  
                     </Row>
                     <row class="table-form"
@@ -399,19 +403,19 @@ export default {
         this.unitTypeSelect();
         console.log(this.pageShow, "2222")
     },
-    modityChange(res) {
-            console.log(res,"res");
-         //alert(1);
-          alert(res.funStatecode);
-        this.state = res.funStatecode
-        this.getData()
-
-         },
+    
     methods: {
         // btnEvent (res) {
         //     console.log(res, "res12345")
         // },
-         
+         modityChange(res) {
+            console.log(res,"res");
+         //alert(1);
+          //alert(res.funStatecode);
+        this.state = res.funStatecode
+        this.getData()
+
+         },
         // 导入导出默认方法 无需更改
         closeImport() {
             const t = this
