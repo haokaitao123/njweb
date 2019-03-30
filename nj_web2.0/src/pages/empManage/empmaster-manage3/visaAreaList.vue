@@ -70,8 +70,6 @@
         :logType="logType"
         :index="index"
         @closeUp="closeUp"
-        @newdata="addNewArray"
-        @update="updateArray"
         ref="update"
       ></update>
     </transition>
@@ -103,7 +101,7 @@ export default {
 
       logType: "",
 
-      openCountry: false,
+      // openCountry: false,
       openUpdate: false,
       // 主表id 无需变更
       updateId: NaN,
@@ -129,11 +127,11 @@ export default {
 
         {
           title: "部门名称",
-          key: "deptId"
+          key: "deptIdDis"
         },
         {
           title: "岗位名称",
-          key: "postId"
+          key: "postIdDis"
         },
 
         {
@@ -307,14 +305,7 @@ export default {
       const t = this;
       t.openUpdate = false;
     },
-    addNewArray(res) {
-      const t = this;
-      t.data.unshift(res);
-    },
-    updateArray(res) {
-      const t = this;
-      t.data.splice(t.index, 1, res);
-    },
+   
     //获取树
   //   getTree() {
   //     const t = this;

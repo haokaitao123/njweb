@@ -134,13 +134,13 @@ export default {
       params: {
         _mt: "empFamily.getPage",
         funId: "1",
-        rows: this.rows,
-        page: this.page,
+        rows: 10,
+        page: 1,
         sort: "id",
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        pkId:""
+          pkId:"",
       },
       index: "",
       tableselected: []
@@ -155,16 +155,9 @@ export default {
   },
   mounted() {},
   methods: {
-    //      get(id) {
-    //        this.params.visaAreaId = id + ''
-    //        this.params.logType = '查询List信息'
-    //        this.getData()
-    //      },
+   
     search() {
-      this.params.page = 1;
-      //        设置主表id
-
-      // this.params.visaAreaId = this.mainId + "";
+      
       this.params.pkId = this.mainId + "";
       this.getData();
     },

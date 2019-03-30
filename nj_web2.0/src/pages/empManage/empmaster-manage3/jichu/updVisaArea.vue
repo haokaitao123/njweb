@@ -240,7 +240,7 @@ export default {
         _mt: "baseParmInfo.getSelectValue",
         // typeCode: "actiontype,emptype,idtype",
         typeCode:
-          "gender,button,techlevel,marrystatus,political"
+          "gender,techlevel,marrystatus,political"
       })
         .then(res => {
           if (isSuccess(res, t)) {

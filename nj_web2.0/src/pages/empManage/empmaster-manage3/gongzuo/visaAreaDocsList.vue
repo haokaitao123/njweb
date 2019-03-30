@@ -134,8 +134,8 @@ export default {
       params: {
         _mt: "empWorkExp.getPage",
         funId: "1",
-        rows: this.rows,
-        page: this.page,
+        rows: 10,
+        page: 1,
         sort: "id",
         order: "asc",
         logType: "",
@@ -161,7 +161,7 @@ export default {
     //        this.getData()
     //      },
     search() {
-      this.params.page = 1;
+      // this.params.page = 1;
       //        设置主表id
 
       // this.params.visaAreaId = this.mainId + "";

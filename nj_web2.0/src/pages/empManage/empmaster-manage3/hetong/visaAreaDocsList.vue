@@ -134,13 +134,13 @@ export default {
       params: {
         _mt: "empContractinfo.getPage",
         funId: "1",
-       rows: this.rows,
-        page: this.page,
+        rows: 10,
+        page: 1,
         sort: "id",
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        id:""
+        pkId:""
       },
       index: "",
       tableselected: []
@@ -161,11 +161,11 @@ export default {
     //        this.getData()
     //      },
     search() {
-      this.params.page = 1;
+      // this.params.page = 1;
       //        设置主表id
 
       // this.params.visaAreaId = this.mainId + "";
-      this.params.id = this.mainId + "";
+      this.params.pkId = this.mainId + "";
       this.getData();
     },
     getData() {
@@ -274,7 +274,7 @@ export default {
       const t = this;
       t.docsName = "";
       t.page = 1;
-      t.rows = 10;c
+      t.rows = 10;
     },
     hideMsg() {
       this.showMsg = false;
