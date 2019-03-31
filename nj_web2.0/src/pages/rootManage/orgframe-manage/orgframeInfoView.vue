@@ -115,6 +115,7 @@
                                             :editable="false"
                                             :readonly="disabled"
                                             v-model="formValidate.unitValdate"
+                                            format="yyyy-MM-dd"
                                             style="width: 100%"></DatePicker>
                             </FormItem>
                         </i-col>
@@ -182,13 +183,12 @@
                         <i-col span="11">
                             <FormItem label="系统转正"
                                       prop="unitSysalig">
-                                <Select v-model="formValidate.unitSysalig"
-                                        :disabled="disabled"
-                                        placeholder="请选择">
-                                    <Option :value="item.paramCode"
-                                            v-for="(item,index) in selectUnitSysalig"
-                                            :key="index">{{item.paramInfoCn}}</Option>
-                                </Select>
+                                <RadioGroup v-model="formValidate.unitSysalig">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectUnitSysalig"
+                                           key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
                             </FormItem>
                         </i-col>
                         <i-col span="22">
@@ -290,10 +290,10 @@ export default {
                 unitValdate: '',         //生效日期
                 unitInvdate: '',         //失效日期
                 unitInvres: '',          //失效原因
-                partEstablish: '',       //部门编制
-                unitManger: '',          //经理编制
-                unitDirec: '',           //主管编制
-                unitStaff: '',           //员工编制
+                partEstablish: null,       //部门编制
+                unitManger: null,          //经理编制
+                unitDirec: null,           //主管编制
+                unitStaff: null,           //员工编制
                 state: '',               //状态
                 unitSysalig: '1',
                 unitOprecord: this.logType,        //操作记录

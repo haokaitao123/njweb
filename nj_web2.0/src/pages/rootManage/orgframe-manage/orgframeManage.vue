@@ -31,7 +31,7 @@
                                v-model="unitFname" />
                         <Select v-model="unitType"
                                 style="width: 200px"
-                                placeholder="请输入组织类别">
+                                placeholder="请选择组织类别">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in unitTypeData"
                                     :key="index"
@@ -151,16 +151,25 @@
     </div>
 </template>
 <script>
+import btnList from '../../../components/btnAuth/btnAuth.js'
 import orgframeChart from './orgframeChart'
 import update from './orgframeInfoView'
 import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import { isSuccess } from '../../../lib/util'
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
-import btnList from '../../../components/btnAuth/btnAuth.js'
 import expwindow from "../../../components/fileOperations/expSms";
 import expdow from "../../../components/fileOperations/expdow";
 import importExcel from "../../../components/importModel/importParam";
 export default {
+    components: {
+        update,
+        orgframeChart,
+        searchOrgframe,
+        btnList,
+        expwindow,
+        expdow,
+        importExcel,
+    },
     data () {
         return {
             // 导入的mt名称
@@ -214,6 +223,11 @@ export default {
                     sortable: 'custom',
                 },
                 {
+                    title: "状态",
+                    key: 'state',
+                    width: 140,
+                },
+                {
                     title: "组织架构名称",
                     width: 180,
                     key: 'unitFname',
@@ -263,11 +277,6 @@ export default {
                     width: 140,
                 },
                 {
-                    title: "失效原因",
-                    key: 'unitInvres',
-                    width: 140,
-                },
-                {
                     title: "部门编制",
                     key: 'partEstablish',
                     width: 140,
@@ -287,16 +296,6 @@ export default {
                     key: 'unitStaff',
                     width: 140,
                 },
-                // {
-                //     title: "状态",
-                //     key: 'stateName',
-                //     width: 140,
-                // },
-                {
-                    title: "操作记录",
-                    key: 'unitOprecordName',
-                    width: 140,
-                },
                 {
                     title: "系统转正",
                     key: 'unitSysalig',
@@ -304,11 +303,6 @@ export default {
                     render: (h, params) => {
                         return h('div', params.row.unitSysalig == 1 ? "是" : "否")
                     }
-                },
-                {
-                    title: "备注",
-                    key: 'note',
-                    width: 140,
                 },
             ],
             tableBtn: {
@@ -382,6 +376,7 @@ export default {
                     key: 'unitTypeName',
                 },
             ],
+            state: sessionStorage.getItem('modity')
         }
     },
     computed: {
@@ -393,29 +388,39 @@ export default {
         },
         tableOperate () {
             return this.$store.state.btnOperate.tableOperate
+        },
+        modity () {
+            let data = sessionStorage.getItem('modity')
+            if (this.$store.state.btnOperate.modity == "" && data) {
+                this.$store.commit('btnOperate/setModity', data);
+            }
+            console.log(data, "data112")
+            return this.$store.state.btnOperate.modity
         }
     },
-    components: {
-        update,
-        orgframeChart,
-        searchOrgframe,
-        btnList,
-        expwindow,
-        expdow,
-        importExcel,
-    },
+
     created () {
+        let data = window.sessionStorage.getItem('modity');
+        console.log(data, "state");
         if (this.pageShow != "") {
             this.columns.push(this.tableBtn);
             this.$store.commit('btnOperate/setTableOperate', 'true');
         }
     },
-
     mounted () {
         this.getData();
         this.getTree();
         this.getSelect();
         this.unitTypeSelect();
+        let data = window.sessionStorage.getItem('modity');
+        console.log(data, "state");
+        // if (this.$store.state.btnOperate.modity == "" && data) {
+        //     this.$store.commit('btnOperate/setModity', data);
+        // }
+        console.log(this.pageShow, "pageShow");
+        console.log(this.tableButton, "tableButton");
+        console.log(this.tableOperate, "tableOperate");
+
     },
     watch: {
         pageShow (val) {
@@ -426,7 +431,7 @@ export default {
                 this.columns.push(this.tableBtn);
                 this.$store.commit('btnOperate/setTableOperate', 'true');
             }
-        }
+        },
     },
     methods: {
         modityChange (res) {
@@ -494,7 +499,8 @@ export default {
             this.openChart = false
         },//关闭组织架构图
         getData (id) {
-            const t = this
+            const t = this;
+            console.log(this.state, "t.state");
             const data = {
                 _mt: 'orgUnits.getByOrgFramePageList',
                 rows: t.rows,
@@ -619,7 +625,7 @@ export default {
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id)
             }
-            this.tableselected = newArr
+            this.tableselected = newArr;
         },//列表中选中的item
         openUp (id, logType, index) {
             const t = this
@@ -658,10 +664,10 @@ export default {
             t.$refs.update.formValidate.unitValdate = ''
             t.$refs.update.formValidate.unitInvdate = ''
             t.$refs.update.formValidate.unitInvres = ''
-            t.$refs.update.formValidate.partEstablish = ''
-            t.$refs.update.formValidate.unitManger = ''
-            t.$refs.update.formValidate.unitDirec = ''
-            t.$refs.update.formValidate.unitStaff = ''
+            t.$refs.update.formValidate.partEstablish = null
+            t.$refs.update.formValidate.unitManger = null
+            t.$refs.update.formValidate.unitDirec = null
+            t.$refs.update.formValidate.unitStaff = null
             t.$refs.update.formValidate.unitSysalig = ''
             t.$refs.update.formValidate.unitOprecord = ''
             t.$refs.update.formValidate.note = ''
@@ -748,26 +754,25 @@ export default {
                 })
                 return
             };
-            console.log(t.tableselected.toString, "123")
-            // getDataLevelUserLogin({
-            //     _mt: 'orgUnits.setStateById',
-            //     logType: logType,
-            //     state: state,
-            //     ids: t.tableselected.toString,
-            // }).then((res) => {
-            //     if (isSuccess(res, t)) {
-            //         t.getData(1)
-            //         t.$Modal.success({
-            //             title: this.$t('reminder.suc'),
-            //             content: '操作完成',
-            //         })
-            //     }
-            // }).catch(() => {
-            //     t.$Modal.error({
-            //         title: this.$t('reminder.err'),
-            //         content: this.$t('reminder.errormessage'),
-            //     })
-            // })
+            getDataLevelUserLogin({
+                _mt: 'orgUnits.setStateById',
+                logType: logType,
+                state: state,
+                ids: t.tableselected.toString(),
+            }).then((res) => {
+                if (isSuccess(res, t)) {
+                    t.getData(1)
+                    t.$Modal.success({
+                        title: this.$t('reminder.suc'),
+                        content: '操作完成',
+                    })
+                }
+            }).catch(() => {
+                t.$Modal.error({
+                    title: this.$t('reminder.err'),
+                    content: this.$t('reminder.errormessage'),
+                })
+            })
         }, //修改状态
         unitTypeSelect () {
             const t = this
@@ -796,7 +801,7 @@ export default {
             this.unitTypeId = paramCode
             this.getData(1)
         }//根据类型获取列表
-    },
+    }
 }
 </script>
 
