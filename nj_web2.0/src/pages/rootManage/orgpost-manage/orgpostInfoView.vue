@@ -11,24 +11,23 @@
         </Button>
       </div>
       <div class="option-main">
-        <Row style="max-height: 420px;overflow-y: auto;">
+        <Row style="max-height: 420px;overflow-y: auto;" id="scrollBox">
           <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
             <i-col span="11">
               <FormItem :label="$t('lang_organization.orgpost.postCode')" prop="postCode">
                 <Input
                   v-model="formValidate.postCode"
-                   :readonly="disabled"
+                  :disabled=true
                   :placeholder="$t('lang_organization.orgpost.postCodeInp')"
                 />
               </FormItem>
             </i-col>
             <i-col span="11" offset="1">
               <FormItem :label="$t('lang_organization.orgpost.postFnameCnDis')" prop="postFname">
-                <Input
-                 :readonly="disabled"
-                  v-model="formValidate.postFname"
-                  :placeholder="$t('lang_organization.orgpost.postFnameCnDisInp')"
-                />
+                <Input v-model="formValidate.postFname"
+                                       :placeholder="$t('lang_organization.orgpost.postFnameCnDisInp')"
+                                       @on-change="postChange"
+                                       :readonly="disabled" />
               </FormItem>
             </i-col>
             <i-col span="11">
@@ -55,10 +54,7 @@
                                             :key="index">{{item.paramInfoCn}}</Option>
                                 </Select> -->
                                 <RadioGroup v-model="formValidate.postStation">
-                                    <Radio :label="item.paramCode"
-                                           v-for="(item,index) in selectPostStation"
-                                           key="index"
-                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                    <Radio :label="item.paramCode"  v-for="(item,index) in selectPostStation" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
                                 </RadioGroup>
               </FormItem>
             </i-col>
@@ -85,20 +81,11 @@
                 :label="$t('lang_organization.orgpost.postCostsharing')"
                 prop="postCostsharing"
               >
-                <!-- <Select
-                  v-model="formValidate.postCostsharing"
-                  :placeholder="$t('lang_organization.orgpost.postCostsharingInp')"
-                >
-                  <Option
-                    :value="item.paramCode"
-                    v-for="(item,index) in selectpostCostsharing"
-                    :key="index"
-                  >{{item.paramInfoCn}}</Option>
-                </Select> -->
+       
                 <RadioGroup v-model="formValidate.postCostsharing">
                                     <Radio :label="item.paramCode"
                                            v-for="(item,index) in selectpostCostsharing"
-                                           key="index"
+                                           :key="index"
                                            :disabled="disabled">{{item.paramInfoCn}}</Radio>
                                 </RadioGroup>
               </FormItem>
@@ -108,20 +95,11 @@
                 :label="$t('lang_organization.orgpost.seniorityWage')"
                 prop="seniorityWage"
               >
-                <!-- <Select
-                  v-model="formValidate.seniorityWage"
-                  :placeholder="$t('lang_organization.orgpost.seniorityWageInp')"
-                >
-                  <Option
-                    :value="item.paramCode"
-                    v-for="(item,index) in selectseniorityWage"
-                    :key="index"
-                  >{{item.paramInfoCn}}</Option>
-                </Select> -->
+               
                 <RadioGroup v-model="formValidate.seniorityWage">
                                     <Radio :label="item.paramCode"
                                            v-for="(item,index) in selectseniorityWage"
-                                           key="index"
+                                           :key="index"
                                            :disabled="disabled">{{item.paramInfoCn}}</Radio>
                                 </RadioGroup>
               </FormItem>
@@ -215,7 +193,12 @@ import searchOrgcostcenter from "../../../components/searchTable/searchOrgcostce
 export default {
   data() {
     return {
+      type: '',
+      distype: false,
       value: "",
+      disabled: false,
+      forbidden: null,
+      popup: '',
       selectDfpslevel: [],
       selectDfsallevel: [],
       selectDftrvlevel: [],
@@ -251,7 +234,7 @@ export default {
             ],
       formValidate: {
         _mt: "orgPost.addOrUpd",
-        postCode: "", //岗位编码
+        postCode: "xxxxxx", //岗位编码
         postDfpslevel: "", //默认职位级别
         postFname: "", //岗位全称
         seniorityWage: "1", //工龄工资
@@ -267,6 +250,7 @@ export default {
         logType: ""
       },
       openPick: false,
+      openPick2: false,
       openPick3: false,
       postUnitName: "",
       postDfcostcenterName: "",
@@ -439,11 +423,11 @@ export default {
             t.formValidate.postDfpslevel = res.data.content[0].postDfpslevel;
             t.formValidate.postStansalary = res.data.content[0].postStansalary;
             t.formValidate.postTrialsalary = res.data.content[0].postTrialsalary;
-             if (logType === "查看") {
-                        t.forbidden = true
+             if (id === res.data.content[0].companyId) {
+                        t.forbidden = 'readonly'
                         t.distype = true
                     } else {
-                        t.forbidden = false
+                        t.forbidden = null
                         t.distype = false
                     }
            
@@ -593,6 +577,13 @@ export default {
       t.$refs.searchOrgframe.getData(this.params);
       t.openPick = true;
     },
+    pickData2 () {
+            if (this.forbidden === null && !this.disabled) {
+                const t = this
+                t.$refs.searchOrgframe.getData(this.params2)
+                t.openPick2 = true
+            }
+        },
     pickData3() {
       const t = this;
       t.$refs.searchOrgcostcenter.getData(this.params3);
@@ -603,15 +594,31 @@ export default {
       t.postUnitName = "";
       t.formValidate.postUnit = "";
     },
+     clearDfhire () {
+            if (!this.disabled) {
+                const t = this
+                t.unitCityName = ''
+                t.formValidate.unitCity = ''
+            }
+        },
     clearCostcenter() {
       const t = this;
       t.postDfcostcenterName = "";
       t.formValidate.postDfcostcenter = "";
     },
-    handleReset() {
-      this.$refs.formValidate.resetFields();
-      this.$emit("closeUp");
-    }
+    handleReset () {
+            this.$refs.formValidate.resetFields();
+            document.getElementById("scrollBox").scrollTop = "0";
+            this.$emit("closeUp");
+        },
+        postChange () {
+            console.log("adfasdf")
+            if (this.formValidate.postFname.indexOf("פӧ") != -1) {
+                this.formValidate.postStation = "1"
+            } else {
+                this.formValidate.postStation = "0"
+            }
+        }
   },
   watch: {}
 };
