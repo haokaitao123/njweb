@@ -410,7 +410,6 @@ export default {
     },
     methods: {
         modityChange (res) {
-            this.modity = res.funStatecode;
             this.getData();
             this.getTree();
         },
@@ -627,7 +626,7 @@ export default {
                             .then(res => {
                                 if (isSuccess(res, t)) {
                                     t.tableselected = [];
-                                    // t.getTree()
+                                    t.getTree()
                                     t.getData();
                                 }
                             })
