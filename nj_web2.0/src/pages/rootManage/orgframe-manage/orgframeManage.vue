@@ -626,7 +626,7 @@ export default {
                             .then(res => {
                                 if (isSuccess(res, t)) {
                                     t.tableselected = [];
-                                    // t.getTree()
+                                    t.getTree()
                                     t.getData();
                                 }
                             })

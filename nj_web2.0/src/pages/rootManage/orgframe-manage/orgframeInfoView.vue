@@ -14,7 +14,8 @@
                 </Button>
             </div>
             <div class="option-main">
-                <Row style="max-height: 420px;overflow-y: auto;">
+                <Row style="max-height: 420px;overflow-y: auto;"
+                     id="scrollBox">
                     <Form ref="formValidate"
                           :model="formValidate"
                           :rules="ruleValidate"
@@ -43,7 +44,7 @@
                             <FormItem label="组织名称"
                                       prop="unitFname">
                                 <Input v-model="formValidate.unitFname"
-                                       :readonly="disabled"
+                                       :disabled="disabled"
                                        placeholder="请输入组织名称"></Input>
                             </FormItem>
                         </i-col>
@@ -53,6 +54,7 @@
                                 <span @dblclick="clearPid">
                                     <Input v-model="unitPname"
                                            icon="search"
+                                           :disabled="disabled"
                                            :readonly=true
                                            placeholder="请选择上级部门"
                                            @on-click="pickData2" />
@@ -89,6 +91,7 @@
                                 <span @dblclick="clearCostcenter">
                                     <Input v-model="unitCenterName"
                                            icon="search"
+                                           :disabled="disabled"
                                            :readonly=true
                                            placeholder="选择成本中心"
                                            @on-click="pickData3" />
@@ -99,8 +102,9 @@
                             <FormItem label="雇佣地点"
                                       prop="unitCity">
                                 <span @dblclick="clearDfhire">
-                                    <Input v-model="unitCenterName"
+                                    <Input v-model="unitCityName"
                                            icon="search"
+                                           :disabled="disabled"
                                            :readonly=true
                                            placeholder="选择成本中心"
                                            @on-click="pickData" />
@@ -113,7 +117,7 @@
                                 <DatePicker type="date"
                                             placeholder="选择生效日期"
                                             :editable="false"
-                                            :readonly="disabled"
+                                            :disabled="disabled"
                                             v-model="formValidate.unitValdate"
                                             format="yyyy-MM-dd"
                                             style="width: 100%"></DatePicker>
@@ -124,7 +128,7 @@
                                       prop="unitInvdate">
                                 <DatePicker type="date"
                                             placeholder="选择失效日期"
-                                            :readonly="disabled"
+                                            :disabled="disabled"
                                             :editable="false"
                                             v-model="formValidate.unitInvdate"
                                             style="width: 100%"></DatePicker>
@@ -134,7 +138,7 @@
                             <FormItem label="失效原因"
                                       prop="unitInvres">
                                 <Input v-model="formValidate.unitInvres"
-                                       :readonly="disabled"
+                                       :disabled="disabled"
                                        type="textarea"
                                        :autosize="{minRows: 2,maxRows: 5}"
                                        placeholder="请输入失效原因..."></Input>
@@ -144,7 +148,7 @@
                             <FormItem label="部门编制"
                                       prop="partEstablish">
                                 <InputNumber v-model="formValidate.partEstablish"
-                                             :readonly="disabled"
+                                             :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
                                              placeholder="请输入部门编制"></InputNumber>
@@ -154,7 +158,7 @@
                             <FormItem label="经理编制"
                                       prop="unitManger">
                                 <InputNumber v-model="formValidate.unitManger"
-                                             :readonly="disabled"
+                                             :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
                                              placeholder="请输入经理编制"></InputNumber>
@@ -164,7 +168,7 @@
                             <FormItem label="主管编制"
                                       prop="unitDirec">
                                 <InputNumber v-model="formValidate.unitDirec"
-                                             :readonly="disabled"
+                                             :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
                                              placeholder="请输入主管编制"></InputNumber>
@@ -174,7 +178,7 @@
                             <FormItem label="员工编制"
                                       prop="unitStaff">
                                 <InputNumber v-model="formValidate.unitStaff"
-                                             :readonly="disabled"
+                                             :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
                                              placeholder="请输入员工编制"></InputNumber>
@@ -205,7 +209,7 @@
                             <FormItem label="备注"
                                       prop="note">
                                 <Input v-model="formValidate.note"
-                                       :readonly="disabled"
+                                       :disabled="disabled"
                                        type="textarea"
                                        :autosize="{minRows: 2,maxRows: 5}"
                                        placeholder="请输入备注..."></Input>
@@ -413,16 +417,16 @@ export default {
                     { type: 'date', message: "请选择生效日期", trigger: 'change' },
                 ],
                 partEstablish: [
-                    { required: true, validator: validatePartEstablish, trigger: 'blur' }
+                    { required: true, validator: validatePartEstablish, trigger: 'change' }
                 ],
                 unitManger: [
-                    { required: true, type: 'number', message: "请输入经理编制", trigger: 'blur' },
+                    { required: true, type: 'number', message: "请输入经理编制", trigger: 'change' },
                 ],
                 unitDirec: [
-                    { required: true, type: 'number', message: "请输入主管编制", trigger: 'blur' },
+                    { required: true, type: 'number', message: "请输入主管编制", trigger: 'change' },
                 ],
                 unitStaff: [
-                    { required: true, type: 'number', message: "请输入员工编制", trigger: 'blur' },
+                    { required: true, type: 'number', message: "请输入员工编制", trigger: 'change' },
                 ],
                 unitSysalig: [
                     { required: true, message: "请选择系统转正", trigger: 'change' },
@@ -447,6 +451,7 @@ export default {
         this.getSelect("orgunittype");
         this.getSelect("unitIndustry");
         this.getSelect("unitPartfunct");
+
     },
     methods: {
         getData (id) {
@@ -481,7 +486,7 @@ export default {
                     t.unitCityName = res.data.content[0].unitCityName
                     t.unitPname = res.data.content[0].unitPname
                     if (id === res.data.content[0].companyId) {
-                        t.forbidden = 'readonly'
+                        t.forbidden = 'disabled'
                         t.distype = true
                     } else {
                         t.forbidden = null
@@ -590,14 +595,10 @@ export default {
             t.unitCityName = name
             t.formValidate.unitCity = id
         },
-        changeinput2 (name, id, centerName, center, type) {
+        changeinput2 (name, id, type) {
             const t = this
-            // t.formValidate.unitType = type
-            console.log(name, "name");
             t.unitPname = name
             t.formValidate.unitPid = id
-            t.formValidate.unitCenter = center
-            t.unitCenterName = centerName
             t.type = type
         },
         changeinput3 (name, id) {
@@ -649,15 +650,17 @@ export default {
             }
         },
         handleReset () {
-            this.$refs.formValidate.resetFields()
+            this.$refs.formValidate.resetFields();
+            document.getElementById("scrollBox").scrollTop = "0";
             this.$emit('closeUp')
         },
     },
     watch: {
+
     },
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../../../sass/updateAndAdd";
 .option-main {
     position: relative;
@@ -672,5 +675,8 @@ export default {
     position: absolute;
     bottom: 20px;
     right: 124px;
+}
+.ivu-input-number-disabled .ivu-input-number-input {
+    color: #000;
 }
 </style>

@@ -91,7 +91,6 @@ router.afterEach((to, from) => {
   store.commit('setFunCode', to.query.code)
 })
 router.beforeEach((to, from, next) => {
-  console.log(to.path, "path");
   const t = Vue;
   if (to.query.id === undefined) {
     store.commit('setFunId', '2')
@@ -115,7 +114,6 @@ router.beforeEach((to, from, next) => {
           let statusDis = "";
           let status = ""
           if (result) {
-
             for (let v of modityList) {
               if (v.funIsdefault == "1") {
                 statusDis = v.funName;
