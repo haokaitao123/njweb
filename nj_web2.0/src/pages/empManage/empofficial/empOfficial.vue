@@ -121,6 +121,7 @@
   export default {
     data() {
       return {
+
         // 导入导出默认参数 无需变更
         openImport: false,
         openExpDow: false,
@@ -442,7 +443,9 @@
         let up = t.$refs.update.formValidate
         debugger
         for (let s in up) {
-          up[s] = ''
+          if(s!='_mt' && s!='funId'){
+            up[s] = ''
+          }
         }
         t.$refs.update.file = ''
         t.$refs.update.filekey = ''
