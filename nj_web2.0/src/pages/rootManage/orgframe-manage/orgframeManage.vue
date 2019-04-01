@@ -4,8 +4,7 @@
             <Col span="24">
             <card>
                 <p slot="title">
-                    <Icon type="mouse"></Icon>
-                    &nbsp;组织信息管理
+                    <Icon type="mouse"></Icon>&nbsp;组织信息管理
                 </p>
                 <Row>
                     <Col span="6"
@@ -15,12 +14,10 @@
                         <Tree v-if="dataTree != ''"
                               :data="dataTree"
                               @on-select-change="selectChange"
-                              :render="renderContent">
-                        </Tree>
+                              :render="renderContent"></Tree>
                         <Spin v-if="loading"
                               size="large"
-                              :style="{height:treeheight + 'px'}">
-                        </Spin>
+                              :style="{height:treeheight + 'px'}"></Spin>
                     </div>
                     </Col>
                     <Col span="18"
@@ -35,22 +32,18 @@
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in unitTypeData"
                                     :key="index"
-                                    @click="getPageByType(item.paramCode)">
-                                {{item.paramInfoCn}}
-                            </Option>
+                                    @click="getPageByType(item.paramCode)">{{item.paramInfoCn}}</Option>
                         </Select>
                         <btnList @buttonExport="expData"
                                  @buttonImport="importExcel"
                                  @buttonAdd="openUp(NaN,$t('button.add'))"
+                                 @buttonDel="deletemsg"
                                  @buttonValid="modifystatus('02valid')"
                                  @buttonDraft="modifystatus('01draft')"
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @buttonUnitChart="pickData()"
                                  @moditySelect="modityChange"
-                                 @buttonSearch="search">
-
-                        </btnList>
-
+                                 @buttonSearch="search"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -63,8 +56,7 @@
                                border
                                ref="selection"
                                :columns="columns"
-                               :data="data">
-                        </Table>
+                               :data="data"></Table>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
@@ -75,15 +67,13 @@
                               placement="top"
                               @on-page-size-change="sizeChange"
                               @on-change="pageChange"
-                              :page-size-opts="[10, 20, 50, 100]">
-                        </Page>
+                              :page-size-opts="[10, 20, 50, 100]"></Page>
                         <Button type="ghost"
                                 size="small"
                                 shape="circle"
                                 icon="refresh"
                                 style="margin-left: 20px;display: inline-block;"
-                                @click="search()">
-                        </Button>
+                                @click="search()"></Button>
                     </Row>
                     </Col>
                 </Row>
@@ -98,14 +88,12 @@
                     @closeUp="closeUp"
                     @getData="addNewArray"
                     @update="updateArray"
-                    ref="update">
-            </update>
+                    ref="update"></update>
         </transition>
         <transition name="fade">
             <orgframeChart v-show="openChart"
                            @closeChart="closeChart"
-                           ref="orgframeChart">
-            </orgframeChart>
+                           ref="orgframeChart"></orgframeChart>
         </transition>
         <transition name="fade">
             <searchOrgframe v-show="openPick"
@@ -113,8 +101,7 @@
                             :params="params"
                             @closeUp="closeFrame"
                             @changeinput="changeinput"
-                            ref="searchOrgframe">
-            </searchOrgframe>
+                            ref="searchOrgframe"></searchOrgframe>
         </transition>
         <!--导入导出子页面 若没有导入导出可以去掉-->
         <transition>
@@ -144,12 +131,15 @@
     </div>
 </template>
 <script>
-import btnList from '../../../components/btnAuth/btnAuth.js'
-import orgframeChart from './orgframeChart'
-import update from './orgframeInfoView'
-import searchOrgframe from '../../../components/searchTable/searchOrgframe'
-import { isSuccess } from '../../../lib/util'
-import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
+import btnList from "../../../components/btnAuth/btnAuth.js";
+import orgframeChart from "./orgframeChart";
+import update from "./orgframeInfoView";
+import searchOrgframe from "../../../components/searchTable/searchOrgframe";
+import { isSuccess } from "../../../lib/util";
+import {
+    getDataLevelUserLoginNew,
+    getDataLevelUserLogin
+} from "../../../axios/axios";
 import expwindow from "../../../components/fileOperations/expSms";
 import expdow from "../../../components/fileOperations/expdow";
 import importExcel from "../../../components/importModel/importParam";
@@ -161,7 +151,7 @@ export default {
         btnList,
         expwindow,
         expdow,
-        importExcel,
+        importExcel
     },
     data () {
         return {
@@ -200,212 +190,206 @@ export default {
             treeheight: document.body.offsetHeight - 200,
             //子页面所需参数，无需变更
             tableheight: document.body.offsetHeight - 280,
-            value: '',
-            logType: '',
+            value: "",
+            logType: "",
             openUpdate: false,
             updateId: NaN,
             tableselected: [],
-            dropdownMenuList: [],   //状态下拉选择框数据
-            unitTypeData: [],    //组织类型下拉选择框数据
+            dropdownMenuList: [], //状态下拉选择框数据
+            unitTypeData: [], //组织类型下拉选择框数据
             statusDis: "",
             unitTypeId: NaN,
-            status: '',
+            status: "",
             columns: [
                 {
-                    type: 'selection',
+                    type: "selection",
                     width: 54,
-                    fixed: 'left',
-                    align: 'center',
+                    fixed: "left",
+                    align: "center"
                 },
                 {
                     title: "组织编码",
-                    key: 'unitCode',
+                    key: "unitCode",
                     width: 140,
-                    fixed: 'left',
-                    sortable: 'custom',
-                },
-                {
-                    title: "状态",
-                    key: 'state',
-                    width: 140,
+                    fixed: "left",
+                    sortable: "custom"
                 },
                 {
                     title: "组织架构名称",
                     width: 180,
-                    key: 'unitFname',
+                    key: "unitFname"
                 },
                 {
                     title: "组织类型",
                     width: 140,
-                    key: 'unitTypeName',
-                    sortable: 'custom',
+                    key: "unitTypeName",
+                    sortable: "custom"
                 },
                 {
                     title: "上级部门",
                     width: 180,
-                    key: 'unitPname',
-                    sortable: 'custom',
+                    key: "unitPname",
+                    sortable: "custom"
                 },
                 {
                     title: "部门职能",
-                    key: 'unitPartfunctName',
-                    width: 140,
+                    key: "unitPartfunctName",
+                    width: 140
                 },
                 {
                     title: "行业",
-                    key: 'unitIndustryName',
-                    width: 140,
+                    key: "unitIndustryName",
+                    width: 140
                 },
                 {
                     title: "成本中心",
-                    key: 'unitCenterName',
-                    width: 140,
+                    key: "unitCenterName",
+                    width: 140
                 },
                 {
                     title: "雇佣地点",
-                    key: 'unitCityName',
-                    width: 140,
+                    key: "unitCityName",
+                    width: 140
                 },
                 {
                     title: "生效日期",
-                    key: 'unitValdate',
-                    sortable: 'custom',
-                    width: 140,
+                    key: "unitValdate",
+                    sortable: "custom",
+                    width: 140
                 },
                 {
                     title: "失效日期",
-                    key: 'unitInvdate',
-                    sortable: 'custom',
-                    width: 140,
+                    key: "unitInvdate",
+                    sortable: "custom",
+                    width: 140
                 },
                 {
                     title: "部门编制",
-                    key: 'partEstablish',
-                    width: 140,
+                    key: "partEstablish",
+                    width: 140
                 },
                 {
                     title: "经理编制",
-                    key: 'unitManger',
-                    width: 140,
+                    key: "unitManger",
+                    width: 140
                 },
                 {
                     title: "主管编制",
-                    key: 'unitDirec',
-                    width: 140,
+                    key: "unitDirec",
+                    width: 140
                 },
                 {
                     title: "员工编制",
-                    key: 'unitStaff',
-                    width: 140,
+                    key: "unitStaff",
+                    width: 140
                 },
                 {
                     title: "系统转正",
-                    key: 'unitSysalig',
+                    key: "unitSysalig",
                     width: 140,
                     render: (h, params) => {
-                        return h('div', params.row.unitSysalig == 1 ? "是" : "否")
+                        return h("div", params.row.unitSysalig == 1 ? "是" : "否");
                     }
-                },
+                }
             ],
             tableBtn: {
-                title: '操作',
-                key: 'action',
+                title: "操作",
+                key: "action",
                 width: 100,
-                fixed: 'right',
-                align: 'center',
+                fixed: "right",
+                align: "center",
                 render: (h, params) => {
                     let child = [];
                     for (let v of this.tableButton) {
-                        child.push(h('Button', {
-                            props: {
-                                type: v.type,
-                                size: 'small',
-                            },
-                            style: {
-                                marginRight: '5px',
-                                display: this.pageShow.indexOf(v.btnName) != -1 ? 'inline' : 'none',
-                            },
-                            on: {
-                                click: () => {
-                                    this.openUp(params.row.id, v.name, params.index);
+                        child.push(
+                            h(
+                                "Button",
+                                {
+                                    props: {
+                                        type: v.type,
+                                        size: "small"
+                                    },
+                                    style: {
+                                        marginRight: "5px",
+                                        display:
+                                            this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.openUp(params.row.id, v.name, params.index);
+                                        }
+                                    }
                                 },
-                            },
-                        }, v.name))
-                    };
-                    return h('div', [
-                        child,
-                    ])
-                },
+                                v.name
+                            )
+                        );
+                    }
+                    return h("div", [child]);
+                }
             },
             data: [],
             total: 0,
             index: 0,
-            sort: 'id',
-            order: 'desc',
+            sort: "id",
+            order: "desc",
             rows: 10,
             page: 1,
-            funId: '1000',
-            unitCode: '',
-            compFnameCnDis: '',
-            treeid: '',
-            unitFname: '',
-            unitType: '',
+            funId: "1000",
+            unitCode: "",
+            compFnameCnDis: "",
+            treeid: "",
+            unitFname: "",
+            unitType: "",
             openPick: false,
             params: {
-                _mt: 'orgUnits.getByOrgFramePageList',
-                sort: 'id',
-                order: 'asc',
+                _mt: "orgUnits.getByOrgFramePageList",
+                sort: "id",
+                order: "asc",
                 rows: 10,
                 page: 1,
-                funId: '1',
-                logType: '组织架构查询',
-                data: '{}',
-                unitPid: 0,
+                funId: "1",
+                logType: "组织架构查询",
+                data: "{}",
+                unitPid: 0
             },
-            modify: 'false',
+            modify: "false",
             searchCloumns: [
                 {
-                    title: this.$t('lang_organization.orgframe.unitCode'),
-                    key: 'unitCode',
-                    sortable: 'custom',
+                    title: this.$t("lang_organization.orgframe.unitCode"),
+                    key: "unitCode",
+                    sortable: "custom"
                 },
                 {
-                    title: this.$t('lang_organization.orgframe.compCOrEName'),
-                    key: 'unitFname',
+                    title: this.$t("lang_organization.orgframe.compCOrEName"),
+                    key: "unitFname"
                 },
                 {
-                    title: this.$t('lang_organization.orgframe.unitTypeName'),
-                    key: 'unitTypeName',
-                },
+                    title: this.$t("lang_organization.orgframe.unitTypeName"),
+                    key: "unitTypeName"
+                }
             ],
-            state: sessionStorage.getItem('modity')
-        }
+            state: this.modity
+        };
     },
     computed: {
         pageShow () {
-            return this.$store.state.btnOperate.pageShow
+            return this.$store.state.btnOperate.pageShow;
         },
         tableButton () {
-            return this.$store.state.btnOperate.tableButton
+            return this.$store.state.btnOperate.tableButton;
         },
         tableOperate () {
-            return this.$store.state.btnOperate.tableOperate
+            return this.$store.state.btnOperate.tableOperate;
         },
         modity () {
-            // let data = sessionStorage.getItem('modity')
-            // if (this.$store.state.btnOperate.modity == "" && data) {
-            //     this.$store.commit('btnOperate/setModity', data);
-            // }
-            // console.log(data, "data112")
-            return this.$store.state.btnOperate.modity
+            return this.$store.state.btnOperate.modity;
         }
     },
     created () {
         if (this.pageShow != "") {
             this.columns.push(this.tableBtn);
-            this.$store.commit('btnOperate/setTableOperate', 'true');
+            this.$store.commit("btnOperate/setTableOperate", "true");
         }
-        console.log(this.modity, "modity")
     },
     mounted () {
         this.getData();
@@ -415,31 +399,30 @@ export default {
     },
     watch: {
         pageShow (val) {
-            if (val == "" && this.tableOperate == 'true') {
+            if (val == "" && this.tableOperate == "true") {
                 this.columns.pop();
-                this.$store.commit('btnOperate/setTableOperate', 'false');
-            } else if (this.tableOperate == 'false') {
+                this.$store.commit("btnOperate/setTableOperate", "false");
+            } else if (this.tableOperate == "false") {
                 this.columns.push(this.tableBtn);
-                this.$store.commit('btnOperate/setTableOperate', 'true');
+                this.$store.commit("btnOperate/setTableOperate", "true");
             }
-        },
+        }
     },
     methods: {
         modityChange (res) {
-            this.state = res.funStatecode
             this.getData();
             this.getTree();
         },
         // 导入导出默认方法 无需更改
         closeImport () {
-            const t = this
-            t.openImport = false
+            const t = this;
+            t.openImport = false;
         },
         // 导入导出默认方法 无需更改
         importExcel () {
-            const t = this
-            t.openImport = true
-            t.$refs.importExcel.getDowModelFile()
+            const t = this;
+            t.openImport = true;
+            t.$refs.importExcel.getDowModelFile();
         },
         // 导入导出默认方法
         expData () {
@@ -448,8 +431,8 @@ export default {
             const data = {
                 unitCode: t.unitCode,
                 unitFname: t.unitFname,
-                unitType: t.unitType,
-            }
+                unitType: t.unitType
+            };
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
             this.openExp = true;
@@ -473,327 +456,380 @@ export default {
             t.$refs.expdow.getPriToken(t.filekey);
         },
         pickData () {
-            const t = this
-            t.$refs.searchOrgframe.getData(this.params)
-            t.openPick = true
-        },//点击组织架构图
+            const t = this;
+            t.$refs.searchOrgframe.getData(this.params);
+            t.openPick = true;
+        }, //点击组织架构图
         changeinput (name, id, costname, costid) {
-            const t = this
-            t.openPick = false
-            t.$refs.orgframeChart.getData(id)
-            t.openChart = true
-        },//输入框
+            const t = this;
+            t.openPick = false;
+            t.$refs.orgframeChart.getData(id);
+            t.openChart = true;
+        }, //输入框
         closeFrame () {
-            const t = this
-            t.openPick = false
-        },//关闭Frame
+            const t = this;
+            t.openPick = false;
+        }, //关闭Frame
         closeChart () {
-            this.openChart = false
-        },//关闭组织架构图
+            this.openChart = false;
+        }, //关闭组织架构图
         getData (id) {
             const t = this;
-            console.log(this.state, "t.state");
             const data = {
-                _mt: 'orgUnits.getByOrgFramePageList',
+                _mt: "orgUnits.getByOrgFramePageList",
                 rows: t.rows,
                 page: t.page,
                 sort: t.sort,
                 order: t.order,
-                logType: '组织架构查询',
+                logType: "组织架构查询",
                 unitFname: t.unitFname,
                 unitType: t.unitType,
                 unitPid: id,
-                state: t.state
-            }
+                state: t.modity
+            };
             for (const dat in data) {
-                if (data[dat] === '') {
-                    delete data[dat]
+                if (data[dat] === "") {
+                    delete data[dat];
                 }
             }
-            getDataLevelUserLoginNew(data).then((res) => {
-                if (isSuccess(res, t)) {
-                    // forEach(item )
-                    t.data = res.data.content[0].rows
-                    t.total = res.data.content[0].records
-                }
-            }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
+            getDataLevelUserLoginNew(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        // forEach(item )
+                        t.data = res.data.content[0].rows;
+                        t.total = res.data.content[0].records;
+                    }
                 })
-            })
-        },//获取列表数据
+                .catch(() => {
+                    t.$Modal.error({
+                        title: this.$t("reminder.err"),
+                        content: this.$t("reminder.errormessage")
+                    });
+                });
+        }, //获取列表数据
         getTree () {
-            const t = this
+            const t = this;
             const data = {
-                _mt: 'orgUnits.getTree',
-                rows: '100',
-                page: '1',
-                sort: 'unitCode',
-                order: 'asc',
-                logType: this.$t('button.ser'),
-                id: '0',
-            }
+                _mt: "orgUnits.getTree",
+                rows: "100",
+                page: "1",
+                sort: "unitCode",
+                order: "asc",
+                logType: this.$t("button.ser"),
+                id: "0",
+                state: t.modity
+            };
             for (const dat in data) {
-                if (data[dat] === '') {
-                    delete data[dat]
+                if (data[dat] === "") {
+                    delete data[dat];
                 }
             }
-            getDataLevelUserLoginNew(data).then((res) => {
-                if (isSuccess(res, t)) {
-                    t.loading = false
-                    setTimeout(() => {
-                        t.dataTree = t.toTree(res.data.content[0].value)
-                    }, 500)
-                }
-            }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
+            getDataLevelUserLoginNew(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.loading = false;
+                        setTimeout(() => {
+                            t.dataTree = t.toTree(res.data.content[0].value);
+                        }, 500);
+                    }
                 })
-            })
+                .catch(() => {
+                    t.$Modal.error({
+                        title: this.$t("reminder.err"),
+                        content: this.$t("reminder.errormessage")
+                    });
+                });
         },
         /* 树点击事件 */
         selectChange (e) {
-            this.treeid = e.id
+            this.treeid = e.id;
             this.page = 1;
-            this.getData(e.id)
+            this.getData(e.id);
         },
         /* 把后台数据转化为tree的格式 */
         toTree (data) {
-            data.forEach((item) => {
-                item.expand = false
-                item.checked = item.authRoleFunDis === '1'
-                item.title = item.unitCode + ' ' + item.unitFname
-                delete item.children
-            })
-            const map = {}
-            data.forEach((item) => {
-                map[item.id] = item
-            })
-            const val = []
-            data.forEach((item) => {
-                const parent = map[item.unitPid]
+            data.forEach(item => {
+                item.expand = false;
+                item.checked = item.authRoleFunDis === "1";
+                item.title = item.unitCode + " " + item.unitFname;
+                delete item.children;
+            });
+            const map = {};
+            data.forEach(item => {
+                map[item.id] = item;
+            });
+            const val = [];
+            data.forEach(item => {
+                const parent = map[item.unitPid];
                 if (parent) {
-                    (parent.children || (parent.children = [])).push(item)
+                    (parent.children || (parent.children = [])).push(item);
                 } else {
-                    val.push(item)
+                    val.push(item);
                 }
-            })
-            return val
+            });
+            return val;
         },
         addNewArray (res) {
-            const t = this
-            t.data.unshift(res)
-            t.getTree()
+            const t = this;
+            t.data.unshift(res);
+            t.getTree();
         },
         updateArray (res) {
-            const t = this
-            t.data.splice(t.index, 1, res)
-            t.getTree()
+            const t = this;
+            t.data.splice(t.index, 1, res);
+            t.getTree();
         },
         sortable (column) {
-            this.sort = column.key
-            this.order = column.order
-            if (this.order !== 'normal') {
-                this.getData(this.treeid)
+            this.sort = column.key;
+            this.order = column.order;
+            if (this.order !== "normal") {
+                this.getData(this.treeid);
             } else {
-                this.order = 'desc'
+                this.order = "desc";
             }
-        },//排序
+        }, //排序
         sizeChange (size) {
             const t = this;
             t.rows = size;
-            t.getData(this.treeid)
-        },//分页
+            t.getData(this.treeid);
+        }, //分页
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData(this.treeid)
-        },//分页
+            t.getData(this.treeid);
+        }, //分页
         selectedtable (selection) {
             const newArr = [];
             for (let i = 0; i < selection.length; i++) {
-                newArr.push(selection[i].id)
-            };
+                newArr.push(selection[i].id);
+            }
             this.tableselected = newArr;
-        },//列表中选中的item
+        }, //列表中选中的item
+        deletemsg () {
+            const t = this;
+            if (t.tableselected.length === 0) {
+                t.$Modal.warning({
+                    title: this.$t("reminder.remind"),
+                    content: this.$t("reminder.leastone")
+                });
+            } else {
+                t.$Modal.confirm({
+                    title: this.$t("reminder.remind"),
+                    content: this.$t("reminder.confirmdelete"),
+                    onOk: () => {
+                        getDataLevelUserLogin({
+                            _mt: "orgPost.delByIds",
+                            funId: "1",
+                            logType: this.$t("button.del"),
+                            delIds: t.tableselected.toString()
+                        })
+                            .then(res => {
+                                if (isSuccess(res, t)) {
+                                    t.tableselected = [];
+                                    // t.getTree()
+                                    t.getData();
+                                }
+                            })
+                            .catch(() => {
+                                t.$Modal.error({
+                                    title: this.$t("reminder.err"),
+                                    content: this.$t("reminder.errormessage")
+                                });
+                            });
+                    },
+                    onCancel: () => { }
+                });
+            }
+        },
         openUp (id, logType, index) {
-            const t = this
-            t.updateId = parseInt(id, 10)
-            t.logType = logType
-            t.openUpdate = true
-            t.index = index
+            const t = this;
+            t.updateId = parseInt(id, 10);
+            t.logType = logType;
+            t.openUpdate = true;
+            t.index = index;
             console.log(t.index, "index");
-            console.log(t.updateId, "updateId")
+            console.log(t.updateId, "updateId");
             // t.$refs.update.getSelect();
-            t.$refs.update.formValidate.unitSysalig = '1';
+            t.$refs.update.formValidate.unitSysalig = "1";
             t.$refs.update.formValidate.unitOprecord = t.logType;
-            t.$refs.update.disabled = false
+            t.$refs.update.disabled = false;
             t.$refs.update.getSelect("orgunittype");
             t.$refs.update.getSelect("unitIndustry");
             t.$refs.update.getSelect("unitPartfunct");
-            if (logType === this.$t('button.upd') || logType === "查看") {
+            if (logType === this.$t("button.upd") || logType === "查看") {
                 t.$refs.update.getData(id);
             }
             if (logType === "查看") {
-                t.$refs.update.formValidate.unitSysalig = '1';
-                t.$refs.update.disabled = true
+                t.$refs.update.formValidate.unitSysalig = "1";
+                t.$refs.update.disabled = true;
             }
-        },//打开窗口
+        }, //打开窗口
         closeUp () {
-            const t = this
-            t.openUpdate = false
-            t.$refs.update.formValidate.unitCode = 'xxxxxx'
-            t.$refs.update.formValidate.unitType = ''
-            t.$refs.update.formValidate.unitFname = ''
-            t.$refs.update.formValidate.unitPid = ''
-            t.$refs.update.formValidate.unitPartfunct = ''
-            t.$refs.update.formValidate.unitIndustry = ''
-            t.$refs.update.formValidate.unitCenter = ''
-            t.$refs.update.formValidate.unitCity = ''
-            t.$refs.update.formValidate.unitValdate = ''
-            t.$refs.update.formValidate.unitInvdate = ''
-            t.$refs.update.formValidate.unitInvres = ''
-            t.$refs.update.formValidate.partEstablish = null
-            t.$refs.update.formValidate.unitManger = null
-            t.$refs.update.formValidate.unitDirec = null
-            t.$refs.update.formValidate.unitStaff = null
-            t.$refs.update.formValidate.unitSysalig = ''
-            t.$refs.update.formValidate.unitOprecord = ''
-            t.$refs.update.formValidate.note = ''
-            t.$refs.update.unitCenterName = ''
-            t.$refs.update.unitCityName = ''
-            t.$refs.update.unitPname = ''
-
-        },//关闭窗口
+            const t = this;
+            t.openUpdate = false;
+            t.$refs.update.formValidate.unitCode = "xxxxxx";
+            t.$refs.update.formValidate.unitType = "";
+            t.$refs.update.formValidate.unitFname = "";
+            t.$refs.update.formValidate.unitPid = "";
+            t.$refs.update.formValidate.unitPartfunct = "";
+            t.$refs.update.formValidate.unitIndustry = "";
+            t.$refs.update.formValidate.unitCenter = "";
+            t.$refs.update.formValidate.unitCity = "";
+            t.$refs.update.formValidate.unitValdate = "";
+            t.$refs.update.formValidate.unitInvdate = "";
+            t.$refs.update.formValidate.unitInvres = "";
+            t.$refs.update.formValidate.partEstablish = null;
+            t.$refs.update.formValidate.unitManger = null;
+            t.$refs.update.formValidate.unitDirec = null;
+            t.$refs.update.formValidate.unitStaff = null;
+            t.$refs.update.formValidate.unitSysalig = "";
+            t.$refs.update.formValidate.unitOprecord = "";
+            t.$refs.update.formValidate.note = "";
+            t.$refs.update.unitCenterName = "";
+            t.$refs.update.unitCityName = "";
+            t.$refs.update.unitPname = "";
+        }, //关闭窗口
         selected (key, name) {
-            this.select = name
-            this.cityTypeName = key
-            this.getData()
-        },//下拉选中
+            this.select = name;
+            this.cityTypeName = key;
+            this.getData();
+        }, //下拉选中
         search () {
-            this.treeid = ''
-            this.page = 1
-            this.getData()
-        },//查询
+            this.treeid = "";
+            this.page = 1;
+            this.getData();
+        }, //查询
         renderContent (h, { root, node, data }) {
-            return h('span', {
-                style: {
-                    display: 'inline-block',
-                    width: '100%',
+            return h(
+                "span",
+                {
+                    style: {
+                        display: "inline-block",
+                        width: "100%"
+                    }
                 },
-            }, [
-                    h('Button', {
-                        props: {
-                            type: 'text',
-                            size: 'small',
+                [
+                    h(
+                        "Button",
+                        {
+                            props: {
+                                type: "text",
+                                size: "small"
+                            },
+                            on: {
+                                click: () => {
+                                    this.selectChange(data);
+                                }
+                            }
                         },
-                        on: {
-                            click: () => { this.selectChange(data) },
-                        },
-                    }, [
-                            h('Icon', {
+                        [
+                            h("Icon", {
                                 props: {
-                                    type: data.unitType === '01company' ? 'social-buffer' : 'ios-people',
-                                    size: '15',
-                                    color: data.unitType === '01company' ? '#3399ff' : '#ff9900',
+                                    type:
+                                        data.unitType === "01company"
+                                            ? "social-buffer"
+                                            : "ios-people",
+                                    size: "15",
+                                    color: data.unitType === "01company" ? "#3399ff" : "#ff9900"
                                 },
                                 style: {
-                                    marginRight: '8px',
-                                },
+                                    marginRight: "8px"
+                                }
                             }),
-                            h('span', data.title),
-                        ]),
-                ])
-        },//渲染树状图
+                            h("span", data.title)
+                        ]
+                    )
+                ]
+            );
+        }, //渲染树状图
         getSelect () {
-            const t = this
-            t.dropdownMenuList = []
+            const t = this;
+            t.dropdownMenuList = [];
             getDataLevelUserLogin({
-                _mt: 'baseParmInfo.getSelectValue',
+                _mt: "baseParmInfo.getSelectValue",
                 logType: t.logType,
                 typeCode: "pubuserstatus"
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    // t.dropdownMenuList = res.data.content[0].value[0].paramList
-                }
-            }).catch(() => {
-                this.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
             })
-        },//获取下拉列表
-        getPageByState (paramCode, paramInfoCn) {
-            this.status = paramCode
-            this.getData(1)
-            this.statusDis = paramInfoCn
-        },//选择状态条件
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        // t.dropdownMenuList = res.data.content[0].value[0].paramList
+                    }
+                })
+                .catch(() => {
+                    this.$Modal.error({
+                        title: this.$t("reminder.err"),
+                        content: this.$t("reminder.errormessage")
+                    });
+                });
+        }, //获取下拉列表
         modifystatus (state) {
-            const t = this
-            let logType = ''
-            if (state === '02valid') {
-                logType = '生效'
-            } else if (state === '03invalid') {
-                logType = '失效'
+            const t = this;
+            let logType = "";
+            if (state === "02valid") {
+                logType = "生效";
+            } else if (state === "03invalid") {
+                logType = "失效";
             }
             if (t.tableselected.length === 0) {
                 t.$Modal.warning({
-                    title: this.$t('reminder.remind'),
-                    content: this.$t('reminder.leastone'),
-                })
-                return
-            };
+                    title: this.$t("reminder.remind"),
+                    content: this.$t("reminder.leastone")
+                });
+                return;
+            }
             getDataLevelUserLogin({
-                _mt: 'orgUnits.setStateById',
+                _mt: "orgUnits.setStateById",
                 logType: logType,
                 state: state,
-                ids: t.tableselected.toString(),
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    t.getData(1)
-                    t.$Modal.success({
-                        title: this.$t('reminder.suc'),
-                        content: '操作完成',
-                    })
-                }
-            }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                ids: t.tableselected.toString()
             })
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.getData(1);
+                        t.$Modal.success({
+                            title: this.$t("reminder.suc"),
+                            content: "操作完成"
+                        });
+                    }
+                })
+                .catch(() => {
+                    t.$Modal.error({
+                        title: this.$t("reminder.err"),
+                        content: this.$t("reminder.errormessage")
+                    });
+                });
         }, //修改状态
         unitTypeSelect () {
-            const t = this
-            t.unitTypeData = []
+            const t = this;
+            t.unitTypeData = [];
             getDataLevelUserLogin({
-                _mt: 'baseParmInfo.getSelectValue',
+                _mt: "baseParmInfo.getSelectValue",
                 logType: t.logType,
                 typeCode: "orgunittype"
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    t.unitTypeData = res.data.content[0].value[0].paramList;
-                    let obj = {
-                        'paramCode': '',
-                        'paramInfoCn': '全部'
-                    }
-                    t.unitTypeData.unshift(obj);
-                }
-            }).catch(() => {
-                this.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
             })
-        },// 组织类别下拉列表数据
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.unitTypeData = res.data.content[0].value[0].paramList;
+                        let obj = {
+                            paramCode: "",
+                            paramInfoCn: "全部"
+                        };
+                        t.unitTypeData.unshift(obj);
+                    }
+                })
+                .catch(() => {
+                    this.$Modal.error({
+                        title: this.$t("reminder.err"),
+                        content: this.$t("reminder.errormessage")
+                    });
+                });
+        }, // 组织类别下拉列表数据
         getPageByType (paramCode) {
-            this.unitTypeId = paramCode
-            this.getData(1)
-        }//根据类型获取列表
+            this.unitTypeId = paramCode;
+            this.getData(1);
+        } //根据类型获取列表
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
