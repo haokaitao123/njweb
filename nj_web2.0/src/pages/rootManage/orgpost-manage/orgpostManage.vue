@@ -10,7 +10,7 @@
                 <Row>
                     <Col span="18"
                          style="width: 100% !important">
-                    <Row>modityChange
+                    <Row>
                         <Input :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')"
                                style="width: 200px"
                                v-model="postFname" />

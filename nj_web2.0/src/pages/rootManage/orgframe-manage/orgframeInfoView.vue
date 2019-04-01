@@ -202,7 +202,7 @@
                                        :disabled=true
                                        type="textarea"
                                        :autosize="{minRows: 2,maxRows: 5}"
-                                       placeholder="请输入操作记录..."></Input>
+                                       placeholder=""></Input>
                             </FormItem>
                         </i-col>
                         <i-col span="22">
