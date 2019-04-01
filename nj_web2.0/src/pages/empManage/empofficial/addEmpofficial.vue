@@ -69,7 +69,7 @@
                           <Row>
                             <i-col span="3">
                               <Upload :before-upload="handleUpload" action=" ">
-                                <Button type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
+                                <Button :disabled="forbidden" type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
                               </Upload>
                             </i-col>
                             <i-col span="20" offset="1">
