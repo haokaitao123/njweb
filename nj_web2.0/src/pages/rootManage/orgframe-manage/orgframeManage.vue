@@ -785,7 +785,7 @@ export default {
             })
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        t.getData(1);
+                        t.getData();
                         t.$Modal.success({
                             title: this.$t("reminder.suc"),
                             content: "操作完成"
@@ -826,7 +826,7 @@ export default {
         }, // 组织类别下拉列表数据
         getPageByType (paramCode) {
             this.unitTypeId = paramCode;
-            this.getData(1);
+            this.getData();
         } //根据类型获取列表
     }
 };
