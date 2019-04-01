@@ -651,7 +651,7 @@ export default {
             console.log(t.updateId, "updateId");
             // t.$refs.update.getSelect();
             t.$refs.update.formValidate.unitSysalig = "1";
-            t.$refs.update.formValidate.unitOprecord = t.logType;
+            t.$refs.update.formValidate.unitOprecord = "";
             t.$refs.update.disabled = false;
             t.$refs.update.getSelect("orgunittype");
             t.$refs.update.getSelect("unitIndustry");
