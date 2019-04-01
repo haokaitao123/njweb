@@ -25,12 +25,18 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        <btnList></btnList>
-                        <!-- <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span> -->
-                        <!-- <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
-            <Button type="primary"  @click="expData">导出</Button>
-             <Button type="primary" @click="importExcel">导入</Button> -->
-                        <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
+                        <btnList
+                         @buttonExport="expData"
+                                @buttonImport="importExcel"
+                                 @buttonAdd="openUp(NaN,$t('button.add'))"
+                                 @buttonDel="deletemsg"
+                                 @buttonValid="modifystatus('02valid')"
+                                 @buttonDraft="modifystatus('01draft')"
+                                 @buttonInvalid="modifystatus('03invalid')"
+                                 @moditySelect="modityChange"
+                                 @buttonSearch="search"
+                        ></btnList>
+                        
                     </Row>
                     <!--布置分页列表 变量通用 无需变更-->
                     <row class="table-form"
@@ -122,10 +128,11 @@ export default {
             // 导入的mt名称
             imp_mt: 'orgPost.importData',
             // 导出字段设置, code字段名 name列名
-            expDataTital: [{ code: 'postCode', name: '岗位编码' }, { code: 'postFnameCnDis', name: '岗位名称' },
+            expDataTital: [{ code: 'postCode', name: '岗位编码' }, { code: 'postFname', name: '岗位名称' },
             { code: 'postStansalary', name: '岗位标准薪资' }, { code: 'postTrialsalary', name: '试用期薪资' },
-            { code: 'postCostsharing', name: '默认分摊成本' }, { code: 'seniorityWage', name: '工龄工资' },
-            { code: 'note', name: '备注' }],
+            { code: 'postCostsharing', name: '分摊成本' }, { code: 'seniorityWage', name: '工龄工资' },
+             { code: 'postStation', name: '是否驻厂' }, { code: 'postValiddate', name: '生效日期' },
+            { code: 'postInvdate', name: '失效日期' },{ code: 'postReason', name: '失效原因' },{ code: 'note', name: '备注' }],
             // 导入导出默认参数 无需变更
             openImport: false,
             openExpDow: false,
@@ -165,7 +172,7 @@ export default {
                     sortable: 'custom',
                 },
                 {
-                    title: this.$t('lang_organization.orgpost.postFnameCnDis'),
+                    title: "岗位名称",
                     width: 180,
                     //          width: 105,
                     key: 'postFname',
@@ -183,12 +190,14 @@ export default {
                     width: 180,
                     //          width: 105,
                     key: 'postStansalary',
+                    sortable: 'custom',
                 },
                 {
                     title: this.$t('lang_organization.orgpost.postTrialsalary'),
                     width: 180,
                     //          width: 105,
                     key: 'postTrialsalary',
+                    sortable: 'custom',
                 },
 
                 {
@@ -234,6 +243,7 @@ export default {
                     width: 180,
                     //          width: 105,
                 },
+                 
                 {
                     title: this.$t('lang_organization.orgpost.postReason '),
                     key: 'postReason',
@@ -283,6 +293,18 @@ export default {
             postCode: '',
             postFname: '',
             treeid: '',
+             params: {
+                _mt: 'orgPost.getPage',
+                sort: 'id',
+                order: 'asc',
+                rows: 10,
+                page: 1,
+                funId: '1',
+                logType: '岗位信息查询',
+                data: '{}',
+                
+            },
+            modify: 'false',
         }
     },
     computed: {
@@ -304,6 +326,12 @@ export default {
         expdow,
         importExcel,
     },
+    //按钮权限控制
+        pickData () {
+            const t = this
+            t.$refs.searchOrgframe.getData(this.params)
+            t.openPick = true
+        },
     created () {
         if (this.pageShow != "") {
             this.columns.push(this.tableBtn);
@@ -362,12 +390,12 @@ export default {
             })
         },
 
-
+// 点击列表表头 调用排序方法 无需更改
         sortable (column) {
             this.sort = column.key
             this.order = column.order
             if (this.order !== 'normal') {
-                this.getData(this.treeid)
+                this.getData()
             } else {
                 this.order = 'desc'
             }
@@ -434,9 +462,11 @@ export default {
             t.openUpdate = true
             t.index = index
             // t.$refs.update.getSelect()
-            if (logType === this.$t('button.upd')) {
-                t.$refs.update.getData(id)
+            
+            if (logType === this.$t('button.upd') || logType === "查看") {
+                t.$refs.update.getData(id);
             }
+            
         },
         close () {
             const t = this
@@ -519,7 +549,7 @@ export default {
                 bankSwiftcode: t.bankSwiftcode,
             }
             // 设置导出mt参数
-            this.$refs.expwindow.getData(this.expDataTital, 'baseBankinfo.export', data)
+            this.$refs.expwindow.getData(this.expDataTital, 'orgPost.export', data)
             this.openExp = true
         },
         // 导入导出默认方法 无需更改

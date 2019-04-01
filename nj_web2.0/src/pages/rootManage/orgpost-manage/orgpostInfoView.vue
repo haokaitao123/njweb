@@ -17,7 +17,7 @@
               <FormItem :label="$t('lang_organization.orgpost.postCode')" prop="postCode">
                 <Input
                   v-model="formValidate.postCode"
-                  
+                   :readonly="disabled"
                   :placeholder="$t('lang_organization.orgpost.postCodeInp')"
                 />
               </FormItem>
@@ -25,6 +25,7 @@
             <i-col span="11" offset="1">
               <FormItem :label="$t('lang_organization.orgpost.postFnameCnDis')" prop="postFname">
                 <Input
+                 :readonly="disabled"
                   v-model="formValidate.postFname"
                   :placeholder="$t('lang_organization.orgpost.postFnameCnDisInp')"
                 />
@@ -35,6 +36,7 @@
                 <Select
                   v-model="formValidate.postDfpslevel"
                   :placeholder="$t('lang_organization.orgpost.postDfpslevelInp')"
+                   :disabled="disabled"
                 >
                   <Option
                     :value="item.paramCode"
@@ -46,12 +48,18 @@
             </i-col>
             <i-col span="11" offset="1">
               <FormItem :label="$t('lang_organization.orgpost.postStation')" prop="postStation">
-                <Select v-model="formValidate.postStation"
+                <!-- <Select v-model="formValidate.postStation"
                                         placeholder="请选择">
                                     <Option :value="item.paramCode"
                                             v-for="(item,index) in selectPostStation"
                                             :key="index">{{item.paramInfoCn}}</Option>
-                                </Select>
+                                </Select> -->
+                                <RadioGroup v-model="formValidate.postStation">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectPostStation"
+                                           key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
               </FormItem>
             </i-col>
              <i-col span="11" >
@@ -59,6 +67,7 @@
                 <Input
                   v-model="formValidate.postStansalary"
                   :placeholder="$t('lang_organization.orgpost.postStansalaryInp')"
+                   :readonly="disabled"
                 />
                 </FormItem>
             </i-col>
@@ -67,6 +76,7 @@
                 <Input
                   v-model="formValidate.postTrialsalary"
                   :placeholder="$t('lang_organization.orgpost.postTrialsalary')"
+                   :readonly="disabled"
                 />
                 </FormItem>
             </i-col>
@@ -75,7 +85,7 @@
                 :label="$t('lang_organization.orgpost.postCostsharing')"
                 prop="postCostsharing"
               >
-                <Select
+                <!-- <Select
                   v-model="formValidate.postCostsharing"
                   :placeholder="$t('lang_organization.orgpost.postCostsharingInp')"
                 >
@@ -84,7 +94,13 @@
                     v-for="(item,index) in selectpostCostsharing"
                     :key="index"
                   >{{item.paramInfoCn}}</Option>
-                </Select>
+                </Select> -->
+                <RadioGroup v-model="formValidate.postCostsharing">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectpostCostsharing"
+                                           key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
               </FormItem>
             </i-col>
             <i-col span="11" offset="1">
@@ -92,7 +108,7 @@
                 :label="$t('lang_organization.orgpost.seniorityWage')"
                 prop="seniorityWage"
               >
-                <Select
+                <!-- <Select
                   v-model="formValidate.seniorityWage"
                   :placeholder="$t('lang_organization.orgpost.seniorityWageInp')"
                 >
@@ -101,7 +117,13 @@
                     v-for="(item,index) in selectseniorityWage"
                     :key="index"
                   >{{item.paramInfoCn}}</Option>
-                </Select>
+                </Select> -->
+                <RadioGroup v-model="formValidate.seniorityWage">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectseniorityWage"
+                                           key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
               </FormItem>
             </i-col>
             <i-col span="11">
@@ -109,6 +131,7 @@
                 <DatePicker
                   type="date"
                   :placeholder="$t('lang_organization.orgpost.postValiddateInp')"
+                   :readonly="disabled"
                   :editable="false"
                   v-model="formValidate.postValiddate"
                   style="width: 100%"
@@ -120,6 +143,7 @@
                 <DatePicker
                   type="date"
                   :placeholder="$t('lang_organization.orgpost.postInvdateInp')"
+                   :readonly="disabled"
                   :editable="false"
                   v-model="formValidate.postInvdate"
                   style="width: 100%"
@@ -133,6 +157,7 @@
                   type="textarea"
                   :autosize="{minRows: 2,maxRows: 5}"
                   :placeholder="$t('lang_organization.orgpost.postReasonInp')"
+                   :readonly="disabled"
                 />
               </FormItem>
             </i-col>
@@ -143,13 +168,14 @@
                   type="textarea"
                   :autosize="{minRows: 2,maxRows: 5}"
                   :placeholder="$t('lang_organization.orgpost.noteInp')"
+                   :readonly="disabled"
                 />
               </FormItem>
             </i-col>
           </Form>
         </Row>
         <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>
-        <Button type="primary" @click="handleSubmit" class="btn">{{$t('button.sav')}}</Button>
+        <Button type="primary" @click="handleSubmit" class="btn" v-show="!forbidden">{{$t('button.sav')}}</Button>
       </div>
     </div>
     <!--弹出选择页面布局 无需变更-->
@@ -307,13 +333,13 @@ export default {
       ],
       //设置必填规则
       ruleValidate: {
-        postCode: [
-          {
-            required: true,
-            message: this.$t("lang_organization.orgpost.postCodeInp"),
-            trigger: "blur"
-          }
-        ],
+        // postCode: [
+        //   {
+        //     required: true,
+        //     message: this.$t("lang_organization.orgpost.postCodeInp"),
+        //     trigger: "blur"
+        //   }
+        // ],
         postFname: [
           {
             required: true,
@@ -413,7 +439,13 @@ export default {
             t.formValidate.postDfpslevel = res.data.content[0].postDfpslevel;
             t.formValidate.postStansalary = res.data.content[0].postStansalary;
             t.formValidate.postTrialsalary = res.data.content[0].postTrialsalary;
-             
+             if (logType === "查看") {
+                        t.forbidden = true
+                        t.distype = true
+                    } else {
+                        t.forbidden = false
+                        t.distype = false
+                    }
            
           }
         })
