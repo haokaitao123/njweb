@@ -201,7 +201,7 @@ export default {
   },
   components: {},
   mounted() {
-    this.getSelect();
+    // this.getSelect();
   },
   methods: {
     // 新增页面
@@ -362,7 +362,7 @@ export default {
       const t = this;
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
-        typeCode: "button,selectEducationlevel,selectEdCuntry"
+        typeCode: "Education"
       })
         .then(res => {
           if (isSuccess(res, t)) {

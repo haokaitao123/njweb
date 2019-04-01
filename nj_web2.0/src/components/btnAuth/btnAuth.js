@@ -267,6 +267,18 @@ export default {
         case "组织架构图":
           name = 'buttonUnitChart'
           break
+        case "转正":
+          name = 'buttonPositive'
+          break
+        case "入职":
+          name = 'buttonEmp'
+          break
+        case "待入职":
+          name = 'buttonEmp1'
+          break
+        case "已入职":
+          name = 'buttonEmp2'
+          break
       }
       return name;
     },
@@ -286,7 +298,7 @@ export default {
           break
         case "button_del":
           btnName = '删除'
-          bType = 'error';
+          bType = 'error'
           break
         case "button_opt_upd":
           btnName = '修改'
@@ -338,6 +350,20 @@ export default {
           break
         case "button_unitChart":
           btnName = '组织架构图'
+          break
+        case "button_positive":
+          btnName = '转正';
+          bType = 'success';
+          break
+        case "button_emp":
+          btnName = '入职';
+          bType = 'success';
+          break
+        case "button_emp1":
+          btnName = '入职';
+          break
+        case "button_emp2":
+          btnName = '入职';
           break
       }
       let obj = {
@@ -419,11 +445,11 @@ export default {
     }
 
     return createElement('div', {
-        ref: 'btnList',
-        'style': {
-          display: 'inline'
-        },
+      ref: 'btnList',
+      'style': {
+        display: 'inline'
       },
+    },
       [
         nodes,
       ],

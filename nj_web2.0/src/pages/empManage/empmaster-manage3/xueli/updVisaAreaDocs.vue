@@ -38,13 +38,7 @@
               ></Input>
             </FormItem>-->
             <FormItem label="国家" prop="edCuntry">
-              <Select v-model="form.edCuntry">
-                <Option
-                  :value="item.id"
-                  v-for="(item,index) in selectEdCuntry"
-                  :key="index"
-                >{{item.countryName}}</Option>
-              </Select>
+              <Input v-model="form.edCuntry" placeholder="请输入国家"></Input>
             </FormItem>
           </i-col>
           <i-col span="11">
@@ -173,7 +167,7 @@ export default {
         edSchool: [{ required: true, message: "请输入学校", trigger: "blur" }],
         edDegree: [{ required: true, message: "请输入学位", trigger: "blur" }],
         edCuntry: [
-          { required: true, message: "请选择国家", trigger: "change" }
+          { required: true, message: "请选择国家", trigger: "biur" }
         ],
         edEducationlevel: [
           { required: true, message: "请选择教育程度", trigger: "change" }
@@ -368,21 +362,21 @@ export default {
       const t = this;
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
-        typeCode: "button,selectEducationlevel,selectEdCuntry"
+        typeCode: "education"
       })
         .then(res => {
           if (isSuccess(res, t)) {
             // t.Visadocpreparer = res.data.content[0].value[0].paramList;
             t.selectEducationlevel = res.data.content[0].value[10].paramList;
-            t.selectEdCuntry = res.data.content[0].value;
-            t.yesOrNo = res.data.content[0].value[0].paramList;
+           
+            // t.yesOrNo = res.data.content[0].value[0].paramList;
           }
         })
         .catch(() => {
-          this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+          // this.$Modal.error({
+          //   title: this.$t("reminder.err"),
+          //   content: this.$t("reminder.errormessage")
+          // });
         });
     },
     clear() {

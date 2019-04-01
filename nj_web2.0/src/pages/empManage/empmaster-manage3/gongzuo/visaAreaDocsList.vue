@@ -78,14 +78,14 @@ export default {
           align: "center"
         },
         {
-          title: "员工ID",
-          key: "empId",
+          title: "工作单位",
+          key: "weComp",
           //            width: 150,
           sortable: "custom"
         },
         {
-          title: "公司ID",
-          key: "companyId"
+          title: "工作部门",
+          key: "weDept"
           //            width: 150,
         },
         {
@@ -134,8 +134,8 @@ export default {
       params: {
         _mt: "empWorkExp.getPage",
         funId: "1",
-        rows: this.rows,
-        page: this.page,
+        rows: 10,
+        page: 1,
         sort: "id",
         order: "asc",
         logType: "",
@@ -161,7 +161,7 @@ export default {
     //        this.getData()
     //      },
     search() {
-      this.params.page = 1;
+      // this.params.page = 1;
       //        设置主表id
 
       // this.params.visaAreaId = this.mainId + "";
