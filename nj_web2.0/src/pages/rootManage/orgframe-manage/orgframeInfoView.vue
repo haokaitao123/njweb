@@ -258,10 +258,14 @@ import searchOrgcostcenter from '../../../components/searchTable/searchOrgcostce
 export default {
 
     data () {
-        var validatePartEstablish = function (rule, value, callback) {
-            if (value === "") {
-                return callback(new Error("请输入部门编制1231231"));
+        const validatePartEstablish = (rule, value, callback) => {
+            if (value === "" || !value) {
+                callback(new Error("请输入部门编制"));
             } else {
+                let num = this.formValidate.unitManger + this.formValidate.unitDirec + this.formValidate.unitStaff
+                if (value < num) {
+                    callback(new Error("部门已超编,请重新检查部门编制数量"));
+                }
                 callback();
             }
         };
@@ -406,13 +410,10 @@ export default {
                     { required: true, message: "请选择行业", trigger: 'change' },
                 ],
                 unitValdate: [
-                    { required: true, type: 'date', message: "请选择生效日期", trigger: 'change' },
+                    { type: 'date', message: "请选择生效日期", trigger: 'change' },
                 ],
-                // partEstablish: [
-                //     { required: true, type: 'number', trigger: 'blur', message: "请输入部门编制" },
-                // ],
                 partEstablish: [
-                    { validator: validatePartEstablish, trigger: 'blur' }
+                    { required: true, validator: validatePartEstablish, trigger: 'blur' }
                 ],
                 unitManger: [
                     { required: true, type: 'number', message: "请输入经理编制", trigger: 'blur' },
