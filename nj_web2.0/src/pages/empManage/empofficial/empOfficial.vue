@@ -121,6 +121,7 @@
   export default {
     data() {
       return {
+
         // 导入导出默认参数 无需变更
         openImport: false,
         openExpDow: false,
@@ -441,9 +442,9 @@
         t.openUpdate = false
         t.forbidden = false
         let up = t.$refs.update.formValidate
-        //debugger
+        debugger
         for (let s in up) {
-          if(s!='_mt' || s!='funId'){
+          if(s!='_mt' && s!='funId'){
             up[s] = ''
           }
         }
