@@ -183,7 +183,7 @@ export default {
                 },
 
                 {
-                    title: this.$t("lang_organization.orgpost.postDfpslevel"),
+                    title: "职位级别",
                     key: "postDfpslevelName",
                     sortable: "custom",
                     width: 180
@@ -460,7 +460,7 @@ export default {
                             .then(res => {
                                 if (isSuccess(res, t)) {
                                     t.tableselected = [];
-                                    t.getTree()
+                                    // t.getTree()
                                     t.getData();
                                 }
                             })
