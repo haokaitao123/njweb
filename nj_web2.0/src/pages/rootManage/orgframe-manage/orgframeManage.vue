@@ -39,13 +39,6 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        <!-- <span style="margin: 0;">
-                            <Button type="primary"
-                                    icon="search"
-                                    @click="search()">查询
-                            </Button>
-                        </span> -->
-
                         <btnList @buttonExport="expData"
                                  @buttonImport="importExcel"
                                  @buttonAdd="openUp(NaN,$t('button.add'))"
@@ -182,7 +175,16 @@ export default {
                 { code: "unitPname", name: "上级部门" },
                 { code: "unitPartfunctName", name: "部门职能" },
                 { code: "unitIndustryName", name: "行业" },
+                { code: "unitCenterName", name: "成本中心" },
                 { code: "unitCityName", name: "雇佣地点" },
+                { code: "unitValdate", name: "生效日期" },
+                { code: "unitInvdate", name: "失效日期" },
+                { code: "unitInvres", name: "失效原因" },
+                { code: "partEstablish", name: "部门编制" },
+                { code: "unitManger", name: "经理编制" },
+                { code: "unitDirec", name: "主管编制" },
+                { code: "unitStaff", name: "员工编制" },
+                { code: "unitSysalig", name: "系统转正" },
                 { code: "note", name: "备注" }
             ],
             // 导入导出默认参数 无需变更
@@ -390,37 +392,26 @@ export default {
             return this.$store.state.btnOperate.tableOperate
         },
         modity () {
-            let data = sessionStorage.getItem('modity')
-            if (this.$store.state.btnOperate.modity == "" && data) {
-                this.$store.commit('btnOperate/setModity', data);
-            }
-            console.log(data, "data112")
+            // let data = sessionStorage.getItem('modity')
+            // if (this.$store.state.btnOperate.modity == "" && data) {
+            //     this.$store.commit('btnOperate/setModity', data);
+            // }
+            // console.log(data, "data112")
             return this.$store.state.btnOperate.modity
         }
     },
-
     created () {
-        let data = window.sessionStorage.getItem('modity');
-        console.log(data, "state");
         if (this.pageShow != "") {
             this.columns.push(this.tableBtn);
             this.$store.commit('btnOperate/setTableOperate', 'true');
         }
+        console.log(this.modity, "modity")
     },
     mounted () {
         this.getData();
         this.getTree();
         this.getSelect();
         this.unitTypeSelect();
-        let data = window.sessionStorage.getItem('modity');
-        console.log(data, "state");
-        // if (this.$store.state.btnOperate.modity == "" && data) {
-        //     this.$store.commit('btnOperate/setModity', data);
-        // }
-        console.log(this.pageShow, "pageShow");
-        console.log(this.tableButton, "tableButton");
-        console.log(this.tableOperate, "tableOperate");
-
     },
     watch: {
         pageShow (val) {
@@ -436,7 +427,8 @@ export default {
     methods: {
         modityChange (res) {
             this.state = res.funStatecode
-            this.getData()
+            this.getData();
+            this.getTree();
         },
         // 导入导出默认方法 无需更改
         closeImport () {
@@ -565,7 +557,6 @@ export default {
         selectChange (e) {
             this.treeid = e.id
             this.page = 1;
-            console.log(e.id)
             this.getData(e.id)
         },
         /* 把后台数据转化为tree的格式 */
@@ -611,20 +602,20 @@ export default {
             }
         },//排序
         sizeChange (size) {
-            const t = this
-            t.rows = size
+            const t = this;
+            t.rows = size;
             t.getData(this.treeid)
         },//分页
         pageChange (page) {
-            const t = this
-            t.page = page
+            const t = this;
+            t.page = page;
             t.getData(this.treeid)
         },//分页
         selectedtable (selection) {
-            const newArr = []
+            const newArr = [];
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id)
-            }
+            };
             this.tableselected = newArr;
         },//列表中选中的item
         openUp (id, logType, index) {
@@ -653,7 +644,7 @@ export default {
         closeUp () {
             const t = this
             t.openUpdate = false
-            t.$refs.update.formValidate.unitCode = ''
+            t.$refs.update.formValidate.unitCode = 'xxxxxx'
             t.$refs.update.formValidate.unitType = ''
             t.$refs.update.formValidate.unitFname = ''
             t.$refs.update.formValidate.unitPid = ''

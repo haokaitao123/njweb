@@ -23,7 +23,7 @@
                             <FormItem label="组织编码"
                                       prop="unitCode">
                                 <Input v-model="formValidate.unitCode"
-                                       :readonly="forbidden||disabled"
+                                       :disabled=true
                                        placeholder="请输入组织编码"></Input>
                             </FormItem>
                         </i-col>
@@ -53,7 +53,7 @@
                                 <span @dblclick="clearPid">
                                     <Input v-model="unitPname"
                                            icon="search"
-                                           :readonly="true"
+                                           :readonly=true
                                            placeholder="请选择上级部门"
                                            @on-click="pickData2" />
                                 </span>
@@ -84,24 +84,24 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11">
-                            <FormItem label="默认成本中心"
+                            <FormItem label="成本中心"
                                       prop="unitCenter">
                                 <span @dblclick="clearCostcenter">
                                     <Input v-model="unitCenterName"
                                            icon="search"
-                                           :readonly="true"
+                                           :readonly=true
                                            placeholder="选择成本中心"
                                            @on-click="pickData3" />
                                 </span>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
-                            <FormItem label="默认雇佣地点"
+                            <FormItem label="雇佣地点"
                                       prop="unitCity">
                                 <span @dblclick="clearDfhire">
                                     <Input v-model="unitCenterName"
                                            icon="search"
-                                           :readonly="true"
+                                           :readonly=true
                                            placeholder="选择成本中心"
                                            @on-click="pickData" />
                                 </span>
@@ -195,7 +195,7 @@
                             <FormItem label="操作记录"
                                       prop="unitOprecord">
                                 <Input v-model="formValidate.unitOprecord"
-                                       :readonly="disabled"
+                                       :disabled=true
                                        type="textarea"
                                        :autosize="{minRows: 2,maxRows: 5}"
                                        placeholder="请输入操作记录..."></Input>
@@ -256,7 +256,15 @@ import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import searchOrgcostcenter from '../../../components/searchTable/searchOrgcostcenter'
 
 export default {
+
     data () {
+        var validatePartEstablish = function (rule, value, callback) {
+            if (value === "") {
+                return callback(new Error("请输入部门编制1231231"));
+            } else {
+                callback();
+            }
+        };
         return {
             type: '',
             distype: false,
@@ -279,7 +287,7 @@ export default {
             ],
             formValidate: {
                 _mt: 'orgUnits.addOrModifyOrgUnits', //新增接口url
-                unitCode: '',            //组织编码
+                unitCode: 'xxxxxx',            //组织编码
                 unitType: '',            //组织类型
                 unitFname: '',           //组织名称
                 unitPid: '',             //上级部门 
@@ -398,10 +406,13 @@ export default {
                     { required: true, message: "请选择行业", trigger: 'change' },
                 ],
                 unitValdate: [
-                    { required: true, type: 'date', message: "选择生效日期", trigger: 'change' },
+                    { required: true, type: 'date', message: "请选择生效日期", trigger: 'change' },
                 ],
+                // partEstablish: [
+                //     { required: true, type: 'number', trigger: 'blur', message: "请输入部门编制" },
+                // ],
                 partEstablish: [
-                    { required: true, type: 'number', message: "请输入部门编制", trigger: 'blur' },
+                    { validator: validatePartEstablish, trigger: 'blur' }
                 ],
                 unitManger: [
                     { required: true, type: 'number', message: "请输入经理编制", trigger: 'blur' },
