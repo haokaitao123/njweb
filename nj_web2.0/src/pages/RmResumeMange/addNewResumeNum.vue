@@ -14,12 +14,6 @@
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
             <Row>
                 <!--  prop 是Form对应表单域 model 里的字段 -->
-                <!--  项目名称输入框  -->
-                <Col span="10" offset="1">
-                    <FormItem label="项目名称" prop="entryId">
-                        <Input v-model="entryId" placeholder="请输入项目名称"></Input>
-                    </FormItem>
-                </Col>
                 <!--  员工姓名选择框  -->
                 <Col span="10" offset="1">
                     <FormItem label="员工姓名" prop="empId">
@@ -27,6 +21,12 @@
                         <span @dblclick="clearUserid">
                             <Input v-model="empName" icon="search" :readonly="true" placeholder="请选择员工姓名"  @on-click="pickUserData" />
                         </span>
+                    </FormItem>
+                </Col>
+                 <!--  项目名称输入框  -->
+                <Col span="10" offset="1">
+                    <FormItem label="项目名称" prop="entryId">
+                        <Input v-model="entryName" placeholder="请输入项目名称"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -45,7 +45,7 @@
                 <!--  简历使用量输入框  -->
                 <Col span="10" offset="1">
                     <FormItem label="简历使用量" prop="resumeNum">
-                        <Input v-model="formValidate.resumeNum" placeholder="请输入简历使用量"></Input>
+                        <Input type = 'number' v-model="formValidate.resumeNum" placeholder="请输入简历使用量"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -79,7 +79,7 @@
 <script>
     import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../axios/axios' //调用请求接口封装的公共方法
     import { isSuccess, deepCopy } from '../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
-    import searchEmpMaster from '../../components/searchTable/searchEmpMaster' //引入员工信息页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
+    import searchEmpMaster from '../../components/searchTable/searchEmpnhMaster' //引入员工信息页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
   export default {
     data() {
       return {
@@ -97,23 +97,18 @@
         entryName: '',//项目名称
         empName:'',//员工名称
         ruleValidate: { //表单验证规则
-            
-            // //项目
-            // entryId: [ 
-            //     { required: false, message: '请输入项目名称', trigger: 'blur' }
-            // ],
-            // //员工
-            // empId: [ 
-            //     { required: false, message: '请选择员工', trigger: 'change' }
-            // ],
-            // //简历日期
-            // resumeDate: [
-            //     { required: false, message: '请选择日期', trigger: 'change' }
-            // ],
-            // //简历数量
-            // resumeNum: [
-            //     { required: false, message: '请输入简历数量', trigger: 'blur' }
-            // ],
+            //员工
+            empId: [ 
+                { required: true, message: '请选择员工', trigger: 'change' }
+            ],
+            //简历日期
+            resumeDate: [
+                { required: true, message: '请选择日期', trigger: 'change',pattern: /.+/ }
+            ],
+            //简历数量
+            resumeNum: [
+                { required: true, message: '请输入简历数量', trigger: 'input' }
+            ],
         },
       }
     },
@@ -162,6 +157,11 @@
             data.logType = t.logType
             if (t.logType === '修改') {
                 data.id = t.id
+            }
+            if (data.resumeDate !== undefined && data.resumeDate !== '') {
+               data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')
+            } else {
+               data.resumeDate = ''
             }
             // //form表单校验事件
             this.$refs.formValidate.validate((valid) => {
@@ -213,8 +213,10 @@
         //员工信息弹出框input选中事件
         inputEmp(row) {
             const t = this
-            t.empName = row.empName //员工信息name赋值
+            t.empName = row.empnhName //员工信息name赋值
             t.formValidate.empId = row.id //员工信息id赋值
+            t.entryName = row.deptIdDis;
+            t.formValidate.entryId = row.deptId;
         },
         //清除员工信息
         clearUserid() {

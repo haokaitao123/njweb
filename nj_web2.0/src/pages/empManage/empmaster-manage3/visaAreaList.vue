@@ -21,9 +21,7 @@
             <Col span="18">
               <Row>
                 <Input placeholder="请输入员工姓名" style="width: 160px" v-model="empnhName"/>
-
                 <Input placeholder="请输入员工证件号" style="width: 160px" v-model="empnhIdno"/>
-
                 <!-- <Input placeholder="请输入岗位名称" style="width: 160px" v-model="deptId"/> -->
                 <Input placeholder="请输入岗位名称" style="width: 160px" v-model="postId"/>
                 <btnList
@@ -32,18 +30,14 @@
                   @buttonImport="importExcel"
                   @moditySelect="modityChange"
                   @buttonEmp1="modifystatus('01empstate')"
+                  @buttonEmp="entryb"
                   @buttonEmp2="modifystatus('02empstate')"
                   @buttonDel="deletemsg"
                 ></btnList>
-                <!-- @buttonUnitChart="pickData()" -->
                 <!-- @moditySelect="modityChange" -->
-                <!-- @buttonAdd="openUp(NaN,$t('button.add'))"
-                @buttonValid="modifystatus('02valid')"
-                @buttonDraft="modifystatus('01draft')"
-                @buttonInvalid="modifystatus('03invalid')"-->
-                <!-- <Button type="primary" icon="search" @click="search">查询</Button>
-                
-                <Button type="error" icon="primary" @click="deletemsg">删除</Button>-->
+                <!-- @buttonAdd="openUp(NaN,$t('button.add'))"  -->
+                <!-- <Button type="primary" icon="search" @click="search">查询</Button> -->
+                <!-- <Button type="error" icon="primary" @click="deletemsg">删除</Button> -->
               </Row>
               <row class="table-form" ref="table-form">
                 <Table
@@ -182,31 +176,155 @@ export default {
         {
           type: "selection",
           width: 54,
+          fixed: "left",
           align: "center"
+        },
+        {
+          title: "唯一编号",
+          key: "numberCode",
+          width: 120,
+          fixed: "left",
+          align: "center"
+          //  sortable: 'custom',
         },
         {
           title: "雇员姓名",
           key: "empnhName",
-          width: 100
+          width: 140,
+          align: "center"
           //  sortable: 'custom',
         },
-        {
-          title: "性别",
-          key: "empnhGenderDis",
-          width: 100
-          //  sortable: 'custom',
-        },
+        // render: (h, params) => {
+        //                 return h('div', params.row.unitSysalig == 1 ? "是" : "否")
+        //             }
         {
           title: "部门名称",
           key: "deptIdDis",
-          width: 100
+          width: 140,
+          align: "center"
           //  sortable: 'custom',
         },
         {
           title: "岗位名称",
           key: "postIdDis",
-          width: 100
+          width: 140,
+          align: "center"
           //  sortable: 'custom',
+        },
+        {
+          title: "直接上级",
+          key: "empnhPmp",
+          width: 140,
+          align: "center"
+          //  sortable: 'custom',
+        },
+        {
+          title: "证件类型",
+          key: "empnhIdtype",
+          width: 140,
+          align: "center"
+          //  sortable: 'custom',
+        },
+        {
+          title: "证件号码",
+          key: "empnhIdno",
+          width: 180,
+          align: "center",
+           sortable: 'custom',
+        },
+        {
+          title: "生效日期",
+          key: "empnhSday",
+          width: 140,
+          align: "center",
+          sortable: 'custom',
+        },
+        {
+          title: "证件到期日",
+          key: "empnhEday",
+          width: 140,
+          align: "center",
+          sortable: 'custom',
+        },
+        {
+          title: "性别",
+          key: "empnhGenderDis",
+          width: 100,
+          align: "center"
+          //  sortable: 'custom',
+        },
+        {
+          title: "出生日期",
+          key: "empnhBirthdate",
+          width: 140,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "手机号码",
+          key: "empnhMobile",
+          width: 140,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "户籍性质",
+          key: "empnhRegaddrDis",
+          width: 140,
+          align: "center"
+          // sortable: 'custom',
+        },
+        {
+          title: "工作地点",
+          key: "empnhWklocatDis",
+          width: 140,
+          align: "center"
+          // sortable: 'custom',
+        },
+        {
+          title: "入职日期",
+          key: "empnhEntrydate",
+          width: 140,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "转正日期",
+          key: "empnhIrmentdate",
+          width: 140,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "开户银行",
+          key: "empnhSalbank",
+          width: 140,
+          align: "center"
+          // sortable: 'custom',
+        },
+        {
+          title: "户名",
+          key: "empnhSalaccname",
+          width: 140,
+          align: "center"
+          // sortable: 'custom',
+        },
+        {
+          title: "参加工作时间",
+          key: "empnhFirstwkdate",
+          width: 140,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "是否考勤",
+          key: "empnhAttendyn",
+          width: 140,
+          align: "center",
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", params.row.empnhAttendyn == 1 ? "是" : "否");
+          }
         }
       ],
       tableBtn: {
@@ -253,7 +371,6 @@ export default {
       page: 1
     };
   },
-
   computed: {
     pageShow() {
       return this.$store.state.btnOperate.pageShow;
@@ -283,7 +400,6 @@ export default {
     }
   },
   components: {
-    // 初始化引入页面
     update,
     btnList,
     expwindow,
@@ -295,19 +411,14 @@ export default {
     this.getTree();
   },
   methods: {
-    modityChange(res) {
-      console.log(res, "res");
-      //alert(1);
-      //alert(res.funStatecode);
-      this.state = res.funStatecode;
-      this.getData();
-    },
+    // 查询
     search() {
       this.page = 1;
       this.treeid = "";
       this.treeType = "";
       this.getData();
     },
+    // 获取主表数据
     getData(id) {
       const t = this;
       const data = {
@@ -343,6 +454,7 @@ export default {
           });
         });
     },
+    // 删除
     deletemsg() {
       const t = this;
       if (t.tableselected.length === 0) {
@@ -356,7 +468,7 @@ export default {
           content: this.$t("reminder.confirmdelete"),
           onOk: () => {
             getDataLevelUserLogin({
-              _mt: "empMaster.delByIds",
+              _mt: "empEmpnh.delByIds",
               funId: "1",
               logType: "删除",
               ids: t.tableselected.toString()
@@ -378,16 +490,55 @@ export default {
         });
       }
     },
+    // 入职
+    entryb() {
+      const t = this;
+      if (t.tableselected.length === 0) {
+        t.$Modal.warning({
+          title: this.$t("reminder.remind"),
+          content: this.$t("reminder.leastone")
+        });
+      } else {
+        t.$Modal.confirm({
+          title: this.$t("reminder.remind"),
+          content: this.$t("请确定是否将该条数据加入入职中"),
+          onOk: () => {
+            getDataLevelUserLogin({
+              _mt: "empEmpnh.updStateByIds",
+              funId: "1",
+              logType: "入职",
+              ids: t.tableselected.toString()
+            })
+              .then(res => {
+                if (isSuccess(res, t)) {
+                  t.tableselected = [];
+                  t.getData();
+                }
+              })
+              .catch(() => {
+                t.$Modal.error({
+                  title: this.$t("reminder.err"),
+                  content: this.$t("reminder.errormessage")
+                });
+              });
+          },
+          onCancel: () => {}
+        });
+      }
+    },
+    // 条数变化
     sizeChange(size) {
       const t = this;
       t.rows = size;
       t.getData();
     },
+    // 页码变化
     pageChange(page) {
       const t = this;
       t.page = page;
       t.getData();
     },
+    // 排序
     sortable(column) {
       this.sort = column.key;
       this.order = column.order;
@@ -397,6 +548,7 @@ export default {
         this.order = "desc";
       }
     },
+    // 删除、入职多选按钮
     selectedtable(selection) {
       const newArr = [];
       for (let i = 0; i < selection.length; i++) {
@@ -416,11 +568,17 @@ export default {
         t.$refs.update.getOption(id, logType);
       }
     },
+    // 关闭主表页面
     closeUp() {
       const t = this;
       t.openUpdate = false;
     },
-    // 获取下拉条件
+    // 状态变化
+    modityChange(res) {
+      this.state = res.funStatecode;
+      this.getData();
+    },
+    // 获取下拉状态
     getPageByState(paramCode, paramInfoCn) {
       this.status = paramCode;
       this.getData(1);
@@ -572,6 +730,7 @@ export default {
       });
       return val;
     },
+    // 渲染树状图
     renderContent(h, { root, node, data }) {
       return h(
         "span",

@@ -24,7 +24,7 @@
                          @moditySelect="changemodity"
                          @buttonAdd="openUp(NaN,'新增')"
                          @buttonDel="deletemsg()"
-                         @buttonValid="setState('02empoff')"
+                         @buttonPositive="setState('02empoff')"
                          ></btnList>
               </Row>
               <!--table-->
