@@ -618,7 +618,7 @@ export default {
                     content: this.$t("reminder.confirmdelete"),
                     onOk: () => {
                         getDataLevelUserLogin({
-                            _mt: "orgPost.delByIds",
+                            _mt: "orgUnits.delByIds",
                             funId: "1",
                             logType: this.$t("button.del"),
                             delIds: t.tableselected.toString()
