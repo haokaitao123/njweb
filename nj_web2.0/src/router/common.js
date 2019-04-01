@@ -15,7 +15,7 @@ import archborFlow from '@/pages/common/archborFlow/archborFlow'
 import abroadFlow from '@/pages/common/abroad/abroadFlow'
 import passportFlow from '@/pages/common/passport/passportFlow'
 import visareturnFlow from '@/pages/common/visareturn/visareturnFlow'
-
+import recruitProcess from '@/pages/common/recruitProcessFlow/recruitProcess'
 export default [
   {
     path: 'visareturnFlow',
@@ -86,5 +86,10 @@ export default [
     path: 'passportFlow',
     name: 'passportFlow',
     component: passportFlow,
+  },
+  {
+    path: 'recruitProcess',
+    name: 'recruitProcess',
+    component: recruitProcess,
   },
 ]

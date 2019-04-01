@@ -588,11 +588,9 @@ export default {
     modifystatus(state) {
       const t = this;
       let logType = "";
-      if (state === "01empstate") {
-        logType = "待入职";
-      } else if (state === "02empstate") {
+      if (state === "02empstate") {
         logType = "已入职";
-      }
+      } 
       if (t.tableselected.length === 0) {
         t.$Modal.warning({
           title: this.$t("reminder.remind"),
