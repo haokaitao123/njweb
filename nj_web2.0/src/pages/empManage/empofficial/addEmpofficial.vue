@@ -24,7 +24,7 @@
                             <!--绑定双击清除方法-->
                             <span @dblclick="dbclean">
                           <!--v-model绑定显示字段-->
-                              <Input v-model="formValidate.empIdName" icon="search" readonly="readonly" placeholder="请选择员工"  @on-click="pickEmpData" />
+                              <Input v-model="formValidate.empIdName" icon="search" disabled="true" placeholder="请选择员工"  @on-click="pickEmpData" />
                         </span>
                           </FormItem>
                         </i-col>
@@ -33,7 +33,7 @@
                         <FormItem label="证件号码"
                                   prop="empIdIden">
                           <Input v-model="formValidate.empIdIden"
-                                 readonly="readonly"
+                                 disabled="true"
                                  placeholder="请输入证件号码"></Input>
                         </FormItem>
                       </i-col>
@@ -41,7 +41,7 @@
                             <FormItem label="部门"
                                       prop="deptIdDis">
                                 <Input v-model="formValidate.deptIdDis"
-                                       readonly="readonly"
+                                       disabled="true"
                                        placeholder="请输入部门名称"></Input>
                             </FormItem>
                         </i-col>
@@ -49,7 +49,7 @@
                         <FormItem label="岗位"
                                   prop="postIdDis">
                           <Input v-model="formValidate.postIdDis"
-                                 readonly="readonly"
+                                 disabled="true"
                                  placeholder="请输入岗位名称"></Input>
                         </FormItem>
                       </i-col>
@@ -58,7 +58,7 @@
                                     prop="empoffResult">
                               <Input v-model="formValidate.empoffResult"
                                      type="textarea"
-                                     :readonly="forbidden"
+                                     :disabled="forbidden"
                                      :autosize="{minRows: 2,maxRows: 5}"
                                      placeholder="请输入试用期评价结论..."></Input>
                           </FormItem>
@@ -99,7 +99,7 @@
                                     prop="note">
                               <Input v-model="formValidate.note"
                                      type="textarea"
-                                     :readonly="forbidden"
+                                     :disabled="forbidden"
                                      :autosize="{minRows: 2,maxRows: 5}"
                                      placeholder="请输入备注..."></Input>
                           </FormItem>
