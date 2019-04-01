@@ -374,7 +374,7 @@ export default {
         modityChange (res) {
             this.modity = res.funStatecode;
             this.getData();
-            this.getTree();
+          
         },
         getData (id) {
             const t = this;
