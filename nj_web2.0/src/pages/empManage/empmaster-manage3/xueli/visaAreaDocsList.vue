@@ -69,8 +69,7 @@ export default {
       total: NaN,
       logType: "",
       showMsg: false,
-      rows: 10,
-        page: 1,
+      
       columns: [
         {
           type: "selection",
@@ -134,13 +133,13 @@ export default {
       params: {
         _mt: "empEducation.getPage",
         funId: "1",
-        rows: this.rows,
-        page: this.page,
+        rows: 10,
+        page: 1,
         sort: "id",
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        pkId:""
+        pkId:"",
       },
       index: "",
       tableselected: []
@@ -161,7 +160,7 @@ export default {
     //        this.getData()
     //      },
     search() {
-      this.params.page = 1;
+      // this.params.page = 1;
       //        设置主表id
 
       // this.params.visaAreaId = this.mainId + "";

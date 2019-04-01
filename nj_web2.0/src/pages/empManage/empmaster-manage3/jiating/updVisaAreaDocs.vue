@@ -24,7 +24,7 @@
             </FormItem>
           </i-col>
           
-          <i-col span="工作单位" offset="1">
+          <i-col span="11" offset="1">
             <FormItem label="工作单位" prop="fmCompany">
               <Input v-model="form.fmCompany" placeholder="请输入工作单位"></Input>
             </FormItem>
@@ -364,13 +364,13 @@ export default {
       const t = this;
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
-        typeCode: "button,selectEducationlevel,selectEdCuntry"
+        typeCode: "educ,selectEdCuntry"
       })
         .then(res => {
           if (isSuccess(res, t)) {
             // t.Visadocpreparer = res.data.content[0].value[0].paramList;
-            t.selectEducationlevel = res.data.content[0].value[10].paramList;
-            t.selectEdCuntry = res.data.content[0].value;
+            // t.selectEducationlevel = res.data.content[0].value[10].paramList;
+            // t.selectEdCuntry = res.data.content[0].value;
             t.yesOrNo = res.data.content[0].value[0].paramList;
           }
         })

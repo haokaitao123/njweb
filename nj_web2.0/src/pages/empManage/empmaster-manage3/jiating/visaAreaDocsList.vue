@@ -3,11 +3,7 @@
     <row>
       <Input v-model="docsName" style="width: 160px;" placeholder="请输入联系人"></Input>
       <Button type="primary" icon="search" @click="search">查询</Button>
-      <Button
-        type="primary"
-        icon="primary"
-        @click="showMsgBtn(NaN, $t('新增'))"
-      >新增</Button>
+      <Button type="primary" icon="primary" @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
       <Button type="error" icon="primary" @click="deletemsg">删除</Button>
     </row>
     <row class="table-form" ref="table-form">
@@ -50,7 +46,7 @@
       :mainId="mainId"
       :logType="logType"
       ref="contentMsg"
-      @newdata="addNewArray"
+      @getData="addNewArray"
       @update="updateArray"
     ></contentMsg>
   </div>
@@ -70,7 +66,7 @@ export default {
       logType: "",
       showMsg: false,
       rows: 10,
-        page: 1,
+      page: 1,
       columns: [
         {
           type: "selection",
@@ -115,11 +111,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showMsgBtn(
-                        params.row.id,
-                       "修改",
-                        params.index
-                      );
+                      this.showMsgBtn(params.row.id, "修改", params.index);
                     }
                   }
                 },
@@ -134,13 +126,13 @@ export default {
       params: {
         _mt: "empFamily.getPage",
         funId: "1",
-        rows: this.rows,
-        page: this.page,
+        rows: 10,
+        page: 1,
         sort: "id",
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        pkId:""
+        pkId: ""
       },
       index: "",
       tableselected: []
@@ -155,16 +147,7 @@ export default {
   },
   mounted() {},
   methods: {
-    //      get(id) {
-    //        this.params.visaAreaId = id + ''
-    //        this.params.logType = '查询List信息'
-    //        this.getData()
-    //      },
     search() {
-      this.params.page = 1;
-      //        设置主表id
-
-      // this.params.visaAreaId = this.mainId + "";
       this.params.pkId = this.mainId + "";
       this.getData();
     },
@@ -247,6 +230,14 @@ export default {
         });
       }
     },
+    addNewArray(res) {
+      const t = this;
+      t.data.unshift(res);
+    },
+    updateArray(res) {
+      const t = this;
+      t.data.splice(t.index, 1, res);
+    },
     sizeChange(size) {
       const t = this;
       t.params.rows = size;
@@ -262,16 +253,9 @@ export default {
         t.$refs.contentMsg.setRowId(id);
       }
     },
-    addNewArray(res) {
-      const t = this;
-      t.data.unshift(res);
-    },
-    updateArray(res) {
-      const t = this;
-      t.data.splice(t.index, 1, res);
-    },
+
     clear() {
-     const t = this;
+      const t = this;
       t.docsName = "";
       t.page = 1;
       t.rows = 10;
