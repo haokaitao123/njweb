@@ -312,7 +312,7 @@ export default {
                 unitStaff: null,           //员工编制
                 state: '',               //状态
                 unitSysalig: '1',
-                unitOprecord: this.logType,        //操作记录
+                unitOprecord: '',        //操作记录
                 note: '',                //备注
                 funId: '1',
                 logType: '',
@@ -414,7 +414,7 @@ export default {
                     { required: true, message: "请选择行业", trigger: 'change' },
                 ],
                 unitValdate: [
-                    { type: 'date', message: "请选择生效日期", trigger: 'change' },
+                    { required: true, type: 'date', message: "请选择生效日期", trigger: 'change' },
                 ],
                 partEstablish: [
                     { required: true, validator: validatePartEstablish, trigger: 'change' }
