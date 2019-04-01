@@ -51,9 +51,9 @@
           </FormItem>
           </Col>
           <Col span="10" offset="1">
-          <FormItem label="通知类型" prop="noticeType">
+          <FormItem :label="$t('通知类型')" prop="noticeType">
             <Select v-model="form.noticeType" :disabled="editdisabled" class="width200"
-                    placeholder="通知类型" >
+                    :placeholder="$t('通知类型')" >
               <Option v-for="(item, index) in selectType" :value="item.paramCode"
                       :key="index">{{ item.paramInfoName }}
               </Option>
@@ -75,12 +75,11 @@
                 </span>
           </FormItem>
           </Col>
-          <Col span="10" offset="3">
+          <Col span="10">
           <FormItem label="发布人" prop="noticePeople">
             <Input
               v-model="noticePeopleName"
               :readonly="true"
-              placeholder="默认当前用户"
             ></Input>
           </FormItem>
           </Col>
@@ -107,7 +106,7 @@
         </Row>
         <Row>
           <Col span="23">
-          <FormItem label="'附件上传" prop="noticeAttach">
+          <FormItem :label="$t('附件上传')" prop="noticeAttach">
             <Row>
               <i-col span="3">
                 <Upload :before-upload="handleUpload" action=" ">
@@ -216,7 +215,6 @@ export default {
       file: '',
       filekey: '',
       loadingStatus: false,
-      noticePeopleName:'',
       form: {
         _mt: "orgNotice.addOrUpd",
         logType: "新增",
@@ -225,10 +223,11 @@ export default {
         noticeType: "", //  类型
         noticeContent: "", //  发布内容
         note: "", //  备注
+        noticeAttach: "", //  附件
         unitPid: "",
         unitPidDis:"",
         state: "101",
-        noticePeople:""
+        noticePeople:"",
       },
       ruleValidate: {
         // noticePublish: [
@@ -271,7 +270,7 @@ export default {
           }
         ],
         noticeType: [
-            { required: true, message: "请选择通知类型", trigger: 'change' },
+            { required: true, message: this.$t('请选择通知类型'), trigger: 'change' },
           ],
         noticeContent: [
           {
@@ -324,7 +323,7 @@ export default {
     searchOrgframe
   },
   mounted() {
-    //this.getSelectUser();
+    this.getSelect();
     editor.customConfig.onchange = function(html) {
       document.getElementById("txt").innerHTML = html;
     };
@@ -332,9 +331,26 @@ export default {
     console.log(this.form.state,"form")
   },
   methods: {
+   getSelect() {
+        const t = this
+        t.dropdownMenuList = []
+        getDataLevelUserLogin({
+          _mt: 'baseParmInfo.getSelectValue',
+          typeCode: 'pubuserstatus',
+        }).then((res) => {
+          if (isSuccess(res, t)) {
+            //t.CmutNoticeStatelist = res.data.content[0].value[0].paramList.splice(1, 3)
+          }
+        }).catch(() => {
+          this.$Modal.error({
+            title: this.$t('reminder.err'),
+            content: this.$t('reminder.errormessage'),
+          })
+        })
+      },
     clearPid() {
       const t = this;
-      t.unitPidDis= "";
+      t.unitPidDis = "";
       t.form.unitPid = "";
     },//清除数据
     close() {
@@ -414,25 +430,6 @@ export default {
       })
     })
     },
-    getSelectUser() {
-      const t = this;
-      getDataLevelUserLogin({
-          _mt: "orgNotice.getUserName",
-          logType: "查询"
-        })
-          .then(res => {
-          if (isSuccess(res, t)) {
-          t.noticePeopleName = res.data.content[0].value;
-          t.form.note = res.data.content[0].note;
-        }
-      })
-      .catch(() => {
-          this.$Modal.error({
-          title: this.$t("reminder.err"),
-          content: this.$t("reminder.errormessage")
-        });
-      });
-    },
     upData(id) {
       const t = this;
 
@@ -451,7 +448,6 @@ export default {
             t.form.unitPid =res.data.content[0].unitPid;
             t.unitPidDis =res.data.content[0].unitPidDis;
             t.form.state = res.data.content[0].state;
-            t.noticePeopleName=res.data.content[0].noticePeopleDis;
 
             if (res.data.content[0].noticeAttach) {
               t.file = { name: res.data.content[0].noticeAttach.split(':')[0] }
@@ -532,9 +528,8 @@ export default {
       t.form.noticeContent = "";
       t.form.state = "";
       t.form.note = "";
-      t.unitPidDis = '';
+      t.form.unitPidDis = '';
       t.form.unitPid = '';
-      t.noticePeopleName='';
       editor.txt.clear();
       t.file = "";
       this.$refs.form.resetFields();

@@ -25,17 +25,12 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        <btnList
-                         @buttonExport="expData"
-                                @buttonImport="importExcel"
-                                 @buttonAdd="openUp(NaN,$t('button.add'))"
-                                 @buttonValid="modifystatus('02valid')"
-                                 @buttonDraft="modifystatus('01draft')"
-                                 @buttonInvalid="modifystatus('03invalid')"
-                                 @moditySelect="modityChange"
-                                 @buttonSearch="search"
-                        ></btnList>
-                        
+                        <btnList></btnList>
+                        <!-- <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span> -->
+                        <!-- <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
+            <Button type="primary"  @click="expData">导出</Button>
+             <Button type="primary" @click="importExcel">导入</Button> -->
+                        <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
                     </Row>
                     <!--布置分页列表 变量通用 无需变更-->
                     <row class="table-form"
@@ -239,11 +234,6 @@ export default {
                     width: 180,
                     //          width: 105,
                 },
-                 {
-                    title: "状态",
-                    key: 'stateName',
-                    width: 140,
-                },
                 {
                     title: this.$t('lang_organization.orgpost.postReason '),
                     key: 'postReason',
@@ -339,14 +329,6 @@ export default {
         this.postDfpslevelSelect();
     },
     methods: {
-         modityChange(res) {
-            console.log(res,"res");
-         //alert(1);
-          //alert(res.funStatecode);
-        this.state = res.funStatecode
-        this.getData()
-
-         },
         getData (id) {
             const t = this
             const data = {
@@ -361,7 +343,6 @@ export default {
                 postFname: t.postFname,
                 postDfpslevel: t.postDfpslevel,
                 postUnit: id || '',
-                state:t.state
             }
             for (const dat in data) {
                 if (data[dat] === '') {
@@ -482,11 +463,6 @@ export default {
             this.page = 1
             this.getData()
         },
-          getPageByState (paramCode, paramInfoCn) {
-            this.status = paramCode
-            this.getData(1)
-            this.statusDis = paramInfoCn
-        },//选择状态条件
         modifystatus (state) {
             const t = this
             let logType = ''
@@ -503,7 +479,7 @@ export default {
                 return
             }
             getDataLevelUserLogin({
-                _mt: 'orgPost.setStateById',
+                _mt: 'orgUnits.setStateById',
                 logType: logType,
                 state: state,
                 ids: t.tableselected.toString,

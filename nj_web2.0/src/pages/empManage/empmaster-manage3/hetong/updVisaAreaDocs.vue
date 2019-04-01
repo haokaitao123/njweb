@@ -201,7 +201,7 @@ export default {
   },
   components: {},
   mounted() {
-    // this.getSelect();
+    this.getSelect();
   },
   methods: {
     // 新增页面
@@ -227,8 +227,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            // title: this.$t("reminder.err"),
-            // content: this.$t("reminder.errormessage")
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -274,8 +274,8 @@ export default {
             })
             .catch(() => {
               t.$Modal.error({
-                // title: this.$t("reminder.err"),
-                // content: this.$t("reminder.errormessage")
+                title: this.$t("reminder.err"),
+                content: this.$t("reminder.errormessage")
               });
             });
         }
@@ -306,8 +306,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            // title: this.$t("reminder.err"),
-            // content: this.$t("reminder.errormessage")
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -353,8 +353,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            // title: this.$t("reminder.err"),
-            // content: this.$t("reminder.errormessage")
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -362,7 +362,7 @@ export default {
       const t = this;
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
-        typeCode: "Education"
+        typeCode: "button,selectEducationlevel,selectEdCuntry"
       })
         .then(res => {
           if (isSuccess(res, t)) {
@@ -374,8 +374,8 @@ export default {
         })
         .catch(() => {
           this.$Modal.error({
-            // title: this.$t("reminder.err"),
-            // content: this.$t("reminder.errormessage")
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
           });
         });
     },

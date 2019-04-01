@@ -39,21 +39,18 @@
                                 {{item.paramInfoCn}}
                             </Option>
                         </Select>
-                        
-                       
                         <btnList @buttonExport="expData"
-                                @buttonImport="importExcel"
+                                 @buttonImport="importExcel"
                                  @buttonAdd="openUp(NaN,$t('button.add'))"
                                  @buttonValid="modifystatus('02valid')"
                                  @buttonDraft="modifystatus('01draft')"
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @buttonUnitChart="pickData()"
                                  @moditySelect="modityChange"
-                                 @buttonSearch="search"
-                                 >
-                                 
-                                 </btnList>
-                                 
+                                 @buttonSearch="search">
+
+                        </btnList>
+
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -119,72 +116,84 @@
                             ref="searchOrgframe">
             </searchOrgframe>
         </transition>
-         <!--导入导出子页面 若没有导入导出可以去掉-->
-    <transition>
-      <expwindow
-        v-show="openExp"
-        :id="tableselected"
-        @setFileKey="setFileKey"
-        :logType="logType"
-        :index="index"
-        @closeExp="closeExp"
-        ref="expwindow"
-      ></expwindow>
-    </transition>
-    <transition>
-      <expdow
-        v-show="openExpDow"
-        :filekey="filekey"
-        :filename="filename"
-        @closeExpDowMain="closeExpDowMain"
-        ref="expdow"
-      ></expdow>
-    </transition>
-    <transition name="fade">
-      <importExcel
-        v-show="openImport"
-        :impid="updateId"
-        :imp_mt="imp_mt"
-        @getData="getData"
-        @closeImport="closeImport"
-        ref="importExcel"
-      ></importExcel>
-    </transition>
+        <!--导入导出子页面 若没有导入导出可以去掉-->
+        <transition>
+            <expwindow v-show="openExp"
+                       :id="tableselected"
+                       @setFileKey="setFileKey"
+                       :logType="logType"
+                       :index="index"
+                       @closeExp="closeExp"
+                       ref="expwindow"></expwindow>
+        </transition>
+        <transition>
+            <expdow v-show="openExpDow"
+                    :filekey="filekey"
+                    :filename="filename"
+                    @closeExpDowMain="closeExpDowMain"
+                    ref="expdow"></expdow>
+        </transition>
+        <transition name="fade">
+            <importExcel v-show="openImport"
+                         :impid="updateId"
+                         :imp_mt="imp_mt"
+                         @getData="getData"
+                         @closeImport="closeImport"
+                         ref="importExcel"></importExcel>
+        </transition>
     </div>
 </template>
 <script>
+import btnList from '../../../components/btnAuth/btnAuth.js'
 import orgframeChart from './orgframeChart'
 import update from './orgframeInfoView'
 import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import { isSuccess } from '../../../lib/util'
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
-import btnList from '../../../components/btnAuth/btnAuth.js'
 import expwindow from "../../../components/fileOperations/expSms";
 import expdow from "../../../components/fileOperations/expdow";
 import importExcel from "../../../components/importModel/importParam";
 export default {
+    components: {
+        update,
+        orgframeChart,
+        searchOrgframe,
+        btnList,
+        expwindow,
+        expdow,
+        importExcel,
+    },
     data () {
         return {
             // 导入的mt名称
-      imp_mt: "orgUnits.importData",
-      // 导出字段设置, code字段名 name列名
-      expDataTital: [
-        { code: "unitCode", name: "组织编码" },
-        { code: "unitFname", name: "组织架构全称" },
-        { code: "unitTypeName", name: "组织类型" },
-        { code: "unitPname", name: "上级部门" },
-        { code: "unitPartfunctName", name: "部门职能" },
-        { code: "unitIndustryName", name: "行业" },
-        { code: "unitCityName", name: "雇佣地点" },
-        { code: "note", name: "备注" }
-      ],
-      // 导入导出默认参数 无需变更
-      openImport: false,
-      openExpDow: false,
-      openExp: false,
-      filekey: "",
-      filename: "",
-      //左边树的默认参数
+            imp_mt: "orgUnits.importData",
+            // 导出字段设置, code字段名 name列名
+            expDataTital: [
+                { code: "unitCode", name: "组织编码" },
+                { code: "unitFname", name: "组织架构全称" },
+                { code: "unitTypeName", name: "组织类型" },
+                { code: "unitPname", name: "上级部门" },
+                { code: "unitPartfunctName", name: "部门职能" },
+                { code: "unitIndustryName", name: "行业" },
+                { code: "unitCenterName", name: "成本中心" },
+                { code: "unitCityName", name: "雇佣地点" },
+                { code: "unitValdate", name: "生效日期" },
+                { code: "unitInvdate", name: "失效日期" },
+                { code: "unitInvres", name: "失效原因" },
+                { code: "partEstablish", name: "部门编制" },
+                { code: "unitManger", name: "经理编制" },
+                { code: "unitDirec", name: "主管编制" },
+                { code: "unitStaff", name: "员工编制" },
+                { code: "unitSysalig", name: "系统转正" },
+                { code: "note", name: "备注" }
+            ],
+            // 导入导出默认参数 无需变更
+            openImport: false,
+            openExpDow: false,
+            openExp: false,
+            filekey: "",
+            filename: "",
+            //左边树的默认参数
             openChart: false,
             loading: true,
             dataTree: [],
@@ -214,6 +223,11 @@ export default {
                     width: 140,
                     fixed: 'left',
                     sortable: 'custom',
+                },
+                {
+                    title: "状态",
+                    key: 'state',
+                    width: 140,
                 },
                 {
                     title: "组织架构名称",
@@ -265,11 +279,6 @@ export default {
                     width: 140,
                 },
                 {
-                    title: "失效原因",
-                    key: 'unitInvres',
-                    width: 140,
-                },
-                {
                     title: "部门编制",
                     key: 'partEstablish',
                     width: 140,
@@ -289,12 +298,6 @@ export default {
                     key: 'unitStaff',
                     width: 140,
                 },
-                
-                {
-                    title: "操作记录",
-                    key: 'unitOprecordName',
-                    width: 140,
-                },
                 {
                     title: "系统转正",
                     key: 'unitSysalig',
@@ -302,11 +305,6 @@ export default {
                     render: (h, params) => {
                         return h('div', params.row.unitSysalig == 1 ? "是" : "否")
                     }
-                },
-                {
-                    title: "备注",
-                    key: 'note',
-                    width: 140,
                 },
             ],
             tableBtn: {
@@ -365,7 +363,6 @@ export default {
                 unitPid: 0,
             },
             modify: 'false',
-           
             searchCloumns: [
                 {
                     title: this.$t('lang_organization.orgframe.unitCode'),
@@ -381,7 +378,7 @@ export default {
                     key: 'unitTypeName',
                 },
             ],
-            btnOperate: localStorage.getItem("setbtnOperate")
+            state: sessionStorage.getItem('modity')
         }
     },
     computed: {
@@ -393,22 +390,28 @@ export default {
         },
         tableOperate () {
             return this.$store.state.btnOperate.tableOperate
+        },
+        modity () {
+            // let data = sessionStorage.getItem('modity')
+            // if (this.$store.state.btnOperate.modity == "" && data) {
+            //     this.$store.commit('btnOperate/setModity', data);
+            // }
+            // console.log(data, "data112")
+            return this.$store.state.btnOperate.modity
         }
-    },
-    components: {
-        update,
-        orgframeChart,
-        searchOrgframe,
-        btnList,
-        expwindow,
-        expdow,
-        importExcel,
     },
     created () {
         if (this.pageShow != "") {
             this.columns.push(this.tableBtn);
             this.$store.commit('btnOperate/setTableOperate', 'true');
         }
+        console.log(this.modity, "modity")
+    },
+    mounted () {
+        this.getData();
+        this.getTree();
+        this.getSelect();
+        this.unitTypeSelect();
     },
     watch: {
         pageShow (val) {
@@ -419,46 +422,27 @@ export default {
                 this.columns.push(this.tableBtn);
                 this.$store.commit('btnOperate/setTableOperate', 'true');
             }
-        }
+        },
     },
-    beforeCreate () {
-        if (this.pageShow == '') {
-
-        };
-    },
-    mounted () {
-        this.getData();
-        this.getTree();
-        this.getSelect();
-        this.unitTypeSelect();
-        console.log(this.pageShow, "2222")
-    },
-    
     methods: {
-        // btnEvent (res) {
-        //     console.log(res, "res12345")
-        // },
-         modityChange(res) {
-            console.log(res,"res");
-         //alert(1);
-          //alert(res.funStatecode);
-        this.state = res.funStatecode
-        this.getData()
-
-         },
+        modityChange (res) {
+            this.state = res.funStatecode
+            this.getData();
+            this.getTree();
+        },
         // 导入导出默认方法 无需更改
-        closeImport() {
+        closeImport () {
             const t = this
             t.openImport = false
         },
         // 导入导出默认方法 无需更改
-        importExcel() {
+        importExcel () {
             const t = this
             t.openImport = true
             t.$refs.importExcel.getDowModelFile()
         },
         // 导入导出默认方法
-        expData() {
+        expData () {
             const t = this;
             // 填装查询条件
             const data = {
@@ -471,31 +455,23 @@ export default {
             this.openExp = true;
         },
         // 导入导出默认方法 无需更改
-        closeExp() {
+        closeExp () {
             const t = this;
             t.openExp = false;
         },
         // 导入导出默认方法 无需更改
-        closeExpDowMain() {
+        closeExpDowMain () {
             const t = this;
             t.openExpDow = false;
         },
         // 导入导出默认方法 无需更改
-        setFileKey(filekey, filename, openExpDow) {
+        setFileKey (filekey, filename, openExpDow) {
             const t = this;
             t.filekey = filekey;
             t.filename = filename;
             t.openExpDow = openExpDow;
             t.$refs.expdow.getPriToken(t.filekey);
         },
-        auth () {
-            const t = this
-            console.log(getBtnAuth(t), "res4321");
-            getBtnAuth().then((res) => {
-                console.log(res, "res1231")
-            })
-            
-        },//按钮权限控制
         pickData () {
             const t = this
             t.$refs.searchOrgframe.getData(this.params)
@@ -515,7 +491,8 @@ export default {
             this.openChart = false
         },//关闭组织架构图
         getData (id) {
-            const t = this
+            const t = this;
+            console.log(this.state, "t.state");
             const data = {
                 _mt: 'orgUnits.getByOrgFramePageList',
                 rows: t.rows,
@@ -526,7 +503,7 @@ export default {
                 unitFname: t.unitFname,
                 unitType: t.unitType,
                 unitPid: id,
-                state:t.state
+                state: t.state
             }
             for (const dat in data) {
                 if (data[dat] === '') {
@@ -580,7 +557,6 @@ export default {
         selectChange (e) {
             this.treeid = e.id
             this.page = 1;
-            console.log(e.id)
             this.getData(e.id)
         },
         /* 把后台数据转化为tree的格式 */
@@ -626,21 +602,21 @@ export default {
             }
         },//排序
         sizeChange (size) {
-            const t = this
-            t.rows = size
+            const t = this;
+            t.rows = size;
             t.getData(this.treeid)
         },//分页
         pageChange (page) {
-            const t = this
-            t.page = page
+            const t = this;
+            t.page = page;
             t.getData(this.treeid)
         },//分页
         selectedtable (selection) {
-            const newArr = []
+            const newArr = [];
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id)
-            }
-            this.tableselected = newArr
+            };
+            this.tableselected = newArr;
         },//列表中选中的item
         openUp (id, logType, index) {
             const t = this
@@ -648,18 +624,27 @@ export default {
             t.logType = logType
             t.openUpdate = true
             t.index = index
-            // t.$refs.update.getSelect()
+            console.log(t.index, "index");
+            console.log(t.updateId, "updateId")
+            // t.$refs.update.getSelect();
+            t.$refs.update.formValidate.unitSysalig = '1';
+            t.$refs.update.formValidate.unitOprecord = t.logType;
+            t.$refs.update.disabled = false
             t.$refs.update.getSelect("orgunittype");
             t.$refs.update.getSelect("unitIndustry");
             t.$refs.update.getSelect("unitPartfunct");
-            if (logType === this.$t('button.upd')) {
-                t.$refs.update.getData(id)
+            if (logType === this.$t('button.upd') || logType === "查看") {
+                t.$refs.update.getData(id);
+            }
+            if (logType === "查看") {
+                t.$refs.update.formValidate.unitSysalig = '1';
+                t.$refs.update.disabled = true
             }
         },//打开窗口
         closeUp () {
             const t = this
             t.openUpdate = false
-            t.$refs.update.formValidate.unitCode = ''
+            t.$refs.update.formValidate.unitCode = 'xxxxxx'
             t.$refs.update.formValidate.unitType = ''
             t.$refs.update.formValidate.unitFname = ''
             t.$refs.update.formValidate.unitPid = ''
@@ -670,10 +655,10 @@ export default {
             t.$refs.update.formValidate.unitValdate = ''
             t.$refs.update.formValidate.unitInvdate = ''
             t.$refs.update.formValidate.unitInvres = ''
-            t.$refs.update.formValidate.partEstablish = ''
-            t.$refs.update.formValidate.unitManger = ''
-            t.$refs.update.formValidate.unitDirec = ''
-            t.$refs.update.formValidate.unitStaff = ''
+            t.$refs.update.formValidate.partEstablish = null
+            t.$refs.update.formValidate.unitManger = null
+            t.$refs.update.formValidate.unitDirec = null
+            t.$refs.update.formValidate.unitStaff = null
             t.$refs.update.formValidate.unitSysalig = ''
             t.$refs.update.formValidate.unitOprecord = ''
             t.$refs.update.formValidate.note = ''
@@ -759,12 +744,12 @@ export default {
                     content: this.$t('reminder.leastone'),
                 })
                 return
-            }
+            };
             getDataLevelUserLogin({
                 _mt: 'orgUnits.setStateById',
                 logType: logType,
                 state: state,
-                ids: t.tableselected.toString,
+                ids: t.tableselected.toString(),
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     t.getData(1)
@@ -806,15 +791,8 @@ export default {
         getPageByType (paramCode) {
             this.unitTypeId = paramCode
             this.getData(1)
-            //  @buttonSearch="search()"
-            //     @buttonAdd="openUp(NaN,$t('button.add'))"
-            //     @buttonDraft="modifystatus('01draft')"
-            //     @buttonValid="modifystatus('02valid')"
-            //     @buttonInvalid="modifystatus('03invalid')"
-            //     @buttonImport="importExcel"
-            //      @buttonExport="expData"
         }//根据类型获取列表
-    },
+    }
 }
 </script>
 

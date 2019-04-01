@@ -78,14 +78,14 @@ export default {
           align: "center"
         },
         {
-          title: "工作单位",
-          key: "weComp",
+          title: "员工ID",
+          key: "empId",
           //            width: 150,
           sortable: "custom"
         },
         {
-          title: "工作部门",
-          key: "weDept"
+          title: "公司ID",
+          key: "companyId"
           //            width: 150,
         },
         {
@@ -134,8 +134,8 @@ export default {
       params: {
         _mt: "empWorkExp.getPage",
         funId: "1",
-        rows: 10,
-        page: 1,
+        rows: this.rows,
+        page: this.page,
         sort: "id",
         order: "asc",
         logType: "",
@@ -161,7 +161,7 @@ export default {
     //        this.getData()
     //      },
     search() {
-      // this.params.page = 1;
+      this.params.page = 1;
       //        设置主表id
 
       // this.params.visaAreaId = this.mainId + "";
@@ -186,8 +186,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            // title: this.$t("reminder.err"),
-            // content: this.$t("reminder.errormessage")
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -238,8 +238,8 @@ export default {
               })
               .catch(() => {
                 t.$Modal.error({
-                  // title: this.$t("reminder.err"),
-                  // content: this.$t("reminder.errormessage")
+                  title: this.$t("reminder.err"),
+                  content: this.$t("reminder.errormessage")
                 });
               });
           },

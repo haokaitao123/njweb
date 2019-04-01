@@ -23,7 +23,7 @@
                             <FormItem label="组织编码"
                                       prop="unitCode">
                                 <Input v-model="formValidate.unitCode"
-                                       :readonly="forbidden"
+                                       :disabled=true
                                        placeholder="请输入组织编码"></Input>
                             </FormItem>
                         </i-col>
@@ -31,7 +31,7 @@
                             <FormItem label="组织类型"
                                       prop="unitType">
                                 <Select v-model="formValidate.unitType"
-                                        :disabled="distype"
+                                        :disabled="distype||disabled"
                                         placeholder="选择类型">
                                     <Option :value="item.paramCode"
                                             v-for="(item,index) in selectUnitType"
@@ -43,6 +43,7 @@
                             <FormItem label="组织名称"
                                       prop="unitFname">
                                 <Input v-model="formValidate.unitFname"
+                                       :readonly="disabled"
                                        placeholder="请输入组织名称"></Input>
                             </FormItem>
                         </i-col>
@@ -52,7 +53,7 @@
                                 <span @dblclick="clearPid">
                                     <Input v-model="unitPname"
                                            icon="search"
-                                           :readonly="true"
+                                           :readonly=true
                                            placeholder="请选择上级部门"
                                            @on-click="pickData2" />
                                 </span>
@@ -62,6 +63,7 @@
                             <FormItem label="部门职能"
                                       prop="unitPartfunct">
                                 <Select v-model="formValidate.unitPartfunct"
+                                        :disabled="disabled"
                                         placeholder="选择部门职能">
                                     <Option :value="item.paramCode"
                                             v-for="(item,index) in selectFunction"
@@ -73,6 +75,7 @@
                             <FormItem label="行业"
                                       prop="unitIndustry">
                                 <Select v-model="formValidate.unitIndustry"
+                                        :disabled="disabled"
                                         placeholder="选择行业">
                                     <Option :value="item.paramCode"
                                             v-for="(item,index) in selectIndustry"
@@ -81,25 +84,25 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11">
-                            <FormItem label="默认成本中心"
+                            <FormItem label="成本中心"
                                       prop="unitCenter">
                                 <span @dblclick="clearCostcenter">
                                     <Input v-model="unitCenterName"
                                            icon="search"
-                                           :readonly="true"
+                                           :readonly=true
                                            placeholder="选择成本中心"
                                            @on-click="pickData3" />
                                 </span>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
-                            <FormItem label="默认雇佣地点"
+                            <FormItem label="雇佣地点"
                                       prop="unitCity">
                                 <span @dblclick="clearDfhire">
-                                    <Input v-model="unitCityName"
+                                    <Input v-model="unitCenterName"
                                            icon="search"
-                                           :readonly="true"
-                                           :placeholder="$t('lang_organization.orgframe.unitDfhirecityInp')"
+                                           :readonly=true
+                                           placeholder="选择成本中心"
                                            @on-click="pickData" />
                                 </span>
                             </FormItem>
@@ -110,7 +113,9 @@
                                 <DatePicker type="date"
                                             placeholder="选择生效日期"
                                             :editable="false"
+                                            :readonly="disabled"
                                             v-model="formValidate.unitValdate"
+                                            format="yyyy-MM-dd"
                                             style="width: 100%"></DatePicker>
                             </FormItem>
                         </i-col>
@@ -119,6 +124,7 @@
                                       prop="unitInvdate">
                                 <DatePicker type="date"
                                             placeholder="选择失效日期"
+                                            :readonly="disabled"
                                             :editable="false"
                                             v-model="formValidate.unitInvdate"
                                             style="width: 100%"></DatePicker>
@@ -128,6 +134,7 @@
                             <FormItem label="失效原因"
                                       prop="unitInvres">
                                 <Input v-model="formValidate.unitInvres"
+                                       :readonly="disabled"
                                        type="textarea"
                                        :autosize="{minRows: 2,maxRows: 5}"
                                        placeholder="请输入失效原因..."></Input>
@@ -136,46 +143,59 @@
                         <i-col span="11">
                             <FormItem label="部门编制"
                                       prop="partEstablish">
-                                <Input v-model="formValidate.partEstablish"
-                                       placeholder="请输入部门编制"></Input>
+                                <InputNumber v-model="formValidate.partEstablish"
+                                             :readonly="disabled"
+                                             size="default"
+                                             style="width: 290px"
+                                             placeholder="请输入部门编制"></InputNumber>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
                             <FormItem label="经理编制"
                                       prop="unitManger">
-                                <Input v-model="formValidate.unitManger"
-                                       placeholder="请输入经理编制"></Input>
+                                <InputNumber v-model="formValidate.unitManger"
+                                             :readonly="disabled"
+                                             size="default"
+                                             style="width: 290px"
+                                             placeholder="请输入经理编制"></InputNumber>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
                             <FormItem label="主管编制"
                                       prop="unitDirec">
-                                <Input v-model="formValidate.unitDirec"
-                                       placeholder="请输入主管编制"></Input>
+                                <InputNumber v-model="formValidate.unitDirec"
+                                             :readonly="disabled"
+                                             size="default"
+                                             style="width: 290px"
+                                             placeholder="请输入主管编制"></InputNumber>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
                             <FormItem label="员工编制"
                                       prop="unitStaff">
-                                <Input v-model="formValidate.unitStaff"
-                                       placeholder="请输入员工编制"></Input>
+                                <InputNumber v-model="formValidate.unitStaff"
+                                             :readonly="disabled"
+                                             size="default"
+                                             style="width: 290px"
+                                             placeholder="请输入员工编制"></InputNumber>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
                             <FormItem label="系统转正"
                                       prop="unitSysalig">
-                                <Select v-model="formValidate.unitSysalig"
-                                        placeholder="请选择">
-                                    <Option :value="item.paramCode"
-                                            v-for="(item,index) in selectUnitSysalig"
-                                            :key="index">{{item.paramInfoCn}}</Option>
-                                </Select>
+                                <RadioGroup v-model="formValidate.unitSysalig">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectUnitSysalig"
+                                           key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
                             </FormItem>
                         </i-col>
                         <i-col span="22">
                             <FormItem label="操作记录"
                                       prop="unitOprecord">
                                 <Input v-model="formValidate.unitOprecord"
+                                       :disabled=true
                                        type="textarea"
                                        :autosize="{minRows: 2,maxRows: 5}"
                                        placeholder="请输入操作记录..."></Input>
@@ -185,6 +205,7 @@
                             <FormItem label="备注"
                                       prop="note">
                                 <Input v-model="formValidate.note"
+                                       :readonly="disabled"
                                        type="textarea"
                                        :autosize="{minRows: 2,maxRows: 5}"
                                        placeholder="请输入备注..."></Input>
@@ -195,10 +216,11 @@
             </div>
             <Button type="ghost"
                     @click="handleReset"
-                    class="btn1">{{$t('button.cal')}}</Button>
+                    class="btn1">取消</Button>
             <Button type="primary"
                     @click="handleSubmit"
-                    class="btn">{{$t('button.sav')}}</Button>
+                    v-show="!disabled"
+                    class="btn">保存</Button>
         </div>
         <transition name="fade">
             <searchCity v-show="openPick"
@@ -234,10 +256,19 @@ import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import searchOrgcostcenter from '../../../components/searchTable/searchOrgcostcenter'
 
 export default {
+
     data () {
+        var validatePartEstablish = function (rule, value, callback) {
+            if (value === "") {
+                return callback(new Error("请输入部门编制1231231"));
+            } else {
+                callback();
+            }
+        };
         return {
             type: '',
             distype: false,
+            disabled: false,
             forbidden: null,
             popup: '',
             value: '',
@@ -256,7 +287,7 @@ export default {
             ],
             formValidate: {
                 _mt: 'orgUnits.addOrModifyOrgUnits', //新增接口url
-                unitCode: '',            //组织编码
+                unitCode: 'xxxxxx',            //组织编码
                 unitType: '',            //组织类型
                 unitFname: '',           //组织名称
                 unitPid: '',             //上级部门 
@@ -267,10 +298,10 @@ export default {
                 unitValdate: '',         //生效日期
                 unitInvdate: '',         //失效日期
                 unitInvres: '',          //失效原因
-                partEstablish: '',       //部门编制
-                unitManger: '',          //经理编制
-                unitDirec: '',           //主管编制
-                unitStaff: '',           //员工编制
+                partEstablish: null,       //部门编制
+                unitManger: null,          //经理编制
+                unitDirec: null,           //主管编制
+                unitStaff: null,           //员工编制
                 state: '',               //状态
                 unitSysalig: '1',
                 unitOprecord: this.logType,        //操作记录
@@ -375,19 +406,22 @@ export default {
                     { required: true, message: "请选择行业", trigger: 'change' },
                 ],
                 unitValdate: [
-                    { required: true, type: 'date', message: "选择生效日期", trigger: 'change' },
+                    { required: true, type: 'date', message: "请选择生效日期", trigger: 'change' },
                 ],
+                // partEstablish: [
+                //     { required: true, type: 'number', trigger: 'blur', message: "请输入部门编制" },
+                // ],
                 partEstablish: [
-                    { required: true, message: "请输入部门编制", trigger: 'blur' },
+                    { validator: validatePartEstablish, trigger: 'blur' }
                 ],
                 unitManger: [
-                    { required: true, message: "请输入经理编制", trigger: 'blur' },
+                    { required: true, type: 'number', message: "请输入经理编制", trigger: 'blur' },
                 ],
                 unitDirec: [
-                    { required: true, message: "请输入主管编制", trigger: 'blur' },
+                    { required: true, type: 'number', message: "请输入主管编制", trigger: 'blur' },
                 ],
                 unitStaff: [
-                    { required: true, message: "请输入员工编制", trigger: 'blur' },
+                    { required: true, type: 'number', message: "请输入员工编制", trigger: 'blur' },
                 ],
                 unitSysalig: [
                     { required: true, message: "请选择系统转正", trigger: 'change' },
@@ -435,10 +469,10 @@ export default {
                     t.formValidate.unitValdate = res.data.content[0].unitValdate
                     t.formValidate.unitInvdate = res.data.content[0].unitInvdate
                     t.formValidate.unitInvres = res.data.content[0].unitInvres
-                    t.formValidate.partEstablish = res.data.content[0].partEstablish
-                    t.formValidate.unitManger = res.data.content[0].unitManger
-                    t.formValidate.unitDirec = res.data.content[0].unitDirec
-                    t.formValidate.unitStaff = res.data.content[0].unitStaff
+                    t.formValidate.partEstablish = parseInt(res.data.content[0].partEstablish)
+                    t.formValidate.unitManger = parseInt(res.data.content[0].unitManger)
+                    t.formValidate.unitDirec = parseInt(res.data.content[0].unitDirec)
+                    t.formValidate.unitStaff = parseInt(res.data.content[0].unitStaff)
                     t.formValidate.unitSysalig = res.data.content[0].unitSysalig
                     t.formValidate.unitOprecord = res.data.content[0].unitOprecord
                     t.formValidate.note = res.data.content[0].note
@@ -572,36 +606,46 @@ export default {
         },
         pickData () {
             const t = this
-            t.popup = '0'
-            t.$refs.searchCity.getData(this.params, '02city\',\'03county')
-            t.openPick = true
+            if (!this.disabled) {
+                t.popup = '0'
+                t.$refs.searchCity.getData(this.params, '02city\',\'03county')
+                t.openPick = true
+            }
         },
         pickData2 () {
-            if (this.forbidden === null) {
+            if (this.forbidden === null && !this.disabled) {
                 const t = this
                 t.$refs.searchOrgframe.getData(this.params2)
                 t.openPick2 = true
             }
         },
         pickData3 () {
-            const t = this
-            t.$refs.searchOrgcostcenter.getData(this.params3)
-            t.openPick3 = true
+            if (!this.disabled) {
+                const t = this
+                t.$refs.searchOrgcostcenter.getData(this.params3)
+                t.openPick3 = true
+            }
         },
         clearPid () {
-            const t = this
-            t.unitPname = ''
-            t.formValidate.unitPid = ''
+            if (!this.disabled) {
+                const t = this
+                t.unitPname = ''
+                t.formValidate.unitPid = ''
+            }
         },
         clearDfhire () {
-            const t = this
-            t.unitCityName = ''
-            t.formValidate.unitCity = ''
+            if (!this.disabled) {
+                const t = this
+                t.unitCityName = ''
+                t.formValidate.unitCity = ''
+            }
         },
         clearCostcenter () {
-            const t = this
-            t.unitCenterName = ''
-            t.formValidate.unitCenter = ''
+            if (!this.disabled) {
+                const t = this
+                t.unitCenterName = ''
+                t.formValidate.unitCenter = ''
+            }
         },
         handleReset () {
             this.$refs.formValidate.resetFields()

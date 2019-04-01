@@ -67,7 +67,7 @@
                       <i-col span="23">
                         <FormItem label="试用期评估表" prop="empoffDocument">
                           <Row>
-                            <i-col span="3" >
+                            <i-col span="3">
                               <Upload :before-upload="handleUpload" action=" ">
                                 <Button type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
                               </Upload>
@@ -216,14 +216,14 @@ export default {
                     t.formValidate.postIdDis= res.data.content[0].postIdDis
                     t.formValidate.empoffResult= res.data.content[0].empoffResult
                   //alert(res.data.content[0].empoffDocument)
-                 // debugger
+                  debugger
                     if (res.data.content[0].empoffDocument) {
                       t.formValidate.empoffDocument = res.data.content[0].empoffDocument
                       t.file = { name: res.data.content[0].empoffDocument.split(':')[0] }
                       t.filekey = res.data.content[0].empoffDocument.split(':')[1]
                     }
                     t.formValidate.note= res.data.content[0].note
-                 //debugger
+                  debugger
                     if (t.logType === '查看') {
                         t.forbidden = true
                         t.distype = true

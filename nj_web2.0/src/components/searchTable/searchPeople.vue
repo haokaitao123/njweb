@@ -3,7 +3,7 @@
     <div class="backbox">
       <div class="title">
         <div class="title-text">
-          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>&nbsp;选择用户
+          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>&nbsp;{{$t('选择用户')}}
         </div>
         <Button type="text"  @click="close">
           <Icon type="close-round" size="16"></Icon>
@@ -31,7 +31,7 @@ export default{
       data: [],
       total: NaN,
       userName: '',
-      searchText: "请输入用户名",
+      searchText: this.$t('请输入用户名'),
       params: {
         _mt: 'userMgmt.getSearchUserPage',
         sort: 'id',
@@ -42,13 +42,13 @@ export default{
       },
       searchCloumns: [
         {
-          title: "用户名称",
+          title: this.$t('用户名称'),
           key: 'name',
           sortable: 'custom',
           width: 379,
         },
         {
-          title: "手机号码",
+          title: this.$t('手机号码'),
           key: 'mobileNo',
           sortable: 'custom',
           width: 379,

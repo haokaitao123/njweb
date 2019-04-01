@@ -134,13 +134,13 @@ export default {
       params: {
         _mt: "empFamily.getPage",
         funId: "1",
-        rows: 10,
-        page: 1,
+        rows: this.rows,
+        page: this.page,
         sort: "id",
         order: "asc",
         logType: "",
         // visaAreaId: ""
-          pkId:"",
+        pkId:""
       },
       index: "",
       tableselected: []
@@ -155,9 +155,16 @@ export default {
   },
   mounted() {},
   methods: {
-   
+    //      get(id) {
+    //        this.params.visaAreaId = id + ''
+    //        this.params.logType = '查询List信息'
+    //        this.getData()
+    //      },
     search() {
-      
+      this.params.page = 1;
+      //        设置主表id
+
+      // this.params.visaAreaId = this.mainId + "";
       this.params.pkId = this.mainId + "";
       this.getData();
     },
@@ -179,8 +186,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            // title: this.$t("reminder.err"),
-            // content: this.$t("reminder.errormessage")
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -231,8 +238,8 @@ export default {
               })
               .catch(() => {
                 t.$Modal.error({
-                  // title: this.$t("reminder.err"),
-                  // content: this.$t("reminder.errormessage")
+                  title: this.$t("reminder.err"),
+                  content: this.$t("reminder.errormessage")
                 });
               });
           },

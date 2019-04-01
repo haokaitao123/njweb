@@ -134,13 +134,13 @@ export default {
       params: {
         _mt: "empContractinfo.getPage",
         funId: "1",
-        rows: 10,
-        page: 1,
+       rows: this.rows,
+        page: this.page,
         sort: "id",
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        pkId:""
+        id:""
       },
       index: "",
       tableselected: []
@@ -161,11 +161,11 @@ export default {
     //        this.getData()
     //      },
     search() {
-      // this.params.page = 1;
+      this.params.page = 1;
       //        设置主表id
 
       // this.params.visaAreaId = this.mainId + "";
-      this.params.pkId = this.mainId + "";
+      this.params.id = this.mainId + "";
       this.getData();
     },
     getData() {
@@ -186,8 +186,8 @@ export default {
         })
         .catch(() => {
           t.$Modal.error({
-            // title: this.$t("reminder.err"),
-            // content: this.$t("reminder.errormessage")
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
           });
         });
     },
@@ -238,8 +238,8 @@ export default {
               })
               .catch(() => {
                 t.$Modal.error({
-                  // title: this.$t("reminder.err"),
-                  // content: this.$t("reminder.errormessage")
+                  title: this.$t("reminder.err"),
+                  content: this.$t("reminder.errormessage")
                 });
               });
           },
@@ -274,7 +274,7 @@ export default {
       const t = this;
       t.docsName = "";
       t.page = 1;
-      t.rows = 10;
+      t.rows = 10;c
     },
     hideMsg() {
       this.showMsg = false;
