@@ -186,7 +186,7 @@
                                 <RadioGroup v-model="formValidate.unitSysalig">
                                     <Radio :label="item.paramCode"
                                            v-for="(item,index) in selectUnitSysalig"
-                                           key="index"
+                                           :key="index"
                                            :disabled="disabled">{{item.paramInfoCn}}</Radio>
                                 </RadioGroup>
                             </FormItem>
