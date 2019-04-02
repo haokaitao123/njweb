@@ -244,7 +244,7 @@
             }
             for (let i = 0; i < t.dataBlocksFake.length; i++) {
               t.requirCount = t.dataBlocksFake.length
-              if (t.dataBlocksFake[i].flsdbType === 'dataFild') {
+              if (t.dataBlocksFake[i].flsdbType === '01form') {
                 t.getColumn(t.dataBlocksFake[i].id, t.dataBlocksFake[i].flsdbType)
               }
             }

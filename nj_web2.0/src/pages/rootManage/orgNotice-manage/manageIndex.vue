@@ -37,6 +37,7 @@
               :columns="columns"
               :data="comInfo"
               :height="tableheight"
+              :loading="loading"
             ></Table>
           </row>
           <Row style="display: flex">
@@ -136,6 +137,7 @@ export default {
       noticePeople: "",
       noticePeopleDis: "",
       select: this.$t("lang_user.rootuser.valid"),
+      loading: "",
       columns: [
         {
           type: "selection",
@@ -269,14 +271,17 @@ export default {
         }
       }
       //列表请求
+      t.loading = true;
       getDataLevelUserLoginNew(data)
         .then(res => {
           if (isSuccess(res, t)) {
+            t.loading = false;
             t.comInfo = res.data.content[0].rows;
             t.total = res.data.content[0].records;
           }
         })
         .catch(() => {
+          t.loading = false;
           t.$Modal.error({
             title: this.$t("reminder.err"),
             content: this.$t("reminder.errormessage")
