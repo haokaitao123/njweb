@@ -117,13 +117,13 @@ export default {
                     click: () => {
                       this.showMsgBtn(
                         params.row.id,
-                       "修改",
+                        this.logType,
                         params.index
                       );
                     }
                   }
                 },
-                "修改"
+                this.logType
               )
             ]);
           }
@@ -148,7 +148,8 @@ export default {
   },
   //    主表id
   props: {
-    mainId: Number
+    mainId: Number,
+    logType:String,
   },
   components: {
     contentMsg
