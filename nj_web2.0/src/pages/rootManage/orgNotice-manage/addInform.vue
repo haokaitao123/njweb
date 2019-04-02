@@ -119,7 +119,7 @@
               </i-col>
               <i-col span="20" >
                <span v-if="file !== '' ">
-               	<i-col span="22">
+               	<i-col span="22" @dblclick="clearFile">
                	<Input v-model="file.name" readonly="readonly" >
 			    				<span slot="prepend">
 			    					<Icon type="folder" size="16"></Icon>
@@ -334,6 +334,17 @@ export default {
     console.log(this.form.state,"form")
   },
   methods: {
+    clearFile () {
+      this.$Modal.confirm({
+        title: this.$t("reminder.remind"),
+        content: "是否清除已上传的附件",
+        onOk: () => {
+        this.file = ""
+      this.loadingStatus = false;
+    },
+      onCancel: () => { }
+    })
+    },
     clearPid(ckdis) {
       const t = this;
       if(!ckdis){
@@ -412,6 +423,12 @@ export default {
           link.href = doclink
           link.download = 'downloadfiletemp'
           link.click()
+         /* let link = document.createElement('a')
+          link.href = doclink
+          link.download = 'downloadfiletemp'
+          link.setAttribute('download', 'downloadfiletemp');
+          document.body.appendChild(link);
+          link.click();*/
         }
         this.$store.state.app.pageOpenedList = JSON.parse(localStorage.pageOpenedListAll)
         localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
