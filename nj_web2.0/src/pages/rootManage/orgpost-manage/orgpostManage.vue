@@ -468,9 +468,13 @@ export default {
             t.openUpdate = true;
             t.index = index;
             // t.$refs.update.getSelect()
-
+             t.$refs.update.disabled = false;
             if (logType === this.$t("button.upd") || logType === "查看") {
                 t.$refs.update.getData(id);
+            }
+            if (logType === "查看") {
+                t.$refs.update.formValidate.unitSysalig = "1";
+                t.$refs.update.disabled = true;
             }
         },
         closeUp () {
