@@ -56,7 +56,8 @@
                                border
                                ref="selection"
                                :columns="columns"
-                               :data="data"></Table>
+                               :data="data"
+                               :loading="loading"></Table>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
@@ -369,7 +370,8 @@ export default {
                     key: "unitTypeName"
                 }
             ],
-            state: this.modity
+            state: this.modity,
+            loading: "",
         };
     },
     computed: {
@@ -494,15 +496,17 @@ export default {
                     delete data[dat];
                 }
             }
+            this.loading = true;
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        // forEach(item )
+                        this.loading = false;
                         t.data = res.data.content[0].rows;
                         t.total = res.data.content[0].records;
                     }
                 })
                 .catch(() => {
+                    this.loading = false;
                     t.$Modal.error({
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")

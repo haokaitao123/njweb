@@ -118,6 +118,7 @@
                                             placeholder="选择生效日期"
                                             :editable="false"
                                             :disabled="disabled"
+                                            :readonly="disabled"
                                             v-model="formValidate.unitValdate"
                                             format="yyyy-MM-dd"
                                             style="width: 100%"></DatePicker>
@@ -129,6 +130,7 @@
                                 <DatePicker type="date"
                                             placeholder="选择失效日期"
                                             :disabled="disabled"
+                                            :readonly="disabled"
                                             :editable="false"
                                             v-model="formValidate.unitInvdate"
                                             style="width: 100%"></DatePicker>
