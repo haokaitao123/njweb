@@ -63,7 +63,7 @@
           </Row>
         <Row>
           <Col span="10">
-          <FormItem label="部门" prop="unitPid">
+          <FormItem label="发布部门" prop="unitPid">
                 <span @dblclick="clearPid(editdisabled)">
                   <Input
                     v-model="unitPidDis"
@@ -102,8 +102,8 @@
         <Row style="position:relative;z-index: 0;">
           <Col span="23">
             <FormItem label="内容" prop="noticeContent">
-              <div id="editor" style="z-index: 0;" v-show="!editdisabled"></div>
-              <div id="noticont" v-show="editdisabled" :disabled="editdisabled" :autosize="{minRows: 2,maxRows: 5}" style="border: #e4e5e7 solid 1px;border-radius:5px;background-color: #f3f3f3"></div>
+              <div id="editor" style="z-index: 0;"></div>
+              <!--<div id="noticont" v-show="editdisabled" :disabled="editdisabled" :autosize="{minRows: 2,maxRows: 5}" style="border: #e4e5e7 solid 1px;border-radius:5px;background-color: #f3f3f3"></div>-->
               <div id="txt" v-model="form.noticeContent" v-show="false"></div>
             </FormItem>
           </Col>
@@ -112,12 +112,12 @@
           <Col span="23">
           <FormItem label="'附件上传" prop="noticeAttach">
             <Row>
-              <i-col span="3">
+              <i-col span="3" v-show="!editdisabled">
                 <Upload :before-upload="handleUpload" action=" ">
                   <Button type="ghost" icon="ios-cloud-upload-outline" :disabled="editdisabled">{{$t('lang_platdoc.platDoc.plat_scan')}}</Button>
                 </Upload>
               </i-col>
-              <i-col span="20" offset="1">
+              <i-col span="20" >
                <span v-if="file !== '' ">
                	<i-col span="22">
                	<Input v-model="file.name" readonly="readonly" >
@@ -444,7 +444,6 @@ export default {
     },
     upData(id) {
       const t = this;
-
       getDataLevelUserLogin({
         _mt: "orgNotice.getById",
         id: id,
@@ -468,8 +467,10 @@ export default {
             }
             if (t.form.state !== "101") {
               t.editdisabled = true;
+            }else{
+              t.editdisabled = false;
             }
-            document.getElementById("noticont").innerHTML = t.form.noticeContent;
+            //document.getElementById("noticont").innerHTML = t.form.noticeContent;
             t.form.note = res.data.content[0].note;
             editor.txt.append(t.form.noticeContent);
             document.getElementById("txt").innerHTML = t.form.noticeContent;
@@ -527,7 +528,6 @@ export default {
     },//保存
     handleReset() {
       const t = this;
-      t.editdisabled = false;
 
       const data = deepCopy(t.form)
       data.logType = t.logType
@@ -550,17 +550,6 @@ export default {
       this.$refs.form.resetFields();
       t.$emit("closeUp");
     }//关闭窗口
-    ,isChecked(index){
-
-      if (index) {
-        alert("1");
-        return false
-      }else{
-        alert("2");
-        return true
-      }
-
-    }
   }
 };
 </script>
