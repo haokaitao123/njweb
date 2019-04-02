@@ -54,13 +54,13 @@
                         </FormItem>
                       </i-col>
                       <i-col span="22">
-                          <FormItem label="试用期评价结论"
+                          <FormItem label="试用期评价"
                                     prop="empoffResult">
                               <Input v-model="formValidate.empoffResult"
                                      type="textarea"
                                      :disabled=forbidden
                                      :autosize="{minRows: 2,maxRows: 5}"
-                                     placeholder="请输入试用期评价结论..."></Input>
+                                     placeholder="请输入试用期评价..."></Input>
                           </FormItem>
                       </i-col>
                       <!--上传下载-->
