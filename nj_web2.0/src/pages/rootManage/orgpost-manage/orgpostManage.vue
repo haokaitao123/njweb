@@ -127,11 +127,12 @@ export default {
             expDataTital: [
                 { code: "postCode", name: "岗位编码" },
                 { code: "postFname", name: "岗位名称" },
+                { code: "postDfpslevelName", name: "岗位级别" },
                 { code: "postStansalary", name: "岗位标准薪资" },
                 { code: "postTrialsalary", name: "试用期薪资" },
-                { code: "postCostsharing", name: "分摊成本" },
-                { code: "seniorityWage", name: "工龄工资" },
-                { code: "postStation", name: "是否驻厂" },
+                { code: "postCostsharingDis", name: "分摊成本" },
+                { code: "seniorityWageDis", name: "工龄工资" },
+                { code: "postStationDis", name: "是否驻厂" },
                 { code: "postValiddate", name: "生效日期" },
                 { code: "postInvdate", name: "失效日期" },
                 { code: "postReason", name: "失效原因" },
@@ -157,6 +158,8 @@ export default {
             openUpdate: false,
             updateId: NaN,
             tableselected: [],
+             //页面初始化默认状态
+            state: '02valid',
             selectDfpslevel: [],
             postDfpslevel: "",
             postDfpslevelData: [], //
@@ -496,10 +499,10 @@ export default {
             let tipContent = "";
             if (state === "02valid") {
                 logType = "生效";
-                tipContent = "请确定是否修改为生效"
+                tipContent = "您确定继续操作吗？"
             } else if (state === "03invalid") {
                 logType = "失效";
-                tipContent = "请确定是否修改为生效"
+                tipContent = "您确定继续操作吗？"
             }
             if (t.tableselected.length === 0) {
                 t.$Modal.warning({
@@ -513,7 +516,7 @@ export default {
                 content: tipContent,
                 onOk: () => {
                     getDataLevelUserLogin({
-                        _mt: "orgUnits.setStateById",
+                        _mt: "orgPost.setStateById",
                         logType: logType,
                         state: state,
                         ids: t.tableselected.toString()
@@ -556,7 +559,8 @@ export default {
             const data = {
                 bankCode: t.bankCode,
                 bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode
+                bankSwiftcode: t.bankSwiftcode,
+                state: t.modity
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "orgPost.export", data);

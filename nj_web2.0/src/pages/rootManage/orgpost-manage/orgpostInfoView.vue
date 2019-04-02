@@ -430,8 +430,8 @@ export default {
                         t.formValidate.note = res.data.content[0].note;
                         t.formValidate.postStation = res.data.content[0].postStation;
                         t.formValidate.postDfpslevel = res.data.content[0].postDfpslevel;
-                        t.formValidate.postStansalary = res.data.content[0].postStansalary;
-                        t.formValidate.postTrialsalary = res.data.content[0].postTrialsalary;
+                        t.formValidate.postStansalary = Number(res.data.content[0].postStansalary);
+                        t.formValidate.postTrialsalary = Number(res.data.content[0].postTrialsalary);
                         if (id === res.data.content[0].companyId) {
                             t.forbidden = 'disabled'
                             t.distype = true

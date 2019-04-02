@@ -174,7 +174,8 @@ export default {
                 { code: "unitManger", name: "经理编制" },
                 { code: "unitDirec", name: "主管编制" },
                 { code: "unitStaff", name: "员工编制" },
-                { code: "unitSysalig", name: "系统转正" },
+                { code: "unitSysaligName", name: "系统转正" },
+                { code: "unitOprecord", name: "操作记录" },
                 { code: "note", name: "备注" }
             ],
             // 导入导出默认参数 无需变更
@@ -431,7 +432,8 @@ export default {
             const data = {
                 unitCode: t.unitCode,
                 unitFname: t.unitFname,
-                unitType: t.unitType
+                unitType: t.unitType,
+                state:t.modity
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
@@ -765,10 +767,13 @@ export default {
         modifystatus (state) {
             const t = this;
             let logType = "";
+            let tipContent = "";
             if (state === "02valid") {
                 logType = "生效";
+                tipContent = "您确定继续操作吗？"
             } else if (state === "03invalid") {
                 logType = "失效";
+                 tipContent = "您确定继续操作吗？"
             }
             if (t.tableselected.length === 0) {
                 t.$Modal.warning({
@@ -777,27 +782,35 @@ export default {
                 });
                 return;
             }
-            getDataLevelUserLogin({
-                _mt: "orgUnits.setStateById",
-                logType: logType,
-                state: state,
-                ids: t.tableselected.toString()
-            })
-                .then(res => {
-                    if (isSuccess(res, t)) {
-                        t.getData();
-                        t.$Modal.success({
-                            title: this.$t("reminder.suc"),
-                            content: "操作完成"
+            t.$Modal.confirm({
+                title: this.$t("reminder.remind"),
+                content: tipContent,
+                onOk: () => {
+                    getDataLevelUserLogin({
+                         _mt: "orgUnits.setStateById",
+                         logType: logType,
+                         state: state,
+                         ids: t.tableselected.toString()
+                    })
+                        .then(res => {
+                            if (isSuccess(res, t)) {
+                                t.getData();
+                                t.$Modal.success({
+                                title: this.$t("reminder.suc"),
+                                content: "操作完成"
+                                });
+                            }
+                        })
+                        .catch(() => {
+                            t.$Modal.error({
+                                title: this.$t("reminder.err"),
+                                content: this.$t("reminder.errormessage")
+                            });
                         });
-                    }
-                })
-                .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
-                });
+                },
+                onCancel: () => { }
+            });
+
         }, //修改状态
         unitTypeSelect () {
             const t = this;
