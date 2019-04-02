@@ -563,10 +563,12 @@ export default {
       t.logType = logType;
       t.openUpdate = true;
       t.index = index;
-      if (t.logType === this.$t("button.upd")) {
-        // 调用子页面方法 传递参数 无需变更
-        t.$refs.update.getOption(id, logType);
-      }
+      // if (t.logType === this.$t("button.upd")) {
+      //   // 调用子页面方法 传递参数 无需变更
+      //   t.$refs.update.getOption(id, logType);
+      // }
+      t.$refs.update.getOption(id, t.logType);
+
     },
     // 关闭主表页面
     closeUp() {
