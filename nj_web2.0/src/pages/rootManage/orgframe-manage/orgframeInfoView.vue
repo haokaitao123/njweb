@@ -295,7 +295,7 @@ export default {
             ],
             formValidate: {
                 _mt: 'orgUnits.addOrModifyOrgUnits', //新增接口url
-                unitCode: 'xxxxxx',            //组织编码
+                unitCode: 'XXXXXX',            //组织编码
                 unitType: '',            //组织类型
                 unitFname: '',           //组织名称
                 unitPid: '',             //上级部门 

@@ -10,7 +10,7 @@
                 <Row>
                     <Col span="18"
                          style="width: 100% !important">
-                    <Row>modityChange
+                    <Row>
                         <Input :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')"
                                style="width: 200px"
                                v-model="postFname" />
@@ -171,43 +171,41 @@ export default {
                     title: this.$t("lang_organization.orgpost.postCode"),
                     key: "postCode",
                     width: 180,
-                    //          width: 105,
                     fixed: "left",
                     sortable: "custom"
                 },
                 {
                     title: "岗位名称",
                     width: 180,
-                    //          width: 105,
                     key: "postFname"
                 },
-
+                {
+                    title: "状态",
+                    width: 180,
+                    key: "state"
+                },
                 {
                     title: "职位级别",
                     key: "postDfpslevelName",
                     sortable: "custom",
                     width: 180
-                    //          width: 105,
                 },
                 {
-                    title: this.$t("lang_organization.orgpost.postStansalary"),
+                    title: "岗位标准薪资",
                     width: 180,
-                    //          width: 105,
                     key: "postStansalary",
                     sortable: "custom"
                 },
                 {
                     title: this.$t("lang_organization.orgpost.postTrialsalary"),
                     width: 180,
-                    //          width: 105,
                     key: "postTrialsalary",
                     sortable: "custom"
                 },
 
                 {
-                    title: this.$t("lang_organization.orgpost.postCostsharing"),
+                    title: "分摊成本",
                     width: 180,
-                    //          width: 105,
                     key: "postCostsharing",
                     render: (h, params) => {
                         return h(
@@ -219,7 +217,6 @@ export default {
                 {
                     title: this.$t("lang_organization.orgpost.seniorityWage"),
                     width: 180,
-                    //          width: 105,
                     key: "seniorityWage",
                     render: (h, params) => {
                         return h("div", params.row.seniorityWage == 1 ? "有" : "无");
@@ -228,7 +225,6 @@ export default {
                 {
                     title: this.$t("lang_organization.orgpost.postStation"),
                     width: 180,
-                    //          width: 105,
                     key: "postStation",
                     render: (h, params) => {
                         return h("div", params.row.postStation == 1 ? "是" : "否");
@@ -240,23 +236,13 @@ export default {
                     key: "postValiddate",
                     sortable: "custom",
                     width: 180
-                    //          width: 105,
                 },
                 {
                     title: this.$t("lang_organization.orgpost.postInvdate "),
                     key: "postInvdate",
                     sortable: "custom",
                     width: 180
-                    //          width: 105,
                 },
-
-                {
-                    title: this.$t("lang_organization.orgpost.postReason "),
-                    key: "postReason",
-                    sortable: "custom",
-                    width: 180
-                    //          width: 105,
-                }
             ],
             tableBtn: {
                 title: "操作",
@@ -314,7 +300,7 @@ export default {
                 logType: "岗位信息查询",
                 data: "{}"
             },
-            modify: "false"
+            state: this.modity
         };
     },
     computed: {
@@ -365,16 +351,13 @@ export default {
     //初始化自动调用方法
     mounted () {
         this.getData();
-        //this.getTree()
         this.getSelect();
         this.postDfpslevelSelect();
     },
     methods: {
         //状态
         modityChange (res) {
-            this.modity = res.funStatecode;
             this.getData();
-            this.getTree();
         },
         getData (id) {
             const t = this;
@@ -388,7 +371,7 @@ export default {
                 postCode: t.postCode,
                 funId: "1000",
                 postFname: t.postFname,
-                state: t.state,
+                state: t.modity,
                 postDfpslevel: t.postDfpslevel,
                 postUnit: id || ""
             };
@@ -475,10 +458,6 @@ export default {
                 });
             }
         },
-        open () {
-            const t = this;
-            t.opendialog = true;
-        },
         openUp (id, logType, index) {
             const t = this;
             t.updateId = parseInt(id, 10);
@@ -491,20 +470,16 @@ export default {
                 t.$refs.update.getData(id);
             }
         },
-        close () {
-            const t = this;
-            t.opendialog = false;
-        },
         closeUp () {
             const t = this;
             t.openUpdate = false;
-            t.$refs.update.formValidate.postCode = "";
+            t.$refs.update.formValidate.postCode = "XXXXXX";
             t.$refs.update.formValidate.postFname = "";
-            t.$refs.update.formValidate.seniorityWage = "";
+            t.$refs.update.formValidate.seniorityWage = "1";
             t.$refs.update.formValidate.postDfpslevel = "";
-            t.$refs.update.formValidate.postStansalary = "";
-            t.$refs.update.formValidate.postTrialsalary = "";
-            t.$refs.update.formValidate.postCostsharing = "";
+            t.$refs.update.formValidate.postStansalary = null;
+            t.$refs.update.formValidate.postTrialsalary = null;
+            t.$refs.update.formValidate.postCostsharing = "1";
             t.$refs.update.formValidate.postStation = "";
             t.$refs.update.formValidate.postValiddate = "";
             t.$refs.update.formValidate.postInvdate = "";
@@ -512,17 +487,19 @@ export default {
             t.$refs.update.formValidate.note = "";
         },
         search () {
-            this.treeid = "";
             this.page = 1;
             this.getData();
         },
         modifystatus (state) {
             const t = this;
             let logType = "";
+            let tipContent = "";
             if (state === "02valid") {
                 logType = "生效";
+                tipContent = "请确定是否修改为生效"
             } else if (state === "03invalid") {
                 logType = "失效";
+                tipContent = "请确定是否修改为生效"
             }
             if (t.tableselected.length === 0) {
                 t.$Modal.warning({
@@ -531,27 +508,35 @@ export default {
                 });
                 return;
             }
-            getDataLevelUserLogin({
-                _mt: "orgUnits.setStateById",
-                logType: logType,
-                state: state,
-                ids: t.tableselected.toString
-            })
-                .then(res => {
-                    if (isSuccess(res, t)) {
-                        t.getData();
-                        t.$Modal.success({
-                            title: this.$t("reminder.suc"),
-                            content: "操作完成"
+            t.$Modal.confirm({
+                title: this.$t("reminder.remind"),
+                content: tipContent,
+                onOk: () => {
+                    getDataLevelUserLogin({
+                        _mt: "orgUnits.setStateById",
+                        logType: logType,
+                        state: state,
+                        ids: t.tableselected.toString()
+                    })
+                        .then(res => {
+                            if (isSuccess(res, t)) {
+                                t.getData();
+                                t.$Modal.success({
+                                    title: this.$t("reminder.suc"),
+                                    content: "操作完成"
+                                });
+                            }
+                        })
+                        .catch(() => {
+                            t.$Modal.error({
+                                title: this.$t("reminder.err"),
+                                content: this.$t("reminder.errormessage")
+                            });
                         });
-                    }
-                })
-                .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
-                });
+                },
+                onCancel: () => { }
+            });
+
         }, //修改状态
         // 导入导出默认方法 无需更改
         closeImport () {

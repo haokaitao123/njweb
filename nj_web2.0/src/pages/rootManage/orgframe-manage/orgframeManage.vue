@@ -667,7 +667,7 @@ export default {
         closeUp () {
             const t = this;
             t.openUpdate = false;
-            t.$refs.update.formValidate.unitCode = "xxxxxx";
+            t.$refs.update.formValidate.unitCode = "XXXXXX";
             t.$refs.update.formValidate.unitType = "";
             t.$refs.update.formValidate.unitFname = "";
             t.$refs.update.formValidate.unitPid = "";
