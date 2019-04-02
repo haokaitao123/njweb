@@ -426,7 +426,7 @@
       },//分页
       openUp(id, logType, index) {
         const t = this
-        debugger
+        //debugger
         t.updateId = parseInt(id, 10)
         t.logType = logType
         t.openUpdate = true
@@ -441,7 +441,7 @@
         t.openUpdate = false
         t.forbidden = false
         let up = t.$refs.update.formValidate
-        debugger
+        //debugger
         for (let s in up) {
           if(s!='_mt' && s!='funId'){
             up[s] = ''
