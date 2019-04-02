@@ -176,12 +176,6 @@
             key: 'postIdDis',
 
           },
-          {
-            title: "试用期评价",
-            key: 'empoffResult',
-            width: 230,
-          },
-
         ],
         /*列表操作项*/
         tableBtn: {
