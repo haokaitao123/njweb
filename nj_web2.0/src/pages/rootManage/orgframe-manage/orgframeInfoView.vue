@@ -487,6 +487,7 @@ export default {
                     t.unitCenterName = res.data.content[0].unitCenterName
                     t.unitCityName = res.data.content[0].unitCityName
                     t.unitPname = res.data.content[0].unitPname
+                    t.formValidate.state = res.data.content[0].state
                     if (id === res.data.content[0].companyId) {
                         t.forbidden = 'disabled'
                         t.distype = true

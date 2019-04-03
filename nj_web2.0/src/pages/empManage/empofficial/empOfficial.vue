@@ -18,7 +18,7 @@
                        style="width: 200px"
                        v-model="empIdIden"/>
                 <!--状态选择框-->
-                <btnList @buttonExport="expData"
+                <btnList :btnData="btnData"   :FlowNode="FlowNode" @buttonExport="expData"
                          @buttonSearch="getData"
                          @buttonImport="importExcel"
                          @moditySelect="changemodity"
@@ -135,7 +135,7 @@
           { code: "empIdIden", name: "证件号码" },
           { code: "deptIdDis", name: "部门" },
           { code: "postIdDis", name: "岗位" },
-          { code: "empoffResult", name: "试用期评价结果" },
+          { code: "empoffResult", name: "试用期评价" },
           { code: "note", name: "备注" },
         ],
         //高度设置
@@ -241,8 +241,15 @@
       },
       tableOperate () {
         return this.$store.state.btnOperate.tableOperate
+      },
+      btnData () {
+        return this.$store.state.btnOperate.btnData
+      },
+      FlowNode () {
+        return this.$store.state.btnOperate.isFlowNode
       }
     },
+
     /*引入子页面初始化，js不需要*/
     components: {
       update,
