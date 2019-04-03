@@ -30,7 +30,7 @@
               <!--table-->
               <row class="table-form"
                    ref="table-form">
-                <Table @on-select="selectedtable"
+                <Table :loading="loading" @on-select="selectedtable"
                        @on-select-cancel="selectedtable"
                        @on-select-all="selectedtable"
                        @on-sort-change="sortable"
@@ -121,7 +121,7 @@
   export default {
     data() {
       return {
-
+        loading: "",
         // 导入导出默认参数 无需变更
         openImport: false,
         openExpDow: false,
@@ -139,7 +139,7 @@
           { code: "note", name: "备注" },
         ],
         //高度设置
-        tableheight: document.body.offsetHeight-140,
+        tableheight: document.body.offsetHeight-240,
         logType: '',
         openUpdate: false,
         updateId: NaN,
@@ -151,7 +151,6 @@
           {
             type: 'selection',
             width: 54,
-
             align: 'center',
           },
           {
@@ -368,8 +367,8 @@
         this.openChart = false
       },//关闭员工转正图
       getData(id) {
-        //alert(1)
         const t = this
+        t.loading = true; //请求之前重置状态
         const data = {
           _mt: 'empEmpofficial.getPage',
           rows: t.rows,
@@ -397,6 +396,8 @@
             title: this.$t('reminder.err'),
             content: this.$t('reminder.errormessage'),
           })
+        }).finally(() => {
+          t.loading = false; //在成功之后改状态
         })
       },
       sortable(column) {
