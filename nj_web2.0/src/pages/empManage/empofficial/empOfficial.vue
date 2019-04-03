@@ -18,7 +18,7 @@
                        style="width: 200px"
                        v-model="empIdIden"/>
                 <!--状态选择框-->
-                <btnList @buttonExport="expData"
+                <btnList :btnData="btnData"   :FlowNode="FlowNode" @buttonExport="expData"
                          @buttonSearch="getData"
                          @buttonImport="importExcel"
                          @moditySelect="changemodity"
@@ -241,8 +241,15 @@
       },
       tableOperate () {
         return this.$store.state.btnOperate.tableOperate
+      },
+      btnData () {
+        return this.$store.state.btnOperate.btnData
+      },
+      FlowNode () {
+        return this.$store.state.btnOperate.isFlowNode
       }
     },
+
     /*引入子页面初始化，js不需要*/
     components: {
       update,
