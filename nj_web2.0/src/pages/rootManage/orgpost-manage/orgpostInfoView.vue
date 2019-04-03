@@ -89,7 +89,7 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11">
-                            <FormItem :label="$t('lang_organization.orgpost.postCostsharing')"
+                            <FormItem label="分摊成本"
                                       prop="postCostsharing">
 
                                 <RadioGroup v-model="formValidate.postCostsharing">
@@ -119,6 +119,7 @@
                                 <DatePicker type="date"
                                             :placeholder="$t('lang_organization.orgpost.postValiddateInp')"
                                             :disabled="disabled"
+                                            :readonly="disabled"
                                             :editable="false"
                                             v-model="formValidate.postValiddate"
                                             style="width: 100%"></DatePicker>
@@ -131,6 +132,7 @@
                                 <DatePicker type="date"
                                             :placeholder="$t('lang_organization.orgpost.postInvdateInp')"
                                             :disabled="disabled"
+                                            :readonly="disabled"
                                             :editable="false"
                                             v-model="formValidate.postInvdate"
                                             style="width: 100%"></DatePicker>
@@ -410,6 +412,7 @@ export default {
     methods: {
         getData (id) {
             const t = this;
+            this.page = 1;
             getDataLevelUserLogin({
                 _mt: "orgPost.getById",
                 id: id,
