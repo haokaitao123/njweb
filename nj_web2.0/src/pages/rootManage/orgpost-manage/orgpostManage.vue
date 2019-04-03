@@ -30,7 +30,9 @@
                                  @buttonDraft="modifystatus('01draft')"
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @moditySelect="modityChange"
-                                 @buttonSearch="search"></btnList>
+                                 @buttonSearch="search"
+                                 :btnData="btnData"   
+                                 :FlowNode="FlowNode" ></btnList>
                     </Row>
                     <!--布置分页列表 变量通用 无需变更-->
                     <row class="table-form"
@@ -305,6 +307,12 @@ export default {
         };
     },
     computed: {
+        btnData () {
+            		return this.$store.state.btnOperate.btnData
+        	},
+        FlowNode () {
+            		return this.$store.state.btnOperate.isFlowNode
+        	},	
         pageShow () {
             return this.$store.state.btnOperate.pageShow;
         },
