@@ -678,5 +678,32 @@ const searchTable = {
       logType: '查询',
     },
   },
+  /**
+   * 选择纳杰员工
+   */
+  'empnh-base-std': {
+    title: '选择员工',
+    searchText: '请输入员工姓名',
+    valueText: 'empnhName',
+    searchCloumns: [
+      {
+        title: '员工姓名',
+        key: 'empnhName',
+      },
+      {
+        title: '证件号码',
+        key: 'empnhIdno',
+      }
+    ],
+    param: {
+      _mt: 'empEmpnh.getPage',
+      sort: 'id',
+      order: 'desc',
+      rows: 10,
+      page: 1,
+      state:'02empstate',
+      logType: '员工弹出框',
+    },
+  },
 }
 export default searchTable

@@ -135,7 +135,7 @@
           { code: "empIdIden", name: "证件号码" },
           { code: "deptIdDis", name: "部门" },
           { code: "postIdDis", name: "岗位" },
-          { code: "empoffResult", name: "试用期评价结果" },
+          { code: "empoffResult", name: "试用期评价" },
           { code: "note", name: "备注" },
         ],
         //高度设置
