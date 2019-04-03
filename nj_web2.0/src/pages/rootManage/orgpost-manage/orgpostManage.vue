@@ -44,7 +44,8 @@
                                border
                                ref="selection"
                                :columns="columns"
-                               :data="data"></Table>
+                               :data="data"
+                               :loading="loading"></Table>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
