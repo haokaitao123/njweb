@@ -177,6 +177,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
+                                        console.log(params.row, "params.row")
                                         this.openUp(params.row.id, this.$t('button.upd'), params.index)
                                     },
                                 },

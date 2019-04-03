@@ -379,7 +379,7 @@
         <transition name="fade">
             <transfer v-if="openTransfer"
                       @closeTransfer="closeTransfer"
-                      :id="ids"
+                      :id="id"
                       ref="transfer"
                       @getBtnData="getBtnData"></transfer>
         </transition>
@@ -561,7 +561,8 @@ export default {
         transfer,
     },
     updated () {
-        console.log(this.formValidate.funStyle, "formValidate.funStyle")
+        console.log(this.formValidate.funStyle, "formValidate.funStyle");
+        console.log(this.id, "id")
     },
     methods: {
         getData (id) {
@@ -619,7 +620,7 @@ export default {
                 order: t.order,
                 rows: t.rows,
                 page: t.page,
-                btnFunid: t.ids,
+                btnFunid: t.id,
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     t.data = res.data.content[0].rows
@@ -677,7 +678,7 @@ export default {
         },
         closeUpd () {
             const t = this
-            t.ids = ''
+            t.id = ''
         },
         clearDub () {
             const t = this
@@ -756,7 +757,7 @@ export default {
             data.logType = t.logType
 
             if (t.logType === this.$t('button.upd')) {
-                data.id = t.ids
+                data.id = t.id
             }
             if (data.funIsprocess === '1') {
                 data.funIsform = '0'
@@ -780,8 +781,8 @@ export default {
                                     title: this.$t('reminder.suc'),
                                     content: this.$t('reminder.addsuccess'),
                                 })
-                                t.ids = res.data.content[0].id
-                                t.tabsSure(t.ids)
+                                // t.id = res.data.content[0].id
+                                t.tabsSure(res.data.content[0].id)
                                 // t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
@@ -879,7 +880,8 @@ export default {
     },
     watch: {},
     mounted () {
-        console.log(this.formValidate.funStyle, "formValidate.funStyle")
+        console.log(this.formValidate.funStyle, "formValidate.funStyle");
+
     },
 }
 </script>
