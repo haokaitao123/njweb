@@ -25,6 +25,7 @@
                 <!-- <Input placeholder="请输入岗位名称" style="width: 160px" v-model="deptId"/> -->
                 <Input placeholder="请输入岗位名称" style="width: 160px" v-model="postId"/>
                 <btnList
+                :btnData="btnData"   :FlowNode="FlowNode"
                   @buttonExport="expData"
                   @buttonSearch="search"
                   @buttonImport="importExcel"
@@ -405,7 +406,13 @@ export default {
     },
     tableOperate() {
       return this.$store.state.btnOperate.tableOperate;
-    }
+    },
+    btnData () {
+            		return this.$store.state.btnOperate.btnData
+        	},
+        	FlowNode () {
+            		return this.$store.state.btnOperate.isFlowNode
+        	}	
   },
   created() {
     if (this.pageShow != "") {
