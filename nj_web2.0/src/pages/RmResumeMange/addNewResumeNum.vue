@@ -45,7 +45,7 @@
                 <!--  简历使用量输入框  -->
                 <Col span="10" offset="1">
                     <FormItem label="简历使用量" prop="resumeNum">
-                        <Input type = 'number' v-model="formValidate.resumeNum" placeholder="请输入简历使用量"></Input>
+                        <InputNumber v-model="formValidate.resumeNum" placeholder="请输入简历使用量"  style="width: 100%"></InputNumber>
                     </FormItem>
                 </Col>
             </Row>
@@ -91,7 +91,7 @@
             entryId: '', //项目id
             empId: '', //员工id
             resumeDate: '', //简历日期
-            resumeNum: '',//resumeNum
+            resumeNum: null,//resumeNum
             note: '',//备注
         },
         entryName: '',//项目名称
@@ -103,11 +103,11 @@
             ],
             //简历日期
             resumeDate: [
-                { required: true, message: '请选择日期', trigger: 'change',pattern: /.+/ }
+                { required: true, message: '请选择日期', trigger: 'change',pattern: /.+/}
             ],
             //简历数量
             resumeNum: [
-                { required: true, message: '请输入简历数量', trigger: 'input' }
+                { required: true, type: 'number',message: '请输入简历数量', trigger: 'changes' }
             ],
         },
       }
@@ -139,7 +139,7 @@
                 t.entryName = res.data.content[0].entryName
                 t.empName = res.data.content[0].empName
                 t.formValidate.resumeDate = res.data.content[0].resumeDate
-                t.formValidate.resumeNum = res.data.content[0].resumeNum
+                t.formValidate.resumeNum = Number(res.data.content[0].resumeNum)
                 t.formValidate.note = res.data.content[0].note
             }
             }).catch(() => {
