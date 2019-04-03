@@ -219,6 +219,17 @@ export default {
     this.getSelect();
     this.getData(1);
   },
+  watch: {
+    pageShow (val) {
+      if (val == "" && this.tableOperate == "true") {
+        this.columns.pop();
+        this.$store.commit("btnOperate/setTableOperate", "false");
+      } else if (this.tableOperate == "false") {
+        this.columns.push(this.tableBtn);
+        this.$store.commit("btnOperate/setTableOperate", "true");
+      }
+    }
+  },
   methods: {
     btnEvent (res) {
       console.log(res, "res12345")

@@ -22,10 +22,10 @@
                         <i-col span="11">
                           <FormItem label="员工姓名"  prop="empIdName"  >
                             <!--绑定双击清除方法-->
-                            <span @dblclick="dbclean">
+                            <span @dblclick="forbidden?'':dbclean()">
                           <!--v-model绑定显示字段-->
-                              <Input v-model="formValidate.empIdName" icon="search" disabled="true" placeholder="请选择员工"  @on-click="pickEmpData" />
-                        </span>
+                              <Input v-model="formValidate.empIdName" icon="search" disabled="disabled" placeholder="请选择员工"  @on-click="forbidden?'':pickEmpData()" />
+                            </span>
                           </FormItem>
                         </i-col>
 
@@ -33,7 +33,7 @@
                         <FormItem label="证件号码"
                                   prop="empIdIden">
                           <Input v-model="formValidate.empIdIden"
-                                 disabled="true"
+                                 disabled="disabled"
                                  placeholder="请输入证件号码"></Input>
                         </FormItem>
                       </i-col>
@@ -41,7 +41,7 @@
                             <FormItem label="部门"
                                       prop="deptIdDis">
                                 <Input v-model="formValidate.deptIdDis"
-                                       disabled="true"
+                                       disabled="disabled"
                                        placeholder="请输入部门名称"></Input>
                             </FormItem>
                         </i-col>
@@ -49,40 +49,40 @@
                         <FormItem label="岗位"
                                   prop="postIdDis">
                           <Input v-model="formValidate.postIdDis"
-                                 disabled="true"
+                                 disabled="disabled"
                                  placeholder="请输入岗位名称"></Input>
                         </FormItem>
                       </i-col>
                       <i-col span="22">
-                          <FormItem label="试用期评价结论"
+                          <FormItem label="试用期评价"
                                     prop="empoffResult">
                               <Input v-model="formValidate.empoffResult"
                                      type="textarea"
-                                     :disabled="forbidden"
+                                     :disabled=forbidden
                                      :autosize="{minRows: 2,maxRows: 5}"
-                                     placeholder="请输入试用期评价结论..."></Input>
+                                     placeholder="请输入试用期评价..."></Input>
                           </FormItem>
                       </i-col>
                       <!--上传下载-->
                       <i-col span="23">
                         <FormItem label="试用期评估表" prop="empoffDocument">
                           <Row>
-                            <i-col span="3">
-                              <Upload :before-upload="handleUpload" action=" ">
-                                <Button :disabled="forbidden" type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
+                            <i-col span="3" v-show=!forbidden>
+                              <Upload :before-upload="handleUpload"  :disabled=forbidden action=" ">
+                                <Button :disabled=forbidden  type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
                               </Upload>
                             </i-col>
-                            <i-col span="20" offset="1">
-                             <span v-if="file !== '' ">
-                              <i-col span="22">
-                              <Input v-model="file.name" readonly="readonly" >
+                            <i-col span="20" >
+                             <span v-if="file !== '' " @dblclick="forbidden?'':fileclean()">
+                              <i-col span="22" >
+                              <Input v-model="file.name">
                                 <span slot="prepend">
-                                  <Icon type="folder" size="16"></Icon>
+                                  <Icon type="folder" size="16" ></Icon>
                                 </span>
                               </Input>
                               </i-col>
                               <i-col span="2">
-                                <Button type="text" v-show="!forbidden" @click="uploadLocalFile" v-if="loadingStatus">
+                                <Button type="text" v-show=!forbidden @click="uploadLocalFile" v-if="loadingStatus">
                                   上传
                                 </Button>
                                 <Button type="text"  @click="downloadFile" v-if="!loadingStatus">
@@ -99,7 +99,7 @@
                                     prop="note">
                               <Input v-model="formValidate.note"
                                      type="textarea"
-                                     :disabled="forbidden"
+                                     :disabled=forbidden
                                      :autosize="{minRows: 2,maxRows: 5}"
                                      placeholder="请输入备注..."></Input>
                           </FormItem>
@@ -110,7 +110,7 @@
             <Button type="ghost"
                     @click="handleReset"
                     class="btn1">{{$t('button.cal')}}</Button>
-            <Button type="primary" v-show="!forbidden"
+            <Button type="primary" v-show=!forbidden
                     @click="handleSubmit"
                     class="btn">{{$t('button.sav')}}</Button>
         </div>
@@ -143,21 +143,7 @@ export default {
             type: '',
             distype: false,
             forbidden: false,
-            formValidate: {
-                _mt: 'empEmpofficial.addOrUpd', //新增接口url
-                empId:'',
-                empIdName: '',//员工姓名
-                empIdIden: '',//证件号码
-                deptIdDis: '',//部门
-                deptId:'',//部门id
-                postIdDis: '',//岗位
-                postId:'',//岗位id
-                empoffResult: '',//评价结果
-                empoffDocument:'',//评估表
-                note: '',//备注
-                funId: '1',
-                logType: '',
-            },
+            formValidate: {},
             openEmpMaster:false,
           /*必填验证*/
             ruleValidate: {
@@ -186,6 +172,19 @@ export default {
         //this.getSelect("emptype");
     },
     methods: {
+      fileclean(){
+        const t = this
+        t.$Modal.confirm({
+          title: '提示',
+          content: '请确定删除附件',
+          onOk: () => {
+            t.formValidate.empoffDocument = ''
+            t.file = ''
+            t.filekey = ''
+          },
+        })
+
+      },
       //上级清除员工选择
       dbclean(){
         const t = this
@@ -207,23 +206,13 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     console.log(res.data.content[0])
-                    t.formValidate.empId = res.data.content[0].empId
-                    t.formValidate.empIdName = res.data.content[0].empIdName
-                    t.formValidate.empIdIden= res.data.content[0].empIdIden
-                    t.formValidate.deptIdDis= res.data.content[0].deptIdDis
-                    t.formValidate.deptId= res.data.content[0].deptId
-                    t.formValidate.postId= res.data.content[0].postId
-                    t.formValidate.postIdDis= res.data.content[0].postIdDis
-                    t.formValidate.empoffResult= res.data.content[0].empoffResult
-                  //alert(res.data.content[0].empoffDocument)
-                  //debugger
+                    t.formValidate = res.data.content[0]
                     if (res.data.content[0].empoffDocument) {
                       t.formValidate.empoffDocument = res.data.content[0].empoffDocument
                       t.file = { name: res.data.content[0].empoffDocument.split(':')[0] }
                       t.filekey = res.data.content[0].empoffDocument.split(':')[1]
                     }
                     t.formValidate.note= res.data.content[0].note
-                  //debugger
                     if (t.logType === '查看') {
                         t.forbidden = true
                         t.distype = true
@@ -243,8 +232,9 @@ export default {
             const t = this
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
+            data._mt = 'empEmpofficial.addOrUpd'
 
-            if (t.logType === this.$t('button.upd')) {
+            if (t.logType === '修改') {
                 data.id = t.id
             }
             this.$refs.formValidate.validate((valid) => {

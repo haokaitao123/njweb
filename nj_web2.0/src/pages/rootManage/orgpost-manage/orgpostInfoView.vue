@@ -164,7 +164,7 @@
                 <Button type="primary"
                         @click="handleSubmit"
                         class="btn"
-                        v-show="!forbidden">{{$t('button.sav')}}</Button>
+                        v-show="!disabled">{{$t('button.sav')}}</Button>
             </div>
         </div>
         <!--弹出选择页面布局 无需变更-->
@@ -530,7 +530,7 @@ export default {
                         .then(res => {
                             if (isSuccess(res, t)) {
 
-                                // t.$emit("closeUp");
+                                 t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
                                     t.$Modal.success({
                                         title: this.$t("reminder.suc"),

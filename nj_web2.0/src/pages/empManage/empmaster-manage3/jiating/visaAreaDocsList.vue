@@ -111,11 +111,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showMsgBtn(params.row.id, "修改", params.index);
+                      this.showMsgBtn(params.row.id, this.logType, params.index);
                     }
                   }
                 },
-                "修改"
+                this.logType
               )
             ]);
           }
@@ -140,7 +140,8 @@ export default {
   },
   //    主表id
   props: {
-    mainId: Number
+    mainId: Number,
+    logType:String
   },
   components: {
     contentMsg
