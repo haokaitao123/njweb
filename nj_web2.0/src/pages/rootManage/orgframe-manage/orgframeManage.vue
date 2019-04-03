@@ -815,10 +815,7 @@ export default {
                             }
                         })
                         .catch(() => {
-                            t.$Modal.error({
-                                title: this.$t("reminder.err"),
-                                content: this.$t("reminder.errormessage")
-                            });
+                            this.$Message.error('操作失败');
                         });
                 },
                 onCancel: () => { }
