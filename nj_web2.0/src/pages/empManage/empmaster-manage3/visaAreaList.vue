@@ -250,14 +250,14 @@ export default {
                 },
                 {
                     title: "直接上级",
-                    key: "empnhPmp",
+                    key: "empnhPmpDis",
                     width: 140,
                     align: "center"
                     //  sortable: 'custom',
                 },
                 {
                     title: "证件类型",
-                    key: "empnhIdtype",
+                    key: "empnhIdtypeDis",
                     width: 140,
                     align: "center"
                     //  sortable: 'custom',
@@ -334,7 +334,7 @@ export default {
                 },
                 {
                     title: "开户银行",
-                    key: "empnhSalbank",
+                    key: "empnhSalbankDis",
                     width: 140,
                     align: "center"
                     // sortable: 'custom',
@@ -427,6 +427,7 @@ export default {
                 order: 'desc',
                 logType: '岗位',
             },
+            state: this.modity,
         };
     },
     computed: {
@@ -438,6 +439,9 @@ export default {
         },
         tableOperate () {
             return this.$store.state.btnOperate.tableOperate;
+        },
+        modity () {
+            return this.$store.state.btnOperate.modity;
         },
         btnData () {
             return this.$store.state.btnOperate.btnData
@@ -498,7 +502,7 @@ export default {
                 deptId: id,
                 postId: t.postId,
                 // unitPid: id,
-                state: t.state
+                state: t.modity
             };
             for (const dat in data) {
                 if (data[dat] === "") {
@@ -642,8 +646,8 @@ export default {
         },
         // 状态变化
         modityChange (res) {
-            this.state = res.funStatecode;
             this.getData();
+            this.getTree();
         },
         // 获取下拉状态
         getPageByState (paramCode, paramInfoCn) {
@@ -704,9 +708,11 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                bankCode: t.bankCode,
-                bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode
+                empnhName: t.empnhName,
+                empnhIdno: t.empnhIdno,
+                postId: t.postId,
+                state: t.modity,
+                deptId: t.treeid
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "empEmpnh.export", data);
@@ -740,7 +746,8 @@ export default {
                 sort: "unitCode",
                 order: "asc",
                 logType: this.$t("button.ser"),
-                id: "0"
+                id: "0",
+                state: t.modity
             };
             for (const dat in data) {
                 if (data[dat] === "") {
