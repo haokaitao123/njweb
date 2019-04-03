@@ -633,7 +633,6 @@ export default {
             })
         },
         transfer () {
-            this.$refs.transfer.getData()
             this.openTransfer = true
         },
         deletemsgBtu () {

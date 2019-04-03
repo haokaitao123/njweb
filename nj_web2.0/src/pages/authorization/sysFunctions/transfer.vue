@@ -52,7 +52,7 @@ export default {
         id: String,
     },
     mounted () {
-        //this.getData();
+        this.getData();
     },
     methods: {
         getData () {
