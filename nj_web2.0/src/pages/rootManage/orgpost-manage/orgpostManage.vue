@@ -183,11 +183,7 @@ export default {
                     width: 180,
                     key: "postFname"
                 },
-                {
-                    title: "状态",
-                    width: 180,
-                    key: "state"
-                },
+                
                 {
                     title: "职位级别",
                     key: "postDfpslevelName",
