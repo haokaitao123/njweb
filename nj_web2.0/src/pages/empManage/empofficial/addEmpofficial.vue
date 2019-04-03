@@ -242,18 +242,16 @@ export default {
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
                             t.$emit('closeUp')
-                            if (t.logType === this.$t('button.add')) {
-                                t.$Modal.success({
+                            if (t.logType === '新增') {
+                                /*t.$Modal.success({
                                     title: this.$t('reminder.suc'),
                                     content: this.$t('reminder.addsuccess'),
-                                })
+                                })*/
+                                t.$Message.success('新增成功');
                                 t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
-                                t.$Modal.success({
-                                    title: this.$t('reminder.suc'),
-                                    content: this.$t('reminder.updsuccess'),
-                                })
+                                t.$Message.success('修改成功');
                                 t.$emit('update', res.data.content[0])
                             }
                         }

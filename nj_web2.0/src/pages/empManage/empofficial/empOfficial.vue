@@ -139,7 +139,7 @@
           { code: "note", name: "备注" },
         ],
         //高度设置
-        tableheight: document.body.offsetHeight-240,
+        tableheight: document.body.offsetHeight-280,
         logType: '',
         openUpdate: false,
         updateId: NaN,
