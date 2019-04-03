@@ -43,7 +43,9 @@
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @buttonUnitChart="pickData()"
                                  @moditySelect="modityChange"
-                                 @buttonSearch="search"></btnList>
+                                 @buttonSearch="search"
+                                 :btnData="btnData"
+                                 :FlowNode="FlowNode"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -201,7 +203,7 @@ export default {
             statusDis: "",
             unitTypeId: NaN,
             status: "",
-            unitPid:"",
+            unitPid: "",
             columns: [
                 {
                     type: "selection",
@@ -343,7 +345,7 @@ export default {
             unitFname: "",
             unitType: "",
             openPick: false,
-            unitPid:"",
+            unitPid: "",
             params: {
                 _mt: "orgUnits.getByOrgFramePageList",
                 sort: "id",
@@ -387,6 +389,12 @@ export default {
         },
         modity () {
             return this.$store.state.btnOperate.modity;
+        },
+        btnData () {
+            return this.$store.state.btnOperate.btnData
+        },
+        FlowNode () {
+            return this.$store.state.btnOperate.isFlowNode
         }
     },
     created () {
@@ -398,7 +406,7 @@ export default {
     mounted () {
         this.getData();
         this.getTree();
-        this.getSelect();
+        // this.getSelect();
         this.unitTypeSelect();
     },
     watch: {
@@ -431,14 +439,14 @@ export default {
         // 导入导出默认方法
         expData () {
             const t = this;
-           
+
             // 填装查询条件
             const data = {
                 unitCode: t.unitCode,
                 unitFname: t.unitFname,
                 unitType: t.unitType,
-                state:t.modity,
-                unitPid:t.treeid
+                state: t.modity,
+                unitPid: t.treeid
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
@@ -781,7 +789,7 @@ export default {
                 tipContent = "您确定继续操作吗？"
             } else if (state === "03invalid") {
                 logType = "失效";
-                 tipContent = "您确定继续操作吗？"
+                tipContent = "您确定继续操作吗？"
             }
             if (t.tableselected.length === 0) {
                 t.$Modal.warning({
@@ -795,18 +803,15 @@ export default {
                 content: tipContent,
                 onOk: () => {
                     getDataLevelUserLogin({
-                         _mt: "orgUnits.setStateById",
-                         logType: logType,
-                         state: state,
-                         ids: t.tableselected.toString()
+                        _mt: "orgUnits.setStateById",
+                        logType: logType,
+                        state: state,
+                        ids: t.tableselected.toString()
                     })
                         .then(res => {
                             if (isSuccess(res, t)) {
                                 t.getData();
-                                t.$Modal.success({
-                                title: this.$t("reminder.suc"),
-                                content: "操作完成"
-                                });
+                                this.$Message.success('操作成功');
                             }
                         })
                         .catch(() => {
