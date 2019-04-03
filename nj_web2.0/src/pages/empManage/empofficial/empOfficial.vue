@@ -318,6 +318,7 @@
                 if (isSuccess(res, t)) {
                   t.tableselected = []
                   t.getData()
+                  this.$Message.success('操作成功');
                 }
               }).catch(() => {
                 t.$Modal.error({
@@ -354,6 +355,7 @@
                 if (isSuccess(res, t)) {
                   t.tableselected = []
                   t.getData()
+                  this.$Message.success('操作成功');
                 }
               }).catch(() => {
                 t.$Modal.error({
