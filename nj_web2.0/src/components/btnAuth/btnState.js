@@ -4,14 +4,19 @@
 const btnOperate = {
   namespaced: true,
   state: {
+    btnData: [],
     btnOperate: '',
     modity: '',
     pageOperate: [],
     pageShow: '',
     tableButton: '',
-    tableOperate: 'false'
+    tableOperate: 'false',
+    isFlowNode: ''
   },
   mutations: {
+    setBtnData(state, value) {
+      state.btnData = value
+    },
     setbtnOperate(state, value) {
       state.btnOperate = value
     },
@@ -29,6 +34,12 @@ const btnOperate = {
     },
     setTableOperate(state, value) {
       state.tableOperate = value
+    },
+    setTableOperate(state, value) {
+      state.tableOperate = value
+    },
+    setIsFlowNode(state, value) {
+      state.isFlowNode = value
     }
   },
   actions: {

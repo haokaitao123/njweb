@@ -13,10 +13,9 @@ import store from '../../vuex/index'
 export default {
   data() {
     return {
-      btnList: [], //按钮数据
-      modityList: [], //类型数据
+      modityList: this.btnData, //类型数据
       operate: [], //查看修改数据
-      isFlowNode: "", //是否有类型
+      isFlowNode: this.FlowNode, //是否有类型
       statusDis: "", //类型默认Name
       status: "", //类型默认id
       btnName: "", //按钮名称
@@ -24,9 +23,20 @@ export default {
       newBtnList: [] //排序过滤后的按钮数据
     }
   },
-  props: {},
+  props: {
+    btnData: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    FlowNode: String
+  },
   created() {
-    this.getBtnAuth()
+    this.btnListFilter();
+    this.viewFilter();
+    this.operateFilter();
+    this.tableOperate();
   },
   computed: {
     btnOperate() {
@@ -39,27 +49,6 @@ export default {
     search //搜索按钮
   },
   methods: {
-    /**
-     *获取按钮权限数据
-     *
-     */
-    getBtnAuth() {
-      const t = this
-      let data = {
-        _mt: 'sysFunctions.getStatusBtnByAuth',
-      }
-      getDataLevelUserLogin(data).then((res) => {
-        if (isSuccess(res, t)) {
-          this.modityList = res.data.content[0].rows;
-          this.isFlowNode = res.data.content[0].isFlowNode;
-          this.btnListFilter();
-          this.viewFilter();
-          this.operateFilter();
-          this.tableOperate();
-
-        }
-      })
-    },
     /**
      *排序方法
      *
@@ -163,18 +152,6 @@ export default {
         this.$store.commit('btnOperate/setPageShow', "");
       }
     },
-    /**
-     *  数组删除
-     *
-     */
-    // remove(val) {
-    //   Array.prototype.remove = function (val) {
-    //     var index = this.indexOf(val);
-    //     if (index > -1) {
-    //       this.splice(index, 1);
-    //     }
-    //   };
-    // },
     /**
      *  去重方法
      *
@@ -359,12 +336,6 @@ export default {
           btnName = '入职';
           bType = 'success';
           break
-        case "button_emp1":
-          btnName = '入职';
-          break
-        case "button_emp2":
-          btnName = '入职';
-          break
       }
       let obj = {
         "bType": bType,
@@ -445,11 +416,11 @@ export default {
     }
 
     return createElement('div', {
-      ref: 'btnList',
-      'style': {
-        display: 'inline'
+        ref: 'btnList',
+        'style': {
+          display: 'inline'
+        },
       },
-    },
       [
         nodes,
       ],

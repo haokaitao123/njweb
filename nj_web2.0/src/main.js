@@ -106,6 +106,8 @@ router.beforeEach((to, from, next) => {
       if (isSuccess(res, t)) {
         let modityList = res.data.content[0].rows;
         let isFlowNode = res.data.content[0].isFlowNode;
+        store.commit('btnOperate/setBtnData', modityList);
+        store.commit('btnOperate/setIsFlowNode', isFlowNode);
         if (isFlowNode == "1") {
           let result = modityList.some(function (item, index, array) {
             return item.funIsdefault == "1";
