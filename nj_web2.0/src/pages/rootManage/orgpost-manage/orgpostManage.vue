@@ -565,9 +565,9 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                bankCode: t.bankCode,
-                bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode,
+                postCode: t.postCode,
+                postFname: t.postFname,
+                postDfpslevel: t.postDfpslevel,
                 state: t.modity
             };
             // 设置导出mt参数
