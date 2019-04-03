@@ -371,6 +371,7 @@ export default {
         getData (id) {
             const t = this;
             this.loading = true;
+            this.page = 1;
             const data = {
                 _mt: "orgPost.getPage",
                 rows: t.rows,
@@ -537,17 +538,11 @@ export default {
                         .then(res => {
                             if (isSuccess(res, t)) {
                                 t.getData();
-                                t.$Modal.success({
-                                    title: this.$t("reminder.suc"),
-                                    content: "操作完成"
-                                });
+                                this.$Message.success('操作成功');
                             }
                         })
                         .catch(() => {
-                            t.$Modal.error({
-                                title: this.$t("reminder.err"),
-                                content: this.$t("reminder.errormessage")
-                            });
+                            this.$Message.error('操作失败');
                         });
                 },
                 onCancel: () => { }
