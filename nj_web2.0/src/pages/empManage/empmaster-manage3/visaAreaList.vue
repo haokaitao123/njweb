@@ -509,14 +509,18 @@ export default {
                     delete data[dat];
                 }
             }
+
+            this.loading = true;
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
+                        this.loading = false;
                         t.data = res.data.content[0].rows;
                         t.total = res.data.content[0].records;
                     }
                 })
                 .catch(() => {
+                    this.loading = false;
                     t.$Modal.error({
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")
@@ -678,17 +682,15 @@ export default {
                 .then(res => {
                     if (isSuccess(res, t)) {
                         t.getData(1);
-                        t.$Modal.success({
-                            title: this.$t("reminder.suc"),
-                            content: "操作完成"
-                        });
+                        this.$Message.success('操作成功');
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('操作失败');
+                    // t.$Modal.error({
+                    //     title: this.$t("reminder.err"),
+                    //     content: this.$t("reminder.errormessage")
+                    // });
                 });
         },
         // 导入导出默认方法 无需更改
