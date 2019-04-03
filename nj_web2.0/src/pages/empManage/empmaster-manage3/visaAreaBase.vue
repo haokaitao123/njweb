@@ -24,12 +24,7 @@
           </div>
           <div style="margin-top: 40px;padding: 10px;">
             <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
-            <mOption
-              v-show="option"
-              :logType="logType"
-              ref="option"
-              :id="id"
-            ></mOption>
+            <mOption v-show="option" :logType="logType" ref="option" :id="id"></mOption>
             <!--子表分页页面 mainid为主表id-->
             <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
             <mContent1 v-show="content1" :logType="logType" ref="content1" :mainId="id"></mContent1>
@@ -125,15 +120,13 @@ export default {
           this.title = "修改";
           this.$refs.content.clear();
           break;
-      
       }
       this[name] = true;
-      if (name !== 'option') {
-          this.$refs[name].search()
-        } else {
-          this.getOption(this.id, this.$t("button.upd"));
-        }
-      
+      if (name !== "option") {
+        this.$refs[name].search();
+      } else {
+        this.getOption(this.id, this.$t("button.upd"));
+      }
     },
     //      清空方法 初始化本页面参数 无需变更
     clear() {

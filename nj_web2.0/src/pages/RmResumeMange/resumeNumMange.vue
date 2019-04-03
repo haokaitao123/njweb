@@ -35,6 +35,7 @@
           <!-- @on-sort-change 后面跟的事件  sortable => 做的是列表排序 :current="page" page是当前页面页码 :height="tableheight" tableheight是当前列表高度 :columns="columns" 配置table列 :data="data" data 就是table列表数据-->
           <row class="table-form" ref="table-form">
             <Table
+              :loading="loading"
               @on-select="selectedtable"
               @on-select-cancel="selectedtable"
               @on-select-all="selectedtable"
@@ -159,6 +160,7 @@ export default {
   //页面初始化的所有变量值
   data() {
     return {
+      loading: "",
 			// 导入的mt名称
         imp_mt: 'rmResume.importData',
         // 导出字段设置, code字段名 name列名
@@ -278,9 +280,11 @@ export default {
     //获取当前列表数据
     getData(page) {
       const t = this;
+      this.page = "1"
       if (page) {
         t.page = page;
-			}
+      }
+      t.loading = true; //请求之前重置状态
       //请求列表数据的参数
       const data = {
         _mt: "rmResume.getPage", //接口路径
@@ -293,7 +297,7 @@ export default {
         resumeDate: t.resumeDate //简历日期
 			};
 			if (data.resumeDate !== undefined && data.resumeDate !== '') {
-       				 data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')
+       				  data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')
         } else {
                data.resumeDate = ''
           }
@@ -309,9 +313,11 @@ export default {
           if (isSuccess(res, t)) {
             t.data = res.data.content[0].rows; //列表数据
             t.total = res.data.content[0].records; //列表总页数
+            t.loading = false; //在成功之后改状态
           }
         })
         .catch(() => {
+          t.loading = false; //在失败之后改状态
           //请求失败
           t.$Modal.error({
             title: "错误",

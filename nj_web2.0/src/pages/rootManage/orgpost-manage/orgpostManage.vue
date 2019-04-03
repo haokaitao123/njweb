@@ -44,7 +44,8 @@
                                border
                                ref="selection"
                                :columns="columns"
-                               :data="data"></Table>
+                               :data="data"
+                               :loading="loading"></Table>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
@@ -149,7 +150,7 @@ export default {
             logType: "",
             openUpdate: false,
             updateId: NaN,
-            loading: true,
+            loading: false,
             dataTree: [],
             //treeheight: document.body.offsetHeight - 200,
             //tableheight: document.body.offsetHeight - 280,
@@ -303,7 +304,8 @@ export default {
                 logType: "岗位信息查询",
                 data: "{}"
             },
-            state: this.modity
+            state: this.modity,
+            loading: "",
         };
     },
     computed: {
@@ -364,6 +366,7 @@ export default {
         },
         getData (id) {
             const t = this;
+            this.loading = true;
             const data = {
                 _mt: "orgPost.getPage",
                 rows: t.rows,
@@ -395,6 +398,8 @@ export default {
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")
                     });
+                }).finally(() => {
+                    this.loading = false
                 });
         },
 

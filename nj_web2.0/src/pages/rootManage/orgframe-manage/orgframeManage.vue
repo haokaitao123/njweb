@@ -176,7 +176,6 @@ export default {
                 { code: "unitDirec", name: "主管编制" },
                 { code: "unitStaff", name: "员工编制" },
                 { code: "unitSysaligName", name: "系统转正" },
-                { code: "unitOprecord", name: "操作记录" },
                 { code: "note", name: "备注" }
             ],
             // 导入导出默认参数 无需变更
@@ -202,6 +201,7 @@ export default {
             statusDis: "",
             unitTypeId: NaN,
             status: "",
+            unitPid:"",
             columns: [
                 {
                     type: "selection",
@@ -343,6 +343,7 @@ export default {
             unitFname: "",
             unitType: "",
             openPick: false,
+            unitPid:"",
             params: {
                 _mt: "orgUnits.getByOrgFramePageList",
                 sort: "id",
@@ -430,12 +431,14 @@ export default {
         // 导入导出默认方法
         expData () {
             const t = this;
+           
             // 填装查询条件
             const data = {
                 unitCode: t.unitCode,
                 unitFname: t.unitFname,
                 unitType: t.unitType,
-                state:t.modity
+                state:t.modity,
+                unitPid:t.treeid
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
@@ -479,6 +482,7 @@ export default {
         }, //关闭组织架构图
         getData (id) {
             const t = this;
+            this.page = 1;
             const data = {
                 _mt: "orgUnits.getByOrgFramePageList",
                 rows: t.rows,
