@@ -19,7 +19,7 @@
               <!-- 页面中调用公共按钮组件标签<btnList> -->
               <!-- 调用公共按钮组件方法 -->
               <!-- @buttonAdd（配置的按钮对应方法名称） = "btnEvent"（是你当前页面对应点击事件） -->
-              <btnList  @buttonSearch="getData(1)" @buttonAdd="openUp(NaN,'新增')" @buttonDel="deletemsg" @buttonSubmit="modifystatu('101')" @buttonValid="modifystatu('102')" @buttonInvalid="modifystatu('103')" @moditySelect="changemodity"></btnList>
+              <btnList  :btnData="btnData"   :FlowNode="FlowNode" @buttonSearch="getData(1)" @buttonAdd="openUp(NaN,'新增')" @buttonDel="deletemsg" @buttonSubmit="modifystatu('101')" @buttonValid="modifystatu('102')" @buttonInvalid="modifystatu('103')" @moditySelect="changemodity"></btnList>
 
             </div>
           </template>
@@ -111,6 +111,12 @@ export default {
     },
     tableOperate () {
       return this.$store.state.btnOperate.tableOperate
+    },
+    btnData () {
+      return this.$store.state.btnOperate.btnData
+    },
+    FlowNode () {
+      return this.$store.state.btnOperate.isFlowNode
     }
   },
 
