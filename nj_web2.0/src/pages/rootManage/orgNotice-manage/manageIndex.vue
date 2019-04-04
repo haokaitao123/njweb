@@ -27,10 +27,7 @@
           </Row>
           <row class="table-form" ref="table-form">
             <Table
-              @on-select="selectedtable"
-              @on-select-cancel="selectedtable"
-              @on-sort-change="sortable"
-              @on-select-all="selectedtable"
+              @on-selection-change="selectedtable"
               size="small"
               border
               ref="selection"
