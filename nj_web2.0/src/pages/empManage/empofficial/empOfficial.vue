@@ -30,9 +30,8 @@
               <!--table-->
               <row class="table-form"
                    ref="table-form">
-                <Table :loading="loading" @on-select="selectedtable"
-                       @on-select-cancel="selectedtable"
-                       @on-select-all="selectedtable"
+                <Table :loading="loading"
+                       @on-selection-change="selectedtable"
                        @on-sort-change="sortable"
                        :height="tableheight"
                        size="small"
@@ -283,8 +282,6 @@
     methods: {
       changemodity(res){
         console.log(res,"res");
-         //alert(1);
-          //alert(res.funStatecode);
         this.state = res.funStatecode
         this.getData()
       },
@@ -443,7 +440,7 @@
       closeUp() {
         const t = this
         t.openUpdate = false
-        t.forbidden = false
+        t.$refs.update.forbidden = false
         let up = t.$refs.update.formValidate
         //debugger
         for (let s in up) {
