@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="table">
         <Row>
             <Col span="24">

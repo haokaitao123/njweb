@@ -28,7 +28,7 @@
               <Input v-model="form.edDegree" placeholder="请输入学位"></Input>
             </FormItem>
           </i-col>
-          <i-col span="23">
+          <i-col span="11">
             <!-- <FormItem label="资料详细要求" prop="docsText">
               <Input
                 v-model="form.docsText"
@@ -41,7 +41,7 @@
               <Input v-model="form.edCuntry" placeholder="请输入国家"></Input>
             </FormItem>
           </i-col>
-          <i-col span="11">
+          <i-col span="11" offset="1">
             <FormItem label="教育程度" prop="edEducationlevel">
               <Select v-model="form.edEducationlevel">
                 <Option
@@ -62,84 +62,48 @@
                 >{{item.paramInfoCn}}</Radio>
               </RadioGroup>
             </FormItem>
-            <!-- </i-col>
-          <i-col span="24">
-            <i-col span="6">
-              <FormItem label="参考附件" prop="docsAttr">
-                <Upload :before-upload="handleUpload" action=" ">
-                  <Button type="ghost" icon="ios-cloud-upload-outline">{{$t('button.brw')}}</Button>
-                </Upload>
+          </i-col>
+          <i-col span="11">
+            <FormItem label="开始时间" prop="edSdate">
+              <DatePicker
+                type="date"
+                placeholder="请选择开始日期"
+                style="width: 100%"
+                :editable="false"
+                v-model="form.edSdate"
+              ></DatePicker>
+            </FormItem>
+          </i-col>
+          <i-col span="11" offset="1">
+            <FormItem label="结束时间" prop="edEdate">
+              <DatePicker
+                type="date"
+                placeholder="请选择结束日期"
+                style="width: 100%"
+                :editable="false"
+                v-model="form.edEdate"
+              ></DatePicker>
+            </FormItem>
+          </i-col>
+          <i-col span="23">
+            <FormItem label="备注" prop="note">
+              <Input
+                v-model="form.note"
+                type="textarea"
+                :autosize="{minRows: 2,maxRows: 5}"
+                placeholder="请输入备注"
+              ></Input>
+            </FormItem>
+          </i-col>
+          <i-col span="23">
+            <row type="flex" justify="end">
+              <FormItem label prop="comment">
+                <Button type="ghost" @click="close" style="margin-left: 8px">取消</Button>
+                <Button type="primary" @click="save">保存</Button>
               </FormItem>
-            </i-col>
-            <i-col span="18">
-              <span v-if="file !== '' ">
-                <i-col span="22">
-                  <Input v-model="file.name" readonly="readonly">
-                    <span slot="prepend">
-                      <Icon type="folder" size="16"></Icon>
-                    </span>
-                  </Input>
-                </i-col>
-                <i-col span="2">
-                  <Button type="text" @click="uploadFile1" v-if="loadingStatus">{{$t('button.upl')}}</Button>
-                  <Button
-                    type="text"
-                    @click="uploadFile2"
-                    v-if="!loadingStatus"
-                  >{{$t('button.dwl')}}</Button>
-                </i-col>
-              </span>
-            </i-col>
-            </i-col>-->
-            <!--<i-col span="23" >-->
-            <!--<FormItem label="参考附件" >-->
-            <!--<Input v-model="form.docsAttr"  placeholder="请输入参考附件"></Input>-->
-            <!--</FormItem>-->
-            <!--</i-col>-->
-            <!-- <i-col span="23"></i-col> -->
-            <i-col span="11">
-              <FormItem label="开始时间" prop="edSdate">
-                <DatePicker
-                  type="date"
-                  placeholder="请选择开始日期"
-                  style="width: 100%"
-                  :editable="false"
-                  v-model="form.edSdate"
-                ></DatePicker>
-              </FormItem>
-            </i-col>
-            <i-col span="11" offset="1">
-              <FormItem label="结束时间" prop="edEdate">
-                <DatePicker
-                  type="date"
-                  placeholder="请选择结束日期"
-                  style="width: 100%"
-                  :editable="false"
-                  v-model="form.edEdate"
-                ></DatePicker>
-              </FormItem>
-            </i-col>
-            <i-col span="23">
-              <FormItem label="备注" prop="note">
-                <Input
-                  v-model="form.note"
-                  type="textarea"
-                  :autosize="{minRows: 2,maxRows: 5}"
-                  placeholder="请输入备注"
-                ></Input>
-              </FormItem>
-            </i-col>
-            <i-col span="23">
-              <row type="flex" justify="end">
-                <FormItem label prop="comment">
-                  <Button type="ghost" @click="close" style="margin-left: 8px">取消</Button>
-                  <Button type="primary" @click="save">保存</Button>
-                </FormItem>
-              </row>
-            </i-col>
+            </row>
           </i-col>
         </Form>
-        
       </Row>
     </div>
   </div>
@@ -161,15 +125,35 @@ export default {
       // Visadocpreparer: [],
       selectEducationlevel: [],
       selectEdCuntry: [],
-      yesOrNo: [],
-      form: {},
+      yesOrNo: [
+        {
+          paramCode: "1",
+          paramInfoCn: "是"
+        },
+        {
+          paramCode: "0",
+          paramInfoCn: "否"
+        }
+      ],
+      form: {
+        _mt: "empEducation.addOrUpd",
+        edEducationlevel: "", // 教育程度
+        edIshighestDis: "", // 是否最高学位
+        edCuntryDis: "", // 国家
+        edSchool: "", // 学校
+        edDegree: "", // 学位
+        edSpecialty: "", // 专业
+        edSdate: "", // 开始时间
+        edEdate: "" // 结束时间
+      },
       rowId: "",
       ruleValidate: {
         edSchool: [{ required: true, message: "请输入学校", trigger: "blur" }],
         edDegree: [{ required: true, message: "请输入学位", trigger: "blur" }],
-        edCuntry: [
-          { required: true, message: "请选择国家", trigger: "biur" }
+        edSpecialty: [
+          { required: true, message: "请输入专业", trigger: "blur" }
         ],
+        edCuntry: [{ required: true, message: "请选择国家", trigger: "biur" }],
         edEducationlevel: [
           { required: true, message: "请选择教育程度", trigger: "change" }
         ],
@@ -223,7 +207,61 @@ export default {
       getDataLevelUserLogin(params)
         .then(res => {
           if (isSuccess(res, t)) {
-            t.form = res.data.content[0];
+            console.log(res.data.content[0]);
+            // t.form = res.data.content[0];
+            if (res.data.content[0].edEducationlevel) {
+              t.form.edEducationlevel = res.data.content[0].edEducationlevel;
+            } else {
+              t.form.edEducationlevel = "";
+            }
+
+            if (res.data.content[0].edIshighestDis) {
+              t.form.edIshighestDis = res.data.content[0].edIshighestDis;
+            } else {
+              t.form.edIshighestDis = "1";
+            }
+
+            if (res.data.content[0].edCuntry) {
+              t.form.edCuntry = res.data.content[0].edCuntry;
+            } else {
+              t.form.edCuntry = "";
+            }
+
+            if (res.data.content[0].edSchool) {
+              t.form.edSchool = res.data.content[0].edSchool;
+            } else {
+              t.form.edSchool = "";
+            }
+
+            if (res.data.content[0].edDegree) {
+              t.form.edDegree = res.data.content[0].edDegree;
+            } else {
+              t.form.edDegree = "";
+            }
+
+            if (res.data.content[0].edSpecialty) {
+              t.form.edSpecialty = res.data.content[0].edSpecialty;
+            } else {
+              t.form.edSpecialty = "";
+            }
+
+            if (res.data.content[0].edSdate) {
+              t.form.edSdate = res.data.content[0].edSdate;
+            } else {
+              t.form.edSdate = "";
+            }
+
+            if (res.data.content[0].edEdate) {
+              t.form.edEdate = res.data.content[0].edEdate;
+            } else {
+              t.form.edEdate = "";
+            }
+
+            if (res.data.content[0].note) {
+              t.form.note = res.data.content[0].note;
+            } else {
+              t.form.note = "";
+            }
           }
         })
         .catch(() => {
@@ -236,7 +274,7 @@ export default {
     save() {
       const t = this;
       const data = deepCopy(t.form);
-      data._mt = "empEducation.addOrUpd";
+      // data._mt = "empEducation.addOrUpd";
       data.logType = t.logType;
       data.id = t.rowId;
       data.visaAreaId = t.mainId; // 放入主表id
@@ -282,83 +320,7 @@ export default {
         }
       });
     },
-    handleUpload(file) {
-      this.file = file;
-      this.loadingStatus = true;
-      return false;
-    },
-    uploadFile1() {
-      const t = this;
-      const formData = new FormData();
-      formData.append("upfile", t.file);
-      uploadFile(formData)
-        .then(res => {
-          for (const key in res.data) {
-            t.filekey = res.data[key];
-            t.form.docsAttr = key + ":" + res.data[key];
-          }
-          t.$Modal.success({
-            title: this.$t("reminder.suc"),
-            content: this.$t("reminder.uploadsuccess"),
-            onOk: () => {
-              t.loadingStatus = false;
-            }
-          });
-        })
-        .catch(() => {
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
-    },
-    uploadFile2() {
-      const t = this;
-      let data = {
-        _mt: "userMgmt.getfiletoken",
-        isprivate: true,
-        logType: "导出",
-        filekey: t.filekey,
-        expiresecs: 180
-      };
-      getDataLevelUserLogin(data)
-        .then(res => {
-          if (isSuccess(res, t)) {
-            localStorage.pageOpenedListAll = JSON.stringify(
-              JSON.parse(localStorage.pageOpenedList)
-            );
-            if (this.isIE()) {
-              window.location.href =
-                pubsource.pub_prvf_downlink +
-                res.data.content[0].value +
-                "&fname=" +
-                encodeURI(t.filekey);
-            } else {
-              let doclink =
-                pubsource.pub_prvf_downlink +
-                res.data.content[0].value +
-                "&fname=" +
-                encodeURI(t.filekey);
-              let link = document.createElement("a");
-              link.href = doclink;
-              link.download = "downloadfiletemp";
-              link.click();
-            }
-            this.$store.state.app.pageOpenedList = JSON.parse(
-              localStorage.pageOpenedListAll
-            );
-            localStorage.pageOpenedList = JSON.stringify(
-              JSON.parse(localStorage.pageOpenedListAll)
-            );
-          }
-        })
-        .catch(() => {
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
-    },
+   
     getSelect() {
       const t = this;
       getDataLevelUserLogin({
@@ -369,7 +331,7 @@ export default {
           if (isSuccess(res, t)) {
             // t.Visadocpreparer = res.data.content[0].value[0].paramList;
             t.selectEducationlevel = res.data.content[0].value[10].paramList;
-           
+
             // t.yesOrNo = res.data.content[0].value[0].paramList;
           }
         })

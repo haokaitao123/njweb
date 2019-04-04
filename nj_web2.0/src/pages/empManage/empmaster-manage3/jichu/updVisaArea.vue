@@ -84,7 +84,7 @@
                   </FormItem>
                   
         </i-col>-->
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('证件类型')" prop="empnhIdtypeDis">
             <Select v-model="form.empnhIdtypeDis">
               <Option
@@ -96,12 +96,12 @@
           </FormItem>
         </i-col>
 
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('证件号码')" prop="empnhIdno">
             <Input v-model="form.empnhIdno" placeholder="请输入证件号码"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('生效日期')" prop="empnhSday">
             <DatePicker
               type="date"
@@ -112,7 +112,7 @@
             ></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('证件到期日')" prop="empnhEday">
             <DatePicker
               type="date"
@@ -124,7 +124,7 @@
           </FormItem>
         </i-col>
 
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('性别')" prop="empnhGenderDis">
             <Select v-model="form.empnhGenderDis">
               <Option
@@ -135,7 +135,7 @@
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('出生日期')" prop="empnhBirthdate">
             <DatePicker
               type="date"
@@ -146,22 +146,22 @@
             ></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('手机号码')" prop="empnhMobile">
             <Input v-model="form.empnhMobile" placeholder="请输入手机号码"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('居住地址')" prop="empnhResiaddr">
             <Input v-model="form.empnhResiaddr" placeholder="请输入居住地址"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('户籍地址')" prop="empnhRegaddrDis">
             <Input v-model="form.empnhRegaddrDis" placeholder="请输入户籍地址"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('户籍性质')" prop="empnhRegtypeDis">
             <Select v-model="form.empnhRegtypeDis" clearable placeholder="请选择户籍性质">
               <Option
@@ -172,27 +172,27 @@
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem label="个人邮箱" prop="empnhPersmail">
             <Input v-model="form.empnhPersmail" placeholder="请输入个人邮箱"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem label="公司邮箱" prop="empnhCompmail">
             <Input v-model="form.empnhCompmail" placeholder="请输入公司邮箱"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem label="QQ号码" prop="empnhQq">
             <Input v-model="form.empnhQq" placeholder="请输入QQ号码"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem label="微信号" prop="empnhWechat">
             <Input v-model="form.empnhWechat" placeholder="请输入微信号码"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
                   <FormItem :label="$t('工作地点')" prop="empnhWklocatDis">
                     <span @dblclick="workplace">
                       <Input
@@ -207,7 +207,7 @@
                   </FormItem>
                  
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('入职日期')" prop="empnhEntrydate">
             <DatePicker
               type="date"
@@ -218,7 +218,7 @@
             ></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('转正日期')" prop="empnhIrmentdate">
             <DatePicker
               type="date"
@@ -229,7 +229,7 @@
             ></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('开户银行')" prop="empnhSalbankDis">
             <Select v-model="form.empnhSalbankDis" clearable placeholder="请选择开户银行">
               <Option
@@ -240,17 +240,17 @@
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('银行账号')" prop="empnhSalaccount">
             <Input v-model="form.empnhSalaccount" placeholder="请输入银行账号"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem :label="$t('户号')" prop="empnhSalaccname">
             <Input v-model="form.empnhSalaccname" placeholder="请输入户号"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem label="婚姻状况" prop="empnhMarriageDis">
             <Select v-model="form.empnhMarriageDis" clearable placeholder="请选择婚姻状况">
               <Option
@@ -261,7 +261,7 @@
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem label="政治面貌" prop="empnhPoliticalDis">
             <Select v-model="form.empnhPoliticalDis">
               <Option
@@ -272,7 +272,7 @@
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem :label="$t('参加工作时间')" prop="empnhFirstwkdate">
             <DatePicker
               type="date"
@@ -284,7 +284,7 @@
           </FormItem>
         </i-col>
 
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem label="职称" prop="empnhTechtilDis">
             <Select v-model="form.empnhTechtilDis" clearable placeholder="请选择职称">
               <Option
@@ -295,12 +295,12 @@
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11">
+        <i-col span="11" offset="1">
           <FormItem label="职称专业" prop="empnhTechspec">
             <Input v-model="form.empnhTechspec" placeholder="请输入职称专业"></Input>
           </FormItem>
         </i-col>
-        <i-col span="11" offset="1">
+        <i-col span="11" >
           <FormItem label="职称取得时间" prop="empnhTechdate">
             <DatePicker
               type="date"
@@ -402,14 +402,13 @@ import { isSuccess, deepCopy } from "../../../../lib/util";
 import searchCity from "../../../../components/searchTable/searchCity";
 // import searchOrgframe from "../../../../components/searchTable/searchOrgframe";
 // import searchOrgcostcenter from "../../../components/searchTable/searchOrgcostcenter";
-// import searchOrgcostcenter1 from "../../../components/searchTable/searchOrgcostcenter";
 
 export default {
   data() {
     return {
       disabled: false,
       unitCityName: '',
-       popup: '',
+      popup: '',
       form: {
         _mt: "empEmpnh.addOrUpd",
         // updateBy: "", // 修改人
@@ -623,6 +622,168 @@ export default {
             trigger: "blur"
           }
         ],
+         empnhPinyin: [
+          {
+            required: true,
+            message: "请输入姓名拼音",
+            trigger: "blur"
+          }
+        ],
+         empnhPtname: [
+          {
+            required: true,
+            message: "请输入曾用名",
+            trigger: "blur"
+          }
+        ],
+         empnhBirthdate: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择出生日期",
+            trigger: "change"
+          }
+        ],
+         empnhIdno: [
+          {
+            required: true,
+            message: "请输入证件号码",
+            trigger: "blur"
+          }
+        ],
+        empnhSday: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择生效日期",
+            trigger: "change"
+          }
+        ],
+        empnhEday: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择证件到期日",
+            trigger: "change"
+          }
+        ],
+        empnhPersmail: [
+          {
+            required: true,
+            message: "请输入个人邮箱",
+            trigger: "blur"
+          }
+        ],
+        empnhMobile: [
+          {
+            required: true,
+            message: "请输入手机号码",
+            trigger: "blur"
+          }
+        ],
+        empnhResiaddr: [
+          {
+            required: true,
+            message: "请输入居住地址",
+            trigger: "blur"
+          }
+        ],
+        empnhCompmail: [
+          {
+            required: true,
+            message: "请输入公司邮箱",
+            trigger: "blur"
+          }
+        ],
+        empnhQq: [
+          {
+            required: true,
+            message: "请输入QQ号码",
+            trigger: "blur"
+          }
+        ],
+        empnhWechat: [
+          {
+            required: true,
+            message: "请输入微信号",
+            trigger: "blur"
+          }
+        ],
+       empnhEntrempnhEntrydateydate: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择入职日期",
+            trigger: "change"
+          }
+        ],
+       empnhIrmentdate: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择转正日期",
+            trigger: "change"
+          }
+        ],
+
+        empnhSalaccount: [
+          {
+            required: true,
+            message: "请输入银行账号",
+            trigger: "blur"
+          }
+        ],
+        empnhSalaccname: [
+          {
+            required: true,
+            message: "请输入户名",
+            trigger: "blur"
+          }
+        ],
+         empnhFirstwkdate: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择参加工作时间",
+            trigger: "change"
+          }
+        ],
+        empnhTechspec: [
+          {
+            required: true,
+            message: "请输入职称专业",
+            trigger: "blur"
+          }
+        ],
+        empnhTechdate: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择职称取得时间",
+            trigger: "change"
+          }
+        ],
+        empnhRegtypeDis: [
+          {
+            required: true,
+            message: "选择户籍性质",
+            trigger: "change"
+          }
+        ],
+        empnhSalbankDis: [
+          {
+            required: true,
+            message: "选择开户银行",
+            trigger: "change"
+          }
+        ],
+        empnhCostcentDis: [
+          {
+            required: true,
+            message: "选择成本中心",
+            trigger: "change"
+          }
+        ],
         empnhGenderDis: [
           {
             required: true,
@@ -630,17 +791,61 @@ export default {
             trigger: "change"
           }
         ],
-        empnhTechtilDis: [
+        empnhNationDis: [
           {
             required: true,
-            message: "选择职称",
+            message: "选择民族",
             trigger: "change"
           }
         ],
-        empnhPoliticalDis: [
+        deptIdDis: [
           {
             required: true,
-            message: "选择政治面貌",
+            message: "选择部门名称",
+            trigger: "change"
+          }
+        ],
+
+
+        postIdDis: [
+          {
+            required: true,
+            message: "选择岗位名称",
+            trigger: "change"
+          }
+        ],
+        empnhPmpDis: [
+          {
+            required: true,
+            message: "选择直接上级",
+            trigger: "change"
+          }
+        ],
+        empnhIdtypeDis: [
+          {
+            required: true,
+            message: "选择证件类型",
+            trigger: "change"
+          }
+        ],
+        empnhRegaddrDis: [
+          {
+            required: true,
+            message: "选择户籍地址",
+            trigger: "change"
+          }
+        ],
+        empnhAttendynDis: [
+          {
+            required: true,
+            message: "请选择考勤",
+            trigger: "change"
+          }
+        ],
+        empnhWklocatDis: [
+          {
+            required: true,
+            message: "选择工作地点",
             trigger: "change"
           }
         ],
@@ -651,37 +856,23 @@ export default {
             trigger: "change"
           }
         ],
-        empnhFirstwkdate: [
+        empnhPoliticalDis: [
           {
             required: true,
-            type: "date",
-            message: "请选择参加工作时间",
+            message: "请选择政治面貌",
             trigger: "change"
           }
         ],
-        empnhEntrydate: [
+        empnhTechtilDis: [
           {
             required: true,
-            type: "date",
-            message: "请选择参入职日期",
+            message: "请选择职称",
             trigger: "change"
           }
         ],
 
-        empnhPtname: [
-          {
-            required: true,
-            message: "请输入曾用名",
-            trigger: "blur"
-          }
-        ],
-        empnhAttendynDis: [
-          {
-            required: true,
-            message: "请选择考勤",
-            trigger: "change"
-          }
-        ]
+       
+        
       }
     };
   },
@@ -975,24 +1166,7 @@ export default {
           });
         });
     },
-    // getSelect() {
-    //   const t = this;
-    //   getDataLevelUserLogin({
-    //     _mt: "baseParmInfo.getSelectValue",
-    //     typeCode: "yesno"
-    //   })
-    //     .then(res => {
-    //       if (isSuccess(res, t)) {
-    //         t.yesOrNo = res.data.content[0].value[0].paramList;
-    //       }
-    //     })
-    //     .catch(() => {
-    //       this.$Modal.error({
-    //         title: this.$t("reminder.err"),
-    //         content: this.$t("reminder.errormessage")
-    //       });
-    //     });
-    // },
+    
 
     // 弹出框相关方法
     close() {

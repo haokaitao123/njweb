@@ -3,11 +3,9 @@
     <row>
       <Input v-model="docsName" style="width: 160px;" placeholder="请输入员工名称"></Input>
       <Button type="primary" icon="search" @click="search">查询</Button>
-      <Button
-        type="primary"
-        icon="primary"
-        @click="showMsgBtn(NaN, $t('新增'))"
-      >新增</Button>
+      <Button type="primary" icon="primary" @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
+      <Button type="primary" icon="primary" @click="expData">导出</Button>
+      <Button type="primary" icon="primary" @click="importExcel">导入</Button>
       <Button type="error" icon="primary" @click="deletemsg">删除</Button>
     </row>
     <row class="table-form" ref="table-form">
@@ -44,19 +42,55 @@
       ></Button>
     </Row>
     <!--mainid为主表id-->
-    <contentMsg
-      v-show="showMsg"
-      @hideMsg="hideMsg"
-      :mainId="mainId"
-      :logType="logType"
-      ref="contentMsg"
-      @newdata="addNewArray"
-      @update="updateArray"
-    ></contentMsg>
+    <transition>
+      <contentMsg
+        v-show="showMsg"
+        @hideMsg="hideMsg"
+        :mainId="mainId"
+        :logType="logType"
+        ref="contentMsg"
+        @newdata="addNewArray"
+        @update="updateArray"
+      ></contentMsg>
+    </transition>
+    <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
+    </transition>
   </div>
 </template>
 <script>
 import contentMsg from "./updVisaAreaDocs";
+import expwindow from "../../../../components/fileOperations/expSms";
+import expdow from "../../../../components/fileOperations/expdow";
+import importExcel from "../../../../components/importModel/importParam";
 import {
   getDataLevelUserLogin,
   getDataLevelUserLoginNew
@@ -66,10 +100,31 @@ import { isSuccess, deepCopy } from "../../../../lib/util";
 export default {
   data() {
     return {
+      // 导入的mt名称
+      imp_mt: "empEducation.importData",
+      // 导出字段设置, code字段名 name列名
+      expDataTital: [
+        { code: "edEducationlevel", name: "教育程度" },
+        { code: "edIshighest", name: "是否最高学位" },
+        { code: "edCuntryDis", name: "国家" },
+        { code: "edSchool", name: "学校" },
+        { code: "edDegree", name: "学位" },
+        { code: "edSpecialty", name: "专业" },
+        { code: " edSdate", name: "开始时间" },
+        { code: "edEdate", name: "结束时间" },
+        { code: "note", name: "备注" }
+      ],
+      // 导入导出默认参数 无需变更
+      openImport: false,
+      openExpDow: false,
+      openExp: false,
+      filekey: "",
+      filename: "",
+
       total: NaN,
       logType: "",
       showMsg: false,
-      
+
       columns: [
         {
           type: "selection",
@@ -79,23 +134,58 @@ export default {
         {
           title: "教育程度",
           key: "edEducationlevel",
-          //            width: 150,
+          width: 150,
+          align: "center",
           sortable: "custom"
         },
         {
           title: "是否最高学位",
-          key: "edIshighest"
-          //            width: 150,
+          key: "edIshighestDis",
+          width: 150,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "国家",
+          key: "edCuntryDis",
+          width: 150,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "学校",
+          key: "edSchool",
+          width: 150,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "学位",
+          key: "edDegree",
+          width: 150,
+          align: "center",
+          sortable: "custom"
+        },
+        {
+          title: "专业",
+          key: "edSpecialty",
+          width: 150,
+          align: "center",
+          sortable: "custom"
         },
         {
           title: "开始时间",
-          key: "edSdate"
-          //            width: 150,
+          key: "edSdate",
+          width: 150,
+          align: "center",
+          sortable: "custom"
         },
         {
           title: "结束时间",
-          key: "edEdate"
-          //            width: 150,
+          key: "edEdate",
+          width: 150,
+          align: "center",
+          sortable: "custom"
         },
         {
           title: "操作",
@@ -139,7 +229,7 @@ export default {
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        pkId:"",
+        pkId: ""
       },
       index: "",
       tableselected: []
@@ -148,23 +238,18 @@ export default {
   //    主表id
   props: {
     mainId: Number,
-    logType:String
+    logType: String
   },
   components: {
-    contentMsg
+    contentMsg,
+    expwindow,
+    expdow,
+    importExcel
   },
   mounted() {},
   methods: {
-    //      get(id) {
-    //        this.params.visaAreaId = id + ''
-    //        this.params.logType = '查询List信息'
-    //        this.getData()
-    //      },
+   
     search() {
-      // this.params.page = 1;
-      //        设置主表id
-
-      // this.params.visaAreaId = this.mainId + "";
       this.params.pkId = this.mainId + "";
       this.getData();
     },
@@ -275,10 +360,56 @@ export default {
       t.docsName = "";
       t.page = 1;
       t.rows = 10;
-      
     },
     hideMsg() {
       this.showMsg = false;
+    },
+    // 导入导出默认方法 无需更改
+    closeImport() {
+      const t = this;
+      t.openImport = false;
+    },
+
+    // 导入导出默认方法 无需更改
+    importExcel() {
+      const t = this;
+      t.openImport = true;
+      t.$refs.importExcel.getDowModelFile();
+    },
+    // 导入导出默认方法
+    expData() {
+      const t = this;
+      // 填装查询条件
+      const data = {
+        bankCode: t.bankCode,
+        bankCname: t.bankCname,
+        bankSwiftcode: t.bankSwiftcode
+      };
+      // 设置导出mt参数
+      this.$refs.expwindow.getData(
+        this.expDataTital,
+        "empEducation.export",
+        data
+      );
+      this.openExp = true;
+    },
+    // 导入导出默认方法 无需更改
+    closeExp() {
+      const t = this;
+      t.openExp = false;
+    },
+    // 导入导出默认方法 无需更改
+    closeExpDowMain() {
+      const t = this;
+      t.openExpDow = false;
+    },
+    // 导入导出默认方法 无需更改
+    setFileKey(filekey, filename, openExpDow) {
+      const t = this;
+      t.filekey = filekey;
+      t.filename = filename;
+      t.openExpDow = openExpDow;
+      t.$refs.expdow.getPriToken(t.filekey);
     }
   }
 };
