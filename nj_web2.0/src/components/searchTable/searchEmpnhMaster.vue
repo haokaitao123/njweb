@@ -38,6 +38,7 @@ export default{
         order: 'desc',
         rows: 10,
         page: 1,
+        state:'02empstate',
         logType: '员工弹出框',
       },
       searchCloumns: [

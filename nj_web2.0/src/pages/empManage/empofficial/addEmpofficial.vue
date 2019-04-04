@@ -24,7 +24,7 @@
                             <!--绑定双击清除方法-->
                             <span @dblclick="forbidden?'':dbclean()">
                           <!--v-model绑定显示字段-->
-                              <Input v-model="formValidate.empIdName" icon="search" disabled="disabled" placeholder="请选择员工"  @on-click="forbidden?'':pickEmpData()" />
+                              <Input v-model="formValidate.empIdName" icon="search" readonly="readonly" :disabled="forbidden" placeholder="请选择员工"  @on-click="forbidden?'':pickEmpData()" />
                             </span>
                           </FormItem>
                         </i-col>
@@ -58,7 +58,7 @@
                                     prop="empoffResult">
                               <Input v-model="formValidate.empoffResult"
                                      type="textarea"
-                                     :disabled=forbidden
+                                     :disabled="forbidden"
                                      :autosize="{minRows: 2,maxRows: 5}"
                                      placeholder="请输入试用期评价..."></Input>
                           </FormItem>
@@ -67,9 +67,9 @@
                       <i-col span="23">
                         <FormItem label="试用期评估表" prop="empoffDocument">
                           <Row>
-                            <i-col span="3" v-show=!forbidden>
-                              <Upload :before-upload="handleUpload"  :disabled=forbidden action=" ">
-                                <Button :disabled=forbidden  type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
+                            <i-col span="3" v-show="!forbidden">
+                              <Upload :before-upload="handleUpload"  action=" ">
+                                <Button  type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
                               </Upload>
                             </i-col>
                             <i-col span="20" >
@@ -82,7 +82,7 @@
                               </Input>
                               </i-col>
                               <i-col span="2">
-                                <Button type="text" v-show=!forbidden @click="uploadLocalFile" v-if="loadingStatus">
+                                <Button type="text" v-show="!forbidden" @click="uploadLocalFile" v-if="loadingStatus">
                                   上传
                                 </Button>
                                 <Button type="text"  @click="downloadFile" v-if="!loadingStatus">
@@ -99,7 +99,7 @@
                                     prop="note">
                               <Input v-model="formValidate.note"
                                      type="textarea"
-                                     :disabled=forbidden
+                                     :disabled="forbidden"
                                      :autosize="{minRows: 2,maxRows: 5}"
                                      placeholder="请输入备注..."></Input>
                           </FormItem>
@@ -110,7 +110,7 @@
             <Button type="ghost"
                     @click="handleReset"
                     class="btn1">{{$t('button.cal')}}</Button>
-            <Button type="primary" v-show=!forbidden
+            <Button type="primary" v-show="!forbidden"
                     @click="handleSubmit"
                     class="btn">{{$t('button.sav')}}</Button>
         </div>
