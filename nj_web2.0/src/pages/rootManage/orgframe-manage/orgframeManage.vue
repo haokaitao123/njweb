@@ -49,9 +49,7 @@
                     </Row>
                     <row class="table-form"
                          ref="table-form">
-                        <Table @on-select="selectedtable"
-                               @on-select-cancel="selectedtable"
-                               @on-select-all="selectedtable"
+                        <Table @on-selection-change="selectedtable"
                                @on-sort-change="sortable"
                                :height="tableheight"
                                size="small"
@@ -617,10 +615,13 @@ export default {
             t.getData(this.treeid);
         }, //分页
         selectedtable (selection) {
+
             const newArr = [];
+            console.log(selection, "selection")
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id);
             }
+            console.log(newArr, "newArr")
             this.tableselected = newArr;
         }, //列表中选中的item
         deletemsg () {
