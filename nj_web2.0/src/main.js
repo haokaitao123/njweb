@@ -97,7 +97,7 @@ router.beforeEach((to, from, next) => {
   } else {
     store.commit('setFunId', to.query.id)
   }
-  if (to.path.indexOf('loginmain') == -1 && to.path != "/" && to.path != "/home") {
+  if (to.path.indexOf('loginmain') == -1 && to.path != "/" && to.path != "/home" && to.path != "/ansrptToDoList") {
     const t = this
     let data = {
       _mt: 'sysFunctions.getStatusBtnByAuth',
