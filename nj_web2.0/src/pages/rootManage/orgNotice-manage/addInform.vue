@@ -33,7 +33,7 @@
         <!--</Col>-->
         <!--</Row>-->
         <Row>
-          <Col span="12">
+          <Col span="10" >
           <!-- prop为要传入的字段 -->
           <FormItem
             label="生效日期"
@@ -46,7 +46,7 @@
               placeholder="请选择生效日期"
               :editable="false"
               v-model="form.noticePublish"
-              class="width：200"
+              style="width: 100%;"
             ></DatePicker>
           </FormItem>
           </Col>
@@ -76,7 +76,7 @@
                 </span>
           </FormItem>
           </Col>
-          <Col span="10" offset="3">
+          <Col span="10" offset="1">
           <FormItem label="发布人" prop="noticePeople">
             <Input
               v-model="noticePeopleName"
@@ -110,7 +110,7 @@
         </Row>
         <Row>
           <Col span="23">
-          <FormItem label="'附件上传" prop="noticeAttach">
+          <FormItem label="附件上传" prop="noticeAttach">
             <Row>
               <i-col span="3" v-show="!editdisabled">
                 <Upload :before-upload="handleUpload" action=" ">
@@ -118,7 +118,7 @@
                 </Upload>
               </i-col>
               <i-col span="20" >
-               <span v-if="file !== ''" @dblclick="clearFile">
+               <span v-if="file !== ''" @dblclick="clearFile(editdisabled)">
                	<i-col span="22" >
                	<Input v-model="file.name" readonly="readonly" >
 			    				<span slot="prepend">
@@ -334,16 +334,21 @@ export default {
     console.log(this.form.state,"form")
   },
   methods: {
-    clearFile () {
-      this.$Modal.confirm({
-        title: this.$t("reminder.remind"),
-        content: "是否清除已上传的附件",
-        onOk: () => {
-        this.file = ""
-      this.loadingStatus = false;
-    },
-      onCancel: () => { }
-    })
+    clearFile (ckdis) {
+      if(!ckdis){
+        this.$Modal.confirm({
+            title: this.$t("reminder.remind"),
+            content: "是否清除已上传的附件",
+            onOk: () => {
+            this.file = ""
+            this.filekey = ""
+            this.form.noticeAttach = ""
+          this.loadingStatus = false;
+        },
+          onCancel: () => { }
+        })
+      }
+
     },
     clearPid(ckdis) {
       const t = this;
