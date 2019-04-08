@@ -26,6 +26,7 @@
                              :btnData="btnData"
                              :FlowNode="FlowNode">
                     </btnList>
+        
                 </Row>
                 <!--布置分页列表 变量通用 无需变更-->
                 <row class="table-form"
@@ -40,7 +41,8 @@
                            border
                            ref="selection"
                            :columns="columns"
-                           :data="data"></Table>
+                           :data="data"
+                           :loading="loading"></Table>
                 </row>
                 <Row style="display: flex">
                     <Page :total="total"
@@ -126,6 +128,7 @@ export default {
             // 子页面所需参数 无需变更
             tableheight: document.body.offsetHeight - 280,
             logType: '',
+            loading: false,
             openUpdate: false,
             updateId: NaN,
             // 主页面已勾选数据list
@@ -167,6 +170,7 @@ export default {
 
                     width: 220,
                 },
+          
             ],
             tableBtn: {
                 title: "操作",
@@ -203,6 +207,8 @@ export default {
                     return h("div", [child]);
                 }
             },
+       
+        
             // 页面参数 无需更改
             data: [],
             total: 0,
@@ -214,7 +220,16 @@ export default {
             // 查询条件变量
             recName: '',
             recIdenno: '',
-
+             params: {
+                _mt: "recruitBlackList.getPage",
+                sort: "id",
+                order: "asc",
+                rows: 10,
+                page: 1,
+                funId: "1",
+                logType: "黑名单信息查询",
+                data: "{}"
+            },
 
             loading: "",
         }
@@ -264,12 +279,19 @@ export default {
     },
     mounted () {
         // 页面打开自动调用查询方法 无需更改
-        // this.getData(1)
+         this.getData()
+    },
+    //按钮权限控制
+    pickData () {
+        const t = this;
+        t.$refs.searchOrgframe.getData(this.params);
+        t.openPick = true;
     },
     methods: {
         // 查询方法
         getData (page) {
             const t = this
+            this.loading = true;
             // 是否重置页码 无需更改
             if (page) {
                 t.page = page
@@ -303,7 +325,9 @@ export default {
                     title: '错误',
                     content: '网络错误',
                 })
-            })
+            }).finally(() => {
+                    this.loading = false
+                });
         },
         // 导入导出默认方法 无需更改
         closeImport () {
@@ -376,7 +400,7 @@ export default {
         pageChange (page) {
             const t = this
             t.page = page
-            t.getData()
+            t.getData(t.page)
         },
         // 勾选数据方法 无需更改
         selectedtable (selection) {
@@ -428,9 +452,14 @@ export default {
             t.openUpdate = true
             t.index = index
             //        t.$refs.update.getSelect()
-            if (logType === '修改') {
-                t.$refs.update.getData(id)
+            t.$refs.update.disabled = false;
+            if (logType === this.$t("button.upd") || logType === "查看") {
+                t.$refs.update.getData(id);
             }
+            if (logType === "查看") {
+                t.$refs.update.disabled = true;
+            }
+            
         },
         // 关闭子页面 无需更改
         closeUp () {
@@ -439,7 +468,8 @@ export default {
         },
         //查询
         search () {
-
+            this.page = 1;
+            this.getData();
         }
     },
 }
