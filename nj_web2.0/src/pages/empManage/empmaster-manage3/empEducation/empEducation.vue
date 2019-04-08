@@ -87,7 +87,7 @@
   </div>
 </template>
 <script>
-import contentMsg from "./updVisaAreaDocs";
+import contentMsg from "./addEmpEducation";
 import expwindow from "../../../../components/fileOperations/expSms";
 import expdow from "../../../../components/fileOperations/expdow";
 import importExcel from "../../../../components/importModel/importParam";

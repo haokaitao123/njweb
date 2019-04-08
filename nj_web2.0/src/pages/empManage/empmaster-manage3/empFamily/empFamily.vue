@@ -1,7 +1,7 @@
 <template>
   <div class="content-main">
     <row>
-      <Input v-model="docsName" style="width: 160px;" placeholder="请输入合同编号"></Input>
+      <Input v-model="docsName" style="width: 160px;" placeholder="请输入联系人"></Input>
       <Button type="primary" icon="search" @click="search">查询</Button>
       <Button type="primary" icon="primary" @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
       <Button type="primary" icon="primary" @click="expData">导出</Button>
@@ -42,16 +42,16 @@
       ></Button>
     </Row>
     <!--mainid为主表id-->
-    <transition>
-      <contentMsg
-        v-show="showMsg"
-        @hideMsg="hideMsg"
-        :mainId="mainId"
-        :logType="logType"
-        ref="contentMsg"
-        @newdata="addNewArray"
-        @update="updateArray"
-      ></contentMsg>
+     <transition>
+    <contentMsg
+      v-show="showMsg"
+      @hideMsg="hideMsg"
+      :mainId="mainId"
+      :logType="logType"
+      ref="contentMsg"
+      @getData="addNewArray"
+      @update="updateArray"
+    ></contentMsg>
     </transition>
     <!--导入导出子页面 若没有导入导出可以去掉-->
     <transition>
@@ -87,7 +87,7 @@
   </div>
 </template>
 <script>
-import contentMsg from "./updVisaAreaDocs";
+import contentMsg from "./addEmpFamily";
 import expwindow from "../../../../components/fileOperations/expSms";
 import expdow from "../../../../components/fileOperations/expdow";
 import importExcel from "../../../../components/importModel/importParam";
@@ -101,22 +101,17 @@ export default {
   data() {
     return {
       // 导入的mt名称
-      imp_mt: "empContractinfo.importData",
+      imp_mt: "empFamily.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "contTypeDis", name: "合同类别" },
-        { code: "contPeriodDis", name: "合同期限" },
-        { code: "conSdate", name: "合同开始日" },
-        { code: "conEdate", name: "合同结束日" },
-        // 保密协议
-        // { code: "conEdate", name: "合同结束日" },
-        // 竞业协议
-        // { code: "conEdate", name: "合同结束日" },
-        // 合同工作时间
-        // { code: "conEdate", name: "合同结束日" },
-        { code: "contSigndate", name: "签署日期" },
-        { code: "contProbatDis", name: "试用期限" },
-        { code: "contProbatdt", name: "试用到期时间" }
+        { code: "fmRelationDis", name: "成员关系" },
+        { code: "fmIsurgentDis", name: "是否紧急联系人" },
+        { code: "fmCname", name: "姓名" },
+        { code: "fmCompany", name: "工作单位" },
+        { code: "fmPost", name: "职务" },
+        { code: "fmPhone", name: "联系方式" },
+         { code: "note", name: "备注" },
+
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -124,6 +119,7 @@ export default {
       openExp: false,
       filekey: "",
       filename: "",
+
 
       total: NaN,
       logType: "",
@@ -137,48 +133,38 @@ export default {
           align: "center"
         },
         {
-          title: "合同类别",
-          key: "contTypeDis",
-          width: 150,
+          title: "成员关系",
+          key: "fmRelationDis",
+          //            width: 150,
+          sortable: "custom"
+        },
+         {
+          title: "是否紧急联系人",
+          key: "fmIsurgentDis",
+                     width: 150,
           sortable: "custom"
         },
         {
-          title: "合同期限",
-          key: "contPeriodDis",
-          width: 150,
-          sortable: "custom"
+          title: "姓名",
+          key: "fmCname",
+                     width: 150,
         },
         {
-          title: "合同开始日",
-          key: "contSdate",
+          title: "工作单位",
+          key: "fmCompany",
           width: 150,
-          sortable: "custom"
         },
         {
-          title: "合同结束日",
-          key: "contEdate",
+          title: "职务",
+          key: "fmPost",
           width: 150,
-          sortable: "custom"
-        },
-        {
-          title: "签署日期",
-          key: "contSigndate",
-          width: 150,
-          sortable: "custom"
-        },
-        {
-          title: "试用期限",
-          key: "contProbatDis",
-          width: 150,
-          sortable: "custom"
-        },
-        {
-          title: "试用到期时间",
-          key: "contProbatdt",
-          width: 150,
-          sortable: "custom"
         },
 
+        {
+          title: "联系方式",
+          key: "fmPhone",
+          width: 150,
+        },
         {
           title: "操作",
           key: "action",
@@ -196,11 +182,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showMsgBtn(
-                        params.row.id,
-                        this.logType,
-                        params.index
-                      );
+                      this.showMsgBtn(params.row.id, this.logType, params.index);
                     }
                   }
                 },
@@ -213,7 +195,7 @@ export default {
       data: [],
       docsName: "",
       params: {
-        _mt: "empContractinfo.getPage",
+        _mt: "empFamily.getPage",
         funId: "1",
         rows: 10,
         page: 1,
@@ -230,7 +212,7 @@ export default {
   //    主表id
   props: {
     mainId: Number,
-    logType: String
+    logType:String
   },
   components: {
     contentMsg,
@@ -240,7 +222,6 @@ export default {
   },
   mounted() {},
   methods: {
-
     search() {
       this.params.pkId = this.mainId + "";
       this.getData();
@@ -302,7 +283,7 @@ export default {
           content: this.$t("reminder.confirmdelete"),
           onOk: () => {
             getDataLevelUserLogin({
-              _mt: "empEducation.delByIds",
+              _mt: "empFamily.delByIds",
               funId: "1",
               logType: "删除",
               ids: t.tableselected.toString()
@@ -379,11 +360,7 @@ export default {
         bankSwiftcode: t.bankSwiftcode
       };
       // 设置导出mt参数
-      this.$refs.expwindow.getData(
-        this.expDataTital,
-        "empContractinfo.export",
-        data
-      );
+      this.$refs.expwindow.getData(this.expDataTital, "empEmpnh.export", data);
       this.openExp = true;
     },
     // 导入导出默认方法 无需更改
@@ -403,7 +380,7 @@ export default {
       t.filename = filename;
       t.openExpDow = openExpDow;
       t.$refs.expdow.getPriToken(t.filekey);
-    }
+    },
   }
 };
 </script>

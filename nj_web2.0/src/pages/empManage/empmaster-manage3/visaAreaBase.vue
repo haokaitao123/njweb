@@ -55,10 +55,10 @@
 </template>
 <script>
 import mOption from "./jichu/updVisaArea";
-import mContent from "./xueli/visaAreaDocsList";
-import mContent1 from "./hetong/visaAreaDocsList";
-import mContent2 from "./gongzuo/visaAreaDocsList";
-import mContent3 from "./jiating/visaAreaDocsList";
+import mContent from "./empEducation/empEducation";
+import mContent1 from "./empContractinfo/empContractinfo";
+import mContent2 from "./empWorkExp/empWorkExp";
+import mContent3 from "./empFamily/empFamily";
 
 export default {
     data () {

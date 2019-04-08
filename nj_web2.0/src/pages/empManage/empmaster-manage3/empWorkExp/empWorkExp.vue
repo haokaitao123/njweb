@@ -1,9 +1,13 @@
 <template>
   <div class="content-main">
     <row>
-      <Input v-model="docsName" style="width: 160px;" placeholder="请输入联系人"></Input>
+      <Input v-model="docsName" style="width: 160px;" placeholder="请输入员工名称"></Input>
       <Button type="primary" icon="search" @click="search">查询</Button>
-      <Button type="primary" icon="primary" @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
+      <Button
+        type="primary"
+        icon="primary"
+        @click="showMsgBtn(NaN, $t('新增'))"
+      >新增</Button>
       <Button type="primary" icon="primary" @click="expData">导出</Button>
       <Button type="primary" icon="primary" @click="importExcel">导入</Button>
       <Button type="error" icon="primary" @click="deletemsg">删除</Button>
@@ -42,18 +46,18 @@
       ></Button>
     </Row>
     <!--mainid为主表id-->
-     <transition>
+    <transition>
     <contentMsg
       v-show="showMsg"
       @hideMsg="hideMsg"
       :mainId="mainId"
       :logType="logType"
       ref="contentMsg"
-      @getData="addNewArray"
+      @newdata="addNewArray"
       @update="updateArray"
     ></contentMsg>
-    </transition>
-    <!--导入导出子页面 若没有导入导出可以去掉-->
+     </transition>
+      <!--导入导出子页面 若没有导入导出可以去掉-->
     <transition>
       <expwindow
         v-show="openExp"
@@ -87,7 +91,7 @@
   </div>
 </template>
 <script>
-import contentMsg from "./updVisaAreaDocs";
+import contentMsg from "./addEmpWorkExp";
 import expwindow from "../../../../components/fileOperations/expSms";
 import expdow from "../../../../components/fileOperations/expdow";
 import importExcel from "../../../../components/importModel/importParam";
@@ -101,17 +105,20 @@ export default {
   data() {
     return {
       // 导入的mt名称
-      imp_mt: "empFamily.importData",
+      imp_mt: "empWorkExp.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "fmRelationDis", name: "成员关系" },
-        { code: "fmIsurgentDis", name: "是否紧急联系人" },
-        { code: "fmCname", name: "姓名" },
-        { code: "fmCompany", name: "工作单位" },
-        { code: "fmPost", name: "职务" },
-        { code: "fmPhone", name: "联系方式" },
-         { code: "note", name: "备注" },
-        
+        { code: "weSdate", name: "开始时间" },
+        { code: "weEdate", name: "结束时间" },
+        { code: "weComp", name: "工作单位" },
+        { code: "weDept", name: "工作部门" },
+        { code: "wePost", name: "工作职务" },
+        { code: "wePerforman", name: "主要业绩" },
+        { code: "weContact", name: "证明人" },
+        { code: "wePhone", name: "联系电话" },
+        { code: "weSalary", name: "薪资" },
+        { code: "weLevrason", name: "离职原因" },
+        { code: "note", name: "备注" }
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -124,8 +131,8 @@ export default {
       total: NaN,
       logType: "",
       showMsg: false,
-      rows: 10,
-      page: 1,
+      rows:10,
+      page:1,
       columns: [
         {
           type: "selection",
@@ -133,37 +140,46 @@ export default {
           align: "center"
         },
         {
-          title: "成员关系",
-          key: "fmRelationDis",
-          //            width: 150,
-          sortable: "custom"
-        },
-         {
-          title: "是否紧急联系人",
-          key: "fmIsurgentDis",
+          title: "开始时间",
+          key: "weSdate",
                      width: 150,
           sortable: "custom"
         },
         {
-          title: "姓名",
-          key: "fmCname",
+          title: "结束时间",
+          key: "weEdate",
                      width: 150,
+                      sortable: "custom"
         },
         {
           title: "工作单位",
-          key: "fmCompany",
-          width: 150,
+          key: "weComp",
+                     width: 150,
         },
         {
-          title: "职务",
-          key: "fmPost",
-          width: 150,
+          title: "工作部门",
+          key: "weDept",
+                     width: 150,
         },
-
         {
-          title: "联系方式",
-          key: "fmPhone",
-          width: 150,
+          title: "工作职务",
+          key: "wePost",
+                     width: 150,
+        },
+        {
+          title: "主要业绩",
+          key: "wePerforman",
+                     width: 150,
+        },
+        {
+          title: "联系电话",
+          key: "weContact",
+                     width: 150,
+        },
+        {
+          title: "薪资",
+          key: "weSalary",
+                     width: 150,
         },
         {
           title: "操作",
@@ -182,7 +198,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showMsgBtn(params.row.id, this.logType, params.index);
+                      this.showMsgBtn(
+                        params.row.id,
+                        this.logType,
+                        params.index
+                      );
                     }
                   }
                 },
@@ -195,7 +215,7 @@ export default {
       data: [],
       docsName: "",
       params: {
-        _mt: "empFamily.getPage",
+        _mt: "empWorkExp.getPage",
         funId: "1",
         rows: 10,
         page: 1,
@@ -203,7 +223,7 @@ export default {
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        pkId: ""
+        pkId:""
       },
       index: "",
       tableselected: []
@@ -212,16 +232,14 @@ export default {
   //    主表id
   props: {
     mainId: Number,
-    logType:String
+    logType:String,
   },
   components: {
-    contentMsg,
-    expwindow,
-    expdow,
-    importExcel
+    contentMsg
   },
   mounted() {},
   methods: {
+
     search() {
       this.params.pkId = this.mainId + "";
       this.getData();
@@ -283,7 +301,7 @@ export default {
           content: this.$t("reminder.confirmdelete"),
           onOk: () => {
             getDataLevelUserLogin({
-              _mt: "empFamily.delByIds",
+              _mt: "empWorkExp.delByIds",
               funId: "1",
               logType: "删除",
               ids: t.tableselected.toString()
@@ -305,14 +323,6 @@ export default {
         });
       }
     },
-    addNewArray(res) {
-      const t = this;
-      t.data.unshift(res);
-    },
-    updateArray(res) {
-      const t = this;
-      t.data.splice(t.index, 1, res);
-    },
     sizeChange(size) {
       const t = this;
       t.params.rows = size;
@@ -328,7 +338,14 @@ export default {
         t.$refs.contentMsg.setRowId(id);
       }
     },
-
+    addNewArray(res) {
+      const t = this;
+      t.data.unshift(res);
+    },
+    updateArray(res) {
+      const t = this;
+      t.data.splice(t.index, 1, res);
+    },
     clear() {
       const t = this;
       t.docsName = "";
@@ -360,7 +377,7 @@ export default {
         bankSwiftcode: t.bankSwiftcode
       };
       // 设置导出mt参数
-      this.$refs.expwindow.getData(this.expDataTital, "empEmpnh.export", data);
+      this.$refs.expwindow.getData(this.expDataTital, "empWorkExp.export", data);
       this.openExp = true;
     },
     // 导入导出默认方法 无需更改
@@ -380,7 +397,7 @@ export default {
       t.filename = filename;
       t.openExpDow = openExpDow;
       t.$refs.expdow.getPriToken(t.filekey);
-    },
+    }
   }
 };
 </script>

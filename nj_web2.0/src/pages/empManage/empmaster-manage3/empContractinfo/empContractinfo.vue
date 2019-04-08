@@ -1,13 +1,9 @@
 <template>
   <div class="content-main">
     <row>
-      <Input v-model="docsName" style="width: 160px;" placeholder="请输入员工名称"></Input>
+      <Input v-model="docsName" style="width: 160px;" placeholder="请输入合同编号"></Input>
       <Button type="primary" icon="search" @click="search">查询</Button>
-      <Button
-        type="primary"
-        icon="primary"
-        @click="showMsgBtn(NaN, $t('新增'))"
-      >新增</Button>
+      <Button type="primary" icon="primary" @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
       <Button type="primary" icon="primary" @click="expData">导出</Button>
       <Button type="primary" icon="primary" @click="importExcel">导入</Button>
       <Button type="error" icon="primary" @click="deletemsg">删除</Button>
@@ -47,17 +43,17 @@
     </Row>
     <!--mainid为主表id-->
     <transition>
-    <contentMsg
-      v-show="showMsg"
-      @hideMsg="hideMsg"
-      :mainId="mainId"
-      :logType="logType"
-      ref="contentMsg"
-      @newdata="addNewArray"
-      @update="updateArray"
-    ></contentMsg>
-     </transition>
-      <!--导入导出子页面 若没有导入导出可以去掉-->
+      <contentMsg
+        v-show="showMsg"
+        @hideMsg="hideMsg"
+        :mainId="mainId"
+        :logType="logType"
+        ref="contentMsg"
+        @newdata="addNewArray"
+        @update="updateArray"
+      ></contentMsg>
+    </transition>
+    <!--导入导出子页面 若没有导入导出可以去掉-->
     <transition>
       <expwindow
         v-show="openExp"
@@ -91,7 +87,7 @@
   </div>
 </template>
 <script>
-import contentMsg from "./updVisaAreaDocs";
+import contentMsg from "./addEmpContractinfo";
 import expwindow from "../../../../components/fileOperations/expSms";
 import expdow from "../../../../components/fileOperations/expdow";
 import importExcel from "../../../../components/importModel/importParam";
@@ -105,20 +101,22 @@ export default {
   data() {
     return {
       // 导入的mt名称
-      imp_mt: "empWorkExp.importData",
+      imp_mt: "empContractinfo.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "weSdate", name: "开始时间" },
-        { code: "weEdate", name: "结束时间" },
-        { code: "weComp", name: "工作单位" },
-        { code: "weDept", name: "工作部门" },
-        { code: "wePost", name: "工作职务" },
-        { code: "wePerforman", name: "主要业绩" },
-        { code: "weContact", name: "证明人" },
-        { code: "wePhone", name: "联系电话" },
-        { code: "weSalary", name: "薪资" },
-        { code: "weLevrason", name: "离职原因" },
-        { code: "note", name: "备注" }
+        { code: "contTypeDis", name: "合同类别" },
+        { code: "contPeriodDis", name: "合同期限" },
+        { code: "conSdate", name: "合同开始日" },
+        { code: "conEdate", name: "合同结束日" },
+        // 保密协议
+        // { code: "conEdate", name: "合同结束日" },
+        // 竞业协议
+        // { code: "conEdate", name: "合同结束日" },
+        // 合同工作时间
+        // { code: "conEdate", name: "合同结束日" },
+        { code: "contSigndate", name: "签署日期" },
+        { code: "contProbatDis", name: "试用期限" },
+        { code: "contProbatdt", name: "试用到期时间" }
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -127,12 +125,11 @@ export default {
       filekey: "",
       filename: "",
 
-
       total: NaN,
       logType: "",
       showMsg: false,
-      rows:10,
-      page:1,
+      rows: 10,
+      page: 1,
       columns: [
         {
           type: "selection",
@@ -140,47 +137,48 @@ export default {
           align: "center"
         },
         {
-          title: "开始时间",
-          key: "weSdate",
-                     width: 150,
+          title: "合同类别",
+          key: "contTypeDis",
+          width: 150,
           sortable: "custom"
         },
         {
-          title: "结束时间",
-          key: "weEdate",
-                     width: 150,
-                      sortable: "custom"
+          title: "合同期限",
+          key: "contPeriodDis",
+          width: 150,
+          sortable: "custom"
         },
         {
-          title: "工作单位",
-          key: "weComp",
-                     width: 150,
+          title: "合同开始日",
+          key: "contSdate",
+          width: 150,
+          sortable: "custom"
         },
         {
-          title: "工作部门",
-          key: "weDept",
-                     width: 150,
+          title: "合同结束日",
+          key: "contEdate",
+          width: 150,
+          sortable: "custom"
         },
         {
-          title: "工作职务",
-          key: "wePost",
-                     width: 150,
+          title: "签署日期",
+          key: "contSigndate",
+          width: 150,
+          sortable: "custom"
         },
         {
-          title: "主要业绩",
-          key: "wePerforman",
-                     width: 150,
+          title: "试用期限",
+          key: "contProbatDis",
+          width: 150,
+          sortable: "custom"
         },
         {
-          title: "联系电话",
-          key: "weContact",
-                     width: 150,
+          title: "试用到期时间",
+          key: "contProbatdt",
+          width: 150,
+          sortable: "custom"
         },
-        {
-          title: "薪资",
-          key: "weSalary",
-                     width: 150,
-        },
+
         {
           title: "操作",
           key: "action",
@@ -215,7 +213,7 @@ export default {
       data: [],
       docsName: "",
       params: {
-        _mt: "empWorkExp.getPage",
+        _mt: "empContractinfo.getPage",
         funId: "1",
         rows: 10,
         page: 1,
@@ -223,7 +221,7 @@ export default {
         order: "asc",
         logType: "",
         // visaAreaId: ""
-        pkId:""
+        pkId: ""
       },
       index: "",
       tableselected: []
@@ -232,10 +230,13 @@ export default {
   //    主表id
   props: {
     mainId: Number,
-    logType:String,
+    logType: String
   },
   components: {
-    contentMsg
+    contentMsg,
+    expwindow,
+    expdow,
+    importExcel
   },
   mounted() {},
   methods: {
@@ -301,7 +302,7 @@ export default {
           content: this.$t("reminder.confirmdelete"),
           onOk: () => {
             getDataLevelUserLogin({
-              _mt: "empWorkExp.delByIds",
+              _mt: "empEducation.delByIds",
               funId: "1",
               logType: "删除",
               ids: t.tableselected.toString()
@@ -323,6 +324,14 @@ export default {
         });
       }
     },
+    addNewArray(res) {
+      const t = this;
+      t.data.unshift(res);
+    },
+    updateArray(res) {
+      const t = this;
+      t.data.splice(t.index, 1, res);
+    },
     sizeChange(size) {
       const t = this;
       t.params.rows = size;
@@ -338,14 +347,7 @@ export default {
         t.$refs.contentMsg.setRowId(id);
       }
     },
-    addNewArray(res) {
-      const t = this;
-      t.data.unshift(res);
-    },
-    updateArray(res) {
-      const t = this;
-      t.data.splice(t.index, 1, res);
-    },
+
     clear() {
       const t = this;
       t.docsName = "";
@@ -377,7 +379,11 @@ export default {
         bankSwiftcode: t.bankSwiftcode
       };
       // 设置导出mt参数
-      this.$refs.expwindow.getData(this.expDataTital, "empWorkExp.export", data);
+      this.$refs.expwindow.getData(
+        this.expDataTital,
+        "empContractinfo.export",
+        data
+      );
       this.openExp = true;
     },
     // 导入导出默认方法 无需更改
