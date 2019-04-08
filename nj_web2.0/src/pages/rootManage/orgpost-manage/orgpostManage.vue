@@ -368,10 +368,12 @@ export default {
         modityChange (res) {
             this.getData();
         },
-        getData (id) {
+        getData (id,page) {
             const t = this;
             this.loading = true;
-            this.page = 1;
+             if (page == undefined) {
+                this.page = 1;
+            }
             const data = {
                 _mt: "orgPost.getPage",
                 rows: t.rows,
@@ -426,7 +428,7 @@ export default {
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData(this.treeid);
+            t.getData(this.treeid,t.page);
         },
         selectedtable (selection) {
             const newArr = [];
