@@ -66,10 +66,10 @@
   </div>
 </template>
 <script>
-  import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
-  import { isSuccess, deepCopy } from '../../../lib/util'
+  import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../axios/axios'
+  import { isSuccess, deepCopy } from '../../lib/util'
 //  引入弹出选择页面
-  import searchCity from '../../../components/searchTable/searchCity'
+  import searchCity from '../../components/searchTable/searchCity'
 
   export default {
     data() {
@@ -217,5 +217,5 @@
   }
 </script>
 <style lang="scss" scoped>
-  @import "../../../sass/updateAndAdd";
+  @import "../../sass/updateAndAdd";
 </style>

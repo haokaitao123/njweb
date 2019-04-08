@@ -51,11 +51,11 @@
   // 引用子页面
   import update from './recruitBlackListInfo'
   // 默认引用 无需变更
-  import { isSuccess } from '../../../lib/util'
-  import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
-  import expwindow from '../../../components/fileOperations/expSms'
-  import expdow from '../../../components/fileOperations/expdow'
-  import importExcel from '../../../components/importModel/importParam'
+  import { isSuccess } from '../../lib/util'
+  import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../axios/axios'
+  import expwindow from '../../components/fileOperations/expSms'
+  import expdow from '../../components/fileOperations/expdow'
+  import importExcel from '../../components/importModel/importParam'
 
   export default{
     data() {
@@ -107,13 +107,13 @@
           {
             title: '原因',
             key: 'recReason',
-            sortable: 'custom',
+            
             width: 220,
           },
           {
             title: '备注',
             key: 'note',
-            sortable: 'custom',
+            
             width: 220,
           },
           // 列表操作按钮 无需变更
@@ -185,11 +185,10 @@
           page: t.page,
           sort: t.sort,
           order: t.order,
-          logType: '查看',
+          logType: '分頁查看',
 //          添加查询变量
-          bankCode: t.bankCode,
-          bankCname: t.bankCname,
-          bankSwiftcode: t.bankSwiftcode,
+          recName: t.recName,
+          recIdenno: t.recIdenno,
         }
         // 删除空字段 无需更改
         for (const dat in data) {
@@ -226,12 +225,11 @@
         const t = this
         // 填装查询条件
         const data = {
-          bankCode: t.bankCode,
-          bankCname: t.bankCname,
-          bankSwiftcode: t.bankSwiftcode,
+          recName: t.recName,
+          recIdenno: t.recIdenno,
         }
         // 设置导出mt参数
-        this.$refs.expwindow.getData(this.expDataTital, 'baseBankinfo.export', data)
+        this.$refs.expwindow.getData(this.expDataTital, 'recruitBlackList.export', data)
         this.openExp = true
       },
       // 导入导出默认方法 无需更改
@@ -307,7 +305,7 @@
             onOk: () => {
               getDataLevelUserLogin({
                 // 设置删除mt参数 其余无需更改
-                _mt: 'baseBankinfo.delByIds',
+                _mt: 'recruitBlackList.delByIds',
                 logType: '删除',
                 ids: t.tableselected.toString(),
               }).then((res) => {

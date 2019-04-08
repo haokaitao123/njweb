@@ -3,7 +3,7 @@
  */
 
 //招聘黑名单
-import recruitBlackList from '@/pages/rootManage/recruitManage/recruitBlackListManage'
+import recruitBlackList from '@/pages/recruitManage/recruitBlackListManage'
 export default [
 
     {
