@@ -36,12 +36,12 @@
                     </div>
                     <div style="margin-top: 40px;padding: 10px;">
                         <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
-                        <mOption v-show="option"
-                                 :logType="logType"
-                                 ref="option"
-                                 :id="id"
-                                 :index="index"
-                                 :modity="modity"></mOption>
+                        <empBaseInfo v-show="option"
+                                     :logType="logType"
+                                     ref="option"
+                                     :id="id"
+                                     :index="index"
+                                     :modity="modity"></empBaseInfo>
                         <!--子表分页页面 mainid为主表id-->
                         <!-- <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
             <mContent1 v-show="content1" :logType="logType" ref="content1" :mainId="id"></mContent1>
@@ -78,11 +78,11 @@ export default {
         };
     },
     components: {
-        mOption,
-        mContent,
-        mContent1,
-        mContent2,
-        mContent3
+        empBaseInfo,
+        empEducation,
+        empContractInfo,
+        empWorkExp,
+        empFamily
     },
     props: {
         //      父页面传递参数  visaare一般不传
