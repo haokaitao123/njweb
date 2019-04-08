@@ -114,7 +114,7 @@ export default {
         { code: "weDept", name: "工作部门" },
         { code: "wePost", name: "工作职务" },
         { code: "wePerforman", name: "主要业绩" },
-        { code: " weContact", name: "证明人" },
+        { code: "weContact", name: "证明人" },
         { code: "wePhone", name: "联系电话" },
         { code: "weSalary", name: "薪资" },
         { code: "weLevrason", name: "离职原因" },
@@ -239,7 +239,7 @@ export default {
   },
   mounted() {},
   methods: {
-    
+
     search() {
       this.params.pkId = this.mainId + "";
       this.getData();

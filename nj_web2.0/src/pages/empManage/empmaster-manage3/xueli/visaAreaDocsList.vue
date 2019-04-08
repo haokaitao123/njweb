@@ -104,13 +104,13 @@ export default {
       imp_mt: "empEducation.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "edEducationlevel", name: "教育程度" },
-        { code: "edIshighest", name: "是否最高学位" },
+        { code: "edEducationlevelDis", name: "教育程度" },
+        { code: "edIshighestDis", name: "是否最高学位" },
         { code: "edCuntryDis", name: "国家" },
         { code: "edSchool", name: "学校" },
         { code: "edDegree", name: "学位" },
         { code: "edSpecialty", name: "专业" },
-        { code: " edSdate", name: "开始时间" },
+        { code: "edSdate", name: "开始时间" },
         { code: "edEdate", name: "结束时间" },
         { code: "note", name: "备注" }
       ],
@@ -133,7 +133,7 @@ export default {
         },
         {
           title: "教育程度",
-          key: "edEducationlevel",
+          key: "edEducationlevelDis",
           width: 150,
           align: "center",
           sortable: "custom"
@@ -248,7 +248,7 @@ export default {
   },
   mounted() {},
   methods: {
-   
+
     search() {
       this.params.pkId = this.mainId + "";
       this.getData();

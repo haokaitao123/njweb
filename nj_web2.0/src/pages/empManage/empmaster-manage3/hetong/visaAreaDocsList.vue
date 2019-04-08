@@ -115,7 +115,7 @@ export default {
         // 合同工作时间
         // { code: "conEdate", name: "合同结束日" },
         { code: "contSigndate", name: "签署日期" },
-        { code: " contProbatDis", name: "试用期限" },
+        { code: "contProbatDis", name: "试用期限" },
         { code: "contProbatdt", name: "试用到期时间" }
       ],
       // 导入导出默认参数 无需变更
@@ -240,7 +240,7 @@ export default {
   },
   mounted() {},
   methods: {
-    
+
     search() {
       this.params.pkId = this.mainId + "";
       this.getData();
