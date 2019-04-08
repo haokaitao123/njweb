@@ -7,8 +7,6 @@ import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
 import empMaster from '@/pages/empManage/empmaster-manage3/visaAreaList.vue'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
 import visaAreaList from '@/pages/empManage/visaArea-manage/visaAreaList'
-//最低押金规则
-// import empDepminManage from '@/pages/empManage/empDepmin/empDepminRule'
 // 出国统计看板
 const abordeCountShow = resolve => require(['@/pages/empManage/aborde-count-show/abordeCountShow'], resolve)
 // 逾期未回国查询
@@ -18,7 +16,7 @@ const goaborddetail = resolve => require(['@/pages/empManage/goaborddetail-manag
 
 const resumeNumMange = resolve => require(['@/pages/RmResumeMange/resumeNumMange'], resolve)
 
-//const depManage = resolve => require(['@/pages/depManage/depManage'], resolve)
+const depManage = resolve => require(['@/pages/depManage/depManage'], resolve)
 
 export default [{
     path: 'goaborddetail',
@@ -60,14 +58,9 @@ export default [{
     name: 'rmResume',
     component: resumeNumMange,
   },
-  //   {
-  //     path: 'empDepminManage',
-  //     name: 'empDepminManage',
-  //     component: empDepminManage,
-  //   }
-  //   {
-  //     path: 'depManage',
-  //     name: 'depManage',
-  //     component: depManage,
-  //   },
+  {
+    path: 'depManage',
+    name: 'depManage',
+    component: depManage,
+  },
 ]
