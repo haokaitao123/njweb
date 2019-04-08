@@ -19,6 +19,58 @@
           :label-width="110"
         >
           <i-col span="11">
+            <FormItem label="开始时间" prop="weSdate">
+              <DatePicker
+                type="date"
+                placeholder="请选择开始日期"
+                style="width: 100%"
+                :editable="false"
+                v-model="form.weSdate"
+              ></DatePicker>
+            </FormItem>
+          </i-col>
+          <i-col span="11" offset="1">
+            <FormItem label="结束时间" prop="weEdate">
+              <DatePicker
+                type="date"
+                placeholder="请选择结束日期"
+                style="width: 100%"
+                :editable="false"
+                v-model="form.weEdate"
+              ></DatePicker>
+            </FormItem>
+          </i-col>
+          <i-col span="11">
+            <FormItem label="工作单位" prop="weComp">
+              <Input v-model="form.weComp" placeholder="请输入工作单位"></Input>
+            </FormItem>
+          </i-col>
+          <i-col span="11" offset="1">
+            <FormItem label="工作部门" prop="weDept">
+              <Input v-model="form.weDept" placeholder="请输入工作部门"></Input>
+            </FormItem>
+          </i-col>
+          <i-col span="11">
+            <FormItem label="工作职务" prop="wePost">
+              <Input v-model="form.wePost" placeholder="请输入工作职务"></Input>
+            </FormItem>
+          </i-col>
+           <i-col span="11" offset="1">
+            <FormItem label="薪资" prop="weSalary">
+              <Input v-model="form.weSalary" placeholder="请输入薪资"></Input>
+            </FormItem>
+          </i-col>
+          <i-col span="23">
+            <FormItem label="主要业绩" prop="wePerforman">
+              <Input
+                v-model="form.wePerforman"
+                type="textarea"
+                :autosize="{minRows: 2,maxRows: 5}"
+                placeholder="请输入主要业绩/成果"
+              ></Input>
+            </FormItem>
+          </i-col>
+          <i-col span="11">
             <FormItem label="证明人" prop="weContact">
               <Input v-model="form.weContact" placeholder="请输入证明人"></Input>
             </FormItem>
@@ -28,119 +80,38 @@
               <Input v-model="form.wePhone" placeholder="请输入联系电话"></Input>
             </FormItem>
           </i-col>
-           <i-col span="11" >
-            <FormItem label="薪资" prop="weSalary">
-              <Input v-model="form.weSalary" placeholder="请输入薪资"></Input>
-            </FormItem>
-          </i-col>
           <i-col span="23">
             <FormItem label="离职原因" prop="weLevrason">
-              <Input
-                v-model="form.weLevrason"
-                type="textarea"
-                :autosize="{minRows: 2,maxRows: 5}"
-                placeholder="请输入离职原因"
-              ></Input>
-            </FormItem>
-            
-          </i-col>
-          <!-- <i-col span="11">
-            <FormItem label="教育程度" prop="edEducationlevel">
-              <Select v-model="form.edEducationlevel">
+             
+              <Select v-model="form.weLevrason">
                 <Option
                   :value="item.paramCode"
-                  v-for="(item,index) in selectEducationlevel"
+                  v-for="(item,index) in selectWelevrason"
                   :key="index"
                 >{{item.paramInfoCn}}</Option>
               </Select>
+         
             </FormItem>
-          </i-col> -->
-          <!-- <i-col span="23">
-            <FormItem label="是否最高学位" prop="edIshighestDis" :label-width="135">
-              <RadioGroup v-model="form.edIshighestDis">
-                <Radio
-                  :label="item.paramCode"
-                  v-for="(item,index) in yesOrNo"
-                  :key="index"
-                >{{item.paramInfoCn}}</Radio>
-              </RadioGroup>
-            </FormItem> -->
-            <!-- </i-col>
-          <i-col span="24">
-            <i-col span="6">
-              <FormItem label="参考附件" prop="docsAttr">
-                <Upload :before-upload="handleUpload" action=" ">
-                  <Button type="ghost" icon="ios-cloud-upload-outline">{{$t('button.brw')}}</Button>
-                </Upload>
-              </FormItem>
-            </i-col>
-            <i-col span="18">
-              <span v-if="file !== '' ">
-                <i-col span="22">
-                  <Input v-model="file.name" readonly="readonly">
-                    <span slot="prepend">
-                      <Icon type="folder" size="16"></Icon>
-                    </span>
-                  </Input>
-                </i-col>
-                <i-col span="2">
-                  <Button type="text" @click="uploadFile1" v-if="loadingStatus">{{$t('button.upl')}}</Button>
-                  <Button
-                    type="text"
-                    @click="uploadFile2"
-                    v-if="!loadingStatus"
-                  >{{$t('button.dwl')}}</Button>
-                </i-col>
-              </span>
-            </i-col>
-            </i-col>-->
-            <!--<i-col span="23" >-->
-            <!--<FormItem label="参考附件" >-->
-            <!--<Input v-model="form.docsAttr"  placeholder="请输入参考附件"></Input>-->
-            <!--</FormItem>-->
-            <!--</i-col>-->
-            <!-- <i-col span="23"></i-col> -->
-            <i-col span="11">
-              <FormItem label="开始时间" prop="weSdate">
-                <DatePicker
-                  type="date"
-                  placeholder="请选择开始日期"
-                  style="width: 100%"
-                  :editable="false"
-                  v-model="form.weSdate"
-                ></DatePicker>
-              </FormItem>
-            </i-col>
-            <i-col span="11" offset="1">
-              <FormItem label="结束时间" prop="weEdate">
-                <DatePicker
-                  type="date"
-                  placeholder="请选择结束日期"
-                  style="width: 100%"
-                  :editable="false"
-                  v-model="form.weEdate"
-                ></DatePicker>
-              </FormItem>
-            </i-col>
-            <i-col span="23">
-              <FormItem label="备注" prop="note">
-                <Input
-                  v-model="form.note"
-                  type="textarea"
-                  :autosize="{minRows: 2,maxRows: 5}"
-                  placeholder="请输入备注"
-                ></Input>
-              </FormItem>
-            </i-col>
-            <i-col span="23">
-              <row type="flex" justify="end">
-                <FormItem label prop="comment">
-                  <Button type="ghost" @click="close" style="margin-left: 8px">取消</Button>
-                  <Button type="primary" @click="save">保存</Button>
-                </FormItem>
-              </row>
-            </i-col>
           </i-col>
+          <i-col span="23">
+            <FormItem label="备注" prop="note">
+              <Input
+                v-model="form.note"
+                type="textarea"
+                :autosize="{minRows: 2,maxRows: 5}"
+                placeholder="请输入备注"
+              ></Input>
+            </FormItem>
+          </i-col>
+          <i-col span="23">
+            <row type="flex" justify="end">
+              <FormItem label prop="comment">
+                <Button type="ghost" @click="close" style="margin-left: 8px">取消</Button>
+                <Button type="primary" @click="save">保存</Button>
+              </FormItem>
+            </row>
+          </i-col>
+        
         </Form>
       </Row>
     </div>
@@ -161,22 +132,26 @@ export default {
       filekey: "",
       loadingStatus: false,
       // Visadocpreparer: [],
-      selectEducationlevel: [],
+      selectWelevrason: [],
       selectEdCuntry: [],
       yesOrNo: [],
-      form: {},
+      form: {
+        _mt : "empWorkExp.addOrUpd",
+        weSdate: "",
+        weEdate: "",
+        weComp: "",
+        weDept: "",
+        wePost: "",
+        wePerforman: "",
+        weContact: "",
+        wePhone: "",
+        weSalary: "",
+        weLevrason: "",
+        note: ""
+      },
       rowId: "",
       ruleValidate: {
-        weContact: [{ required: true, message: "请输入证明人", trigger: "blur" }],
-        wePhone: [{ required: true, message: "请输入证明人电话", trigger: "blur" }],
-        weSalary: [
-          { required: true, message: "请输入薪资", trigger: "blur" }
-        ],
-        weLevrason: [
-          { required: true, message: "请输入离职原因", trigger: "blur" }
-        ],
-        
-        weSdate: [
+         weSdate: [
           {
             required: true,
             type: "date",
@@ -191,7 +166,31 @@ export default {
             message: "请选择结束日期",
             trigger: "change"
           }
-        ]
+        ],
+        weComp: [
+          { required: true, message: "请输入工作单位", trigger: "blur" }
+        ],
+        weDept: [
+          { required: true, message: "请输入工作部门", trigger: "blur" }
+        ],
+        wePost: [{ required: true, message: "工作职务/岗位", trigger: "blur" }],
+        wePerforman: [
+          { required: true, message: "主要业绩/成果", trigger: "blur" }
+        ],
+        weContact: [
+          { required: true, message: "请输入证明人", trigger: "blur" }
+        ],
+        wePhone: [
+          { required: true, message: "请输入联系电话", trigger: "blur" }
+        ],
+        weSalary: [
+          { required: true, message: "请输入薪资", trigger: "blur" }
+        ],
+        weLevrason: [
+          { required: true, message: "请输入离职原因", trigger: "blur" }
+        ],
+
+       
       }
     };
   },
@@ -202,7 +201,7 @@ export default {
   },
   components: {},
   mounted() {
-    // this.getSelect();
+    this.getSelect();
   },
   methods: {
     // 新增页面
@@ -223,7 +222,64 @@ export default {
       getDataLevelUserLogin(params)
         .then(res => {
           if (isSuccess(res, t)) {
-            t.form = res.data.content[0];
+            console.log(res.data.content[0]);
+            // t.form = res.data.content[0];
+            if (res.data.content[0].weSdate) {
+              t.form.weSdate = res.data.content[0].weSdate;
+            } else {
+              t.form.weSdate = "";
+            }
+            if (res.data.content[0].weEdate) {
+              t.form.weEdate = res.data.content[0].weEdate;
+            } else {
+              t.form.weEdate = "";
+            }
+            if (res.data.content[0].weComp) {
+              t.form.weComp = res.data.content[0].weComp;
+            } else {
+              t.form.weComp = "";
+            }
+            if (res.data.content[0].weDept) {
+              t.form.weDept = res.data.content[0].weDept;
+            } else {
+              t.form.weDept = "";
+            }
+             if (res.data.content[0].wePost) {
+              t.form.wePost = res.data.content[0].wePost;
+            } else {
+              t.form.wePost = "";
+            }
+             if (res.data.content[0].wePerforman) {
+              t.form.wePerforman = res.data.content[0].wePerforman;
+            } else {
+              t.form.wePerforman = "";
+            }
+             if (res.data.content[0].weContact) {
+              t.form.weContact = res.data.content[0].weContact;
+            } else {
+              t.form.weContact = "";
+            }
+             if (res.data.content[0].wePhone) {
+              t.form.wePhone = res.data.content[0].wePhone;
+            } else {
+              t.form.wePhone = "";
+            }
+             if (res.data.content[0].weSalary) {
+              t.form.weSalary = res.data.content[0].weSalary;
+            } else {
+              t.form.weSalary = "";
+            }
+             if (res.data.content[0].weLevrason) {
+              t.form.weLevrason = res.data.content[0].weLevrason;
+            } else {
+              t.form.weLevrason = "";
+            }
+             if (res.data.content[0].note) {
+              t.form.note = res.data.content[0].note;
+            } else {
+              t.form.note = "";
+            }
+
           }
         })
         .catch(() => {
@@ -282,95 +338,15 @@ export default {
         }
       });
     },
-    handleUpload(file) {
-      this.file = file;
-      this.loadingStatus = true;
-      return false;
-    },
-    uploadFile1() {
-      const t = this;
-      const formData = new FormData();
-      formData.append("upfile", t.file);
-      uploadFile(formData)
-        .then(res => {
-          for (const key in res.data) {
-            t.filekey = res.data[key];
-            t.form.docsAttr = key + ":" + res.data[key];
-          }
-          t.$Modal.success({
-            title: this.$t("reminder.suc"),
-            content: this.$t("reminder.uploadsuccess"),
-            onOk: () => {
-              t.loadingStatus = false;
-            }
-          });
-        })
-        .catch(() => {
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
-    },
-    uploadFile2() {
-      const t = this;
-      let data = {
-        _mt: "userMgmt.getfiletoken",
-        isprivate: true,
-        logType: "导出",
-        filekey: t.filekey,
-        expiresecs: 180
-      };
-      getDataLevelUserLogin(data)
-        .then(res => {
-          if (isSuccess(res, t)) {
-            localStorage.pageOpenedListAll = JSON.stringify(
-              JSON.parse(localStorage.pageOpenedList)
-            );
-            if (this.isIE()) {
-              window.location.href =
-                pubsource.pub_prvf_downlink +
-                res.data.content[0].value +
-                "&fname=" +
-                encodeURI(t.filekey);
-            } else {
-              let doclink =
-                pubsource.pub_prvf_downlink +
-                res.data.content[0].value +
-                "&fname=" +
-                encodeURI(t.filekey);
-              let link = document.createElement("a");
-              link.href = doclink;
-              link.download = "downloadfiletemp";
-              link.click();
-            }
-            this.$store.state.app.pageOpenedList = JSON.parse(
-              localStorage.pageOpenedListAll
-            );
-            localStorage.pageOpenedList = JSON.stringify(
-              JSON.parse(localStorage.pageOpenedListAll)
-            );
-          }
-        })
-        .catch(() => {
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
-    },
     getSelect() {
       const t = this;
       getDataLevelUserLogin({
         _mt: "baseParmInfo.getSelectValue",
-        typeCode: "button,selectEducationlevel,selectEdCuntry"
+        typeCode: "terminatereason"
       })
         .then(res => {
           if (isSuccess(res, t)) {
-            // t.Visadocpreparer = res.data.content[0].value[0].paramList;
-            t.selectEducationlevel = res.data.content[0].value[10].paramList;
-            t.selectEdCuntry = res.data.content[0].value;
-            t.yesOrNo = res.data.content[0].value[0].paramList;
+            t.selectWelevrason = res.data.content[0].value[10].paramList;
           }
         })
         .catch(() => {

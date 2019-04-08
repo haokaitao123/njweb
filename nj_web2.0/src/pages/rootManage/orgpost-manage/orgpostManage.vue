@@ -31,8 +31,8 @@
                                  @buttonInvalid="modifystatus('03invalid')"
                                  @moditySelect="modityChange"
                                  @buttonSearch="search"
-                                 :btnData="btnData"   
-                                 :FlowNode="FlowNode" ></btnList>
+                                 :btnData="btnData"
+                                 :FlowNode="FlowNode"></btnList>
                     </Row>
                     <!--布置分页列表 变量通用 无需变更-->
                     <row class="table-form"
@@ -161,7 +161,7 @@ export default {
             openUpdate: false,
             updateId: NaN,
             tableselected: [],
-             //页面初始化默认状态
+            //页面初始化默认状态
             state: '02valid',
             selectDfpslevel: [],
             postDfpslevel: "",
@@ -185,7 +185,7 @@ export default {
                     width: 180,
                     key: "postFname"
                 },
-                
+
                 {
                     title: "职位级别",
                     key: "postDfpslevelName",
@@ -308,11 +308,11 @@ export default {
     },
     computed: {
         btnData () {
-            		return this.$store.state.btnOperate.btnData
-        	},
+            return this.$store.state.btnOperate.btnData
+        },
         FlowNode () {
-            		return this.$store.state.btnOperate.isFlowNode
-        	},	
+            return this.$store.state.btnOperate.isFlowNode
+        },
         pageShow () {
             return this.$store.state.btnOperate.pageShow;
         },
@@ -368,10 +368,12 @@ export default {
         modityChange (res) {
             this.getData();
         },
-        getData (id) {
+        getData (id,page) {
             const t = this;
             this.loading = true;
-            this.page = 1;
+             if (page == undefined) {
+                this.page = 1;
+            }
             const data = {
                 _mt: "orgPost.getPage",
                 rows: t.rows,
@@ -426,7 +428,7 @@ export default {
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData(this.treeid);
+            t.getData(this.treeid,t.page);
         },
         selectedtable (selection) {
             const newArr = [];
@@ -478,12 +480,11 @@ export default {
             t.openUpdate = true;
             t.index = index;
             // t.$refs.update.getSelect()
-             t.$refs.update.disabled = false;
+            t.$refs.update.disabled = false;
             if (logType === this.$t("button.upd") || logType === "查看") {
                 t.$refs.update.getData(id);
             }
             if (logType === "查看") {
-                t.$refs.update.formValidate.unitSysalig = "1";
                 t.$refs.update.disabled = true;
             }
         },

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="table">
         <Row>
             <Col span="24">
@@ -89,9 +89,10 @@
         <!--布置主子表页面 visaare变量为特殊参数 一般不传  其他无需变更-->
         <transition name="fade">
             <update v-show="openUpdate"
-                    :id="updateId"
+                    :Id="updateId"
                     :logType="logType"
                     :index="index"
+                    :modity="modity"
                     @closeUp="closeUp"
                     @getData="addNewArray"
                     @update="updateArray"

@@ -23,6 +23,7 @@ import HRmanageDiagnosis from './HRmanageDiagnosis'
 import laborEvaluation from './laborEvaluation'
 import talentAssessManage from './talentAssessManage'
 import evaluationManage from './evaluationManage'
+import recruit from './recruit'
 Vue.use(Router)
 
 export default new Router({
@@ -58,6 +59,7 @@ export default new Router({
         ...laborEvaluation,
         ...talentAssessManage,
         ...evaluationManage,
+        ...recruit,
       ]
     },
     ...emp,

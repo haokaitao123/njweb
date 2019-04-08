@@ -75,31 +75,36 @@ export default {
       let result = this.modityList.some(function (item, index, array) {
         return item.funIsdefault == "1";
       })
-      if (result) {
-        for (let v of t.modityList) {
-          if (v.funIsdefault == "1") {
-            t.statusDis = v.funName;
-            t.status = v.funStatecode;
-            this.$store.commit('btnOperate/setModity', t.status)
+      console.log(t.FlowNode, "isFlowNode")
+      if (t.FlowNode == 1) {
+        if (result) {
+          for (let v of t.modityList) {
+            if (v.funIsdefault == "1") {
+              t.statusDis = v.funName;
+              t.status = v.funStatecode;
+              this.$store.commit('btnOperate/setModity', t.status)
+            }
+            v.funBtnList.sort(this.compare('btnOrder'));
+            for (let k of v.funBtnList) {
+              k.modityType = v.funStatecode
+            }
+            t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
           }
-          v.funBtnList.sort(this.compare('btnOrder'));
-          for (let k of v.funBtnList) {
-            k.modityType = v.funStatecode
-          }
-          t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
-        }
-      } else {
-        t.statusDis = t.modityList[0].funName;
-        t.status = t.modityList[0].funStatecode;
-        this.$store.commit('btnOperate/setModity', t.status);
-        for (let v of t.modityList) {
-          v.funBtnList.sort(this.compare('btnOrder'));
-          for (let k of v.funBtnList) {
-            k.modityType = v.funStatecode
-          }
-          t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
+        } else {
+          t.statusDis = t.modityList[0].funName;
+          t.status = t.modityList[0].funStatecode;
+          this.$store.commit('btnOperate/setModity', t.status);
+          for (let v of t.modityList) {
+            v.funBtnList.sort(this.compare('btnOrder'));
+            for (let k of v.funBtnList) {
+              k.modityType = v.funStatecode
+            }
+            t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
+          };
         };
-      };
+      } else if (t.FlowNode == 0) {
+        t.newBtnList = t.modityList[0].funBtnList.sort(this.compare('btnOrder'));
+      }
     },
     /**
      *过滤页面表格列按钮
@@ -347,10 +352,12 @@ export default {
   render: function (createElement) {
     const t = this;
     let nodes = [];
+    let searchBtn = [];
     //如果有选择下拉框
     if (this.isFlowNode == "0") {
       let child = [];
-      for (let v of this.modityList[0].funBtnList) {
+      let data = t.newBtnList
+      for (let v of data) {
         let res = t.btnType(v.btnLancode);
         child.push(createElement('normalBtn', {
           props: {
@@ -369,7 +376,7 @@ export default {
     } else if (this.isFlowNode == "1") {
       let moditySelect = [];
       let child = [];
-      let searchBtn = [];
+
       let data = t.newBtnList
       for (let v of data) {
         let res = t.btnType(v.btnLancode);
@@ -402,19 +409,20 @@ export default {
           }
         }
       }))
-      searchBtn.push(createElement('search', {
-        props: {},
-        on: {
-          'Search': () => {
-            t.$emit('buttonSearch')
-          }
-        }
-      }))
+
       nodes.unshift(moditySelect);
-      nodes.unshift(searchBtn);
+
       this.$store.commit('btnOperate/setPageOperate', t.operate);
     }
-
+    searchBtn.push(createElement('search', {
+      props: {},
+      on: {
+        'Search': () => {
+          t.$emit('buttonSearch')
+        }
+      }
+    }))
+    nodes.unshift(searchBtn);
     return createElement('div', {
         ref: 'btnList',
         'style': {

@@ -8,6 +8,8 @@
         icon="primary"
         @click="showMsgBtn(NaN, $t('新增'))"
       >新增</Button>
+      <Button type="primary" icon="primary" @click="expData">导出</Button>
+      <Button type="primary" icon="primary" @click="importExcel">导入</Button>
       <Button type="error" icon="primary" @click="deletemsg">删除</Button>
     </row>
     <row class="table-form" ref="table-form">
@@ -44,6 +46,7 @@
       ></Button>
     </Row>
     <!--mainid为主表id-->
+    <transition>
     <contentMsg
       v-show="showMsg"
       @hideMsg="hideMsg"
@@ -53,10 +56,45 @@
       @newdata="addNewArray"
       @update="updateArray"
     ></contentMsg>
+     </transition>
+      <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
+    </transition>
   </div>
 </template>
 <script>
 import contentMsg from "./updVisaAreaDocs";
+import expwindow from "../../../../components/fileOperations/expSms";
+import expdow from "../../../../components/fileOperations/expdow";
+import importExcel from "../../../../components/importModel/importParam";
 import {
   getDataLevelUserLogin,
   getDataLevelUserLoginNew
@@ -66,6 +104,30 @@ import { isSuccess, deepCopy } from "../../../../lib/util";
 export default {
   data() {
     return {
+      // 导入的mt名称
+      imp_mt: "empWorkExp.importData",
+      // 导出字段设置, code字段名 name列名
+      expDataTital: [
+        { code: "weSdate", name: "开始时间" },
+        { code: "weEdate", name: "结束时间" },
+        { code: "weComp", name: "工作单位" },
+        { code: "weDept", name: "工作部门" },
+        { code: "wePost", name: "工作职务" },
+        { code: "wePerforman", name: "主要业绩" },
+        { code: " weContact", name: "证明人" },
+        { code: "wePhone", name: "联系电话" },
+        { code: "weSalary", name: "薪资" },
+        { code: "weLevrason", name: "离职原因" },
+        { code: "note", name: "备注" }
+      ],
+      // 导入导出默认参数 无需变更
+      openImport: false,
+      openExpDow: false,
+      openExp: false,
+      filekey: "",
+      filename: "",
+
+
       total: NaN,
       logType: "",
       showMsg: false,
@@ -78,25 +140,46 @@ export default {
           align: "center"
         },
         {
-          title: "工作单位",
-          key: "weComp",
-          //            width: 150,
+          title: "开始时间",
+          key: "weSdate",
+                     width: 150,
           sortable: "custom"
         },
         {
-          title: "工作部门",
-          key: "weDept"
-          //            width: 150,
-        },
-        {
-          title: "开始时间",
-          key: "weSdate"
-          //            width: 150,
-        },
-        {
           title: "结束时间",
-          key: "weEdate"
-          //            width: 150,
+          key: "weEdate",
+                     width: 150,
+                      sortable: "custom"
+        },
+        {
+          title: "工作单位",
+          key: "weComp",
+                     width: 150,
+        },
+        {
+          title: "工作部门",
+          key: "weDept",
+                     width: 150,
+        },
+        {
+          title: "工作职务",
+          key: "wePost",
+                     width: 150,
+        },
+        {
+          title: "主要业绩",
+          key: "wePerforman",
+                     width: 150,
+        },
+        {
+          title: "联系电话",
+          key: "weContact",
+                     width: 150,
+        },
+        {
+          title: "薪资",
+          key: "weSalary",
+                     width: 150,
         },
         {
           title: "操作",
@@ -156,16 +239,8 @@ export default {
   },
   mounted() {},
   methods: {
-    //      get(id) {
-    //        this.params.visaAreaId = id + ''
-    //        this.params.logType = '查询List信息'
-    //        this.getData()
-    //      },
+    
     search() {
-      // this.params.page = 1;
-      //        设置主表id
-
-      // this.params.visaAreaId = this.mainId + "";
       this.params.pkId = this.mainId + "";
       this.getData();
     },
@@ -279,6 +354,49 @@ export default {
     },
     hideMsg() {
       this.showMsg = false;
+    },
+    // 导入导出默认方法 无需更改
+    closeImport() {
+      const t = this;
+      t.openImport = false;
+    },
+
+    // 导入导出默认方法 无需更改
+    importExcel() {
+      const t = this;
+      t.openImport = true;
+      t.$refs.importExcel.getDowModelFile();
+    },
+    // 导入导出默认方法
+    expData() {
+      const t = this;
+      // 填装查询条件
+      const data = {
+        bankCode: t.bankCode,
+        bankCname: t.bankCname,
+        bankSwiftcode: t.bankSwiftcode
+      };
+      // 设置导出mt参数
+      this.$refs.expwindow.getData(this.expDataTital, "empWorkExp.export", data);
+      this.openExp = true;
+    },
+    // 导入导出默认方法 无需更改
+    closeExp() {
+      const t = this;
+      t.openExp = false;
+    },
+    // 导入导出默认方法 无需更改
+    closeExpDowMain() {
+      const t = this;
+      t.openExpDow = false;
+    },
+    // 导入导出默认方法 无需更改
+    setFileKey(filekey, filename, openExpDow) {
+      const t = this;
+      t.filekey = filekey;
+      t.filename = filename;
+      t.openExpDow = openExpDow;
+      t.$refs.expdow.getPriToken(t.filekey);
     }
   }
 };
