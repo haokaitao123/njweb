@@ -28,7 +28,8 @@
                                v-model="unitFname" />
                         <Select v-model="unitType"
                                 style="width: 200px"
-                                placeholder="请选择组织类别">
+                                placeholder="请选择组织类别"
+                                clearable>
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in unitTypeData"
                                     :key="index"
@@ -486,9 +487,12 @@ export default {
         closeChart () {
             this.openChart = false;
         }, //关闭组织架构图
-        getData (id) {
+        getData (id, page) {
             const t = this;
-            this.page = 1;
+            if (page == undefined) {
+                this.page = 1;
+            }
+
             const data = {
                 _mt: "orgUnits.getByOrgFramePageList",
                 rows: t.rows,
@@ -612,7 +616,7 @@ export default {
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData(this.treeid);
+            t.getData(this.treeid, t.page);
         }, //分页
         selectedtable (selection) {
 
@@ -666,8 +670,6 @@ export default {
             t.logType = logType;
             t.openUpdate = true;
             t.index = index;
-            console.log(t.index, "index");
-            console.log(t.updateId, "updateId");
             // t.$refs.update.getSelect();
             t.$refs.update.formValidate.unitSysalig = "1";
             t.$refs.update.formValidate.unitOprecord = "";
@@ -675,6 +677,7 @@ export default {
             t.$refs.update.getSelect("orgunittype");
             t.$refs.update.getSelect("unitIndustry");
             t.$refs.update.getSelect("unitPartfunct");
+
             if (logType === this.$t("button.upd") || logType === "查看") {
                 t.$refs.update.getData(id);
             }
@@ -834,11 +837,11 @@ export default {
                 .then(res => {
                     if (isSuccess(res, t)) {
                         t.unitTypeData = res.data.content[0].value[0].paramList;
-                        let obj = {
-                            paramCode: "",
-                            paramInfoCn: "全部"
-                        };
-                        t.unitTypeData.unshift(obj);
+                        // let obj = {
+                        //     paramCode: "",
+                        //     paramInfoCn: "请选择"
+                        // };
+                        // t.unitTypeData.unshift(obj);
                     }
                 })
                 .catch(() => {
