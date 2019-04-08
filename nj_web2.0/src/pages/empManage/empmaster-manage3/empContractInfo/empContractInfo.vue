@@ -1,7 +1,7 @@
 <template>
   <div class="content-main">
     <row>
-      <Input v-model="docsName" style="width: 160px;" placeholder="请输入员工名称"></Input>
+      <Input v-model="docsName" style="width: 160px;" placeholder="请输入合同编号"></Input>
       <Button type="primary" icon="search" @click="search">查询</Button>
       <Button type="primary" icon="primary" @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
       <Button type="primary" icon="primary" @click="expData">导出</Button>
@@ -87,7 +87,7 @@
   </div>
 </template>
 <script>
-import contentMsg from "./updVisaAreaDocs";
+import contentMsg from "./addEmpContractInfo";
 import expwindow from "../../../../components/fileOperations/expSms";
 import expdow from "../../../../components/fileOperations/expdow";
 import importExcel from "../../../../components/importModel/importParam";
@@ -101,18 +101,22 @@ export default {
   data() {
     return {
       // 导入的mt名称
-      imp_mt: "empEducation.importData",
+      imp_mt: "empContractInfo.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "edEducationlevel", name: "教育程度" },
-        { code: "edIshighest", name: "是否最高学位" },
-        { code: "edCuntryDis", name: "国家" },
-        { code: "edSchool", name: "学校" },
-        { code: "edDegree", name: "学位" },
-        { code: "edSpecialty", name: "专业" },
-        { code: " edSdate", name: "开始时间" },
-        { code: "edEdate", name: "结束时间" },
-        { code: "note", name: "备注" }
+        { code: "contTypeDis", name: "合同类别" },
+        { code: "contPeriodDis", name: "合同期限" },
+        { code: "conSdate", name: "合同开始日" },
+        { code: "conEdate", name: "合同结束日" },
+        // 保密协议
+        // { code: "conEdate", name: "合同结束日" },
+        // 竞业协议
+        // { code: "conEdate", name: "合同结束日" },
+        // 合同工作时间
+        // { code: "conEdate", name: "合同结束日" },
+        { code: "contSigndate", name: "签署日期" },
+        { code: "contProbatDis", name: "试用期限" },
+        { code: "contProbatdt", name: "试用到期时间" }
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -124,7 +128,8 @@ export default {
       total: NaN,
       logType: "",
       showMsg: false,
-
+      rows: 10,
+      page: 1,
       columns: [
         {
           type: "selection",
@@ -132,61 +137,48 @@ export default {
           align: "center"
         },
         {
-          title: "教育程度",
-          key: "edEducationlevel",
+          title: "合同类别",
+          key: "contTypeDis",
           width: 150,
-          align: "center",
           sortable: "custom"
         },
         {
-          title: "是否最高学位",
-          key: "edIshighestDis",
+          title: "合同期限",
+          key: "contPeriodDis",
           width: 150,
-          align: "center",
           sortable: "custom"
         },
         {
-          title: "国家",
-          key: "edCuntryDis",
+          title: "合同开始日",
+          key: "contSdate",
           width: 150,
-          align: "center",
           sortable: "custom"
         },
         {
-          title: "学校",
-          key: "edSchool",
+          title: "合同结束日",
+          key: "contEdate",
           width: 150,
-          align: "center",
           sortable: "custom"
         },
         {
-          title: "学位",
-          key: "edDegree",
+          title: "签署日期",
+          key: "contSigndate",
           width: 150,
-          align: "center",
           sortable: "custom"
         },
         {
-          title: "专业",
-          key: "edSpecialty",
+          title: "试用期限",
+          key: "contProbatDis",
           width: 150,
-          align: "center",
           sortable: "custom"
         },
         {
-          title: "开始时间",
-          key: "edSdate",
+          title: "试用到期时间",
+          key: "contProbatdt",
           width: 150,
-          align: "center",
           sortable: "custom"
         },
-        {
-          title: "结束时间",
-          key: "edEdate",
-          width: 150,
-          align: "center",
-          sortable: "custom"
-        },
+
         {
           title: "操作",
           key: "action",
@@ -221,7 +213,7 @@ export default {
       data: [],
       docsName: "",
       params: {
-        _mt: "empEducation.getPage",
+        _mt: "empContractInfo.getPage",
         funId: "1",
         rows: 10,
         page: 1,
@@ -248,7 +240,7 @@ export default {
   },
   mounted() {},
   methods: {
-   
+
     search() {
       this.params.pkId = this.mainId + "";
       this.getData();
@@ -332,6 +324,14 @@ export default {
         });
       }
     },
+    addNewArray(res) {
+      const t = this;
+      t.data.unshift(res);
+    },
+    updateArray(res) {
+      const t = this;
+      t.data.splice(t.index, 1, res);
+    },
     sizeChange(size) {
       const t = this;
       t.params.rows = size;
@@ -347,14 +347,7 @@ export default {
         t.$refs.contentMsg.setRowId(id);
       }
     },
-    addNewArray(res) {
-      const t = this;
-      t.data.unshift(res);
-    },
-    updateArray(res) {
-      const t = this;
-      t.data.splice(t.index, 1, res);
-    },
+
     clear() {
       const t = this;
       t.docsName = "";
@@ -388,7 +381,7 @@ export default {
       // 设置导出mt参数
       this.$refs.expwindow.getData(
         this.expDataTital,
-        "empEducation.export",
+        "empContractInfo.export",
         data
       );
       this.openExp = true;

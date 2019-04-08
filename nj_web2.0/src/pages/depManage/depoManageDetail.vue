@@ -5,24 +5,17 @@
         <card>
           <!-- 标题 -->
           <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;押金信息管理
+            <Icon type="mouse"></Icon>&nbsp;简历数量管理
           </p>
           <!-- 操作按钮和查询输入框 -->
             <!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
 					<Row>
-							<Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
-              <span @dblclick="clearPost()">
-                    <Input v-model="postName"
-                      style="width: 200px"
-                      icon="search"
-                      :readonly="true"
-                      placeholder="请选择岗位名称"
-                      @on-click="pickData" />
-              </span>
+							<!-- <Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
+              	<Input v-model="postName" placeholder="请输入岗位名称" style="width: 200px"></Input> -->
             <!-- 查询按钮 @click后绑定的是一个点击事件 -->
-            <span style="margin: 0;">
+            <!-- <span style="margin: 0;">
               <Button type="primary" icon="search" @click="getData(1)">查询</Button>
-            </span>
+            </span> -->
             <!-- 页面操作按钮 -->
             <!-- @click="openUp(NaN,'新增')" openUp(NaN,'新增')是页面新增事件 -->
             <Button type="primary" @click="openUp(NaN,'新增')">新增</Button>
@@ -119,26 +112,39 @@
         ref="importExcel"
       ></importExcel>
     </transition>
-		<transition name="fade">
-      <searchTable v-show="openPick"
-        :searchPostClo="searchCloumns"
-        :params="params"
-         @inputPost="inputPost"
-         @closePost="closeTable"
-         @changeinput="changeinput"
-         ref="searchTable"></searchTable>
-    </transition>
+		<!--  导入弹出框 :impid="updateId" 传id :imp_mt="imp_mt" 绑定的导入接口路径 @getData="getData" 获取列表 @closeImport="closeImport" 关闭导入弹窗事件-->
+      
+    <!-- <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
+    </transition> -->
+    <!--导出的弹框-->
+    <!-- <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition> -->
   </div>
 </template>
 <script>
-import update from "./addNewDepManage"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
+import update from "./addNewDepoManageDetail"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
 import { isSuccess } from "../../lib/util.js"; //调用请求判断成功的公共方法
 import {
   getDataLevelUserLoginNew,
   getDataLevelUserLogin
 } from "../../axios/axios.js"; //调用请求接口封装的公共方法
 
-import searchTable from '../../components/searchTable/searchPost'
+import searchEmpMaster from "../../components/searchTable/searchEmpnhMaster"; //引入员工信息页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
 //导入导出页面 无需变更
   import expwindow from '../../components/fileOperations/expSms'
   import expdow from '../../components/fileOperations/expdow'
@@ -179,31 +185,25 @@ export default {
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
         },
         {
-          title: "员工名称",
-          key: "empName",
+          title: "类型",
+          key: "depoType",
           sortable: "custom",
           width: 220
         },
         {
-          title: "部门名称",
-          key: "deptIdName",
+          title: "操作时间",
+          key: "depoHandle",
           sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
-          title: "岗位名称",
-          key: "postName",
+          title: "变动原因",
+          key: "depoReason",
           sortable: "custom",
           width: 220
         },
         {
-          title: "证件号码",
-          key: "empnhIdno",
-          sortable: "custom",
-          width: 220
-        },
-        {
-          title: "总金额",
+          title: "金额",
           key: "moneyNum",
           sortable: "custom",
           width: 220
@@ -245,30 +245,9 @@ export default {
       rows: 10, //每页显示条数
       page: 1, //当前页码
       funId: "1000", //功能ID
-      empName: "", //绑定页面输入框的员工名称
-      postName: "", //绑定页面岗位选择的名称
-      openPick: false,
-      searchCloumns: [
-                {
-                  title: this.$t('lang_employee.searchColumn.postCode'),
-                  key: 'postCode',
-                  sortable: 'custom',
-                },
-                {
-                    title: this.$t('lang_employee.searchColumn.postFnameCnDis'),
-                    key: 'postFname',
-                    sortable: 'custom',
-                }
-            ],
-            params: {
-                _mt: 'orgPost.getPage',
-                rows: '10',
-                page: '1',
-                sort: 'id',
-                order: 'desc',
-                logType: '岗位',
-            },
-     };
+      // empName: "", //绑定页面输入框的员工名称
+      // postName: "" //绑定页面岗位选择的名称
+    };
   },
   //外部调用的组件注册到这里
   components: {
@@ -277,8 +256,7 @@ export default {
 		//importExcel //导入的组件
 		expwindow,
       expdow,
-      searchTable,
-      importExcel
+      importExcel,
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
@@ -294,14 +272,14 @@ export default {
 			}
       //请求列表数据的参数
       const data = {
-        _mt: "depManage.getPage", //接口路径
+        _mt: "depoManageDetail.getPage", //接口路径
         rows: t.rows, //每页显示条数
         page: t.page, //当前页
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
-				empName: t.empName, //员工名称
-        postId: t.postId, //岗位名称
+				// empName: t.empName, //员工名称
+        // postName: t.postName //岗位名称
 			};
       //删除请求列表数据的参数为空的参数
       for (const dat in data) {
@@ -425,7 +403,7 @@ export default {
           onOk: () => {
             //点击确定删除调取删除接口
             getDataLevelUserLogin({
-              _mt: "depManage.delByIds",
+              _mt: "depoManageDetail.delByIds",
               funId: "1",
               logType: "删除",
               ids: t.tableselected.toString()
@@ -465,42 +443,12 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
-      t.$refs.update.deptIdName = "";
-      t.$refs.update.empName = "";
-      t.$refs.update.postName = "";
-      t.$refs.update.empnhIdno = "";
+      t.$refs.update.formValidate.depoReason = "";
+      t.$refs.update.formValidate.depoHandle = "";
+      t.$refs.update.formValidate.depoType = "";
       t.$refs.update.formValidate.moneyNum = "";
       t.$refs.update.formValidate.note = "";
     }, //关闭窗口
-     //清除岗位选择框数据
-        clearPost () {
-            const t = this;
-            t.postName = ""
-            t.postId = ""
-        },
-        //打开岗位选择弹出框
-        pickData () {
-            const t = this
-            t.$refs.searchTable.getData(t.params)
-            t.openPick = true
-        },
-        //
-        inputPost (name, id, postName, postId) {
-            const t = this
-            t.postId = id
-            t.postName = name
-        },
-        //关闭岗位弹出框
-        closeTable () {
-            const t = this
-            t.openPick = false
-        },
-        //选择岗位
-        changeinput (name, id) {
-            const t = this
-            t.postName = name
-            t.postId = id
-        },
   }
 };
 </script>
