@@ -120,7 +120,6 @@ export default {
         }
       }
       this.newBtnList = newArr;
-      console.log(this.operate, "this.operate")
       this.$store.commit('btnOperate/setPageOperate', this.operate)
     },
     /**
@@ -152,7 +151,6 @@ export default {
       } else {
         this.$store.commit('btnOperate/setPageShow', "");
       }
-      console.log(temp, "temp")
     },
     /**
      *  去重方法
