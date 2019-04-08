@@ -158,7 +158,52 @@ export default {
             // this.content3 = false;
             // this.id = NaN;
             // this.active = "option";
-        }
+        },
+        closeUp () {
+            const t = this;
+            t.option = false;
+            t.$refs.option.form.numberCode = "XXXXXX";
+            t.$refs.option.form.empnhName = "";
+            t.$refs.option.form.empnhPtname = "";
+            t.$refs.option.form.empnhNation = "";
+            t.$refs.update.form.deptId = "";
+            t.$refs.update.form.postId = "";
+            t.$refs.update.form.empnhPmp = "";
+            t.$refs.update.deptIdDis = "";
+            t.$refs.update.postIdDis = "";
+            t.$refs.update.empnhPmpDis = "";
+            t.$refs.update.form.empnhIdtype = "";
+            t.$refs.update.form.empnhIdno = "";
+            t.$refs.update.form.empnhSday = "";
+            t.$refs.update.form.empnhEday = "";
+            t.$refs.update.form.empnhGender = "";
+            t.$refs.update.form.empnhBirthdate = "";
+            t.$refs.update.form.empnhMobile = "";
+            t.$refs.update.form.empnhResiaddr = "";
+            t.$refs.update.form.empnhRegtype = "";
+            t.$refs.update.form.empnhRegaddr = "";
+            t.$refs.update.form.empnhPersmail = "";
+            t.$refs.update.form.empnhCompmail = "";
+            t.$refs.update.form.empnhQq = "";
+            t.$refs.update.form.empnhWechat = "";
+            t.$refs.update.form.empnhWklocat = "";
+            t.$refs.update.empnhWklocatDis = "";
+            t.$refs.update.form.empnhEntrydate = "";
+            t.$refs.update.form.empnhIrmentdate = "";
+            t.$refs.update.form.empnhSalbank = "";
+            t.$refs.update.empnhSalbankDis = "";
+            t.$refs.update.form.empnhSalaccount = "";
+            t.$refs.update.form.empnhSalaccname = "";
+            t.$refs.update.form.empnhMarriage = "";
+            t.$refs.update.form.empnhPolitical = "";
+            t.$refs.update.form.empnhFirstwkdate = "";
+            t.$refs.update.form.empnhTechtil = "";
+            t.$refs.update.form.empnhTechspec = "";
+            t.$refs.update.form.empnhTechdate = "";
+            t.$refs.update.form.empnhAttendyn = "";
+            t.$refs.update.form.note = "";
+        }, //关闭窗口
+
     }
 };
 </script>
