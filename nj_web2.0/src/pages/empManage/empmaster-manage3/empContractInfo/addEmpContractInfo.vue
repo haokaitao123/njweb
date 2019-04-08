@@ -184,7 +184,7 @@ export default {
       ],
       // yesOrNo: [],
       form: {
-        _mt:"empContractinfo.addOrUpd",
+        _mt:"empContractInfo.addOrUpd",
         contTypeDis:"",
         contPeriodDis:"",
         conSdate:"",
@@ -236,7 +236,7 @@ export default {
     getData() {
       const t = this;
       const params = {
-        _mt: "empContractinfo.getById",
+        _mt: "empContractInfo.getById",
         id: t.rowId,
         funId: "1",
         logType: "根据id查询信息"
@@ -276,7 +276,7 @@ export default {
             } else {
               t.form.contProbatDis = "";
             }
-            
+
             if (res.data.content[0].contProbatdt) {
               t.form.contProbatdt = res.data.content[0].contProbatdt;
             } else {
@@ -294,7 +294,7 @@ export default {
     save() {
       const t = this;
       const data = deepCopy(t.form);
-      // data._mt = "empContractinfo.addOrUpd";
+      // data._mt = "empContractInfo.addOrUpd";
       data.logType = t.logType;
       data.id = t.rowId;
       data.visaAreaId = t.mainId; // 放入主表id

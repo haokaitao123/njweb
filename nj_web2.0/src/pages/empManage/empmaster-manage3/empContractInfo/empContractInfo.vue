@@ -87,7 +87,7 @@
   </div>
 </template>
 <script>
-import contentMsg from "./addEmpContractinfo";
+import contentMsg from "./addEmpContractInfo";
 import expwindow from "../../../../components/fileOperations/expSms";
 import expdow from "../../../../components/fileOperations/expdow";
 import importExcel from "../../../../components/importModel/importParam";
@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       // 导入的mt名称
-      imp_mt: "empContractinfo.importData",
+      imp_mt: "empContractInfo.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
         { code: "contTypeDis", name: "合同类别" },
@@ -213,7 +213,7 @@ export default {
       data: [],
       docsName: "",
       params: {
-        _mt: "empContractinfo.getPage",
+        _mt: "empContractInfo.getPage",
         funId: "1",
         rows: 10,
         page: 1,
@@ -381,7 +381,7 @@ export default {
       // 设置导出mt参数
       this.$refs.expwindow.getData(
         this.expDataTital,
-        "empContractinfo.export",
+        "empContractInfo.export",
         data
       );
       this.openExp = true;
