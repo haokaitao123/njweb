@@ -8,6 +8,7 @@ import emp_flow_contract from  './flow_contract'
 import visa_abroad from  './visa_abroad'
 import visa_passport from './visa_passport'
 import visa_return from './visa_return'
+import emp_empdim from './emp_empdim.js'
 
 export const onChange = {
   emp_flow_dimission: emp_flow_dimission,
@@ -17,5 +18,6 @@ export const onChange = {
   visa_abroad: visa_abroad,
   visa_passport: visa_passport,
   visa_return: visa_return,
+  emp_empdim: emp_empdim,
 }
 
