@@ -5,8 +5,9 @@
                   label-position="right"
                   ref="form"
                   :label-width="150"
-                  id="empForm">
-                <!-- :rules="ruleValidate" -->
+                  id="empForm"
+                  :rules="ruleValidate">
+
                 <i-col span="11">
                     <FormItem label="唯一编号"
                               prop="numberCode">
@@ -457,6 +458,7 @@ import {
     uploadFile
 } from "../../../../axios/axios";
 import { isSuccess, deepCopy } from "../../../../lib/util";
+import valid from '../../../../lib/pub_valid'
 import searchCity from "../../../../components/searchTable/searchCity";
 import searchDept from '../../../../components/searchTable/searchDept'
 import searchPost from '../../../../components/searchTable/searchPost';
@@ -464,6 +466,33 @@ import searchEmpMaster from '../../../../components/searchTable/searchEmpnhMaste
 import searchBank from "../../../../components/searchTable/searchBank";
 export default {
     data () {
+        const idnocheck = (rule, value, idcheck) => {
+            if (this.form.empnhIdtype === '01id') {
+                if (valid.val_IdCard(value)) {
+                    return idcheck()
+                }
+                return idcheck(new Error(rule.message))
+            }
+            return idcheck()
+        }
+        const phonecheck = (rule, value, calphonecheck) => {
+            if (valid.val_mobile(value)) {
+                return calphonecheck()
+            }
+            return calphonecheck(new Error(rule.message))
+        }
+        const mailcheck = (rule, value, mailphonecheck) => {
+            if (valid.val_mail2(value)) {
+                return mailphonecheck()
+            }
+            return mailphonecheck(new Error(rule.message))
+        }
+        const numberCheck = (rule, value, numberValCheck) => {
+            if (valid.val_number103(value)) {
+                return numberValCheck()
+            }
+            return numberValCheck(new Error(rule.message))
+        }
         return {
             disabled: false,
             unitCityName: '',
@@ -663,20 +692,51 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                empnhBirthdate: [
+                deptId: [
                     {
                         required: true,
-                        type: "date",
-                        message: "请选择出生日期",
-                        trigger: "change"
+                        message: "请选择部门",
+                        trigger: "blur"
                     }
                 ],
+                postId: [
+                    {
+                        required: true,
+                        message: "请选择岗位",
+                        trigger: "blur"
+                    }
+                ],
+                empnhPmp: [
+                    {
+                        required: true,
+                        message: "请选择上级",
+                        trigger: "blur"
+                    }
+                ],
+                empnhIdtype: [
+                    {
+                        required: true,
+                        message: "请选择证件类型",
+                        trigger: "blur"
+                    }
+                ],
+
                 empnhIdno: [
                     {
                         required: true,
                         message: "请输入证件号码",
                         trigger: "blur"
-                    }
+                    },
+                    {
+                        validator: idnocheck,
+                        message: '请填写正确的证件号码',
+                        trigger: 'change'
+                    },
+                    {
+                        validator: numberCheck,
+                        message: '请输入正确的数字格式',
+                        trigger: 'blur'
+                    },
                 ],
                 empnhSday: [
                     {
@@ -694,12 +754,37 @@ export default {
                         trigger: "change"
                     }
                 ],
+                empnhGender: [
+                    {
+                        required: true,
+                        message: "请选择性别",
+                        trigger: "change"
+                    }
+                ],
+                empnhBirthdate: [
+                    {
+                        required: true,
+                        type: "date",
+                        message: "请选择出生日期",
+                        trigger: "change"
+                    }
+                ],
                 empnhMobile: [
                     {
                         required: true,
                         message: "请输入手机号码",
                         trigger: "blur"
-                    }
+                    },
+                    {
+                        validator: phonecheck,
+                        message: '请填写正确的手机号',
+                        trigger: 'change'
+                    },
+                    {
+                        validator: numberCheck,
+                        message: '请输入正确的数字格式',
+                        trigger: 'blur'
+                    },
                 ],
                 empnhResiaddr: [
                     {
@@ -708,7 +793,35 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                empnhEntrempnhEntrydateydate: [
+                empnhRegaddr: [
+                    {
+                        required: true,
+                        message: "请输入户籍地址",
+                        trigger: "blur"
+                    }
+                ],
+                empnhRegtype: [
+                    {
+                        required: true,
+                        message: "请选择户籍性质",
+                        trigger: "biur"
+                    }
+                ],
+                empnhCompmail: [
+                    {
+                        validator: mailcheck,
+                        message: "请填写正确的邮箱",
+                        trigger: "change"
+                    }
+                ],
+                empnhWklocat: [
+                    {
+                        required: true,
+                        message: "选择工作地点",
+                        trigger: "change"
+                    }
+                ],
+                empnhEntrydate: [
                     {
                         required: true,
                         type: "date",
@@ -724,13 +837,24 @@ export default {
                         trigger: "change"
                     }
                 ],
-
+                empnhSalbank: [
+                    {
+                        required: true,
+                        message: "请选择开户银行",
+                        trigger: "change"
+                    }
+                ],
                 empnhSalaccount: [
                     {
                         required: true,
                         message: "请输入银行账号",
                         trigger: "blur"
-                    }
+                    },
+                    {
+                        validator: numberCheck,
+                        message: '请输入正确的数字格式',
+                        trigger: 'blur'
+                    },
                 ],
                 empnhSalaccname: [
                     {
@@ -747,103 +871,13 @@ export default {
                         trigger: "change"
                     }
                 ],
-                empnhTechdate: [
-                    {
-                        required: true,
-                        type: "date",
-                        message: "请选择职称取得时间",
-                        trigger: "change"
-                    }
-                ],
-                empnhRegtypeDis: [
-                    {
-                        required: true,
-                        message: "选择户籍性质",
-                        trigger: "change"
-                    }
-                ],
-                empnhSalbankDis: [
-                    {
-                        required: true,
-                        message: "选择开户银行",
-                        trigger: "change"
-                    }
-                ],
-                empnhCostcentDis: [
-                    {
-                        required: true,
-                        message: "选择成本中心",
-                        trigger: "change"
-                    }
-                ],
-                empnhGenderDis: [
-                    {
-                        required: true,
-                        message: "选择性别",
-                        trigger: "change"
-                    }
-                ],
-                empnhNationDis: [
-                    {
-                        required: true,
-                        message: "选择民族",
-                        trigger: "change"
-                    }
-                ],
-                deptIdDis: [
-                    {
-                        required: true,
-                        message: "选择部门名称",
-                        trigger: "change"
-                    }
-                ],
-
-
-                postIdDis: [
-                    {
-                        required: true,
-                        message: "选择岗位名称",
-                        trigger: "change"
-                    }
-                ],
-                empnhPmpDis: [
-                    {
-                        required: true,
-                        message: "选择直接上级",
-                        trigger: "change"
-                    }
-                ],
-                empnhIdtypeDis: [
-                    {
-                        required: true,
-                        message: "选择证件类型",
-                        trigger: "change"
-                    }
-                ],
-                empnhRegaddrDis: [
-                    {
-                        required: true,
-                        message: "选择户籍地址",
-                        trigger: "change"
-                    }
-                ],
-                empnhAttendynDis: [
+                empnhAttendyn: [
                     {
                         required: true,
                         message: "请选择考勤",
                         trigger: "change"
                     }
                 ],
-                empnhWklocatDis: [
-                    {
-                        required: true,
-                        message: "选择工作地点",
-                        trigger: "change"
-                    }
-                ],
-
-
-
             }
         };
     },
@@ -968,10 +1002,10 @@ export default {
         getIdByType (paramCode, type) {
             this.form[type] = paramCode;
         },
-
         //保存方法
         save () {
             const t = this;
+            console.log(t.form, "empnhNation");
             const data = deepCopy(t.form);
             data.logType = t.logType;
             data.id = t.id;
