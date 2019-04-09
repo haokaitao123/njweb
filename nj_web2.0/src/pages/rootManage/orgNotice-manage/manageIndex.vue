@@ -265,6 +265,10 @@ export default {
       if (page) {
         t.page = page;
       }
+      if (typeof (page) == "undefined") {
+        this.page = 1;
+      }
+
       if (this.order === "normal") {
         this.order = "desc";
       }
@@ -312,7 +316,7 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      t.getData();
+      t.getData(t.page);
     },
     // 已选中数据
     selectedtable(selection) {

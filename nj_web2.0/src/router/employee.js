@@ -7,6 +7,8 @@ import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
 import empMaster from '@/pages/empManage/empmaster-manage3/visaAreaList.vue'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
 import visaAreaList from '@/pages/empManage/visaArea-manage/visaAreaList'
+import empDepminManage from '@/pages/empManage/empDepmin/empDepminRule'
+
 // 出国统计看板
 const abordeCountShow = resolve => require(['@/pages/empManage/aborde-count-show/abordeCountShow'], resolve)
 // 逾期未回国查询
@@ -62,5 +64,10 @@ export default [{
     path: 'depManage',
     name: 'depManage',
     component: depManage,
+  },
+  {
+    path: 'empDepminManage',
+    name: 'empDepminManage',
+    component: empDepminManage,
   },
 ]
