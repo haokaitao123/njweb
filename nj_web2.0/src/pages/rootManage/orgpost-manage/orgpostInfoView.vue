@@ -404,7 +404,6 @@ export default {
             {
               required: true,
               type: "date",
-               message: "请选择生效日期",
               validator: compareTime,
               trigger: "change"
             }
