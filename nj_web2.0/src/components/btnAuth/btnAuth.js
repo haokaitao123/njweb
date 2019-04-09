@@ -75,36 +75,31 @@ export default {
       let result = this.modityList.some(function (item, index, array) {
         return item.funIsdefault == "1";
       })
-      console.log(t.FlowNode, "isFlowNode")
-      if (t.FlowNode == 1) {
-        if (result) {
-          for (let v of t.modityList) {
-            if (v.funIsdefault == "1") {
-              t.statusDis = v.funName;
-              t.status = v.funStatecode;
-              this.$store.commit('btnOperate/setModity', t.status)
-            }
-            v.funBtnList.sort(this.compare('btnOrder'));
-            for (let k of v.funBtnList) {
-              k.modityType = v.funStatecode
-            }
-            t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
+      if (result) {
+        for (let v of t.modityList) {
+          if (v.funIsdefault == "1") {
+            t.statusDis = v.funName;
+            t.status = v.funStatecode;
+            this.$store.commit('btnOperate/setModity', t.status)
           }
-        } else {
-          t.statusDis = t.modityList[0].funName;
-          t.status = t.modityList[0].funStatecode;
-          this.$store.commit('btnOperate/setModity', t.status);
-          for (let v of t.modityList) {
-            v.funBtnList.sort(this.compare('btnOrder'));
-            for (let k of v.funBtnList) {
-              k.modityType = v.funStatecode
-            }
-            t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
-          };
+          v.funBtnList.sort(this.compare('btnOrder'));
+          for (let k of v.funBtnList) {
+            k.modityType = v.funStatecode
+          }
+          t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
+        }
+      } else {
+        t.statusDis = t.modityList[0].funName;
+        t.status = t.modityList[0].funStatecode;
+        this.$store.commit('btnOperate/setModity', t.status);
+        for (let v of t.modityList) {
+          v.funBtnList.sort(this.compare('btnOrder'));
+          for (let k of v.funBtnList) {
+            k.modityType = v.funStatecode
+          }
+          t.newBtnList.push.apply(t.newBtnList, v.funBtnList);
         };
-      } else if (t.FlowNode == 0) {
-        t.newBtnList = t.modityList[0].funBtnList.sort(this.compare('btnOrder'));
-      }
+      };
     },
     /**
      *过滤页面表格列按钮
@@ -354,9 +349,9 @@ export default {
     let nodes = [];
     let searchBtn = [];
     //如果有选择下拉框
+    let data = t.newBtnList
     if (this.isFlowNode == "0") {
       let child = [];
-      let data = t.newBtnList
       for (let v of data) {
         let res = t.btnType(v.btnLancode);
         child.push(createElement('normalBtn', {

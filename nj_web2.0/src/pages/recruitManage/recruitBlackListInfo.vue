@@ -27,7 +27,7 @@
                     <FormItem label="求职者姓名"
                               prop="recName">
                         <Input v-model="formValidate.recName"
-                               :disabled=true
+                               :disabled="disabled"
                                placeholder="请输入求职者姓名"></Input>
                     </FormItem>
                     </Col>
@@ -36,7 +36,7 @@
                     <FormItem label="证件号码"
                               prop="recIdenno">
                         <Input v-model="formValidate.recIdenno"
-                               :disabled=true
+                              :disabled="disabled"
                                placeholder="请输入证件号码"></Input>
                     </FormItem>
                     </Col>
@@ -47,7 +47,7 @@
                     <FormItem label="手机号"
                               prop="recPhone">
                         <Input v-model="formValidate.recPhone"
-                               :disabled=true
+                               :disabled="disabled"
                                placeholder="请输入手机号"></Input>
                     </FormItem>
                     </Col>
@@ -58,7 +58,7 @@
                     <FormItem label="原因"
                               prop="recReason">
                         <Input v-model="formValidate.recReason"
-                               :disabled=true
+                               
                                type="textarea"
                                :autosize="{minRows: 2,maxRows: 5}"
                                placeholder="请输入原因"></Input>
@@ -71,7 +71,7 @@
                     <FormItem label="备注"
                               prop="note">
                         <Input v-model="formValidate.note"
-                               :disabled=true
+                               
                                type="textarea"
                                :autosize="{minRows: 2,maxRows: 5}"
                                placeholder="请输入备注"></Input>
@@ -128,7 +128,7 @@ export default {
             openPick: false,
             // 字段校验 编码与FormItem上的prop相符合,通常取字段名.  message: 提示信息  trigger
             ruleValidate: {
-                bankCode: [
+                recName: [
                     { required: true, message: '请输入求职者姓名', trigger: 'blur' },
                 ],
             },
