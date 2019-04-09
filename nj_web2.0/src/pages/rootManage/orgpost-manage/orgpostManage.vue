@@ -45,9 +45,7 @@
               <!--布置分页列表 变量通用 无需变更-->
               <row class="table-form" ref="table-form">
                 <Table
-                  @on-select="selectedtable"
-                  @on-select-cancel="selectedtable"
-                  @on-select-all="selectedtable"
+                  @on-selection-change="selectedtable" 
                   @on-sort-change="sortable"
                   :height="tableheight"
                   size="small"
