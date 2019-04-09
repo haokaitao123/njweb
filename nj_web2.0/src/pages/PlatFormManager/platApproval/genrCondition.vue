@@ -928,7 +928,7 @@
   }
 </script>
 <style lang="scss" scoped>
-  @import "../../../../sass/updateAndAdd";
+  @import "../../../sass/updateAndAdd";
   .operBtn .ivu-row{
     margin-bottom: 20px;
   }
