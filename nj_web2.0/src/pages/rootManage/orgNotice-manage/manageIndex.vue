@@ -268,7 +268,6 @@ export default {
       if (typeof (page) == "undefined") {
         this.page = 1;
       }
-
       if (this.order === "normal") {
         this.order = "desc";
       }
@@ -371,14 +370,12 @@ export default {
             getDataLevelUserLogin(data)
               .then(res => {
                 if (isSuccess(res, t)) {
+                  t.$Message.success('删除成功');
                   t.getData(1);
                 }
               })
               .catch(() => {
-                t.$Modal.error({
-                  title: this.$t("reminder.err"),
-                  content: this.$t("reminder.errormessage")
-                });
+                this.$Message.error('删除失败');
               });
           }
         });
@@ -500,17 +497,11 @@ export default {
             if (isSuccess(res, t)) {
             t.getData(1);
             t.updateArr = [];
-            t.$Modal.success({
-              title: this.$t("reminder.suc"),
-              content: this.$t("reminder.submitsuccess")
-            });
+            t.$Message.success('处理成功');
           }
         })
         .catch(() => {
-            t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+          this.$Message.error('处理失败');
         })
         },
         onCancel: () => {},
