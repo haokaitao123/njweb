@@ -31,11 +31,8 @@
                 <!--布置分页列表 变量通用 无需变更-->
                 <row class="table-form"
                      ref="table-form">
-                    <Table @on-select="selectedtable"
-                           @on-select-cancel="selectedtable"
-                           @on-select-all="selectedtable"
+                    <Table @on-selection-change="selectedtable" 
                            @on-sort-change="sortable"
-                           :current="page"
                            :height="tableheight"
                            size="small"
                            border
@@ -47,17 +44,19 @@
                 <Row style="display: flex">
                     <Page :total="total"
                           size="small"
+                          :current="page"
                           show-elevator
                           show-sizer
                           placement="top"
                           @on-page-size-change="sizeChange"
                           @on-change="pageChange"
-                          :page-size-opts="[10, 20, 50, 100]"></Page><Button type="ghost"
+                          :page-size-opts="[10, 20, 50, 100]"></Page>
+                          <Button type="ghost"
                             size="small"
                             shape="circle"
                             icon="refresh"
                             style="margin-left: 20px;display: inline-block;"
-                            @click="getData(1)"></Button>
+                            @click="search()"></Button>
                 </Row>
             </card>
             </Col>
@@ -375,6 +374,44 @@ export default {
             const t = this
             t.data.unshift(res)
         },
+         getData (id, page) {
+            const t = this;
+            if (page == undefined) {
+                this.page = 1;
+            }
+
+            const data = {
+                _mt: "recruitBlackList.getPage",
+                rows: t.rows,
+                page: t.page,
+                sort: t.sort,
+                order: t.order,
+                logType: "查询",
+                recName: t.recName,
+                recIdenno: t.recIdenno,
+            };
+            for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
+            this.loading = true;
+            getDataLevelUserLoginNew(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        this.loading = false;
+                        t.data = res.data.content[0].rows;
+                        t.total = res.data.content[0].records;
+                    }
+                })
+                .catch(() => {
+                    this.loading = false;
+                    t.$Modal.error({
+                        title: this.$t("reminder.err"),
+                        content: this.$t("reminder.errormessage")
+                    });
+                });
+        }, //获取列表数据
         // 子页面修改数据后 本页面修改对应行数的数据 无需更改
         updateArray (res) {
             const t = this
