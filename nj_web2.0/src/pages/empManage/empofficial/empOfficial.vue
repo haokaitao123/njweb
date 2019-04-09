@@ -51,7 +51,7 @@
                       placement="top"
                       @on-page-size-change="sizeChange"
                       @on-change="pageChange"
-                      :page-size-opts="[10, 20, 50, 100]">
+                      :page-size-opts="[1,10, 20, 50, 100]">
                 </Page>
                 <Button type="ghost"
                         size="small"
@@ -215,7 +215,6 @@
         page: 1,
         funId: '1000',
         compFnameCnDis: '',
-        treeid: '',
         empIdName: '',
         empIdIden: '',
         openPick: false,
@@ -282,6 +281,7 @@
     methods: {
       changemodity(res){
         console.log(res,"res");
+        this.page = 1
         this.state = res.funStatecode
         this.getData()
       },
@@ -372,7 +372,7 @@
       closeChart() {
         this.openChart = false
       },//关闭员工转正图
-      getData(id) {
+      getData() {
         const t = this
         t.loading = true; //请求之前重置状态
         const data = {
@@ -410,7 +410,7 @@
         this.sort = column.key
         this.order = column.order
         if (this.order !== 'normal') {
-          this.getData(this.treeid)
+          this.getData()
         } else {
           this.order = 'desc'
         }
@@ -418,12 +418,13 @@
       sizeChange(size) {
         const t = this
         t.rows = size
-        t.getData(this.treeid)
+        t.getData()
       },//分页
       pageChange(page) {
+        //alert(page)
         const t = this
         t.page = page
-        t.getData(this.treeid)
+        t.getData()
       },//分页
       openUp(id, logType, index) {
         const t = this
@@ -458,7 +459,6 @@
         this.getData()
       },//下拉选中
       search() {
-        this.treeid = ''
         this.page = 1
         this.getData()
       },
