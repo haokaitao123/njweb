@@ -10,17 +10,19 @@
           <Row>
             <template>
               <div class="table">
-                <Input placeholder="请输入岗位" style="width: 200px" v-model="depPostDis"/>
+                <span @dblclick="cleardepPost('1')">
+                 <Input v-model="depPostDis" style="width: 200px" icon="search" :readonly="true"  placeholder="请选择岗位"  @on-click="pickdepPost()"/>
+                </span>
                 <!-- 页面中调用公共按钮组件标签<btnList> -->
                 <!-- 调用公共按钮组件方法 -->
                 <!-- @buttonAdd（配置的按钮对应方法名称） = "btnEvent"（是你当前页面对应点击事件） -->
-                <btnList  @buttonSearch="getData(1)" @buttonAdd="openUp(NaN,'新增')" @buttonDel="deletemsg" :btnData="btnData" :FlowNode="FlowNode" ></btnList>
+                <btnList  :btnData="btnData"   :FlowNode="FlowNode" @buttonSearch="getData(1)" @buttonAdd="openUp(NaN,'新增')" @buttonDel="deletemsg"></btnList>
 
               </div>
             </template>
           </Row>
           <row class="table-form" ref="table-form">
-            <Table @on-select="selectedtable" @on-select-cancel="selectedtable"  @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+            <Table :loading="loading" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
           </row>
           <Row style="display: flex">
             <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
@@ -31,6 +33,17 @@
     </Row>
     <transition name="fade">
       <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
+    </transition>
+    <transition name="fade">
+      <searchdepPost
+        v-show="opendepPost"
+        :searchPostClo="searchCloumns"
+        :params="psparams"
+        @inputPost="inputdepPost"
+        @closePost="close"
+        @changeinput="changedepPost"
+        ref="searchdepPost"
+      ></searchdepPost>
     </transition>
   </div>
 </template>
@@ -44,6 +57,7 @@
   import expdow from '../../../components/fileOperations/expdow'
   import importExcel from '../../../components/importModel/importParam'
   import btnList from '../../../components/btnAuth/btnAuth'
+  import searchdepPost from '../../../components/searchTable/searchPost'
 
   export default{
     created () {
@@ -71,6 +85,8 @@
     },
     data() {
       return {
+        opendepPost:false,
+        loading: "",
         // 导入的mt名称
         imp_mt: 'empDeposmin.importData',
         // 导出字段设置, code字段名 name列名
@@ -99,7 +115,7 @@
           },
           {
             title: '岗位',
-            key: 'depPost',
+            key: 'depPostDis',
             sortable: 'custom',
             width: 220,
           },
@@ -167,16 +183,36 @@
       rows: 10,
       page: 1,
       // 查询条件变量
-      depPostDis: ''
+      depPostDis: '',
+      depPost:'',
+      searchCloumns: [
+        {
+          title: "岗位编码",
+          key: "postCode",
+          sortable: "custom",
+          sortable: 'custom',
+        },
+        {
+          title: "岗位名称",
+          key: "postFname",
+          sortable: 'custom',
+        }
+      ],
+        psparams: {
+        _mt: 'orgPost.getPage',
+          rows: '10',
+          page: '1',
+          sort: 'id',
+          order: 'desc',
+          logType: '岗位',
+      },
     }
-    },
-    computed: {
-
     },
     components: {
       // 初始化子页面
       update,
-      btnList   //将这个组件引用到当前文件， btnList是起的公共按钮组件名字
+      btnList,   //将这个组件引用到当前文件， btnList是起的公共按钮组件名字
+      searchdepPost
     },
     mounted() {
       // 页面打开自动调用查询方法 无需更改
@@ -201,6 +237,9 @@
         if (page) {
           t.page = page
         }
+        if (typeof (page) == "undefined") {
+          this.page = 1;
+        }
         // 分页查询mt
         const data = {
           _mt: 'empDeposmin.getPage',
@@ -211,6 +250,7 @@
           logType: '查看',
 //          添加查询变量
           depPostDis: t.depPostDis,
+          depPost:t.depPost
         }
         // 删除空字段 无需更改
         for (const dat in data) {
@@ -218,13 +258,16 @@
             delete data[dat]
           }
         }
+        t.loading = true; //请求之前重置状态
         // 发送请求 返回分页list与总行数  无需更改
         getDataLevelUserLoginNew(data).then((res) => {
           if (isSuccess(res, t)) {
           t.data = res.data.content[0].rows
           t.total = res.data.content[0].records
+          t.loading = false; //在成功之后改状态
         }
       }).catch(() => {
+          t.loading = false; //在成功之后改状态
           t.$Modal.error({
           title: '错误',
           content: '网络错误',
@@ -303,7 +346,7 @@
       pageChange(page) {
         const t = this
         t.page = page
-        t.getData(1)
+        t.getData(t.page)
       },
       // 勾选数据方法 无需更改
       selectedtable(selection) {
@@ -313,6 +356,52 @@
         }
         this.tableselected = newArr
       },
+      cleardepPost() {
+        const t = this
+        t.depPostDis = ''
+        t.depPost = ''
+      },
+      pickdepPost() {
+        const t = this
+        t.$refs.searchdepPost.getData(this.psparams)
+        t.opendepPost = true
+      },
+      closedepPost(){
+        const t = this
+        t.opendepPost = false
+      },
+      close() {
+        const t = this
+        t.opendepPost = false
+      },
+      changedepPost(row) {
+        const t = this
+//        赋值到显示字段与实际值字段
+        t.depPost = row.id
+        t.depPostDis = row.name
+      },
+      inputdepPost(name, id, postName, postId) {
+        const t = this
+        t.depPost = id
+        t.depPostDis = name
+        t.opendepPost =false;
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // 删除方法 无需更改
       deletemsg() {
         const t = this
@@ -333,14 +422,12 @@
                 ids: t.tableselected.toString(),
         }).then((res) => {
             if (isSuccess(res, t)) {
+            t.$Message.success('删除成功')
             t.tableselected = []
             t.getData(1)
           }
         }).catch(() => {
-            t.$Modal.error({
-            title: '错误',
-            content: '网络错误',
-          })
+            t.$Message.error('删除失败')
         })
         },
           onCancel: () => {},
