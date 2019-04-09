@@ -205,13 +205,13 @@ export default {
                                         click: () => {
                                             this.showMsgBtn(
                                                 params.row.id,
-                                                this.logTypeE,
+                                                this.logType,
                                                 params.index
                                             );
                                         }
                                     }
                                 },
-                                this.logTypeE
+                                this.logType
                             )
                         ]);
                     }

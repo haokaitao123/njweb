@@ -158,14 +158,9 @@ export default {
                 edSdate: "", // 开始时间
                 edEdate: "" // 结束时间
             },
+            edEducationlevel: "",
             rowId: "",
             ruleValidate: {
-                edSchool: [{ required: true, message: "请输入学校", trigger: "blur" }],
-                edDegree: [{ required: true, message: "请输入学位", trigger: "blur" }],
-                edSpecialty: [
-                    { required: true, message: "请输入专业", trigger: "blur" }
-                ],
-                edCuntry: [{ required: true, message: "请选择国家", trigger: "biur" }],
                 edEducationlevel: [
                     { required: true, message: "请选择教育程度", trigger: "change" }
                 ],
@@ -177,14 +172,6 @@ export default {
                         required: true,
                         type: "date",
                         message: "请选择开始日期",
-                        trigger: "change"
-                    }
-                ],
-                edEdate: [
-                    {
-                        required: true,
-                        type: "date",
-                        message: "请选择结束日期",
                         trigger: "change"
                     }
                 ]

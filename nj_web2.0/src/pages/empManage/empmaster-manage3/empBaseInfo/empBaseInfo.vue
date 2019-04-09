@@ -530,10 +530,13 @@ export default {
             mailcheck()
         }
         const numberCheck = (rule, value, numberValCheck) => {
-            if (valid.val_number103(value)) {
-                return numberValCheck()
+            if (value !== '' && value !== undefined) {
+                if (valid.val_number103(value)) {
+                    return numberValCheck()
+                }
+                return numberValCheck(new Error(rule.message))
             }
-            return numberValCheck(new Error(rule.message))
+            numberValCheck()
         }
         const idCardTime = (rule, value, callback) => {
             if (value === "" || !value) {
@@ -879,7 +882,7 @@ export default {
                     {
                         required: false,
                         validator: mailcheck,
-                        message: "请填写正确的邮箱",
+                        message: "请填写正确的邮箱格式",
                         trigger: "blur"
                     }
                 ],
@@ -887,9 +890,25 @@ export default {
                     {
                         required: false,
                         validator: mailcheck,
-                        message: "请填写正确的邮箱",
+                        message: "请填写正确的邮箱格式",
                         trigger: "blur"
                     }
+                ],
+                empnhQq: [
+                    {
+                        required: false,
+                        validator: numberCheck,
+                        message: '请输入正确的数字格式',
+                        trigger: 'blur'
+                    },
+                ],
+                empnhWechat: [
+                    {
+                        required: false,
+                        validator: numberCheck,
+                        message: '请输入正确的数字格式',
+                        trigger: 'blur'
+                    },
                 ],
                 empnhWklocat: [
                     {
