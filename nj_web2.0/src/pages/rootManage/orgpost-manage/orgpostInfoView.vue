@@ -201,7 +201,21 @@ import searchOrgcostcenter from "../../../components/searchTable/searchOrgcostce
 //  import searchCity from '../../../components/searchTable/searchCity'
 export default {
     data () {
+        const compareTime = (rule, value, callback) => {
+      if (value === "" || !value) {
+        callback(new Error("请选择生效日期"));
+      } else {
+        //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
+        let startTimeNum = new Date(this.formValidate.postValiddate).getTime();
+        let endTimeNum = new Date(this.formValidate.postInvdate).getTime();
+        if (startTimeNum > endTimeNum) {
+          callback(new Error("生效日期不能大于失效日期"));
+        }
+        callback();
+      }
+    }
         return {
+          
             type: '',
             distype: false,
             value: "",
@@ -384,14 +398,17 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                postValiddate: [
-                    {
-                        required: true,
-                        type: "date",
-                        message: this.$t("lang_organization.orgpost.postValiddateInp"),
-                        trigger: "change"
-                    }
-                ]
+                   //在验证规则里 加上你对应的日期验证
+          //unitValdate 这个变量对应你页面标签里的prop属性名  <FormItem label="生效日期" prop="unitValdate"> ，
+          postValiddate: [
+            {
+              required: true,
+              type: "date",
+               message: "请选择生效日期",
+              validator: compareTime,
+              trigger: "change"
+            }
+          ],
             }
         };
     },

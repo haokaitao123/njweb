@@ -197,7 +197,7 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                        <i-col span="22">
+                        <!-- <i-col span="22">
                             <FormItem label="操作记录"
                                       prop="unitOprecord">
                                 <Input v-model="formValidate.unitOprecord"
@@ -206,7 +206,7 @@
                                        :autosize="{minRows: 2,maxRows: 5}"
                                        placeholder=""></Input>
                             </FormItem>
-                        </i-col>
+                        </i-col> -->
                         <i-col span="22">
                             <FormItem label="备注"
                                       prop="note">
@@ -275,6 +275,19 @@ export default {
                 callback();
             }
         };
+        const compareTime = (rule, value, callback) => {
+            	if (value === "" || !value) {
+                	callback(new Error("请选择生效日期"));
+            	} else {
+               		 //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
+                	let startTimeNum = (new Date(this.formValidate.unitValdate)).getTime();
+                	let endTimeNum = (new Date(this.formValidate.unitInvdate)).getTime();
+                	if (startTimeNum > endTimeNum) {
+                    		callback(new Error('生效日期不能大于失效日期'))
+                	}
+                	callback()
+           	 }
+            };
         return {
             type: '',
             distype: false,
@@ -416,7 +429,7 @@ export default {
                     { required: true, message: "请选择行业", trigger: 'change' },
                 ],
                 unitValdate: [
-                    { required: true, type: 'date', message: "请选择生效日期", trigger: 'change' },
+                    { required: true, type: 'date',validator: compareTime, message: "请选择生效日期", trigger: 'change' },
                 ],
                 partEstablish: [
                     { required: true, validator: validatePartEstablish, trigger: 'change' }

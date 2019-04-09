@@ -2,247 +2,663 @@
   <div class="table">
     <Row>
       <Col span="24">
-      <card>
-        <p slot="title">
-          <Icon type="mouse"></Icon>
-          &nbsp;{{$t('lang_employee.empContractList.title')}}
-        </p>
-        <Row>
-          <Input :placeholder="$t('lang_employee.empContractList.empctWorkNoDis')" style="width: 200px" v-model="empctWorkNoDis"/>
-          <Input :placeholder="$t('lang_employee.empContractList.empctNameDis')" style="width: 200px" v-model="empctNameDis"/>
-          <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
-        </Row>
-        <row class="table-form" ref="table-form">
-          <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
-        </row>
-        <Row style="display: flex">
-          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange"
-              @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
-          <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
-      </card>
+        <card>
+          <p slot="title">
+            <Icon type="mouse"></Icon>&nbsp;合同信息管理
+          </p>
+          <Row>
+         
+            <Input placeholder="请输入员工姓名" style="width: 200px" v-model="empName"/>
+            <span style="margin: 0;">
+              <btnList
+                @buttonExport="expData"
+                @buttonImport="importExcel"
+                @buttonAdd="openUp(NaN,$t('button.add'))"
+                @buttonDel="deletemsg"
+                @buttonValid="modifystatus('02valid')"
+                @buttonDraft="modifystatus('01draft')"
+                @buttonInvalid="modifystatus('03invalid')"
+                @moditySelect="modityChange"
+                @buttonSearch="search"
+                :btnData="btnData"
+                :FlowNode="FlowNode"
+              ></btnList>
+            </span>
+          </Row>
+          <row class="table-form" ref="table-form">
+            <Table
+              @on-select="selectedtable"
+              @on-select-cancel="selectedtable"
+              @on-select-all="selectedtable"
+              @on-sort-change="sortable"
+              :height="tableheight"
+              size="small"
+              border
+              ref="selection"
+              :columns="columns"
+              :data="data"
+              :loading="loading"
+            ></Table>
+          </row>
+          <Row style="display: flex">
+            <Page
+              :total="total"
+              size="small"
+              show-elevator
+              show-sizer
+              placement="top"
+              :current="page"
+              @on-page-size-change="sizeChange"
+              @on-change="pageChange"
+              :page-size-opts="[10, 20, 50, 100]"
+            ></Page>
+            <Button
+              type="ghost"
+              size="small"
+              shape="circle"
+              icon="refresh"
+              style="margin-left: 20px;display: inline-block;"
+              @click="search()"
+            ></Button>
+          </Row>
+        </card>
       </Col>
     </Row>
     <transition name="fade">
-      <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp"  ref="update"></update>
+      <update
+        v-show="openUpdate"
+        :id="updateId"
+        :logType="logType"
+        :index="index"
+        @closeUp="closeUp"
+        @getData="addNewArray"
+        @update="updateArray"
+        ref="update"
+      ></update>
+    </transition>
+    <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
     </transition>
   </div>
 </template>
 <script>
-  import update from './empContractEdit'
-  import { isSuccess } from '../../../lib/util'
-  import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
-
-  export default{
-    data() {
-      return {
-        tableheight: document.body.offsetHeight - 280,
-        logType: '',
-        openUpdate: false,
-        updateId: NaN,
-        tableselected: [],
-        columns: [
-          {
-            type: 'selection',
-            width: 54,
-            align: 'center',
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctWorkNo'),
-            key: 'empctWorkNoDis',
-            width: 100,
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctName'),
-            key: 'empctNameDis',
-            width: 100,
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctHirecompany'),
-            key: 'empctHirecompanyDis',
-            width: 160,
-            sortable: 'custom',
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctDept'),
-            key: 'empctDeptDis',
-            width: 160,
-            sortable: 'custom',
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctContracttype'),
-            key: 'empctContracttypeDis',
-            sortable: 'custom',
-            width: 120,
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctContractperiod'),
-            key: 'empctContractperiodDis',
-            sortable: 'custom',
-            width: 120,
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctContractsdate'),
-            key: 'empctContractsdate',
-            sortable: 'custom',
-            width: 120,
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctContractedate'),
-            key: 'empctContractedate',
-            sortable: 'custom',
-            width: 120,
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctProbation'),
-            key: 'empctProbationDis',
-            sortable: 'custom',
-            width: 120,
-          },
-          {
-            title: this.$t('lang_employee.empContractList.empctProbationdate'),
-            key: 'empctProbationdate',
-            sortable: 'custom',
-            width: 120,
-          },
-          {
-            title: this.$t('button.opr'),
-            key: 'action',
-            fixed: 'right',
-            width: 64,
-            align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small',
-                  },
-                  on: {
-                    click: () => {
-                      this.openUp(params.row.id, this.$t('button.view'), params.index)
-                    },
-                  },
-                }, this.$t('button.view')),
-              ])
-            },
-          },
+import update from "./empContractEdit";
+import { isSuccess } from "../../../lib/util";
+import {
+  getDataLevelUserLoginNew,
+  getDataLevelUserLogin
+} from "../../../axios/axios";
+import expwindow from "../../../components/fileOperations/expSms";
+import expdow from "../../../components/fileOperations/expdow";
+import importExcel from "../../../components/importModel/importParam";
+import btnList from "../../../components/btnAuth/btnAuth";
+export default {
+  data() {
+    return {
+      // 导入的mt名称
+        imp_mt: "empContractinfo.importData",
+        // 导出字段设置, code字段名 name列名
+        expDataTital: [
+          { code: "numberCode", name: "合同编号" },
+          { code: "empName", name: "员工姓名" },
+          { code: "deptIdDis", name: "部门名称" },
+          { code: "postIdDis", name: "岗位名称" },
+          { code: "contTypeDis", name: "员工类别" },
+          { code: "contPeriodDis", name: "合同期限" },
+          { code: "contSdate", name: "合同开始日" },
+          { code: "contEdate", name: "合同到期日" },
+          { code: "contWorktimeDis", name: "工作制度" },
+          { code: "contWorktimeDis", name: "签署日期" },
+          { code: "contEdate", name: "合同到期日" },
+          { code: "contProbatDis", name: "试用期限" },
+          { code: "contProbatdt", name: "试用期到期日" },
+          { code: "note", name: "备注" }
         ],
-        data: [],
-        total: 0,
-        index: 0,
-        sort: 'id',
-        order: 'asc',
-        rows: 10,
-        page: 1,
-        funId: '1000',
-        empctWorkNoDis: '',
-        empctNameDis: '',
+        // 导入导出默认参数 无需变更
+        openImport: false,
+        openExpDow: false,
+        openExp: false,
+        filekey: "",
+        filename: "",
+      tableheight: document.body.offsetHeight - 280,
+      logType: "",
+      openUpdate: false,
+      updateId: NaN,
+      tableselected: [],
+      columns: [
+        {
+          type: "selection",
+          width: 54,
+          align: "center"
+        },
+        {
+          title:合同编号,
+          key: "numberCode",
+          width: 100,
+          fixed: "left",
+          sortable: "custom"
+        },
+        {
+          title: 员工姓名,
+          key: "empName",
+          width: 100
+        },
+        {
+          title: 部门名称,
+          key: "deptIdDis",
+          width: 160,
+          sortable: "custom"
+        },
+        {
+          title: 岗位名称,
+          key: "postIdDis",
+          width: 160,
+          sortable: "custom"
+        },
+        {
+          title: 员工类别,
+          key: "empTypeDis",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 合同类别,
+          key: "contTypeDis",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 合同期限,
+          key: "contPeriodDis",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title:合同开始日 ,
+          key: "contSdate",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 合同到期日,
+          key: "contEdate",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 工作制度,
+          key: "contWorktimeDis",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 签署日期,
+          key: "contSigndate",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 合同到期日,
+          key: "contEdate",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 试用期限,
+          key: "contProbatDis",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: 试用期到期日,
+          key: "contProbatdt",
+          sortable: "custom",
+          width: 120
+        }
+      ], 
+       tableBtn: {
+                title: "操作",
+                key: "action",
+                width: 100,
+                fixed: "right",
+                align: "center",
+                render: (h, params) => {
+                    let child = [];
+                    for (let v of this.tableButton) {
+                        child.push(
+                            h(
+                                "Button",
+                                {
+                                    props: {
+                                        type: v.type,
+                                        size: "small"
+                                    },
+                                    style: {
+                                        marginRight: "5px",
+                                        display:
+                                            this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.openUp(params.row.id, v.name, params.index);
+                                        }
+                                    }
+                                },
+                                v.name
+                            )
+                        );
+                    }
+                    return h("div", [child]);
+                }
+            },
+      data: [],
+      total: 0,
+      index: 0,
+      sort: "id",
+      order: "asc",
+      rows: 10,
+      page: 1,
+      funId: "1000",
+      empName: "",
+      deptIdDis: "",
+       params: {
+          _mt: "empContractinfo.getPage",
+          sort: "id",
+          order: "asc",
+          rows: 10,
+          page: 1,
+          funId: "1",
+          logType: "合同信息查询",
+          data: "{}"
+        },
+        state: this.modity,
+        loading: ""
+    };
+  },
+  computed: {
+      btnData() {
+      return this.$store.state.btnOperate.btnData;
+    },
+    FlowNode() {
+      return this.$store.state.btnOperate.isFlowNode;
+    },
+    pageShow() {
+      return this.$store.state.btnOperate.pageShow;
+    },
+    tableButton() {
+      return this.$store.state.btnOperate.tableButton;
+    },
+    tableOperate() {
+      return this.$store.state.btnOperate.tableOperate;
+    },
+    modity() {
+      return this.$store.state.btnOperate.modity;
+    }
+  },
+  components: {
+    btnList,
+    update,
+    expwindow,
+    expdow,
+    importExcel
+  },
+  //按钮权限控制
+  pickData() {
+    const t = this;
+    t.$refs.searchOrgframe.getData(this.params);
+    t.openPick = true;
+  },
+  created() {
+    if (this.pageShow != "") {
+      this.columns.push(this.tableBtn);
+      this.$store.commit("btnOperate/setTableOperate", "true");
+    }
+  },
+  watch: {
+    pageShow(val) {
+      if (val == "" && this.tableOperate == "true") {
+        this.columns.pop();
+        this.$store.commit("btnOperate/setTableOperate", "false");
+      } else if (this.tableOperate == "false") {
+        this.columns.push(this.tableBtn);
+        this.$store.commit("btnOperate/setTableOperate", "true");
+      }
+    }
+  },
+  mounted() {
+    this.getData();
+    this.getSelect();
+  },
+  methods: {
+      //状态
+    modityChange(res) {
+      this.getData();
+    },
+    getData(id, page) {
+      const t = this;
+      this.loading = true;
+      if (page == undefined) {
+        this.page = 1;
+      }
+      const data = {
+        _mt: "empContractinfo.getPage",
+        rows: t.rows,
+        page: t.page,
+        sort: t.sort,
+        order: t.order,
+        logType: "合同查询",
+        deptIdDis: t.deptIdDis,
+        empName: t.empName,
+        state: t.modity,
+      };
+      for (const dat in data) {
+        if (data[dat] === "") {
+          delete data[dat];
+        }
+      }
+      getDataLevelUserLoginNew(data)
+        .then(res => {
+          if (isSuccess(res, t)) {
+            t.data = res.data.content[0].rows;
+            t.total = res.data.content[0].records;
+          }
+        })
+        .catch(() => {
+          t.$Modal.error({
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
+          });
+        }) .finally(() => {
+          this.loading = false;
+        });
+    },
+    /**
+     * 排序
+     * @param column
+     */
+    sortable(column) {
+      this.sort = column.key;
+      this.order = column.order;
+      if (this.order !== "normal") {
+        this.getData();
+      } else {
+        this.order = "desc";
       }
     },
-    computed: {
-
+    sizeChange(size) {
+      const t = this;
+      t.rows = size;
+      t.getData();
     },
-    components: {
-      update,
+    pageChange(page) {
+      const t = this;
+      t.page = page;
+      t.getData(t.page);
     },
-    mounted() {
-      this.getData(1)
+    selectedtable(selection) {
+      const newArr = [];
+      for (let i = 0; i < selection.length; i++) {
+        newArr.push(selection[i].id);
+      }
+      this.tableselected = newArr;
     },
-    methods: {
-      getData(page) {
-        const t = this
-        if (page) {
-          t.page = page
-        }
-        const data = {
-          _mt: 'empContract.getPage',
-          rows: t.rows,
-          page: t.page,
-          sort: t.sort,
-          order: t.order,
-          logType: this.$t('button.ser'),
-          empctWorkNoDis: t.empctWorkNoDis,
-          empctNameDis: t.empctNameDis,
-        }
-        for (const dat in data) {
-          if (data[dat] === '') {
-            delete data[dat]
-          }
-        }
-        getDataLevelUserLoginNew(data).then((res) => {
-          if (isSuccess(res, t)) {
-            t.data = res.data.content[0].rows
-            t.total = res.data.content[0].records
-          }
-        }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
+    deletemsg() {
+      const t = this;
+      if (t.tableselected.length === 0) {
+        t.$Modal.warning({
+          title: this.$t("reminder.remind"),
+          content: this.$t("reminder.leastone")
+        });
+      } else {
+        t.$Modal.confirm({
+          title: this.$t("reminder.remind"),
+          content: this.$t("reminder.confirmdelete"),
+          onOk: () => {
+            getDataLevelUserLogin({
+              _mt: "empContractinfo.delByIds",
+              funId: "1",
+              logType: this.$t("button.del"),
+              delIds: t.tableselected.toString()
+            })
+              .then(res => {
+                if (isSuccess(res, t)) {
+                  t.tableselected = [];
+                  // t.getTree()
+                  t.getData();
+                }
+              })
+              .catch(() => {
+                t.$Modal.error({
+                  title: this.$t("reminder.err"),
+                  content: this.$t("reminder.errormessage")
+                });
+              });
+          },
+          onCancel: () => {}
+        });
+      }
+    },
+    /**
+     * 打开编辑页面
+     * @param id
+     * @param logType
+     * @param index
+     */
+    openUp(id, logType, index) {
+      const t = this;
+      t.updateId = parseInt(id, 10);
+      t.logType = logType;
+      t.openUpdate = true;
+      t.index = index;
+      t.$refs.update.disabled = false;
+      if (logType === this.$t("button.upd") || logType === "查看") {
+        t.$refs.update.getData(id);
+      }
+      if (logType === "查看") {
+        t.$refs.update.disabled = true;
+      }
+    },
+    closeUp() {
+      const t = this;
+      t.openUpdate = false;
+      t.$refs.update.formValidate.numberCode = "XXXXXX";
+      t.$refs.update.formValidate.note = "";
+    },
+    search() {
+      this.page = 1;
+      this.getData();
+    },
+    modifystatus(state) {
+      const t = this;
+      let logType = "";
+      let tipContent = "";
+      if (state === "02valid") {
+        logType = "生效";
+        tipContent = "您确定继续操作吗？";
+      } else if (state === "03invalid") {
+        logType = "失效";
+        tipContent = "您确定继续操作吗？";
+      }
+      if (t.tableselected.length === 0) {
+        t.$Modal.warning({
+          title: this.$t("reminder.remind"),
+          content: this.$t("reminder.leastone")
+        });
+        return;
+      }
+      t.$Modal.confirm({
+        title: this.$t("reminder.remind"),
+        content: tipContent,
+        onOk: () => {
+          getDataLevelUserLogin({
+            _mt: "orgPost.setStateById",
+            logType: logType,
+            state: state,
+            ids: t.tableselected.toString()
           })
-        })
-      },
-      /**
-       * 排序
-       * @param column
-       */
-      sortable(column) {
-        this.sort = column.key
-        this.order = column.order
-        if (this.order !== 'normal') {
-          this.getData()
-        } else {
-          this.order = 'desc'
-        }
-      },
-      sizeChange(size) {
-        const t = this
-        t.rows = size
-        t.getData()
-      },
-      pageChange(page) {
-        const t = this
-        t.page = page
-        t.getData()
-      },
-      selectedtable(selection) {
-        const newArr = []
-        for (let i = 0; i < selection.length; i++) {
-          newArr.push(selection[i].id)
-        }
-        this.tableselected = newArr
-      },
-      /**
-       * 打开编辑页面
-       * @param id
-       * @param logType
-       * @param index
-       */
-      openUp(id, logType, index) {
-        const t = this
-        t.updateId = parseInt(id, 10)
-        t.logType = logType
-        t.openUpdate = true
-        t.index = index
-        t.$refs.update.getData(id)
-      },
-      closeUp() {
-        const t = this
-        t.openUpdate = false
-      },
+            .then(res => {
+              if (isSuccess(res, t)) {
+                t.getData();
+                this.$Message.success("操作成功");
+              }
+            })
+            .catch(() => {
+              this.$Message.error("操作失败");
+            });
+        },
+        onCancel: () => {}
+      });
+    }, //修改状态
+    // 导入导出默认方法 无需更改
+    closeImport() {
+      const t = this;
+      t.openImport = false;
     },
+    // 导入导出默认方法 无需更改
+    importExcel() {
+      const t = this;
+      t.openImport = true;
+      t.$refs.importExcel.getDowModelFile();
+    },
+    // 导入导出默认方法
+    expData() {
+      const t = this;
+      // 填装查询条件
+      const data = {
+        postCode: t.postCode,
+        postFname: t.postFname,
+        postDfpslevel: t.postDfpslevel,
+        state: t.modity
+      };
+      // 设置导出mt参数
+      this.$refs.expwindow.getData(this.expDataTital, "orgPost.export", data);
+      this.openExp = true;
+    },
+    // 导入导出默认方法 无需更改
+    closeExp() {
+      const t = this;
+      t.openExp = false;
+    },
+    // 导入导出默认方法 无需更改
+    closeExpDowMain() {
+      const t = this;
+      t.openExpDow = false;
+    },
+    // 导入导出默认方法 无需更改
+    setFileKey(filekey, filename, openExpDow) {
+      const t = this;
+      t.filekey = filekey;
+      t.filename = filename;
+      t.openExpDow = openExpDow;
+      t.$refs.expdow.getPriToken(t.filekey);
+    },
+    // 子页面新增数据后添加到本页面分页第一行  无需更改
+    addNewArray(res) {
+      const t = this;
+      t.data.unshift(res);
+    },
+    // 子页面修改数据后 本页面修改对应行数的数据 无需更改
+    updateArray(res) {
+      const t = this;
+      t.data.splice(t.index, 1, res);
+    },
+    postDfpslevelSelect() {
+      const t = this;
+      t.postDfpslevelData = [];
+      getDataLevelUserLogin({
+        _mt: "baseParmInfo.getSelectValue",
+        logType: t.logType,
+        typeCode: "postlevel"
+      })
+        .then(res => {
+          if (isSuccess(res, t)) {
+            t.postDfpslevelData = res.data.content[0].value[0].paramList;
+            let obj = {
+              paramCode: "",
+              paramInfoCn: "全部"
+            };
+            t.postDfpslevelData.unshift(obj);
+          }
+        })
+        .catch(() => {
+          this.$Modal.error({
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
+          });
+        });
+    },
+     getSelect() {
+      const t = this;
+      getDataLevelUserLogin({
+        _mt: "baseParmInfo.getSelectValue",
+        typeCode: "postlevel"
+      })
+        .then(res => {
+          if (isSuccess(res, t)) {
+            t.selectDfpslevel = res.data.content[0].value[0].paramList;
+            let obj = {
+              paramCode: "",
+              paramInfoCn: "全部"
+            };
+            t.selectDfpslevel.unshift(obj);
+          }
+        })
+        .catch(() => {
+          this.$Modal.error({
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
+          });
+        });
+    },
+    getPageByType(paramCode) {
+      this.status = paramCode;
+      this.unitTypeId = paramCode;
+      this.getData();
+    } //根据类型获取列表
   }
+};
 </script>
 <style lang="scss" scoped>
-  .table-form{
-    margin: 10px 0;
-  }
-  .margin-right-10{
-    margin-right: 10px;
-  }
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .2s
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0
-  }
+.table-form {
+  margin: 10px 0;
+}
+.margin-right-10 {
+  margin-right: 10px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

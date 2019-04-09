@@ -53,7 +53,7 @@
                     </Col>
                 </Row>
                 <Row>
-                    <Col span="10"
+                    <Col span="21"
                          offset="1">
                     <FormItem label="原因"
                               prop="recReason">
@@ -110,6 +110,22 @@ import searchCity from '../../components/searchTable/searchCity'
 
 export default {
     data () {
+        const phonecheck = (rule, value, calphonecheck) => {
+            if (valid.val_mobile(value)) {
+                return calphonecheck()
+            }
+            return calphonecheck(new Error(rule.message))
+        }
+        const idnocheck = (rule, value, idcheck) => {
+            if (this.form.empnhIdtype === '01id') {
+                if (valid.val_IdCard(value)) {
+                    return idcheck()
+                }
+                return idcheck(new Error(rule.message))
+            }
+            return idcheck()
+        }
+
         return {
             disabled: false,
             forbidden: null,
@@ -130,6 +146,9 @@ export default {
             ruleValidate: {
                 recName: [
                     { required: true, message: '请输入求职者姓名', trigger: 'blur' },
+                ],
+                 recPhone: [
+                    {  validator: phonecheck },
                 ],
             },
         }
