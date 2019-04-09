@@ -51,7 +51,7 @@
                       placement="top"
                       @on-page-size-change="sizeChange"
                       @on-change="pageChange"
-                      :page-size-opts="[1,10, 20, 50, 100]">
+                      :page-size-opts="[10, 20, 50, 100]">
                 </Page>
                 <Button type="ghost"
                         size="small"
