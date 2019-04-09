@@ -34,8 +34,10 @@
                 :ref="'block' + item.flsdbMark" :lebWidth="200">
               </commonSingleForm>
               <div v-if="stepAuthLimits === '03submit' && item.flsdbOptauth === '02update' && item.flsdbSubisupd === '1'">
-                <Button class="btns" type="primary" v-if="!item.blockColumn" @click="btnFunction(item.flsdbSubform,item.flsdbSubformtype,item.flsdbSubfilter, $t('button.add'))">{{$t('button.add')}}</Button>
-                <Button class="btns" type="error"   v-if="!item.blockColumn" @click="isdelete(item.flsdbSubform,item.flsdbSubformtype,item.flsdbSubfilter, $t('button.del'))">{{$t('button.del')}}</Button>
+                <div v-show="thisStepState !== 'p_flowst_3' && thisStepState !== 'p_flowst_0'">
+                  <Button class="btns" type="primary" v-if="!item.blockColumn" @click="btnFunction(item.flsdbSubform,item.flsdbSubformtype,item.flsdbSubfilter, $t('button.add'))">{{$t('button.add')}}</Button>
+                  <Button class="btns" type="error"   v-if="!item.blockColumn" @click="isdelete(item.flsdbSubform,item.flsdbSubformtype,item.flsdbSubfilter, $t('button.del'))">{{$t('button.del')}}</Button>
+                </div>
               </div>
               <row class="table-form" ref="table-form" :key="indexs" v-for="(items,indexs) in columnsChildAll" v-if="!item.blockColumn && item.id == items[0].dataBlockId">
                 <row v-for="(itemTable,indexTable) in dataTable" :key="indexTable" v-if="!item.blockColumn && item.id == items[0].dataBlockId">
@@ -317,13 +319,7 @@
                 t.ChildDataBloks.push(t.dataBlocksFake[i])
               }
             }
-            /* 非子集数据块 有columns */
-            t.dataBlocksDad = []
-            for (let j = 0; j < t.dataBlocks.length; j++) {
-              if (t.dataBlocks[j].flsdbType !== '02subtable') {
-                t.dataBlocksDad.push(t.dataBlocks[j])
-              }
-            }
+//            console.log(t.ChildDataBloks)
             for (let i = t.dataBlocksFake.length - 1; i > 0; i--) {
               if (t.dataBlocksFake[i].flsdbType === 'docs') {
                 t.dataBlocksFake[i].flsdbMark = JSON.parse(t.dataBlocksFake[i].flsdbMark)
@@ -407,6 +403,7 @@
           busiType: 'flow',
         }
         getDataLevelUserLogin(params).then(res => {
+//          t.dataTable = JSON.parse(res.data.content[0].rows)
           t.dataTableAll = {}
           t.dataTableAll['dataBlockId'] = res.data.content[0].dataBlockId
           t.dataTableAll['page'] = res.data.content[0].page
@@ -414,8 +411,10 @@
           t.dataTableAll['records'] = res.data.content[0].records
           t.dataTableAll['table'] = JSON.parse(res.data.content[0].rows)
           t.dataTableAll['total'] = res.data.content[0].total
+//          console.log(t.dataTableAll)
           t.dataTable.push(t.dataTableAll)
           t.totalTable = res.data.content[0].total
+          console.log(t.dataTable)
         }).catch(err => {
           console.log(err)
         })
@@ -659,6 +658,7 @@
                             }
                             this.thisStepState = params.row[params.column.key].split('$')[3]
                             this.thisSetpName = params.row[params.column.key].split('$')[5]
+                            console.log('11111111111111111111111' + this.thisStepState)
                             this.getDataBlock()
                           },
                         },
@@ -741,6 +741,15 @@
             }
             t.dataBlocksFake = bb // 临时block存储变量最后赋值给正式的block，
             t.dataBlocks = t.dataBlocksFake
+            /* 非子集数据块 有columns */
+            t.dataBlocksDad = []
+            for (let j = 0; j < t.dataBlocks.length; j++) {
+              if (t.dataBlocks[j].flsdbType !== '02subtable') {
+                t.dataBlocksDad.push(t.dataBlocks[j])
+              }
+            }
+//            console.log(t.dataBlocksDad,'1111111111111111111111111')
+            console.log(t.dataBlocks,'1111111111111111111111111')
             /**
              * 收集弹出选择的 (key:value)(字段物理名, 字段值)
              */
@@ -755,6 +764,7 @@
               this.$store.commit('flowClmkMap/setPopForm', t.popForm)
               t.popForm = {} // 清空
               this.getValueMap(t.dataBlocksDad)
+              console.log(t.valueMap)
               Bus.map = t.valueMap
               Bus.father = t
               if (onChange.hasOwnProperty(this.tbName)) {
@@ -774,6 +784,8 @@
       PageSize(id) {
         const t = this
         this.pageDataBlockId = id
+        console.log(id)
+        console.log(this.dataBlocksFakeId)
          for (let i = 0; i < this.dataBlocksFakeId.length; i++) {
             if (id ===  this.dataBlocksFakeId[i].id) {
               this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, true)
@@ -781,6 +793,31 @@
               this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, false)
             }
          }
+//        if (this.pageDataBlockId === this.dataBlocksFakeId[0]) {
+//          alert(1)
+//          this.getPageChildTable(this.dataBlocksFakeId[0].id,this.dataBlocksFakeId[0].flsdbOptauth)
+//          this.page = 1
+//        }
+//        if (this.pageDataBlockId !== this.dataBlocksFakeId[0]) {
+//          alert(2)
+//          this.getPageChildTable(this.dataBlocksFakeId[0].id,this.dataBlocksFakeId[0].flsdbOptauth)
+//        }
+//        if (this.pageDataBlockId === this.dataBlocksFakeId[1]) {
+//          alert(3)
+//          this.getPageChildTable(this.dataBlocksFakeId[1].id,this.dataBlocksFakeId[1].flsdbOptauth)
+//          this.page = 1
+//        }
+//        if (this.pageDataBlockId !== this.dataBlocksFakeId[1]) {
+//          alert(4)
+//          this.getPageChildTable(this.dataBlocksFakeId[1].id,this.dataBlocksFakeId[1].flsdbOptauth)
+//        }
+//        if (this.pageDataBlockId === this.dataBlocksFakeId[2]) {
+//          this.getPageChildTable(this.dataBlocksFakeId[2].id,this.dataBlocksFakeId[2].flsdbOptauth)
+//          this.page = 1
+//        }
+//        if (this.pageDataBlockId !== this.dataBlocksFakeId[2]) {
+//          this.getPageChildTable(this.dataBlocksFakeId[2].id,this.dataBlocksFakeId[2].flsdbOptauth)
+//        }
       },
       sizeChange(size) {
         const t = this
@@ -802,10 +839,12 @@
         for (let j = 0; j < arr.length; j++) {
           this.tableselected.push(arr[j].split('_')[0])
         }
+        console.log(this.tableselected)
       },
       getValueMap(dataBlocks) {
         const t = this
         t.valueMap = {}
+        console.log(dataBlocks, 'kkkkkkkkkkkk')
         for (let i = 0; i < dataBlocks.length; i++) {
           let item = dataBlocks[i].blockColumn.columns
           for (let j = 0; j < item.length; j++) {
@@ -865,6 +904,7 @@
           t.formDataSubmit.flowId = t.flowId
           t.formDataSubmit.pkValue = t.thisPkValue
           t.formDataSubmit.clmMap = JSON.stringify(t.clmMap)
+          console.log(t.formDataSubmit.stepId + '111111111111111111111')
           if (t.formDataSubmit.hasOwnProperty('empbcContent')) { // 用来判断提交时是否有多选框  有的话需要把值转为字符串传到后台
             t.formDataSubmit.empbcContent = t.formDataSubmit.empbcContent.join(',')
           }
