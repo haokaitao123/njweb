@@ -28,8 +28,6 @@
                         <Input placeholder="请输入员工证件号"
                                style="width: 160px"
                                v-model="empnhIdno" />
-                        <!-- <Input placeholder="请输入岗位名称" style="width: 160px" v-model="deptId"/> -->
-                        <!-- <Input placeholder="请输入岗位名称" style="width: 160px" v-model="postId"/> -->
                         <span @dblclick="clearPost()">
                             <Input v-model="postName"
                                    style="width: 200px"
@@ -47,11 +45,8 @@
                                  @buttonEmp1="modifystatus('01empstate')"
                                  @buttonEmp="entryb"
                                  @buttonEmp2="modifystatus('02empstate')"
-                                 @buttonDel="deletemsg"></btnList>
-                        <!-- @moditySelect="modityChange" -->
-                        <!-- @buttonAdd="openUp(NaN,$t('button.add'))"  -->
-                        <!-- <Button type="primary" icon="search" @click="search">查询</Button> -->
-                        <!-- <Button type="error" icon="primary" @click="deletemsg">删除</Button> -->
+                                 @buttonDel="deletemsg"
+                                 @buttonSubmit="buttonSubmit"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -62,7 +57,8 @@
                                border
                                ref="selection"
                                :columns="columns"
-                               :data="data"></Table>
+                               :data="data"
+                               :loading="loading"></Table>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
@@ -94,8 +90,7 @@
                     :index="index"
                     :modity="modity"
                     @closeUp="closeUp"
-                    @getData="addNewArray"
-                    @update="updateArray"
+                    @getData="getData"
                     ref="update"></update>
         </transition>
         <!--导入导出子页面 若没有导入导出可以去掉-->
@@ -194,7 +189,6 @@ export default {
             openExp: false,
             filekey: "",
             filename: "",
-
             // 子页面参数
             treeheight: document.body.offsetHeight - 200,
             tableheight: document.body.offsetHeight - 280,
@@ -223,45 +217,36 @@ export default {
                     width: 120,
                     fixed: "left",
                     align: "center"
-                    //  sortable: 'custom',
                 },
                 {
                     title: "雇员姓名",
                     key: "empnhName",
                     width: 140,
                     align: "center"
-                    //  sortable: 'custom',
                 },
-                // render: (h, params) => {
-                //                 return h('div', params.row.unitSysalig == 1 ? "是" : "否")
-                //             }
                 {
                     title: "部门名称",
                     key: "deptIdDis",
                     width: 140,
                     align: "center"
-                    //  sortable: 'custom',
                 },
                 {
                     title: "岗位名称",
                     key: "postIdDis",
                     width: 140,
                     align: "center"
-                    //  sortable: 'custom',
                 },
                 {
                     title: "直接上级",
                     key: "empnhPmpDis",
                     width: 140,
                     align: "center"
-                    //  sortable: 'custom',
                 },
                 {
                     title: "证件类型",
                     key: "empnhIdtypeDis",
                     width: 140,
                     align: "center"
-                    //  sortable: 'custom',
                 },
                 {
                     title: "证件号码",
@@ -289,7 +274,6 @@ export default {
                     key: "empnhGenderDis",
                     width: 100,
                     align: "center"
-                    //  sortable: 'custom',
                 },
                 {
                     title: "出生日期",
@@ -307,17 +291,15 @@ export default {
                 },
                 {
                     title: "户籍性质",
-                    key: "empnhRegaddrDis",
+                    key: "empnhRegtypeDis",
                     width: 140,
                     align: "center"
-                    // sortable: 'custom',
                 },
                 {
                     title: "工作地点",
                     key: "empnhWklocatDis",
                     width: 140,
                     align: "center"
-                    // sortable: 'custom',
                 },
                 {
                     title: "入职日期",
@@ -338,14 +320,12 @@ export default {
                     key: "empnhSalbankDis",
                     width: 140,
                     align: "center"
-                    // sortable: 'custom',
                 },
                 {
                     title: "户名",
                     key: "empnhSalaccname",
                     width: 140,
                     align: "center"
-                    // sortable: 'custom',
                 },
                 {
                     title: "参加工作时间",
@@ -502,7 +482,7 @@ export default {
                 empnhIdno: t.empnhIdno,
                 deptId: id,
                 postId: t.postId,
-                // unitPid: id,
+                unitPid: id,
                 state: t.modity
             };
             for (const dat in data) {
@@ -510,7 +490,6 @@ export default {
                     delete data[dat];
                 }
             }
-
             this.loading = true;
             getDataLevelUserLoginNew(data)
                 .then(res => {
@@ -549,15 +528,13 @@ export default {
                         })
                             .then(res => {
                                 if (isSuccess(res, t)) {
+                                    this.$Message.success('删除成功');
                                     t.tableselected = [];
-                                    t.getData();
+                                    t.getData(this.treeid)
                                 }
                             })
                             .catch(() => {
-                                t.$Modal.error({
-                                    title: this.$t("reminder.err"),
-                                    content: this.$t("reminder.errormessage")
-                                });
+                                this.$Message.error('删除失败');
                             });
                     },
                     onCancel: () => { }
@@ -575,25 +552,61 @@ export default {
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
-                    content: this.$t("请确定是否将该条数据加入入职中"),
+                    content: "请确定是否将该条数据加入入职中",
                     onOk: () => {
                         getDataLevelUserLogin({
                             _mt: "empEmpnh.updStateByIds",
                             funId: "1",
                             logType: "入职",
-                            ids: t.tableselected.toString()
+                            ids: t.tableselected.toString(),
+                            state: t.modity
                         })
                             .then(res => {
+
                                 if (isSuccess(res, t)) {
+                                    this.$Message.success('操作成功');
                                     t.tableselected = [];
-                                    t.getData();
+                                    t.getData(this.treeid)
+
                                 }
                             })
                             .catch(() => {
-                                t.$Modal.error({
-                                    title: this.$t("reminder.err"),
-                                    content: this.$t("reminder.errormessage")
-                                });
+                                this.$Message.error('操作失败');
+                            });
+                    },
+                    onCancel: () => { }
+                });
+            }
+        },
+        // 提交
+        buttonSubmit () {
+            const t = this;
+            if (t.tableselected.length === 0) {
+                t.$Modal.warning({
+                    title: this.$t("reminder.remind"),
+                    content: this.$t("reminder.leastone")
+                });
+            } else {
+                t.$Modal.confirm({
+                    title: this.$t("reminder.remind"),
+                    content: "请确定是否将该条数据加入确认中",
+                    onOk: () => {
+                        getDataLevelUserLogin({
+                            _mt: "empEmpnh.updStateByIds",
+                            funId: "1",
+                            logType: "提交",
+                            ids: t.tableselected.toString(),
+                            state: t.modity
+                        })
+                            .then(res => {
+                                if (isSuccess(res, t)) {
+                                    this.$Message.success('操作成功');
+                                    t.tableselected = [];
+                                    t.getData(this.treeid)
+                                }
+                            })
+                            .catch(() => {
+                                this.$Message.error('操作失败');
                             });
                     },
                     onCancel: () => { }
@@ -604,20 +617,20 @@ export default {
         sizeChange (size) {
             const t = this;
             t.rows = size;
-            t.getData();
+            t.getData(this.treeid)
         },
         // 页码变化
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData();
+            t.getData(this.treeid, t.page);
         },
         // 排序
         sortable (column) {
             this.sort = column.key;
             this.order = column.order;
             if (this.order !== "normal") {
-                this.getData();
+                this.getData(this.treeid);
             } else {
                 this.order = "desc";
             }
@@ -637,7 +650,7 @@ export default {
             t.logType = logType;
             t.openUpdate = true;
             t.index = index;
-            // if (t.logType === this.$t("button.upd")) {
+            // if (t.logType === "修改")) {
             //   // 调用子页面方法 传递参数 无需变更
             //   t.$refs.update.getOption(id, logType);
             // }

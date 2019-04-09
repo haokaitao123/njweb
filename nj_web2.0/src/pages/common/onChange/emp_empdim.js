@@ -4,13 +4,13 @@
 import { getDataLevelUserLogin } from '../../../axios/axios'
 import { isSuccess } from '../../../lib/util'
 
-const emp_flow_dimission = {
+const emp_empdim = {
   all_dis() {
-    emp_flow_dimission.empdimApplicant_set(this)
+    emp_empdim.empdimApplicant_set(this)
   },
 
   empdimApplicant_set(t) {
-    //debugger
+    debugger
       if (t.valueMap.dimApplicant) {
         //alert(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant)
         if(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant.length<=0 || t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant === '0'){
@@ -27,4 +27,4 @@ const emp_flow_dimission = {
   },
 
 }
-export default emp_flow_dimission
+export default emp_empdim

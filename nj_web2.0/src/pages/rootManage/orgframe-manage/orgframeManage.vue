@@ -489,10 +489,9 @@ export default {
         }, //关闭组织架构图
         getData (id, page) {
             const t = this;
-            if (page == undefined) {
+            if (typeof (page) == "undefined") {
                 this.page = 1;
             }
-
             const data = {
                 _mt: "orgUnits.getByOrgFramePageList",
                 rows: t.rows,

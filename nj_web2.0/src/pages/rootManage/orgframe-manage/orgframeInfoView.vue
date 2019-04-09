@@ -414,7 +414,7 @@ export default {
                     { required: true, message: "请输入组织编码", trigger: 'blur' },
                 ],
                 unitType: [
-                    { required: true, message: "请选择组织类型", trigger: 'change' },
+                    { required: true, message: "请选择组织类型", trigger: 'blur' },
                 ],
                 unitFname: [
                     { required: true, message: "请输入组织名称", trigger: 'blur' },
@@ -423,10 +423,10 @@ export default {
                     { required: true, message: "请选择上级部门", trigger: 'change' },
                 ],
                 unitPartfunct: [
-                    { required: true, message: "请选择部门职能", trigger: 'change' },
+                    { required: true, message: "请选择部门职能", trigger: 'blur' },
                 ],
                 unitIndustry: [
-                    { required: true, message: "请选择行业", trigger: 'change' },
+                    { required: true, message: "请选择行业", trigger: 'blur' },
                 ],
                 unitValdate: [
                     { required: true, type: 'date',validator: compareTime, message: "请选择生效日期", trigger: 'change' },
@@ -547,6 +547,7 @@ export default {
         },
         handleSubmit () {
             const t = this
+            console.log(t.formValidate._mt, "empnhNation1234");
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
             if (t.type === '02dept' && data.unitType === '01company') {

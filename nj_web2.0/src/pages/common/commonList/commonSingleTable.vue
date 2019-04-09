@@ -22,7 +22,7 @@
   import { getDataLevelUserLogin } from '../../../axios/axios'
   import { isSuccess } from '../../../lib/util'
   import selCountry from '../../../components/commonsel/selCountry'
-  import testUpdPage from './commonSinglePageUpdate'
+  import testUpdPage from './commonSinglePageUpdate1'
 
   export default{
     data() {

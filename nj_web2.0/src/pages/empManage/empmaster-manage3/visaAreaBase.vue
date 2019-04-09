@@ -8,14 +8,14 @@
                           width="auto"
                           @on-select="pageTo">
                         <!--主子表左侧页面布局-->
-                        <MenuItem name="option">员工基础信息</MenuItem>
-                        <MenuItem name="content"
+                        <MenuItem name="empBaseInfo">员工基础信息</MenuItem>
+                        <MenuItem name="empEducation"
                                   v-show="id">学历信息管理</MenuItem>
-                        <MenuItem name="content1"
+                        <MenuItem name="empContractInfo"
                                   v-show="id">合同信息管理</MenuItem>
-                        <MenuItem name="content2"
+                        <MenuItem name="empWorkExp"
                                   v-show="id">工作经历管理</MenuItem>
-                        <MenuItem name="content3"
+                        <MenuItem name="empFamily"
                                   v-show="id">家庭成员管理</MenuItem>
                     </Menu>
                 </i-col>
@@ -36,17 +36,31 @@
                     </div>
                     <div style="margin-top: 40px;padding: 10px;">
                         <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
-                        <empBaseInfo v-show="option"
+                        <empBaseInfo v-show="empBaseInfo"
                                      :logType="logType"
-                                     ref="option"
+                                     ref="empBaseInfo"
                                      :id="id"
                                      :index="index"
-                                     :modity="modity"></empBaseInfo>
+                                     :modity="modity"
+                                     @update="update"
+                                     @newdata="newdata"></empBaseInfo>
                         <!--子表分页页面 mainid为主表id-->
-                        <!-- <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
-            <mContent1 v-show="content1" :logType="logType" ref="content1" :mainId="id"></mContent1>
-            <mContent2 v-show="content2" :logType="logType" ref="content2" :mainId="id"></mContent2>
-            <mContent3 v-show="content3" :logType="logType" ref="content3" :mainId="id"></mContent3> -->
+                        <empEducation v-show="empEducation"
+                                      :logType="logType"
+                                      ref="empEducation"
+                                      :mainId="id"></empEducation>
+                        <empContractInfo v-show="empContractInfo"
+                                         :logType="logType"
+                                         ref="empContractInfo"
+                                         :mainId="id"></empContractInfo>
+                        <empWorkExp v-show="empWorkExp"
+                                    :logType="logType"
+                                    ref="empWorkExp"
+                                    :mainId="id"></empWorkExp>
+                        <empFamily v-show="empFamily"
+                                   :logType="logType"
+                                   ref="empFamily"
+                                   :mainId="id"></empFamily>
                     </div>
                 </i-col>
             </row>
@@ -64,12 +78,12 @@ export default {
     data () {
         return {
             //        默认参数 无需变更
-            active: "option",
-            option: true,
-            content: false,
-            content1: false,
-            content2: false,
-            content3: false,
+            active: "empBaseInfo",
+            empBaseInfo: true,
+            empEducation: false,
+            empContractInfo: false,
+            empWorkExp: false,
+            empFamily: false,
             //        主表查询单条数据的mt
             data: {
                 _mt: "empEmpnh.getById"
@@ -98,8 +112,6 @@ export default {
         //      关闭方法 分别调用本页面 父页面 主表详细信息页面 子表分页的清除方法  无需变更
         handleReset () {
             this.clear();
-            this.$refs.option.clear();
-            // this.$refs.content.clear();
             this.$emit("closeUp");
         },
         //      默认方法
@@ -111,99 +123,53 @@ export default {
             this.id = parseInt(id, 10);
             this.data.id = id;
             this.data.logType = logType;
-            this.$refs.option.getdata(this.data);
+            this.$refs.empBaseInfo.getdata(this.data);
+            if (logType == "修改") {
+                this.$refs.empBaseInfo.getSelect("nationtype");
+                this.$refs.empBaseInfo.getSelect("idtype");
+                this.$refs.empBaseInfo.getSelect("registerproperty");
+                this.$refs.empBaseInfo.getSelect("marrystatus");
+                this.$refs.empBaseInfo.getSelect("political");
+                this.$refs.empBaseInfo.getSelect("techlevel");
+                this.$refs.empBaseInfo.getSelect("gender");
+                this.$refs.empBaseInfo.disabled = false
+            } else {
+                this.$refs.empBaseInfo.disabled = true
+            }
         },
         //       根据name分别调用 主表或子表的查询方法 无需变更
         pageTo (name) {
-            this.option = false;
-            this.content = false;
-            this.content1 = false;
-            this.content2 = false;
-            this.content3 = false;
+            this.empBaseInfo = false;
+            this.empEducation = false;
+            this.empContractInfo = false;
+            this.empWorkExp = false;
+            this.empFamily = false;
             this.active = name;
-            switch (name) {
-                case "option":
-                    this.title = "修改";
-                    this.$refs.content.clear();
-                    break;
-                case "content":
-                    this.title = "修改";
-                    break;
-                case "content1":
-                    this.title = "修改";
-                    this.$refs.content.clear();
-                    break;
-                case "content2":
-                    this.title = "修改";
-                    this.$refs.content.clear();
-                    break;
-                case "content3":
-                    this.title = "修改";
-                    this.$refs.content.clear();
-                    break;
-            }
+            this.title = this.logType;
             this[name] = true;
-            if (name !== "option") {
+            if (name !== "empBaseInfo") {
                 this.$refs[name].search();
             } else {
-                this.getOption(this.id, this.$t("button.upd"));
+                this.getOption(this.id, this.logType);
             }
         },
         //      清空方法 初始化本页面参数 无需变更
         clear () {
-            this.option = true;
-            // this.content = false;
-            // this.content1 = false;
-            // this.content2 = false;
-            // this.content3 = false;
-            // this.id = NaN;
-            // this.active = "option";
+            this.empBaseInfo = true;
+            this.empEducation = false;
+            this.empContractInfo = false;
+            this.empWorkExp = false;
+            this.empFamily = false;
+            this.id = NaN;
+            this.active = "empBaseInfo";
+            this.$refs.empBaseInfo.clear()
         },
-        closeUp () {
-            const t = this;
-            t.option = false;
-            t.$refs.option.form.numberCode = "XXXXXX";
-            t.$refs.option.form.empnhName = "";
-            t.$refs.option.form.empnhPtname = "";
-            t.$refs.option.form.empnhNation = "";
-            t.$refs.update.form.deptId = "";
-            t.$refs.update.form.postId = "";
-            t.$refs.update.form.empnhPmp = "";
-            t.$refs.update.deptIdDis = "";
-            t.$refs.update.postIdDis = "";
-            t.$refs.update.empnhPmpDis = "";
-            t.$refs.update.form.empnhIdtype = "";
-            t.$refs.update.form.empnhIdno = "";
-            t.$refs.update.form.empnhSday = "";
-            t.$refs.update.form.empnhEday = "";
-            t.$refs.update.form.empnhGender = "";
-            t.$refs.update.form.empnhBirthdate = "";
-            t.$refs.update.form.empnhMobile = "";
-            t.$refs.update.form.empnhResiaddr = "";
-            t.$refs.update.form.empnhRegtype = "";
-            t.$refs.update.form.empnhRegaddr = "";
-            t.$refs.update.form.empnhPersmail = "";
-            t.$refs.update.form.empnhCompmail = "";
-            t.$refs.update.form.empnhQq = "";
-            t.$refs.update.form.empnhWechat = "";
-            t.$refs.update.form.empnhWklocat = "";
-            t.$refs.update.empnhWklocatDis = "";
-            t.$refs.update.form.empnhEntrydate = "";
-            t.$refs.update.form.empnhIrmentdate = "";
-            t.$refs.update.form.empnhSalbank = "";
-            t.$refs.update.empnhSalbankDis = "";
-            t.$refs.update.form.empnhSalaccount = "";
-            t.$refs.update.form.empnhSalaccname = "";
-            t.$refs.update.form.empnhMarriage = "";
-            t.$refs.update.form.empnhPolitical = "";
-            t.$refs.update.form.empnhFirstwkdate = "";
-            t.$refs.update.form.empnhTechtil = "";
-            t.$refs.update.form.empnhTechspec = "";
-            t.$refs.update.form.empnhTechdate = "";
-            t.$refs.update.form.empnhAttendyn = "";
-            t.$refs.update.form.note = "";
-        }, //关闭窗口
-
+        update (data) {
+            this.$emit('getData')
+        },
+        newdata (data) {
+            this.$emit('getData')
+        },
     }
 };
 </script>
