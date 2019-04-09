@@ -482,7 +482,6 @@ export default {
                 empnhIdno: t.empnhIdno,
                 deptId: id,
                 postId: t.postId,
-                unitPid: id,
                 state: t.modity
             };
             for (const dat in data) {
