@@ -275,6 +275,19 @@ export default {
                 callback();
             }
         };
+        const compareTime = (rule, value, callback) => {
+            if (value === "" || !value) {
+                callback(new Error("请选择生效日期"));
+            } else {
+                //开始时间不能大于结束时间
+                let startTimeNum = (new Date(this.formValidate.unitValdate)).getTime();
+                let endTimeNum = (new Date(this.formValidate.unitInvdate)).getTime();
+                if (startTimeNum > endTimeNum) {
+                    callback(new Error('生效日期不能大于失效日期'))
+                }
+                callback()
+            }
+        };
         return {
             type: '',
             distype: false,
@@ -401,7 +414,7 @@ export default {
                     { required: true, message: "请输入组织编码", trigger: 'blur' },
                 ],
                 unitType: [
-                    { required: true, message: "请选择组织类型", trigger: 'change' },
+                    { required: true, message: "请选择组织类型", trigger: 'blur' },
                 ],
                 unitFname: [
                     { required: true, message: "请输入组织名称", trigger: 'blur' },
@@ -410,13 +423,13 @@ export default {
                     { required: true, message: "请选择上级部门", trigger: 'change' },
                 ],
                 unitPartfunct: [
-                    { required: true, message: "请选择部门职能", trigger: 'change' },
+                    { required: true, message: "请选择部门职能", trigger: 'blur' },
                 ],
                 unitIndustry: [
-                    { required: true, message: "请选择行业", trigger: 'change' },
+                    { required: true, message: "请选择行业", trigger: 'blur' },
                 ],
                 unitValdate: [
-                    { required: true, type: 'date', message: "请选择生效日期", trigger: 'change' },
+                    { required: true, type: 'date', validator: compareTime, trigger: 'change' },
                 ],
                 partEstablish: [
                     { required: true, validator: validatePartEstablish, trigger: 'change' }
@@ -534,6 +547,7 @@ export default {
         },
         handleSubmit () {
             const t = this
+            console.log(t.formValidate._mt, "empnhNation1234");
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
             if (t.type === '02dept' && data.unitType === '01company') {

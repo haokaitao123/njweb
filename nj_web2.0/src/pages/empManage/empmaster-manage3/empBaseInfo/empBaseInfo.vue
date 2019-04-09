@@ -4,7 +4,7 @@
             <Form :model="form"
                   label-position="right"
                   ref="form"
-                  :label-width="150"
+                  :label-width="100"
                   id="empForm"
                   :rules="ruleValidate">
 
@@ -19,6 +19,7 @@
                     <FormItem label="雇员姓名"
                               prop="empnhName">
                         <Input v-model="form.empnhName"
+                               :disabled="disabled"
                                placeholder="请输入雇员姓名"></Input>
                     </FormItem>
                 </i-col>
@@ -26,6 +27,7 @@
                     <FormItem label="曾用名"
                               prop="empnhPtname">
                         <Input v-model="form.empnhPtname"
+                               :disabled="disabled"
                                placeholder="请输入你用过的名字"></Input>
                     </FormItem>
                 </i-col>
@@ -33,7 +35,8 @@
                     <FormItem label="民族"
                               prop="empnhNation">
                         <Select v-model="form.empnhNation"
-                                clearable
+                                :clearable="!disabled"
+                                :disabled="disabled"
                                 placeholder="请选择民族">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectNation"
@@ -51,39 +54,41 @@
                                    :disabled="disabled"
                                    :readonly="true"
                                    placeholder="选择部门"
-                                   @on-click="pickDeptData" />
+                                   @on-click="disabled?'':pickDeptData()" />
                         </span>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
                     <FormItem label="岗位名称"
                               prop="postId">
-                        <span @dblclick="dbPost">
+                        <span @dblclick="disabled?'':dbPost()">
                             <Input placeholder="请选择岗位"
                                    icon="search"
                                    :readonly="true"
+                                   :disabled='disabled'
                                    v-model="postIdDis"
-                                   @on-click="selectPost" />
+                                   @on-click="disabled?'':selectPost()" />
                         </span>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
                     <FormItem label="直接上级"
                               prop="empnhPmp">
-                        <span @dblclick="dbclean">
+                        <span @dblclick="disabled?'':dbclean()">
                             <Input v-model="empnhPmpDis"
                                    icon="search"
                                    :readonly="true"
                                    :disabled="disabled"
                                    placeholder="请选择员工"
-                                   @on-click="pickEmpData" />
+                                   @on-click="disabled?'':pickEmpData()" />
                         </span>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
                     <FormItem label="证件类型"
                               prop="empnhIdtype">
-                        <Select v-model="form.empnhIdtype">
+                        <Select v-model="form.empnhIdtype"
+                                :disabled="disabled">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectIdtype"
                                     :key="index"
@@ -96,6 +101,7 @@
                     <FormItem label="证件号码"
                               prop="empnhIdno">
                         <Input v-model="form.empnhIdno"
+                               :disabled="disabled"
                                placeholder="请输入证件号码"></Input>
                     </FormItem>
                 </i-col>
@@ -105,6 +111,8 @@
                         <DatePicker type="date"
                                     placeholder="请选择生效日期"
                                     :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     v-model="form.empnhSday"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
@@ -115,6 +123,8 @@
                         <DatePicker type="date"
                                     placeholder="请选择证件到期日"
                                     :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     v-model="form.empnhEday"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
@@ -124,7 +134,8 @@
                     <FormItem label="性别"
                               prop="empnhGender">
                         <Select v-model="form.empnhGender"
-                                clearable
+                                :clearable="!disabled"
+                                :disabled="disabled"
                                 placeholder="请选择性别">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectGender"
@@ -139,6 +150,8 @@
                         <DatePicker type="date"
                                     placeholder="请选择出生日期"
                                     :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     v-model="form.empnhBirthdate"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
@@ -147,6 +160,7 @@
                     <FormItem label="手机号码"
                               prop="empnhMobile">
                         <Input v-model="form.empnhMobile"
+                               :disabled="disabled"
                                placeholder="请输入手机号码"></Input>
                     </FormItem>
                 </i-col>
@@ -154,6 +168,7 @@
                     <FormItem label="居住地址"
                               prop="empnhResiaddr">
                         <Input v-model="form.empnhResiaddr"
+                               :disabled="disabled"
                                placeholder="请输入居住地址"></Input>
                     </FormItem>
                 </i-col>
@@ -161,6 +176,7 @@
                     <FormItem label="户籍地址"
                               prop="empnhRegaddr">
                         <Input v-model="form.empnhRegaddr"
+                               :disabled="disabled"
                                placeholder="请输入户籍地址"></Input>
                     </FormItem>
                 </i-col>
@@ -168,7 +184,8 @@
                     <FormItem label="户籍性质"
                               prop="empnhRegtype">
                         <Select v-model="form.empnhRegtype"
-                                clearable
+                                :clearable="!disabled"
+                                :disabled="disabled"
                                 placeholder="请选择户籍性质">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectRegtype"
@@ -181,6 +198,7 @@
                     <FormItem label="个人邮箱"
                               prop="empnhPersmail">
                         <Input v-model="form.empnhPersmail"
+                               :disabled="disabled"
                                placeholder="请输入个人邮箱"></Input>
                     </FormItem>
                 </i-col>
@@ -188,6 +206,7 @@
                     <FormItem label="公司邮箱"
                               prop="empnhCompmail">
                         <Input v-model="form.empnhCompmail"
+                               :disabled="disabled"
                                placeholder="请输入公司邮箱"></Input>
                     </FormItem>
                 </i-col>
@@ -195,6 +214,7 @@
                     <FormItem label="QQ号码"
                               prop="empnhQq">
                         <Input v-model="form.empnhQq"
+                               :disabled="disabled"
                                placeholder="请输入QQ号码"></Input>
                     </FormItem>
                 </i-col>
@@ -202,19 +222,20 @@
                     <FormItem label="微信号"
                               prop="empnhWechat">
                         <Input v-model="form.empnhWechat"
+                               :disabled="disabled"
                                placeholder="请输入微信号码"></Input>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
                     <FormItem label="工作地点"
                               prop="empnhWklocat">
-                        <span @dblclick="workplace">
+                        <span @dblclick="disabled?'':workplace()">
                             <Input v-model="empnhWklocatDis"
                                    icon="search"
                                    :disabled="disabled"
                                    :readonly="true"
                                    placeholder="选择工作地点"
-                                   @on-click="pickData" />
+                                   @on-click="disabled?'':pickData()" />
                         </span>
                     </FormItem>
 
@@ -225,6 +246,8 @@
                         <DatePicker type="date"
                                     placeholder="请选择入职日期"
                                     :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     v-model="form.empnhEntrydate"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
@@ -235,6 +258,8 @@
                         <DatePicker type="date"
                                     placeholder="请选择转正日期"
                                     :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     v-model="form.empnhIrmentdate"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
@@ -242,10 +267,11 @@
                 <i-col span="11">
                     <FormItem label="开户银行"
                               prop="empnhSalbank">
-                        <span @dblclick="dbbkBank">
+                        <span @dblclick="disabled?'':dbbkBank">
                             <Input placeholder="请选择开户银行"
                                    icon="search"
                                    :readonly="true"
+                                   :disabled="disabled"
                                    v-model="empnhSalbankDis"
                                    @on-click="selectBank" />
                         </span>
@@ -255,6 +281,7 @@
                     <FormItem label="银行账号"
                               prop="empnhSalaccount">
                         <Input v-model="form.empnhSalaccount"
+                               :disabled="disabled"
                                placeholder="请输入银行账号"></Input>
                     </FormItem>
                 </i-col>
@@ -262,6 +289,7 @@
                     <FormItem label="户号"
                               prop="empnhSalaccname">
                         <Input v-model="form.empnhSalaccname"
+                               :disabled="disabled"
                                placeholder="请输入户号"></Input>
                     </FormItem>
                 </i-col>
@@ -269,7 +297,8 @@
                     <FormItem label="婚姻状况"
                               prop="empnhMarriage">
                         <Select v-model="form.empnhMarriage"
-                                clearable
+                                :clearable="!disabled"
+                                :disabled="disabled"
                                 placeholder="请选择婚姻状况">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectMarriage"
@@ -282,7 +311,8 @@
                     <FormItem label="政治面貌"
                               prop="empnhPolitical">
                         <Select v-model="form.empnhPolitical"
-                                clearable
+                                :clearable="!disabled"
+                                :disabled="disabled"
                                 placeholder="请选择政治面貌">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectPolitical"
@@ -297,6 +327,8 @@
                         <DatePicker type="date"
                                     placeholder="请选择参加工作时间"
                                     :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     v-model="form.empnhFirstwkdate"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
@@ -306,7 +338,8 @@
                     <FormItem label="职称"
                               prop="empnhTechtil">
                         <Select v-model="form.empnhTechtil"
-                                clearable
+                                :clearable="!disabled"
+                                :disabled="disabled"
                                 placeholder="请选择职称">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectTechnicaltitle"
@@ -319,6 +352,7 @@
                     <FormItem label="职称专业"
                               prop="empnhTechspec">
                         <Input v-model="form.empnhTechspec"
+                               :disabled="disabled"
                                placeholder="请输入职称专业"></Input>
                     </FormItem>
                 </i-col>
@@ -328,6 +362,8 @@
                         <DatePicker type="date"
                                     placeholder="请选择职称取得时间"
                                     :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     v-model="form.empnhTechdate"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
@@ -348,11 +384,13 @@
                     <FormItem label="附件上传"
                               prop="fileKey">
                         <Row>
-                            <i-col span="4">
+                            <i-col span="4"
+                                   v-show="!disabled">
                                 <Upload :before-upload="handleUpload"
                                         action=" ">
                                     <Button type="ghost"
-                                            icon="ios-cloud-upload-outline">浏览</Button>
+                                            icon="ios-cloud-upload-outline"
+                                            :disabled="disabled">浏览</Button>
                                 </Upload>
                             </i-col>
                             <i-col span="19">
@@ -389,6 +427,7 @@
                               prop="note">
                         <Input v-model="form.note"
                                type="textarea"
+                               :disabled="disabled"
                                :autosize="{minRows: 2,maxRows: 5}"
                                placeholder="请输入备注..."></Input>
                     </FormItem>
@@ -481,11 +520,14 @@ export default {
             }
             return calphonecheck(new Error(rule.message))
         }
-        const mailcheck = (rule, value, mailphonecheck) => {
-            if (valid.val_mail2(value)) {
-                return mailphonecheck()
+        const mailcheck = (rule, value, mailcheck) => {
+            if (value !== '' && value !== undefined) {
+                if (valid.val_mail2(value)) {
+                    return mailcheck()
+                }
+                return mailcheck(new Error(rule.message))
             }
-            return mailphonecheck(new Error(rule.message))
+            mailcheck()
         }
         const numberCheck = (rule, value, numberValCheck) => {
             if (valid.val_number103(value)) {
@@ -493,12 +535,38 @@ export default {
             }
             return numberValCheck(new Error(rule.message))
         }
+        const idCardTime = (rule, value, callback) => {
+            if (value === "" || !value) {
+                callback(new Error("请选择到期日期"));
+            } else {
+                //开始时间不能大于结束时间
+                let startTimeNum = (new Date(this.form.empnhSday)).getTime();
+                let endTimeNum = (new Date(this.form.empnhEday)).getTime();
+                if (startTimeNum > endTimeNum) {
+                    callback(new Error('生效日期不能大于到期日期'))
+                }
+                callback()
+            }
+        };
+        const jobTime = (rule, value, callback) => {
+            if (value === "" || !value) {
+                callback(new Error("请选择入职日期"));
+            } else {
+                //开始时间不能大于结束时间
+                let startTimeNum = (new Date(this.form.empnhEntrydate)).getTime();
+                let endTimeNum = (new Date(this.form.empnhIrmentdate)).getTime();
+                if (startTimeNum > endTimeNum) {
+                    callback(new Error('入职日期不能大于转正日期'))
+                }
+                callback()
+            }
+        };
         return {
             disabled: false,
             unitCityName: '',
             popup: '',
             form: {
-                _mt: "empEmpnh.addOrUpd",
+                _mt: 'empEmpnh.addOrUpd',
                 numberCode: "XXXXXX", // 唯一编号
                 empnhName: "", // 雇员姓名
                 empnhPtname: "", // 曾用名
@@ -533,7 +601,7 @@ export default {
                 empnhTechspec: "", // 职称专业
                 empnhTechdate: "", // 职称取得时间
                 fileKey: "", // 上传附件
-                empnhAttendyn: "", // 是否考勤
+                empnhAttendyn: 1, // 是否考勤
                 note: "", // 备注
             },
             // 弹出框相关参数
@@ -730,7 +798,7 @@ export default {
                     {
                         validator: idnocheck,
                         message: '请填写正确的证件号码',
-                        trigger: 'change'
+                        trigger: 'blur'
                     },
                     {
                         validator: numberCheck,
@@ -742,7 +810,7 @@ export default {
                     {
                         required: true,
                         type: "date",
-                        message: "请选择生效日期",
+                        validator: idCardTime,
                         trigger: "change"
                     }
                 ],
@@ -778,7 +846,7 @@ export default {
                     {
                         validator: phonecheck,
                         message: '请填写正确的手机号',
-                        trigger: 'change'
+                        trigger: 'blur'
                     },
                     {
                         validator: numberCheck,
@@ -807,11 +875,20 @@ export default {
                         trigger: "biur"
                     }
                 ],
-                empnhCompmail: [
+                empnhPersmail: [
                     {
+                        required: false,
                         validator: mailcheck,
                         message: "请填写正确的邮箱",
-                        trigger: "change"
+                        trigger: "blur"
+                    }
+                ],
+                empnhCompmail: [
+                    {
+                        required: false,
+                        validator: mailcheck,
+                        message: "请填写正确的邮箱",
+                        trigger: "blur"
                     }
                 ],
                 empnhWklocat: [
@@ -825,7 +902,7 @@ export default {
                     {
                         required: true,
                         type: "date",
-                        message: "请选择入职日期",
+                        validator: jobTime,
                         trigger: "change"
                     }
                 ],
@@ -896,13 +973,8 @@ export default {
         searchBank
     },
     mounted () {
-        this.getSelect("nationtype");
-        this.getSelect("idtype");
-        this.getSelect("registerproperty");
-        this.getSelect("marrystatus");
-        this.getSelect("political");
-        this.getSelect("techlevel");
-        this.getSelect("gender");
+
+
     },
     methods: {
         //获取主表数据 无需变更
@@ -932,8 +1004,8 @@ export default {
                         t.form.empnhResiaddr = res.data.content[0].empnhResiaddr;
                         t.form.empnhRegtype = res.data.content[0].empnhRegtype;
                         t.form.empnhRegaddr = res.data.content[0].empnhRegaddr;
-                        t.form.empnhPersmail = res.data.content[0].empnhPersmail;
-                        t.form.empnhCompmail = res.data.content[0].empnhCompmail;
+                        t.form.empnhPersmail = res.data.content[0].empnhPersmail ? res.data.content[0].unitCityName : '';
+                        t.form.empnhCompmail = res.data.content[0].empnhCompmail ? res.data.content[0].empnhCompmail : '';
                         t.form.empnhQq = res.data.content[0].empnhQq;
                         t.form.empnhWechat = res.data.content[0].empnhWechat;
                         t.form.empnhWklocat = res.data.content[0].empnhWklocat;
@@ -1001,11 +1073,11 @@ export default {
         },
         getIdByType (paramCode, type) {
             this.form[type] = paramCode;
+            var tt = this.form[type];
         },
         //保存方法
         save () {
             const t = this;
-            console.log(t.form, "empnhNation");
             const data = deepCopy(t.form);
             data.logType = t.logType;
             data.id = t.id;
@@ -1031,9 +1103,10 @@ export default {
             if (data.empnhTechdate !== undefined) {
                 data.empnhTechdate = data.empnhTechdate === "" ? "" : new Date(data.empnhTechdate).format("yyyy-MM-dd");
             }
-            console.log(data, "empnhNation");
+            console.log(data, "data")
             //        保存无需关闭页面 无需变更
-            this.$refs.form.validate(valid => {
+            this.$refs.form.validate((valid) => {
+                console.log(valid, "valid")
                 if (valid) {
                     getDataLevelUserLoginNew(data)
                         .then(res => {
@@ -1064,8 +1137,6 @@ export default {
         },
         clear () {
             const t = this;
-            // t.areaContryDis = "";
-            t.form = {};
             this.$refs.form.resetFields();
         },
         //城市
