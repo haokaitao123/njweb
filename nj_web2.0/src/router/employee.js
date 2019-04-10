@@ -20,6 +20,7 @@ const resumeNumMange = resolve => require(['@/pages/RmResumeMange/resumeNumMange
 
 const depManage = resolve => require(['@/pages/depManage/depManage'], resolve)
 
+const recruitResumeManage = resolve => require(['@/pages/empManage/RecruitResume-manage/recruitResumeManage'], resolve)
 export default [{
     path: 'goaborddetail',
     name: 'goaborddetail',
@@ -69,5 +70,10 @@ export default [{
     path: 'empDepminManage',
     name: 'empDepminManage',
     component: empDepminManage,
+  },
+  {
+    path: 'recruitResumeManage',
+    name: 'recruitResumeManage',
+    component: recruitResumeManage,
   },
 ]
