@@ -140,7 +140,7 @@ export default {
                     title: "是否紧急联系人",
                     key: "fmIsurgent",
                     sortable: "custom",
-                    width: 130,
+                    width: 150,
                     render: (h, params) => {
                         return h("div", params.row.fmIsurgent == 1 ? "是" : "否");
                     }
@@ -360,6 +360,8 @@ export default {
             t.$refs.contentMsg.setRowId(id, logType);
             if (t.logTypeE === '查看') {
                 t.$refs.contentMsg.disabled = true
+            } else {
+                t.$refs.contentMsg.disabled = false
             }
         },
 

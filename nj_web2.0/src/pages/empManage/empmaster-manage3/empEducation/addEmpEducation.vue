@@ -287,6 +287,9 @@ export default {
             if (logType !== "新增") {
                 t.getData();
             }
+            if (logType == "查看") {
+                t.ruleValidate = {}
+            }
         },
         // 查询
         getData () {

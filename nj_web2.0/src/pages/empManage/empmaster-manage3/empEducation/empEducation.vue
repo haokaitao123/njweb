@@ -383,6 +383,8 @@ export default {
             t.$refs.contentMsg.setRowId(id, logType);
             if (t.logTypeE === '查看') {
                 t.$refs.contentMsg.disabled = true
+            } else {
+                t.$refs.contentMsg.disabled = false
             }
 
         },
