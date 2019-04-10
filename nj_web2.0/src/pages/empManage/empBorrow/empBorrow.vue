@@ -310,9 +310,9 @@
             onOk: () => {
               getDataLevelUserLogin({
                 // 设置删除mt参数 其余无需更改
-                _mt: 'empBorrow.deleteByIds',
+                _mt: 'empBorrow.delByIds',
                 logType: '删除',
-                delIds: t.tableselected.toString(),
+                ids: t.tableselected.toString(),
               }).then((res) => {
                 if (isSuccess(res, t)) {
                   t.tableselected = []
@@ -439,6 +439,7 @@
       },
       //关闭,并清除弹出页面的值
       closeUp() {
+        //alert(1)
         const t = this
         t.openUpdate = false
         t.$refs.update.forbidden = false
