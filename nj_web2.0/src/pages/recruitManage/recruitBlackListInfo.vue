@@ -96,18 +96,13 @@
                 </Row>
             </Form>
         </div>
-        <!--弹出选择页面布局 无需变更-->
-        <!-- <transition name="fade">
-      <searchCity v-show="openPick" @closeUp="close" @changeinput="changeinput" ref="searchCity"></searchCity>
-    </transition> -->
+        
     </div>
 </template>
 <script>
 import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../axios/axios'
 import { isSuccess, deepCopy } from '../../lib/util'
-//  引入弹出选择页面
-import searchCity from '../../components/searchTable/searchCity'
-
+import valid from '../../lib/pub_valid'
 export default {
     data () {
         const phonecheck = (rule, value, calphonecheck) => {
@@ -116,14 +111,14 @@ export default {
             }
             return calphonecheck(new Error(rule.message))
         }
-        const idnocheck = (rule, value, idcheck) => {
-            if (this.form.empnhIdtype === '01id') {
-                if (valid.val_IdCard(value)) {
-                    return idcheck()
+        const numberCheck = (rule, value, numberValCheck) => {
+            if (value !== '' && value !== undefined) {
+                if (valid.val_number103(value)) {
+                    return numberValCheck()
                 }
-                return idcheck(new Error(rule.message))
+                return numberValCheck(new Error(rule.message))
             }
-            return idcheck()
+            numberValCheck()
         }
 
         return {
@@ -140,16 +135,24 @@ export default {
                 funId: "1",
                 logType: ""
             },
-            // 弹出选择初始化无需变更
-            openPick: false,
+    
             // 字段校验 编码与FormItem上的prop相符合,通常取字段名.  message: 提示信息  trigger
             ruleValidate: {
                 recName: [
                     { required: true, message: '请输入求职者姓名', trigger: 'blur' },
                 ],
                  recPhone: [
-                    {  validator: phonecheck },
-                ],
+                      {
+                        validator: phonecheck,
+                        message: '请填写正确的手机号',
+                        trigger: 'blur'
+                    },
+                    {
+                        validator: numberCheck,
+                        message: '请输入正确的数字格式',
+                        trigger: 'blur'
+                    },
+                 ],
             },
         }
     },
@@ -237,30 +240,9 @@ export default {
                 }
             })
         },
-        // 弹出选择关闭方法 无需变更
-        close () {
-            const t = this
-            t.openPick = false
-        },
-        // 弹出选择双击赋值方法
-        changeinput (name, id) {
-            const t = this
-            //        赋值到显示字段与实际值字段
-            t.formValidate.bankCityName = name
-            t.formValidate.bankCityid = id
-        },
-        //      打开弹出选择页面
-        pickData () {
-            const t = this
-            t.$refs.searchCity.getData('1')
-            t.openPick = true
-        },
-        //      双击清除弹出选择值
-        clearCityid () {
-            const t = this
-            t.formValidate.bankCityName = ''
-            t.formValidate.bankCityid = ''
-        },
+        
+        
+       
         //      关闭本页面 清除页面字段值
         handleReset () {
             const t = this

@@ -74,6 +74,22 @@ export default {
             this.handleSubmit()
         },
         handleSubmit () {
+            this.$Spin.show({
+                render: (h) => {
+                    return h('div',
+                        [
+                            h('Icon', {
+                                'class': 'demo-spin-icon-load',
+                                props: {
+                                    type: 'load-c',
+                                    size: 18
+                                }
+                            }),
+                            h('div', 'Loading')
+                        ]
+                    )
+                }
+            });
             const t = this
             const tedata = this.tedata
             for (const dat in tedata) {
@@ -100,15 +116,18 @@ export default {
                         t.filekey = res.data.content[0].filekey
                         t.filename = res.data.content[0].filename
                         t.$emit('setFileKey', t.filekey, t.filename, true)
-                        t.handleReset()
+                        t.handleReset();
+                        this.$Spin.hide();
                     }
                 }).catch(() => {
+                    this.$Spin.hide();
                     t.$Modal.error({
                         title: this.$t('reminder.err'),
                         content: this.$t('reminder.errormessage'),
                     })
                 })
             } else {
+                this.$Spin.hide();
                 t.$Modal.warning({
                     title: this.$t('reminder.remind'),
                     content: this.$t('reminder.exportErr'),
@@ -144,11 +163,12 @@ export default {
             }
         },
         handleReset () {
-            this.$emit('closeExp')
+            this.$emit('closeExp');
         },
     },
 }
 </script>
 <style lang="scss" scoped>
+@import "../../sass/spin_loading";
 @import "../../sass/updateAndAdd";
 </style>
