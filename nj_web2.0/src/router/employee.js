@@ -22,6 +22,8 @@ const depManage = resolve => require(['@/pages/empManage/depManage/depManage'], 
 
 const protocolManage = resolve => require(['@/pages/protocolManage/protocolManage'], resolve)
 
+const recruitResumeManage = resolve => require(['@/pages/empManage/RecruitResume-manage/recruitResumeManage'], resolve)
+
 export default [{
     path: 'goaborddetail',
     name: 'goaborddetail',
@@ -77,4 +79,9 @@ export default [{
     name: 'protocolManage',
     component: protocolManage,
   },
+  {
+    path: 'recruitResumeManage',
+    name: 'recruitResumeManage',
+    component: recruitResumeManage,
+  }
 ]
