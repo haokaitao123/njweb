@@ -123,7 +123,7 @@
                                 </i-col>
                                 <i-col span="19">
                                     <span v-if="file !== ''"
-                                          @dblclick="clearFile">
+                                          @dblclick="disabled?'':clearFile()">
                                         <i-col span="22">
                                             <Input v-model="file.name"
                                                    readonly="readonly">
@@ -169,6 +169,7 @@
                                         @click="close"
                                         style="margin-left: 8px">取消</Button>
                                 <Button type="primary"
+                                        v-show="!disabled"
                                         @click="save">保存</Button>
                             </FormItem>
                         </row>

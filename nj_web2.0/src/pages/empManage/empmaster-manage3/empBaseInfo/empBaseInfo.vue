@@ -407,7 +407,7 @@
                             </i-col>
                             <i-col span="19">
                                 <span v-if="file !== ''"
-                                      @dblclick="clearFile">
+                                      @dblclick="disabled?'':clearFile()">
                                     <i-col span="22">
                                         <Input v-model="file.name"
                                                readonly="readonly">
