@@ -1,16 +1,6 @@
 <template>
   <div class="cover">
     <div class="box">
-        <!-- <i-col class="meau-left" span="5">
-          <Menu :active-name="active" width="auto" @on-select="pageTo">
-            <MenuItem name="option">
-              {{$t('lang_payroll.paySalSet.title')}}
-            </MenuItem>
-            <MenuItem name="content" v-show="$store.state.paySalSet.childId1">
-              {{$t('lang_payroll.paySalSetItem.title')}}
-            </MenuItem>
-          </Menu>
-        </i-col> -->
         <div class="title">
             <div class="title-text">
                 <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>
@@ -25,42 +15,41 @@
             <Row>
                 <!--  prop 是Form对应表单域 model 里的字段 -->
                 <!--  员工姓名选择框  -->
-                <Col span="10" offset="1">
+                <!-- <Col span="10" offset="1">
                     <FormItem label="员工姓名" prop="empId">
                         <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                        <span @dblclick="clearUserid">
+                        <!-- <span >
                             <Input v-model="empName" icon="search" :readonly="true" placeholder="请选择员工姓名"  @on-click="pickUserData" />
                         </span>
                     </FormItem>
-                </Col>
-                 <!--  部门名称输入框  -->
+                </Col> --> -->
+                 <!--  操作时间输入框  -->
                 <Col span="10" offset="1">
-                    <FormItem label="部门名称" prop="deptId">
-                        <Input v-model="deptIdName" placeholder="请输入部门名称"></Input>
+                    <FormItem label="操作时间" prop="depoHandle">
+                        <DatePicker type="date"
+                            placeholder="请选择操作时间"
+                            :editable="false"
+                            v-model="formValidate.depoHandle"
+                            style="width: 100%">
+                        </DatePicker>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
-                <!--  岗位名称输入框 -->
+                <!--  变动原因-->
                 <Col span="10" offset="1">
-                   <FormItem label="岗位名称" prop="postId">
-                        <Input v-model="postName" placeholder="请输入岗位名称"></Input>
+                   <FormItem label="变动原因" prop="depoReason">
+                        <Input v-model="formValidate.depoReason" placeholder="请输入变动原因"></Input>
                     </FormItem>
                 </Col>
-                <!--  证件号码输入框  -->
+                  <!--  金额输入框  -->
                 <Col span="10" offset="1">
-                    <FormItem label="证件号码" prop="empnhIdno">
-                        <Input v-model="formValidate.empnhIdno" placeholder="请输入证件号码" style="width: 100%"></Input>
+                    <FormItem label="金额" prop="moneyNum">
+                        <InputNumber v-model="formValidate.moneyNum" placeholder="请输入金额"  style="width: 100%"></InputNumber>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
-                 <!--  金额输入框  -->
-                <Col span="10" offset="1">
-                    <FormItem label="总金额" prop="moneyNum">
-                        <InputNumber v-model="formValidate.moneyNum" placeholder="请输入总金额" style="width: 100%"></InputNumber>
-                    </FormItem>
-                </Col>
                 <!--  备注文本域  -->
                 <Col span="21" offset="1">
                     <FormItem label="备注" prop="note">
@@ -81,57 +70,43 @@
             </Row>
       </Form>
     </div>
-    <transition name="fade">
-        <!--  员工信息的弹出框 v-show="openPickUser"绑定了一个判断员工信息弹窗是否显示隐藏的数据   @closeEmp="closeEmp" 关闭员工信息弹窗事件  @inputEmp="inputEmp" 员工信息弹出框input选中事件  -->
-        <searchEmpMaster v-show="openPickUser" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
-    </transition>
   </div>
 </template>
 <script>
-    import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../axios/axios' //调用请求接口封装的公共方法
-    import { isSuccess, deepCopy } from '../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
-    import searchEmpMaster from '../../components/searchTable/searchEmpnhMaster' //引入员工信息页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
+    import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios' //调用请求接口封装的公共方法
+    import { isSuccess, deepCopy } from '../../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
   export default {
     data() {
       return {
-        openPickUser: false,//员工信息默认false 隐藏
         formValidate: {
-            _mt:'depManage.addOrUpd', //新增的数据接口
+            _mt:'depoManageDetail.addOrUpd', //新增的数据接口
             funId: '1', //功能ID
             logType:this.logType, //操作类型
-            deptId: '', //项目id
-            empId: '', //员工id
-            postId: '', //岗位id
-            empnhIdno: '',//证件号码
-            moneyNum:null,//总金额
+            depoType: '', //押金类型
+            depoHandle: '', //操作时间
+            depoReason: '', //变动原因
+            moneyNum:null,//金额
             note: '',//备注
         },
-        postName: '',//岗位名称
-        empName:'',//员工名称
-        deptIdName:'',//部门名称
         ruleValidate: { //表单验证规则
-            //员工
-            empId: [ 
-                { required: true, message: '请选择员工', trigger: 'change' }
+            //押金类型
+            depoType: [ 
+                { required: true, message: '请选择押金类型', trigger: 'change' }
             ],
-            // //证件号码
-            // empnhIdno: [
-            //     { required: true, type: 'number',message: '请输入证件号码', trigger: 'change'}
-            // ],
-            //总金额
+            //操作时间
+            depoHandle: [
+                { required: true, message: '请选择操作时间', trigger: 'change',pattern: /.+/}
+            ],
+            //金额
             moneyNum: [
                  { required: true, type: 'number',message: '请输入金额', trigger: 'change' }
             ],
         },
       }
     },
-    //外部调用的组件注册到这里
-    components: {
-        searchEmpMaster,//员工信息弹出框组件
-    },
     // 定义子组件获取父组件传入的值
     props: {
-        id: Number,
+        mainId: Number,
         logType: String,
         index: Number,
     },
@@ -141,20 +116,16 @@
             const t = this
             //根据id获取数据请求接口
             getDataLevelUserLogin({
-                _mt: 'depManage.getById',
+                _mt: 'depoManageDetail.getById',
                 id: id,
                 logType: '根据id获取数据',
             }).then((res) => {
             if (isSuccess(res, t)) {
                 //回显数据绑定
-                t.formValidate.deptId = res.data.content[0].deptId
-                t.formValidate.empId = res.data.content[0].empId
-                t.deptIdName = res.data.content[0].deptIdName
-                t.empName = res.data.content[0].empName
-                t.postName = res.data.content[0].postName
-                t.formValidate.postId = res.data.content[0].postId
-                t.formValidate.empnhIdno = res.data.content[0].empnhIdno
-                t.formValidate.moneyNum = Number(res.data.content[0].moneyNum)
+                t.formValidate.depoReason = res.data.content[0].depoReason
+                t.formValidate.depoType = res.data.content[0].depoType
+                t.formValidate.depoHandle = res.data.content[0].depoHandle
+                t.formValidate.moneyNum = res.data.content[0].moneyNum
                 t.formValidate.note = res.data.content[0].note
             }
             }).catch(() => {
@@ -170,8 +141,14 @@
             //修改请求的参数
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
+            data.visaAreaId = t.mainId // 放入主表id
             if (t.logType === '修改') {
                 data.id = t.id
+            }
+             if (data.depoHandle !== undefined && data.depoHandle !== '') {
+               data.depoHandle = new Date(data.depoHandle).format('yyyy-MM-dd')
+            } else {
+               data.depoHandle = ''
             }
             // //form表单校验事件
             this.$refs.formValidate.validate((valid) => {
@@ -215,40 +192,9 @@
             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
             this.$refs.formValidate.resetFields()
         },
-        //关闭员工信息弹出框
-        closeEmp() {
-            const t = this
-            t.openPickUser = false
-        },
-        //员工信息弹出框input选中事件
-        inputEmp(row) {
-            const t = this
-            t.empName = row.empnhName //员工信息name赋值
-            t.formValidate.empId = row.id //员工信息id赋值
-            t.deptIdName = row.deptIdDis;
-            t.formValidate.deptId = row.deptId;
-            t.formValidate.postId = row.postId;
-            t.postName = row.postIdDis;
-            t.formValidate.empnhIdno = row.empnhIdno;
-        },
-        //清除员工信息
-        clearUserid() {
-            const t = this
-            t.formValidate.empnhIdno = '';
-            t.empName = '';
-            t.formValidate.empId;
-            t.deptIdName = '';
-            t.postName = '';
-        },
-        //打开员工信息弹出框
-        pickUserData() {
-            const t = this
-            t.$refs.searchEmpMaster.getData() //调用员工信息子组件获取列表数据方法 列表回显数据
-            t.openPickUser = true //打开员工信息弹出框
-        },
     },
   }
 </script>
 <style lang="scss" scoped>
-  @import "../../sass/updateAndAdd";
+  @import "../../../sass/updateAndAdd";
 </style>
