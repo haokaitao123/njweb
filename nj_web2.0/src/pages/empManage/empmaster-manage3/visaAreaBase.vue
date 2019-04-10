@@ -125,13 +125,7 @@ export default {
             this.data.logType = logType;
             this.$refs.empBaseInfo.getdata(this.data);
             if (logType == "修改") {
-                this.$refs.empBaseInfo.getSelect("nationtype");
-                this.$refs.empBaseInfo.getSelect("idtype");
-                this.$refs.empBaseInfo.getSelect("registerproperty");
-                this.$refs.empBaseInfo.getSelect("marrystatus");
-                this.$refs.empBaseInfo.getSelect("political");
-                this.$refs.empBaseInfo.getSelect("techlevel");
-                this.$refs.empBaseInfo.getSelect("gender");
+                this.$refs.empBaseInfo.getSelect();
                 this.$refs.empBaseInfo.disabled = false
             } else {
                 this.$refs.empBaseInfo.disabled = true

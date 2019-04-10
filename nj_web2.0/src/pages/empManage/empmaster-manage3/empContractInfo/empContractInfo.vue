@@ -9,16 +9,7 @@
                     @click="search">查询</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
-            <Button type="primary"
-                    icon="primary"
                     @click="expData">导出</Button>
-            <Button type="primary"
-                    icon="primary"
-                    @click="importExcel">导入</Button>
-            <Button type="error"
-                    icon="primary"
-                    @click="deletemsg">删除</Button>
         </row>
         <row class="table-form"
              ref="table-form">
@@ -29,7 +20,8 @@
                    border
                    ref="selection"
                    :columns="columns"
-                   :data="data"></Table>
+                   :data="data"
+                   :loading="loading"></Table>
         </row>
         <Row style="display: flex">
             <Page :total="total"
@@ -54,9 +46,7 @@
                         @hideMsg="hideMsg"
                         :mainId="mainId"
                         :logType="logTypeE"
-                        ref="contentMsg"
-                        @newdata="addNewArray"
-                        @update="updateArray"></contentMsg>
+                        ref="contentMsg"></contentMsg>
         </transition>
         <!--导入导出子页面 若没有导入导出可以去掉-->
         <transition>
@@ -75,21 +65,12 @@
                     @closeExpDowMain="closeExpDowMain"
                     ref="expdow"></expdow>
         </transition>
-        <!-- <transition name="fade">
-            <importExcel v-show="openImport"
-                         :impid="updateId"
-                         :imp_mt="imp_mt"
-                         @getData="getData"
-                         @closeImport="closeImport"
-                         ref="importExcel"></importExcel>
-        </transition> -->
     </div>
 </template>
 <script>
 import contentMsg from "./addEmpContractInfo";
 import expwindow from "../../../../components/fileOperations/expSms";
 import expdow from "../../../../components/fileOperations/expdow";
-import importExcel from "../../../../components/importModel/importParam";
 import {
     getDataLevelUserLogin,
     getDataLevelUserLoginNew
@@ -106,13 +87,10 @@ export default {
                 { code: "contTypeDis", name: "合同类别" },
                 { code: "contPeriodDis", name: "合同期限" },
                 { code: "conSdate", name: "合同开始日" },
+                { code: "conEdate", name: "合同到期日" },
+                { code: "contPeriodDis", name: "合同期限" },
+                { code: "conSdate", name: "合同开始日" },
                 { code: "conEdate", name: "合同结束日" },
-                // 保密协议
-                // { code: "conEdate", name: "合同结束日" },
-                // 竞业协议
-                // { code: "conEdate", name: "合同结束日" },
-                // 合同工作时间
-                // { code: "conEdate", name: "合同结束日" },
                 { code: "contSigndate", name: "签署日期" },
                 { code: "contProbatDis", name: "试用期限" },
                 { code: "contProbatdt", name: "试用到期时间" }
@@ -196,13 +174,13 @@ export default {
                                         click: () => {
                                             this.showMsgBtn(
                                                 params.row.id,
-                                                this.logTypeE,
+                                                '查看',
                                                 params.index
                                             );
                                         }
                                     }
                                 },
-                                this.logTypeE
+                                "查看"
                             )
                         ]);
                     }
@@ -211,18 +189,18 @@ export default {
             data: [],
             docsName: "",
             params: {
-                _mt: "empContractInfo.getPage",
+                _mt: "empContractinfo.getPage",
                 funId: "1",
                 rows: 10,
                 page: 1,
                 sort: "id",
                 order: "asc",
                 logType: "",
-                // visaAreaId: ""
                 pkId: ""
             },
             index: 0,
-            tableselected: []
+            tableselected: [],
+            loading: ''
         };
     },
     //    主表id
@@ -234,13 +212,12 @@ export default {
         contentMsg,
         expwindow,
         expdow,
-        importExcel
     },
     mounted () { },
     methods: {
-
         search () {
             this.params.pkId = this.mainId + "";
+            // this.
             this.getData();
         },
         getData () {
@@ -287,55 +264,12 @@ export default {
             }
             this.tableselected = newArr;
         },
-        deletemsg () {
-            const t = this;
-            if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
-            } else {
-                t.$Modal.confirm({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.confirmdelete"),
-                    onOk: () => {
-                        getDataLevelUserLogin({
-                            _mt: "empEducation.delByIds",
-                            funId: "1",
-                            logType: "删除",
-                            ids: t.tableselected.toString()
-                        })
-                            .then(res => {
-                                if (isSuccess(res, t)) {
-                                    t.getData();
-                                    t.tableselected = [];
-                                }
-                            })
-                            .catch(() => {
-                                t.$Modal.error({
-                                    title: this.$t("reminder.err"),
-                                    content: this.$t("reminder.errormessage")
-                                });
-                            });
-                    },
-                    onCancel: () => { }
-                });
-            }
-        },
-        addNewArray (res) {
-            const t = this;
-            t.data.unshift(res);
-        },
-        updateArray (res) {
-            const t = this;
-            t.data.splice(t.index, 1, res);
-        },
         sizeChange (size) {
             const t = this;
             t.params.rows = size;
             t.getData();
         },
-        //      打开子表详细信息页面 无需变更
+        //打开子表详细信息页面 无需变更
         showMsgBtn (id, logType, index) {
             const t = this;
             t.showMsg = true;
@@ -354,18 +288,6 @@ export default {
         },
         hideMsg () {
             this.showMsg = false;
-        },
-        // 导入导出默认方法 无需更改
-        closeImport () {
-            const t = this;
-            t.openImport = false;
-        },
-
-        // 导入导出默认方法 无需更改
-        importExcel () {
-            const t = this;
-            t.openImport = true;
-            t.$refs.importExcel.getDowModelFile();
         },
         // 导入导出默认方法
         expData () {
@@ -387,6 +309,9 @@ export default {
         // 导入导出默认方法 无需更改
         closeExp () {
             const t = this;
+            t.$refs.expwindow.checkAll = false;
+            t.$refs.expwindow.indeterminate = false;
+            t.$refs.expwindow.expDisFields = [];
             t.openExp = false;
         },
         // 导入导出默认方法 无需更改

@@ -5,38 +5,23 @@
         <card>
           <p slot="title">
             <Icon type="mouse"></Icon>
-            &nbsp;{{$t('lang_organization.orgpost.title')}}
+            &nbsp;招聘简历管理
           </p>
           <Row>
             <Col span="18" style="width: 100% !important">
               <Row>
                 <Input
-                  :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')"
+                  placeholder="请输入姓名"
                   style="width: 200px"
-                  v-model="postFname"
+                  v-model="resuName"
                 />
-                <Select
-                  v-model="postDfpslevel"
+                <Input
+                  placeholder="请输入证件号码"
                   style="width: 200px"
-                  placeholder="请选择职位级别"
-                  clearable
-                >
-                  <Option
-                    :value="item.paramCode"
-                    v-for="(item,index) in selectDfpslevel"
-                    :key="index"
-                    @click="getPageByType(item.paramCode)"
-                  >{{item.paramInfoCn}}</Option>
-                </Select>
+                  v-model="resuIdno"
+                />
                 <btnList
                   @buttonExport="expData"
-                  @buttonImport="importExcel"
-                  @buttonAdd="openUp(NaN,$t('button.add'))"
-                  @buttonDel="deletemsg"
-                  @buttonValid="modifystatus('02valid')"
-                  @buttonDraft="modifystatus('01draft')"
-                  @buttonInvalid="modifystatus('03invalid')"
-                  @moditySelect="modityChange"
                   @buttonSearch="search"
                   :btnData="btnData"
                   :FlowNode="FlowNode"
@@ -84,17 +69,20 @@
     </Row>
     <!--布置子页面 v-show控制是否显示 :**是传递到子页面的值  @**是传递到子页面的方法 无需变更-->
     <transition name="fade">
-      <update
-        v-show="openUpdate"
-        :id="updateId"
-        :logType="logType"
-        :index="index"
-        @closeUp="closeUp"
-        @getData="addNewArray"
-        @update="updateArray"
-        ref="update"
-      ></update>
+      <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp" @newdata="addNewArray" @update="updateArray" ref="update"></update>
     </transition>
+    <!--<transition name="fade">-->
+      <!--<update-->
+        <!--v-show="openUpdate"-->
+        <!--:id="updateId"-->
+        <!--:logType="logType"-->
+        <!--:index="index"-->
+        <!--@closeUp="closeUp"-->
+        <!--@getData="addNewArray"-->
+        <!--@update="updateArray"-->
+        <!--ref="update"-->
+      <!--&gt;</update>-->
+    <!--</transition>-->
     <!--导入导出子页面 若没有导入导出可以去掉-->
     <transition>
       <expwindow
@@ -116,20 +104,10 @@
         ref="expdow"
       ></expdow>
     </transition>
-    <transition name="fade">
-      <importExcel
-        v-show="openImport"
-        :impid="updateId"
-        :imp_mt="imp_mt"
-        @getData="getData"
-        @closeImport="closeImport"
-        ref="importExcel"
-      ></importExcel>
-    </transition>
   </div>
 </template>
 <script>
-import update from "./orgpostInfoView";
+import update from "./recruitResumeBase";
 // 默认引用 无需变更
 import { isSuccess } from "../../../lib/util";
 import {
@@ -138,55 +116,65 @@ import {
 } from "../../../axios/axios";
 import expwindow from "../../../components/fileOperations/expSms";
 import expdow from "../../../components/fileOperations/expdow";
-import importExcel from "../../../components/importModel/importParam";
 import btnList from "../../../components/btnAuth/btnAuth";
 export default {
   data() {
 
       return {
-
-        // 导入的mt名称
-        imp_mt: "orgPost.importData",
         // 导出字段设置, code字段名 name列名
         expDataTital: [
-          { code: "postCode", name: "岗位编码" },
-          { code: "postFname", name: "岗位名称" },
-          { code: "postDfpslevelName", name: "岗位级别" },
-          { code: "postStansalary", name: "岗位标准薪资" },
-          { code: "postTrialsalary", name: "试用期薪资" },
-          { code: "postCostsharingDis", name: "分摊成本" },
-          { code: "seniorityWageDis", name: "工龄工资" },
-          { code: "postStationDis", name: "是否驻厂" },
-          { code: "postValiddate", name: "生效日期" },
-          { code: "postInvdate", name: "失效日期" },
-          { code: "postReason", name: "失效原因" },
-          { code: "note", name: "备注" }
+          { code: "resuApplypost", name: "应聘岗位" },
+          { code: "resuIdentityDis", name: "身份" },
+          { code: "resuFilldate", name: "面试日期" },
+          { code: "resuName", name: "姓名" },
+          { code: "resuIdno", name: "证件号码" },
+          { code: "resuMobile", name: "手机号" },
+          { code: "resuGenderDis", name: "性别" },
+          { code: "resuBirtday", name: "出生日期" },
+          { code: "resuBirtplace", name: "籍贯" },
+          { code: "resuNatalityDis", name: "民族" },
+          { code: "resuPoliticalDis", name: "政治面貌" },
+          { code: "resuHealthstaDis", name: "健康状况" },
+          { code: "resuMaritlstaDis", name: "婚育状况" },
+          { code: "resuHeight", name: "身高(cm)" },
+          { code: "resuWeight", name: "体重(kg)" },
+          { code: "resuEducatDis", name: "学历" },
+          { code: "resuSchool", name: "毕业院校" },
+          { code: "resuProfes", name: "专业" },
+          { code: "resuLiving", name: "现居住地" },
+          { code: "resuFamadds", name: "家庭地址" },
+          { code: "resuEmernm", name: "紧急联系人姓名" },
+          { code: "resuEmphone", name: "紧急联系人电话" },
+          { code: "resuWithmeDis", name: "与本人关系" },
+          { code: "resuSalary", name: "期望薪资" },
+          { code: "resuProstatusDis", name: "职业状态" },
+          { code: "resuAvaitime", name: "可到岗时间" },
+          { code: "resuIsrelativesDis", name: "是否有亲朋在本公司任职" },
+          { code: "resuRelatname", name: "本公司任职亲朋姓名" },
+          { code: "resuRelatdept", name: "本公司任职亲朋所在部门" },
+          { code: "resuIscriminalDis", name: "是否有犯罪记录" },
+          { code: "resuIstattooDis", name: "是否有纹身" },
+          { code: "resuApplytypeDis", name: "通过何种方式应聘" },
+          { code: "resuIntrname", name: "介绍人姓名" },
+          { code: "resuIscomDis", name: "是否服从调配" },
+          { code: "resuSelfeval", name: "自我评价" },
+          { code: "resuEnrorageDis", name: "招生范围" },
+          { code: "resuIsgraduDis", name: "是否毕业" },
+          { code: "resuFinalapptm", name: "最后应聘时间" },
+          { code: "note", name: "备注" },
         ],
         // 导入导出默认参数 无需变更
-        openImport: false,
         openExpDow: false,
         openExp: false,
         filekey: "",
         filename: "",
         // 子页面所需参数 无需变更
         tableheight: document.body.offsetHeight - 280,
-        logType: "",
-        openUpdate: false,
-        updateId: NaN,
-        loading: false,
-        dataTree: [],
-        //treeheight: document.body.offsetHeight - 200,
-        //tableheight: document.body.offsetHeight - 280,
         value: "",
         logType: "",
         openUpdate: false,
         updateId: NaN,
         tableselected: [],
-        //页面初始化默认状态
-        state: "02valid",
-        selectDfpslevel: [],
-        postDfpslevel: "",
-        postDfpslevelData: [], //
         columns: [
           {
             type: "selection",
@@ -195,77 +183,42 @@ export default {
             align: "center"
           },
           {
-            title: this.$t("lang_organization.orgpost.postCode"),
-            key: "postCode",
+            title: '应聘岗位',
+            key: "resuApplypost",
             width: 180,
-            fixed: "left",
             sortable: "custom"
           },
           {
-            title: "岗位名称",
+            title: "身份",
             width: 180,
-            key: "postFname"
+            sortable: "custom",
+            key: "resuIdentityDis"
           },
 
           {
-            title: "职位级别",
-            key: "postDfpslevelName",
+            title: "姓名",
+            key: "resuName",
             sortable: "custom",
             width: 180
           },
           {
-            title: "岗位标准薪资",
+            title: "性别",
             width: 180,
-            key: "postStansalary",
+            key: "resuGenderDis",
             sortable: "custom"
           },
           {
-            title: this.$t("lang_organization.orgpost.postTrialsalary"),
+            title: "手机号",
             width: 180,
-            key: "postTrialsalary",
+            key: "resuMobile",
             sortable: "custom"
           },
-
           {
-            title: "分摊成本",
+            title: "证件号码",
             width: 180,
-            key: "postCostsharing",
-            render: (h, params) => {
-              return h(
-                "div",
-                params.row.postCostsharing == 1 ? "分摊" : "不分摊"
-              );
-            }
+            key: "resuIdno",
+            sortable: "custom"
           },
-          {
-            title: this.$t("lang_organization.orgpost.seniorityWage"),
-            width: 180,
-            key: "seniorityWage",
-            render: (h, params) => {
-              return h("div", params.row.seniorityWage == 1 ? "有" : "无");
-            }
-          },
-          {
-            title: this.$t("lang_organization.orgpost.postStation"),
-            width: 180,
-            key: "postStation",
-            render: (h, params) => {
-              return h("div", params.row.postStation == 1 ? "是" : "否");
-            }
-          },
-
-          {
-            title: this.$t("lang_organization.orgpost.postValiddate"),
-            key: "postValiddate",
-            sortable: "custom",
-            width: 180
-          },
-          {
-            title: this.$t("lang_organization.orgpost.postInvdate "),
-            key: "postInvdate",
-            sortable: "custom",
-            width: 180
-          }
         ],
         tableBtn: {
           title: "操作",
@@ -287,7 +240,7 @@ export default {
                     style: {
                       marginRight: "5px",
                       display:
-                        this.pageShow.indexOf(v.btnName) != -1
+                        this.pageShow.indexOf(v.btnName) !== -1
                           ? "inline"
                           : "none"
                     },
@@ -312,20 +265,8 @@ export default {
         rows: 10,
         page: 1,
         funId: "1000",
-        postCode: "",
-        postFname: "",
-        treeid: "",
-        params: {
-          _mt: "orgPost.getPage",
-          sort: "id",
-          order: "asc",
-          rows: 10,
-          page: 1,
-          funId: "1",
-          logType: "岗位信息查询",
-          data: "{}"
-        },
-        state: this.modity,
+        resuIdno: "",
+        resuName: "",
         loading: ""
     };
   },
@@ -355,26 +296,24 @@ export default {
     update,
     expwindow,
     expdow,
-    importExcel
   },
   //按钮权限控制
   pickData() {
     const t = this;
-    t.$refs.searchOrgframe.getData(this.params);
     t.openPick = true;
   },
   created() {
-    if (this.pageShow != "") {
+    if (this.pageShow !== "") {
       this.columns.push(this.tableBtn);
       this.$store.commit("btnOperate/setTableOperate", "true");
     }
   },
   watch: {
     pageShow(val) {
-      if (val == "" && this.tableOperate == "true") {
+      if (val === "" && this.tableOperate === "true") {
         this.columns.pop();
         this.$store.commit("btnOperate/setTableOperate", "false");
-      } else if (this.tableOperate == "false") {
+      } else if (this.tableOperate === "false") {
         this.columns.push(this.tableBtn);
         this.$store.commit("btnOperate/setTableOperate", "true");
       }
@@ -384,7 +323,6 @@ export default {
   mounted() {
     this.getData();
     this.getSelect();
-    this.postDfpslevelSelect();
   },
   methods: {
     //状态
@@ -394,28 +332,19 @@ export default {
     getData(id, page) {
       const t = this;
       this.loading = true;
-      if (page == undefined) {
+      if (page === undefined) {
         this.page = 1;
       }
       const data = {
-        _mt: "orgPost.getPage",
+        _mt: "recruitResume.getPage",
         rows: t.rows,
         page: t.page,
         sort: t.sort,
         order: t.order,
-        logType: "岗位查询",
-        postCode: t.postCode,
-        funId: "1000",
-        postFname: t.postFname,
-        state: t.modity,
-        postDfpslevel: t.postDfpslevel,
-        postUnit: id || ""
+        logType: "简历库查询",
+        resuName: t.resuName,
+        resuIdno: t.resuIdno,
       };
-      for (const dat in data) {
-        if (data[dat] === "") {
-          delete data[dat];
-        }
-      }
       getDataLevelUserLoginNew(data)
         .then(res => {
           if (isSuccess(res, t)) {
@@ -447,7 +376,7 @@ export default {
     sizeChange(size) {
       const t = this;
       t.rows = size;
-      t.getData(this.treeid);
+      t.getData();
     },
     pageChange(page) {
       const t = this;
@@ -474,15 +403,13 @@ export default {
           content: this.$t("reminder.confirmdelete"),
           onOk: () => {
             getDataLevelUserLogin({
-              _mt: "orgPost.delByIds",
-              funId: "1",
+              _mt: "recruitResume.delByIds",
               logType: this.$t("button.del"),
               delIds: t.tableselected.toString()
             })
               .then(res => {
                 if (isSuccess(res, t)) {
                   t.tableselected = [];
-                  // t.getTree()
                   t.getData();
                 }
               })
@@ -505,97 +432,32 @@ export default {
       t.index = index;
       // t.$refs.update.getSelect()
       t.$refs.update.disabled = false;
-      if (logType === this.$t("button.upd") || logType === "查看") {
-        t.$refs.update.getData(id);
-      }
       if (logType === "查看") {
         t.$refs.update.disabled = true;
+      }
+      if (t.logType === this.$t('button.upd') || logType === "查看") {
+        // 调用子页面方法 传递参数 无需变更
+        t.$refs.update.getOption(id, logType)
       }
     },
     closeUp() {
       const t = this;
       t.openUpdate = false;
-      t.$refs.update.formValidate.postCode = "XXXXXX";
-      t.$refs.update.formValidate.postFname = "";
-      t.$refs.update.formValidate.seniorityWage = "1";
-      t.$refs.update.formValidate.postDfpslevel = "";
-      t.$refs.update.formValidate.postStansalary = null;
-      t.$refs.update.formValidate.postTrialsalary = null;
-      t.$refs.update.formValidate.postCostsharing = "1";
-      t.$refs.update.formValidate.postStation = "";
-      t.$refs.update.formValidate.postValiddate = "";
-      t.$refs.update.formValidate.postInvdate = "";
-      t.$refs.update.formValidate.postReason = "";
-      t.$refs.update.formValidate.note = "";
     },
     search() {
       this.page = 1;
       this.getData();
-    },
-    modifystatus(state) {
-      const t = this;
-      let logType = "";
-      let tipContent = "";
-      if (state === "02valid") {
-        logType = "生效";
-        tipContent = "您确定继续操作吗？";
-      } else if (state === "03invalid") {
-        logType = "失效";
-        tipContent = "您确定继续操作吗？";
-      }
-      if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
-        return;
-      }
-      t.$Modal.confirm({
-        title: this.$t("reminder.remind"),
-        content: tipContent,
-        onOk: () => {
-          getDataLevelUserLogin({
-            _mt: "orgPost.setStateById",
-            logType: logType,
-            state: state,
-            ids: t.tableselected.toString()
-          })
-            .then(res => {
-              if (isSuccess(res, t)) {
-                t.getData();
-                this.$Message.success("操作成功");
-              }
-            })
-            .catch(() => {
-              this.$Message.error("操作失败");
-            });
-        },
-        onCancel: () => {}
-      });
-    }, //修改状态
-    // 导入导出默认方法 无需更改
-    closeImport() {
-      const t = this;
-      t.openImport = false;
-    },
-    // 导入导出默认方法 无需更改
-    importExcel() {
-      const t = this;
-      t.openImport = true;
-      t.$refs.importExcel.getDowModelFile();
     },
     // 导入导出默认方法
     expData() {
       const t = this;
       // 填装查询条件
       const data = {
-        postCode: t.postCode,
-        postFname: t.postFname,
-        postDfpslevel: t.postDfpslevel,
-        state: t.modity
+        resuName: t.resuName,
+        resuIdno: t.resuIdno
       };
       // 设置导出mt参数
-      this.$refs.expwindow.getData(this.expDataTital, "orgPost.export", data);
+      this.$refs.expwindow.getData(this.expDataTital, "recruitResume.export", data);
       this.openExp = true;
     },
     // 导入导出默认方法 无需更改
@@ -626,59 +488,9 @@ export default {
       const t = this;
       t.data.splice(t.index, 1, res);
     },
-    postDfpslevelSelect() {
-      const t = this;
-      t.postDfpslevelData = [];
-      getDataLevelUserLogin({
-        _mt: "baseParmInfo.getSelectValue",
-        logType: t.logType,
-        typeCode: "postlevel"
-      })
-        .then(res => {
-          if (isSuccess(res, t)) {
-            t.postDfpslevelData = res.data.content[0].value[0].paramList;
-            let obj = {
-              paramCode: "",
-              paramInfoCn: "全部"
-            };
-            t.postDfpslevelData.unshift(obj);
-          }
-        })
-        .catch(() => {
-          this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
-    }, // 组织类别下拉列表数据
     getSelect() {
       const t = this;
-      getDataLevelUserLogin({
-        _mt: "baseParmInfo.getSelectValue",
-        typeCode: "postlevel"
-      })
-        .then(res => {
-          if (isSuccess(res, t)) {
-            t.selectDfpslevel = res.data.content[0].value[0].paramList;
-            let obj = {
-              paramCode: "",
-              paramInfoCn: "全部"
-            };
-            t.selectDfpslevel.unshift(obj);
-          }
-        })
-        .catch(() => {
-          this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
     },
-    getPageByType(paramCode) {
-      this.status = paramCode;
-      this.unitTypeId = paramCode;
-      this.getData();
-    } //根据类型获取列表
   }
 };
 </script>
