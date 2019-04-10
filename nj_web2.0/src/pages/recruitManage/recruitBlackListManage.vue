@@ -464,7 +464,7 @@ export default {
                             // 设置删除mt参数 其余无需更改
                             _mt: 'recruitBlackList.delByIds',
                             logType: '删除',
-                            ids: t.tableselected.toString(),
+                            delIds: t.tableselected.toString(),
                         }).then((res) => {
                             if (isSuccess(res, t)) {
                                 t.tableselected = []
