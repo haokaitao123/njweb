@@ -80,7 +80,7 @@
         this.id = parseInt(id, 10)
         this.data.logType = logType
         this.$refs.option.getData(this.id)
-        this,$refs.option.disabled = this.disabled
+        this.$refs.option.disabled = this.disabled
       },
 //       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {
