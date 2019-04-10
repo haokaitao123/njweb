@@ -147,6 +147,11 @@ export default {
             this.active = name;
             this.title = this.logType;
             this[name] = true;
+            this.$refs.empBaseInfo.clear();
+            this.$refs.empEducation.clear();
+            this.$refs.empContractInfo.clear();
+            this.$refs.empWorkExp.clear();
+            this.$refs.empFamily.clear();
             if (name !== "empBaseInfo") {
                 this.$refs[name].search();
             } else {
@@ -162,7 +167,11 @@ export default {
             this.empFamily = false;
             this.id = NaN;
             this.active = "empBaseInfo";
-            this.$refs.empBaseInfo.clear()
+            this.$refs.empBaseInfo.clear();
+            this.$refs.empEducation.clear();
+            this.$refs.empContractInfo.clear();
+            this.$refs.empWorkExp.clear();
+            this.$refs.empFamily.clear();
         },
         update (data) {
             this.$emit('getData')

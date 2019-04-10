@@ -238,7 +238,19 @@
                                    @on-click="disabled?'':pickData()" />
                         </span>
                     </FormItem>
-
+                </i-col>
+                <i-col span="11">
+                    <FormItem label="成本中心"
+                              prop="empnhCostcent">
+                        <span @dblclick="disabled?'':clearCostcenter()">
+                            <Input v-model="empnhCostcentDis"
+                                   icon="search"
+                                   :disabled="disabled"
+                                   :readonly=true
+                                   placeholder="选择成本中心"
+                                   @on-click="disabled?'':pickCostCenterkData()" />
+                        </span>
+                    </FormItem>
                 </i-col>
                 <i-col span="11">
                     <FormItem label="入职日期"
@@ -267,13 +279,13 @@
                 <i-col span="11">
                     <FormItem label="开户银行"
                               prop="empnhSalbank">
-                        <span @dblclick="disabled?'':dbbkBank">
+                        <span @dblclick="disabled?'':dbbkBank()">
                             <Input placeholder="请选择开户银行"
                                    icon="search"
                                    :readonly="true"
                                    :disabled="disabled"
                                    v-model="empnhSalbankDis"
-                                   @on-click="selectBank" />
+                                   @on-click="disabled?'':selectBank()" />
                         </span>
                     </FormItem>
                 </i-col>
@@ -395,7 +407,7 @@
                             </i-col>
                             <i-col span="19">
                                 <span v-if="file !== ''"
-                                      @dblclick="clearFile">
+                                      @dblclick="disabled?'':clearFile()">
                                     <i-col span="22">
                                         <Input v-model="file.name"
                                                readonly="readonly">
@@ -433,8 +445,8 @@
                     </FormItem>
                 </i-col>
             </Form>
-            <!-- <Button class="btn" type="primary" @click="save">保存</Button> -->
-            <div style="padding-bottom: 20px;">
+            <div style="padding-bottom: 20px;"
+                 v-show="!disabled">
                 <Row type="flex"
                      justify="end">
                     <Col pull="1">
@@ -487,6 +499,15 @@
                             :params="paramsBank"
                             ref="searchBank"></searchBank>
             </transition>
+            <!--成本中心-->
+            <transition name="fade">
+                <searchOrgcostcenter v-show="openCostCenter"
+                                     :searchCloumns="searchCostCol"
+                                     :params="paramsCostCenter"
+                                     @closeUp="closeCostCenter"
+                                     @changeinput="inputCostCenter"
+                                     ref="searchOrgcostcenter"></searchOrgcostcenter>
+            </transition>
         </Row>
     </div>
 </template>
@@ -503,11 +524,12 @@ import searchDept from '../../../../components/searchTable/searchDept'
 import searchPost from '../../../../components/searchTable/searchPost';
 import searchEmpMaster from '../../../../components/searchTable/searchEmpnhMaster'
 import searchBank from "../../../../components/searchTable/searchBank";
+import searchOrgcostcenter from '../../../../components/searchTable/searchOrgcostcenter'
 export default {
     data () {
         const idnocheck = (rule, value, idcheck) => {
             if (this.form.empnhIdtype === '01id') {
-                if (valid.val_IdCard(value)) {
+                if (valid.val_identity(value)) {
                     return idcheck()
                 }
                 return idcheck(new Error(rule.message))
@@ -631,6 +653,7 @@ export default {
             openPost: false,
             openEmpMaster: false,
             openBank: false,
+            openCostCenter: false,
             //部门
             searchDeptCloumns: [
                 {
@@ -684,7 +707,7 @@ export default {
                 page: 1,
                 funId: "1",
                 logType: "工作地方查询",
-                data: '{"cityIsvalid" : "1"}'
+                data: '{"cityIsvalid" : "1","cityType":"02city"}'
             },
             searchCloumns: [
                 {
@@ -703,12 +726,12 @@ export default {
             //银行
             searchBankCol: [
                 {
-                    title: this.$t("lang_baseManage.baseBankinfo.bankCname"),
+                    title: '银行名称',
                     key: "bankCname",
                     sortable: "custom"
                 },
                 {
-                    title: this.$t("lang_baseManage.baseBankinfo.bankCode"),
+                    title: '银行编码',
                     key: "bankCode",
                     sortable: "custom"
                 }
@@ -721,6 +744,28 @@ export default {
                 order: "desc",
                 funId: "1100",
                 logType: "开户银行"
+            },
+            //成本中心
+            searchCostCol: [
+                {
+                    title: "成本中心编码",
+                    key: 'costCode',
+                    sortable: 'custom',
+                },
+                {
+                    title: "成本中心名称",
+                    key: 'costName',
+                },
+            ],
+            paramsCostCenter: {
+                _mt: 'orgCostcenter.getPage',
+                sort: 'id',
+                order: 'desc',
+                rows: 10,
+                page: 1,
+                funId: '1',
+                logType: '成本中心查询',
+                data: '{}',
             },
             yesOrNo: [],
             selectGender: [],
@@ -989,7 +1034,8 @@ export default {
         searchDept,
         searchPost,
         searchEmpMaster,
-        searchBank
+        searchBank,
+        searchOrgcostcenter
     },
     mounted () {
 
@@ -1023,7 +1069,7 @@ export default {
                         t.form.empnhResiaddr = res.data.content[0].empnhResiaddr;
                         t.form.empnhRegtype = res.data.content[0].empnhRegtype;
                         t.form.empnhRegaddr = res.data.content[0].empnhRegaddr;
-                        t.form.empnhPersmail = res.data.content[0].empnhPersmail ? res.data.content[0].unitCityName : '';
+                        t.form.empnhPersmail = res.data.content[0].empnhPersmail ? res.data.content[0].empnhPersmail : '';
                         t.form.empnhCompmail = res.data.content[0].empnhCompmail ? res.data.content[0].empnhCompmail : '';
                         t.form.empnhQq = res.data.content[0].empnhQq;
                         t.form.empnhWechat = res.data.content[0].empnhWechat;
@@ -1263,6 +1309,26 @@ export default {
             const t = this;
             t.$refs.searchBank.bankCname = "";
             t.openBank = false;
+        },
+        //成本中心
+        clearCostcenter () {
+            const t = this
+            t.empnhCostcentDis = ''
+            t.form.empnhCostcent = ''
+        },
+        pickCostCenterkData () {
+            const t = this
+            t.$refs.searchOrgcostcenter.getData(this.paramsCostCenter)
+            t.openCostCenter = true
+        },
+        inputCostCenter (name, id) {
+            const t = this
+            t.empnhCostcentDis = name
+            t.form.empnhCostcent = id
+        },
+        closeCostCenter () {
+            const t = this
+            t.openCostCenter = false
         },
         //附件上传
         handleUpload (file) {
