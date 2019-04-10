@@ -23,9 +23,9 @@
             <i-col span="11" offset="1">
                 <FormItem label="员工姓名"  prop="empName"  >
                             <!--绑定双击清除方法-->
-                            <span @dblclick="forbidden?'':dbclean()">
+                            <span @dblclick="disabled?'':dbclean()">
                           <!--v-model绑定显示字段-->
-                              <Input v-model="form.empName" icon="search" readonly="readonly" :disabled="forbidden" placeholder="请选择员工"  @on-click="pickEmpData()" />
+                              <Input v-model="form.empName" icon="search" :readonly=true :disabled="disabled" placeholder="请选择员工"  @on-click="disabled ? '' : pickEmpData()" />
                             </span>
                           </FormItem>
              
@@ -537,53 +537,7 @@ export default {
                 }
             })
         },
-    //部门
-        // dbDept () {
-        //     const t = this
-        //     t.deptIdDis = ''
-        //     t.form.deptId = ''
-        // },
-        // selectDept () {
-        //     alert(1)
-        //     const t = this
-        //     const paramsDept = deepCopy(t.deptParams)
-        //     t.$refs.searchDept.getData(paramsDept)
-        //     t.openDeptPick = true
-        // },
-        // closeDept () {
-        //     const t = this
-        //     t.$refs.searchDept.unitCode = ''
-        //     t.openDeptPick = false
-        // },
-        // changeDeptInput (name, id) {
-        //     const t = this
-        //     console.log(name, "name")
-        //     t.deptIdDis = name
-        //     t.form.deptId = id
-        // },
-        //岗位
-        // dbPost () {
-        //     const t = this;
-        //     t.form.postId = "";
-        //     t.postIdDis = "";
-        // },
-        // selectPost () {
-        //     const t = this;
-        //     const paramsPost = deepCopy(t.paramsPost);
-        //     t.$refs.searchPost.getData(paramsPost);
-        //     t.openPost = true;
-        // },
-        // closePost () {
-        //     const t = this;
-        //     t.$refs.searchPost.postCode = "";
-        //     t.openPost = false;
-        // },
-        // inputPost (name, id, postName, postId) {
-        //     const t = this;
-        //     t.postIdDis = name;
-        //     t.form.postId = id;
-        // },
-       
+    
        /*选择员工*/
       pickEmpData() {
         const t = this;
