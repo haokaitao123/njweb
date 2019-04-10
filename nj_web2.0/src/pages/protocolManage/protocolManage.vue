@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -10,32 +10,13 @@
           <Row>
             <Col span="18" style="width: 100% !important">
               <Row>
-                <Input
-                  :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')"
-                  style="width: 200px"
-                  v-model="postFname"
-                />
-                <Select
-                  v-model="postDfpslevel"
-                  style="width: 200px"
-                  placeholder="请选择职位级别"
-                  clearable
-                >
-                  <Option
-                    :value="item.paramCode"
-                    v-for="(item,index) in selectDfpslevel"
-                    :key="index"
-                    @click="getPageByType(item.paramCode)"
-                  >{{item.paramInfoCn}}</Option>
-                </Select>
+                <Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
                 <btnList
                   @buttonExport="expData"
                   @buttonImport="importExcel"
                   @buttonAdd="openUp(NaN,$t('button.add'))"
                   @buttonDel="deletemsg"
-                  @buttonValid="modifystatus('02valid')"
-                  @buttonDraft="modifystatus('01draft')"
-                  @buttonInvalid="modifystatus('03invalid')"
+                  @buttonConfirm="modifystatus('02ok')"
                   @moditySelect="modityChange"
                   @buttonSearch="search"
                   :btnData="btnData"
@@ -45,7 +26,9 @@
               <!--布置分页列表 变量通用 无需变更-->
               <row class="table-form" ref="table-form">
                 <Table
-                  @on-selection-change="selectedtable"
+                  @on-select="selectedtable"
+                  @on-select-cancel="selectedtable"
+                  @on-select-all="selectedtable"
                   @on-sort-change="sortable"
                   :height="tableheight"
                   size="small"
@@ -129,37 +112,47 @@
   </div>
 </template>
 <script>
-import update from "./orgpostInfoView";
+import update from "./addNewProtocolManage";
 // 默认引用 无需变更
-import { isSuccess } from "../../../lib/util";
+import { isSuccess } from "../../lib/util";
 import {
   getDataLevelUserLoginNew,
   getDataLevelUserLogin
-} from "../../../axios/axios";
-import expwindow from "../../../components/fileOperations/expSms";
-import expdow from "../../../components/fileOperations/expdow";
-import importExcel from "../../../components/importModel/importParam";
-import btnList from "../../../components/btnAuth/btnAuth";
+} from "../../axios/axios";
+import expwindow from "../../components/fileOperations/expSms";
+import expdow from "../../components/fileOperations/expdow";
+import importExcel from "../../components/importModel/importParam";
+import btnList from "../../components/btnAuth/btnAuth";
 export default {
   data() {
-
+    
       return {
-
+       
         // 导入的mt名称
-        imp_mt: "orgPost.importData",
+        imp_mt: "protocolManage.importData",
         // 导出字段设置, code字段名 name列名
         expDataTital: [
-          { code: "postCode", name: "岗位编码" },
-          { code: "postFname", name: "岗位名称" },
-          { code: "postDfpslevelName", name: "岗位级别" },
-          { code: "postStansalary", name: "岗位标准薪资" },
-          { code: "postTrialsalary", name: "试用期薪资" },
-          { code: "postCostsharingDis", name: "分摊成本" },
-          { code: "seniorityWageDis", name: "工龄工资" },
-          { code: "postStationDis", name: "是否驻厂" },
-          { code: "postValiddate", name: "生效日期" },
-          { code: "postInvdate", name: "失效日期" },
-          { code: "postReason", name: "失效原因" },
+          { code: "empName", name: "员工名称" },
+          { code: "deptoIdName", name: "原部门名称" },
+          { code: "empoTypeDis", name: "原员工类型" },
+          { code: "contractoTypeDis", name: "原合同类别" },
+          { code: "contractoPeriodDis", name: "原合同期限" },
+          { code: "postoName", name: "原岗位名称" },
+          { code: "empnhIdno", name: "身份证号码" },
+          { code: "contractoNo", name: "原合同编号" },
+          { code: "contractoStart", name: "原合同开始日期" },
+          { code: "contractoEnd", name: "原合同结束日期" },
+          { code: "contractoTimeDis", name: "原合同工作时间" },
+          { code: "signingoTime", name: "原签订时间" },
+          { code: "deptnIdName", name: "新部门名称" },
+          { code: "postnIdName", name: "新岗位名称" },
+          { code: "empnTypeDis", name: "新员工类型" },
+          { code: "contractnTypeDis", name: "新合同类别" },
+          { code: "contractnPeriodDis", name: "新合同期限" },
+          { code: "contractnStart", name: "新合同开始日期" },
+          { code: "contractnEnd", name: "新合同结束日期" },
+          { code: "contractnTimeDis", name: "新合同工作时间" },
+          { code: "signingnTime", name: "新签订时间" },
           { code: "note", name: "备注" }
         ],
         // 导入导出默认参数 无需变更
@@ -183,8 +176,7 @@ export default {
         updateId: NaN,
         tableselected: [],
         //页面初始化默认状态
-        state: "02valid",
-        selectDfpslevel: [],
+        state: "01ok",
         postDfpslevel: "",
         postDfpslevelData: [], //
         columns: [
@@ -194,78 +186,132 @@ export default {
             fixed: "left",
             align: "center"
           },
-          {
-            title: this.$t("lang_organization.orgpost.postCode"),
-            key: "postCode",
-            width: 180,
-            fixed: "left",
-            sortable: "custom"
-          },
-          {
-            title: "岗位名称",
-            width: 180,
-            key: "postFname"
-          },
-
-          {
-            title: "职位级别",
-            key: "postDfpslevelName",
-            sortable: "custom",
-            width: 180
-          },
-          {
-            title: "岗位标准薪资",
-            width: 180,
-            key: "postStansalary",
-            sortable: "custom"
-          },
-          {
-            title: this.$t("lang_organization.orgpost.postTrialsalary"),
-            width: 180,
-            key: "postTrialsalary",
-            sortable: "custom"
-          },
-
-          {
-            title: "分摊成本",
-            width: 180,
-            key: "postCostsharing",
-            render: (h, params) => {
-              return h(
-                "div",
-                params.row.postCostsharing == 1 ? "分摊" : "不分摊"
-              );
-            }
-          },
-          {
-            title: this.$t("lang_organization.orgpost.seniorityWage"),
-            width: 180,
-            key: "seniorityWage",
-            render: (h, params) => {
-              return h("div", params.row.seniorityWage == 1 ? "有" : "无");
-            }
-          },
-          {
-            title: this.$t("lang_organization.orgpost.postStation"),
-            width: 180,
-            key: "postStation",
-            render: (h, params) => {
-              return h("div", params.row.postStation == 1 ? "是" : "否");
-            }
-          },
-
-          {
-            title: this.$t("lang_organization.orgpost.postValiddate"),
-            key: "postValiddate",
-            sortable: "custom",
-            width: 180
-          },
-          {
-            title: this.$t("lang_organization.orgpost.postInvdate "),
-            key: "postInvdate",
-            sortable: "custom",
-            width: 180
-          }
+            {
+          title: "员工名称",
+          key: "empName",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原部门名称",
+          key: "deptoIdName",
+          sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
+          width: 220
+        },
+        {
+          title: "原岗位名称",
+          key: "postoName",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "身份证号码",
+          key: "empnhIdno",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原员工类型",
+          key: "empoTypeDis",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原合同类别",
+          key: "contractoTypeDis",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原合同期限",
+          key: "contractoPeriodDis",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原合同编号",
+          key: "contractoNo",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原合同开始日期",
+          key: "contractoStart",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原合同结束日期",
+          key: "contractoEnd",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原合同工作时间",
+          key: "contractoTimeDis",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "原签订时间",
+          key: "signingoTime",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新部门名称",
+          key: "deptnIdName",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新岗位名称",
+          key: "postnIdName",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新员工类型",
+          key: "empnTypeDis",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新合同类别",
+          key: "contractnTypeDis",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新合同期限",
+          key: "contractnPeriodDis",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新合同开始日期",
+          key: "contractnStart",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新合同结束日期",
+          key: "contractnEnd",
+          sortable: "custom",
+          width: 220
+        },
+        {
+          title: "新合同工作时间",
+          key: "contractnTimeDis",
+          sortable: "custom",
+          width: 220
+        },
+         {
+          title: "新签订时间",
+          key: "signingnTime",
+          sortable: "custom",
+          width: 220
+        },
         ],
         tableBtn: {
           title: "操作",
@@ -316,13 +362,13 @@ export default {
         postFname: "",
         treeid: "",
         params: {
-          _mt: "orgPost.getPage",
+          _mt: "protocolManage.getPage",
           sort: "id",
           order: "asc",
           rows: 10,
           page: 1,
           funId: "1",
-          logType: "岗位信息查询",
+          logType: "变更协议信息查询",
           data: "{}"
         },
         state: this.modity,
@@ -383,8 +429,6 @@ export default {
   //初始化自动调用方法
   mounted() {
     this.getData();
-    this.getSelect();
-    this.postDfpslevelSelect();
   },
   methods: {
     //状态
@@ -474,7 +518,7 @@ export default {
           content: this.$t("reminder.confirmdelete"),
           onOk: () => {
             getDataLevelUserLogin({
-              _mt: "orgPost.delByIds",
+              _mt: "protocolManage.delByIds",
               funId: "1",
               logType: this.$t("button.del"),
               delIds: t.tableselected.toString()
@@ -515,17 +559,26 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
-      t.$refs.update.formValidate.postCode = "XXXXXX";
-      t.$refs.update.formValidate.postFname = "";
-      t.$refs.update.formValidate.seniorityWage = "1";
-      t.$refs.update.formValidate.postDfpslevel = "";
-      t.$refs.update.formValidate.postStansalary = null;
-      t.$refs.update.formValidate.postTrialsalary = null;
-      t.$refs.update.formValidate.postCostsharing = "1";
-      t.$refs.update.formValidate.postStation = "";
-      t.$refs.update.formValidate.postValiddate = "";
-      t.$refs.update.formValidate.postInvdate = "";
-      t.$refs.update.formValidate.postReason = "";
+      t.$refs.update.empName = "";
+      t.$refs.update.deptoIdName = "";
+      t.$refs.update.empoTypeDis = "";
+      t.$refs.update.contractoTypeDis = "";
+      t.$refs.update.contractoPeriodDis = "";
+      t.$refs.update.postoName = "";
+      t.$refs.update.formValidate.empnhIdno = "";
+      t.$refs.update.formValidate.contractoNo = "";
+      t.$refs.update.formValidate.contractoStart = "";
+      t.$refs.update.formValidate.contractoEnd = "";
+      t.$refs.update.contractoTimeDis = "";
+      t.$refs.update.deptnIdName= "";
+      t.$refs.update.postnIdName = "";
+      t.$refs.update.empnTypeDis = ""; 
+      t.$refs.update.contractnTypeDis = "";
+      t.$refs.update.contractnPeriodDis = "";
+      t.$refs.update.formValidate.contractnStart = "";
+      t.$refs.update.formValidate.contractnEnd = "";
+      t.$refs.update.contractnTimeDis = "";
+      t.$refs.update.formValidate.signingnTime = "";
       t.$refs.update.formValidate.note = "";
     },
     search() {
@@ -536,11 +589,8 @@ export default {
       const t = this;
       let logType = "";
       let tipContent = "";
-      if (state === "02valid") {
-        logType = "生效";
-        tipContent = "您确定继续操作吗？";
-      } else if (state === "03invalid") {
-        logType = "失效";
+      if (state === "02ok") {
+        logType = "确认";
         tipContent = "您确定继续操作吗？";
       }
       if (t.tableselected.length === 0) {
@@ -555,7 +605,7 @@ export default {
         content: tipContent,
         onOk: () => {
           getDataLevelUserLogin({
-            _mt: "orgPost.setStateById",
+            _mt: "protocolManage.setStateByIds",
             logType: logType,
             state: state,
             ids: t.tableselected.toString()
@@ -626,59 +676,6 @@ export default {
       const t = this;
       t.data.splice(t.index, 1, res);
     },
-    postDfpslevelSelect() {
-      const t = this;
-      t.postDfpslevelData = [];
-      getDataLevelUserLogin({
-        _mt: "baseParmInfo.getSelectValue",
-        logType: t.logType,
-        typeCode: "postlevel"
-      })
-        .then(res => {
-          if (isSuccess(res, t)) {
-            t.postDfpslevelData = res.data.content[0].value[0].paramList;
-            let obj = {
-              paramCode: "",
-              paramInfoCn: "全部"
-            };
-            t.postDfpslevelData.unshift(obj);
-          }
-        })
-        .catch(() => {
-          this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
-    }, // 组织类别下拉列表数据
-    getSelect() {
-      const t = this;
-      getDataLevelUserLogin({
-        _mt: "baseParmInfo.getSelectValue",
-        typeCode: "postlevel"
-      })
-        .then(res => {
-          if (isSuccess(res, t)) {
-            t.selectDfpslevel = res.data.content[0].value[0].paramList;
-            let obj = {
-              paramCode: "",
-              paramInfoCn: "全部"
-            };
-            t.selectDfpslevel.unshift(obj);
-          }
-        })
-        .catch(() => {
-          this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
-    },
-    getPageByType(paramCode) {
-      this.status = paramCode;
-      this.unitTypeId = paramCode;
-      this.getData();
-    } //根据类型获取列表
   }
 };
 </script>
