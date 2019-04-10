@@ -36,7 +36,8 @@
                    border
                    ref="selection"
                    :columns="columns"
-                   :data="data"></Table>
+                   :data="data"
+                   :loading="loading"></Table>
         </row>
         <Row style="display: flex">
             <Page :total="total"
@@ -354,15 +355,14 @@ export default {
                         })
                             .then(res => {
                                 if (isSuccess(res, t)) {
+                                    this.$Message.success('删除成功');
                                     t.getData();
                                     t.tableselected = [];
                                 }
                             })
                             .catch(() => {
-                                t.$Modal.error({
-                                    title: this.$t("reminder.err"),
-                                    content: this.$t("reminder.errormessage")
-                                });
+                                this.$Message.error('删除失败');
+
                             });
                     },
                     onCancel: () => { }
@@ -381,9 +381,6 @@ export default {
             t.logTypeE = logType;
             t.index = index;
             t.$refs.contentMsg.setRowId(id, logType);
-            // if (t.logTypeE === '查看' || t.logTypeE === '修改') {
-            //    
-            // }
             if (t.logTypeE === '查看') {
                 t.$refs.contentMsg.disabled = true
             }
@@ -437,6 +434,9 @@ export default {
         // 导入导出默认方法 无需更改
         closeExp () {
             const t = this;
+            t.$refs.expwindow.checkAll = false;
+            t.$refs.expwindow.indeterminate = false;
+            t.$refs.expwindow.expDisFields = [];
             t.openExp = false;
         },
         // 导入导出默认方法 无需更改

@@ -1,24 +1,27 @@
 <template>
     <div class="content-main">
         <row>
-            <Input v-model="docsName"
-                   style="width: 160px;"
+            <Input v-model="fmCname"
+                   style="width: 200px;"
                    placeholder="请输入联系人"></Input>
             <Button type="primary"
                     icon="search"
                     @click="search">查询</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
+                    @click="showMsgBtn(NaN, '新增')"
+                    v-show="logType=='修改'">新增</Button>
             <Button type="primary"
                     icon="primary"
                     @click="expData">导出</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="importExcel">导入</Button>
+                    @click="importExcel"
+                    v-show="logType=='修改'">导入</Button>
             <Button type="error"
                     icon="primary"
-                    @click="deletemsg">删除</Button>
+                    @click="deletemsg"
+                    v-show="logType=='修改'">删除</Button>
         </row>
         <row class="table-form"
              ref="table-form">
@@ -29,7 +32,8 @@
                    border
                    ref="selection"
                    :columns="columns"
-                   :data="data"></Table>
+                   :data="data"
+                   :loading="loading"></Table>
         </row>
         <Row style="display: flex">
             <Page :total="total"
@@ -75,14 +79,14 @@
                     @closeExpDowMain="closeExpDowMain"
                     ref="expdow"></expdow>
         </transition>
-        <!-- <transition name="fade">
+        <transition name="fade">
             <importExcel v-show="openImport"
                          :impid="updateId"
                          :imp_mt="imp_mt"
                          @getData="getData"
                          @closeImport="closeImport"
                          ref="importExcel"></importExcel>
-        </transition> -->
+        </transition>
     </div>
 </template>
 <script>
@@ -110,7 +114,6 @@ export default {
                 { code: "fmPost", name: "职务" },
                 { code: "fmPhone", name: "联系方式" },
                 { code: "note", name: "备注" },
-
             ],
             // 导入导出默认参数 无需变更
             openImport: false,
@@ -118,13 +121,9 @@ export default {
             openExp: false,
             filekey: "",
             filename: "",
-
-
             total: NaN,
             logTypeE: this.logType,
             showMsg: false,
-            rows: 10,
-            page: 1,
             columns: [
                 {
                     type: "selection",
@@ -134,35 +133,34 @@ export default {
                 {
                     title: "成员关系",
                     key: "fmRelationDis",
-                    //            width: 150,
-                    sortable: "custom"
+                    sortable: "custom",
+                    width: 100
                 },
                 {
                     title: "是否紧急联系人",
-                    key: "fmIsurgentDis",
-                    width: 150,
-                    sortable: "custom"
+                    key: "fmIsurgent",
+                    sortable: "custom",
+                    width: 130,
+                    render: (h, params) => {
+                        return h("div", params.row.fmIsurgent == 1 ? "是" : "否");
+                    }
                 },
                 {
                     title: "姓名",
                     key: "fmCname",
-                    width: 150,
                 },
                 {
                     title: "工作单位",
                     key: "fmCompany",
-                    width: 150,
                 },
                 {
                     title: "职务",
                     key: "fmPost",
-                    width: 150,
                 },
 
                 {
                     title: "联系方式",
                     key: "fmPhone",
-                    width: 150,
                 },
                 {
                     title: "操作",
@@ -179,20 +177,48 @@ export default {
                                         type: "success",
                                         size: "small"
                                     },
+                                    style: {
+                                        display: this.logType == '修改' ? "inline-block" : "none",
+                                    },
                                     on: {
                                         click: () => {
-                                            this.showMsgBtn(params.row.id, this.logTypeE, params.index);
+                                            this.showMsgBtn(
+                                                params.row.id,
+                                                '修改',
+                                                params.index
+                                            );
                                         }
                                     }
                                 },
-                                this.logTypeE
+                                '修改'
+                            ),
+                            h(
+                                "Button",
+                                {
+                                    props: {
+                                        type: "primary",
+                                        size: "small"
+                                    },
+                                    style: {
+                                        display: this.logType == '查看' ? "inline-block" : "none",
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showMsgBtn(
+                                                params.row.id,
+                                                '查看',
+                                                params.index
+                                            );
+                                        }
+                                    }
+                                },
+                                '查看'
                             )
                         ]);
                     }
                 }
             ],
             data: [],
-            docsName: "",
             params: {
                 _mt: "empFamily.getPage",
                 funId: "1",
@@ -201,11 +227,14 @@ export default {
                 sort: "id",
                 order: "asc",
                 logType: "",
-                // visaAreaId: ""
+                fmCname: "",
                 pkId: ""
             },
             index: 0,
-            tableselected: []
+            tableselected: [],
+            updateId: NaN,
+            fmCname: '',
+            loading: ''
         };
     },
     //    主表id
@@ -223,25 +252,29 @@ export default {
     methods: {
         search () {
             this.params.pkId = this.mainId + "";
+            this.params.page = 1;
             this.getData();
         },
         getData () {
             const t = this;
             const data = deepCopy(t.params);
-            data.docsName = t.docsName;
+            data.fmCname = t.fmCname;
             for (const dat in data) {
                 if (data[dat] === "") {
                     delete data[dat];
                 }
             }
+            this.loading = true;
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
+                        this.loading = false;
                         t.total = res.data.content[0].records;
                         t.data = res.data.content[0].rows;
                     }
                 })
                 .catch(() => {
+                    this.loading = false;
                     t.$Modal.error({
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")
@@ -289,15 +322,14 @@ export default {
                         })
                             .then(res => {
                                 if (isSuccess(res, t)) {
+                                    this.$Message.success('删除成功');
                                     t.getData();
                                     t.tableselected = [];
                                 }
                             })
                             .catch(() => {
-                                t.$Modal.error({
-                                    title: this.$t("reminder.err"),
-                                    content: this.$t("reminder.errormessage")
-                                });
+                                this.$Message.error('删除失败');
+
                             });
                     },
                     onCancel: () => { }
@@ -305,6 +337,7 @@ export default {
             }
         },
         addNewArray (res) {
+            console.log(res, "res")
             const t = this;
             t.data.unshift(res);
         },
@@ -323,16 +356,18 @@ export default {
             t.showMsg = true;
             t.logTypeE = logType;
             t.index = index;
-            if (t.logTypeE === this.$t("button.upd")) {
-                t.$refs.contentMsg.setRowId(id);
+            console.log(id, "id")
+            t.$refs.contentMsg.setRowId(id, logType);
+            if (t.logTypeE === '查看') {
+                t.$refs.contentMsg.disabled = true
             }
         },
 
         clear () {
             const t = this;
-            t.docsName = "";
-            t.page = 1;
-            t.rows = 10;
+            t.fmCname = "";
+            t.params.page = 1;
+            t.params.rows = 10;
         },
         hideMsg () {
             this.showMsg = false;
@@ -354,17 +389,19 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                bankCode: t.bankCode,
-                bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode
+                pkId: this.mainId,
+                fmCname: this.fmCname
             };
             // 设置导出mt参数
-            this.$refs.expwindow.getData(this.expDataTital, "empEmpnh.export", data);
+            this.$refs.expwindow.getData(this.expDataTital, "empFamily.export", data);
             this.openExp = true;
         },
         // 导入导出默认方法 无需更改
         closeExp () {
             const t = this;
+            t.$refs.expwindow.checkAll = false;
+            t.$refs.expwindow.indeterminate = false;
+            t.$refs.expwindow.expDisFields = [];
             t.openExp = false;
         },
         // 导入导出默认方法 无需更改
