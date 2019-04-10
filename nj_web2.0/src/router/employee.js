@@ -3,6 +3,7 @@
  */
 
 //用户普通角色组管理
+import empBorrow from '@/pages/empManage/empBorrow/empBorrow.vue'
 import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
 import empMaster from '@/pages/empManage/empmaster-manage3/visaAreaList.vue'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
@@ -83,5 +84,10 @@ export default [{
     path: 'recruitResumeManage',
     name: 'recruitResumeManage',
     component: recruitResumeManage,
-  }
+  },
+  {
+    path: 'empBorrow',
+    name: 'empBorrow',
+    component: empBorrow,
+  },
 ]

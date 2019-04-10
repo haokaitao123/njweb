@@ -208,9 +208,6 @@
         </i-col>
       </Form>
     </Row>
-    <Button type="ghost"
-            @click="handleReset"
-            class="btn1">{{$t('button.cal')}}</Button>
     <Button type="primary"
             @click="handleSubmit"
             class="btn"
@@ -718,11 +715,6 @@
         const t = this;
         t.postDfcostcenterName = "";
         t.formValidate.postDfcostcenter = "";
-      },
-      handleReset () {
-        this.$refs.formValidate.resetFields();
-        document.getElementById("scrollBox").scrollTop = "0";
-        this.$emit("closeUp");
       },
     },
     watch: {}
