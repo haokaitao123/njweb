@@ -298,7 +298,7 @@
                     </FormItem>
                 </i-col>
                 <i-col span="11">
-                    <FormItem label="户号"
+                    <FormItem label="户名"
                               prop="empnhSalaccname">
                         <Input v-model="form.empnhSalaccname"
                                :disabled="disabled"

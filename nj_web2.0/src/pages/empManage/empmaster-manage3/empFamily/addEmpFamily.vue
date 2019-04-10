@@ -203,13 +203,9 @@ export default {
         // 新增页面
         setRowId (id, logType) {
             const t = this;
-            console.log(id, "id1")
             t.rowId = id;
             if (logType !== "新增") {
                 t.getData();
-            }
-            if (logType == "查看") {
-                t.ruleValidate = {}
             }
         },
         // 查询
