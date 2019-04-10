@@ -212,18 +212,20 @@ export default {
                     align: "center"
                 },
                 {
-                    title: "唯一编号",
-                    key: "numberCode",
-                    width: 120,
-                    fixed: "left",
-                    align: "center"
-                },
-                {
                     title: "雇员姓名",
                     key: "empnhName",
+                    fixed: "left",
                     width: 140,
                     align: "center"
                 },
+                {
+                    title: "唯一编号",
+                    key: "numberCode",
+                    width: 120,
+
+                    align: "center"
+                },
+
                 {
                     title: "部门名称",
                     key: "deptIdDis",

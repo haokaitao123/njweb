@@ -1,24 +1,31 @@
 <template>
     <div class="content-main">
         <row>
-            <Input v-model="docsName"
-                   style="width: 160px;"
-                   placeholder="请输入员工名称"></Input>
+            <Select v-model="edEducationlevel"
+                    style="width:200px"
+                    clearable>
+                <Option :value="item.paramCode"
+                        v-for="(item,index) in selectEducationlevel"
+                        :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
             <Button type="primary"
                     icon="search"
                     @click="search">查询</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="showMsgBtn(NaN, $t('新增'))">新增</Button>
+                    @click="showMsgBtn(NaN, '新增')"
+                    v-show="logType=='修改'">新增</Button>
             <Button type="primary"
                     icon="primary"
                     @click="expData">导出</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="importExcel">导入</Button>
+                    @click="importExcel"
+                    v-show="logType=='修改'">导入</Button>
             <Button type="error"
                     icon="primary"
-                    @click="deletemsg">删除</Button>
+                    @click="deletemsg"
+                    v-show="logType=='修改'">删除</Button>
         </row>
         <row class="table-form"
              ref="table-form">
@@ -75,14 +82,14 @@
                     @closeExpDowMain="closeExpDowMain"
                     ref="expdow"></expdow>
         </transition>
-        <!-- <transition name="fade">
+        <transition name="fade">
             <importExcel v-show="openImport"
                          :impid="updateId"
                          :imp_mt="imp_mt"
                          @getData="getData"
                          @closeImport="closeImport"
                          ref="importExcel"></importExcel>
-        </transition> -->
+        </transition>
     </div>
 </template>
 <script>
@@ -119,11 +126,11 @@ export default {
             openExp: false,
             filekey: "",
             filename: "",
-
             total: NaN,
             logTypeE: this.logType,
             showMsg: false,
-
+            edEducationlevel: "",
+            selectEducationlevel: "",
             columns: [
                 {
                     type: "selection",
@@ -201,17 +208,42 @@ export default {
                                         type: "success",
                                         size: "small"
                                     },
+                                    style: {
+                                        display: this.logType == '修改' ? "inline-block" : "none",
+                                    },
                                     on: {
                                         click: () => {
                                             this.showMsgBtn(
                                                 params.row.id,
-                                                this.logType,
+                                                '修改',
                                                 params.index
                                             );
                                         }
                                     }
                                 },
-                                this.logType
+                                '修改'
+                            ),
+                            h(
+                                "Button",
+                                {
+                                    props: {
+                                        type: "primary",
+                                        size: "small"
+                                    },
+                                    style: {
+                                        display: this.logType == '查看' ? "inline-block" : "none",
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showMsgBtn(
+                                                params.row.id,
+                                                '查看',
+                                                params.index
+                                            );
+                                        }
+                                    }
+                                },
+                                '查看'
                             )
                         ]);
                     }
@@ -230,7 +262,9 @@ export default {
                 pkId: ""
             },
             index: 0,
-            tableselected: []
+            tableselected: [],
+            loading: "",
+            updateId: NaN
         };
     },
     //    主表id
@@ -244,29 +278,35 @@ export default {
         expdow,
         importExcel
     },
-    mounted () { },
+    mounted () {
+        this.getSelect();
+    },
     methods: {
         search () {
             this.params.pkId = this.mainId + "";
+            this.params.page = 1;
             this.getData();
         },
         getData () {
             const t = this;
             const data = deepCopy(t.params);
-            data.docsName = t.docsName;
+            data.edEducationlevel = t.edEducationlevel;
             for (const dat in data) {
                 if (data[dat] === "") {
                     delete data[dat];
                 }
             }
+            this.loading = true;
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
+                        this.loading = false;
                         t.total = res.data.content[0].records;
                         t.data = res.data.content[0].rows;
                     }
                 })
                 .catch(() => {
+                    this.loading = false;
                     t.$Modal.error({
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")
@@ -340,9 +380,14 @@ export default {
             t.showMsg = true;
             t.logTypeE = logType;
             t.index = index;
-            if (t.logTypeE === this.$t("button.upd")) {
-                t.$refs.contentMsg.setRowId(id);
+            t.$refs.contentMsg.setRowId(id, logType);
+            // if (t.logTypeE === '查看' || t.logTypeE === '修改') {
+            //    
+            // }
+            if (t.logTypeE === '查看') {
+                t.$refs.contentMsg.disabled = true
             }
+
         },
         addNewArray (res) {
             const t = this;
@@ -354,9 +399,9 @@ export default {
         },
         clear () {
             const t = this;
-            t.docsName = "";
-            t.page = 1;
-            t.rows = 10;
+            t.edEducationlevel = "";
+            t.params.page = 1;
+            t.params.rows = 10;
         },
         hideMsg () {
             this.showMsg = false;
@@ -378,9 +423,8 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                bankCode: t.bankCode,
-                bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode
+                pkId: this.mainId,
+                edEducationlevel: this.edEducationlevel
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(
@@ -407,7 +451,26 @@ export default {
             t.filename = filename;
             t.openExpDow = openExpDow;
             t.$refs.expdow.getPriToken(t.filekey);
-        }
+        },
+        //查询公共参数
+        getSelect (type) {
+            const t = this;
+            getDataLevelUserLogin({
+                _mt: "baseParmInfo.getSelectValue",
+                typeCode: "education"
+            })
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.selectEducationlevel = res.data.content[0].value[0].paramList;
+                    }
+                })
+                .catch(() => {
+                    this.$Modal.error({
+                        title: this.$t("reminder.err"),
+                        content: this.$t("reminder.errormessage")
+                    });
+                });
+        },
     }
 };
 </script>
