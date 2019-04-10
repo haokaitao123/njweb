@@ -776,16 +776,7 @@ export default {
             selectIdtype: [],
             selectRegtype: [],
             selectSalbank: [],
-            selectAttendy: [
-                {
-                    paramCode: "1",
-                    paramInfoCn: "是"
-                },
-                {
-                    paramCode: "0",
-                    paramInfoCn: "否"
-                }
-            ],
+            selectAttendy: [],
             ruleValidate: {
                 empnhName: [
                     {
@@ -1103,32 +1094,23 @@ export default {
                 });
         },
         //查询公共参数
-        getSelect (type) {
+        getSelect () {
             const t = this;
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: type
+                typeCode: 'nationtype,idtype,registerproperty,marrystatus,political,techlevel,gender,yesno'
+            }).then(res => {
+                if (isSuccess(res, t)) {
+                    t.selectNation = res.data.content[0].value[0].paramList;
+                    t.selectIdtype = res.data.content[0].value[1].paramList;
+                    t.selectRegtype = res.data.content[0].value[2].paramList;
+                    t.selectMarriage = res.data.content[0].value[3].paramList;
+                    t.selectPolitical = res.data.content[0].value[4].paramList;
+                    t.selectTechnicaltitle = res.data.content[0].value[5].paramList;
+                    t.selectGender = res.data.content[0].value[6].paramList;
+                    t.selectAttendy = res.data.content[0].value[7].paramList;
+                }
             })
-                .then(res => {
-                    if (isSuccess(res, t)) {
-                        console.log(res);
-                        if (type == "nationtype") {
-                            t.selectNation = res.data.content[0].value[0].paramList;
-                        } else if (type == "idtype") {
-                            t.selectIdtype = res.data.content[0].value[0].paramList;
-                        } else if (type == "registerproperty") {
-                            t.selectRegtype = res.data.content[0].value[0].paramList;
-                        } else if (type == "marrystatus") {
-                            t.selectMarriage = res.data.content[0].value[0].paramList;
-                        } else if (type == "political") {
-                            t.selectPolitical = res.data.content[0].value[0].paramList;
-                        } else if (type == "techlevel") {
-                            t.selectTechnicaltitle = res.data.content[0].value[0].paramList;
-                        } else if (type == "gender") {
-                            t.selectGender = res.data.content[0].value[0].paramList;
-                        }
-                    }
-                })
                 .catch(() => {
                     this.$Modal.error({
                         title: this.$t("reminder.err"),

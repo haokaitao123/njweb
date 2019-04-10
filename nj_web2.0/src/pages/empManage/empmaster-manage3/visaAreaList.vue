@@ -338,13 +338,10 @@ export default {
                 },
                 {
                     title: "是否考勤",
-                    key: "empnhAttendyn",
+                    key: "empnhAttendynDis",
                     width: 140,
                     align: "center",
                     sortable: "custom",
-                    render: (h, params) => {
-                        return h("div", params.row.empnhAttendyn == 1 ? "是" : "否");
-                    }
                 }
             ],
             tableBtn: {

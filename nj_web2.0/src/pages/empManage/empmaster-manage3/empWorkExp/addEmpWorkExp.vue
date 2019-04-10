@@ -17,7 +17,7 @@
             <Row>
                 <Form :model="form"
                       label-position="right"
-                      :rules="ruleValidate"
+                      :rules="logType=='查看'?{}:ruleValidate"
                       ref="form"
                       :label-width="110">
                     <i-col span="11">
@@ -249,7 +249,8 @@ export default {
                 weLevrason: [
                     { required: true, message: "请输入离职原因", trigger: "blur" }
                 ],
-            }
+            },
+            logTypeE: this.logType
         };
     },
     //    主表id
@@ -265,6 +266,7 @@ export default {
         setRowId (id, logType) {
             const t = this;
             t.rowId = id;
+            this.logTypeE = logType
             if (logType !== "新增") {
                 t.getData();
             }
@@ -306,9 +308,9 @@ export default {
             const t = this;
             const data = deepCopy(t.form);
             data._mt = "empWorkExp.addOrUpd";
-            data.logType = t.logType;
+            data.logType = t.logTypeE;
             data.id = t.rowId;
-            if (this.logType == "新增") {
+            if (t.logTypeE == "新增") {
                 data.pkId = t.mainId; // 放入主表id
             }
             if (data.weSdate !== undefined) {
