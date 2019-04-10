@@ -400,7 +400,7 @@ export default {
             t.form = {};
             t.edCuntryDis = "";
             t.file = "";
-            t.edIshighest = "1";
+            t.form.edIshighest = "1";
             t.$refs.form.resetFields();
         },
         close () {
