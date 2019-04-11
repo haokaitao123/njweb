@@ -17,7 +17,7 @@
           <Button type="primary" @click="importExcel">{{$t('button.imp')}}</Button>
         </Row>
         <row class="table-form" ref="table-form">
-          <Table @on-select="selectedtable" @on-select-cancel="selectedtable"  @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+          <Table @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
         </row>
         <Row style="display: flex">
            <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
@@ -174,10 +174,7 @@
             t.total = res.data.content[0].records
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       closeImport() {
@@ -266,14 +263,12 @@
           ids: t.tableselected.toString(),
         }).then((res) => {
           if (isSuccess(res, t)) {
+            t.$Message.success(this.$t('reminder.deletesuccess'))
             t.tableselected = []
             t.getData()
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+            t.$Message.error(this.$t('reminder.errormessage'))
         })
         		},
         		onCancel: () => {},

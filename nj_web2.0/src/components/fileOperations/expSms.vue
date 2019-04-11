@@ -96,24 +96,24 @@ export default {
                 }
             }
             if (data.expDisFields) {
-
+                this.$Spin.show({
+                    render: (h) => {
+                        return h('div',
+                            [
+                                h('Icon', {
+                                    'class': 'demo-spin-icon-load',
+                                    props: {
+                                        type: 'load-c',
+                                        size: 18
+                                    }
+                                }),
+                                h('div', 'Loading')
+                            ]
+                        )
+                    }
+                });
                 getDataLevelUserLogin(data).then((res) => {
-                    // this.$Spin.show({
-                    //     render: (h) => {
-                    //         return h('div',
-                    //             [
-                    //                 h('Icon', {
-                    //                     'class': 'demo-spin-icon-load',
-                    //                     props: {
-                    //                         type: 'load-c',
-                    //                         size: 18
-                    //                     }
-                    //                 }),
-                    //                 h('div', 'Loading')
-                    //             ]
-                    //         )
-                    //     }
-                    // });
+
                     if (isSuccess(res, t)) {
                         t.filekey = res.data.content[0].filekey
                         t.filename = res.data.content[0].filename
@@ -122,16 +122,15 @@ export default {
                         this.$Spin.hide();
                     }
                 }).catch(() => {
-                    t.$Modal.error({
-                        title: this.$t('reminder.err'),
-                        content: this.$t('reminder.errormessage'),
-                    })
+                    this.$Spin.hide();
+                    t.$Message.error('网络错误');
                 })
             } else {
-                t.$Modal.warning({
-                    title: this.$t('reminder.remind'),
-                    content: this.$t('reminder.exportErr'),
-                })
+                t.$Message.warning('导出字段不能为空');
+                // t.$Modal.warning({
+                //     title: this.$t('reminder.remind'),
+                //     content: this.$t('reminder.exportErr'),
+                // })
             }
         },
         handleCheckAll () {

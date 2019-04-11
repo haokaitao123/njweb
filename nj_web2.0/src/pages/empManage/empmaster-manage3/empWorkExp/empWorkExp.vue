@@ -299,10 +299,7 @@ export default {
                 })
                 .catch(() => {
                     this.loading = false;
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         pageChange (page) {
@@ -329,10 +326,7 @@ export default {
         deletemsg () {
             const t = this;
             if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+                this.$Message.warning('请至少选择一条数据');
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),

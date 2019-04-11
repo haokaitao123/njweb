@@ -253,26 +253,17 @@ export default {
                         .then(res => {
                             if (isSuccess(res, t)) {
                                 if (t.rowId) {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.updsuccess")
-                                    });
+                                    this.$Message.success('修改成功');
                                     t.$emit("update", res.data.content[0]);
                                 } else {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.addsuccess")
-                                    });
+                                    this.$Message.success('新增成功');
                                     t.$emit("getData", res.data.content[0]);
                                 }
                                 t.close();
                             }
                         })
                         .catch(() => {
-                            t.$Modal.error({
-                                title: this.$t("reminder.err"),
-                                content: this.$t("reminder.errormessage")
-                            });
+                            this.$Message.error('网络错误');
                         });
                 }
             });
@@ -289,10 +280,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    this.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         clear () {
