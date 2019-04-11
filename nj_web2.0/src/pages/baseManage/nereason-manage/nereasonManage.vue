@@ -16,7 +16,7 @@
           <Button type="primary" @click="importExcel">{{$t('button.imp')}}</Button>
         </Row>
         <row class="table-form" ref="table-form">
-          <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+          <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
         </row>
                 <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
       </card>
@@ -47,10 +47,11 @@
   export default{
     data() {
       return {
+        loading: "",
         imp_mt: 'baseNereason.importData',
         openImport: false,
-        expDataTital: [{ code: 'nerCode', name: '编码' }, { code: 'nerCname', name: this.$t('lang_baseManage.baseNereason.nerCname') },
-          { code: 'nerEname', name: this.$t('lang_baseManage.baseNereason.nerEname') }, { code: 'comment', name: this.$t('lang_baseManage.baseNereason.comment') }],
+        expDataTital: [{ code: 'nerCode', name: '编码' }, { code: 'nerName', name: this.$t('lang_baseManage.baseNereason.nerCname') },
+           { code: 'comment', name: this.$t('lang_baseManage.baseNereason.comment') }],
         openExpDow: false,
         openExp: false,
         filekey: '',
@@ -75,13 +76,7 @@
           },
           {
             title: this.$t('lang_baseManage.baseNereason.nerCname'),
-            key: 'nerCname',
-//            sortable: 'custom',
-//          width: 130,
-          },
-          {
-            title: this.$t('lang_baseManage.baseNereason.nerEname'),
-            key: 'nerEname',
+            key: 'nerName',
 //            sortable: 'custom',
 //          width: 130,
           },
@@ -137,6 +132,9 @@
         if (page) {
           t.page = page
         }
+        if (typeof (page) == "undefined") {
+          this.page = 1;
+        }
         const data = {
           _mt: 'baseNereason.getPage',
           rows: t.rows,
@@ -151,16 +149,16 @@
             delete data[dat]
           }
         }
+        t.loading = true;
         getDataLevelUserLoginNew(data).then((res) => {
           if (isSuccess(res, t)) {
+            t.loading = false;
             t.data = res.data.content[0].rows
             t.total = res.data.content[0].records
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.loading = false;
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       closeImport() {
@@ -220,7 +218,7 @@
       pageChange(page) {
         const t = this
         t.page = page
-        t.getData()
+        t.getData(t.page)
       },
       selectedtable(selection) {
         const newArr = []
@@ -248,14 +246,12 @@
           ids: t.tableselected.toString(),
         }).then((res) => {
           if (isSuccess(res, t)) {
+            t.$Message.success(this.$t('reminder.deletesuccess'))
             t.tableselected = []
             t.getData()
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+            t.$Message.error(this.$t('reminder.errormessage'))
         })
         		},
         		onCancel: () => {},
@@ -285,8 +281,7 @@
         const t = this
         t.openUpdate = false
         t.$refs.update.formValidate.nerCode = ''
-        t.$refs.update.formValidate.nerCname = ''
-        t.$refs.update.formValidate.nerEname = ''
+        t.$refs.update.formValidate.nerName = ''
         t.$refs.update.formValidate.comment = ''
       },
     },

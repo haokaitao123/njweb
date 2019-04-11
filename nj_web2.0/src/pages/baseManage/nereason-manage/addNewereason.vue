@@ -18,16 +18,14 @@
           </FormItem>
           </Col>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseNereason.nerCname')" prop="nerCname">
-            <Input v-model="formValidate.nerCname" :placeholder="$t('lang_baseManage.baseNereason.nerCnameDis')"></Input>
+          <FormItem :label="$t('lang_baseManage.baseNereason.nerCname')" prop="nerName">
+            <Input v-model="formValidate.nerName" :placeholder="$t('lang_baseManage.baseNereason.nerCnameDis')"></Input>
           </FormItem>
           </Col>
         </Row>
         <Row>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseNereason.nerEname')" prop="nerEname">
-            <Input v-model="formValidate.nerEname" :placeholder="$t('lang_baseManage.baseNereason.nerEnameDis')"></Input>
-          </FormItem>
+
           </Col>
         </Row>
         <Row>
@@ -62,19 +60,15 @@
           _mt: 'baseNereason.addOrUpd',
           funId: '1',
           nerCode: '',
-          nerCname: '',
-          nerEname: '',
+          nerName: '',
           comment: '',
         },
         ruleValidate: {
           nerCode: [
             { required: true, message: this.$t('lang_baseManage.baseNereason.nerCodeDis'), trigger: 'blur' },
           ],
-          nerCname: [
+          nerName: [
             { required: true, message: this.$t('lang_baseManage.baseNereason.nerCnameDis'), trigger: 'blur' },
-          ],
-          nerEname: [
-            { required: true, message: this.$t('lang_baseManage.baseNereason.nerEnameDis'), trigger: 'blur' },
           ],
         },
       }
@@ -97,15 +91,11 @@
         }).then((res) => {
           if (isSuccess(res, t)) {
             t.formValidate.nerCode = res.data.content[0].nerCode
-            t.formValidate.nerCname = res.data.content[0].nerCname
-            t.formValidate.nerEname = res.data.content[0].nerEname
+            t.formValidate.nerName = res.data.content[0].nerName
             t.formValidate.comment = res.data.content[0].comment
           }
         }).catch(() => {
-          this.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       handleSubmit() {
@@ -121,25 +111,16 @@
               if (isSuccess(res, t)) {
                 t.$emit('closeUp')
                 if (t.logType === this.$t('button.add')) {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.addsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.addsuccess'))
                   t.$refs.formValidate.resetFields()
                   t.$emit('getData', res.data.content[0])
                 } else {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.updsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.updsuccess'))
                   t.$emit('update', res.data.content[0])
                 }
               }
             }).catch(() => {
-              this.$Modal.error({
-                title: this.$t('reminder.err'),
-                content: this.$t('reminder.errormessage'),
-              })
+              t.$Message.error(this.$t('reminder.errormessage'))
             })
           }
         })

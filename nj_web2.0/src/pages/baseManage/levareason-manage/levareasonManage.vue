@@ -9,7 +9,7 @@
         </p>
         <Row>
           <Input :placeholder="$t('lang_baseManage.baseLevareason.levaCodeDis')" style="width: 200px" v-model="levaCode"/>
-          <Input :placeholder="$t('lang_baseManage.baseLevareason.levaname')" style="width: 200px" v-model="levaCname"/>
+          <Input :placeholder="$t('lang_baseManage.baseLevareason.levaname')" style="width: 200px" v-model="levaName"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -17,7 +17,7 @@
           <Button type="primary" @click="importExcel">{{$t('button.imp')}}</Button>
         </Row>
         <row class="table-form" ref="table-form">
-          <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+          <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
         </row>
                 <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
       </card>
@@ -48,10 +48,11 @@
   export default{
     data() {
       return {
+        loading: "",
         imp_mt: 'baseLevareason.importData',
         openImport: false,
         expDataTital: [{ code: 'levaCode', name: '编码' }, { code: 'levaReatypeName', name: this.$t('lang_baseManage.baseLevareason.levaReatypeName') },
-          { code: 'levaCname', name: this.$t('lang_baseManage.baseLevareason.levaCname') }, { code: 'levaEname', name: this.$t('lang_baseManage.baseLevareason.levaEname') },
+          { code: 'levaName', name: this.$t('lang_baseManage.baseLevareason.levaCname') },
           { code: 'comment', name: this.$t('lang_baseManage.baseLevareason.comment') }],
         openExpDow: false,
         openExp: false,
@@ -83,12 +84,7 @@
           },
           {
             title: this.$t('lang_baseManage.baseLevareason.levaCname'),
-            key: 'levaCname',
-//          width: 130,
-          },
-          {
-            title: this.$t('lang_baseManage.baseLevareason.levaEname'),
-            key: 'levaEname',
+            key: 'levaName',
 //          width: 130,
           },
           {
@@ -123,7 +119,7 @@
         page: 1,
         funId: '1000',
         levaCode: '',
-        levaCname: '',
+        levaName: '',
       }
     },
     computed: {
@@ -144,6 +140,9 @@
         if (page) {
           t.page = page
         }
+        if (typeof (page) == "undefined") {
+          this.page = 1;
+        }
         const data = {
           _mt: 'baseLevareason.getPage',
           rows: t.rows,
@@ -152,23 +151,23 @@
           order: t.order,
           logType: this.$t('button.ser'),
           levaCode: t.levaCode,
-          levaCname: t.levaCname,
+          levaName: t.levaName,
         }
         for (const dat in data) {
           if (data[dat] === '') {
             delete data[dat]
           }
         }
+        t.loading = true;
         getDataLevelUserLoginNew(data).then((res) => {
           if (isSuccess(res, t)) {
+            t.loading = false;
             t.data = res.data.content[0].rows
             t.total = res.data.content[0].records
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.loading = false;
+        t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       closeImport() {
@@ -184,7 +183,7 @@
         const t = this
         const data = {
           levaCode: t.levaCode,
-          levaCname: t.levaCname,
+          levaName: t.levaName,
         }
         this.$refs.expwindow.getData(this.expDataTital, 'baseLevareason.export', data)
         this.openExp = true
@@ -229,7 +228,7 @@
       pageChange(page) {
         const t = this
         t.page = page
-        t.getData()
+        t.getData(t.page)
       },
       selectedtable(selection) {
         const newArr = []
@@ -257,14 +256,12 @@
           ids: t.tableselected.toString(),
               }).then((res) => {
           if (isSuccess(res, t)) {
+            t.$Message.success(this.$t('reminder.deletesuccess'))
             t.tableselected = []
             t.getData()
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+            t.$Message.error(this.$t('reminder.errormessage'))
         })
         		},
         		onCancel: () => {},
@@ -291,8 +288,7 @@
         t.openUpdate = false
         t.$refs.update.formValidate.levaCode = ''
         t.$refs.update.formValidate.levaReatype = ''
-        t.$refs.update.formValidate.levaCname = ''
-        t.$refs.update.formValidate.levaEname = ''
+        t.$refs.update.formValidate.levaName = ''
         t.$refs.update.formValidate.comment = ''
       },
     },
