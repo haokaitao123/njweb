@@ -174,10 +174,7 @@
             t.total = res.data.content[0].records
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       closeImport() {
