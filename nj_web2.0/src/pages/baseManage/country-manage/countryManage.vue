@@ -266,14 +266,12 @@
           ids: t.tableselected.toString(),
         }).then((res) => {
           if (isSuccess(res, t)) {
+            t.$Message.success(this.$t('reminder.deletesuccess'))
             t.tableselected = []
             t.getData()
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+            t.$Message.error(this.$t('reminder.errormessage'))
         })
         		},
         		onCancel: () => {},

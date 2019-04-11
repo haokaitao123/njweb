@@ -125,6 +125,7 @@ export default {
       err: '错误',
       suc: '成功',
       rig: '正确',
+      operatsuccess:'操作成功',
       addsuccess: '新增成功',
       updsuccess: '修改成功',
       savsuccess: '保存成功',
