@@ -116,42 +116,49 @@ export default {
                     title: "合同类别",
                     key: "contTypeDis",
                     width: 150,
-                    sortable: "custom"
+                    sortable: "custom",
+                    align: "center",
                 },
                 {
                     title: "合同期限",
                     key: "contPeriodDis",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "合同开始日",
                     key: "contSdate",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "合同结束日",
                     key: "contEdate",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "签署日期",
                     key: "contSigndate",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "试用期限",
                     key: "contProbatDis",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "试用到期时间",
                     key: "contProbatdt",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
 
@@ -189,7 +196,7 @@ export default {
             data: [],
             docsName: "",
             params: {
-                _mt: "empContractinfo.getPage",
+                _mt: "empContractinfo.getEmpPage",
                 funId: "1",
                 rows: 10,
                 page: 1,
@@ -217,7 +224,6 @@ export default {
     methods: {
         search () {
             this.params.pkId = this.mainId + "";
-            // this.
             this.getData();
         },
         getData () {

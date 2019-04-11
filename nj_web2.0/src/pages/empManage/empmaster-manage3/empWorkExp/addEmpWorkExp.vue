@@ -50,6 +50,7 @@
                                   prop="weComp">
                             <Input v-model="form.weComp"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入工作单位"></Input>
                         </FormItem>
                     </i-col>
@@ -59,6 +60,7 @@
                                   prop="weDept">
                             <Input v-model="form.weDept"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入工作部门"></Input>
                         </FormItem>
                     </i-col>
@@ -67,6 +69,7 @@
                                   prop="wePost">
                             <Input v-model="form.wePost"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入工作职务"></Input>
                         </FormItem>
                     </i-col>
@@ -95,6 +98,7 @@
                                   prop="weContact">
                             <Input v-model="form.weContact"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入证明人"></Input>
                         </FormItem>
                     </i-col>
@@ -112,6 +116,8 @@
                                   prop="weLevrason">
                             <Input v-model="form.weLevrason"
                                    :disabled="disabled"
+                                   type="textarea"
+                                   :autosize="{minRows: 2,maxRows: 5}"
                                    placeholder="请输入离职原因"></Input>
                         </FormItem>
                     </i-col>
@@ -199,6 +205,7 @@ export default {
                 weLevrason: "",
                 note: ""
             },
+            maxlength: 500,
             rowId: "",
             ruleValidate: {
                 weSdate: [
