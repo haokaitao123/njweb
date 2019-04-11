@@ -1,47 +1,54 @@
 <template>
+    <div class="cover">
+        <div class="box">
+            <div class="title">
+                <div class="title-text">
+                    <Icon type="mouse"
+                          size="16"
+                          style="margin-right: 10px;"></Icon>&nbsp;{{logType}}
+                </div>
+                <Button type="text"
+                        @click="handleReset">
+                    <Icon type="close-round"
+                          size="16"></Icon>
+                </Button>
+            </div>
             <div class="option-main">
                 <Row style="max-height: 420px;overflow-y: auto;">
                     <Form ref="formValidate"
                           :model="formValidate"
                           :rules="ruleValidate"
                           :label-width="100">
-                        <i-col span="11">
-                          <FormItem label="员工姓名"  prop="empIdName"  >
-                            <!--绑定双击清除方法-->
-                            <span @dblclick="forbidden?'':dbclean()">
-                          <!--v-model绑定显示字段-->
-                              <Input v-model="formValidate.empIdName" icon="search" readonly="readonly" :disabled="forbidden" placeholder="请选择员工"  @on-click="forbidden?'':pickEmpData()" />
-                            </span>
-                          </FormItem>
-                        </i-col>
+
 
                       <i-col span="11">
-                        <FormItem label="证件号码"
-                                  prop="empIdIden">
-                          <Input v-model="formValidate.empIdIden"
-                                 disabled="disabled"
-                                 placeholder="请输入证件号码"></Input>
-                        </FormItem>
-                      </i-col>
-                        <i-col span="11">
-                            <FormItem label="部门"
-                                      prop="deptIdDis">
-                                <Input v-model="formValidate.deptIdDis"
-                                       disabled="disabled"
-                                       placeholder="请输入部门名称"></Input>
-                            </FormItem>
-                        </i-col>
-                      <i-col span="11">
-                        <FormItem label="岗位"
-                                  prop="postIdDis">
-                          <Input v-model="formValidate.postIdDis"
-                                 disabled="disabled"
-                                 placeholder="请输入岗位名称"></Input>
+                        <FormItem label="类型" prop="bodeType">
+                          <Select v-model="formValidate.bodeType" clearable placeholder="请选择类型" >
+                            <Option :value="item.paramCode" v-for="(item,index) in bodeTypeList" :key="index">{{item.paramInfoCn}}</Option>
+                          </Select>
                         </FormItem>
                       </i-col>
                       <i-col span="11">
-                        <FormItem label="总金额" prop="borrTotamount">
-                          <Input v-model="formValidate.borrTotamount"
+                        <FormItem label="原因" prop="bodeReason">
+                          <Select v-model="formValidate.bodeReason" clearable placeholder="请选择原因" >
+                            <Option :value="item.paramCode" v-for="(item,index) in bodeReasonList" :key="index">{{item.paramInfoCn}}</Option>
+                          </Select>
+                        </FormItem>
+                      </i-col>
+                      <i-col span="11">
+                        <FormItem label="操作时间"
+                                  prop="bodeOpetime">
+                          <DatePicker type="date"
+                                      placeholder="选择操作时间"
+                                      :editable="false"
+                                      v-model="formValidate.bodeOpetime"
+                                      format="yyyy-MM-dd"
+                                      style="width: 100%"></DatePicker>
+                        </FormItem>
+                      </i-col>
+                      <i-col span="11">
+                        <FormItem label="总金额" prop="bodeAmount">
+                          <Input v-model="formValidate.bodeAmount"
                                  :disabled="forbidden"
                                  placeholder="请输入总金额"></Input>
                         </FormItem>
@@ -59,17 +66,16 @@
                       </i-col>
                     </Form>
                 </Row>
-  <!--            <Button type="ghost"
-                      @click="handleReset"
-                      class="btn1">{{$t('button.cal')}}</Button>-->
-              <Button type="primary" v-show="!forbidden"
-                      @click="handleSubmit"
-                      class="btn">{{$t('button.sav')}}</Button>
-              <!--一个弹出框一个transition-->
-              <transition name="fade">
-                <searchEmpMaster v-show="openEmpMaster" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
-              </transition>
             </div>
+            <Button type="ghost"
+                    @click="handleReset"
+                    class="btn1">{{$t('button.cal')}}</Button>
+            <Button type="primary" v-show="!forbidden"
+                    @click="handleSubmit"
+                    class="btn">{{$t('button.sav')}}</Button>
+        </div>
+      <!--一个弹出框一个transition-->
+    </div>
 </template>
 <script>
 import { getDataLevelUserLoginSenior, getDataLevelUserLogin,uploadFile } from '../../../axios/axios'
@@ -79,52 +85,25 @@ import valid from '../../../lib/pub_valid.js'
 
 export default {
     data () {
-      /*数字验证*/
-      const numberCheck = (rule, value, numberValCheck) => {
-        if (value !== '' && value !== undefined) {
-          if (valid.val_number103(value)) {
-            return numberValCheck()
-          }
-          return numberValCheck(new Error(rule.message))
-        }
-        numberValCheck()
-      }
-
         return {
           file: '',
           filekey: '',
+          bodeTypeList:[],
+          bodeReasonList:[],
           loadingStatus: false,
             type: '',
             distype: false,
             forbidden: false,
             formValidate: {
-              empIdName:"",
-              empIdIden:"",
-              empId:"",
-              deptId:"",
-              deptIdDis:"",
-              postId:"",
-              postIdDis:"",
-              borrTotamount:"",
+              bodeType:"",
+              bodeReason:"",
+              bodeOpetime:"",
+              bodeAmount:"",
               note:"",
             },
             openEmpMaster:false,
           /*必填验证*/
             ruleValidate: {
-              empIdName: [{ required: true, message: "请选择员工姓名", trigger: 'change' },],
-              borrTotamount:[
-
-                {
-                  required: true,
-                  message: "请输入总金额",
-                  trigger: "blur"
-                },
-                {
-                  validator: numberCheck,
-                  message: '请输入正确的数字格式',
-                  trigger: 'blur'
-                },
-              ],
             },
         }
     },
@@ -142,39 +121,43 @@ export default {
 
     },
     mounted () {
-        //this.getSelect("emptype");
+        this.getSelect();
     },
     methods: {
-      //上级清除员工选择
-      dbclean(){
+      getSelect() {
+     //   alert("a")
         const t = this
-        t.formValidate.empIdName = '';
-        t.formValidate.empIdIden = '';
-        t.formValidate.empId = '';
-        t.formValidate.deptIdDis = '';
-        t.formValidate.deptId = '';
-        t.formValidate.postIdDis = '';
-        t.formValidate.postId = '';
+        getDataLevelUserLogin({
+          _mt: 'baseParmInfo.getSelectValue',
+          typeCode: 'bodeType,bodeReason',
+        }).then((res) => {
+          if (isSuccess(res, t)) {
+            t.bodeTypeList = res.data.content[0].value[0].paramList
+            t.bodeReasonList = res.data.content[0].value[1].paramList
+          }
+        }).catch(() => {
+          this.$Modal.error({
+            title: this.$t('reminder.err'),
+            content: this.$t('reminder.errormessage'),
+          })
+        })
       },
+      //上级清除员工选择
         getData (id) {
             const t = this
             getDataLevelUserLogin({
-                _mt: 'empBorrow.getById',
-                id: id,
+                _mt: 'empBorrowdetails.getById',
+                id: t.id,
                 funId: '1',
-                logType: '借支信息id查询',
+                logType: '借支明细id查询',
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     console.log(res.data.content[0])
-                    t.formValidate = res.data.content[0]
-                    t.formValidate.empIdName= res.data.content[0].empIdName
-                    t.formValidate.empIdIden= res.data.content[0].empIdIden
-                    t.formValidate.empId= res.data.content[0].empId
-                    t.formValidate.deptId= res.data.content[0].deptId
-                    t.formValidate.deptIdDis= res.data.content[0].deptIdDis
-                    t.formValidate.postId= res.data.content[0].postId
-                    t.formValidate.postIdDis= res.data.content[0].postIdDis
-                    t.formValidate.borrTotamount= res.data.content[0].borrTotamount
+                   // t.formValidate = res.data.content[0]
+                    t.formValidate.bodeType= res.data.content[0].bodeType
+                    t.formValidate.bodeReason= res.data.content[0].bodeReason
+                    t.formValidate.bodeOpetime= res.data.content[0].bodeOpetime
+                    t.formValidate.bodeAmount= res.data.content[0].bodeAmount
                     t.formValidate.note= res.data.content[0].note
                     if (t.logType === '查看') {
                         t.forbidden = true
@@ -195,26 +178,19 @@ export default {
             const t = this
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
-            data._mt = 'empBorrow.addOrUpd'
-
-            if((!isNaN(t.id)) && t.id != ''){
-              //alert(1)
-              t.logType = '修改'
-            }
+            data._mt = 'empBorrowdetails.addOrUpd'
             if (t.logType === '修改') {
                 data.id = t.id
             }
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {
-                      //debugger
                         if (isSuccess(res, t)) {
+                            t.$emit('closeUp')
                             if (t.logType === '新增') {
                                 t.$Message.success('新增成功');
-                               // t.$refs.formValidate.resetFields()
-                                alert(res.data.content[0].id)
-                                t.id = res.data.content[0].id
-                                t.$emit('newdata', res.data.content[0])
+                                t.$refs.formValidate.resetFields()
+                                t.$emit('getData', res.data.content[0])
                             } else {
                                 t.$Message.success('修改成功');
                                 t.$emit('update', res.data.content[0])
@@ -258,15 +234,6 @@ export default {
         this.loadingStatus = true
         return false
       },
-//清除
-      clear(){
-        const t = this
-        t.$refs.formValidate.resetFields()
-        t.id=''
-        t.openUpdate = false
-        t.$refs.update.forbidden = false
-      },
-
     },
     watch: {
     },
