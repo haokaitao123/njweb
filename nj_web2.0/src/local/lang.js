@@ -155,6 +155,9 @@ export default {
       exportErr: '导出字段不能为空',
       dataExists: '信息已存在，请修改!',
     },
+    othertips: {
+      numberErr:'请输入正确的数字格式',
+    },
     lang_authorization: lang_authorization['zh-CN'],
     lang_baseManage: lang_baseManage['zh-CN'],
     lang_payroll: lang_payroll['zh-CN'],
