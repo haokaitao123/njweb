@@ -76,6 +76,7 @@
                                   prop="weSalary">
                             <Input v-model="form.weSalary"
                                    :disabled="disabled"
+                                   :maxlength="12"
                                    placeholder="请输入薪资"></Input>
                         </FormItem>
                     </i-col>

@@ -139,28 +139,28 @@ export default {
                 },
                 {
                     title: "是否紧急联系人",
-                    key: "fmIsurgent",
+                    key: "fmIsurgentDis",
                     sortable: "custom",
                     align: "center",
                     width: 150,
-                    render: (h, params) => {
-                        return h("div", params.row.fmIsurgent == 1 ? "是" : "否");
-                    }
                 },
                 {
                     title: "姓名",
                     key: "fmCname",
                     align: "center",
+                    width: 100
                 },
                 {
                     title: "工作单位",
                     key: "fmCompany",
                     align: "center",
+                    width: 200
                 },
                 {
                     title: "职务",
                     key: "fmPost",
                     align: "center",
+                    width: 100
                 },
 
                 {

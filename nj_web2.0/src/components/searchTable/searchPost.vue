@@ -19,7 +19,7 @@
                        v-model="name" />
                 <span style="margin: 0;"><Button type="primary"
                             icon="search"
-                            @click="getData(params,id, 1)">{{$t('button.ser')}}</Button></span>
+                            @click="getData(params,NaN, 1)">{{$t('button.ser')}}</Button></span>
                 <span style="margin: 0;"><Button type="warning"
                             icon="trash-b"
                             @click="clear">{{$t('button.cle')}}</Button></span>
