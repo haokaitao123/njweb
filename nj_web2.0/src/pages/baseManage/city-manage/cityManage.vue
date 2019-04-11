@@ -38,7 +38,7 @@
             <Button type="primary" @click="importExcel">{{$t('button.imp')}}</Button>
           </Row>
           <row class="table-form" ref="table-form">
-            <Table @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+            <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
           </row>
                   <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData('',1)"></Button></Row>
           </Col>
@@ -72,6 +72,7 @@
   export default{
     data() {
       return {
+        loading: "",
         imp_mt: 'baseCity.importData',
         openImport: false,
         expDataTital: [{ code: 'cityName', name: this.$t('lang_baseManage.baseCity.cityName') }, { code: 'cityCode1', name: this.$t('lang_baseManage.baseCity.cityCode1') },
@@ -225,6 +226,9 @@
         if (page) {
           t.page = page
         }
+        if (typeof (page) == "undefined") {
+          this.page = 1;
+        }
         const data = {
           _mt: 'baseCity.getPage',
           rows: t.rows,
@@ -242,12 +246,15 @@
             delete data[dat]
           }
         }
+        t.loading = true; //请求之前重置状态
         getDataLevelUserLoginNew(data).then((res) => {
           if (isSuccess(res, t)) {
+            t.loading = false; //在成功之后改状态
             t.data = res.data.content[0].rows
             t.total = res.data.content[0].records
           }
         }).catch(() => {
+          t.loading = false; //在成功之后改状态
           t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
@@ -367,7 +374,7 @@
       pageChange(page) {
         const t = this
         t.page = page
-        t.getData(this.treeid)
+        t.getData(this.treeid,t.page)
       },
       selectedtable(selection) {
         const newArr = []

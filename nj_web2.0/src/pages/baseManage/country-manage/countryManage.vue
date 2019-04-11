@@ -17,7 +17,7 @@
           <Button type="primary" @click="importExcel">{{$t('button.imp')}}</Button>
         </Row>
         <row class="table-form" ref="table-form">
-          <Table @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+          <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
         </row>
         <Row style="display: flex">
            <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
@@ -51,6 +51,7 @@
   export default{
     data() {
       return {
+        loading: "",
         imp_mt: 'baseCountry.importData',
         openImport: false,
         expDataTital: [{ code: 'countryCname', name: this.$t('lang_baseManage.baseCountry.countryCname') }, { code: 'countryEname', name: this.$t('lang_baseManage.baseCountry.countryEname') },
@@ -153,6 +154,9 @@
         if (page) {
           t.page = page
         }
+        if (typeof (page) == "undefined") {
+          this.page = 1;
+        }
         const data = {
           _mt: 'baseCountry.getPage',
           rows: t.rows,
@@ -168,12 +172,15 @@
             delete data[dat]
           }
         }
+        t.loading = true; //请求之前重置状态
         getDataLevelUserLoginNew(data).then((res) => {
           if (isSuccess(res, t)) {
+            t.loading = false; //在成功之后改状态
             t.data = res.data.content[0].rows
             t.total = res.data.content[0].records
           }
         }).catch(() => {
+          t.loading = false; //在成功之后改状态
           t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
@@ -235,7 +242,7 @@
       pageChange(page) {
         const t = this
         t.page = page
-        t.getData()
+        t.getData(t.page)
       },
       selectedtable(selection) {
         const newArr = []

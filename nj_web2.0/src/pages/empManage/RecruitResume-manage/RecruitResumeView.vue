@@ -12,190 +12,222 @@
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="身份" prop="resuIdentity">
+            <Select v-model="formValidate.resuIdentity" placeholder="请选择身份" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectIdentitytype" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="面试日期" prop="resuFilldate">
+            <DatePicker type="date" placeholder="请输入面试日期" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuFilldate"  style="width: 100%"></DatePicker>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="姓名" prop="resuName">
+            <Input v-model="formValidate.resuName" placeholder="请输入姓名" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="证件号码" prop="resuIdno">
+            <Input v-model="formValidate.resuIdno" placeholder="请输入证件号码" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="手机号" prop="resuMobile">
+            <Input v-model="formValidate.resuMobile" placeholder="请输入手机号" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="性别" prop="resuGender">
+            <Select v-model="formValidate.resuGender" placeholder="请选择性别" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectgender" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="出生日期" prop="resuBirtday">
+            <DatePicker type="date" placeholder="请输入出生日期" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuBirtday"  style="width: 100%"></DatePicker>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="籍贯" prop="resuBirtplace">
+            <Input v-model="formValidate.resuBirtplace" placeholder="请输入籍贯" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="民族" prop="resuNatality">
+            <Select v-model="formValidate.resuNatality" placeholder="请选择民族" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectnationtype" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="政治面貌" prop="resuPolitical">
+            <Select v-model="formValidate.resuPolitical" placeholder="请选择政治面貌" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectpolitical" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="健康状况" prop="resuHealthsta">
+            <Select v-model="formValidate.resuHealthsta" placeholder="请选择健康状况" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selecthealthcondition" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="婚育状况" prop="resuMaritlsta">
+            <Select v-model="formValidate.resuMaritlsta" placeholder="请选择婚育状况" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectmarrystatus" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="身高(cm)" prop="resuHeight">
+            <Input v-model="formValidate.resuHeight" placeholder="请输入身高(cm)" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="体重(kg)" prop="resuWeight">
+            <Input v-model="formValidate.resuWeight" placeholder="请输入体重(kg)" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="学历" prop="resuEducat">
+            <Select v-model="formValidate.resuEducat" placeholder="请选择学历" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selecteducation" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="毕业院校" prop="resuSchool">
+            <Input v-model="formValidate.resuSchool" placeholder="请输入毕业院校" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="专业" prop="resuProfes">
+            <Input v-model="formValidate.resuProfes" placeholder="请输入专业" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
-          </FormItem>
-        </i-col>        <i-col span="11" >
-        <FormItem label="应聘岗位" prop="postFname">
-          <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+        <FormItem label="现居住地" prop="resuLiving">
+          <Input v-model="formValidate.resuLiving" placeholder="请输入现居住地" :disabled="disabled" />
         </FormItem>
       </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="家庭地址" prop="resuFamadds">
+            <Input v-model="formValidate.resuFamadds" placeholder="请输入家庭地址" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="紧急联系人姓名" prop="resuEmernm">
+            <Input v-model="formValidate.resuEmernm" placeholder="请输入紧急联系人姓名" :disabled="disabled" />
           </FormItem>
-        </i-col>        <i-col span="11" >
-        <FormItem label="应聘岗位" prop="postFname">
-          <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
-        </FormItem>
-      </i-col>        <i-col span="11" >
-        <FormItem label="应聘岗位" prop="postFname">
-          <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
-        </FormItem>
-      </i-col>
+        </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="紧急联系人电话" prop="resuEmphone">
+            <Input v-model="formValidate.resuEmphone" placeholder="请输入紧急联系人电话" :disabled="disabled" />
           </FormItem>
-        </i-col>        <i-col span="11" >
-        <FormItem label="应聘岗位" prop="postFname">
-          <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+        </i-col>
+        <i-col span="11" >
+        <FormItem label="与本人关系" prop="resuWithme">
+          <Select v-model="formValidate.resuWithme" placeholder="请选择与本人关系" :disabled="disabled">
+            <Option :value="item.paramCode" v-for="(item,index) in selectrelationship" :key="index">{{item.paramInfoCn}}</Option>
+          </Select>
         </FormItem>
       </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
-          </FormItem>
-        </i-col>
-        <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
-          </FormItem>
-        </i-col>        <i-col span="11" >
-        <FormItem label="应聘岗位" prop="postFname">
-          <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
-        </FormItem>
-      </i-col>        <i-col span="11" >
-        <FormItem label="应聘岗位" prop="postFname">
-          <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+        <FormItem label="期望薪资" prop="resuSalary">
+          <Input v-model="formValidate.resuSalary" placeholder="请输入期望薪资" :disabled="disabled" />
         </FormItem>
       </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="职业状态" prop="resuProstatus">
+            <Select v-model="formValidate.resuProstatus" placeholder="请选择职业状态" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectempstatus" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+        <FormItem label="可到岗时间" prop="resuAvaitime">
+          <DatePicker type="date" placeholder="请输入可到岗时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuAvaitime"  style="width: 100%"></DatePicker>
+        </FormItem>
+      </i-col>
+        <i-col span="11" >
+          <FormItem label="是否有亲朋在本公司任职" prop="resuIsrelatives">
+            <RadioGroup v-model="formValidate.resuIsrelatives">
+              <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
+            </RadioGroup>
+          </FormItem>
+        </i-col>
+        <i-col span="11" v-show="formValidate.resuIsrelatives === '1'">
+          <FormItem label="本公司任职亲朋姓名" prop="resuRelatname">
+            <Input v-model="formValidate.resuRelatname" placeholder="请输入本公司任职亲朋姓名" :disabled="disabled" />
+          </FormItem>
+        </i-col>
+        <i-col span="11" v-show="formValidate.resuIsrelatives === '1'">
+        <FormItem label="本公司任职亲朋所在部门" prop="resuRelatdept">
+          <Input v-model="formValidate.resuRelatdept" placeholder="请输入本公司任职亲朋所在部门" :disabled="disabled" />
+        </FormItem>
+      </i-col>
+        <i-col span="11" >
+        <FormItem label="是否有犯罪记录" prop="resuIscriminal">
+          <RadioGroup v-model="formValidate.resuIscriminal">
+            <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
+          </RadioGroup>
+          </FormItem>
+      </i-col>
+        <i-col span="11" >
+          <FormItem label="是否有纹身" prop="resuIstattoo">
+            <RadioGroup v-model="formValidate.resuIstattoo">
+              <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
+            </RadioGroup>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="通过何种方式应聘" prop="resuApplytype">
+            <Select v-model="formValidate.resuApplytype" placeholder="请选择通过何种方式应聘" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectapplysource" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
+          </FormItem>
+        </i-col>
+        <i-col span="11" v-show="formValidate.resuApplytype === '03introducer'">
+          <FormItem label="介绍人姓名" prop="resuIntrname">
+            <Input v-model="formValidate.resuIntrname" placeholder="请输入介绍人姓名" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="是否服从调配" prop="resuIscom">
+            <RadioGroup v-model="formValidate.resuIscom">
+              <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
+            </RadioGroup>
+          </FormItem>
+        </i-col>
+        <i-col span="23" >
+          <FormItem label="自我评价" prop="resuSelfeval">
+              <Input v-model="formValidate.resuSelfeval" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入自我评价" :disabled="disabled" />
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="招生范围" prop="resuEnrorage">
+            <Select v-model="formValidate.resuEnrorage" placeholder="请选择招生范围" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectenrollrange" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="是否毕业" prop="resuIsgradu">
+            <Select v-model="formValidate.resuIsgradu" placeholder="请选择是否毕业" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectgraduation" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
           </FormItem>
         </i-col>
         <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
+          <FormItem label="最后应聘时间" prop="resuFinalapptm">
+            <DatePicker type="date" placeholder="请输入最后应聘时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuFinalapptm"  style="width: 100%"></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="11" >
-          <FormItem label="应聘岗位" prop="postFname">
-            <Input v-model="formValidate.postFname" placeholder="请输入" :disabled="disabled" />
-          </FormItem>
-        </i-col>
-
-
-
-
-
-
         <i-col span="23">
           <FormItem :label="$t('lang_organization.orgpost.note')"
                     prop="note">
@@ -212,24 +244,6 @@
             @click="handleSubmit"
             class="btn"
             v-show="!disabled">{{$t('button.sav')}}</Button>
-    <!--弹出选择页面布局 无需变更-->
-
-    <transition name="fade">
-      <searchOrgframe v-show="openPick"
-                      :searchCloumns="searchCloumns"
-                      :params="params"
-                      @closeUp="close"
-                      @changeinput="changeinput"
-                      ref="searchOrgframe"></searchOrgframe>
-    </transition>
-    <transition name="fade">
-      <searchOrgcostcenter v-show="openPick3"
-                           :searchCloumns="searchCloumns3"
-                           :params="params3"
-                           @closeUp="close3"
-                           @changeinput="changeinput3"
-                           ref="searchOrgcostcenter"></searchOrgcostcenter>
-    </transition>
   </div>
 </template>
 <script>
@@ -238,65 +252,27 @@
     getDataLevelUserLogin
   } from "../../../axios/axios";
   import { isSuccess, deepCopy } from "../../../lib/util";
-  import searchOrgframe from "../../../components/searchTable/searchOrgframe";
-  import searchOrgcostcenter from "../../../components/searchTable/searchOrgcostcenter";
-//  引入弹出选择页面
-//  import searchCity from '../../../components/searchTable/searchCity'
   export default {
     data () {
-      const compareTime = (rule, value, callback) => {
-        if (value === "" || !value) {
-          callback(new Error("请选择生效日期"));
-        } else {
-          //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
-          let startTimeNum = new Date(this.formValidate.postValiddate).getTime();
-          let endTimeNum = new Date(this.formValidate.postInvdate).getTime();
-          if (startTimeNum > endTimeNum) {
-            callback(new Error("生效日期不能大于失效日期"));
-          }
-          callback();
-        }
-      }
       return {
         type: '',
         distype: false,
-        value: "",
         disabled: false,
         forbidden: null,
         popup: '',
-        selectDfpslevel: [],
-        selectDfsallevel: [],
-        selectDftrvlevel: [],
-        selectPostStation: [
-          {
-            'paramCode': '1',
-            'paramInfoCn': '是'
-          },
-          {
-            'paramCode': '0',
-            'paramInfoCn': '否'
-          },
-        ],
-        selectseniorityWage: [
-          {
-            'paramCode': '1',
-            'paramInfoCn': '有'
-          },
-          {
-            'paramCode': '0',
-            'paramInfoCn': '无'
-          },
-        ],
-        selectpostCostsharing: [
-          {
-            'paramCode': '1',
-            'paramInfoCn': '分摊'
-          },
-          {
-            'paramCode': '0',
-            'paramInfoCn': '不分摊'
-          },
-        ],
+        selectIdentitytype: [],
+        selectgender: [],
+        selectnationtype: [],
+        selectpolitical: [],
+        selecthealthcondition: [],
+        selectmarrystatus: [],
+        selecteducation: [],
+        selectrelationship: [],
+        selectempstatus: [],
+        selectyesno: [],
+        selectapplysource: [],
+        selectenrollrange: [],
+        selectgraduation: [],
         formValidate: {
           _mt: "recruitResume.addOrUpd",
           resuApplypost : '',
@@ -340,138 +316,8 @@
           note : '',
           logType: ""
         },
-        params: {
-          _mt: "orgUnits.getByOrgFramePageList",
-          sort: "id",
-          order: "desc",
-          rows: 10,
-          page: 1,
-          funId: "1",
-          logType: "组织架构查询",
-          data: "{}",
-          unitPid: 0
-        },
-        searchCloumns: [
-          {
-            title: this.$t("lang_organization.orgframe.unitCode"),
-            key: "unitCode",
-            sortable: "custom"
-          },
-          {
-            title: this.$t("lang_organization.orgframe.compCOrEName"),
-            key: "unitFname"
-          },
-          {
-            title: this.$t("lang_organization.orgframe.unitTypeName"),
-            key: "unitTypeName"
-          }
-          //          {
-          //            title: '组织类型名称',
-          //            key: 'unitDfcostcenterName',
-          //            sortable: 'custom',
-          //          },
-          //          {
-          //            title: '组织类型',
-          //            key: 'unitDfcostcenter',
-          //            sortable: 'custom',
-          //          },
-        ],
-        params3: {
-          _mt: "orgCostcenter.getPage",
-          sort: "id",
-          order: "desc",
-          rows: 10,
-          page: 1,
-          funId: "1",
-          logType: "成本中心查询",
-          data: "{}"
-        },
-        searchCloumns3: [
-          {
-            title: this.$t("lang_organization.orgcostcenter.costCode"),
-            key: "costCode",
-            sortable: "custom"
-          },
-          {
-            title: this.$t("lang_organization.orgcostcenter.cname"),
-            key: "cname"
-          },
-          {
-            title: this.$t("lang_organization.orgcostcenter.ename"),
-            key: "ename"
-          }
-        ],
         //设置必填规则
-        ruleValidate: {
-          // postCode: [
-          //   {
-          //     required: true,
-          //     message: this.$t("lang_organization.orgpost.postCodeInp"),
-          //     trigger: "blur"
-          //   }
-          // ],
-          postFname: [
-            {
-              required: true,
-              message: this.$t("lang_organization.orgpost.postFnameCnDisInp"),
-              trigger: "blur"
-            }
-          ],
-          postStation: [
-            {
-              required: true,
-              message: this.$t("lang_organization.orgpost.postStationInp"),
-              trigger: "change"
-            }
-          ],
-          seniorityWage: [
-            {
-              required: true,
-              message: this.$t("lang_organization.orgpost.seniorityWageInp"),
-              trigger: "blur"
-            }
-          ],
-          postCostsharing: [
-            {
-              required: true,
-              message: this.$t("lang_organization.orgpost.postCostsharingInp"),
-              trigger: "blur"
-            }
-          ],
-          postTrialsalary: [
-            {
-              required: true,
-              message: this.$t("lang_organization.orgpost.postTrialsalaryInp"),
-              type: 'number',
-              trigger: "change"
-            }
-          ],
-          postStansalary: [
-            {
-              required: true,
-              message: this.$t("lang_organization.orgpost.postStansalaryInp"),
-              type: 'number',
-              trigger: "change"
-            }
-          ],
-          postDfpslevel: [
-            {
-              required: true,
-              message: this.$t("lang_organization.orgpost.postDfpslevelInp"),
-              trigger: "blur"
-            }
-          ],
-          //在验证规则里 加上你对应的日期验证
-          //unitValdate 这个变量对应你页面标签里的prop属性名  <FormItem label="生效日期" prop="unitValdate"> ，
-          postValiddate: [
-            {
-              required: true,
-              type: "date",
-              validator: compareTime,
-              trigger: "change"
-            }
-          ],
-        }
+        ruleValidate: {  }
       };
     },
     //    子页面默认参数 无需变更
@@ -481,15 +327,12 @@
       index: Number,
     },
     components: {
-      searchOrgframe,
-      searchOrgcostcenter
     },
     updated () { },
     mounted () {
       this.getSelect();
     },
     methods: {
-
       getData (id) {
         const t = this;
         this.page = 1;
@@ -502,45 +345,44 @@
           .then(res => {
             if (isSuccess(res, t)) {
               t.formValidate.resuApplypost = res.data.content[0].resuApplypost;
-              t.formValidate.resuIdentityDis = res.data.content[0].postCode;
-              t.formValidate.resuFilldate = res.data.content[0].postCode;
-              t.formValidate.resuName = res.data.content[0].postCode;
-              t.formValidate.resuIdno = res.data.content[0].postCode;
-              t.formValidate.resuMobile = res.data.content[0].postCode;
-              t.formValidate.resuGenderDis = res.data.content[0].postCode;
-              t.formValidate.resuBirtday = res.data.content[0].postCode;
-              t.formValidate.resuBirtplace = res.data.content[0].postCode;
-              t.formValidate.resuNatalityDis = res.data.content[0].postCode;
-              t.formValidate.resuPoliticalDis = res.data.content[0].postCode;
-              t.formValidate.resuHealthstaDis = res.data.content[0].postCode;
-              t.formValidate.resuMaritlstaDis = res.data.content[0].postCode;
-              t.formValidate.resuHeight = res.data.content[0].postCode;
-              t.formValidate.resuWeight = res.data.content[0].postCode;
-              t.formValidate.resuEducatDis = res.data.content[0].postCode;
-              t.formValidate.resuSchool = res.data.content[0].postCode;
-              t.formValidate.resuProfes = res.data.content[0].postCode;
-              t.formValidate.resuLiving = res.data.content[0].postCode;
-              t.formValidate.resuFamadds = res.data.content[0].postCode;
-              t.formValidate.resuEmernm = res.data.content[0].postCode;
-              t.formValidate.resuEmphone = res.data.content[0].postCode;
-              t.formValidate.resuWithmeDis = res.data.content[0].postCode;
-              t.formValidate.resuSalary = res.data.content[0].postCode;
-              t.formValidate.resuProstatusDis = res.data.content[0].postCode;
-              t.formValidate.resuAvaitime = res.data.content[0].postCode;
-              t.formValidate.resuIsrelativesDis = res.data.content[0].postCode;
-              t.formValidate.resuRelatname = res.data.content[0].postCode;
-              t.formValidate.resuRelatdept = res.data.content[0].postCode;
-              t.formValidate.resuIscriminalDis = res.data.content[0].postCode;
-              t.formValidate.resuIstattooDis = res.data.content[0].postCode;
-              t.formValidate.resuApplytypeDis = res.data.content[0].postCode;
-              t.formValidate.resuIntrname = res.data.content[0].postCode;
-              t.formValidate.resuIscomDis = res.data.content[0].postCode;
-              t.formValidate.resuSelfeval = res.data.content[0].postCode;
-              t.formValidate.resuEnrorageDis = res.data.content[0].postCode;
-              t.formValidate.resuIsgraduDis = res.data.content[0].postCode;
-              t.formValidate.resuFinalapptm = res.data.content[0].postCode;
-              t.formValidate.note = res.data.content[0].postCode;
-              t.formValidate.postCode = res.data.content[0].postCode;
+              t.formValidate.resuIdentity = res.data.content[0].resuIdentity;
+              t.formValidate.resuFilldate = res.data.content[0].resuFilldate;
+              t.formValidate.resuName = res.data.content[0].resuName;
+              t.formValidate.resuIdno = res.data.content[0].resuIdno;
+              t.formValidate.resuMobile = res.data.content[0].resuMobile;
+              t.formValidate.resuGender = res.data.content[0].resuGender;
+              t.formValidate.resuBirtday = res.data.content[0].resuBirtday;
+              t.formValidate.resuBirtplace = res.data.content[0].resuBirtplace;
+              t.formValidate.resuNatality = res.data.content[0].resuNatality;
+              t.formValidate.resuPolitical = res.data.content[0].resuPolitical;
+              t.formValidate.resuHealthsta = res.data.content[0].resuHealthsta;
+              t.formValidate.resuMaritlsta = res.data.content[0].resuMaritlsta;
+              t.formValidate.resuHeight = res.data.content[0].resuHeight;
+              t.formValidate.resuWeight = res.data.content[0].resuWeight;
+              t.formValidate.resuEducat = res.data.content[0].resuEducat;
+              t.formValidate.resuSchool = res.data.content[0].resuSchool;
+              t.formValidate.resuProfes = res.data.content[0].resuProfes;
+              t.formValidate.resuLiving = res.data.content[0].resuLiving;
+              t.formValidate.resuFamadds = res.data.content[0].resuFamadds;
+              t.formValidate.resuEmernm = res.data.content[0].resuEmernm;
+              t.formValidate.resuEmphone = res.data.content[0].resuEmphone;
+              t.formValidate.resuWithme = res.data.content[0].resuWithme;
+              t.formValidate.resuSalary = res.data.content[0].resuSalary;
+              t.formValidate.resuProstatus = res.data.content[0].resuProstatus;
+              t.formValidate.resuAvaitime = res.data.content[0].resuAvaitime;
+              t.formValidate.resuIsrelatives = res.data.content[0].resuIsrelatives;
+              t.formValidate.resuRelatname = res.data.content[0].resuRelatname;
+              t.formValidate.resuRelatdept = res.data.content[0].resuRelatdept;
+              t.formValidate.resuIscriminal = res.data.content[0].resuIscriminal;
+              t.formValidate.resuIstattoo = res.data.content[0].resuIstattoo;
+              t.formValidate.resuApplytype = res.data.content[0].resuApplytype;
+              t.formValidate.resuIntrname = res.data.content[0].resuIntrname;
+              t.formValidate.resuIscom = res.data.content[0].resuIscom;
+              t.formValidate.resuSelfeval = res.data.content[0].resuSelfeval;
+              t.formValidate.resuEnrorage = res.data.content[0].resuEnrorage;
+              t.formValidate.resuIsgradu = res.data.content[0].resuIsgradu;
+              t.formValidate.resuFinalapptm = res.data.content[0].resuFinalapptm;
+              t.formValidate.note = res.data.content[0].note;
             }
           })
           .catch(() => {
@@ -549,26 +391,28 @@
               content: this.$t("reminder.errormessage")
             });
           });
-      },
-
-      updateimg () {
-        this.updateImg = true;
-      },
-      closeImg () {
-        const t = this;
-        t.updateImg = false;
       },
       getSelect () {
         const t = this;
         getDataLevelUserLogin({
           _mt: "baseParmInfo.getSelectValue",
-          typeCode: "postlevel,salarylevel,travellevel"
+          typeCode: "Identitytype,gender,nationtype,political,healthcondition,marrystatus,education,relationship,empstatus,yesno,applysource,enrollrange,graduation"
         })
           .then(res => {
             if (isSuccess(res, t)) {
-              t.selectDfpslevel = res.data.content[0].value[0].paramList;
-              t.selectDfsallevel = res.data.content[0].value[1].paramList;
-              t.selectDftrvlevel = res.data.content[0].value[2].paramList;
+              t.selectIdentitytype = res.data.content[0].value[0].paramList;
+              t.selectgender = res.data.content[0].value[1].paramList;
+              t.selectnationtype = res.data.content[0].value[2].paramList;
+              t.selectpolitical = res.data.content[0].value[3].paramList;
+              t.selecthealthcondition = res.data.content[0].value[4].paramList;
+              t.selectmarrystatus = res.data.content[0].value[5].paramList;
+              t.selecteducation = res.data.content[0].value[6].paramList;
+              t.selectrelationship = res.data.content[0].value[7].paramList;
+              t.selectempstatus = res.data.content[0].value[8].paramList;
+              t.selectyesno = res.data.content[0].value[9].paramList;
+              t.selectapplysource = res.data.content[0].value[10].paramList;
+              t.selectenrollrange = res.data.content[0].value[11].paramList;
+              t.selectgraduation = res.data.content[0].value[12].paramList;
             }
           })
           .catch(() => {
@@ -577,36 +421,6 @@
               content: this.$t("reminder.errormessage")
             });
           });
-      },
-      render1 () {
-        this.$Modal.confirm({
-          ref: "imgEdit",
-          onOk: () => {
-            const formData = new FormData(document.getElementById("fileinput1"));
-            uploadimage(formData)
-              .then(res => {
-                alert(res);
-              })
-              .catch(res => {
-                alert(res);
-              });
-          },
-          attrs: {
-            id: "foo"
-          },
-          render: h => {
-            return h(imgEdit, {
-              props: {
-                value: this.value
-              },
-              on: {
-                change: val => {
-                  this.value = val;
-                }
-              }
-            });
-          }
-        });
       },
       handleSubmit () {
         const t = this;
@@ -616,36 +430,24 @@
         if (t.logType === this.$t("button.upd")) {
           data.id = t.id;
         }
-        if (data.postValiddate !== undefined) {
-          data.postValiddate = new Date(data.postValiddate).format("yyyy-MM-dd");
-        }
-        if (data.postInvdate !== undefined) {
-          data.postInvdate =
-            data.postInvdate === ""
-              ? ""
-              : new Date(data.postInvdate).format("yyyy-MM-dd");
-        }
         this.$refs.formValidate.validate(valid => {
           if (valid) {
             getDataLevelUserLoginSenior(data)
               .then(res => {
                 if (isSuccess(res, t)) {
-
                   t.$emit("closeUp");
                   if (t.logType === this.$t("button.add")) {
                     t.$Modal.success({
                       title: this.$t("reminder.suc"),
                       content: this.$t("reminder.addsuccess")
                     });
-                    t.$refs.formValidate.resetFields();
-                    t.$emit("getData", res.data.content[0]);
+                    t.$emit('update', res.data.content[0])
                   } else {
                     t.$Modal.success({
                       title: this.$t("reminder.suc"),
                       content: this.$t("reminder.updsuccess")
                     });
-                    console.log(res, "res")
-                    t.$emit("update", res.data.content[0]);
+                    t.$emit('newdata', res.data.content[0])
                   }
                 }
               })
@@ -658,63 +460,50 @@
           }
         });
       },
-      close () {
+      clear() {
         const t = this;
-        t.openPick = false;
-      },
-      close2 () {
-        const t = this;
-        t.openPick2 = false;
-      },
-      close3 () {
-        const t = this;
-        t.openPick3 = false;
-      },
-      changeinput (name, id, costname, costid) {
-        const t = this;
-        t.postUnitName = name;
-        t.formValidate.postUnit = id;
-        t.postDfcostcenterName = costname;
-        t.formValidate.postDfcostcenter = costid;
-      },
-      changeinput3 (name, id) {
-        const t = this;
-        t.postDfcostcenterName = name;
-        t.formValidate.postDfcostcenter = id;
-      },
-      pickData () {
-        const t = this;
-        t.$refs.searchOrgframe.getData(this.params);
-        t.openPick = true;
-      },
-      pickData2 () {
-        if (this.forbidden === null && !this.disabled) {
-          const t = this
-          t.$refs.searchOrgframe.getData(this.params2)
-          t.openPick2 = true
-        }
-      },
-      pickData3 () {
-        const t = this;
-        t.$refs.searchOrgcostcenter.getData(this.params3);
-        t.openPick3 = true;
-      },
-      clearPid () {
-        const t = this;
-        t.postUnitName = "";
-        t.formValidate.postUnit = "";
-      },
-      clearDfhire () {
-        if (!this.disabled) {
-          const t = this
-          t.unitCityName = ''
-          t.formValidate.unitCity = ''
-        }
-      },
-      clearCostcenter () {
-        const t = this;
-        t.postDfcostcenterName = "";
-        t.formValidate.postDfcostcenter = "";
+        t.formValidate.resuApplypost = '';
+        t.formValidate.resuIdentity = '';
+        t.formValidate.resuFilldate = '';
+        t.formValidate.resuName = '';
+        t.formValidate.resuIdno = '';
+        t.formValidate.resuMobile = '';
+        t.formValidate.resuGender = '';
+        t.formValidate.resuBirtday = '';
+        t.formValidate.resuBirtplace = '';
+        t.formValidate.resuNatality = '';
+        t.formValidate.resuPolitical = '';
+        t.formValidate.resuHealthsta = '';
+        t.formValidate.resuMaritlsta = '';
+        t.formValidate.resuHeight = '';
+        t.formValidate.resuWeight = '';
+        t.formValidate.resuEducat = '';
+        t.formValidate.resuSchool = '';
+        t.formValidate.resuProfes = '';
+        t.formValidate.resuLiving = '';
+        t.formValidate.resuFamadds = '';
+        t.formValidate.resuEmernm = '';
+        t.formValidate.resuEmphone = '';
+        t.formValidate.resuWithme = '';
+        t.formValidate.resuSalary = '';
+        t.formValidate.resuProstatus = '';
+        t.formValidate.resuAvaitime = '';
+        t.formValidate.resuIsrelatives = '';
+        t.formValidate.resuRelatname = '';
+        t.formValidate.resuRelatdept = '';
+        t.formValidate.resuIscriminal = '';
+        t.formValidate.resuIstattoo = '';
+        t.formValidate.resuApplytype = '';
+        t.formValidate.resuIntrname = '';
+        t.formValidate.resuIscom = '';
+        t.formValidate.resuSelfeval = '';
+        t.formValidate.resuEnrorage = '';
+        t.formValidate.resuIsgradu = '';
+        t.formValidate.resuFinalapptm = '';
+        t.formValidate.note = '';
+        t.formValidate.logType = '';
+
+//        t.$refs.formValidate.resetFields(); //清空校验
       },
     },
     watch: {}
