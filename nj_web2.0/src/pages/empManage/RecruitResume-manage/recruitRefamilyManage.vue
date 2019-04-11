@@ -1,10 +1,6 @@
 <template>
   <div class="content-main">
           <Row>
-            <Select v-model="reeducLevel" style="width: 160px;" placeholder="请选择教育程度" clearable>
-              <Option :value="item.paramCode" v-for="(item,index) in selecteducation" :key="index">{{item.paramInfoCn}}</Option>
-            </Select>
-            <Button type="primary" icon="search" @click="search">{{$t('button.ser')}}</Button>
             <Button type="primary"  @click="expData">导出</Button>
           </Row>
           <!--布置分页列表 变量通用 无需变更-->
@@ -78,7 +74,7 @@
   </div>
 </template>
 <script>
-  import update from "./recruitReeducView";
+  import update from "./recruitRefamilyView";
   // 默认引用 无需变更
   import { isSuccess } from "../../../lib/util";
   import {
@@ -94,14 +90,12 @@
       return {
         // 导出字段设置, code字段名 name列名
         expDataTital: [
-          { code: "reeducPidDis", name: "姓名" },
-          { code: "reeducLevelDis", name: "教育程度" },
-          { code: "reeducDegree", name: "学位" },
-          { code: "reeducSdate", name: "教育开始时间" },
-          { code: "reeducEdate", name: "教育结束时间" },
-          { code: "reeducSchool", name: "学校名称" },
-          { code: "reeducProfession", name: "专业" },
-          { code: "reeducAwardcert", name: "所获奖励证书" },
+          { code: "refamPidDis", name: "姓名" },
+          { code: "refamMembersDis", name: "家庭成员关系" },
+          { code: "refamName", name: "家庭成员姓名" },
+          { code: "refamCompnm", name: "工作单位" },
+          { code: "refamPost", name: "职务" },
+          { code: "refamContact", name: "联系方式" },
           { code: "note", name: "备注" },
         ],
         // 导入导出默认参数 无需变更
@@ -124,40 +118,34 @@
             align: "center"
           },
           {
-            title: '教育程度',
-            key: "reeducLevelDis",
+            title: '家庭成员关系',
+            key: "refamMembersDis",
             width: 180,
             sortable: "custom"
           },
           {
-            title: "学位",
+            title: "家庭成员姓名",
             width: 180,
             sortable: "custom",
-            key: "reeducDegree"
+            key: "refamName"
           },
 
           {
-            title: "教育开始时间",
-            key: "reeducSdate",
+            title: "工作单位",
+            key: "refamCompnm",
             sortable: "custom",
             width: 180
           },
           {
-            title: "教育结束时间",
+            title: "职务",
             width: 180,
-            key: "reeducEdate",
+            key: "refamPost",
             sortable: "custom"
           },
           {
-            title: "学校名称",
+            title: "联系方式",
             width: 180,
-            key: "reeducSchool",
-            sortable: "custom"
-          },
-          {
-            title: "专业",
-            width: 180,
-            key: "reeducProfession",
+            key: "refamContact",
             sortable: "custom"
           },
         ],
@@ -206,8 +194,6 @@
         rows: 10,
         page: 1,
         loading: "",
-        reeducLevel: '',
-        selecteducation: [],
       };
     },
     computed: {
@@ -272,14 +258,13 @@
           this.page = 1;
         }
         const data = {
-          _mt: "recruitReeduc.getPage",
+          _mt: "recruitRefamily.getPage",
           rows: t.rows,
           page: t.page,
           sort: t.sort,
           order: t.order,
           logType: "简历库学历查询",
-          reeducLevel: t.reeducLevel,
-          reeducPid: t.id,
+          refamPid: t.id,
         };
         for (const dat in data) {
           if (data[dat] === '') {
@@ -344,7 +329,7 @@
             content: this.$t("reminder.confirmdelete"),
             onOk: () => {
               getDataLevelUserLogin({
-                _mt: "recruitReeduc.delByIds",
+                _mt: "recruitRefamily.delByIds",
                 logType: this.$t("button.del"),
                 delIds: t.tableselected.toString()
               })
@@ -395,11 +380,10 @@
         const t = this;
         // 填装查询条件
         const data = {
-          reeducLevel: t.reeducLevel,
-          reeducPid: t.id,
+          refamPid: t.id,
         };
         // 设置导出mt参数
-        this.$refs.expwindow.getData(this.expDataTital, "recruitReeduc.export", data);
+        this.$refs.expwindow.getData(this.expDataTital, "recruitRefamily.export", data);
         this.openExp = true;
       },
       // 导入导出默认方法 无需更改
@@ -432,25 +416,9 @@
       },
       getSelect() {
         const t = this;
-        getDataLevelUserLogin({
-          _mt: "baseParmInfo.getSelectValue",
-          typeCode: "education"
-        })
-          .then(res => {
-            if (isSuccess(res, t)) {
-              t.selecteducation = res.data.content[0].value[0].paramList;
-            }
-          })
-          .catch(() => {
-            this.$Modal.error({
-              title: this.$t("reminder.err"),
-              content: this.$t("reminder.errormessage")
-            });
-          });
       },
       clear() {
         const t = this;
-        t.reeducLevel = ''
         t.page = 1;
         t.sort = "id"
         t.order = "desc"

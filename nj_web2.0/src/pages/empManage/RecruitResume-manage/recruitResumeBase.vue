@@ -8,8 +8,14 @@
             <MenuItem name="option">
               招聘简历管理
             </MenuItem>
-            <MenuItem name="content" v-show="id">
+            <MenuItem name="reeduc" v-show="id">
               简历教育信息
+            </MenuItem>
+            <MenuItem name="rework" v-show="id">
+              简历工作经历
+            </MenuItem>
+            <MenuItem name="refam" v-show="id">
+              简历家庭成员
             </MenuItem>
           </Menu>
         </i-col>
@@ -26,7 +32,9 @@
             <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
             <mOption v-show="option" :logType="logType" ref="option" :id="id" @update="update" @newdata="newdata"></mOption>
             <!--子表分页页面 mainid为主表id-->
-            <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
+            <Reeduc v-show="reeduc" :logType="logType" ref="reeduc" :mainId="id"></Reeduc>
+            <Rework v-show="rework" :logType="logType" ref="rework" :mainId="id"></Rework>
+            <Refam v-show="refam" :logType="logType" ref="refam" :mainId="id"></Refam>
           </div>
         </i-col>
       </row>
@@ -35,16 +43,18 @@
 </template>
 <script>
   import mOption from './recruitResumeView'
-  import mContent from './recruitReeducManage'
-
-
+  import Reeduc from './recruitReeducManage'
+  import Rework from './recruitReworkexpManage'
+  import Refam from './recruitRefamilyManage'
   export default {
     data() {
       return {
 //        默认参数 无需变更
         active: 'option',
         option: true,
-        content: false,
+        reeduc: false,
+        rework: false,
+        refam: false,
         id: NaN,
         disabled: false,
 //        主表查询单条数据的mt
@@ -52,7 +62,9 @@
     },
     components: {
       mOption,
-      mContent,
+      Reeduc,
+      Rework,
+      Refam,
     },
     props: {
 //      父页面传递参数  visaare一般不传
@@ -68,10 +80,6 @@
         this.$emit('closeUp')
         this.clear()
       },
-//      默认方法
-      changeMenu() {
-        this.active = 'content'
-      },
       // 主表信息查询方法 无需变更
       getOption(id, logType) {
         this.id = parseInt(id, 10)
@@ -81,16 +89,28 @@
 //       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {
         this.option = false
-        this.content = false
+        this.reeduc = false
+        this.rework = false
+        this.refam = false
         this.active = name
         this.$refs.option.clear()
-        this.$refs.content.clear()
+        this.$refs.reeduc.clear()
         this[name] = true
-        if (name === 'content') {
-          this.$refs.content.disabled = this.disabled
-          this.$refs.content.id = this.id
-          this.$refs.content.search()
-          this.$refs.content.logType = this.logType
+        if (name === 'reeduc') {
+          this.$refs.reeduc.disabled = this.disabled
+          this.$refs.reeduc.id = this.id
+          this.$refs.reeduc.search()
+          this.$refs.reeduc.logType = this.logType
+        } else if (name === 'rework') {
+          this.$refs.rework.disabled = this.disabled
+          this.$refs.rework.id = this.id
+          this.$refs.rework.search()
+          this.$refs.rework.logType = this.logType
+        } else if (name === 'refam') {
+          this.$refs.refam.disabled = this.disabled
+          this.$refs.refam.id = this.id
+          this.$refs.refam.search()
+          this.$refs.refam.logType = this.logType
         } else {
           this.getOption(this.id, this.$t('button.upd'))
         }
@@ -98,11 +118,13 @@
 //      清空方法 初始化本页面参数 无需变更
       clear() {
         this.option = true
-        this.content = false
+        this.reeduc = false
         this.id = NaN
         this.active = 'option'
         this.$refs.option.clear()
-        this.$refs.content.clear()
+        this.$refs.reeduc.clear()
+        this.$refs.rework.clear()
+        this.$refs.refam.clear()
       },
 //      更新父页面列表 无需变更
       update(data) {

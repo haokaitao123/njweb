@@ -22,47 +22,43 @@
                 :rules="ruleValidate"
                 :label-width="100">
             <i-col span="11">
-              <FormItem label="姓名" prop="reeducPidDis">
-                <Input v-model="formValidate.reeducPidDis" placeholder="请输入姓名" :disabled="disabled"/>
+              <FormItem label="姓名" prop="rewexPidDis">
+                <Input v-model="formValidate.rewexPidDis" placeholder="请输入姓名" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="教育程度" prop="reeducLevel">
-                <Select v-model="formValidate.reeducLevel" placeholder="请选择教育程度" :disabled="disabled">
-                  <Option :value="item.paramCode" v-for="(item,index) in selecteducation" :key="index">
-                    {{item.paramInfoCn}}
-                  </Option>
-                </Select>
+              <FormItem label="工作开始时间" prop="rewexSdate">
+                <DatePicker type="date" placeholder="请输入工作开始时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.rewexSdate" style="width: 100%"></DatePicker>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="学位" prop="reeducDegree">
-                <Input v-model="formValidate.reeducDegree" placeholder="请输入学位" :disabled="disabled"/>
+              <FormItem label="工作结束时间" prop="rewexEdate">
+                <DatePicker type="date" placeholder="请输入工作结束时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.rewexEdate" style="width: 100%"></DatePicker>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="教育开始时间" prop="reeducSdate">
-                <DatePicker type="date" placeholder="请输入教育开始时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.reeducSdate" style="width: 100%"></DatePicker>
+              <FormItem label="单位名称" prop="rewexCompnm">
+                <Input v-model="formValidate.rewexCompnm" placeholder="请输入单位名称" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="教育结束时间" prop="reeducEdate">
-                <DatePicker type="date" placeholder="请输入教育结束时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.reeducEdate" style="width: 100%"></DatePicker>
-              </FormItem>
-            </i-col>
-            <i-col span="11">
-              <FormItem label="学校名称" prop="reeducSchool">
-                <Input v-model="formValidate.reeducSchool" placeholder="请输入学校名称" :disabled="disabled"/>
-              </FormItem>
-            </i-col>
-            <i-col span="11">
-              <FormItem label="专业" prop="reeducProfession">
-                <Input v-model="formValidate.reeducProfession" placeholder="请输入专业" :disabled="disabled"/>
+              <FormItem label="职务" prop="rewexPost">
+                <Input v-model="formValidate.rewexPost" placeholder="请输入职务" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="22">
-              <FormItem label="所获奖励证书" prop="reeducAwardcert">
-                <Input v-model="formValidate.reeducAwardcert" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入所获奖励证书" :disabled="disabled"/>
+              <FormItem label="离职原因" prop="rewexLevres">
+                <Input v-model="formValidate.rewexLevres" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入离职原因" :disabled="disabled"/>
+              </FormItem>
+            </i-col>
+            <i-col span="11">
+              <FormItem label="证明人" prop="rewexCertifier">
+                <Input v-model="formValidate.rewexCertifier" placeholder="请输入证明人" :disabled="disabled"/>
+              </FormItem>
+            </i-col>
+            <i-col span="22">
+              <FormItem label="证明人联系方式" prop="rewexCertnub">
+                <Input v-model="formValidate.rewexCertnub" placeholder="请输入证明人联系方式" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="22">
@@ -95,15 +91,15 @@
         selecteducation: [],
         formValidate: {
           _mt: "recruitReeduc.addOrUpd",
-          reeducPid: '',
-          reeducPidDis: '',
-          reeducLevel: '',
-          reeducDegree: '',
-          reeducSdate: '',
-          reeducEdate: '',
-          reeducSchool: '',
-          reeducProfession: '',
-          reeducAwardcert: '',
+          rewexPid: '',
+          rewexPidDis: '',
+          rewexSdate: '',
+          rewexEdate: '',
+          rewexCompnm: '',
+          rewexPost: '',
+          rewexLevres: '',
+          rewexCertifier: '',
+          rewexCertnub: '',
           note: '',
           logType: ""
         },
@@ -130,21 +126,21 @@
         const t = this;
         this.page = 1;
         getDataLevelUserLogin({
-          _mt: "recruitReeduc.getById",
+          _mt: "recruitReworkexp.getById",
           id: id,
           logType: "Id查询"
         })
           .then(res => {
             if (isSuccess(res, t)) {
-              t.formValidate.reeducPid = res.data.content[0].reeducPid;
-              t.formValidate.reeducPidDis = res.data.content[0].reeducPidDis;
-              t.formValidate.reeducLevel = res.data.content[0].reeducLevel;
-              t.formValidate.reeducDegree = res.data.content[0].reeducDegree;
-              t.formValidate.reeducSdate = res.data.content[0].reeducSdate;
-              t.formValidate.reeducEdate = res.data.content[0].reeducEdate;
-              t.formValidate.reeducSchool = res.data.content[0].reeducSchool;
-              t.formValidate.reeducProfession = res.data.content[0].reeducProfession;
-              t.formValidate.reeducAwardcert = res.data.content[0].reeducAwardcert;
+              t.formValidate.rewexPid = res.data.content[0].rewexPid;
+              t.formValidate.rewexPidDis = res.data.content[0].rewexPidDis;
+              t.formValidate.rewexSdate = res.data.content[0].rewexSdate;
+              t.formValidate.rewexEdate = res.data.content[0].rewexEdate;
+              t.formValidate.rewexCompnm = res.data.content[0].rewexCompnm;
+              t.formValidate.rewexPost = res.data.content[0].rewexPost;
+              t.formValidate.rewexLevres = res.data.content[0].rewexLevres;
+              t.formValidate.rewexCertifier = res.data.content[0].rewexCertifier;
+              t.formValidate.rewexCertnub = res.data.content[0].rewexCertnub;
               t.formValidate.note = res.data.content[0].note;
             }
           })
@@ -157,21 +153,6 @@
       },
       getSelect() {
         const t = this;
-        getDataLevelUserLogin({
-          _mt: "baseParmInfo.getSelectValue",
-          typeCode: "education"
-        })
-          .then(res => {
-            if (isSuccess(res, t)) {
-              t.selecteducation = res.data.content[0].value[0].paramList;
-            }
-          })
-          .catch(() => {
-            this.$Modal.error({
-              title: this.$t("reminder.err"),
-              content: this.$t("reminder.errormessage")
-            });
-          });
       },
       handleSubmit() {
         const t = this;
@@ -215,15 +196,15 @@
       },
       handleReset() {
         const t = this;
-        t.formValidate.reeducPid = '';
-        t.formValidate.reeducPidDis = '';
-        t.formValidate.reeducLevel = '';
-        t.formValidate.reeducDegree = '';
-        t.formValidate.reeducSdate = '';
-        t.formValidate.reeducEdate = '';
-        t.formValidate.reeducSchool = '';
-        t.formValidate.reeducProfession = '';
-        t.formValidate.reeducAwardcert = '';
+        t.formValidate.rewexPid = '';
+        t.formValidate.rewexPidDis = '';
+        t.formValidate.rewexSdate = '';
+        t.formValidate.rewexEdate = '';
+        t.formValidate.rewexCompnm = '';
+        t.formValidate.rewexPost = '';
+        t.formValidate.rewexLevres = '';
+        t.formValidate.rewexCertifier = '';
+        t.formValidate.rewexCertnub = '';
         t.formValidate.note = '';
         this.$refs.formValidate.resetFields();
         this.$emit("closeUp");

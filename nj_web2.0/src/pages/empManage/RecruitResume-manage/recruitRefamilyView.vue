@@ -22,47 +22,37 @@
                 :rules="ruleValidate"
                 :label-width="100">
             <i-col span="11">
-              <FormItem label="姓名" prop="reeducPidDis">
-                <Input v-model="formValidate.reeducPidDis" placeholder="请输入姓名" :disabled="disabled"/>
+              <FormItem label="姓名" prop="refamPidDis">
+                <Input v-model="formValidate.refamPidDis" placeholder="请输入姓名" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="教育程度" prop="reeducLevel">
-                <Select v-model="formValidate.reeducLevel" placeholder="请选择教育程度" :disabled="disabled">
-                  <Option :value="item.paramCode" v-for="(item,index) in selecteducation" :key="index">
+              <FormItem label="家庭成员关系" prop="refamMembers">
+                <Select v-model="formValidate.refamMembers" placeholder="请选择家庭成员关系" :disabled="disabled">
+                  <Option :value="item.paramCode" v-for="(item,index) in selectrelationship" :key="index">
                     {{item.paramInfoCn}}
                   </Option>
                 </Select>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="学位" prop="reeducDegree">
-                <Input v-model="formValidate.reeducDegree" placeholder="请输入学位" :disabled="disabled"/>
+              <FormItem label="家庭成员姓名" prop="refamName">
+                <Input v-model="formValidate.refamName" placeholder="请输入家庭成员姓名" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="教育开始时间" prop="reeducSdate">
-                <DatePicker type="date" placeholder="请输入教育开始时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.reeducSdate" style="width: 100%"></DatePicker>
+              <FormItem label="工作单位" prop="refamCompnm">
+                <Input v-model="formValidate.refamCompnm" placeholder="请输入工作单位" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="教育结束时间" prop="reeducEdate">
-                <DatePicker type="date" placeholder="请输入教育结束时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.reeducEdate" style="width: 100%"></DatePicker>
+              <FormItem label="职务" prop="refamPost">
+                <Input v-model="formValidate.refamPost" placeholder="请输入职务" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="学校名称" prop="reeducSchool">
-                <Input v-model="formValidate.reeducSchool" placeholder="请输入学校名称" :disabled="disabled"/>
-              </FormItem>
-            </i-col>
-            <i-col span="11">
-              <FormItem label="专业" prop="reeducProfession">
-                <Input v-model="formValidate.reeducProfession" placeholder="请输入专业" :disabled="disabled"/>
-              </FormItem>
-            </i-col>
-            <i-col span="22">
-              <FormItem label="所获奖励证书" prop="reeducAwardcert">
-                <Input v-model="formValidate.reeducAwardcert" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入所获奖励证书" :disabled="disabled"/>
+              <FormItem label="联系方式" prop="refamContact">
+                <Input v-model="formValidate.refamContact" placeholder="请输入联系方式" :disabled="disabled"/>
               </FormItem>
             </i-col>
             <i-col span="22">
@@ -92,18 +82,16 @@
     data() {
       return {
         disabled: false,
-        selecteducation: [],
+        selectrelationship: [],
         formValidate: {
-          _mt: "recruitReeduc.addOrUpd",
-          reeducPid: '',
-          reeducPidDis: '',
-          reeducLevel: '',
-          reeducDegree: '',
-          reeducSdate: '',
-          reeducEdate: '',
-          reeducSchool: '',
-          reeducProfession: '',
-          reeducAwardcert: '',
+          _mt: "recruitRefamily.addOrUpd",
+          refamPid: '',
+          refamPidDis: '',
+          refamMembers: '',
+          refamName: '',
+          refamCompnm: '',
+          refamPost: '',
+          refamContact: '',
           note: '',
           logType: ""
         },
@@ -130,21 +118,19 @@
         const t = this;
         this.page = 1;
         getDataLevelUserLogin({
-          _mt: "recruitReeduc.getById",
+          _mt: "recruitRefamily.getById",
           id: id,
           logType: "Id查询"
         })
           .then(res => {
             if (isSuccess(res, t)) {
-              t.formValidate.reeducPid = res.data.content[0].reeducPid;
-              t.formValidate.reeducPidDis = res.data.content[0].reeducPidDis;
-              t.formValidate.reeducLevel = res.data.content[0].reeducLevel;
-              t.formValidate.reeducDegree = res.data.content[0].reeducDegree;
-              t.formValidate.reeducSdate = res.data.content[0].reeducSdate;
-              t.formValidate.reeducEdate = res.data.content[0].reeducEdate;
-              t.formValidate.reeducSchool = res.data.content[0].reeducSchool;
-              t.formValidate.reeducProfession = res.data.content[0].reeducProfession;
-              t.formValidate.reeducAwardcert = res.data.content[0].reeducAwardcert;
+              t.formValidate.refamPid = res.data.content[0].refamPid;
+              t.formValidate.refamPidDis = res.data.content[0].refamPidDis;
+              t.formValidate.refamMembers = res.data.content[0].refamMembers;
+              t.formValidate.refamName = res.data.content[0].refamName;
+              t.formValidate.refamCompnm = res.data.content[0].refamCompnm;
+              t.formValidate.refamPost = res.data.content[0].refamPost;
+              t.formValidate.refamContact = res.data.content[0].refamContact;
               t.formValidate.note = res.data.content[0].note;
             }
           })
@@ -159,11 +145,11 @@
         const t = this;
         getDataLevelUserLogin({
           _mt: "baseParmInfo.getSelectValue",
-          typeCode: "education"
+          typeCode: "relationship"
         })
           .then(res => {
             if (isSuccess(res, t)) {
-              t.selecteducation = res.data.content[0].value[0].paramList;
+              t.selectrelationship = res.data.content[0].value[0].paramList;
             }
           })
           .catch(() => {
@@ -186,7 +172,6 @@
             getDataLevelUserLoginSenior(data)
               .then(res => {
                 if (isSuccess(res, t)) {
-
                   t.$emit("closeUp");
                   if (t.logType === this.$t("button.add")) {
                     t.$Modal.success({
@@ -215,15 +200,13 @@
       },
       handleReset() {
         const t = this;
-        t.formValidate.reeducPid = '';
-        t.formValidate.reeducPidDis = '';
-        t.formValidate.reeducLevel = '';
-        t.formValidate.reeducDegree = '';
-        t.formValidate.reeducSdate = '';
-        t.formValidate.reeducEdate = '';
-        t.formValidate.reeducSchool = '';
-        t.formValidate.reeducProfession = '';
-        t.formValidate.reeducAwardcert = '';
+        t.formValidate.refamPid = '';
+        t.formValidate.refamPidDis = '';
+        t.formValidate.refamMembers = '';
+        t.formValidate.refamName = '';
+        t.formValidate.refamCompnm = '';
+        t.formValidate.refamPost = '';
+        t.formValidate.refamContact = '';
         t.formValidate.note = '';
         this.$refs.formValidate.resetFields();
         this.$emit("closeUp");
