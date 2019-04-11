@@ -1,6 +1,9 @@
 <template>
     <div class="cover">
         <div class="box">
+            <Spin size="large"
+                  fix
+                  v-if="spinShow"></Spin>
             <div class="title">
                 <div class="title-text">
                     <Icon type="mouse"
@@ -50,6 +53,7 @@
                                   prop="weComp">
                             <Input v-model="form.weComp"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入工作单位"></Input>
                         </FormItem>
                     </i-col>
@@ -59,6 +63,7 @@
                                   prop="weDept">
                             <Input v-model="form.weDept"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入工作部门"></Input>
                         </FormItem>
                     </i-col>
@@ -67,6 +72,7 @@
                                   prop="wePost">
                             <Input v-model="form.wePost"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入工作职务"></Input>
                         </FormItem>
                     </i-col>
@@ -76,6 +82,7 @@
                                   prop="weSalary">
                             <Input v-model="form.weSalary"
                                    :disabled="disabled"
+                                   :maxlength="12"
                                    placeholder="请输入薪资"></Input>
                         </FormItem>
                     </i-col>
@@ -94,6 +101,7 @@
                                   prop="weContact">
                             <Input v-model="form.weContact"
                                    :disabled="disabled"
+                                   :maxlength="maxlength"
                                    placeholder="请输入证明人"></Input>
                         </FormItem>
                     </i-col>
@@ -106,11 +114,13 @@
                                    placeholder="请输入联系电话"></Input>
                         </FormItem>
                     </i-col>
-                    <i-col span="11">
+                    <i-col span="23">
                         <FormItem label="离职原因"
                                   prop="weLevrason">
                             <Input v-model="form.weLevrason"
                                    :disabled="disabled"
+                                   type="textarea"
+                                   :autosize="{minRows: 2,maxRows: 5}"
                                    placeholder="请输入离职原因"></Input>
                         </FormItem>
                     </i-col>
@@ -198,6 +208,7 @@ export default {
                 weLevrason: "",
                 note: ""
             },
+            maxlength: 500,
             rowId: "",
             ruleValidate: {
                 weSdate: [
@@ -250,7 +261,8 @@ export default {
                     { required: true, message: "请输入离职原因", trigger: "blur" }
                 ],
             },
-            logTypeE: this.logType
+            logTypeE: this.logType,
+            spinShow: ''
         };
     },
     //    主表id
@@ -274,6 +286,7 @@ export default {
         // 查询
         getData () {
             const t = this;
+            t.spinShow = true
             const params = {
                 _mt: "empWorkExp.getById",
                 id: t.rowId,
@@ -295,13 +308,12 @@ export default {
                         t.form.weSalary = res.data.content[0].weSalary;
                         t.form.weLevrason = res.data.content[0].weLevrason;
                         t.form.note = res.data.content[0].note;
+                        t.spinShow = false
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    t.spinShow = false
+                    this.$Message.error('网络错误');
                 });
         },
         save () {
@@ -347,10 +359,7 @@ export default {
                             }
                         })
                         .catch(() => {
-                            t.$Modal.error({
-                                title: this.$t("reminder.err"),
-                                content: this.$t("reminder.errormessage")
-                            });
+                            this.$Message.error('网络错误');
                         });
                 }
             });

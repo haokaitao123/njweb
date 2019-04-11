@@ -219,7 +219,7 @@ export default {
                     if (res.data.content[0].imp_status !== 100) {
                         t.imp_status = res.data.content[0].imp_status
                         t.activeState = 'active'
-                        console.log(res.data.content[0].imp_status)
+                        console.log(res.data.content[0].imp_status, "2")
                     } else {
                         clearInterval(t.imp)
                         t.activeState = ''
@@ -232,14 +232,15 @@ export default {
                             t.$refs.importFail.setFailMessage(res.data.content[0].imp_rows_nomatch)
                         }
                         if (!t.openImportFail) {
-                            t.$emit('getData')
+                            t.$emit('getData');
+                            console.log(res.data.content[0].imp_status, "3")
                             t.imp_status = res.data.content[0].imp_status
                             t.$Modal.success({
                                 title: this.$t('reminder.suc'),
                                 content: this.$t('lang_fileOperation.import.uploadSuc'),
                             })
                         } else {
-                            t.imp_status = '99'
+                            t.imp_status = 99
                             t.activeState = 'wrong'
                         }
                     }

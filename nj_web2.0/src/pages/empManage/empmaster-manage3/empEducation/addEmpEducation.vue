@@ -1,6 +1,9 @@
 <template>
     <div class="cover">
         <div class="box">
+            <Spin size="large"
+                  fix
+                  v-if="spinShow"></Spin>
             <div class="title">
                 <div class="title-text">
                     <Icon type="mouse"
@@ -266,7 +269,8 @@ export default {
                 ],
             },
             rowId: '',
-            logTypeE: this.logType
+            logTypeE: this.logType,
+            spinShow: ''
         };
     },
     //    主表id
@@ -293,6 +297,7 @@ export default {
         // 查询
         getData () {
             const t = this;
+            t.spinShow = true
             const params = {
                 _mt: "empEducation.getById",
                 id: t.rowId,
@@ -316,9 +321,11 @@ export default {
                             t.file = { name: res.data.content[0].fileKey.split(':')[0] }
                             t.filekey = res.data.content[0].fileKey.split(':')[1]
                         }
+                        t.spinShow = false
                     }
                 })
                 .catch(() => {
+                    t.spinShow = false
                     this.$Message.error('网络错误');
                 });
         },

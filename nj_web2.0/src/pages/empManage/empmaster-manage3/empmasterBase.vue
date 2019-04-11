@@ -153,11 +153,12 @@ export default {
             this.$refs.empWorkExp.clear();
             this.$refs.empFamily.clear();
             if (name !== "empBaseInfo") {
+                this.getChildFunId(name)
                 this.$refs[name].search();
             } else {
+                this.$store.commit('setChildFunId', "");
                 this.getOption(this.id, this.logType);
             }
-            this.getChildFunId(name)
         },
         //获取子表funId
         getChildFunId (name) {

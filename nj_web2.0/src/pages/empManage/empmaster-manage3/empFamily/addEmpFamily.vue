@@ -1,6 +1,9 @@
 <template>
     <div class="cover">
         <div class="box">
+            <Spin size="large"
+                  fix
+                  v-if="spinShow"></Spin>
             <div class="title">
                 <div class="title-text">
                     <Icon type="mouse"
@@ -188,7 +191,8 @@ export default {
                     { required: true, message: "请选择是否", trigger: "change" }
                 ]
             },
-            logTypeE: this.logType
+            logTypeE: this.logType,
+            spinShow: ''
         };
     },
     //    主表id
@@ -213,6 +217,7 @@ export default {
         // 查询
         getData () {
             const t = this;
+            t.spinShow = true
             const params = {
                 _mt: "empFamily.getById",
                 id: t.rowId,
@@ -229,13 +234,12 @@ export default {
                         t.form.fmPost = res.data.content[0].fmPost;
                         t.form.fmPhone = res.data.content[0].fmPhone;
                         t.form.note = res.data.content[0].note;
+                        t.spinShow = false
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    t.spinShow = false
+                    this.$Message.error('网络错误');
                 });
         },
         save () {

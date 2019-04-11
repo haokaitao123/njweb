@@ -19,22 +19,23 @@
           </Col>
           <Col span="10" offset="1">
           <FormItem :label="$t('lang_baseManage.baseLevareason.levaReatypeName')" prop="levaReatype">
-            <Select v-model="formValidate.levaReatype" :placeholder="$t('lang_baseManage.baseLevareason.levaReatypeNameDis')">
-              <Option :value="item.paramCode" v-for="(item,index) in selectlevaType" key="index">{{item.paramInfoCn}}</Option>
+
+            <Select v-model="formValidate.levaReatype" :placeholder="$t('lang_baseManage.baseLevareason.levaReatypeNameDis')" clearable>
+              <Option :value="item.paramCode" v-for="(item,index) in selectlevaType" :key="index"  @click="getPageByType(item.paramCode)">{{item.paramInfoCn}}</Option>
             </Select>
+
+
           </FormItem>
           </Col>
         </Row>
         <Row>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseLevareason.levaCname')" prop="levaCname">
-            <Input v-model="formValidate.levaCname" :placeholder="$t('lang_baseManage.baseLevareason.levaCnameDis')"></Input>
+          <FormItem :label="$t('lang_baseManage.baseLevareason.levaCname')" prop="levaName">
+            <Input v-model="formValidate.levaName" :placeholder="$t('lang_baseManage.baseLevareason.levaCnameDis')"></Input>
           </FormItem>
           </Col>
           <Col span="10" offset="1">
-          <FormItem :label="$t('lang_baseManage.baseLevareason.levaEname')" prop="levaEname">
-            <Input v-model="formValidate.levaEname" :placeholder="$t('lang_baseManage.baseLevareason.levaEnameDis')"></Input>
-          </FormItem>
+
           </Col>
         </Row>
         <Row>
@@ -71,8 +72,7 @@
           funId: '1',
           levaCode: '',
           levaReatype: '',
-          levaCname: '',
-          levaEname: '',
+          levaName: '',
           comment: '',
         },
         ruleValidate: {
@@ -82,11 +82,8 @@
           levaReatype: [
             { required: true, message: this.$t('lang_baseManage.baseLevareason.levaReatypeNameDis'), trigger: 'blur' },
           ],
-          levaCname: [
+          levaName: [
             { required: true, message: this.$t('lang_baseManage.baseLevareason.levaCnameDis'), trigger: 'blur' },
-          ],
-          levaEname: [
-            { required: true, message: this.$t('lang_baseManage.baseLevareason.levaEnameDis'), trigger: 'blur' },
           ],
         },
       }
@@ -113,15 +110,11 @@
           if (isSuccess(res, t)) {
             t.formValidate.levaCode = res.data.content[0].levaCode
             t.formValidate.levaReatype = res.data.content[0].levaReatype
-            t.formValidate.levaCname = res.data.content[0].levaCname
-            t.formValidate.levaEname = res.data.content[0].levaEname
+            t.formValidate.levaName = res.data.content[0].levaName
             t.formValidate.comment = res.data.content[0].comment
           }
         }).catch(() => {
-          this.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       handleSubmit() {
@@ -137,25 +130,16 @@
               if (isSuccess(res, t)) {
                 t.$emit('closeUp')
                 if (t.logType === this.$t('button.add')) {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.addsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.addsuccess'))
                   t.$refs.formValidate.resetFields()
                   t.$emit('getData', res.data.content[0])
                 } else {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.updsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.updsuccess'))
                   t.$emit('update', res.data.content[0])
                 }
               }
             }).catch(() => {
-              this.$Modal.error({
-                title: this.$t('reminder.err'),
-                content: this.$t('reminder.errormessage'),
-              })
+              t.$Message.error(this.$t('reminder.errormessage'))
             })
           }
         })
@@ -170,10 +154,7 @@
             t.selectlevaType = res.data.content[0].value[0].paramList
           }
         }).catch(() => {
-          this.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       handleReset() {
