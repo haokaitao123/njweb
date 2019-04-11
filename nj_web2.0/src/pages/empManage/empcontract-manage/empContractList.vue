@@ -159,7 +159,7 @@ export default {
           title: "合同编号",
           key: "numberCode",
           width: 100,
-          fixed: "left",
+          
           sortable: "custom"
         },
         {
@@ -457,7 +457,7 @@ export default {
               _mt: "empContractinfo.delByIds",
               funId: "1",
               logType: this.$t("button.del"),
-              delIds: t.tableselected.toString()
+              ids: t.tableselected.toString()
             })
               .then(res => {
                 if (isSuccess(res, t)) {
@@ -512,7 +512,6 @@ export default {
       t.$refs.update.form.empType = "";
       t.$refs.update.form.contType = "";
       t.$refs.update.form.contPeriod = "";
-      t.$refs.update.form.fmCompany = "";
       t.$refs.update.form.contSdate = "";
       t.$refs.update.form.contEdate = "";
       t.$refs.update.form.contWorktime = "";

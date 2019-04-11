@@ -45,7 +45,7 @@
               <!--布置分页列表 变量通用 无需变更-->
               <row class="table-form" ref="table-form">
                 <Table
-                  @on-selection-change="selectedtable" 
+                  @on-selection-change="selectedtable"
                   @on-sort-change="sortable"
                   :height="tableheight"
                   size="small"
@@ -142,9 +142,9 @@ import importExcel from "../../../components/importModel/importParam";
 import btnList from "../../../components/btnAuth/btnAuth";
 export default {
   data() {
-    
+
       return {
-       
+
         // 导入的mt名称
         imp_mt: "orgPost.importData",
         // 导出字段设置, code字段名 name列名

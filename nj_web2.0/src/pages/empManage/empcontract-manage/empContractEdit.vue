@@ -4,7 +4,7 @@
       <div class="title">
         <div class="title-text">
           <Icon type="mouse" size="16" style="margin-right: 11px;"></Icon>
-          &nbsp;{{$t('button.view')}}
+          &nbsp;{{logType}}
         </div>
         <Button type="text" @click="handleReset">
           <Icon type="close-round" size="16"></Icon>
@@ -12,53 +12,41 @@
       </div>
       <div class="option-main">
         <Row style="max-height: 480px;overflow-y: auto;">
-          <Form ref="form" :model="form" :rules="ruleValidate" :label-width="120">
+          <Form ref="form" :model="form" 
+          :rules="ruleValidate" 
+          :label-width="120">
             <i-col span="11">
               <FormItem label="合同编号" prop="numberCode">
                 <Input v-model="form.numberCode" :disabled="true"/>
               </FormItem>
             </i-col>
             <i-col span="11" offset="1">
-              <FormItem label="员工姓名" prop="empId">
-                <span @dblclick="dbclean">
-                  <Input
-                    v-model="empName"
-                    icon="search"
-                    :disabled="disabled"
-                    :readonly="true"
-                    placeholder="请选择员工姓名"
-                    @on-click="disabled?'':pickEmpData"
-                  />
-                </span>
-              </FormItem>
+                <FormItem label="员工姓名"  prop="empName"  >
+                            <!--绑定双击清除方法-->
+                            <span @dblclick="disabled?'':dbclean()">
+                          <!--v-model绑定显示字段-->
+                              <Input v-model="form.empName" icon="search" :readonly=true :disabled="disabled" placeholder="请选择员工"  @on-click="disabled ? '' : pickEmpData()" />
+                            </span>
+                          </FormItem>
+             
             </i-col>
             <i-col span="11">
-              <FormItem label="部门名称" prop="deptId">
-                <span @dblclick="dbDept">
-                  <Input
-                    v-model="deptIdDis"
-                    icon="search"
-                    :disabled="disabled"
-                    :readonly="true"
-                    placeholder="请选择部门名称"
-                    @on-click="disabled?'':selectDept"
-                  />
-                </span>
-              </FormItem>
+                <FormItem label="部门"
+                                      prop="deptIdDis">
+                                <Input v-model="form.deptIdDis"
+                                       disabled="disabled"
+                                       placeholder="请输入部门名称"/>
+                            </FormItem>
+              
             </i-col>
             <i-col span="11" offset="1">
-              <FormItem label="岗位名称" prop="postId">
-                <span @dblclick="dbPost">
-                  <Input
-                    v-model="postIdDis"
-                    icon="search"
-                    :disabled="disabled"
-                    :readonly="true"
-                    placeholder="请选择岗位名称"
-                    @on-click="disabled?'':selectPost"
-                  />
-                </span>
-              </FormItem>
+                <FormItem label="岗位"
+                                  prop="postIdDis">
+                          <Input v-model="form.postIdDis"
+                                 disabled="disabled"
+                                 placeholder="请输入岗位名称"></Input>
+                        </FormItem>
+              
             </i-col>
             <i-col span="11">
               <FormItem label="员工类型" prop="empType">
@@ -219,28 +207,8 @@
       </div>
     </div>
     <!--弹出选择页面布局 无需变更-->
-    <!--部门-->
-    <transition name="fade">
-      <searchDept
-        v-show="openDeptPick"
-        :searchDeptClo="searchDeptCloumns"
-        :params="deptParams"
-        @closeDept="closeDept"
-        @inputDept="changeDeptInput"
-        ref="searchDept"
-      ></searchDept>
-    </transition>
-    <!--岗位-->
-    <transition name="fade">
-      <searchPost
-        v-show="openPost"
-        @closePost="closePost"
-        :searchPostClo="searchPostClo"
-        @inputPost="inputPost"
-        :params="paramsPost"
-        ref="searchPost"
-      ></searchPost>
-    </transition>
+    
+    
     <!--直接上級-->
     <transition name="fade">
       <searchEmpMaster
@@ -258,9 +226,7 @@ import {
   getDataLevelUserLogin
 } from "../../../axios/axios";
 import { isSuccess, deepCopy } from "../../../lib/util";
-import searchPost from "../../../components/searchTable/searchPost";
-import searchDept from "../../../components/searchTable/searchDept";
-import searchEmpMaster from "../../../components/searchTable/searchEmpMaster";
+import searchEmpMaster from '../../../components/searchTable/searchEmpnhMaster'
 
 export default {
   data() {
@@ -298,13 +264,14 @@ export default {
         empType: "",
         contType: "",
         contPeriod: "",
-        fmCompany: "",
         contSdate: "",
         contEdate: "",
         contWorktime: "",
         contSigndate: "",
         contProbat: "",
         contProbatdt: "",
+        contValiddate:"",
+        contInvdate:"",
         note: "", //备注
         funId: "1",
         logType: ""
@@ -316,54 +283,14 @@ export default {
       deptIdDis: "",
       postIdDis: "",
       //部门
-      searchDeptCloumns: [
-        {
-          title: "部门编码",
-          key: "unitCode",
-          sortable: "custom"
-        },
-        {
-          title: "部门名称",
-          key: "unitFname"
-        }
-      ],
-      deptParams: {
-        _mt: "orgUnits.getByOrgFramePageList",
-        rows: 10,
-        page: 1,
-        sort: "id",
-        order: "desc",
-        logType: "部门",
-        unitType: "02dept",
-        state: "02valid"
-      },
+     
       //岗位
-      searchPostClo: [
-        {
-          title: "岗位编码",
-          key: "postCode",
-          sortable: "custom"
-        },
-        {
-          title: "岗位名称",
-          key: "postFname"
-        }
-      ],
-      paramsPost: {
-        _mt: "orgPost.getPage",
-        rows: 10,
-        page: 1,
-        sort: "id",
-        order: "desc",
-        funId: "1107",
-        logType: "岗位",
-        state: "02valid"
-      },
+     
       ruleValidate: {
         unitCode: [
           { required: true, message: "请输入组织编码", trigger: "blur" }
         ],
-        empId: [
+        empName: [
           { required: true, message: "请选择员工姓名", trigger: "change" }
         ],
         deptId: [
@@ -438,11 +365,21 @@ export default {
     index: Number
   },
   components: {
-    searchDept,
-    searchPost,
-    searchEmpMaster
+    // searchDept,
+    // searchPost,
+    searchEmpMaster,
   },
   methods: {
+      //上级清除员工选择
+      dbclean(){
+        const t = this
+        t.form.empName = '';
+        t.form.empId = '';
+        t.form.deptIdDis = '';
+        t.form.deptId = '';
+        t.form.postIdDis = '';
+        t.form.postId = '';
+      },
     getData(id) {
       const t = this;
       getDataLevelUserLogin({
@@ -556,6 +493,18 @@ export default {
             if (data.contValiddate !== undefined) {
                 data.contValiddate = new Date(data.contValiddate).format('yyyy-MM-dd')
             }
+            if (data.contSdate !== undefined) {
+                data.contSdate = new Date(data.contSdate).format('yyyy-MM-dd')
+            }
+            if (data.contEdate !== undefined) {
+                data.contEdate = new Date(data.contEdate).format('yyyy-MM-dd')
+            }
+             if (data.contSigndate !== undefined) {
+                data.contSigndate = new Date(data.contSigndate).format('yyyy-MM-dd')
+            }
+            if (data.contProbatdt !== undefined) {
+                data.contProbatdt = new Date(data.contProbatdt).format('yyyy-MM-dd')
+            }
             if (data.contInvdate !== undefined) {
                 data.contInvdate = data.contInvdate === '' ? '' : new Date(data.contInvdate).format('yyyy-MM-dd')
             }
@@ -588,71 +537,26 @@ export default {
                 }
             })
         },
-    //部门
-        dbDept () {
-            const t = this
-            t.deptIdDis = ''
-            t.form.deptId = ''
-        },
-        selectDept () {
-            const t = this
-            const paramsDept = deepCopy(t.deptParams)
-            t.$refs.searchDept.getData(paramsDept)
-            t.openDeptPick = true
-        },
-        closeDept () {
-            const t = this
-            t.$refs.searchDept.unitCode = ''
-            t.openDeptPick = false
-        },
-        changeDeptInput (name, id) {
-            const t = this
-            console.log(name, "name")
-            t.deptIdDis = name
-            t.form.deptId = id
-        },
-        //岗位
-        dbPost () {
-            const t = this;
-            t.form.postId = "";
-            t.postIdDis = "";
-        },
-        selectPost () {
-            const t = this;
-            const paramsPost = deepCopy(t.paramsPost);
-            t.$refs.searchPost.getData(paramsPost);
-            t.openPost = true;
-        },
-        closePost () {
-            const t = this;
-            t.$refs.searchPost.postCode = "";
-            t.openPost = false;
-        },
-        inputPost (name, id, postName, postId) {
-            const t = this;
-            t.postIdDis = name;
-            t.form.postId = id;
-        },
-        //选择员工
-        pickEmpData () {
-            const t = this;
-            t.$refs.searchEmpMaster.getData();
-            t.openEmpMaster = true;
-        },
-        closeEmp () {
-            const t = this
-            t.openEmpMaster = false
-        },
-        inputEmp (row) {
-            const t = this
-            t.empName = row.empName;
-            t.form.empId = row.empId;
-        },
-        dbclean () {
-            const t = this
-            t.empName = '';
-            t.form.empId = '';
-        },
+    
+       /*选择员工*/
+      pickEmpData() {
+        const t = this;
+        t.$refs.searchEmpMaster.getData();
+        t.openEmpMaster = true;
+      },
+      closeEmp() {
+        const t = this
+        t.openEmpMaster = false
+      },
+      inputEmp(row) {
+        const t = this
+        t.form.empName = row.empnhName;
+        t.form.empId = row.id;
+        t.form.deptIdDis = row.deptIdDis;
+        t.form.deptId = row.deptId;
+        t.form.postIdDis = row.postIdDis;
+        t.form.postId = row.postId;
+      },
     handleReset() {
       const t = this;
       t.$emit("closeUp");

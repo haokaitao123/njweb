@@ -53,47 +53,16 @@
                                  placeholder="请输入岗位名称"></Input>
                         </FormItem>
                       </i-col>
-                      <i-col span="22">
-                          <FormItem label="试用期评价"
-                                    prop="empoffResult">
-                              <Input v-model="formValidate.empoffResult"
-                                     type="textarea"
-                                     :disabled="forbidden"
-                                     :autosize="{minRows: 2,maxRows: 5}"
-                                     placeholder="请输入试用期评价..."></Input>
-                          </FormItem>
-                      </i-col>
-                      <!--上传下载-->
-                      <i-col span="23">
-                        <FormItem label="试用期评估表" prop="empoffDocument">
-                          <Row>
-                            <i-col span="3" v-show="!forbidden">
-                              <Upload :before-upload="handleUpload"  action=" ">
-                                <Button  type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
-                              </Upload>
-                            </i-col>
-                            <i-col span="20" >
-                             <span v-if="file !== '' " @dblclick="forbidden?'':fileclean()">
-                              <i-col span="22" >
-                              <Input v-model="file.name">
-                                <span slot="prepend">
-                                  <Icon type="folder" size="16" ></Icon>
-                                </span>
-                              </Input>
-                              </i-col>
-                              <i-col span="2">
-                                <Button type="text" v-show="!forbidden" @click="uploadLocalFile" v-if="loadingStatus">
-                                  上传
-                                </Button>
-                                <Button type="text"  @click="downloadFile" v-if="!loadingStatus">
-                                  下载
-                                </Button>
-                             </i-col>
-                             </span>
-                            </i-col>
-                          </Row>
+                      <i-col span="11">
+                        <FormItem label="总金额" prop="borrTotamount">
+                          <InputNumber v-model="formValidate.borrTotamount"
+                                       size="default"
+                                       style="width: 100%"
+                                       :disabled="forbidden"
+                                       placeholder="请输入总金额"></InputNumber>
                         </FormItem>
                       </i-col>
+
                       <i-col span="22">
                           <FormItem label="备注"
                                     prop="note">
@@ -150,9 +119,7 @@ export default {
                 empIdName: [
                     { required: true, message: "请选择员工姓名", trigger: 'change' },
                 ],
-                empoffResult: [
-                    { required: true, message: "请填写试用期评价结论", trigger: 'blur' },
-                ]
+            //  borrTotamount:
             },
         }
     },
@@ -172,19 +139,6 @@ export default {
         //this.getSelect("emptype");
     },
     methods: {
-      fileclean(){
-        const t = this
-        t.$Modal.confirm({
-          title: '提示',
-          content: '请确定删除附件',
-          onOk: () => {
-            t.formValidate.empoffDocument = ''
-            t.file = ''
-            t.filekey = ''
-          },
-        })
-
-      },
       //上级清除员工选择
       dbclean(){
         const t = this
@@ -199,19 +153,14 @@ export default {
         getData (id) {
             const t = this
             getDataLevelUserLogin({
-                _mt: 'empEmpofficial.getById',
+                _mt: 'empBorrow.getById',
                 id: id,
                 funId: '1',
-                logType: '员工转正id查询',
+                logType: '借支信息id查询',
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     console.log(res.data.content[0])
                     t.formValidate = res.data.content[0]
-                    if (res.data.content[0].empoffDocument) {
-                      t.formValidate.empoffDocument = res.data.content[0].empoffDocument
-                      t.file = { name: res.data.content[0].empoffDocument.split(':')[0] }
-                      t.filekey = res.data.content[0].empoffDocument.split(':')[1]
-                    }
                     t.formValidate.note= res.data.content[0].note
                     if (t.logType === '查看') {
                         t.forbidden = true
@@ -232,7 +181,7 @@ export default {
             const t = this
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
-            data._mt = 'empEmpofficial.addOrUpd'
+            data._mt = 'empBorrow.addOrUpd'
 
             if (t.logType === '修改') {
                 data.id = t.id
@@ -292,62 +241,6 @@ export default {
         this.file = file
         this.loadingStatus = true
         return false
-      },
-      uploadLocalFile() {
-        const t = this
-        const formData = new FormData()
-        formData.append('upfile', t.file)
-        console.log(formData)
-        uploadFile(formData).then(res => {
-          for (const key in res.data) {
-            t.file =  { name: key }
-            t.filekey = res.data[key]
-            t.formValidate.empoffDocument = key + ':' + res.data[key]
-          }
-          t.$Modal.success({
-            title: this.$t('reminder.suc'),
-            content: '上传成功',
-            onOk: () => {
-              t.loadingStatus = false
-            },
-          })
-        }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
-        })
-      },
-      downloadFile() {
-        const t = this
-        let data = {
-          _mt: 'userMgmt.getfiletoken',
-          isprivate: true,
-          logType: '导出',
-          filekey: t.filekey,
-          expiresecs: 180,
-        }
-        getDataLevelUserLogin(data).then((res) => {
-          if (isSuccess(res, t)) {
-            localStorage.pageOpenedListAll = JSON.stringify(JSON.parse(localStorage.pageOpenedList))
-            if (this.isIE()) {
-              window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
-            } else {
-              let doclink = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
-              let link = document.createElement('a')
-              link.href = doclink
-              link.download = 'downloadfiletemp'
-              link.click()
-            }
-            this.$store.state.app.pageOpenedList = JSON.parse(localStorage.pageOpenedListAll)
-            localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
-          }
-        }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
-        })
       },
     },
     watch: {

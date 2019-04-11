@@ -3,6 +3,7 @@
  */
 
 //用户普通角色组管理
+import empBorrow from '@/pages/empManage/empBorrow/empBorrow.vue'
 import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
 import empMaster from '@/pages/empManage/empmaster-manage3/empmasterList.vue'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
@@ -21,6 +22,8 @@ const resumeNumMange = resolve => require(['@/pages/RmResumeMange/resumeNumMange
 const depManage = resolve => require(['@/pages/empManage/depManage/depManage'], resolve)
 
 const protocolManage = resolve => require(['@/pages/protocolManage/protocolManage'], resolve)
+
+const recruitResumeManage = resolve => require(['@/pages/empManage/RecruitResume-manage/recruitResumeManage'], resolve)
 
 export default [{
     path: 'goaborddetail',
@@ -76,5 +79,15 @@ export default [{
     path: 'protocolManage',
     name: 'protocolManage',
     component: protocolManage,
+  },
+  {
+    path: 'recruitResumeManage',
+    name: 'recruitResumeManage',
+    component: recruitResumeManage,
+  },
+  {
+    path: 'empBorrow',
+    name: 'empBorrow',
+    component: empBorrow,
   },
 ]
