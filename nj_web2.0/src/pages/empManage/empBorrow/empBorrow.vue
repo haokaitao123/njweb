@@ -72,7 +72,7 @@
               :logType="logType"
               :index="index"
               @closeUp="closeUp"
-              @getData="addNewArray"
+              @newdata="addNewArray"
               @update="updateArray"
               ref="update"></update>
     </transition>
@@ -110,7 +110,8 @@
   </div>
 </template>
 <script>
-  import update from './addEmpBorrow'
+  import update from './empBorrowBase'
+
   import {isSuccess} from '../../../lib/util'
   import {getDataLevelUserLoginNew, getDataLevelUserLogin} from '../../../axios/axios'
   import btnList from '../../../components/btnAuth/btnAuth.js'
@@ -436,25 +437,14 @@
         t.openUpdate = true
         t.index = index
         if (logType !='新增') {
-          t.$refs.update.getData(id)
+          t.$refs.update.getOption(id, logType)
         }
       },
       //关闭,并清除弹出页面的值
       closeUp() {
         //alert(1)
         const t = this
-        t.openUpdate = false
-        t.$refs.update.forbidden = false
-        let up = t.$refs.update.formValidate
-        //debugger
-        for (let s in up) {
-          if(s!='_mt' && s!='funId'){
-            up[s] = ''
-          }
-        }
-        t.$refs.update.file = ''
-        t.$refs.update.filekey = ''
-       // t.getData()
+        t.openUpdate = false//控制修改窗口的显示和隐藏
       },//关闭窗口
       selected(key, name) {
         this.select = name

@@ -1,5 +1,8 @@
 <template>
     <div class="option-main">
+        <Spin size="large"
+              fix
+              v-if="spinShow"></Spin>
         <Row style="max-height: 500px;overflow-y: auto;">
             <Form :model="form"
                   label-position="right"
@@ -660,6 +663,7 @@ export default {
             openEmpMaster: false,
             openBank: false,
             openCostCenter: false,
+            spinShow: '',
             //部门
             searchDeptCloumns: [
                 {
@@ -1042,9 +1046,11 @@ export default {
         //获取主表数据 无需变更
         getdata (params) {
             const t = this;
+            t.spinShow = true
             getDataLevelUserLogin(params)
                 .then(res => {
                     if (isSuccess(res, t)) {
+                        t.spinShow = false
                         t.unitCityName = res.data.content[0].unitCityName
                         t.form.numberCode = res.data.content[0].numberCode;
                         t.form.empnhName = res.data.content[0].empnhName;
@@ -1093,6 +1099,7 @@ export default {
                     }
                 })
                 .catch(() => {
+                    t.spinShow = false
                     this.$Message.error('网络错误');
                 });
         },

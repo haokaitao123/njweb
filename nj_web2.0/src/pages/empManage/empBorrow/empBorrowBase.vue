@@ -2,24 +2,18 @@
   <div class="cover">
     <div class="box">
       <row>
-        <i-col class="meau-left" span="4">
+        <i-col class="meau-left" span="5">
           <Menu :active-name="active" width="auto" @on-select="pageTo">
             <!--主子表左侧页面布局-->
             <MenuItem name="option">
-              招聘简历管理
+              借支信息管理
             </MenuItem>
-            <MenuItem name="reeduc" v-show="id">
-              简历教育信息
-            </MenuItem>
-            <MenuItem name="rework" v-show="id">
-              简历工作经历
-            </MenuItem>
-            <MenuItem name="refam" v-show="id">
-              简历家庭成员
+            <MenuItem name="content" >
+              借支明细管理
             </MenuItem>
           </Menu>
         </i-col>
-        <i-col class="meau-right" span="20">
+        <i-col class="meau-right" span="19">
           <div class="title">
             <div class="title-text">
               <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>{{logType}}
@@ -32,9 +26,7 @@
             <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
             <mOption v-show="option" :logType="logType" ref="option" :id="id" @update="update" @newdata="newdata"></mOption>
             <!--子表分页页面 mainid为主表id-->
-            <Reeduc v-show="reeduc" :logType="logType" ref="reeduc" :mainId="id"></Reeduc>
-            <Rework v-show="rework" :logType="logType" ref="rework" :mainId="id"></Rework>
-            <Refam v-show="refam" :logType="logType" ref="refam" :mainId="id"></Refam>
+            <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
           </div>
         </i-col>
       </row>
@@ -42,19 +34,15 @@
   </div>
 </template>
 <script>
-  import mOption from './recruitResumeView'
-  import Reeduc from './recruitReeducManage'
-  import Rework from './recruitReworkexpManage'
-  import Refam from './recruitRefamilyManage'
+  import mOption from './addEmpBorrow.vue'
+  import mContent from './empBorrowdetails.vue'
   export default {
     data() {
       return {
 //        默认参数 无需变更
         active: 'option',
         option: true,
-        reeduc: false,
-        rework: false,
-        refam: false,
+        content: false,
         id: NaN,
         disabled: false,
 //        主表查询单条数据的mt
@@ -62,9 +50,7 @@
     },
     components: {
       mOption,
-      Reeduc,
-      Rework,
-      Refam,
+      mContent,
     },
     props: {
 //      父页面传递参数  visaare一般不传
@@ -80,51 +66,46 @@
         this.$emit('closeUp')
         this.clear()
       },
+//      默认方法
+      changeMenu() {
+        this.active = 'content'
+      },
       // 主表信息查询方法 无需变更
       getOption(id, logType) {
         this.id = parseInt(id, 10)
+        alert(this.id+"---base")
         this.$refs.option.getData(this.id)
         this.$refs.option.disabled = this.disabled
       },
 //       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {
+        if(isNaN(this.id) || this.id == ''){
+          this.$Message.success('请先保存主表数据');
+          return;
+        }
         this.option = false
-        this.reeduc = false
-        this.rework = false
-        this.refam = false
+        this.content = false
         this.active = name
-        this.$refs.option.clear()
-        this.$refs.reeduc.clear()
+       // this.$refs.option.clear()
+       // this.$refs.content.clear()
         this[name] = true
-        if (name === 'reeduc') {
-          this.$refs.reeduc.disabled = this.disabled
-          this.$refs.reeduc.id = this.id
-          this.$refs.reeduc.search()
-          this.$refs.reeduc.logType = this.logType
-        } else if (name === 'rework') {
-          this.$refs.rework.disabled = this.disabled
-          this.$refs.rework.id = this.id
-          this.$refs.rework.search()
-          this.$refs.rework.logType = this.logType
-        } else if (name === 'refam') {
-          this.$refs.refam.disabled = this.disabled
-          this.$refs.refam.id = this.id
-          this.$refs.refam.search()
-          this.$refs.refam.logType = this.logType
+        if (name === 'content') {
+          this.$refs.content.disabled = this.disabled
+          this.$refs.content.id = this.id
+          this.$refs.content.search()
+          this.$refs.content.logType = this.logType
         } else {
-          this.getOption(this.id, this.$t('button.upd'))
+          this.getOption(this.id, '修改')
         }
       },
 //      清空方法 初始化本页面参数 无需变更
       clear() {
         this.option = true
-        this.reeduc = false
+        this.content = false
         this.id = NaN
         this.active = 'option'
         this.$refs.option.clear()
-        this.$refs.reeduc.clear()
-        this.$refs.rework.clear()
-        this.$refs.refam.clear()
+        this.$refs.content.clear()
       },
 //      更新父页面列表 无需变更
       update(data) {
@@ -152,7 +133,6 @@
   }
   .cover .box{
     padding: 0;
-    width:1000px!important;
   }
   .cover .box .form{
     margin-top: 60px;

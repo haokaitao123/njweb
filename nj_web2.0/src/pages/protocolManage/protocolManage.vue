@@ -5,7 +5,7 @@
         <card>
           <p slot="title">
             <Icon type="mouse"></Icon>
-            &nbsp;{{$t('lang_organization.orgpost.title')}}
+            &nbsp;变更协议管理
           </p>
           <Row>
             <Col span="18" style="width: 100% !important">
@@ -170,7 +170,6 @@ export default {
         dataTree: [],
         //treeheight: document.body.offsetHeight - 200,
         //tableheight: document.body.offsetHeight - 280,
-        value: "",
         logType: "",
         openUpdate: false,
         updateId: NaN,
@@ -358,9 +357,7 @@ export default {
         rows: 10,
         page: 1,
         funId: "1000",
-        postCode: "",
         postFname: "",
-        treeid: "",
         params: {
           _mt: "protocolManage.getPage",
           sort: "id",
@@ -372,7 +369,8 @@ export default {
           data: "{}"
         },
         state: this.modity,
-        loading: ""
+        loading: "",
+        empName:""
     };
   },
   computed: {
@@ -442,18 +440,15 @@ export default {
         this.page = 1;
       }
       const data = {
-        _mt: "orgPost.getPage",
+        _mt: "protocolManage.getPage",
         rows: t.rows,
         page: t.page,
         sort: t.sort,
         order: t.order,
-        logType: "岗位查询",
-        postCode: t.postCode,
+        logType: "变更协议查询",
         funId: "1000",
-        postFname: t.postFname,
+        empName: t.empName,
         state: t.modity,
-        postDfpslevel: t.postDfpslevel,
-        postUnit: id || ""
       };
       for (const dat in data) {
         if (data[dat] === "") {
@@ -561,23 +556,15 @@ export default {
       t.openUpdate = false;
       t.$refs.update.empName = "";
       t.$refs.update.deptoIdName = "";
-      t.$refs.update.empoTypeDis = "";
-      t.$refs.update.contractoTypeDis = "";
-      t.$refs.update.contractoPeriodDis = "";
       t.$refs.update.postoName = "";
       t.$refs.update.formValidate.empnhIdno = "";
       t.$refs.update.formValidate.contractoNo = "";
       t.$refs.update.formValidate.contractoStart = "";
       t.$refs.update.formValidate.contractoEnd = "";
-      t.$refs.update.contractoTimeDis = "";
       t.$refs.update.deptnIdName= "";
       t.$refs.update.postnIdName = "";
-      t.$refs.update.empnTypeDis = ""; 
-      t.$refs.update.contractnTypeDis = "";
-      t.$refs.update.contractnPeriodDis = "";
       t.$refs.update.formValidate.contractnStart = "";
       t.$refs.update.formValidate.contractnEnd = "";
-      t.$refs.update.contractnTimeDis = "";
       t.$refs.update.formValidate.signingnTime = "";
       t.$refs.update.formValidate.note = "";
     },
