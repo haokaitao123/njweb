@@ -196,6 +196,7 @@
             </RadioGroup>
           </FormItem>
         </i-col>
+
         <i-col span="11">
           <FormItem label="是否有纹身" prop="resuIstattoo">
             <RadioGroup v-model="formValidate.resuIstattoo">

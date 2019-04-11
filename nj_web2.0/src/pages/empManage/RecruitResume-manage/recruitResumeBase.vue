@@ -2,7 +2,7 @@
   <div class="cover">
     <div class="box">
       <row>
-        <i-col class="meau-left" span="5">
+        <i-col class="meau-left" span="4">
           <Menu :active-name="active" width="auto" @on-select="pageTo">
             <!--主子表左侧页面布局-->
             <MenuItem name="option">
@@ -19,7 +19,7 @@
             </MenuItem>
           </Menu>
         </i-col>
-        <i-col class="meau-right" span="19">
+        <i-col class="meau-right" span="20">
           <div class="title">
             <div class="title-text">
               <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>{{logType}}
@@ -152,6 +152,7 @@
   }
   .cover .box{
     padding: 0;
+    width:1000px!important;
   }
   .cover .box .form{
     margin-top: 60px;
