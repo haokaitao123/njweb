@@ -7,6 +7,7 @@ import empBorrow from '@/pages/empManage/empBorrow/empBorrow.vue'
 import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
 import empMaster from '@/pages/empManage/empmaster-manage3/visaAreaList.vue'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
+import empContractRenewalList from '@/pages/empManage/empcontractRenewal-manage/empContractRenewalList'
 import visaAreaList from '@/pages/empManage/visaArea-manage/visaAreaList'
 import empDepminManage from '@/pages/empManage/empDepmin/empDepminRule'
 
@@ -49,6 +50,11 @@ export default [{
     path: 'empContractList',
     name: 'empContractList',
     component: empContractList,
+  },
+  {
+    path: 'empContractRenewalList',
+    name: 'empContractRenewalList',
+    component: empContractRenewalList,
   },
   {
     path: 'abordeCountShow',
