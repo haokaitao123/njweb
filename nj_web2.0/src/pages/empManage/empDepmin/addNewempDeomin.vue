@@ -158,7 +158,7 @@
             {
               required: true,
               type: "date",
-              message: "请选择押金补充时间",
+              validator: compareTime,
               trigger: "change"
             }
           ],
@@ -166,7 +166,6 @@
             {
               required: true,
               type: "date",
-              validator: compareTime,
               message: "请选择补充结束时间",
               trigger: "change"
             }
