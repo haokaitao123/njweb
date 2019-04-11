@@ -121,7 +121,7 @@
                                                 :disabled="disabled">浏览</Button>
                                     </Upload>
                                 </i-col>
-                                <i-col span="19">
+                                <i-col :span="disabled?'24':'19'">
                                     <span v-if="file !== ''"
                                           @dblclick="disabled?'':clearFile()">
                                         <i-col span="22">
@@ -319,10 +319,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         save () {
@@ -355,26 +352,17 @@ export default {
                         .then(res => {
                             if (isSuccess(res, t)) {
                                 if (t.rowId) {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.updsuccess")
-                                    });
+                                    this.$Message.success('修改成功');
                                     t.$emit("update", res.data.content[0]);
                                 } else {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.addsuccess")
-                                    });
+                                    this.$Message.success('新增成功');
                                     t.$emit("newdata", res.data.content[0]);
                                 }
                                 t.close();
                             }
                         })
                         .catch(() => {
-                            t.$Modal.error({
-                                title: this.$t("reminder.err"),
-                                content: this.$t("reminder.errormessage")
-                            });
+                            this.$Message.error('网络错误');
                         });
                 }
             });
@@ -391,10 +379,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    this.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         clear () {
@@ -442,7 +427,6 @@ export default {
             const t = this
             const formData = new FormData()
             formData.append('upfile', t.file)
-            console.log(formData)
             uploadFile(formData).then(res => {
                 for (const key in res.data) {
                     t.file = { name: key }
@@ -457,10 +441,7 @@ export default {
                     },
                 })
             }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                this.$Message.error('网络错误');
             })
         },
         //下载
@@ -491,10 +472,7 @@ export default {
                     localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
                 }
             }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                this.$Message.error('网络错误');
             })
         },
         //清除附件

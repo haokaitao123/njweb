@@ -4,7 +4,7 @@
 
 //用户普通角色组管理
 import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
-import empMaster from '@/pages/empManage/empmaster-manage3/visaAreaList.vue'
+import empMaster from '@/pages/empManage/empmaster-manage3/empmasterList.vue'
 import empContractList from '@/pages/empManage/empcontract-manage/empContractList'
 import visaAreaList from '@/pages/empManage/visaArea-manage/visaAreaList'
 import empDepminManage from '@/pages/empManage/empDepmin/empDepminRule'
