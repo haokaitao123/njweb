@@ -48,9 +48,6 @@
         id: NaN,
         disabled: false,
 //        主表查询单条数据的mt
-        data: {
-          _mt: 'recruitRefamily.getById',
-        },
       }
     },
     components: {
@@ -78,7 +75,6 @@
       // 主表信息查询方法 无需变更
       getOption(id, logType) {
         this.id = parseInt(id, 10)
-        this.data.logType = logType
         this.$refs.option.getData(this.id)
         this.$refs.option.disabled = this.disabled
       },
@@ -87,10 +83,14 @@
         this.option = false
         this.content = false
         this.active = name
+        this.$refs.option.clear()
+        this.$refs.content.clear()
         this[name] = true
         if (name === 'content') {
-          this,$refs.content.disabled = this.disabled
+          this.$refs.content.disabled = this.disabled
+          this.$refs.content.id = this.id
           this.$refs.content.search()
+          this.$refs.content.logType = this.logType
         } else {
           this.getOption(this.id, this.$t('button.upd'))
         }
