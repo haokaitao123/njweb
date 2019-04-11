@@ -144,19 +144,35 @@
           ],
           taxMin: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxMinDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxMax: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxMaxDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxTaxrate: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxTaxrateDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxQkdeuction: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxQkdeuctionDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxYear: [
-            { required: true, message: this.$t('reminder.othertips.numberErr'), trigger: 'blur' },
-            { validator:numberCheck,message: "", trigger: 'blur' },
+            { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxYearDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxAmountmin: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxAmountmax: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxPosttaxmin: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxPosttaxmax: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
         },
       }
