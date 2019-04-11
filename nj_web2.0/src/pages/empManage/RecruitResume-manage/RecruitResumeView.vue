@@ -6,186 +6,206 @@
             :model="formValidate"
             :rules="ruleValidate"
             :label-width="100">
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="应聘岗位" prop="resuApplypost">
-            <Input v-model="formValidate.resuApplypost" placeholder="请输入应聘岗位" :disabled="disabled" />
+            <Input v-model="formValidate.resuApplypost" placeholder="请输入应聘岗位" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="身份" prop="resuIdentity">
             <Select v-model="formValidate.resuIdentity" placeholder="请选择身份" :disabled="disabled">
               <Option :value="item.paramCode" v-for="(item,index) in selectIdentitytype" :key="index">{{item.paramInfoCn}}</Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="面试日期" prop="resuFilldate">
-            <DatePicker type="date" placeholder="请输入面试日期" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuFilldate"  style="width: 100%"></DatePicker>
+            <DatePicker type="date" placeholder="请输入面试日期" :disabled="disabled" :readonly="disabled" :editable="false"
+                        v-model="formValidate.resuFilldate" style="width: 100%"></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="姓名" prop="resuName">
-            <Input v-model="formValidate.resuName" placeholder="请输入姓名" :disabled="disabled" />
+            <Input v-model="formValidate.resuName" placeholder="请输入姓名" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="证件号码" prop="resuIdno">
-            <Input v-model="formValidate.resuIdno" placeholder="请输入证件号码" :disabled="disabled" />
+            <Input v-model="formValidate.resuIdno" placeholder="请输入证件号码" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="手机号" prop="resuMobile">
-            <Input v-model="formValidate.resuMobile" placeholder="请输入手机号" :disabled="disabled" />
+            <Input v-model="formValidate.resuMobile" placeholder="请输入手机号" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="性别" prop="resuGender">
             <Select v-model="formValidate.resuGender" placeholder="请选择性别" :disabled="disabled">
-              <Option :value="item.paramCode" v-for="(item,index) in selectgender" :key="index">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selectgender" :key="index">{{item.paramInfoCn}}
+              </Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="出生日期" prop="resuBirtday">
-            <DatePicker type="date" placeholder="请输入出生日期" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuBirtday"  style="width: 100%"></DatePicker>
+            <DatePicker type="date" placeholder="请输入出生日期" :disabled="disabled" :readonly="disabled" :editable="false"
+                        v-model="formValidate.resuBirtday" style="width: 100%"></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="籍贯" prop="resuBirtplace">
-            <Input v-model="formValidate.resuBirtplace" placeholder="请输入籍贯" :disabled="disabled" />
+            <Input v-model="formValidate.resuBirtplace" placeholder="请输入籍贯" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="民族" prop="resuNatality">
             <Select v-model="formValidate.resuNatality" placeholder="请选择民族" :disabled="disabled">
-              <Option :value="item.paramCode" v-for="(item,index) in selectnationtype" :key="index">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selectnationtype" :key="index">
+                {{item.paramInfoCn}}
+              </Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="政治面貌" prop="resuPolitical">
             <Select v-model="formValidate.resuPolitical" placeholder="请选择政治面貌" :disabled="disabled">
-              <Option :value="item.paramCode" v-for="(item,index) in selectpolitical" :key="index">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selectpolitical" :key="index">
+                {{item.paramInfoCn}}
+              </Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="健康状况" prop="resuHealthsta">
             <Select v-model="formValidate.resuHealthsta" placeholder="请选择健康状况" :disabled="disabled">
-              <Option :value="item.paramCode" v-for="(item,index) in selecthealthcondition" :key="index">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selecthealthcondition" :key="index">
+                {{item.paramInfoCn}}
+              </Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="婚育状况" prop="resuMaritlsta">
             <Select v-model="formValidate.resuMaritlsta" placeholder="请选择婚育状况" :disabled="disabled">
               <Option :value="item.paramCode" v-for="(item,index) in selectmarrystatus" :key="index">{{item.paramInfoCn}}</Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="身高(cm)" prop="resuHeight">
-            <Input v-model="formValidate.resuHeight" placeholder="请输入身高(cm)" :disabled="disabled" />
+            <Input v-model="formValidate.resuHeight" placeholder="请输入身高(cm)" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="体重(kg)" prop="resuWeight">
-            <Input v-model="formValidate.resuWeight" placeholder="请输入体重(kg)" :disabled="disabled" />
+            <Input v-model="formValidate.resuWeight" placeholder="请输入体重(kg)" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="学历" prop="resuEducat">
             <Select v-model="formValidate.resuEducat" placeholder="请选择学历" :disabled="disabled">
-              <Option :value="item.paramCode" v-for="(item,index) in selecteducation" :key="index">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selecteducation" :key="index">
+                {{item.paramInfoCn}}
+              </Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="毕业院校" prop="resuSchool">
-            <Input v-model="formValidate.resuSchool" placeholder="请输入毕业院校" :disabled="disabled" />
+            <Input v-model="formValidate.resuSchool" placeholder="请输入毕业院校" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="专业" prop="resuProfes">
-            <Input v-model="formValidate.resuProfes" placeholder="请输入专业" :disabled="disabled" />
+            <Input v-model="formValidate.resuProfes" placeholder="请输入专业" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
-        <FormItem label="现居住地" prop="resuLiving">
-          <Input v-model="formValidate.resuLiving" placeholder="请输入现居住地" :disabled="disabled" />
-        </FormItem>
-      </i-col>
-        <i-col span="11" >
+        <i-col span="11">
+          <FormItem label="现居住地" prop="resuLiving">
+            <Input v-model="formValidate.resuLiving" placeholder="请输入现居住地" :disabled="disabled"/>
+          </FormItem>
+        </i-col>
+        <i-col span="11">
           <FormItem label="家庭地址" prop="resuFamadds">
-            <Input v-model="formValidate.resuFamadds" placeholder="请输入家庭地址" :disabled="disabled" />
+            <Input v-model="formValidate.resuFamadds" placeholder="请输入家庭地址" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="紧急联系人姓名" prop="resuEmernm">
-            <Input v-model="formValidate.resuEmernm" placeholder="请输入紧急联系人姓名" :disabled="disabled" />
+            <Input v-model="formValidate.resuEmernm" placeholder="请输入紧急联系人姓名" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="紧急联系人电话" prop="resuEmphone">
-            <Input v-model="formValidate.resuEmphone" placeholder="请输入紧急联系人电话" :disabled="disabled" />
+            <Input v-model="formValidate.resuEmphone" placeholder="请输入紧急联系人电话" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
-        <FormItem label="与本人关系" prop="resuWithme">
-          <Select v-model="formValidate.resuWithme" placeholder="请选择与本人关系" :disabled="disabled">
-            <Option :value="item.paramCode" v-for="(item,index) in selectrelationship" :key="index">{{item.paramInfoCn}}</Option>
-          </Select>
-        </FormItem>
-      </i-col>
-        <i-col span="11" >
-        <FormItem label="期望薪资" prop="resuSalary">
-          <Input v-model="formValidate.resuSalary" placeholder="请输入期望薪资" :disabled="disabled" />
-        </FormItem>
-      </i-col>
-        <i-col span="11" >
+        <i-col span="11">
+          <FormItem label="与本人关系" prop="resuWithme">
+            <Select v-model="formValidate.resuWithme" placeholder="请选择与本人关系" :disabled="disabled">
+              <Option :value="item.paramCode" v-for="(item,index) in selectrelationship" :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
+          </FormItem>
+        </i-col>
+        <i-col span="11">
+          <FormItem label="期望薪资" prop="resuSalary">
+            <Input v-model="formValidate.resuSalary" placeholder="请输入期望薪资" :disabled="disabled"/>
+          </FormItem>
+        </i-col>
+        <i-col span="11">
           <FormItem label="职业状态" prop="resuProstatus">
             <Select v-model="formValidate.resuProstatus" placeholder="请选择职业状态" :disabled="disabled">
-              <Option :value="item.paramCode" v-for="(item,index) in selectempstatus" :key="index">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selectempstatus" :key="index">
+                {{item.paramInfoCn}}
+              </Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
-        <FormItem label="可到岗时间" prop="resuAvaitime">
-          <DatePicker type="date" placeholder="请输入可到岗时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuAvaitime"  style="width: 100%"></DatePicker>
-        </FormItem>
-      </i-col>
-        <i-col span="11" >
+        <i-col span="11">
+          <FormItem label="可到岗时间" prop="resuAvaitime">
+            <DatePicker type="date" placeholder="请输入可到岗时间" :disabled="disabled" :readonly="disabled" :editable="false"
+                        v-model="formValidate.resuAvaitime" style="width: 100%"></DatePicker>
+          </FormItem>
+        </i-col>
+        <i-col span="11">
           <FormItem label="是否有亲朋在本公司任职" prop="resuIsrelatives">
             <RadioGroup v-model="formValidate.resuIsrelatives">
-              <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">
+                {{item.paramInfoCn}}
+              </Radio>
             </RadioGroup>
           </FormItem>
         </i-col>
         <i-col span="11" v-show="formValidate.resuIsrelatives === '1'">
           <FormItem label="本公司任职亲朋姓名" prop="resuRelatname">
-            <Input v-model="formValidate.resuRelatname" placeholder="请输入本公司任职亲朋姓名" :disabled="disabled" />
+            <Input v-model="formValidate.resuRelatname" placeholder="请输入本公司任职亲朋姓名" :disabled="disabled"/>
           </FormItem>
         </i-col>
         <i-col span="11" v-show="formValidate.resuIsrelatives === '1'">
-        <FormItem label="本公司任职亲朋所在部门" prop="resuRelatdept">
-          <Input v-model="formValidate.resuRelatdept" placeholder="请输入本公司任职亲朋所在部门" :disabled="disabled" />
-        </FormItem>
-      </i-col>
-        <i-col span="11" >
-        <FormItem label="是否有犯罪记录" prop="resuIscriminal">
-          <RadioGroup v-model="formValidate.resuIscriminal">
-            <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
-          </RadioGroup>
+          <FormItem label="本公司任职亲朋所在部门" prop="resuRelatdept">
+            <Input v-model="formValidate.resuRelatdept" placeholder="请输入本公司任职亲朋所在部门" :disabled="disabled"/>
           </FormItem>
-      </i-col>
-        <i-col span="11" >
-          <FormItem label="是否有纹身" prop="resuIstattoo">
-            <RadioGroup v-model="formValidate.resuIstattoo">
-              <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
+        </i-col>
+        <i-col span="11">
+          <FormItem label="是否有犯罪记录" prop="resuIscriminal">
+            <RadioGroup v-model="formValidate.resuIscriminal">
+              <Radio :label="item.paramCode" v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">
+                {{item.paramInfoCn}}
+              </Radio>
             </RadioGroup>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
+          <FormItem label="是否有纹身" prop="resuIstattoo">
+            <RadioGroup v-model="formValidate.resuIstattoo">
+              <Radio :label="item.paramCode" v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">
+                {{item.paramInfoCn}}
+              </Radio>
+            </RadioGroup>
+          </FormItem>
+        </i-col>
+        <i-col span="11">
           <FormItem label="通过何种方式应聘" prop="resuApplytype">
             <Select v-model="formValidate.resuApplytype" placeholder="请选择通过何种方式应聘" :disabled="disabled">
               <Option :value="item.paramCode" v-for="(item,index) in selectapplysource" :key="index">{{item.paramInfoCn}}</Option>
@@ -194,48 +214,54 @@
         </i-col>
         <i-col span="11" v-show="formValidate.resuApplytype === '03introducer'">
           <FormItem label="介绍人姓名" prop="resuIntrname">
-            <Input v-model="formValidate.resuIntrname" placeholder="请输入介绍人姓名" :disabled="disabled" />
+            <Input v-model="formValidate.resuIntrname" placeholder="请输入介绍人姓名" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="是否服从调配" prop="resuIscom">
             <RadioGroup v-model="formValidate.resuIscom">
-              <Radio :label="item.paramCode"  v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">{{item.paramInfoCn}}</Radio>
+              <Radio :label="item.paramCode" v-for="(item,index) in selectyesno" :key="index" :disabled="disabled">
+                {{item.paramInfoCn}}
+              </Radio>
             </RadioGroup>
           </FormItem>
         </i-col>
-        <i-col span="23" >
+        <i-col span="22">
           <FormItem label="自我评价" prop="resuSelfeval">
-              <Input v-model="formValidate.resuSelfeval" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入自我评价" :disabled="disabled" />
+            <Input v-model="formValidate.resuSelfeval" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                   placeholder="请输入自我评价" :disabled="disabled"/>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="招生范围" prop="resuEnrorage">
             <Select v-model="formValidate.resuEnrorage" placeholder="请选择招生范围" :disabled="disabled">
               <Option :value="item.paramCode" v-for="(item,index) in selectenrollrange" :key="index">{{item.paramInfoCn}}</Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="是否毕业" prop="resuIsgradu">
             <Select v-model="formValidate.resuIsgradu" placeholder="请选择是否毕业" :disabled="disabled">
-              <Option :value="item.paramCode" v-for="(item,index) in selectgraduation" :key="index">{{item.paramInfoCn}}</Option>
+              <Option :value="item.paramCode" v-for="(item,index) in selectgraduation" :key="index">
+                {{item.paramInfoCn}}
+              </Option>
             </Select>
           </FormItem>
         </i-col>
-        <i-col span="11" >
+        <i-col span="11">
           <FormItem label="最后应聘时间" prop="resuFinalapptm">
-            <DatePicker type="date" placeholder="请输入最后应聘时间" :disabled="disabled" :readonly="disabled" :editable="false" v-model="formValidate.resuFinalapptm"  style="width: 100%"></DatePicker>
+            <DatePicker type="date" placeholder="请输入最后应聘时间" :disabled="disabled" :readonly="disabled" :editable="false"
+                        v-model="formValidate.resuFinalapptm" style="width: 100%"></DatePicker>
           </FormItem>
         </i-col>
-        <i-col span="23">
+        <i-col span="22">
           <FormItem :label="$t('lang_organization.orgpost.note')"
                     prop="note">
             <Input v-model="formValidate.note"
                    type="textarea"
                    :autosize="{minRows: 2,maxRows: 5}"
                    :placeholder="$t('lang_organization.orgpost.noteInp')"
-                   :disabled="disabled" />
+                   :disabled="disabled"/>
           </FormItem>
         </i-col>
       </Form>
@@ -243,7 +269,8 @@
     <Button type="primary"
             @click="handleSubmit"
             class="btn"
-            v-show="!disabled">{{$t('button.sav')}}</Button>
+            v-show="!disabled">{{$t('button.sav')}}
+    </Button>
   </div>
 </template>
 <script>
@@ -251,15 +278,12 @@
     getDataLevelUserLoginSenior,
     getDataLevelUserLogin
   } from "../../../axios/axios";
-  import { isSuccess, deepCopy } from "../../../lib/util";
+  import {isSuccess, deepCopy} from "../../../lib/util";
+
   export default {
-    data () {
+    data() {
       return {
-        type: '',
-        distype: false,
         disabled: false,
-        forbidden: null,
-        popup: '',
         selectIdentitytype: [],
         selectgender: [],
         selectnationtype: [],
@@ -275,49 +299,49 @@
         selectgraduation: [],
         formValidate: {
           _mt: "recruitResume.addOrUpd",
-          resuApplypost : '',
-          resuIdentity : '',
-          resuFilldate : '',
-          resuName : '',
-          resuIdno : '',
-          resuMobile : '',
-          resuGender : '',
-          resuBirtday : '',
-          resuBirtplace : '',
-          resuNatality : '',
-          resuPolitical : '',
-          resuHealthsta : '',
-          resuMaritlsta : '',
-          resuHeight : '',
-          resuWeight : '',
-          resuEducat : '',
-          resuSchool : '',
-          resuProfes : '',
-          resuLiving : '',
-          resuFamadds : '',
-          resuEmernm : '',
-          resuEmphone : '',
-          resuWithme : '',
-          resuSalary : '',
-          resuProstatus : '',
-          resuAvaitime : '',
-          resuIsrelatives : '',
-          resuRelatname : '',
-          resuRelatdept : '',
-          resuIscriminal : '',
-          resuIstattoo : '',
-          resuApplytype : '',
-          resuIntrname : '',
-          resuIscom : '',
-          resuSelfeval : '',
-          resuEnrorage : '',
-          resuIsgradu : '',
-          resuFinalapptm : '',
-          note : '',
+          resuApplypost: '',
+          resuIdentity: '',
+          resuFilldate: '',
+          resuName: '',
+          resuIdno: '',
+          resuMobile: '',
+          resuGender: '',
+          resuBirtday: '',
+          resuBirtplace: '',
+          resuNatality: '',
+          resuPolitical: '',
+          resuHealthsta: '',
+          resuMaritlsta: '',
+          resuHeight: '',
+          resuWeight: '',
+          resuEducat: '',
+          resuSchool: '',
+          resuProfes: '',
+          resuLiving: '',
+          resuFamadds: '',
+          resuEmernm: '',
+          resuEmphone: '',
+          resuWithme: '',
+          resuSalary: '',
+          resuProstatus: '',
+          resuAvaitime: '',
+          resuIsrelatives: '',
+          resuRelatname: '',
+          resuRelatdept: '',
+          resuIscriminal: '',
+          resuIstattoo: '',
+          resuApplytype: '',
+          resuIntrname: '',
+          resuIscom: '',
+          resuSelfeval: '',
+          resuEnrorage: '',
+          resuIsgradu: '',
+          resuFinalapptm: '',
+          note: '',
           logType: ""
         },
         //设置必填规则
-        ruleValidate: {  }
+        ruleValidate: {}
       };
     },
     //    子页面默认参数 无需变更
@@ -326,14 +350,14 @@
       logType: String,
       index: Number,
     },
-    components: {
+    components: {},
+    updated() {
     },
-    updated () { },
-    mounted () {
+    mounted() {
       this.getSelect();
     },
     methods: {
-      getData (id) {
+      getData(id) {
         const t = this;
         this.page = 1;
         getDataLevelUserLogin({
@@ -392,7 +416,7 @@
             });
           });
       },
-      getSelect () {
+      getSelect() {
         const t = this;
         getDataLevelUserLogin({
           _mt: "baseParmInfo.getSelectValue",
@@ -422,7 +446,7 @@
             });
           });
       },
-      handleSubmit () {
+      handleSubmit() {
         const t = this;
         const data = deepCopy(t.formValidate);
         data.logType = t.logType;
@@ -448,6 +472,7 @@
                       content: this.$t("reminder.updsuccess")
                     });
                     t.$emit('newdata', res.data.content[0])
+                    t.clear()
                   }
                 }
               })
@@ -511,6 +536,7 @@
 </script>
 <style lang="scss" scoped>
   @import "../../../sass/updateAndAdd";
+
   .option-main {
     position: relative;
     height: 500px;
