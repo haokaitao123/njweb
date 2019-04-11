@@ -134,33 +134,40 @@ export default {
                     title: "成员关系",
                     key: "fmRelationDis",
                     sortable: "custom",
+                    align: "center",
                     width: 100
                 },
                 {
                     title: "是否紧急联系人",
-                    key: "fmIsurgent",
+                    key: "fmIsurgentDis",
                     sortable: "custom",
+                    align: "center",
                     width: 150,
-                    render: (h, params) => {
-                        return h("div", params.row.fmIsurgent == 1 ? "是" : "否");
-                    }
                 },
                 {
                     title: "姓名",
                     key: "fmCname",
+                    align: "center",
+                    width: 100
                 },
                 {
                     title: "工作单位",
                     key: "fmCompany",
+                    align: "center",
+                    width: 200
                 },
                 {
                     title: "职务",
                     key: "fmPost",
+                    align: "center",
+                    width: 100
                 },
 
                 {
                     title: "联系方式",
                     key: "fmPhone",
+                    align: "center",
+                    width: 150,
                 },
                 {
                     title: "操作",
@@ -275,10 +282,7 @@ export default {
                 })
                 .catch(() => {
                     this.loading = false;
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         pageChange (page) {
@@ -305,10 +309,7 @@ export default {
         deletemsg () {
             const t = this;
             if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+                this.$Message.warning('请至少选择一条数据');
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),

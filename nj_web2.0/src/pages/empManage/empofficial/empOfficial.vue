@@ -73,6 +73,8 @@
               :logType="logType"
               :index="index"
               @closeUp="closeUp"
+              @getData="addNewArray"
+              @update="updateArray"
               ref="update"></update>
     </transition>
     <!--导入导出子页面 若没有导入导出可以去掉-->
@@ -451,7 +453,7 @@
         }
         t.$refs.update.file = ''
         t.$refs.update.filekey = ''
-        t.getData()
+       // t.getData()
       },//关闭窗口
       selected(key, name) {
         this.select = name
@@ -505,7 +507,16 @@
         t.openExpDow = openExpDow;
         t.$refs.expdow.getPriToken(t.filekey);
       },
-
+      //数据修改更新表格数据
+      updateArray(res) {
+        const t = this;
+        t.data.splice(t.index, 1, res);
+      },
+      // 子页面新增数据后添加到本页面分页第一行  无需更改
+      addNewArray(res) {
+        const t = this;
+        t.data.unshift(res);
+      },
     },
   }
 </script>

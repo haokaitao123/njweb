@@ -107,9 +107,19 @@
 <script>
   import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
   import { isSuccess, deepCopy } from '../../../lib/util'
+  import valid from '../../../lib/pub_valid'
 
   export default {
     data() {
+      const numberCheck = (rule, value, numberValCheck) => {
+        if (value !== '' && value !== undefined) {
+          if (valid.val_number103(value)) {
+            return numberValCheck()
+          }
+          return numberValCheck(new Error(rule.message))
+        }
+        numberValCheck()
+      }
       return {
         formValidate: {
           _mt: 'baseTaxrate.addOrUpd',
@@ -134,18 +144,35 @@
           ],
           taxMin: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxMinDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxMax: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxMaxDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxTaxrate: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxTaxrateDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxQkdeuction: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxQkdeuctionDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxYear: [
             { required: true, message: this.$t('lang_baseManage.baseTaxrate.taxYearDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxAmountmin: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxAmountmax: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxPosttaxmin: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
+          ],
+          taxPosttaxmax: [
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
         },
       }
@@ -182,10 +209,7 @@
             t.formValidate.comment = res.data.content[0].comment
           }
         }).catch(() => {
-          this.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       handleSubmit() {
@@ -207,25 +231,16 @@
               if (isSuccess(res, t)) {
                 t.$emit('closeUp')
                 if (t.logType === this.$t('button.add')) {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.addsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.addsuccess'))
                   t.$refs.formValidate.resetFields()
                   t.$emit('getData', res.data.content[0])
                 } else {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.updsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.updsuccess'))
                   t.$emit('update', res.data.content[0])
                 }
               }
             }).catch(() => {
-              this.$Modal.error({
-                title: this.$t('reminder.err'),
-                content: this.$t('reminder.errormessage'),
-              })
+              t.$Message.error(this.$t('reminder.errormessage'))
             })
           }
         })

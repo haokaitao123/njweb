@@ -140,53 +140,63 @@ export default {
                     title: "开始时间",
                     key: "weSdate",
                     width: 150,
-                    sortable: "custom"
+                    sortable: "custom",
+                    align: "center"
                 },
                 {
                     title: "结束时间",
                     key: "weEdate",
                     width: 150,
-                    sortable: "custom"
+                    sortable: "custom",
+                    align: "center"
                 },
                 {
                     title: "工作单位",
                     key: "weComp",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "工作部门",
                     key: "weDept",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "工作职务",
                     key: "wePost",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "主要业绩",
                     key: "wePerforman",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "证明人",
                     key: "weContact",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "联系电话",
                     key: "wePhone",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "薪资",
                     key: "weSalary",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "离职原因",
                     key: "weLevrason",
                     width: 150,
+                    align: "center"
                 },
                 {
                     title: "操作",
@@ -299,10 +309,7 @@ export default {
                 })
                 .catch(() => {
                     this.loading = false;
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         pageChange (page) {
@@ -329,10 +336,7 @@ export default {
         deletemsg () {
             const t = this;
             if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+                this.$Message.warning('请至少选择一条数据');
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),

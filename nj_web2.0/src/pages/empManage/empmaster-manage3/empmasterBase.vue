@@ -68,6 +68,11 @@
     </div>
 </template>
 <script>
+import {
+    getDataLevelUserLoginNew,
+    getDataLevelUserLogin,
+} from "../../../axios/axios";
+import { isSuccess, deepCopy } from "../../../lib/util";
 import empBaseInfo from "./empBaseInfo/empBaseInfo";
 import empEducation from "./empEducation/empEducation";
 import empContractInfo from "./empContractInfo/empContractInfo";
@@ -105,6 +110,7 @@ export default {
         index: Number,
         modity: String
     },
+
     mounted () {
         console.log(this.modity, "modity")
     },
@@ -147,10 +153,41 @@ export default {
             this.$refs.empWorkExp.clear();
             this.$refs.empFamily.clear();
             if (name !== "empBaseInfo") {
+                this.getChildFunId(name)
                 this.$refs[name].search();
             } else {
+                this.$store.commit('setChildFunId', "");
                 this.getOption(this.id, this.logType);
             }
+        },
+        //获取子表funId
+        getChildFunId (name) {
+            const t = this;
+            let code = "";
+            if (name == "empEducation") {
+                code = '310100145'
+            } else if (name == "empContractInfo") {
+                code = '310100115'
+            } else if (name == "empWorkExp") {
+                code = '310100150'
+            } else if (name == "empFamily") {
+                code = '310100165'
+            }
+            this.$store.commit('setFunCode', code);
+            const data = {
+                _mt: 'sysFunctions.getIdByCode',
+                funCode: code
+            }
+            getDataLevelUserLoginNew(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        let childCode = res.data.content[0].value;
+                        this.$store.commit('setChildFunId', childCode);
+                    }
+                })
+                .catch(() => {
+                    this.$Message.error('网络错误');
+                });
         },
         //      清空方法 初始化本页面参数 无需变更
         clear () {
@@ -166,6 +203,7 @@ export default {
             this.$refs.empContractInfo.clear();
             this.$refs.empWorkExp.clear();
             this.$refs.empFamily.clear();
+            this.$store.commit('setChildFunId', "");
         },
         update (data) {
             this.$emit('getData')

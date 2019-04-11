@@ -131,7 +131,7 @@
 </template>
 <script>
 // 引入主子表页面
-import update from "./visaAreaBase";
+import update from "./empmasterBase";
 import expwindow from "../../../components/fileOperations/expSms";
 import expdow from "../../../components/fileOperations/expdow";
 import importExcel from "../../../components/importModel/importParam";
@@ -499,20 +499,14 @@ export default {
                 })
                 .catch(() => {
                     this.loading = false;
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         // 删除
         deletemsg () {
             const t = this;
             if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+                this.$Message.warning('请至少选择一条数据');
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
@@ -543,10 +537,7 @@ export default {
         entryb () {
             const t = this;
             if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+                this.$Message.warning('请至少选择一条数据');
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
@@ -580,10 +571,7 @@ export default {
         buttonSubmit () {
             const t = this;
             if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+                this.$Message.warning('请至少选择一条数据');
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
@@ -679,10 +667,7 @@ export default {
                 logType = "已入职";
             }
             if (t.tableselected.length === 0) {
-                t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+                this.$Message.warning('请至少选择一条数据');
                 return;
             }
             getDataLevelUserLogin({
@@ -778,10 +763,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         /* 树点击事件 */

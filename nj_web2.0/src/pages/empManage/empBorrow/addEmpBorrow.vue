@@ -55,11 +55,9 @@
                       </i-col>
                       <i-col span="11">
                         <FormItem label="总金额" prop="borrTotamount">
-                          <InputNumber v-model="formValidate.borrTotamount"
-                                       size="default"
-                                       style="width: 100%"
-                                       :disabled="forbidden"
-                                       placeholder="请输入总金额"></InputNumber>
+                          <Input v-model="formValidate.borrTotamount"
+                                 :disabled="forbidden"
+                                 placeholder="请输入总金额"></Input>
                         </FormItem>
                       </i-col>
 
@@ -102,9 +100,21 @@
 import { getDataLevelUserLoginSenior, getDataLevelUserLogin,uploadFile } from '../../../axios/axios'
 import { isSuccess, deepCopy } from '../../../lib/util'
 import searchEmpMaster from '../../../components/searchTable/searchEmpnhMaster'
+import valid from '../../../lib/pub_valid.js'
 
 export default {
     data () {
+      /*数字验证*/
+      const numberCheck = (rule, value, numberValCheck) => {
+        if (value !== '' && value !== undefined) {
+          if (valid.val_number103(value)) {
+            return numberValCheck()
+          }
+          return numberValCheck(new Error(rule.message))
+        }
+        numberValCheck()
+      }
+
         return {
           file: '',
           filekey: '',
@@ -112,14 +122,34 @@ export default {
             type: '',
             distype: false,
             forbidden: false,
-            formValidate: {},
+            formValidate: {
+              empIdName:"",
+              empIdIden:"",
+              empId:"",
+              deptId:"",
+              deptIdDis:"",
+              postId:"",
+              postIdDis:"",
+              borrTotamount:"",
+              note:"",
+            },
             openEmpMaster:false,
           /*必填验证*/
             ruleValidate: {
-                empIdName: [
-                    { required: true, message: "请选择员工姓名", trigger: 'change' },
-                ],
-            //  borrTotamount:
+              empIdName: [{ required: true, message: "请选择员工姓名", trigger: 'change' },],
+              borrTotamount:[
+
+                {
+                  required: true,
+                  message: "请输入总金额",
+                  trigger: "blur"
+                },
+                {
+                  validator: numberCheck,
+                  message: '请输入正确的数字格式',
+                  trigger: 'blur'
+                },
+              ],
             },
         }
     },
@@ -131,6 +161,7 @@ export default {
   /*资源加载子页面，js不需要*/
     components: {
         searchEmpMaster,
+      valid,
     },
     updated () {
 
@@ -161,6 +192,14 @@ export default {
                 if (isSuccess(res, t)) {
                     console.log(res.data.content[0])
                     t.formValidate = res.data.content[0]
+                    t.formValidate.empIdName= res.data.content[0].empIdName
+                    t.formValidate.empIdIden= res.data.content[0].empIdIden
+                    t.formValidate.empId= res.data.content[0].empId
+                    t.formValidate.deptId= res.data.content[0].deptId
+                    t.formValidate.deptIdDis= res.data.content[0].deptIdDis
+                    t.formValidate.postId= res.data.content[0].postId
+                    t.formValidate.postIdDis= res.data.content[0].postIdDis
+                    t.formValidate.borrTotamount= res.data.content[0].borrTotamount
                     t.formValidate.note= res.data.content[0].note
                     if (t.logType === '查看') {
                         t.forbidden = true
@@ -192,10 +231,6 @@ export default {
                         if (isSuccess(res, t)) {
                             t.$emit('closeUp')
                             if (t.logType === '新增') {
-                                /*t.$Modal.success({
-                                    title: this.$t('reminder.suc'),
-                                    content: this.$t('reminder.addsuccess'),
-                                })*/
                                 t.$Message.success('新增成功');
                                 t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
@@ -203,7 +238,7 @@ export default {
                                 t.$Message.success('修改成功');
                                 t.$emit('update', res.data.content[0])
                             }
-                        }
+                }
                     }).catch(() => {
                         this.$Modal.error({
                             title: this.$t('reminder.err'),

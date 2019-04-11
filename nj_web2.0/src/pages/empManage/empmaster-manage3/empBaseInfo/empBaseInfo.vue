@@ -527,6 +527,7 @@ import searchBank from "../../../../components/searchTable/searchBank";
 import searchOrgcostcenter from '../../../../components/searchTable/searchOrgcostcenter'
 export default {
     data () {
+        //身份证验证
         const idnocheck = (rule, value, idcheck) => {
             if (this.form.empnhIdtype === '01id') {
                 if (valid.val_identity(value)) {
@@ -536,12 +537,14 @@ export default {
             }
             return idcheck()
         }
+        //手机号验证
         const phonecheck = (rule, value, calphonecheck) => {
             if (valid.val_mobile(value)) {
                 return calphonecheck()
             }
             return calphonecheck(new Error(rule.message))
         }
+        //邮箱验证
         const mailcheck = (rule, value, mailcheck) => {
             if (value !== '' && value !== undefined) {
                 if (valid.val_mail2(value)) {
@@ -551,6 +554,7 @@ export default {
             }
             mailcheck()
         }
+        //数字验证
         const numberCheck = (rule, value, numberValCheck) => {
             if (value !== '' && value !== undefined) {
                 if (valid.val_number103(value)) {
@@ -560,6 +564,7 @@ export default {
             }
             numberValCheck()
         }
+        //日期验证
         const idCardTime = (rule, value, callback) => {
             if (value === "" || !value) {
                 callback(new Error("请选择到期日期"));
@@ -573,6 +578,7 @@ export default {
                 callback()
             }
         };
+        //日期验证
         const jobTime = (rule, value, callback) => {
             if (value === "" || !value) {
                 callback(new Error("请选择入职日期"));
@@ -1087,10 +1093,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         //查询公共参数
@@ -1112,10 +1115,7 @@ export default {
                 }
             })
                 .catch(() => {
-                    this.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.$Message.error('网络错误');
                 });
         },
         getIdByType (paramCode, type) {
@@ -1150,34 +1150,24 @@ export default {
             if (data.empnhTechdate !== undefined) {
                 data.empnhTechdate = data.empnhTechdate === "" ? "" : new Date(data.empnhTechdate).format("yyyy-MM-dd");
             }
-            console.log(data, "data")
             //        保存无需关闭页面 无需变更
             this.$refs.form.validate((valid) => {
-                console.log(valid, "valid")
                 if (valid) {
                     getDataLevelUserLoginNew(data)
                         .then(res => {
                             if (isSuccess(res, t)) {
                                 if (t.id) {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.updsuccess")
-                                    });
+                                    this.$Message.success('修改成功');
+
                                     t.$emit("update", res.data.content[0]);
                                 } else {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.addsuccess")
-                                    });
+                                    this.$Message.success('新增成功');
                                     t.$emit("newdata", res.data.content[0]);
                                 }
                             }
                         })
                         .catch(() => {
-                            t.$Modal.error({
-                                title: this.$t("reminder.err"),
-                                content: this.$t("reminder.errormessage")
-                            });
+                            this.$Message.error('网络错误');
                         });
                 }
             });
@@ -1338,10 +1328,7 @@ export default {
                     },
                 })
             }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                this.$Message.error('网络错误');
             })
         },
         //下载
@@ -1372,10 +1359,7 @@ export default {
                     localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
                 }
             }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                this.$Message.error('网络错误');
             })
         },
         //清除附件

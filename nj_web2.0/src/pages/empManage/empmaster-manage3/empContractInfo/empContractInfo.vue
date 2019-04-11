@@ -1,9 +1,12 @@
 <template>
     <div class="content-main">
         <row>
-            <Input v-model="docsName"
-                   style="width: 160px;"
-                   placeholder="请输入合同编号"></Input>
+            <Select v-model="contType"
+                    style="width:200px">
+                <Option :value="item.paramCode"
+                        v-for="(item,index) in selectEdConType"
+                        :key="index">{{item.paramInfoCn}}</Option>
+            </Select>
             <Button type="primary"
                     icon="search"
                     @click="search">查询</Button>
@@ -86,14 +89,14 @@ export default {
             expDataTital: [
                 { code: "contTypeDis", name: "合同类别" },
                 { code: "contPeriodDis", name: "合同期限" },
-                { code: "conSdate", name: "合同开始日" },
-                { code: "conEdate", name: "合同到期日" },
-                { code: "contPeriodDis", name: "合同期限" },
-                { code: "conSdate", name: "合同开始日" },
-                { code: "conEdate", name: "合同结束日" },
+                { code: "contSdate", name: "合同开始日" },
+                { code: "contEdate", name: "合同到期日" },
+                { code: "contBmxyDis", name: "保密协议" },
+                { code: "contJzxyDis", name: "竞业限制协议" },
+                { code: "contWorktime", name: "合同工作时间" },
                 { code: "contSigndate", name: "签署日期" },
                 { code: "contProbatDis", name: "试用期限" },
-                { code: "contProbatdt", name: "试用到期时间" }
+                { code: "contProbatdt", name: "试用到期时间" },
             ],
             // 导入导出默认参数 无需变更
             openImport: false,
@@ -116,42 +119,49 @@ export default {
                     title: "合同类别",
                     key: "contTypeDis",
                     width: 150,
-                    sortable: "custom"
+                    sortable: "custom",
+                    align: "center",
                 },
                 {
                     title: "合同期限",
                     key: "contPeriodDis",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "合同开始日",
                     key: "contSdate",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "合同结束日",
                     key: "contEdate",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "签署日期",
                     key: "contSigndate",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "试用期限",
                     key: "contProbatDis",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
                 {
                     title: "试用到期时间",
                     key: "contProbatdt",
                     width: 150,
+                    align: "center",
                     sortable: "custom"
                 },
 
@@ -167,7 +177,7 @@ export default {
                                 "Button",
                                 {
                                     props: {
-                                        type: "success",
+                                        type: "primary",
                                         size: "small"
                                     },
                                     on: {
@@ -180,7 +190,7 @@ export default {
                                         }
                                     }
                                 },
-                                "查看"
+                                '查看'
                             )
                         ]);
                     }
@@ -189,18 +199,21 @@ export default {
             data: [],
             docsName: "",
             params: {
-                _mt: "empContractinfo.getPage",
+                _mt: "empContractinfo.getEmpPage",
                 funId: "1",
                 rows: 10,
                 page: 1,
                 sort: "id",
                 order: "asc",
-                logType: "",
+                logType: "查看",
                 pkId: ""
             },
             index: 0,
             tableselected: [],
-            loading: ''
+            loading: '',
+            contType: '',
+            selectEdConType: [],
+            contType: ''
         };
     },
     //    主表id
@@ -213,34 +226,52 @@ export default {
         expwindow,
         expdow,
     },
-    mounted () { },
+    mounted () {
+        this.getSelect();
+    },
     methods: {
         search () {
             this.params.pkId = this.mainId + "";
-            // this.
+            this.params.page = 1;
             this.getData();
+        },
+        getSelect () {
+            const t = this;
+            // 合同类别：contrpertype
+            getDataLevelUserLogin({
+                _mt: "baseParmInfo.getSelectValue",
+                typeCode: "contrpertype"
+            })
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.selectEdConType = res.data.content[0].value[0].paramList;
+                    }
+                })
+                .catch(() => {
+                    this.$Message.error('网络错误');
+                });
         },
         getData () {
             const t = this;
             const data = deepCopy(t.params);
-            data.docsName = t.docsName;
+            data.contType = t.contType;
             for (const dat in data) {
                 if (data[dat] === "") {
                     delete data[dat];
                 }
             }
+            this.loading = true;
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
+                        this.loading = false;
                         t.total = res.data.content[0].records;
                         t.data = res.data.content[0].rows;
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    this.loading = false;
+                    this.$Message.error('网络错误');
                 });
         },
         pageChange (page) {
@@ -275,14 +306,11 @@ export default {
             t.showMsg = true;
             t.logTypeE = logType;
             t.index = index;
-            if (t.logTypeE === this.$t("button.upd")) {
-                t.$refs.contentMsg.setRowId(id);
-            }
+            t.$refs.contentMsg.setRowId(id);
         },
-
         clear () {
             const t = this;
-            t.docsName = "";
+            t.contType = "";
             t.page = 1;
             t.rows = 10;
         },
@@ -294,9 +322,8 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                bankCode: t.bankCode,
-                bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode
+                pkId: this.mainId,
+                contType: this.contType
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(
