@@ -61,9 +61,19 @@
 <script>
   import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
   import { isSuccess, deepCopy } from '../../../lib/util'
+  import valid from '../../../lib/pub_valid'
 
   export default {
     data() {
+      const numberCheck = (rule, value, numberValCheck) => {
+        if (value !== '' && value !== undefined) {
+          if (valid.val_number103(value)) {
+            return numberValCheck()
+          }
+          return numberValCheck(new Error(rule.message))
+        }
+        numberValCheck()
+      }
       return {
         selectEmpType: [],
         formValidate: {
@@ -81,6 +91,7 @@
           ],
           taxexeThreshold: [
             { required: true, message: this.$t('lang_baseManage.baseTaxexemption.taxexeThresholdDis'), trigger: 'blur' },
+            { validator:numberCheck,message: this.$t('othertips.numberErr'), trigger: 'blur' },
           ],
           taxexeSdate: [
             { required: true, type: 'date', message: this.$t('lang_baseManage.baseTaxexemption.taxexeSdateDis'), trigger: 'change' },
@@ -115,10 +126,7 @@
             t.formValidate.comment = res.data.content[0].comment
           }
         }).catch(() => {
-          this.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       handleSubmit() {
@@ -140,25 +148,16 @@
               if (isSuccess(res, t)) {
                 t.$emit('closeUp')
                 if (t.logType === this.$t('button.add')) {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.addsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.addsuccess'))
                   t.$refs.formValidate.resetFields()
                   t.$emit('getData', res.data.content[0])
                 } else {
-                  t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: this.$t('reminder.updsuccess'),
-                  })
+                  t.$Message.success(this.$t('reminder.updsuccess'))
                   t.$emit('update', res.data.content[0])
                 }
               }
             }).catch(() => {
-              this.$Modal.error({
-                title: this.$t('reminder.err'),
-                content: this.$t('reminder.errormessage'),
-              })
+              t.$Message.error(this.$t('reminder.errormessage'))
             })
           }
         })
@@ -173,10 +172,7 @@
             t.selectEmpType = res.data.content[0].value[0].paramList
           }
         }).catch(() => {
-          this.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       handleReset() {
