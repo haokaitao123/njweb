@@ -551,27 +551,30 @@ export default {
 
                                  t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.addsuccess")
-                                    });
+                                    // t.$Modal.success({
+                                    //     title: this.$t("reminder.suc"),
+                                    //     content: this.$t("reminder.addsuccess")
+                                    // });
+                                    this.$Message.success(this.$t("reminder.addsuccess"));
                                     t.$refs.formValidate.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.updsuccess")
-                                    });
-                                    console.log(res, "res")
+                                    // t.$Modal.success({
+                                    //     title: this.$t("reminder.suc"),
+                                    //     content: this.$t("reminder.updsuccess")
+                                    // });
+                                    // console.log(res, "res")
+                                     this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
                             }
                         })
                         .catch(() => {
-                            this.$Modal.error({
-                                title: this.$t("reminder.err"),
-                                content: this.$t("reminder.errormessage")
-                            });
+                            // this.$Modal.error({
+                            //     title: this.$t("reminder.err"),
+                            //     content: this.$t("reminder.errormessage")
+                            // });
+                            this.$Message.error(this.$t("reminder.errormessage"));
                         });
                 }
             });

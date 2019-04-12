@@ -197,16 +197,7 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                        <!-- <i-col span="22">
-                            <FormItem label="操作记录"
-                                      prop="unitOprecord">
-                                <Input v-model="formValidate.unitOprecord"
-                                       :disabled=true
-                                       type="textarea"
-                                       :autosize="{minRows: 2,maxRows: 5}"
-                                       placeholder=""></Input>
-                            </FormItem>
-                        </i-col> -->
+                     
                         <i-col span="22">
                             <FormItem label="备注"
                                       prop="note">
@@ -572,25 +563,28 @@ export default {
                         if (isSuccess(res, t)) {
                             t.$emit('closeUp')
                             if (t.logType === this.$t('button.add')) {
-                                t.$Modal.success({
-                                    title: this.$t('reminder.suc'),
-                                    content: this.$t('reminder.addsuccess'),
-                                })
+                                // t.$Modal.success({
+                                //     title: this.$t('reminder.suc'),
+                                //     content: this.$t('reminder.addsuccess'),
+                                // })
+                                 this.$Message.success(this.$t("reminder.addsuccess"));
                                 t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
-                                t.$Modal.success({
-                                    title: this.$t('reminder.suc'),
-                                    content: this.$t('reminder.updsuccess'),
-                                })
+                                // t.$Modal.success({
+                                //     title: this.$t('reminder.suc'),
+                                //     content: this.$t('reminder.updsuccess'),
+                                // })
+                                 this.$Message.success(this.$t("reminder.updsuccess"));
                                 t.$emit('update', res.data.content[0])
                             }
                         }
                     }).catch(() => {
-                        this.$Modal.error({
-                            title: this.$t('reminder.err'),
-                            content: this.$t('reminder.errormessage'),
-                        })
+                        // this.$Modal.error({
+                        //     title: this.$t('reminder.err'),
+                        //     content: this.$t('reminder.errormessage'),
+                        // })
+                        this.$Message.error(this.$t("reminder.errormessage"));
                     })
                 }
             })
