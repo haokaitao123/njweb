@@ -3,7 +3,8 @@
         <Spin size="large"
               fix
               v-if="spinShow"></Spin>
-        <Row style="max-height: 500px;overflow-y: auto;">
+        <Row style="max-height: 420px;overflow-y: auto;"
+             ref="scrollBox">
             <Form :model="form"
                   label-position="right"
                   ref="form"
@@ -91,6 +92,7 @@
                     <FormItem label="证件类型"
                               prop="empnhIdtype">
                         <Select v-model="form.empnhIdtype"
+                                :clearable="!disabled"
                                 :disabled="disabled">
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectIdtype"
@@ -437,7 +439,7 @@
                         </Row>
                     </FormItem>
                 </i-col>
-                <i-col span="23">
+                <i-col span="22">
                     <FormItem label="备注"
                               prop="note">
                         <Input v-model="form.note"
@@ -448,17 +450,7 @@
                     </FormItem>
                 </i-col>
             </Form>
-            <div style="padding-bottom: 20px;"
-                 v-show="!disabled">
-                <Row type="flex"
-                     justify="end">
-                    <Col pull="1">
-                    <Button type="primary"
-                            @click="save">保存</Button>
 
-                    </Col>
-                </Row>
-            </div>
             <!--城市-->
             <transition name="fade">
                 <searchCity v-show="openPick"
@@ -512,6 +504,21 @@
                                      ref="searchOrgcostcenter"></searchOrgcostcenter>
             </transition>
         </Row>
+        <!-- <div style="padding-bottom: 20px;"
+                 >
+                <Row type="flex"
+                     justify="end">
+                    <Col pull="1">
+                    <Button type="primary"
+                            @click="save">保存</Button>
+
+                    </Col>
+                </Row>
+            </div> -->
+        <Button class="btn"
+                type="primary"
+                @click="save"
+                v-show="!disabled">{{$t('button.sav')}}</Button>
     </div>
 </template>
 <script>
@@ -663,7 +670,7 @@ export default {
             openEmpMaster: false,
             openBank: false,
             openCostCenter: false,
-            spinShow: '',
+            spinShow: false,
             //部门
             searchDeptCloumns: [
                 {
@@ -1038,10 +1045,6 @@ export default {
         searchBank,
         searchOrgcostcenter
     },
-    mounted () {
-
-
-    },
     methods: {
         //获取主表数据 无需变更
         getdata (params) {
@@ -1050,7 +1053,6 @@ export default {
             getDataLevelUserLogin(params)
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        t.spinShow = false
                         t.unitCityName = res.data.content[0].unitCityName
                         t.form.numberCode = res.data.content[0].numberCode;
                         t.form.empnhName = res.data.content[0].empnhName;
@@ -1099,9 +1101,11 @@ export default {
                     }
                 })
                 .catch(() => {
-                    t.spinShow = false
                     this.$Message.error('网络错误');
-                });
+                })
+                .finally(() => {
+                    t.spinShow = false
+                });;
         },
         //查询公共参数
         getSelect () {
@@ -1181,6 +1185,7 @@ export default {
         },
         clear () {
             const t = this;
+            this.$refs.scrollBox.$el.scrollTop = "0"
             this.$refs.form.resetFields();
         },
         //城市
@@ -1397,11 +1402,11 @@ export default {
         right: 20px;
     }
 }
-#empForm:after {
-    clear: both;
-    content: "";
-    display: block;
-    visibility: hidden;
-}
+// #empForm:after {
+//     clear: both;
+//     content: "";
+//     display: block;
+//     visibility: hidden;
+// }
 </style>
 

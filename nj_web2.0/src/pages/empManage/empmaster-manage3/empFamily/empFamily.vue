@@ -6,7 +6,8 @@
                    placeholder="请输入联系人"></Input>
             <Button type="primary"
                     icon="search"
-                    @click="search">查询</Button>
+                    :loading="searchLoading"
+                    @click="search()">查询</Button>
             <Button type="primary"
                     icon="primary"
                     @click="showMsgBtn(NaN, '新增')"
@@ -241,7 +242,8 @@ export default {
             tableselected: [],
             updateId: NaN,
             fmCname: '',
-            loading: ''
+            loading: '',
+            searchLoading: false
         };
     },
     //    主表id
@@ -257,9 +259,12 @@ export default {
     },
     mounted () { },
     methods: {
-        search () {
+        search (operate) {
             this.params.pkId = this.mainId + "";
             this.params.page = 1;
+            if (!operate) {
+                this.searchLoading = true;
+            }
             this.getData();
         },
         getData () {
@@ -275,14 +280,16 @@ export default {
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        this.loading = false;
                         t.total = res.data.content[0].records;
                         t.data = res.data.content[0].rows;
                     }
                 })
                 .catch(() => {
-                    this.loading = false;
                     this.$Message.error('网络错误');
+                })
+                .finally(() => {
+                    this.loading = false;
+                    this.searchLoading = false;
                 });
         },
         pageChange (page) {

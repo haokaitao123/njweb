@@ -234,12 +234,13 @@ export default {
                         t.form.fmPost = res.data.content[0].fmPost;
                         t.form.fmPhone = res.data.content[0].fmPhone;
                         t.form.note = res.data.content[0].note;
-                        t.spinShow = false
                     }
                 })
                 .catch(() => {
-                    t.spinShow = false
                     this.$Message.error('网络错误');
+                })
+                .finally(() => {
+                    t.spinShow = false
                 });
         },
         save () {

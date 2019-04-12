@@ -321,17 +321,17 @@ export default {
                             t.file = { name: res.data.content[0].fileKey.split(':')[0] }
                             t.filekey = res.data.content[0].fileKey.split(':')[1]
                         }
-                        t.spinShow = false
                     }
                 })
                 .catch(() => {
-                    t.spinShow = false
                     this.$Message.error('网络错误');
+                })
+                .finally(() => {
+                    t.spinShow = false
                 });
         },
         save () {
             const t = this;
-            console.log(t.rowId, "t.rowId")
             const data = deepCopy(t.form);
             data._mt = "empEducation.addOrUpd";
             data.logType = this.logTypeE;
