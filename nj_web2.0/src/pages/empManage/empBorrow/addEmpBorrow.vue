@@ -262,9 +262,8 @@ export default {
       clear(){
         const t = this
         t.$refs.formValidate.resetFields()
-        t.id=''
         t.openUpdate = false
-        t.$refs.update.forbidden = false
+        t.forbidden = false
       },
 
     },

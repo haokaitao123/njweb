@@ -299,10 +299,7 @@
       deletemsg() {
         const t = this
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: '提示',
-            content: '请至少选择一条数据',
-          })
+          this.$Message.warning('请至少选择一条数据')
         } else {
           t.$Modal.confirm({
             title: '提示',
@@ -335,10 +332,7 @@
       setState(data) {
         const t = this
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: '提示',
-            content: '请至少选择一条数据',
-          })
+          this.$Message.warning('请至少选择一条数据')
         } else {
           t.$Modal.confirm({
             title: '提示',
@@ -406,6 +400,7 @@
           })
         }).finally(() => {
           t.loading = false; //在成功之后改状态
+          t.$store.commit('btnOperate/setSearchLoading',false);
         })
       },
       sortable(column) {
@@ -462,6 +457,7 @@
       },//下拉选中
       search() {
         this.page = 1
+        this.$store.commit('btnOperate/setSearchLoading',true)
         this.getData()
       },
       /*导入、导出*/

@@ -1,8 +1,8 @@
 <template>
   <div class="content-main">
           <Row>
-            <Select v-model="reeducLevel" style="width: 160px;" placeholder="请选择教育程度" clearable>
-              <Option :value="item.paramCode" v-for="(item,index) in selecteducation" :key="index">{{item.paramInfoCn}}</Option>
+            <Select v-model="reeducLevel" style="width: 160px;" placeholder="类型" clearable>
+              <Option :value="item.paramCode" v-for="(item,index) in selectbodeType" :key="index">{{item.paramInfoCn}}</Option>
             </Select>
             <Button type="primary" icon="search" @click="search">{{$t('button.ser')}}</Button>
             <Button type="primary"  @click="openUp(NaN,'新增')">新增</Button>
@@ -123,15 +123,15 @@
           },
           {
             title: '类型',
-            key: "bodeType",
+            key: "bodeTypeDis",
             width: 100,
             sortable: "bodeType"
           },
           {
             title: "原因",
             width: 100,
-            sortable: "bodeReason",
-            key: "bodeReason"
+            sortable: "bodeReasonDis",
+            key: "bodeReasonDis"
           },
 
           {
@@ -193,7 +193,7 @@
         page: 1,
         loading: "",
         reeducLevel: '',
-        selecteducation: [],
+        selectbodeType: [],
       };
     },
     computed: {
@@ -413,11 +413,11 @@
         const t = this;
         getDataLevelUserLogin({
           _mt: "baseParmInfo.getSelectValue",
-          typeCode: "education"
+          typeCode: "bodeType"
         })
           .then(res => {
             if (isSuccess(res, t)) {
-              t.selecteducation = res.data.content[0].value[0].paramList;
+              t.selectbodeType = res.data.content[0].value[0].paramList;
             }
           })
           .catch(() => {
@@ -429,6 +429,7 @@
       },
       clear() {
         const t = this;
+        t.selectbodeType = []
         t.reeducLevel = ''
         t.page = 1;
         t.sort = "id"

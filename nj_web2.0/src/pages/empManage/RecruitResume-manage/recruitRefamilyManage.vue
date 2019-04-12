@@ -253,7 +253,7 @@ export default {
                 page: t.page,
                 sort: t.sort,
                 order: t.order,
-                logType: "简历库学历查询",
+                logType: "简历库家庭成员查询",
                 refamPid: t.id,
             };
             for (const dat in data) {
