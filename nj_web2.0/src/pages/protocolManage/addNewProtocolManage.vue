@@ -32,15 +32,15 @@
                         <Col span="11">
                             <FormItem label="员工姓名" prop="empId">
                                 <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                                <span @dblclick="clearUserid">
-                                    <Input v-model="empName" icon="search" :readonly="true" placeholder="请选择员工姓名"  @on-click="pickData3" />
+                                <span @dblclick="disabled?'':clearUserid">
+                                    <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="pickData3" />
                                 </span>
                             </FormItem>
                         </Col>
                         <!--  部门名称输入框  -->
                         <Col span="11" offset="1">
                             <FormItem label="原部门名称" prop="deptoId">
-                                <Input v-model="deptoIdName" placeholder="请输入原部门名称"></Input>
+                                <Input v-model="deptoIdName" :disabled="disabled" placeholder="请输入原部门名称"></Input>
                             </FormItem>
                         </Col>
                     </Row>
@@ -48,13 +48,13 @@
                         <!--  岗位名称输入框 -->
                         <Col span="11">
                         <FormItem label="原岗位名称" prop="postoId">
-                                <Input v-model="postoName" placeholder="请输入原岗位名称"></Input>
+                                <Input v-model="postoName" :disabled="disabled" placeholder="请输入原岗位名称"></Input>
                             </FormItem>
                         </Col>
                         <!--  证件号码输入框  -->
                         <Col span="11" offset="1">
                             <FormItem label="证件号码" prop="empnhIdno">
-                                <Input v-model="formValidate.empnhIdno" placeholder="请输入证件号码" style="width: 100%"></Input>
+                                <Input v-model="formValidate.empnhIdno" :disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
                             </FormItem>
                         </Col>
                     </Row>
@@ -63,6 +63,7 @@
                         <Col span="11" >
                             <FormItem label="原员工类型" prop="empoType">
                             <Select v-model="formValidate.empoType" class="width200"
+                            :disabled="disabled"
                             placeholder="员工类型" >
                                 <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
                                 :key="index">{{ item.paramInfoName }}
@@ -74,6 +75,7 @@
                         <Col span="11" offset="1">
                             <FormItem label="原合同类别" prop="contractoType">
                             <Select v-model="formValidate.contractoType" class="width200"
+                            :disabled="disabled"
                             placeholder="合同类别" >
                                 <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
                                 :key="index">{{ item.paramInfoName }}
@@ -88,6 +90,7 @@
                         <Col span="11" >
                             <FormItem label="原合同期限" prop="contractoPeriod">
                             <Select v-model="formValidate.contractoPeriod" class="width200"
+                            :disabled="disabled"
                             placeholder="合同期限" >
                                 <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
                                 :key="index">{{ item.paramInfoName }}
@@ -100,6 +103,8 @@
                             <FormItem label="原合同开始日期" prop="contractoStart">
                                 <DatePicker type="date"
                                     placeholder="选择合同开始日期"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     :editable="false"
                                     v-model="formValidate.contractoStart"
                                     style="width: 100%">
@@ -114,6 +119,8 @@
                             <FormItem label="原合同结束日期" prop="contractoEnd">
                                 <DatePicker type="date"
                                     placeholder="选择合同结束日期"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     :editable="false"
                                     v-model="formValidate.contractoEnd"
                                     style="width: 100%">
@@ -124,6 +131,7 @@
                         <Col span="11" offset="1">
                             <FormItem label="原合同工作时间" prop="contractoTime">
                                 <Select v-model="formValidate.contractoTime" class="width200"
+                                :disabled="disabled"
                                 placeholder="合同工作时间" >
                                     <Option v-for="(item, index) in selectWorktimetype" :value="item.paramCode"
                                     :key="index">{{ item.paramInfoName }}
@@ -139,6 +147,8 @@
                             <FormItem label="原签订时间" prop="signingoTime">
                                 <DatePicker type="date"
                                     placeholder="选择签订时间"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     :editable="false"
                                     v-model="formValidate.signingoTime"
                                     style="width: 100%">
@@ -152,6 +162,7 @@
                                 <span @dblclick="clearPid">
                                     <Input v-model="deptnIdName"
                                         icon="search"
+                                        :disabled="disabled"
                                         :readonly=true
                                         placeholder="请选择部门"
                                         @on-click="pickData2" />
@@ -169,6 +180,7 @@
                                     <Input v-model="postnIdName"
                                         icon="search"
                                         :readonly=true
+                                        :disabled="disabled"
                                         placeholder="请选择岗位名称"
                                         @on-click="pickData" />
                                 </span>
@@ -178,6 +190,7 @@
                         <Col span="11" offset="1">
                             <FormItem label="新员工类型" prop="empnType">
                             <Select v-model="formValidate.empnType" class="width200"
+                            :disabled="disabled"
                             placeholder="员工类型" >
                                 <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
                                 :key="index">{{ item.paramInfoName }}
@@ -192,6 +205,7 @@
                         <Col span="11" >
                             <FormItem label="新合同类别" prop="contractnType">
                             <Select v-model="formValidate.contractnType" class="width200"
+                            :disabled="disabled"
                             placeholder="合同类别" >
                                 <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
                                 :key="index">{{ item.paramInfoName }}
@@ -203,6 +217,7 @@
                         <Col span="11" offset="1">
                             <FormItem label="新合同期限" prop="contractnPeriod">
                             <Select v-model="formValidate.contractnPeriod" class="width200"
+                            :disabled="disabled"
                             placeholder="员工类型" >
                                 <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
                                 :key="index">{{ item.paramInfoName }}
@@ -218,7 +233,9 @@
                             <FormItem label="新合同开始日期" prop="contractnStart">
                                 <DatePicker type="date"
                                     placeholder="选择合同开始日期"
+                                    :disabled="disabled"
                                     :editable="false"
+                                    :readonly="disabled"
                                     v-model="formValidate.contractnStart"
                                     style="width: 100%">
                                 </DatePicker>
@@ -229,6 +246,8 @@
                             <FormItem label="新合同结束日期" prop="contractnEnd">
                                 <DatePicker type="date"
                                     placeholder="选择合同结束日期"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     :editable="false"
                                     v-model="formValidate.contractnEnd"
                                     style="width: 100%">
@@ -242,6 +261,7 @@
                         <Col span="11" >
                             <FormItem label="新合同工作时间" prop="contractnTime">
                             <Select v-model="formValidate.contractnTime" class="width200"
+                            :disabled="disabled"
                             placeholder="合同工作时间" >
                                 <Option v-for="(item, index) in selectWorktimetype" :value="item.paramCode"
                                 :key="index">{{ item.paramInfoName }}
@@ -254,6 +274,8 @@
                             <FormItem label="新签订时间" prop="signingnTime">
                                 <DatePicker type="date"
                                     placeholder="选择签订时间"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
                                     :editable="false"
                                     v-model="formValidate.signingnTime"
                                     style="width: 100%">
@@ -264,7 +286,7 @@
                      <Row>
                         <Col span="11">
                         <FormItem label="原合同编号" prop="contractoNo">
-                                <Input v-model="formValidate.contractoNo" placeholder="请输入原合同编号"></Input>
+                                <Input v-model="formValidate.contractoNo" :disabled="disabled" placeholder="请输入原合同编号"></Input>
                             </FormItem>
                         </Col>
                     </Row>
@@ -272,7 +294,7 @@
                         <!--  备注文本域  -->
                         <Col span="23" >
                             <FormItem label="备注" prop="note">
-                                <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
+                                <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :disabled="disabled" placeholder="请输入备注"></Input>
                             </FormItem>
                         </Col>
                     </Row>
@@ -323,9 +345,12 @@
   export default {
     data() {
       return {
+        disabled: false,
+        distype: false,
         openPickUser: false,//员工信息默认false 隐藏
         openPick2: false,
         openPick: false,
+        forbidden: null,
         selectEmptype: [],
         selectContrpertypel:[],
         selectContperiod:[],
@@ -342,7 +367,7 @@
                     sortable: 'custom',
                 }
         ],
-         params: {
+        params: {
                 _mt: 'orgPost.getPage',
                 rows: '10',
                 page: '1',
@@ -434,11 +459,48 @@
             empId: [ 
                 { required: true, message: '请选择员工', trigger: 'change' }
             ],
-            // //证件号码
-            // empnhIdno: [
-            //     { required: true, type: 'number',message: '请输入证件号码', trigger: 'change'}
-            // ],
-            
+            deptnId: [ 
+                { required: true, message: '请选择部门', trigger: 'change' }
+            ],
+            postnId: [ 
+                { required: true, message: '请选择岗位', trigger: 'change' }
+            ],
+            empnType: [
+                { required: true, message: "请选择员工类型", trigger: "blur" }
+            ],
+            contractnType: [
+                { required: true, message: "请选择合同类别", trigger: "blur" }
+            ],
+            contractnPeriod: [
+                { required: true, message: "请选择合同期限", trigger: "blur" }
+            ],
+            contractnStart: [
+              {
+                required: true,
+                type: "date",
+                message: "请选择合同开始日期",
+                trigger: "blur"
+              }
+            ],
+            contractnEnd: [
+              {
+                required: true,
+                type: "date",
+                message: "请选择合同结束日期",
+                trigger: "blur"
+              }
+            ],
+            contractnTime: [
+                { required: true, message: "请选择合同工作时间", trigger: "blur" }
+            ],
+            signingnTime: [
+              {
+                required: true,
+                type: "date",
+                message: "请选择新签订时间",
+                trigger: "blur"
+              }
+            ],
         },
       }
     },
@@ -496,6 +558,13 @@
                 t.formValidate.signingnTime = res.data.content[0].signingnTime
                 t.formValidate.empnhIdno = res.data.content[0].empnhIdno
                 t.formValidate.note = res.data.content[0].note
+                if (id === res.data.content[0].companyId) {
+                            t.forbidden = 'disabled'
+                            t.distype = true
+                    } else {
+                            t.forbidden = null
+                            t.distype = false
+                    }
             }
             }).catch(() => {
                 this.$Modal.error({
