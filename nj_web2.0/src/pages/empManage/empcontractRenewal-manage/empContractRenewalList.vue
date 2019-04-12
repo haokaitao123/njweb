@@ -128,7 +128,7 @@
   </div>
 </template>
 <script>
-import update from "./empContractEdit";
+import update from "./empContractRenewalEdit";
 import { isSuccess } from "../../../lib/util";
 import {
   getDataLevelUserLoginNew,
@@ -322,8 +322,7 @@ export default {
       page: 1,
       funId: "1000",
       empName: "",
-      deptId: "",
-      deptIdDis:"",
+      deptIdDis: "",
       openDeptPick: false,
       //部门
       searchDeptCloumns: [
@@ -436,7 +435,7 @@ export default {
         sort: t.sort,
         order: t.order,
         logType: "合同查询",
-        deptId: t.deptId,
+        deptIdDis: t.deptIdDis,
         empName: t.empName,
         state: t.modity
       };
@@ -454,25 +453,15 @@ export default {
           }
         })
         .catch(() => {
-        //   t.$Modal.error({
-        //     title: this.$t("reminder.err"),
-        //     content: this.$t("reminder.errormessage")
-        //   });
-        this.$Message.error(this.$t("reminder.errormessage"));
+          t.$Modal.error({
+            title: this.$t("reminder.err"),
+            content: this.$t("reminder.errormessage")
+          });
         })
         .finally(() => {
           this.loading = false;
         });
     },
-    //自动计算时间
-    // contSdateChange(){
-    //    if(this.form.contEdate!=='' && this.form.contPeriod!=='') {
-
-    //        this.form.contSdate = this.form.contEdate+this.form.contPeriod
-    //    }else{
-
-    //    }
-    // },
     /**
      * 排序
      * @param column
@@ -526,11 +515,13 @@ export default {
                   t.tableselected = [];
                   // t.getTree()
                   t.getData();
-                  this.$Message.success(this.$t("reminder.deletesuccess"));
                 }
               })
               .catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"))
+                t.$Modal.error({
+                  title: this.$t("reminder.err"),
+                  content: this.$t("reminder.errormessage")
+                });
               });
           },
           onCancel: () => {}
@@ -617,11 +608,11 @@ export default {
             .then(res => {
               if (isSuccess(res, t)) {
                 t.getData();
-                this.$Message.success(this.$t("reminder.operatsuccess"));
+                this.$Message.success("操作成功");
               }
             })
             .catch(() => {
-              this.$Message.error(this.$t("reminder.errormessage"));
+              this.$Message.error("操作失败");
             });
         },
         onCancel: () => {}
@@ -689,7 +680,7 @@ export default {
     cleardeptId() {
       const t = this;
       t.deptIdDis = "";
-      t.deptId = "";
+      t.form.deptId = "";
     },
     pickDeptData() {
       const t = this;
@@ -704,13 +695,13 @@ export default {
     },
     inputPost(name, id, deptIdDis, form) {
       const t = this;
-      t.deptId = id;
+      t.form.deptId = id;
       t.deptIdDis = name;
     },
     changeDeptInput(name, id) {
       const t = this;
       t.deptIdDis = name;
-      t.deptId = id;
+      t.form.deptId = id;
     },
     getPageByType(paramCode) {
       this.status = paramCode;

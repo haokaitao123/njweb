@@ -308,12 +308,13 @@ export default {
                         t.form.weSalary = res.data.content[0].weSalary;
                         t.form.weLevrason = res.data.content[0].weLevrason;
                         t.form.note = res.data.content[0].note;
-                        t.spinShow = false
                     }
                 })
                 .catch(() => {
-                    t.spinShow = false
                     this.$Message.error('网络错误');
+                })
+                .finally(() => {
+                    t.spinShow = false
                 });
         },
         save () {

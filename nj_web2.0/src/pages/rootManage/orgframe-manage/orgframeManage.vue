@@ -520,10 +520,11 @@ export default {
                 })
                 .catch(() => {
                     this.loading = false;
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    // t.$Modal.error({
+                    //     title: this.$t("reminder.err"),
+                    //     content: this.$t("reminder.errormessage")
+                    // });
+                    this.$Message.error(this.$t("reminder.errormessage"));
                 });
         }, //获取列表数据
         getTree () {
@@ -553,10 +554,11 @@ export default {
                     }
                 })
                 .catch(() => {
-                    t.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    // t.$Modal.error({
+                    //     title: this.$t("reminder.err"),
+                    //     content: this.$t("reminder.errormessage")
+                    // });
+                    this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
         /* 树点击事件 */
@@ -650,13 +652,11 @@ export default {
                                     t.tableselected = [];
                                     t.getTree()
                                     t.getData();
+                                     this.$Message.success(this.$t("reminder.deletesuccess"));
                                 }
                             })
                             .catch(() => {
-                                t.$Modal.error({
-                                    title: this.$t("reminder.err"),
-                                    content: this.$t("reminder.errormessage")
-                                });
+                                    this.$Message.error(this.$t("reminder.errormessage"))
                             });
                     },
                     onCancel: () => { }
@@ -777,10 +777,12 @@ export default {
                     }
                 })
                 .catch(() => {
-                    this.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    //this.$Modal.error({
+                        // title: this.$t("reminder.err"),
+                        // content: this.$t("reminder.errormessage")
+
+                   // });
+                   this.$Message.error("reminder.errormessage");
                 });
         }, //获取下拉列表
         modifystatus (state) {
@@ -814,11 +816,11 @@ export default {
                         .then(res => {
                             if (isSuccess(res, t)) {
                                 t.getData();
-                                this.$Message.success('操作成功');
+                                this.$Message.success(this.$t("reminder.operatsuccess"));
                             }
                         })
                         .catch(() => {
-                            this.$Message.error('操作失败');
+                            this.$Message.error(this.$t("reminder.errormessage"));
                         });
                 },
                 onCancel: () => { }

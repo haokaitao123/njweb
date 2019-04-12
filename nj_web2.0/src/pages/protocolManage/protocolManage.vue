@@ -5,7 +5,7 @@
         <card>
           <p slot="title">
             <Icon type="mouse"></Icon>
-            &nbsp;{{$t('lang_organization.orgpost.title')}}
+            &nbsp;变更协议管理
           </p>
           <Row>
             <Col span="18" style="width: 100% !important">
@@ -170,7 +170,6 @@ export default {
         dataTree: [],
         //treeheight: document.body.offsetHeight - 200,
         //tableheight: document.body.offsetHeight - 280,
-        value: "",
         logType: "",
         openUpdate: false,
         updateId: NaN,
@@ -195,43 +194,37 @@ export default {
         {
           title: "原部门名称",
           key: "deptoIdName",
-          sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
+       //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
           title: "原岗位名称",
           key: "postoName",
-          sortable: "custom",
           width: 220
         },
         {
           title: "身份证号码",
           key: "empnhIdno",
-          sortable: "custom",
           width: 220
         },
         {
           title: "原员工类型",
           key: "empoTypeDis",
-          sortable: "custom",
           width: 220
         },
         {
           title: "原合同类别",
           key: "contractoTypeDis",
-          sortable: "custom",
           width: 220
         },
         {
           title: "原合同期限",
           key: "contractoPeriodDis",
-          sortable: "custom",
           width: 220
         },
         {
           title: "原合同编号",
           key: "contractoNo",
-          sortable: "custom",
           width: 220
         },
         {
@@ -249,7 +242,6 @@ export default {
         {
           title: "原合同工作时间",
           key: "contractoTimeDis",
-          sortable: "custom",
           width: 220
         },
         {
@@ -261,31 +253,26 @@ export default {
         {
           title: "新部门名称",
           key: "deptnIdName",
-          sortable: "custom",
           width: 220
         },
         {
           title: "新岗位名称",
           key: "postnIdName",
-          sortable: "custom",
           width: 220
         },
         {
           title: "新员工类型",
           key: "empnTypeDis",
-          sortable: "custom",
           width: 220
         },
         {
           title: "新合同类别",
           key: "contractnTypeDis",
-          sortable: "custom",
           width: 220
         },
         {
           title: "新合同期限",
           key: "contractnPeriodDis",
-          sortable: "custom",
           width: 220
         },
         {
@@ -303,7 +290,6 @@ export default {
         {
           title: "新合同工作时间",
           key: "contractnTimeDis",
-          sortable: "custom",
           width: 220
         },
          {
@@ -358,9 +344,7 @@ export default {
         rows: 10,
         page: 1,
         funId: "1000",
-        postCode: "",
         postFname: "",
-        treeid: "",
         params: {
           _mt: "protocolManage.getPage",
           sort: "id",
@@ -372,7 +356,8 @@ export default {
           data: "{}"
         },
         state: this.modity,
-        loading: ""
+        loading: "",
+        empName:""
     };
   },
   computed: {
@@ -442,18 +427,15 @@ export default {
         this.page = 1;
       }
       const data = {
-        _mt: "orgPost.getPage",
+        _mt: "protocolManage.getPage",
         rows: t.rows,
         page: t.page,
         sort: t.sort,
         order: t.order,
-        logType: "岗位查询",
-        postCode: t.postCode,
+        logType: "变更协议查询",
         funId: "1000",
-        postFname: t.postFname,
+        empName: t.empName,
         state: t.modity,
-        postDfpslevel: t.postDfpslevel,
-        postUnit: id || ""
       };
       for (const dat in data) {
         if (data[dat] === "") {
@@ -521,7 +503,7 @@ export default {
               _mt: "protocolManage.delByIds",
               funId: "1",
               logType: this.$t("button.del"),
-              delIds: t.tableselected.toString()
+              ids: t.tableselected.toString()
             })
               .then(res => {
                 if (isSuccess(res, t)) {
@@ -561,25 +543,27 @@ export default {
       t.openUpdate = false;
       t.$refs.update.empName = "";
       t.$refs.update.deptoIdName = "";
-      t.$refs.update.empoTypeDis = "";
-      t.$refs.update.contractoTypeDis = "";
-      t.$refs.update.contractoPeriodDis = "";
       t.$refs.update.postoName = "";
       t.$refs.update.formValidate.empnhIdno = "";
       t.$refs.update.formValidate.contractoNo = "";
       t.$refs.update.formValidate.contractoStart = "";
       t.$refs.update.formValidate.contractoEnd = "";
-      t.$refs.update.contractoTimeDis = "";
       t.$refs.update.deptnIdName= "";
       t.$refs.update.postnIdName = "";
-      t.$refs.update.empnTypeDis = ""; 
-      t.$refs.update.contractnTypeDis = "";
-      t.$refs.update.contractnPeriodDis = "";
       t.$refs.update.formValidate.contractnStart = "";
       t.$refs.update.formValidate.contractnEnd = "";
-      t.$refs.update.contractnTimeDis = "";
       t.$refs.update.formValidate.signingnTime = "";
       t.$refs.update.formValidate.note = "";
+      t.$refs.update.formValidate.empnType = "";
+      t.$refs.update.formValidate.empoType = "";
+      t.$refs.update.formValidate.contractoType = "";
+      t.$refs.update.formValidate.contractoPeriod = "";
+      t.$refs.update.formValidate.contractoTime = "";
+      t.$refs.update.formValidate.signingoTime = "";
+      t.$refs.update.formValidate.empnType = "";
+      t.$refs.update.formValidate.contractnType = "";
+      t.$refs.update.formValidate.contractnPeriod = "";
+      t.$refs.update.formValidate.contractnTime = "";
     },
     search() {
       this.page = 1;
@@ -645,7 +629,7 @@ export default {
         state: t.modity
       };
       // 设置导出mt参数
-      this.$refs.expwindow.getData(this.expDataTital, "orgPost.export", data);
+      this.$refs.expwindow.getData(this.expDataTital, "protocolManage.export", data);
       this.openExp = true;
     },
     // 导入导出默认方法 无需更改

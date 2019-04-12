@@ -545,7 +545,7 @@ export default {
                     { required: true, validator: validate, trigger: 'change' },
                 ],
             },
-            ids: this.id
+            ids: !this.id ? '' : this.id
         }
     },
     props: {
@@ -562,7 +562,6 @@ export default {
     },
     updated () {
         console.log(this.formValidate.funStyle, "formValidate.funStyle");
-        console.log(this.id, "id")
     },
     methods: {
         getData (id) {
@@ -755,10 +754,7 @@ export default {
             const t = this
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
-
-            if (t.logType === this.$t('button.upd')) {
-                data.id = t.id
-            }
+            data.id = t.ids
             if (data.funIsprocess === '1') {
                 data.funIsform = '0'
             }
@@ -770,21 +766,29 @@ export default {
                     delete data[dat]
                 }
             }
-            console.log(data)
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
                             //                t.$emit('closeUp')
                             if (t.logType === this.$t('button.add')) {
-                                t.$Modal.success({
-                                    title: this.$t('reminder.suc'),
-                                    content: this.$t('reminder.addsuccess'),
-                                })
-                                // t.id = res.data.content[0].id
-                                t.tabsSure(res.data.content[0].id)
-                                // t.$refs.formValidate.resetFields()
-                                t.$emit('getData', res.data.content[0])
+                                if (t.ids === "") {
+                                    t.$Modal.success({
+                                        title: this.$t('reminder.suc'),
+                                        content: this.$t('reminder.addsuccess'),
+                                    })
+                                    t.ids = res.data.content[0].id
+                                    t.tabsSure(res.data.content[0].id)
+                                    // t.$refs.formValidate.resetFields()
+                                    t.$emit('getData', res.data.content[0])
+                                } else {
+                                    t.$Modal.success({
+                                        title: this.$t('reminder.suc'),
+                                        content: this.$t('reminder.updsuccess'),
+                                    })
+                                    t.$emit('update', res.data.content[0])
+
+                                }
                             } else {
                                 t.$Modal.success({
                                     title: this.$t('reminder.suc'),

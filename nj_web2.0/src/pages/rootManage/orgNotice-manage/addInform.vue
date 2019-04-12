@@ -52,12 +52,16 @@
           </Col>
           <Col span="10" offset="1">
           <FormItem label="通知类型" prop="noticeType">
-            <Select v-model="form.noticeType" :disabled="editdisabled" class="width200"
-                    placeholder="通知类型" >
-              <Option v-for="(item, index) in selectType" :value="item.paramCode"
-                      :key="index">{{ item.paramInfoName }}
-              </Option>
+            <Select v-model="form.noticeType"
+                    :disabled="editdisabled" class="width200"
+                    placeholder="通知类型"
+                    clearable>
+              <Option :value="item.paramCode"
+                      v-for="(item,index) in selectType"
+                      :key="index"
+                      @click="getPageByType(item.paramCode)">{{item.paramInfoName}}</Option>
             </Select>
+
           </FormItem>
           </Col>
           </Row>
@@ -401,10 +405,7 @@ export default {
       },
       })
       }).catch(() => {
-          t.$Modal.error({
-          title: this.$t('reminder.err'),
-          content: this.$t('reminder.errormessage'),
-        })
+        t.$Message.error(this.$t('reminder.errormessage'))
       })
      },
     //下载
@@ -439,10 +440,7 @@ export default {
         localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
       }
     }).catch(() => {
-        t.$Modal.error({
-        title: this.$t('reminder.err'),
-        content: this.$t('reminder.errormessage'),
-      })
+        t.$Message.error(this.$t('reminder.errormessage'))
     })
     },
     getSelectUser() {
@@ -458,10 +456,7 @@ export default {
         }
       })
       .catch(() => {
-          this.$Modal.error({
-          title: this.$t("reminder.err"),
-          content: this.$t("reminder.errormessage")
-        });
+        t.$Message.error(this.$t('reminder.errormessage'))
       });
     },
     upData(id) {
@@ -499,10 +494,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+        t.$Message.error(this.$t('reminder.errormessage'))
         });
     },//修改
     handleSubmit() {
@@ -524,17 +516,17 @@ export default {
             .then(res => {
               if (isSuccess(res, t)) {
                 if (t.logType === this.$t("button.add")) {
-                  t.$Message.success('新增成功');
+                  t.$Message.success(this.$t('reminder.addsuccess'))
                   t.$emit("getData", res.data.content[0]);
                 } else {
-                  t.$Message.success('修改成功');
+                  t.$Message.success(this.$t('reminder.updsuccess'))
                   t.$emit("update", res.data.content[0]);
                 }
                 t.handleReset();
               }
             })
             .catch(() => {
-              this.$Message.error('操作失败');
+            t.$Message.error(this.$t('reminder.errormessage'))
             });
         }
       });

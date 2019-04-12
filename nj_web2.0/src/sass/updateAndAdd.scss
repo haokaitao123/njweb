@@ -1,4 +1,4 @@
-.cover{
+.cover {
   position: fixed;
   overflow: auto;
   top: 0;
@@ -9,20 +9,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,.5);
+  background-color: rgba(0, 0, 0, .5);
   -webkit-overflow-scrolling: touch;
   outline: 0;
-  .box{
-    position:relative;
+
+  .box {
+    position: relative;
     width: 900px;
     background-color: #fff;
     padding: 60px 20px 30px 20px;
     border-radius: 10px;
-    .form{
+
+    .form {
       max-height: 800px;
       overflow-y: auto;
     }
-    .title{
+
+    .title {
       display: flex;
       position: absolute;
       height: 40px;
@@ -34,10 +37,15 @@
       top: 0;
       border-bottom: 1px solid #efefef;
       left: 0;
-      .title-text{
+
+      .title-text {
         font-weight: bold;
         font-size: 14px;
       }
     }
   }
+}
+
+.ivu-form .ivu-form-item-label {
+  line-height: 1.2
 }

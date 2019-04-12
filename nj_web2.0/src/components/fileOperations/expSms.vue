@@ -29,7 +29,8 @@
             </CheckboxGroup>
             <Button type="primary"
                     @click="handleSubmit"
-                    style="float: right;">{{$t('button.exp')}}</Button>
+                    :loading="loadingStatus"
+                    style="float: right;">{{loadingStatus ? '正在导出' : $t('button.exp') }}</Button>
         </div>
     </div>
 </template>
@@ -50,6 +51,7 @@ export default {
             },
             expDataTital: [],
             methods: '',
+            loadingStatus: false,
         }
     },
     props: {
@@ -65,7 +67,6 @@ export default {
             this.expDataTital = data
             this.methods = methods
             this.tedata = tedata
-            // alert(tedata.countryCname)
         },
         handleSubmit1 (expDisFields, methods, tedata) {
             this.expDisFields = expDisFields
@@ -74,8 +75,8 @@ export default {
             this.handleSubmit()
         },
         handleSubmit () {
-
             const t = this
+            t.loadingStatus = true
             const tedata = this.tedata
             for (const dat in tedata) {
                 if (tedata[dat] === '') {
@@ -96,34 +97,35 @@ export default {
                 }
             }
             if (data.expDisFields) {
-                this.$Spin.show({
-                    render: (h) => {
-                        return h('div',
-                            [
-                                h('Icon', {
-                                    'class': 'demo-spin-icon-load',
-                                    props: {
-                                        type: 'load-c',
-                                        size: 18
-                                    }
-                                }),
-                                h('div', 'Loading')
-                            ]
-                        )
-                    }
-                });
+                // this.$Spin.show({
+                //     render: (h) => {
+                //         return h('div',
+                //             [
+                //                 h('Icon', {
+                //                     'class': 'demo-spin-icon-load',
+                //                     props: {
+                //                         type: 'load-c',
+                //                         size: 18
+                //                     }
+                //                 }),
+                //                 h('div', 'Loading')
+                //             ]
+                //         )
+                //     }
+                // });
                 getDataLevelUserLogin(data).then((res) => {
-
                     if (isSuccess(res, t)) {
                         t.filekey = res.data.content[0].filekey
                         t.filename = res.data.content[0].filename
                         t.$emit('setFileKey', t.filekey, t.filename, true)
                         t.handleReset();
-                        this.$Spin.hide();
+                        // this.$Spin.hide();
                     }
                 }).catch(() => {
-                    this.$Spin.hide();
+                    // this.$Spin.hide();
                     t.$Message.error('网络错误');
+                }).finally(() => {
+                    t.loadingStatus = false
                 })
             } else {
                 t.$Message.warning('导出字段不能为空');
