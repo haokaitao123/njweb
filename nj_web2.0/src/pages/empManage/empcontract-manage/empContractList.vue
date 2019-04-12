@@ -322,7 +322,8 @@ export default {
       page: 1,
       funId: "1000",
       empName: "",
-      deptIdDis: "",
+      deptId: "",
+      deptIdDis:"",
       openDeptPick: false,
       //部门
       searchDeptCloumns: [
@@ -435,7 +436,7 @@ export default {
         sort: t.sort,
         order: t.order,
         logType: "合同查询",
-        deptIdDis: t.deptIdDis,
+        deptId: t.deptId,
         empName: t.empName,
         state: t.modity
       };
@@ -453,15 +454,25 @@ export default {
           }
         })
         .catch(() => {
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+        //   t.$Modal.error({
+        //     title: this.$t("reminder.err"),
+        //     content: this.$t("reminder.errormessage")
+        //   });
+        this.$Message.error(this.$t("reminder.errormessage"));
         })
         .finally(() => {
           this.loading = false;
         });
     },
+    //自动计算时间
+    // contSdateChange(){
+    //    if(this.form.contEdate!=='' && this.form.contPeriod!=='') {
+
+    //        this.form.contSdate = this.form.contEdate+this.form.contPeriod
+    //    }else{
+
+    //    }
+    // },
     /**
      * 排序
      * @param column
@@ -515,13 +526,11 @@ export default {
                   t.tableselected = [];
                   // t.getTree()
                   t.getData();
+                  this.$Message.success(this.$t("reminder.deletesuccess"));
                 }
               })
               .catch(() => {
-                t.$Modal.error({
-                  title: this.$t("reminder.err"),
-                  content: this.$t("reminder.errormessage")
-                });
+                this.$Message.error(this.$t("reminder.errormessage"))
               });
           },
           onCancel: () => {}
@@ -608,11 +617,11 @@ export default {
             .then(res => {
               if (isSuccess(res, t)) {
                 t.getData();
-                this.$Message.success("操作成功");
+                this.$Message.success(this.$t("reminder.operatsuccess"));
               }
             })
             .catch(() => {
-              this.$Message.error("操作失败");
+              this.$Message.error(this.$t("reminder.errormessage"));
             });
         },
         onCancel: () => {}
@@ -680,7 +689,7 @@ export default {
     cleardeptId() {
       const t = this;
       t.deptIdDis = "";
-      t.form.deptId = "";
+      t.deptId = "";
     },
     pickDeptData() {
       const t = this;
@@ -695,13 +704,13 @@ export default {
     },
     inputPost(name, id, deptIdDis, form) {
       const t = this;
-      t.form.deptId = id;
+      t.deptId = id;
       t.deptIdDis = name;
     },
     changeDeptInput(name, id) {
       const t = this;
       t.deptIdDis = name;
-      t.form.deptId = id;
+      t.deptId = id;
     },
     getPageByType(paramCode) {
       this.status = paramCode;
