@@ -266,12 +266,11 @@
         this.tableOperate = true
       }
     },
-    //单表不需要
     watch:{
     pageShow (val) {
       if (val ==="" && this.tableOperate === true) {
         this.columns.pop();
-        this.tableOperate = true;
+        this.tableOperate = false;
       } else if (this.tableOperate === false) {
         this.columns.push(this.tableBtn);
         this.tableOperate = true;
