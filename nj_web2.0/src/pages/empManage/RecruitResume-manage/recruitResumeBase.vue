@@ -122,8 +122,8 @@ export default {
             this.$refs.reeduc.clear()
             this[name] = true
             if (name !== 'option') {
-                this.$refs.reeduc.disabled = this.disabled;
-                this.$refs.reeduc.id = this.id;
+                this.$refs[name].disabled = this.disabled;
+                this.$refs[name].id = this.id;
                 this.$refs[name].search();
                 this.$refs[name].logType = this.logType;
             } else {
