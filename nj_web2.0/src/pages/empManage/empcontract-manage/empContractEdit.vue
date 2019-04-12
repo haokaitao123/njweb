@@ -118,8 +118,8 @@
                                       prop="contEdate">
                                 <DatePicker type="date"
                                             placeholder="选择合同到期日"
-                                            :disabled="disabled"
-                                            :readonly="disabled"
+                                            disabled="disabled"
+                                            readonly="readonly"
                                             :editable="false"
                                             :value="contEdateValue"
                                             v-model="form.contEdate"
@@ -159,10 +159,9 @@
                                 <DatePicker type="date"
                                             placeholder="选择试用期到期日"
                                             :editable="false"
-                                            :disabled="disabled"
-                                            :readonly="disabled"
+                                            disabled="disabled"
+                                            readonly="readonly"
                                             v-model="form.contProbatdt"
-                                            @on-change="contProbatdtChange"
                                             format="yyyy-MM-dd"
                                             style="width: 100%"></DatePicker>
                             </FormItem>
@@ -336,16 +335,7 @@ export default {
             selectContperiod: [],
             selectWorktimetype: [],
             selectProbperiod: [],
-            selectAttendy: [
-                {
-                    'paramCode': '1',
-                    'paramInfoCn': '有'
-                },
-                {
-                    'paramCode': '0',
-                    'paramInfoCn': '无'
-                },
-            ],
+            selectAttendy: [],
             form: {
                 _mt: "empContractinfo.addOrUpd",
                 numberCode: "XXXXXX",
@@ -534,7 +524,7 @@ export default {
 
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: 'emptype,contrpertype,contperiod,worktimetype,probperiod,yesno'
+                typeCode: 'emptype,contrpertype,contperiod,worktimetype,probperiod,haveyn'
             })
                 .then(res => {
                     if (isSuccess(res, t)) {
@@ -813,19 +803,16 @@ export default {
             if (this.form.contPeriod !== "") {
                 this.calculateDate("contPeriod", "contSdate", "contEdate")
             }
+            if(this.form.contProbat !== ""){
+                this.calculateDate("contProbat", "contSdate", "contProbatdt")
+            }
         },
         //试用期限下拉选择事件
         contProbatSelect (value) {
-            if (this.form.contProbatdt !== "") {
-                this.calculateDate("contProbat", "contProbatdt", "contSigndate")
+            if (this.form.contSdate !== "") {
+                this.calculateDate("contProbat", "contSdate", "contProbatdt")
             }
         },
-        //试用期到期日选择日期事件
-        contProbatdtChange () {
-            if (this.form.contProbat !== "") {
-                this.calculateDate("contProbat", "contProbatdt", "contSigndate")
-            }
-        }
     }
 };
 </script>

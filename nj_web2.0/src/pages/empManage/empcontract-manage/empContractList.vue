@@ -13,7 +13,6 @@
                 v-model="deptIdDis"
                 style="width: 200px"
                 icon="search"
-    
                 :readonly="true"
                 placeholder="请选择部门"
                 @on-click="pickDeptData"
@@ -142,6 +141,7 @@ import searchTable from "../../../components/searchTable/searchDept";
 export default {
   data() {
     return {
+      tableOperate: false, //加上这个变量
       // 导入的mt名称
       imp_mt: "empContractinfo.importData",
       // 导出字段设置, code字段名 name列名
@@ -323,7 +323,7 @@ export default {
       funId: "1000",
       empName: "",
       deptId: "",
-      deptIdDis:"",
+      deptIdDis: "",
       openDeptPick: false,
       //部门
       searchDeptCloumns: [
@@ -347,38 +347,36 @@ export default {
         unitType: "02dept",
         state: "02valid"
       },
-    //   params: {
-    //     _mt: "empContractinfo.getPage",
-    //     sort: "id",
-    //     order: "asc",
-    //     rows: 10,
-    //     page: 1,
-    //     funId: "1",
-    //     logType: "合同信息查询",
-    //     data: "{}"
-    //   },
+      //   params: {
+      //     _mt: "empContractinfo.getPage",
+      //     sort: "id",
+      //     order: "asc",
+      //     rows: 10,
+      //     page: 1,
+      //     funId: "1",
+      //     logType: "合同信息查询",
+      //     data: "{}"
+      //   },
       state: this.modity,
       loading: ""
     };
   },
   computed: {
-    btnData() {
-      return this.$store.state.btnOperate.btnData;
-    },
-    FlowNode() {
-      return this.$store.state.btnOperate.isFlowNode;
-    },
     pageShow() {
       return this.$store.state.btnOperate.pageShow;
     },
     tableButton() {
       return this.$store.state.btnOperate.tableButton;
     },
-    tableOperate() {
-      return this.$store.state.btnOperate.tableOperate;
-    },
     modity() {
+      //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
       return this.$store.state.btnOperate.modity;
+    },
+    btnData() {
+      return this.$store.state.btnOperate.btnData;
+    },
+    FlowNode() {
+      return this.$store.state.btnOperate.isFlowNode;
     }
   },
   components: {
@@ -395,23 +393,23 @@ export default {
     t.$refs.searchOrgframe.getData(this.params);
     t.openPick = true;
   },
-  created() {
-    if (this.pageShow != "") {
-      this.columns.push(this.tableBtn);
-      this.$store.commit("btnOperate/setTableOperate", "true");
-    }
-  },
-  watch: {
-    pageShow(val) {
-      if (val == "" && this.tableOperate == "true") {
-        this.columns.pop();
-        this.$store.commit("btnOperate/setTableOperate", "false");
-      } else if (this.tableOperate == "false") {
-        this.columns.push(this.tableBtn);
-        this.$store.commit("btnOperate/setTableOperate", "true");
-      }
-    }
-  },
+  created () { 
+       if (this.pageShow !== "") {
+            this.columns.push(this.tableBtn);
+            this.tableOperate = true
+        }
+    },
+  watch:{ 
+       pageShow (val) {
+            if (val ==="" && this.tableOperate === true) {
+                this.columns.pop();
+                 this.tableOperate = false;
+            } else if (this.tableOperate === false) {
+                this.columns.push(this.tableBtn);
+                this.tableOperate = true;
+            }
+        }
+    },
   mounted() {
     this.getData();
     this.search();
@@ -422,7 +420,7 @@ export default {
     modityChange(res) {
       this.getData();
     },
-    getData(id, page) {
+    getData(page) {
       const t = this;
       this.loading = true;
       if (page == undefined) {
@@ -454,11 +452,11 @@ export default {
           }
         })
         .catch(() => {
-        //   t.$Modal.error({
-        //     title: this.$t("reminder.err"),
-        //     content: this.$t("reminder.errormessage")
-        //   });
-        this.$Message.error(this.$t("reminder.errormessage"));
+          //   t.$Modal.error({
+          //     title: this.$t("reminder.err"),
+          //     content: this.$t("reminder.errormessage")
+          //   });
+          this.$Message.error(this.$t("reminder.errormessage"));
         })
         .finally(() => {
           this.loading = false;
@@ -530,7 +528,7 @@ export default {
                 }
               })
               .catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"))
+                this.$Message.error(this.$t("reminder.errormessage"));
               });
           },
           onCancel: () => {}

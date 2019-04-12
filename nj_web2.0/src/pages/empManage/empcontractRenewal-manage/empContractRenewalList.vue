@@ -4,7 +4,7 @@
       <Col span="24">
         <card>
           <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;合同信息管理
+            <Icon type="mouse"></Icon>&nbsp;合同续签管理
           </p>
           <Row>
             <Input placeholder="请输入员工姓名" style="width: 200px" v-model="empName"/>
@@ -26,7 +26,6 @@
               @buttonDel="deletemsg"
               @buttonValid="modifystatus('02valid')"
               @buttonDraft="modifystatus('01draft')"
-              @buttonInvalid="modifystatus('03invalid')"
               @moditySelect="modityChange"
               @buttonSearch="search"
               :btnData="btnData"
@@ -421,7 +420,7 @@ export default {
     modityChange(res) {
       this.getData();
     },
-    getData(id, page) {
+    getData(page) {
       const t = this;
       this.loading = true;
       if (page == undefined) {
