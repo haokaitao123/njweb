@@ -86,8 +86,8 @@
         this.option = false
         this.content = false
         this.active = name
-       // this.$refs.option.clear()
-       // this.$refs.content.clear()
+        this.$refs.option.clear()
+        this.$refs.content.clear()
         this[name] = true
         if (name === 'content') {
           this.$refs.content.disabled = this.disabled
