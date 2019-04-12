@@ -14,7 +14,11 @@
                 </Button>
             </div>
             <div class="option-main">
-                <Row style="max-height: 420px;overflow-y: auto;">
+              <Spin  size="large"
+                     fix
+                     v-if="spinShow">
+              </Spin>
+                <Row style="max-height: 420px;overflow-y: auto;" ref="scrollBox">
                     <Form ref="formValidate"
                           :model="formValidate"
                           :rules="ruleValidate"
@@ -137,6 +141,7 @@ import searchEmpMaster from '../../../components/searchTable/searchEmpnhMaster'
 export default {
     data () {
         return {
+          spinShow: false,
           file: '',
           filekey: '',
           loadingStatus: false,
@@ -198,6 +203,7 @@ export default {
       },
         getData (id) {
             const t = this
+            t.spinShow = true; //开启loading效果
             getDataLevelUserLogin({
                 _mt: 'empEmpofficial.getById',
                 id: id,
@@ -226,7 +232,9 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
-            })
+            }).finally(() => {
+              t.spinShow = false; //关闭loading效果
+            });
         },
         handleSubmit () {
             const t = this
@@ -286,6 +294,7 @@ export default {
       },
       handleReset () {
           this.$refs.formValidate.resetFields()
+          this.$refs.scrollBox.$el.scrollTop = '0'
           this.$emit('closeUp')
       },
       handleUpload(file) {
