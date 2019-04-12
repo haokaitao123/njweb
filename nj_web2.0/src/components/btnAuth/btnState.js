@@ -10,8 +10,9 @@ const btnOperate = {
     pageOperate: [],
     pageShow: '',
     tableButton: '',
-    tableOperate: 'false',
-    isFlowNode: ''
+    tableOperate: true,
+    isFlowNode: '',
+    searchLoading: false
   },
   mutations: {
     setBtnData(state, value) {
@@ -40,6 +41,9 @@ const btnOperate = {
     },
     setIsFlowNode(state, value) {
       state.isFlowNode = value
+    },
+    setSearchLoading(state, value) {
+      state.searchLoading = value
     }
   },
   actions: {

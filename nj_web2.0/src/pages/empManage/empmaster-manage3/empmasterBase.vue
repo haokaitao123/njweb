@@ -110,10 +110,6 @@ export default {
         index: Number,
         modity: String
     },
-
-    mounted () {
-        console.log(this.modity, "modity")
-    },
     methods: {
         //      关闭方法 分别调用本页面 父页面 主表详细信息页面 子表分页的清除方法  无需变更
         handleReset () {
@@ -154,7 +150,7 @@ export default {
             this.$refs.empFamily.clear();
             if (name !== "empBaseInfo") {
                 this.getChildFunId(name)
-                this.$refs[name].search();
+                this.$refs[name].search('获取');
             } else {
                 this.$store.commit('setChildFunId', "");
                 this.getOption(this.id, this.logType);
@@ -205,11 +201,14 @@ export default {
             this.$refs.empFamily.clear();
             this.$store.commit('setChildFunId', "");
         },
+        //      更新父页面列表 无需变更
         update (data) {
-            this.$emit('getData')
+            this.$emit('update', data)
         },
+        //      更新父页面列表 无需变更
         newdata (data) {
-            this.$emit('getData')
+            this.id = data.id
+            this.$emit('newdata', data)
         },
     }
 };

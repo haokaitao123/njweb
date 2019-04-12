@@ -70,8 +70,10 @@
                         <i-col span="4"
                                v-if="file !== ''">
                             <Button type="primary"
-                                    @click="uploadFile1"
-                                    :loading="loadingStatus">{{ loadingStatus ? $t('lang_fileOperation.import.importing') : $t('lang_fileOperation.import.confirmImp') }}</Button>
+                                    :loading="loadingStatus"
+                                    @click="uploadFile1">
+                                {{ loadingStatus ? $t('lang_fileOperation.import.importing') : $t('lang_fileOperation.import.confirmImp') }}
+                            </Button>
                         </i-col>
                     </Row>
                 </i-col>
@@ -133,6 +135,7 @@ export default {
             imp_status: 0,
             imptype: '1',
             activeState: '',
+            loading: false
         }
     },
     props: {
@@ -174,13 +177,12 @@ export default {
             formData.append('upfile', t.file)
             uploadFile(formData).then(res => {
                 for (const key in res.data) {
-                    // console.log(res.data)
                     t.filekey = res.data[key]
                     t.filename = key
                     t.importData(res.data[key])
                 }
-                t.loadingStatus = false
             }).catch(() => {
+                t.loadingStatus = false
                 t.$Modal.error({
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
@@ -197,11 +199,13 @@ export default {
                 importParams: '',
             }).then((res) => {
                 if (isSuccess(res, t)) {
+
                     t.redisKey = res.data.content[0].redisKey
                     t.jobQueueId = res.data.content[0].jobQueueId
                     t.imp = window.setInterval(t.getImportState, 1000)
                 }
             }).catch(() => {
+
                 t.$Modal.error({
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
@@ -243,6 +247,7 @@ export default {
                             t.imp_status = 99
                             t.activeState = 'wrong'
                         }
+                        t.loadingStatus = false
                     }
                 } else {
                     clearInterval(t.imp)

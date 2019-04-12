@@ -4,6 +4,7 @@
          style="margin: 0;">
         <Button type="primary"
                 icon="search"
+                :loading="searchLoading"
                 @click="search()">
             查询
         </Button>
@@ -20,6 +21,9 @@ export default {
     props: {
     },
     computed: {
+        searchLoading () {
+            return this.$store.state.btnOperate.searchLoading;
+        }
     },
     mounted () {
 

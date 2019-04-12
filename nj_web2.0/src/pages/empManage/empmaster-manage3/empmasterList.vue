@@ -90,7 +90,8 @@
                     :index="index"
                     :modity="modity"
                     @closeUp="closeUp"
-                    @getData="getData"
+                    @newdata="addNewArray"
+                    @update="updateArray"
                     ref="update"></update>
         </transition>
         <!--导入导出子页面 若没有导入导出可以去掉-->
@@ -408,6 +409,7 @@ export default {
                 logType: '岗位',
             },
             state: this.modity,
+            tableOperate: false
         };
     },
     computed: {
@@ -416,9 +418,6 @@ export default {
         },
         tableButton () {
             return this.$store.state.btnOperate.tableButton;
-        },
-        tableOperate () {
-            return this.$store.state.btnOperate.tableOperate;
         },
         modity () {
             return this.$store.state.btnOperate.modity;
@@ -431,19 +430,19 @@ export default {
         }
     },
     created () {
-        if (this.pageShow != "") {
+        if (this.pageShow !== "") {
             this.columns.push(this.tableBtn);
-            this.$store.commit("btnOperate/setTableOperate", "true");
+            this.tableOperate = true
         }
     },
     watch: {
         pageShow (val) {
-            if (val == "" && this.tableOperate == "true") {
+            if (val === "" && this.tableOperate === true) {
                 this.columns.pop();
-                this.$store.commit("btnOperate/setTableOperate", "false");
-            } else if (this.tableOperate == "false") {
+                this.tableOperate = false;
+            } else if (this.tableOperate === false) {
                 this.columns.push(this.tableBtn);
-                this.$store.commit("btnOperate/setTableOperate", "true");
+                this.tableOperate = true
             }
         }
     },
@@ -465,6 +464,7 @@ export default {
             this.page = 1;
             this.treeid = "";
             this.treeType = "";
+            this.$store.commit('btnOperate/setSearchLoading', true)
             this.getData();
         },
         // 获取主表数据
@@ -492,14 +492,16 @@ export default {
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        this.loading = false;
                         t.data = res.data.content[0].rows;
                         t.total = res.data.content[0].records;
                     }
                 })
                 .catch(() => {
-                    this.loading = false;
                     this.$Message.error('网络错误');
+                })
+                .finally(() => {
+                    this.loading = false;
+                    this.$store.commit('btnOperate/setSearchLoading', false);
                 });
         },
         // 删除
@@ -541,7 +543,7 @@ export default {
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
-                    content: "请确定是否将该条数据加入入职中",
+                    content: "请确定是否将数据加入入职中",
                     onOk: () => {
                         getDataLevelUserLogin({
                             _mt: "empEmpnh.updStateByIds",
@@ -575,7 +577,7 @@ export default {
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
-                    content: "请确定是否将该条数据加入确认中",
+                    content: "请确定是否将数据加入确认中",
                     onOk: () => {
                         getDataLevelUserLogin({
                             _mt: "empEmpnh.updStateByIds",
@@ -684,10 +686,6 @@ export default {
                 })
                 .catch(() => {
                     this.$Message.error('操作失败');
-                    // t.$Modal.error({
-                    //     title: this.$t("reminder.err"),
-                    //     content: this.$t("reminder.errormessage")
-                    // });
                 });
         },
         // 导入导出默认方法 无需更改
@@ -756,7 +754,6 @@ export default {
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        t.loading = false;
                         setTimeout(() => {
                             t.dataTree = t.toTree(res.data.content[0].value);
                         }, 500);
@@ -764,7 +761,10 @@ export default {
                 })
                 .catch(() => {
                     this.$Message.error('网络错误');
-                });
+                })
+                .finally(() => {
+                    t.loading = false;
+                })
         },
         /* 树点击事件 */
         selectChange (e) {

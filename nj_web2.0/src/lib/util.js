@@ -418,22 +418,19 @@ export const isSuccess = (data, t) => {
     if (buscode === 0) {
       return true;
     } else if (buscode !== 0) {
-      //   t.$Modal.error({
-      //     title: '错误',
-      //     content: data.data.stat.stateList[0].desc
-      //   });
-      t.$Spin.hide();
-      t.$Message.error(data.data.stat.stateList[0].desc);
+      if (buscode === -100) {
+        t.$Message.error("网络错误");
+      } else {
+        t.$Message.error(data.data.stat.stateList[0].desc);
+      }
       return false;
     }
   } else if (apicode !== 0) {
-    // t.$Modal.error({
-    //   title: '错误',
-    //   content: data.data.stat.desc
-    // });
-    t.$Spin.hide();
-    t.$Message.error(data.data.stat.stateList[0].desc);
-
+    if (apicode === -100 || apicode === -120 || apicode === -140 || apicode === -200 || apicode === -280 || apicode === -300 || apicode === -360) {
+      t.$Message.error("网络错误");
+    } else {
+      t.$Message.error(data.data.stat.stateList[0].desc);
+    }
     if (apicode === -300 || apicode === -320 || apicode === -340 || apicode === -360 || apicode === -380 || apicode === -370 || apicode === -163) {
       layer.closeAll() //关闭即时通讯
       t.$router.push('/loginmain/login')
