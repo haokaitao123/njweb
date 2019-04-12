@@ -246,7 +246,7 @@
       btnData() {
         return this.$store.state.btnOperate.btnData
       },
-      flowNode() {
+      FlowNode() {
         return this.$store.state.btnOperate.isFlowNode
       },
     },
