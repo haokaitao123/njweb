@@ -440,13 +440,7 @@ export default {
                     t.filekey = res.data[key]
                     t.form.fileKey = key + ':' + res.data[key]
                 }
-                t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: '上传成功',
-                    onOk: () => {
-                        t.loadingStatus = false
-                    },
-                })
+                this.$Message.error('上传成功');
             }).catch(() => {
                 this.$Message.error('网络错误');
             })

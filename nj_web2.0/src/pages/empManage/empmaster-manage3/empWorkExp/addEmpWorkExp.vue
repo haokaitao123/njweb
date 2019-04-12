@@ -145,6 +145,7 @@
                                 <Button type="primary"
                                         v-show="!disabled"
                                         @click="save">保存</Button>
+
                             </FormItem>
                         </row>
                     </i-col>
@@ -344,16 +345,10 @@ export default {
                         .then(res => {
                             if (isSuccess(res, t)) {
                                 if (t.rowId) {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.updsuccess")
-                                    });
+                                    this.$Message.success('修改成功');
                                     t.$emit("update", res.data.content[0]);
                                 } else {
-                                    t.$Modal.success({
-                                        title: this.$t("reminder.suc"),
-                                        content: this.$t("reminder.addsuccess")
-                                    });
+                                    this.$Message.success('新增成功');
                                     t.$emit("newdata", res.data.content[0]);
                                 }
                                 t.close();

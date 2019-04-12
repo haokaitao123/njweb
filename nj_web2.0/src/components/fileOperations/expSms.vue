@@ -97,42 +97,21 @@ export default {
                 }
             }
             if (data.expDisFields) {
-                // this.$Spin.show({
-                //     render: (h) => {
-                //         return h('div',
-                //             [
-                //                 h('Icon', {
-                //                     'class': 'demo-spin-icon-load',
-                //                     props: {
-                //                         type: 'load-c',
-                //                         size: 18
-                //                     }
-                //                 }),
-                //                 h('div', 'Loading')
-                //             ]
-                //         )
-                //     }
-                // });
                 getDataLevelUserLogin(data).then((res) => {
                     if (isSuccess(res, t)) {
                         t.filekey = res.data.content[0].filekey
                         t.filename = res.data.content[0].filename
                         t.$emit('setFileKey', t.filekey, t.filename, true)
                         t.handleReset();
-                        // this.$Spin.hide();
                     }
                 }).catch(() => {
-                    // this.$Spin.hide();
                     t.$Message.error('网络错误');
                 }).finally(() => {
                     t.loadingStatus = false
                 })
             } else {
+                t.loadingStatus = false
                 t.$Message.warning('导出字段不能为空');
-                // t.$Modal.warning({
-                //     title: this.$t('reminder.remind'),
-                //     content: this.$t('reminder.exportErr'),
-                // })
             }
         },
         handleCheckAll () {
