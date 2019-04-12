@@ -25,7 +25,7 @@
                             <!--绑定双击清除方法-->
                             <span @dblclick="disabled?'':dbclean()">
                           <!--v-model绑定显示字段-->
-                              <Input v-model="form.empName" icon="search" :readonly=true :disabled="disabled" placeholder="请选择员工"  @on-click="disabled ? '' : pickEmpData()" />
+                              <Input v-model="empName" icon="search" :readonly=true :disabled="disabled" placeholder="请选择员工"  @on-click="disabled ? '' : pickEmpData()" />
                             </span>
                           </FormItem>
              
@@ -33,7 +33,7 @@
             <i-col span="11">
                 <FormItem label="部门"
                                       prop="deptIdDis">
-                                <Input v-model="form.deptIdDis"
+                                <Input v-model="deptIdDis"
                                        disabled="disabled"
                                        placeholder="请输入部门名称"/>
                             </FormItem>
@@ -42,7 +42,7 @@
             <i-col span="11" offset="1">
                 <FormItem label="岗位"
                                   prop="postIdDis">
-                          <Input v-model="form.postIdDis"
+                          <Input v-model="postIdDis"
                                  disabled="disabled"
                                  placeholder="请输入岗位名称"/>
                         </FormItem>

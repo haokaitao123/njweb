@@ -12,41 +12,37 @@
       </div>
       <div class="option-main">
         <Row style="max-height: 480px;overflow-y: auto;">
-          <Form ref="form" :model="form" 
-          :rules="ruleValidate" 
-          :label-width="120">
+          <Form ref="form" :model="form" :rules="ruleValidate" :label-width="120">
             <i-col span="11">
               <FormItem label="合同编号" prop="numberCode">
                 <Input v-model="form.numberCode" :disabled="true"/>
               </FormItem>
             </i-col>
             <i-col span="11" offset="1">
-                <FormItem label="员工姓名"  prop="empName"  >
-                            <!--绑定双击清除方法-->
-                            <span @dblclick="disabled?'':dbclean()">
-                          <!--v-model绑定显示字段-->
-                              <Input v-model="form.empName" icon="search" :readonly=true :disabled="disabled" placeholder="请选择员工"  @on-click="disabled ? '' : pickEmpData()" />
-                            </span>
-                          </FormItem>
-             
+              <FormItem label="员工姓名" prop="empId">
+                <!--绑定双击清除方法-->
+                <span @dblclick="disabled?'':dbclean()">
+                  <!--v-model绑定显示字段-->
+                  <Input
+                    v-model="empName"
+                    icon="search"
+                    :readonly="true"
+                    :disabled="disabled"
+                    placeholder="请选择员工"
+                    @on-click=" pickEmpData()"
+                  />
+                </span>
+              </FormItem>
             </i-col>
             <i-col span="11">
-                <FormItem label="部门"
-                                      prop="deptIdDis">
-                                <Input v-model="form.deptIdDis"
-                                       disabled="disabled"
-                                       placeholder="请输入部门名称"/>
-                            </FormItem>
-              
+              <FormItem label="部门" prop="deptId">
+                <Input v-model="deptIdDis" disabled="disabled" placeholder="请输入部门名称"/>
+              </FormItem>
             </i-col>
             <i-col span="11" offset="1">
-                <FormItem label="岗位"
-                                  prop="postIdDis">
-                          <Input v-model="form.postIdDis"
-                                 disabled="disabled"
-                                 placeholder="请输入岗位名称"/>
-                        </FormItem>
-              
+              <FormItem label="岗位" prop="postId">
+                <Input v-model="postIdDis" disabled="disabled" placeholder="请输入岗位名称"/>
+              </FormItem>
             </i-col>
             <i-col span="11">
               <FormItem label="员工类型" prop="empType">
@@ -72,7 +68,7 @@
             </i-col>
             <i-col span="11">
               <FormItem label="合同期限" prop="contPeriod">
-                <Select v-model="form.contPeriod" :disabled="disabled" placeholder="选择合同期限">
+                <Select v-model="form.contPeriod"  :disabled="disabled" placeholder="选择合同期限">
                   <Option
                     :value="item.paramCode"
                     v-for="(item,index) in selectContperiod"
@@ -184,6 +180,54 @@
                 ></DatePicker>
               </FormItem>
             </i-col>
+            <i-col span="11">
+                    <FormItem label="保密协议"
+                              prop="contBmxy">
+                        <RadioGroup v-model="form.contBmxy">
+                            <Radio :label="item.paramCode"
+                                   v-for="(item,index) in selectAttendy"
+                                   :key="index"
+                                   :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                        </RadioGroup>
+                    </FormItem>
+            </i-col>
+             <i-col span="11" >
+                    <FormItem label="竞业限制协议"
+                              prop="contJzxy">
+                        <RadioGroup v-model="form.contJzxy">
+                            <Radio :label="item.paramCode"
+                                   v-for="(item,index) in selectAttendy"
+                                   :key="index"
+                                   :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                        </RadioGroup>
+                    </FormItem>
+            </i-col>
+            <i-col span="22">
+              <FormItem label="附件上传" prop="fileKey">
+                <Row>
+                  <i-col span="4" v-show="!disabled">
+                    <Upload :before-upload="handleUpload" action=" ">
+                      <Button type="ghost" icon="ios-cloud-upload-outline" :disabled="disabled">浏览</Button>
+                    </Upload>
+                  </i-col>
+                  <i-col span="19">
+                    <span v-if="file !==''" @dblclick="disabled?'':clearFile()">
+                      <i-col span="22">
+                        <Input v-model="file.name" readonly="readonly">
+                          <span slot="prepend">
+                            <Icon type="folder" size="16"></Icon>
+                          </span>
+                        </Input>
+                      </i-col>
+                      <i-col span="2">
+                        <Button type="text" @click="uploadLocalFile" v-if="loadingStatus">上传</Button>
+                        <Button type="text" @click="downloadFile" v-if="!loadingStatus">下载</Button>
+                      </i-col>
+                    </span>
+                  </i-col>
+                </Row>
+              </FormItem>
+            </i-col>
             <i-col span="22">
               <FormItem label="备注" prop="note">
                 <Input
@@ -207,8 +251,7 @@
       </div>
     </div>
     <!--弹出选择页面布局 无需变更-->
-    
-    
+
     <!--直接上級-->
     <transition name="fade">
       <searchEmpMaster
@@ -223,10 +266,11 @@
 <script>
 import {
   getDataLevelUserLoginSenior,
-  getDataLevelUserLogin
+  getDataLevelUserLogin,
+  uploadFile
 } from "../../../axios/axios";
 import { isSuccess, deepCopy } from "../../../lib/util";
-import searchEmpMaster from '../../../components/searchTable/searchEmpnhMaster'
+import searchEmpMaster from "../../../components/searchTable/searchEmpnhMaster";
 
 export default {
   data() {
@@ -236,14 +280,14 @@ export default {
       } else {
         //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
         let startTimeNum = new Date(this.form.contValiddate).getTime();
-        let endTimeNum = new Date(this.form.contValiddate).getTime();
+        let endTimeNum = new Date(this.form.contInvdate).getTime();
         if (startTimeNum > endTimeNum) {
           callback(new Error("生效日期不能大于失效日期"));
         }
         callback();
       }
     };
-    
+
     return {
       type: "",
       distype: false,
@@ -256,6 +300,16 @@ export default {
       selectContperiod: [],
       selectWorktimetype: [],
       selectProbperiod: [],
+      selectAttendy: [
+           {
+                    'paramCode': '1',
+                    'paramInfoCn': '有'
+                },
+                {
+                    'paramCode': '0',
+                    'paramInfoCn': '无'
+                },
+      ],
       form: {
         _mt: "empContractinfo.addOrUpd",
         numberCode: "XXXXXX",
@@ -271,32 +325,28 @@ export default {
         contSigndate: "",
         contProbat: "",
         contProbatdt: "",
-        contValiddate:"",
-        contInvdate:"",
+        contValiddate: "",
+        contInvdate: "",
+        fileKey: "", // 上传附件
         note: "", //备注
         funId: "1",
         logType: ""
       },
+
+      file: "",
+      filekey: "",
       openDeptPick: false,
       openPost: false,
       openEmpMaster: false,
       empName: "",
       deptIdDis: "",
       postIdDis: "",
-      //部门
-     
-      //岗位
-     
+
       ruleValidate: {
-        empName: [
+        empId: [
           { required: true, message: "请选择员工姓名", trigger: "change" }
         ],
-        deptId: [
-          { required: true, message: "请选择部门名称", trigger: "change" }
-        ],
-        postId: [
-          { required: true, message: "请选择岗位名称", trigger: "change" }
-        ],
+        
         empType: [
           { required: true, message: "请选择员工类型", trigger: "blur" }
         ],
@@ -364,197 +414,301 @@ export default {
   components: {
     // searchDept,
     // searchPost,
-    searchEmpMaster,
+    searchEmpMaster
   },
-    methods: {
-        //上级清除员工选择
-        dbclean(){
-            const t = this
-            t.form.empName = '';
-            t.form.empId = '';
-            t.form.deptIdDis = '';
-            t.form.deptId = '';
-            t.form.postIdDis = '';
-            t.form.postId = '';
-        },
-        getData(id) {
-            const t = this;
-            getDataLevelUserLogin({
-                _mt: "empContractinfo.getById",
-                id: id,
-                funId: "1",
-                logType: "根据id获取数据"
-            })
-            .then(res => {
-            if (isSuccess(res, t)) {
-                t.form.deptId = res.data.content[0].deptId;
-                t.form.postId = res.data.content[0].postId;
-                t.form.empId = res.data.content[0].empId;
-                t.form.empType = res.data.content[0].empType;
-                t.form.contType = res.data.content[0].contType;
-                t.form.contPeriod = res.data.content[0].contPeriod;
-                t.form.contSdate = res.data.content[0].contSdate;
-                t.form.contEdate = res.data.content[0].contEdate;
-                t.form.contWorktime = res.data.content[0].contWorktime;
-                t.form.contSigndate = res.data.content[0].contSigndate;
-                t.form.contProbat = res.data.content[0].contProbat;
-                t.form.contProbatdt = res.data.content[0].contProbatdt;
-                t.form.contValiddate = res.data.content[0].contValiddate;
-                t.form.contInvdate = res.data.content[0].contInvdate;
-                t.form.state = res.data.content[0].state;
-                t.form.note = res.data.content[0].note;
-                t.empName = res.data.content[0].empName;
-                t.postIdDis = res.data.content[0].postIdDis;
-                t.deptIdDis = res.data.content[0].deptIdDis;
-                t.empTypeDis = res.data.content[0].empTypeDis;
-                t.contTypeDis = res.data.content[0].contTypeDis;
-                t.contPeriodDis = res.data.content[0].contPeriodDis;
-                t.contWorktimeDis = res.data.content[0].contWorktimeDis;
-                t.contProbatDis = res.data.content[0].contProbatDis;
-                if (id === res.data.content[0].companyId) {
-                            t.forbidden = 'disabled'
-                            t.distype = true
-                        } else {
-                            t.forbidden = null
-                            t.distype = false
-                        }
+  methods: {
+    //上级清除员工选择
+    dbclean() {
+      const t = this;
+      t.form.empName = "";
+      t.form.empId = "";
+      t.form.deptIdDis = "";
+      t.form.deptId = "";
+      t.form.postIdDis = "";
+      t.form.postId = "";
+    },
+    getData(id) {
+      const t = this;
+      getDataLevelUserLogin({
+        _mt: "empContractinfo.getById",
+        id: id,
+        funId: "1",
+        logType: "根据id获取数据"
+      })
+        .then(res => {
+          if (isSuccess(res, t)) {
+            t.form.numberCode = res.data.content[0].numberCode;
+            t.form.deptId = res.data.content[0].deptId;
+            t.form.postId = res.data.content[0].postId;
+            t.form.empId = res.data.content[0].empId;
+            t.form.empType = res.data.content[0].empType;
+            t.form.contType = res.data.content[0].contType;
+            t.form.contPeriod = res.data.content[0].contPeriod;
+            t.form.contSdate = res.data.content[0].contSdate;
+            t.form.contEdate = res.data.content[0].contEdate;
+            t.form.contWorktime = res.data.content[0].contWorktime;
+            t.form.contSigndate = res.data.content[0].contSigndate;
+            t.form.contProbat = res.data.content[0].contProbat;
+            t.form.contProbatdt = res.data.content[0].contProbatdt;
+            t.form.contValiddate = res.data.content[0].contValiddate;
+            t.form.contInvdate = res.data.content[0].contInvdate;
+            t.form.contBmxy = res.data.content[0].contBmxy;
+            t.form.contJzxy = res.data.content[0].contJzxy;
+            t.form.state = res.data.content[0].state;
+            t.form.note = res.data.content[0].note;
+            t.empName = res.data.content[0].empName;
+            t.postIdDis = res.data.content[0].postIdDis;
+            t.deptIdDis = res.data.content[0].deptIdDis;
+            t.empTypeDis = res.data.content[0].empTypeDis;
+            t.contTypeDis = res.data.content[0].contTypeDis;
+            t.contPeriodDis = res.data.content[0].contPeriodDis;
+            t.contWorktimeDis = res.data.content[0].contWorktimeDis;
+            t.contProbatDis = res.data.content[0].contProbatDis;
+            if (res.data.content[0].fileKey) {
+              t.file = { name: res.data.content[0].fileKey.split(":")[0] };
+              t.filekey = res.data.content[0].fileKey.split(":")[1];
             }
+            // if (id === res.data.content[0].companyId) {
+            //   t.forbidden = "disabled";
+            //   t.distype = true;
+            // } else {
+            //   t.forbidden = null;
+            //   t.distype = false;
+            // }
+          }
+        })
+        .catch(() => {
+          // this.$Modal.error({
+          //     title: this.$t("reminder.err"),
+          //     content: this.$t("reminder.errormessage")
+          // });
+          this.$Message.error(this.$t("reminder.errormessage"));
+        });
+    },
+    getSelect() {
+      //获取下拉列表数据
+      const t = this;
+      //emptype员工类型
+      //contrpertype,合同类别
+      //contperiod,合同期限
+      //noticedays,到期通知天数
+      //confidential,保密协议
+      //worktimetype,合同工作时间
+      //probperiod,试用期限
+
+      getDataLevelUserLogin({
+        _mt: "baseParmInfo.getSelectValue",
+        typeCode: 'emptype,contrpertype,contperiod,worktimetype,probperiod,yesno'
+      })
+        .then(res => {
+          if (isSuccess(res, t)) {
+
+              t.selectEmptype = res.data.content[0].value[0].paramList;
+            
+              t.selectContrpertype = res.data.content[0].value[1].paramList;
+         
+              t.selectContperiod = res.data.content[0].value[2].paramList;
+       
+              t.selectWorktimetype = res.data.content[0].value[3].paramList;
+       
+              t.selectProbperiod = res.data.content[0].value[4].paramList;
+        
+             t.selectAttendy = res.data.content[0].value[5].paramList;
+          }
+        })
+        .catch(() => {
+          // this.$Modal.error({
+          //     title: this.$t("reminder.err"),
+          //     content: this.$t("reminder.errormessage")
+          // });
+          this.$Message.error(this.$t("reminder.errormessage"));
+        });
+    },
+    handleSubmit() {
+      const t = this;
+      console.log(t.form, "form");
+      const data = deepCopy(t.form);
+      data.logType = t.logType;
+      if (t.type === "02dept" && data.unitType === "01company") {
+        t.$Modal.success({
+          title: this.$t("reminder.err"),
+          content: this.$t("lang_organization.orgframe.reminderErr")
+        });
+        return;
+      }
+      if (t.logType === this.$t("button.upd")) {
+        data.id = t.id;
+      }
+      if (data.contValiddate !== undefined) {
+        data.contValiddate = new Date(data.contValiddate).format("yyyy-MM-dd");
+      }
+      if (data.contSdate !== undefined) {
+        data.contSdate = new Date(data.contSdate).format("yyyy-MM-dd");
+      }
+      if (data.contEdate !== undefined) {
+        data.contEdate = new Date(data.contEdate).format("yyyy-MM-dd");
+      }
+      if (data.contSigndate !== undefined) {
+        data.contSigndate = new Date(data.contSigndate).format("yyyy-MM-dd");
+      }
+      if (data.contProbatdt !== undefined) {
+        data.contProbatdt = new Date(data.contProbatdt).format("yyyy-MM-dd");
+      }
+      if (data.contInvdate !== undefined) {
+        data.contInvdate =
+          data.contInvdate === ""
+            ? ""
+            : new Date(data.contInvdate).format("yyyy-MM-dd");
+      }
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          getDataLevelUserLoginSenior(data)
+            .then(res => {
+              if (isSuccess(res, t)) {
+                t.$emit("closeUp");
+                if (t.logType === this.$t("button.add")) {
+                  // t.$Modal.success({
+                  //     title: this.$t('reminder.suc'),
+                  //     content: this.$t('reminder.addsuccess'),
+                  // })
+                  this.$Message.success(this.$t("reminder.addsuccess"));
+                  t.$refs.form.resetFields();
+                  t.$emit("getData", res.data.content[0]);
+                } else {
+                  // t.$Modal.success({
+                  //     title: this.$t('reminder.suc'),
+                  //     content: this.$t('reminder.updsuccess'),
+                  // })
+                  this.$Message.success(this.$t("reminder.updsuccess"));
+                  t.$emit("update", res.data.content[0]);
+                }
+              }
             })
             .catch(() => {
-            this.$Modal.error({
-                title: this.$t("reminder.err"),
-                content: this.$t("reminder.errormessage")
+              this.$Message.error(this.$t("reminder.errormessage"));
             });
-            });
-        },
-        getSelect(type) {
-            //获取下拉列表数据
-            const t = this;
-            //emptype员工类型
-            //contrpertype,合同类别
-            //contperiod,合同期限
-            //noticedays,到期通知天数
-            //confidential,保密协议
-            //worktimetype,合同工作时间
-            //probperiod,试用期限
-
-            getDataLevelUserLogin({
-                _mt: "baseParmInfo.getSelectValue",
-                typeCode: type
-            })
-                .then(res => {
-                if (isSuccess(res, t)) {
-                    if (type == "emptype") {
-                    t.selectEmptype = res.data.content[0].value[0].paramList;
-                    }
-                    if (type == "contrpertype") {
-                    t.selectContrpertype = res.data.content[0].value[0].paramList;
-                    }
-                    if (type == "contperiod") {
-                    t.selectContperiod = res.data.content[0].value[0].paramList;
-                    }
-                    if (type == "worktimetype") {
-                    t.selectWorktimetype = res.data.content[0].value[0].paramList;
-                    }
-                    if (type == "probperiod") {
-                    t.selectProbperiod = res.data.content[0].value[0].paramList;
-                    }
-                }
-                })
-                .catch(() => {
-                this.$Modal.error({
-                    title: this.$t("reminder.err"),
-                    content: this.$t("reminder.errormessage")
-                });
-            });
-        },
-        handleSubmit () {
-            const t = this
-            console.log(t.form,"form")
-            const data = deepCopy(t.form)
-            data.logType = t.logType
-            if (t.type === '02dept' && data.unitType === '01company') {
-                t.$Modal.success({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('lang_organization.orgframe.reminderErr'),
-                })
-                return
-            }
-            if (t.logType === this.$t('button.upd')) {
-                data.id = t.id
-            }
-            if (data.contValiddate !== undefined) {
-                data.contValiddate = new Date(data.contValiddate).format('yyyy-MM-dd')
-            }
-            if (data.contSdate !== undefined) {
-                data.contSdate = new Date(data.contSdate).format('yyyy-MM-dd')
-            }
-            if (data.contEdate !== undefined) {
-                data.contEdate = new Date(data.contEdate).format('yyyy-MM-dd')
-            }
-            if (data.contSigndate !== undefined) {
-                data.contSigndate = new Date(data.contSigndate).format('yyyy-MM-dd')
-            }
-            if (data.contProbatdt !== undefined) {
-                data.contProbatdt = new Date(data.contProbatdt).format('yyyy-MM-dd')
-            }
-            if (data.contInvdate !== undefined) {
-                data.contInvdate = data.contInvdate === '' ? '' : new Date(data.contInvdate).format('yyyy-MM-dd')
-            }
-            this.$refs.form.validate((valid) => {
-                if (valid) {
-                    getDataLevelUserLoginSenior(data).then((res) => {
-                        if (isSuccess(res, t)) {
-                            t.$emit('closeUp')
-                            if (t.logType === this.$t('button.add')) {
-                                t.$Modal.success({
-                                    title: this.$t('reminder.suc'),
-                                    content: this.$t('reminder.addsuccess'),
-                                })
-                                t.$refs.form.resetFields()
-                                t.$emit('getData', res.data.content[0])
-                            } else {
-                                t.$Modal.success({
-                                    title: this.$t('reminder.suc'),
-                                    content: this.$t('reminder.updsuccess'),
-                                })
-                                t.$emit('update', res.data.content[0])
-                            }
-                        }
-                    }).catch(() => {
-                        this.$Modal.error({
-                            title: this.$t('reminder.err'),
-                            content: this.$t('reminder.errormessage'),
-                        })
-                    })
-                }
-            })
-        },
-    
-       /*选择员工*/
-        pickEmpData() {
-            const t = this;
-            t.$refs.searchEmpMaster.getData();
-            t.openEmpMaster = true;
-        },
-        closeEmp() {
-            const t = this
-            t.openEmpMaster = false
-        },
-        inputEmp(row) {
-            const t = this
-            t.form.empName = row.empnhName;
-            t.form.empId = row.id;
-            t.form.deptIdDis = row.deptIdDis;
-            t.form.deptId = row.deptId;
-            t.form.postIdDis = row.postIdDis;
-            t.form.postId = row.postId;
-        },
-        handleReset() {
-        const t = this;
-        t.$emit("closeUp");
         }
+      });
+    },
+
+    /*选择员工*/
+    pickEmpData() {
+      const t = this;
+      t.$refs.searchEmpMaster.getData();
+      t.openEmpMaster = true;
+    },
+    closeEmp() {
+      const t = this;
+      t.openEmpMaster = false;
+    },
+    inputEmp(row) {
+      const t = this;
+      t.empName = row.empnhName;
+      t.form.empId = row.id;
+      t.deptIdDis = row.deptIdDis;
+      t.form.deptId = row.deptId;
+      t.postIdDis = row.postIdDis;
+      t.form.postId = row.postId;
+    },
+    handleReset() {
+      const t = this;
+      t.$emit("closeUp");
+    },
+    //附件上传
+    handleUpload(file) {
+      this.file = file;
+      this.loadingStatus = true;
+      return false;
+    },
+    //上传
+    uploadLocalFile() {
+      const t = this;
+      const formData = new FormData();
+      formData.append("upfile", t.file);
+      console.log(formData);
+      uploadFile(formData)
+        .then(res => {
+          for (const key in res.data) {
+            t.file = { name: key };
+            t.filekey = res.data[key];
+            t.form.fileKey = key + ":" + res.data[key];
+          }
+          //this.$Message.success(this.$t("reminder.uploadsuccess"));
+          t.$Modal.success({
+            title: this.$t("reminder.suc"),
+            content: "上传成功",
+             
+            onOk: () => {
+              t.loadingStatus = false;
+            }
+          });
+        })
+        .catch(() => {
+          this.$Message.error("网络错误");
+        });
+    },
+    //下载
+    downloadFile() {
+      const t = this;
+      let data = {
+        _mt: "userMgmt.getfiletoken",
+        isprivate: true,
+        logType: "导出",
+        filekey: t.filekey,
+        expiresecs: 180
+      };
+      getDataLevelUserLogin(data)
+        .then(res => {
+          if (isSuccess(res, t)) {
+            localStorage.pageOpenedListAll = JSON.stringify(
+              JSON.parse(localStorage.pageOpenedList)
+            );
+            if (this.isIE()) {
+              window.location.href =
+                pubsource.pub_prvf_downlink +
+                res.data.content[0].value +
+                "&fname=" +
+                encodeURI(t.filekey);
+            } else {
+              let doclink =
+                pubsource.pub_prvf_downlink +
+                res.data.content[0].value +
+                "&fname=" +
+                encodeURI(t.filekey);
+              let link = document.createElement("a");
+              link.href = doclink;
+              link.download = "downloadfiletemp";
+              link.setAttribute("download", "downloadfiletemp");
+              document.body.appendChild(link);
+              link.click();
+            }
+            this.$store.state.app.pageOpenedList = JSON.parse(
+              localStorage.pageOpenedListAll
+            );
+            localStorage.pageOpenedList = JSON.stringify(
+              JSON.parse(localStorage.pageOpenedListAll)
+            );
+          }
+        })
+        .catch(() => {
+          this.$Message.error("网络错误");
+        });
+    },
+    //清除附件
+    clearFile(ckdis) {
+      this.$Modal.confirm({
+        title: this.$t("reminder.remind"),
+        content: "是否清除已上传的附件",
+        onOk: () => {
+          this.file = "";
+          this.filekey = "";
+          this.form.fileKey = "";
+          this.loadingStatus = false;
+        },
+        onCancel: () => {}
+      });
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
