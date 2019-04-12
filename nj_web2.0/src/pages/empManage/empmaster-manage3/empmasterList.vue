@@ -497,7 +497,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    this.$Message.error('网络错误');
+                   this.$Message.error(this.$t("reminder.errormessage"));
                 })
                 .finally(() => {
                     this.loading = false;

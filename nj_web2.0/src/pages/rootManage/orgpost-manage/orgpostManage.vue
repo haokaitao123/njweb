@@ -461,10 +461,11 @@ FlowNode() {
     deletemsg() {
       const t = this;
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        // t.$Modal.warning({
+        //   title: this.$t("reminder.remind"),
+        //   content: this.$t("reminder.leastone")
+        // });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: this.$t("reminder.remind"),
@@ -542,10 +543,11 @@ FlowNode() {
         tipContent = "您确定继续操作吗？";
       }
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        // t.$Modal.warning({
+        //   title: this.$t("reminder.remind"),
+        //   content: this.$t("reminder.leastone")
+        // });
+        this.$Message.warning('请至少选择一条数据');
         return;
       }
       t.$Modal.confirm({

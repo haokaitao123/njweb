@@ -336,10 +336,11 @@ export default {
           }
         })
         .catch(() => {
-          t.$Modal.error({
-            title: "错误",
-            content: "网络错误"
-          });
+        //   t.$Modal.error({
+        //     title: "错误",
+        //     content: "网络错误"
+        //   });
+        this.$Message.error(this.$t("reminder.errormessage"));
         })
         .finally(() => {
           this.loading = false;
@@ -427,10 +428,11 @@ export default {
         })
         .catch(() => {
           this.loading = false;
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+        //   t.$Modal.error({
+        //     title: this.$t("reminder.err"),
+        //     content: this.$t("reminder.errormessage")
+        //   });
+        this.$Message.error(this.$t("reminder.errormessage"));
         });
     }, //获取列表数据
     // 子页面修改数据后 本页面修改对应行数的数据 无需更改
@@ -472,10 +474,11 @@ export default {
     deletemsg() {
       const t = this;
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: "提示",
-          content: "请至少选择一条数据"
-        });
+        // t.$Modal.warning({
+        //   title: "提示",
+        //   content: "请至少选择一条数据"
+        // });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: "提示",
@@ -491,13 +494,15 @@ export default {
                 if (isSuccess(res, t)) {
                   t.tableselected = [];
                   t.getData();
+                  this.$Message.success(this.$t("reminder.deletesuccess"));
                 }
               })
               .catch(() => {
-                t.$Modal.error({
-                  title: "错误",
-                  content: "网络错误"
-                });
+                // t.$Modal.error({
+                //   title: "错误",
+                //   content: "网络错误"
+                // });
+                this.$Message.error(this.$t("reminder.errormessage"));
               });
           },
           onCancel: () => {}
