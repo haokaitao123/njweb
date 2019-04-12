@@ -687,7 +687,7 @@ export default {
             t.formValidate.resuFinalapptm = '';
             t.formValidate.note = '';
             t.formValidate.logType = '';
-
+            document.getElementById("scrollBox").scrollTop = "0";
             //        t.$refs.formValidate.resetFields(); //清空校验
         },
     },
