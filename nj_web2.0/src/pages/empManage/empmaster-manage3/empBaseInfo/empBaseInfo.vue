@@ -3,7 +3,8 @@
         <Spin size="large"
               fix
               v-if="spinShow"></Spin>
-        <Row style="max-height: 420px;overflow-y: auto;"
+        <Row style="overflow-y: auto;"
+             :style="{ maxHeight: disabled?'500px':'420px' }"
              ref="scrollBox">
             <Form :model="form"
                   label-position="right"
@@ -410,10 +411,10 @@
                                             :disabled="disabled">浏览</Button>
                                 </Upload>
                             </i-col>
-                            <i-col span="19">
+                            <i-col span="18">
                                 <span v-if="file !== ''"
                                       @dblclick="disabled?'':clearFile()">
-                                    <i-col span="22">
+                                    <i-col span="21">
                                         <Input v-model="file.name"
                                                readonly="readonly">
                                         <span slot="prepend">
@@ -1332,13 +1333,7 @@ export default {
                     t.filekey = res.data[key]
                     t.form.fileKey = key + ':' + res.data[key]
                 }
-                t.$Modal.success({
-                    title: this.$t('reminder.suc'),
-                    content: '上传成功',
-                    onOk: () => {
-                        t.loadingStatus = false
-                    },
-                })
+                this.$Message.success('上传成功');
             }).catch(() => {
                 this.$Message.error('网络错误');
             })

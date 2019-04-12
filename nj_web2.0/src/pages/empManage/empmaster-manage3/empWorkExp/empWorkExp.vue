@@ -460,6 +460,7 @@ export default {
     height: 500px;
     .table-form {
         margin: 10px 0;
+        overflow: hidden;
     }
 }
 </style>
