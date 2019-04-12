@@ -128,7 +128,7 @@
   </div>
 </template>
 <script>
-import update from "./empContractEdit";
+import update from "./empContractRenewalEdit";
 import { isSuccess } from "../../../lib/util";
 import {
   getDataLevelUserLoginNew,

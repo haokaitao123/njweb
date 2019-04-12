@@ -8,14 +8,14 @@
           &nbsp;{{$t('lang_organization.orgcostcenter.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_organization.orgcostcenter.costCodeDis')" style="width: 200px" v-model="costCode"/>
-          <Input :placeholder="$t('lang_organization.orgcostcenter.cOrENameDis')" style="width: 200px" v-model="name"/>
+          <Input placeholder="请输入成本中心编码" style="width: 200px" v-model="costCode"/>
+          <Input placeholder="请输入成本中心名称" style="width: 200px" v-model="costName"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
         </Row>
         <row class="table-form" ref="table-form">
-          <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+          <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
         </row>
         <Row style="display: flex">          <Page :total="total" :current="page" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
       </card>
@@ -34,6 +34,7 @@
   export default{
     data() {
       return {
+        loading: "",
         tableheight: document.body.offsetHeight - 280,
         value: '',
         logType: '',
@@ -53,11 +54,7 @@
           },
           {
             title: this.$t('lang_organization.orgcostcenter.cname'),
-            key: 'cname',
-          },
-          {
-            title: this.$t('lang_organization.orgcostcenter.ename'),
-            key: 'ename',
+            key: 'costName',
           },
           {
             title: this.$t('lang_organization.orgcostcenter.validdate'),
@@ -101,7 +98,7 @@
         page: 1,
         funId: '1000',
         costCode: '',
-        name: '',
+        costName: '',
       }
     },
     computed: {
@@ -119,6 +116,9 @@
         if (page) {
           this.page = page
         }
+        if (typeof (page) == "undefined") {
+          this.page = 1;
+        }
         const data = {
           _mt: 'orgCostcenter.getPage',
           rows: t.rows,
@@ -128,23 +128,23 @@
           logType: this.$t('button.ser'),
           funId: 1000,
           costCode: t.costCode,
-          name: t.name,
+          costName: t.costName,
         }
         for (const dat in data) {
           if (data[dat] === '') {
             delete data[dat]
           }
         }
+        t.loading = true;
         getDataLevelUserLoginNew(data).then((res) => {
           if (isSuccess(res, t)) {
+            t.loading = false;
             t.data = res.data.content[0].rows
             t.total = res.data.content[0].records
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+          t.loading = false;
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
       },
       addNewArray(res) {
@@ -172,7 +172,7 @@
       pageChange(page) {
         const t = this
         t.page = page
-        t.getData()
+        t.getData(t.page)
       },
       selectedtable(selection) {
         const newArr = []
@@ -184,10 +184,7 @@
       deletemsg() {
         const t = this
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: this.$t('reminder.remind'),
-            content: this.$t('reminder.leastone'),
-          })
+          this.$Message.warning(this.$t('reminder.leastone'))
         } else {
         	t.$Modal.confirm({
         		title: this.$t('reminder.remind'),
@@ -200,14 +197,12 @@
           delIds: t.tableselected.toString(),
         }).then((res) => {
           if (isSuccess(res, t)) {
+            t.$Message.success(this.$t('reminder.deletesuccess'))
             t.tableselected = []
             t.getData()
           }
         }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
+            t.$Message.error(this.$t('reminder.errormessage'))
         })
         		},
         		onCancel: () => {},
@@ -237,8 +232,7 @@
         const t = this
         t.openUpdate = false
         t.$refs.update.formValidate.costCode = ''
-        t.$refs.update.formValidate.cname = ''
-        t.$refs.update.formValidate.ename = ''
+        t.$refs.update.formValidate.costName = ''
         t.$refs.update.formValidate.validdate = ''
         t.$refs.update.formValidate.invdate = ''
         t.$refs.update.formValidate.comment = ''

@@ -257,10 +257,7 @@
       deletemsg() {
         const t = this
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: this.$t('reminder.remind'),
-            content: this.$t('reminder.leastone'),
-          })
+          this.$Message.warning(this.$t('reminder.leastone'))
         } else {
         	t.$Modal.confirm({
         		title: this.$t('reminder.remind'),
