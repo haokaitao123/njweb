@@ -347,10 +347,7 @@ export default {
     deletemsg() {
       const t = this;
       if (t.updateArr.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        this.$Message.warning(this.$t('reminder.leastone'))
       } else {
         t.$Modal.confirm({
           title: this.$t("reminder.remind"),
@@ -370,12 +367,12 @@ export default {
             getDataLevelUserLogin(data)
               .then(res => {
                 if (isSuccess(res, t)) {
-                  t.$Message.success('删除成功');
+                  t.$Message.success(this.$t('reminder.deletesuccess'))
                   t.getData(1);
                 }
               })
               .catch(() => {
-                this.$Message.error('删除失败');
+                t.$Message.error(this.$t('reminder.errormessage'))
               });
           }
         });
@@ -497,11 +494,11 @@ export default {
             if (isSuccess(res, t)) {
             t.getData(1);
             t.updateArr = [];
-            t.$Message.success('处理成功');
+            t.$Message.success(this.$t('reminder.operatsuccess'))
           }
         })
         .catch(() => {
-          this.$Message.error('处理失败');
+          t.$Message.error(this.$t('reminder.errormessage'))
         })
         },
         onCancel: () => {},

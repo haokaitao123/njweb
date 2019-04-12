@@ -268,10 +268,7 @@
         }
       }).catch(() => {
           t.loading = false; //在成功之后改状态
-          t.$Modal.error({
-          title: '错误',
-          content: '网络错误',
-        })
+        t.$Message.error(this.$t('reminder.errormessage'))
       })
       },
       // 导入导出默认方法 无需更改
@@ -406,10 +403,7 @@
       deletemsg() {
         const t = this
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: '提示',
-            content: '请至少选择一条数据',
-          })
+          this.$Message.warning(this.$t('reminder.leastone'))
         } else {
           t.$Modal.confirm({
             title: '提示',
@@ -422,12 +416,12 @@
                 ids: t.tableselected.toString(),
         }).then((res) => {
             if (isSuccess(res, t)) {
-            t.$Message.success('删除成功')
+            t.$Message.success(this.$t('reminder.deletesuccess'))
             t.tableselected = []
             t.getData(1)
           }
         }).catch(() => {
-            t.$Message.error('删除失败')
+            t.$Message.error(this.$t('reminder.errormessage'))
         })
         },
           onCancel: () => {},
