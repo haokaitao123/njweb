@@ -353,6 +353,8 @@ export default {
                 contProbatdt: "",
                 contValiddate: "",
                 contInvdate: "",
+                contBmxy:"",
+                contJzxy:"",
                 fileKey: "", // 上传附件
                 note: "", //备注
                 funId: "1",
@@ -659,19 +661,23 @@ export default {
                         t.filekey = res.data[key];
                         t.form.fileKey = key + ":" + res.data[key];
                     }
+                     this.$Message.success(this.$t("reminder.uploadsuccess"));
+            }).catch(() => {
+                this.$Message.error(this.$t("reminder.errormessage"));
+            })
                     //this.$Message.success(this.$t("reminder.uploadsuccess"));
-                    t.$Modal.success({
-                        title: this.$t("reminder.suc"),
-                        content: "上传成功",
+                //     t.$Modal.success({
+                //         title: this.$t("reminder.suc"),
+                //         content: "上传成功",
 
-                        onOk: () => {
-                            t.loadingStatus = false;
-                        }
-                    });
-                })
-                .catch(() => {
-                    this.$Message.error("网络错误");
-                });
+                //         onOk: () => {
+                //             t.loadingStatus = false;
+                //         }
+                //     });
+                // })
+                // .catch(() => {
+                //     this.$Message.error("网络错误");
+                // });
         },
         //下载
         downloadFile () {

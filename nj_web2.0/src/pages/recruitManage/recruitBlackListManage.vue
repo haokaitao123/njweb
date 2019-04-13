@@ -396,7 +396,7 @@ export default {
       const t = this;
       t.data.unshift(res);
     },
-    getData(id, page) {
+    getData(page) {
       const t = this;
       if (page == undefined) {
         this.page = 1;
