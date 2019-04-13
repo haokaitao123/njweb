@@ -20,7 +20,7 @@
             <Row>
                 <Form :model="form"
                       label-position="right"
-                      :rules="logType=='查看'?{}:ruleValidate"
+                      :rules="ruleValidate"
                       ref="form"
                       :label-width="110">
                     <i-col span="11">
