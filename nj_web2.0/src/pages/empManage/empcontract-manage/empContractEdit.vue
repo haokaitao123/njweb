@@ -37,7 +37,7 @@
                                     <Input v-model="empName"
                                            icon="search"
                                            :readonly="true"
-                                           :disabled="disabled"
+                                           :disabled="disabled || aa"
                                            placeholder="请选择员工"
                                            @on-click=" pickEmpData()" />
                                 </span>
@@ -323,6 +323,7 @@ export default {
         };
 
         return {
+            aa:false,
             type: "",
             distype: false,
             disabled: false,

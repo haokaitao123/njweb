@@ -548,6 +548,7 @@ export default {
       t.openUpdate = true;
       t.index = index;
       t.$refs.update.disabled = false;
+      t.$refs.update.aa = false;
       t.$refs.update.getSelect("emptype");
       t.$refs.update.getSelect("contrpertype");
       t.$refs.update.getSelect("contperiod");
@@ -559,6 +560,9 @@ export default {
       if (logType === "查看") {
         t.$refs.update.disabled = true;
       }
+       if (logType === this.$t("button.upd")){
+           t.$refs.update.aa = true;
+       }
     },
     closeUp() {
       const t = this;
