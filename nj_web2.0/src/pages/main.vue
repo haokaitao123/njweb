@@ -267,7 +267,7 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     if (Object.keys(res.data.content[0]).length !== 0) {
-                        setCookie('wtk', res.data.content[0].webToken)
+                        // setCookie('wtk', res.data.content[0].webToken)
                         t.cur_roleType = res.data.content[0].cur_roleType.roleTypeCode
                         t.cur_company = res.data.content[0].cur_company.companyId
                         t.cur_language = res.data.content[0].cur_language.lanCode
@@ -316,7 +316,7 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     if (Object.keys(res.data.content[0]).length !== 0) {
-                        setCookie('wtk', res.data.content[0].webToken)
+                        // setCookie('wtk', res.data.content[0].webToken)
                         t.cur_roleType = res.data.content[0].cur_roleType.roleTypeCode
                         t.cur_company = res.data.content[0].cur_company.companyId
                         //              t.cur_language = res.data.content[0].cur_language.lanCode
