@@ -48,7 +48,8 @@
                               prop="recPhone">
                         <Input v-model="formValidate.recPhone"
                                :disabled="disabled"
-                               placeholder="请输入手机号"></Input>
+                               placeholder="请输入手机号"
+                               ></Input>
                     </FormItem>
                     </Col>
                 </Row>
@@ -104,10 +105,13 @@ import valid from '../../lib/pub_valid'
 export default {
     data () {
         const phonecheck = (rule, value, calphonecheck) => {
-            if (valid.val_mobile(value)) {
-                return calphonecheck()
-            }
-            return calphonecheck(new Error(rule.message))
+             if (value !== '' && value !== undefined) {
+                if (valid.val_mobile(value)) {
+                    return calphonecheck()
+                }
+                  return calphonecheck(new Error(rule.message))
+             }
+          calphonecheck()
         }
         const numberCheck = (rule, value, numberValCheck) => {
             if (value !== '' && value !== undefined) {
@@ -140,16 +144,18 @@ export default {
                     { required: true, message: '请输入求职者姓名', trigger: 'blur' },
                 ],
                 recPhone: [
+                     {
+                        validator: phonecheck,
+                        validator: numberCheck,
+                        message: '请输入正确的数字格式',
+                        trigger: 'blur'
+                    },
                     {
                         validator: phonecheck,
                         message: '请填写正确的手机号',
                         trigger: 'blur'
                     },
-                    {
-                        validator: numberCheck,
-                        message: '请输入正确的数字格式',
-                        trigger: 'blur'
-                    },
+                   
                 ],
             },
         }

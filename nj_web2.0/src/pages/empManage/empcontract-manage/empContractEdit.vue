@@ -15,7 +15,7 @@
                 </Button>
             </div>
             <div class="option-main">
-                <Row style="max-height: 460px;overflow-y: auto;">
+                <Row style="max-height: 460px;overflow-y: auto;" ref="scrollBox">
                     <Form ref="form"
                           :model="form"
                           :rules="ruleValidate"

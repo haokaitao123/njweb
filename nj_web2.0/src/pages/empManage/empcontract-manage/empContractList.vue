@@ -566,6 +566,7 @@ export default {
     },
     closeUp() {
       const t = this;
+      //this.$refs.scrollBox.$el.scrollTop = "0";
       t.openUpdate = false;
       t.$refs.update.form.numberCode = "XXXXXX";
       t.$refs.update.form.empId = "";
