@@ -143,10 +143,11 @@
                 t.formValidate.note = res.data.content[0].note
             }
             }).catch(() => {
-                this.$Modal.error({
-                    title: '错误',
-                    content: '网络错误',
-                })
+                // this.$Modal.error({
+                //     title: '错误',
+                //     content: '网络错误',
+                // })
+                this.$Message.error(this.$t("reminder.errormessage"));
             })
         },
         //点击提交事件
@@ -172,29 +173,32 @@
                     if (isSuccess(res, t)) {
                         t.$emit('closeUp')
                         if (t.logType === '新增') {
-                            t.$Modal.success({
-                                title:'成功',
-                                content: '新增成功',
-                            })
+                            // t.$Modal.success({
+                            //     title:'成功',
+                            //     content: '新增成功',
+                            // })
+                            this.$Message.success(this.$t("reminder.addsuccess"));
                             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
                             t.$refs.formValidate.resetFields();
                             //像父组件传入新增成功的数据
                             t.$emit('getData', res.data.content[0])
                         } else {
-                            t.$Modal.success({
-                                title: '成功',
-                                content: '修改成功',
-                            })
+                            // t.$Modal.success({
+                            //     title: '成功',
+                            //     content: '修改成功',
+                            // })
+                            this.$Message.success(this.$t("reminder.updsuccess"));
                             //像父组件传入修改成功的数据
                             t.$emit('update', res.data.content[0])
                         }
                     }
                     }).catch(() => {
                         //请求失败
-                        this.$Modal.error({
-                            title: '错误',
-                            content: '网络错误',
-                        })
+                        // this.$Modal.error({
+                        //     title: '错误',
+                        //     content: '网络错误',
+                        // })
+                        this.$Message.error(this.$t("reminder.errormessage"));
                     })
                 }
             })

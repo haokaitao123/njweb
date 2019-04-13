@@ -450,10 +450,11 @@ export default {
           }
         })
         .catch(() => {
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+          // t.$Modal.error({
+          //   title: this.$t("reminder.err"),
+          //   content: this.$t("reminder.errormessage")
+          // });
+          this.$Message.error(this.$t("reminder.errormessage"));
         })
         .finally(() => {
           this.loading = false;
@@ -510,13 +511,15 @@ export default {
                   t.tableselected = [];
                   // t.getTree()
                   t.getData();
+                  this.$Message.success(this.$t("reminder.deletesuccess"));
                 }
               })
               .catch(() => {
-                t.$Modal.error({
-                  title: this.$t("reminder.err"),
-                  content: this.$t("reminder.errormessage")
-                });
+                // t.$Modal.error({
+                //   title: this.$t("reminder.err"),
+                //   content: this.$t("reminder.errormessage")
+                // });
+                this.$Message.error(this.$t("reminder.errormessage"))
               });
           },
           onCancel: () => {}
@@ -597,11 +600,11 @@ export default {
             .then(res => {
               if (isSuccess(res, t)) {
                 t.getData();
-                this.$Message.success("操作成功");
+                this.$Message.success(this.$t("reminder.operatsuccess"));
               }
             })
             .catch(() => {
-              this.$Message.error("操作失败");
+              this.$Message.error(this.$t("reminder.errormessage"));
             });
         },
         onCancel: () => {}

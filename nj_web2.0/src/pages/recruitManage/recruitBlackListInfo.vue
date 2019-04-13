@@ -194,10 +194,11 @@ export default {
 
                 }
             }).catch(() => {
-                this.$Modal.error({
-                    title: '错误',
-                    content: '网络错误',
-                })
+                // this.$Modal.error({
+                //     title: '错误',
+                //     content: '网络错误',
+                // })
+                this.$Message.error(this.$t("reminder.errormessage"));
             })
         },
         //      提交方法  无需变更
@@ -217,25 +218,28 @@ export default {
                             // 关闭本页面
                             t.$emit('closeUp')
                             if (t.logType === '新增') {
-                                t.$Modal.success({
-                                    title: '成功',
-                                    content: '新增成功',
-                                })
+                                // t.$Modal.success({
+                                //     title: '成功',
+                                //     content: '新增成功',
+                                // })
+                                this.$Message.success(this.$t("reminder.addsuccess"));
                                 t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
-                                t.$Modal.success({
-                                    title: '成功',
-                                    content: '修改成功',
-                                })
+                                // t.$Modal.success({
+                                //     title: '成功',
+                                //     content: '修改成功',
+                                // })
+                                this.$Message.success(this.$t("reminder.updsuccess"));
                                 t.$emit('update', res.data.content[0])
                             }
                         }
                     }).catch(() => {
-                        this.$Modal.error({
-                            title: '错误',
-                            content: '网络错误',
-                        })
+                        // this.$Modal.error({
+                        //     title: '错误',
+                        //     content: '网络错误',
+                        // })
+                        this.$Message.error(this.$t("reminder.errormessage"));
                     })
                 }
             })

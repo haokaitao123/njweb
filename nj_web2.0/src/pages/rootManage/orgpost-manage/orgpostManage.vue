@@ -144,7 +144,7 @@ export default {
   data() {
 
       return {
-
+          tableOperate:false,  //加上这个变量
         // 导入的mt名称
         imp_mt: "orgPost.importData",
         // 导出字段设置, code字段名 name列名
@@ -329,26 +329,23 @@ export default {
         loading: ""
     };
   },
-  computed: {
-    btnData() {
-      return this.$store.state.btnOperate.btnData;
-    },
-    FlowNode() {
-      return this.$store.state.btnOperate.isFlowNode;
-    },
-    pageShow() {
-      return this.$store.state.btnOperate.pageShow;
-    },
-    tableButton() {
-      return this.$store.state.btnOperate.tableButton;
-    },
-    tableOperate() {
-      return this.$store.state.btnOperate.tableOperate;
-    },
-    modity() {
-      return this.$store.state.btnOperate.modity;
-    }
-  },
+   computed:{
+        	pageShow () {
+                       return this.$store.state.btnOperate.pageShow
+        	},
+        	tableButton () {
+                       return this.$store.state.btnOperate.tableButton
+        	},
+modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+            	       return this.$store.state.btnOperate.modity
+        	},
+btnData() {
+            	       return this.$store.state.btnOperate.btnData
+        	},
+FlowNode() {
+            	       return this.$store.state.btnOperate.isFlowNode
+        	},
+       },
   components: {
     // 初始化子页面
     btnList,
@@ -363,23 +360,23 @@ export default {
     t.$refs.searchOrgframe.getData(this.params);
     t.openPick = true;
   },
-  created() {
-    if (this.pageShow != "") {
-      this.columns.push(this.tableBtn);
-      this.$store.commit("btnOperate/setTableOperate", "true");
-    }
-  },
-  watch: {
-    pageShow(val) {
-      if (val == "" && this.tableOperate == "true") {
-        this.columns.pop();
-        this.$store.commit("btnOperate/setTableOperate", "false");
-      } else if (this.tableOperate == "false") {
-        this.columns.push(this.tableBtn);
-        this.$store.commit("btnOperate/setTableOperate", "true");
-      }
-    }
-  },
+  created () { 
+       if (this.pageShow !== "") {
+            this.columns.push(this.tableBtn);
+            this.tableOperate = true
+        }
+    },
+  watch:{ 
+       pageShow (val) {
+            if (val ==="" && this.tableOperate === true) {
+                this.columns.pop();
+                 this.tableOperate = false;
+            } else if (this.tableOperate === false) {
+                this.columns.push(this.tableBtn);
+                this.tableOperate = true;
+            }
+        }
+    },
   //初始化自动调用方法
   mounted() {
     this.getData();
@@ -391,7 +388,7 @@ export default {
     modityChange(res) {
       this.getData();
     },
-    getData(id, page) {
+    getData(page) {
       const t = this;
       this.loading = true;
       if (page == undefined) {
@@ -409,7 +406,7 @@ export default {
         postFname: t.postFname,
         state: t.modity,
         postDfpslevel: t.postDfpslevel,
-        postUnit: id || ""
+        //postUnit: id || ""
       };
       for (const dat in data) {
         if (data[dat] === "") {
@@ -447,7 +444,7 @@ export default {
     sizeChange(size) {
       const t = this;
       t.rows = size;
-      t.getData(this.treeid);
+      t.getData();
     },
     pageChange(page) {
       const t = this;
@@ -464,10 +461,11 @@ export default {
     deletemsg() {
       const t = this;
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        // t.$Modal.warning({
+        //   title: this.$t("reminder.remind"),
+        //   content: this.$t("reminder.leastone")
+        // });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: this.$t("reminder.remind"),
@@ -545,10 +543,11 @@ export default {
         tipContent = "您确定继续操作吗？";
       }
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        // t.$Modal.warning({
+        //   title: this.$t("reminder.remind"),
+        //   content: this.$t("reminder.leastone")
+        // });
+        this.$Message.warning('请至少选择一条数据');
         return;
       }
       t.$Modal.confirm({
