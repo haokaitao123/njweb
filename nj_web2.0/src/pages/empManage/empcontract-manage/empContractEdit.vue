@@ -506,10 +506,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    // this.$Modal.error({
-                    //     title: this.$t("reminder.err"),
-                    //     content: this.$t("reminder.errormessage")
-                    // });
+                   
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -545,10 +542,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    // this.$Modal.error({
-                    //     title: this.$t("reminder.err"),
-                    //     content: this.$t("reminder.errormessage")
-                    // });
+                    
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -595,18 +589,12 @@ export default {
                             if (isSuccess(res, t)) {
                                 t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
-                                    // t.$Modal.success({
-                                    //     title: this.$t('reminder.suc'),
-                                    //     content: this.$t('reminder.addsuccess'),
-                                    // })
+                                   
                                     this.$Message.success(this.$t("reminder.addsuccess"));
                                     t.$refs.form.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
-                                    // t.$Modal.success({
-                                    //     title: this.$t('reminder.suc'),
-                                    //     content: this.$t('reminder.updsuccess'),
-                                    // })
+                                   
                                     this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
@@ -665,19 +653,7 @@ export default {
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
-                    //this.$Message.success(this.$t("reminder.uploadsuccess"));
-                //     t.$Modal.success({
-                //         title: this.$t("reminder.suc"),
-                //         content: "上传成功",
-
-                //         onOk: () => {
-                //             t.loadingStatus = false;
-                //         }
-                //     });
-                // })
-                // .catch(() => {
-                //     this.$Message.error("网络错误");
-                // });
+                
         },
         //下载
         downloadFile () {

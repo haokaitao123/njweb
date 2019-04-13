@@ -583,6 +583,15 @@ export default {
       t.$refs.update.form.contValiddate = "";
       t.$refs.update.form.contInvdate = "";
       t.$refs.update.form.note = "";
+       t.$refs.update.empName = "";
+            t.$refs.update.postIdDis = "";
+            t.$refs.update.deptIdDis = "";
+            t.$refs.update.empTypeDis = "";
+            t.$refs.update.contTypeDis = "";
+            t.$refs.update.contPeriodDis = "";
+            t.$refs.update.contWorktimeDis = "";
+            t.$refs.update.contProbatDis = "";
+
     },
     search() {
       this.page = 1;
