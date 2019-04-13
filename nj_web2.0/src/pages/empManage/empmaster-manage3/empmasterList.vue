@@ -222,8 +222,7 @@ export default {
                 {
                     title: "唯一编号",
                     key: "numberCode",
-                    width: 120,
-
+                    width: 130,
                     align: "center"
                 },
 
@@ -321,7 +320,7 @@ export default {
                 {
                     title: "开户银行",
                     key: "empnhSalbankDis",
-                    width: 140,
+                    width: 160,
                     align: "center"
                 },
                 {
@@ -407,7 +406,7 @@ export default {
                 sort: 'id',
                 order: 'desc',
                 logType: '岗位',
-                state:'02valid',
+                state: '02valid',
             },
             state: this.modity,
             tableOperate: false
@@ -456,7 +455,7 @@ export default {
         searchTable
     },
     mounted () {
-        this.search();
+        this.getData();
         this.getTree();
     },
     methods: {
@@ -464,13 +463,15 @@ export default {
         search () {
             this.page = 1;
             this.treeid = "";
-            this.treeType = "";
             this.$store.commit('btnOperate/setSearchLoading', true)
             this.getData();
         },
         // 获取主表数据
-        getData (id) {
+        getData (id, page) {
             const t = this;
+            if (typeof page == "undefined") {
+                this.page = 1;
+            }
             const data = {
                 _mt: "empEmpnh.getPage",
                 rows: t.rows,
@@ -498,7 +499,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                   this.$Message.error(this.$t("reminder.errormessage"));
+                    this.$Message.error(this.$t("reminder.errormessage"));
                 })
                 .finally(() => {
                     this.loading = false;
