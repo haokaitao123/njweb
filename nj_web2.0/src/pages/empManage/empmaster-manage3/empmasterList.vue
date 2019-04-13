@@ -543,7 +543,7 @@ export default {
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
-                    content: "请确定是否将数据加入入职中",
+                    content: "请确定是否将数据加入已入职",
                     onOk: () => {
                         getDataLevelUserLogin({
                             _mt: "empEmpnh.updStateByIds",
