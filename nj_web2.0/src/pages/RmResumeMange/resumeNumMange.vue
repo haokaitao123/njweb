@@ -160,6 +160,7 @@ export default {
   data() {
     return {
       loading: "",
+      tableOperate:false,
 			// 导入的mt名称
         imp_mt: 'rmResume.importData',
         // 导出字段设置, code字段名 name列名
