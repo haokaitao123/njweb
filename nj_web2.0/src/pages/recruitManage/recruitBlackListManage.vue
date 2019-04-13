@@ -179,13 +179,8 @@ export default {
           key: "recReason",
 
           width: 220
-        },
-        {
-          title: "备注",
-          key: "note",
-
-          width: 220
         }
+        
       ],
       tableBtn: {
         title: "操作",
