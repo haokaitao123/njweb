@@ -72,7 +72,7 @@ import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin,
 } from "../../../axios/axios";
-import { isSuccess, deepCopy } from "../../../lib/util";
+import { isSuccess, deepCopy, getUrlKey, GetQueryString } from "../../../lib/util";
 import empBaseInfo from "./empBaseInfo/empBaseInfo";
 import empEducation from "./empEducation/empEducation";
 import empContractInfo from "./empContractInfo/empContractInfo";
@@ -114,6 +114,7 @@ export default {
         //      关闭方法 分别调用本页面 父页面 主表详细信息页面 子表分页的清除方法  无需变更
         handleReset () {
             this.clear();
+
             this.$emit("closeUp");
         },
         //      默认方法
@@ -200,6 +201,8 @@ export default {
             this.$refs.empWorkExp.clear();
             this.$refs.empFamily.clear();
             this.$store.commit('setChildFunId', "");
+            let funcode = getUrlKey('code');
+            this.$store.commit('setFunCode', funcode);
         },
         //      更新父页面列表 无需变更
         update (data) {
