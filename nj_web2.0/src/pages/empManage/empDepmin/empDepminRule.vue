@@ -61,9 +61,9 @@
 
   export default{
     created () {
-      if (this.pageShow != "") {
+      if (this.pageShow !== "") {
         this.columns.push(this.tableBtn);
-        this.$store.commit('btnOperate/setTableOperate', 'true');
+        this.tableOperate = true
       }
     },
     computed:{
@@ -73,18 +73,19 @@
       tableButton () {
         return this.$store.state.btnOperate.tableButton
       },
-      tableOperate () {
-        return this.$store.state.btnOperate.tableOperate
+      modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+        return this.$store.state.btnOperate.modity
       },
-      btnData () {
+      btnData() {
         return this.$store.state.btnOperate.btnData
       },
-      FlowNode () {
+      FlowNode() {
         return this.$store.state.btnOperate.isFlowNode
-      }
+      },
     },
     data() {
       return {
+        tableOperate:false,
         opendepPost:false,
         loading: "",
         // 导入的mt名称
@@ -220,19 +221,20 @@
     },
     watch:{
       pageShow (val) {
-        if (val == "" && this.tableOperate == 'true') {
+        if (val ==="" && this.tableOperate === true) {
           this.columns.pop();
-          this.$store.commit('btnOperate/setTableOperate', 'false');
-        } else if (this.tableOperate == 'false') {
+          this.tableOperate = false;
+        } else if (this.tableOperate === false) {
           this.columns.push(this.tableBtn);
-          this.$store.commit('btnOperate/setTableOperate', 'true');
+          this.tableOperate = true;
         }
       }
-    },
+  },
     methods: {
       // 查询方法
       getData(page) {
         const t = this
+        this.$store.commit('btnOperate/setSearchLoading',true)
         // 是否重置页码 无需更改
         if (page) {
           t.page = page
@@ -264,12 +266,13 @@
           if (isSuccess(res, t)) {
           t.data = res.data.content[0].rows
           t.total = res.data.content[0].records
-          t.loading = false; //在成功之后改状态
         }
       }).catch(() => {
-          t.loading = false; //在成功之后改状态
         t.$Message.error(this.$t('reminder.errormessage'))
-      })
+      }).finally(() => {
+          t.loading = false;
+          t.$store.commit('btnOperate/setSearchLoading',false);
+      });
       },
       // 导入导出默认方法 无需更改
       closeImport() {
@@ -383,7 +386,6 @@
         t.depPostDis = name
         t.opendepPost =false;
       },
-
 
 
 
