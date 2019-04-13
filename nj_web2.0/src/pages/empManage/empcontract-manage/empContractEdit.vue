@@ -241,9 +241,8 @@
                                         </Upload>
                                     </i-col>
                                     <i-col span="19">
-                                        <span v-if="file !==''"
-                                              @dblclick="disabled?'':clearFile()">
-                                            <i-col span="22">
+                                        <span v-if="file !==''">
+                                            <i-col span="22" @dblclick="disabled?'':clearFile()">
                                                 <Input v-model="file.name"
                                                        readonly="readonly">
                                                 <span slot="prepend">
