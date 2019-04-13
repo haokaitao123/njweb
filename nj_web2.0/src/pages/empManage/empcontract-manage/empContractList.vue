@@ -1,137 +1,120 @@
 <template>
-  <div class="table">
-    <Row>
-      <Col span="24">
-        <card>
-          <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;合同信息管理
-          </p>
-          <Row>
-            <Input placeholder="请输入员工姓名" style="width: 200px" v-model="empName"/>
-            <span @dblclick="cleardeptId()">
-              <Input
-                v-model="deptIdDis"
-                style="width: 200px"
-                icon="search"
-                :readonly="true"
-                placeholder="请选择部门"
-                @on-click="pickDeptData"
-              />
-            </span>
-            <btnList
-              @buttonExport="expData"
-              @buttonImport="importExcel"
-              @buttonAdd="openUp(NaN,$t('button.add'))"
-              @buttonDel="deletemsg"
-              @buttonValid="modifystatus('02valid')"
-              @buttonDraft="modifystatus('01draft')"
-              @buttonInvalid="modifystatus('03invalid')"
-              @moditySelect="modityChange"
-              @buttonSearch="search"
-              :btnData="btnData"
-              :FlowNode="FlowNode"
-            ></btnList>
-          </Row>
-          <row class="table-form" ref="table-form">
-            <Table
-              @on-selection-change="selectedtable"
-              @on-sort-change="sortable"
-              :height="tableheight"
-              size="small"
-              border
-              ref="selection"
-              :columns="columns"
-              :data="data"
-              :loading="loading"
-            ></Table>
-          </row>
-          <Row style="display: flex">
-            <Page
-              :total="total"
-              size="small"
-              show-elevator
-              show-sizer
-              placement="top"
-              :current="page"
-              @on-page-size-change="sizeChange"
-              @on-change="pageChange"
-              :page-size-opts="[10, 20, 50, 100]"
-            ></Page>
-            <Button
-              type="ghost"
-              size="small"
-              shape="circle"
-              icon="refresh"
-              style="margin-left: 20px;display: inline-block;"
-              @click="search()"
-            ></Button>
-          </Row>
-        </card>
-      </Col>
-    </Row>
-    <transition name="fade">
-      <update
-        v-show="openUpdate"
-        :id="updateId"
-        :logType="logType"
-        :index="index"
-        @closeUp="closeUp"
-        @getData="addNewArray"
-        @update="updateArray"
-        ref="update"
-      ></update>
-    </transition>
-    <!--部门-->
-    <transition name="fade">
-      <searchTable
-        v-show="openDeptPick"
-        :searchDeptClo="searchDeptCloumns"
-        :params="Params"
-        @closeDept="closeDept"
-        @inputDept="inputPost"
-        @changeinput="changeDeptInput"
-        ref="searchTable"
-      ></searchTable>
-    </transition>
-    <!--导入导出子页面 若没有导入导出可以去掉-->
-    <transition>
-      <expwindow
-        v-show="openExp"
-        :id="tableselected"
-        @setFileKey="setFileKey"
-        :logType="logType"
-        :index="index"
-        @closeExp="closeExp"
-        ref="expwindow"
-      ></expwindow>
-    </transition>
-    <transition>
-      <expdow
-        v-show="openExpDow"
-        :filekey="filekey"
-        :filename="filename"
-        @closeExpDowMain="closeExpDowMain"
-        ref="expdow"
-      ></expdow>
-    </transition>
-    <transition name="fade">
-      <importExcel
-        v-show="openImport"
-        :impid="updateId"
-        :imp_mt="imp_mt"
-        @getData="getData"
-        @closeImport="closeImport"
-        ref="importExcel"
-      ></importExcel>
-    </transition>
-  </div>
+    <div class="table">
+        <Row>
+            <Col span="24">
+            <card>
+                <p slot="title">
+                    <Icon type="mouse"></Icon>&nbsp;合同信息管理
+                </p>
+                <Row>
+                    <Input placeholder="请输入员工姓名"
+                           style="width: 200px"
+                           v-model="empName" />
+                    <span @dblclick="cleardeptId()">
+                        <Input v-model="deptIdDis"
+                               style="width: 200px"
+                               icon="search"
+                               :readonly="true"
+                               placeholder="请选择部门"
+                               @on-click="pickDeptData" />
+                    </span>
+                    <btnList @buttonExport="expData"
+                             @buttonImport="importExcel"
+                             @buttonAdd="openUp(NaN,$t('button.add'))"
+                             @buttonDel="deletemsg"
+                             @buttonValid="modifystatus('02valid')"
+                             @buttonDraft="modifystatus('01draft')"
+                             @buttonInvalid="modifystatus('03invalid')"
+                             @moditySelect="modityChange"
+                             @buttonSearch="search"
+                             :btnData="btnData"
+                             :FlowNode="FlowNode"></btnList>
+                </Row>
+                <row class="table-form"
+                     ref="table-form">
+                    <Table @on-selection-change="selectedtable"
+                           @on-sort-change="sortable"
+                           :height="tableheight"
+                           size="small"
+                           border
+                           ref="selection"
+                           :columns="columns"
+                           :data="data"
+                           :loading="loading"></Table>
+                </row>
+                <Row style="display: flex">
+                    <Page :total="total"
+                          size="small"
+                          show-elevator
+                          show-sizer
+                          placement="top"
+                          :current="page"
+                          @on-page-size-change="sizeChange"
+                          @on-change="pageChange"
+                          :page-size-opts="[10, 20, 50, 100]"></Page>
+                    <Button type="ghost"
+                            size="small"
+                            shape="circle"
+                            icon="refresh"
+                            style="margin-left: 20px;display: inline-block;"
+                            @click="search()"></Button>
+                </Row>
+            </card>
+            </Col>
+        </Row>
+        <transition name="fade">
+            <update v-show="openUpdate"
+                    :id="updateId"
+                    :logType="logType"
+                    :index="index"
+                    @closeUp="closeUp"
+                    @getData="addNewArray"
+                    @update="updateArray"
+                    ref="update"></update>
+        </transition>
+        <!--部门-->
+        <transition name="fade">
+            <searchTable v-show="openDeptPick"
+                         :searchDeptClo="searchDeptCloumns"
+                         :params="Params"
+                         @closeDept="closeDept"
+                         @inputDept="inputPost"
+                         @changeinput="changeDeptInput"
+                         ref="searchTable"></searchTable>
+        </transition>
+        <!--导入导出子页面 若没有导入导出可以去掉-->
+        <transition>
+            <expwindow v-show="openExp"
+                       :id="tableselected"
+                       @setFileKey="setFileKey"
+                       :logType="logType"
+                       :index="index"
+                       @closeExp="closeExp"
+                       ref="expwindow"></expwindow>
+        </transition>
+        <transition>
+            <expdow v-show="openExpDow"
+                    :filekey="filekey"
+                    :filename="filename"
+                    @closeExpDowMain="closeExpDowMain"
+                    ref="expdow"></expdow>
+        </transition>
+        <transition name="fade">
+            <importExcel v-show="openImport"
+                         :impid="updateId"
+                         :imp_mt="imp_mt"
+                         @getData="getData"
+                         @closeImport="closeImport"
+                         ref="importExcel"></importExcel>
+        </transition>
+    </div>
 </template>
 <script>
 import update from "./empContractEdit";
 import { isSuccess } from "../../../lib/util";
 import {
-  getDataLevelUserLoginNew,
-  getDataLevelUserLogin
+    getDataLevelUserLoginNew,
+    getDataLevelUserLogin
 } from "../../../axios/axios";
 import expwindow from "../../../components/fileOperations/expSms";
 import expdow from "../../../components/fileOperations/expdow";
@@ -139,335 +122,335 @@ import importExcel from "../../../components/importModel/importParam";
 import btnList from "../../../components/btnAuth/btnAuth";
 import searchTable from "../../../components/searchTable/searchDept";
 export default {
-  data() {
-    return {
-      tableOperate: false, //加上这个变量
-      // 导入的mt名称
-      imp_mt: "empContractinfo.importData",
-      // 导出字段设置, code字段名 name列名
-      expDataTital: [
-        { code: "numberCode", name: "合同编号" },
-        { code: "empName", name: "员工姓名" },
-        { code: "deptIdDis", name: "部门名称" },
-        { code: "postIdDis", name: "岗位名称" },
-        { code: "empTypeDis", name: "员工类别" },
-        { code: "contTypeDis", name: "合同类别" },
-        { code: "contPeriodDis", name: "合同期限" },
-        { code: "contSdate", name: "合同开始日" },
-        { code: "contEdate", name: "合同到期日" },
-        { code: "contWorktimeDis", name: "合同工作时间" },
-        { code: "contSigndate", name: "签订时间" },
-        { code: "contProbatDis", name: "试用期限" },
-        { code: "contProbatdt", name: "试用期到期日" },
-        { code: "contValiddate", name: "生效日期" },
-        { code: "contInvdate", name: "失效日期" },
-        { code: "note", name: "备注" }
-      ],
-      // 导入导出默认参数 无需变更
-      openImport: false,
-      openExpDow: false,
-      openExp: false,
-      filekey: "",
-      filename: "",
-      tableheight: document.body.offsetHeight - 280,
-      logType: "",
-      openUpdate: false,
-      updateId: NaN,
-      loading: false,
-      tableselected: [],
-      columns: [
-        {
-          type: "selection",
-          width: 54,
-          align: "center"
-        },
-        {
-          title: "合同编号",
-          key: "numberCode",
-          width: 100,
-
-          sortable: "custom"
-        },
-        {
-          title: "员工姓名",
-          key: "empName",
-          width: 100
-        },
-        {
-          title: "部门名称",
-          key: "deptIdDis",
-          width: 160,
-          sortable: "custom"
-        },
-        {
-          title: "岗位名称",
-          key: "postIdDis",
-          width: 160,
-          sortable: "custom"
-        },
-        {
-          title: "员工类别",
-          key: "empTypeDis",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "合同类别",
-          key: "contTypeDis",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "合同期限",
-          key: "contPeriodDis",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "合同开始日",
-          key: "contSdate",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "合同到期日",
-          key: "contEdate",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "合同工作时间",
-          key: "contWorktimeDis",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "签署日期",
-          key: "contSigndate",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "合同到期日",
-          key: "contEdate",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "试用期限",
-          key: "contProbatDis",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "试用期到期日",
-          key: "contProbatdt",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "生效日期",
-          key: "contValiddate",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "失效日期",
-          key: "contInvdate",
-          sortable: "custom",
-          width: 120
-        }
-      ],
-      tableBtn: {
-        title: "操作",
-        key: "action",
-        width: 100,
-        fixed: "right",
-        align: "center",
-        render: (h, params) => {
-          let child = [];
-          for (let v of this.tableButton) {
-            child.push(
-              h(
-                "Button",
+    data () {
+        return {
+            tableOperate: false, //加上这个变量
+            // 导入的mt名称
+            imp_mt: "empContractinfo.importData",
+            // 导出字段设置, code字段名 name列名
+            expDataTital: [
+                { code: "numberCode", name: "合同编号" },
+                { code: "empName", name: "员工姓名" },
+                { code: "deptIdDis", name: "部门名称" },
+                { code: "postIdDis", name: "岗位名称" },
+                { code: "empTypeDis", name: "员工类别" },
+                { code: "contTypeDis", name: "合同类别" },
+                { code: "contPeriodDis", name: "合同期限" },
+                { code: "contSdate", name: "合同开始日" },
+                { code: "contEdate", name: "合同到期日" },
+                { code: "contWorktimeDis", name: "合同工作时间" },
+                { code: "contSigndate", name: "签订时间" },
+                { code: "contProbatDis", name: "试用期限" },
+                { code: "contProbatdt", name: "试用期到期日" },
+                { code: "contValiddate", name: "生效日期" },
+                { code: "contInvdate", name: "失效日期" },
+                { code: "note", name: "备注" }
+            ],
+            // 导入导出默认参数 无需变更
+            openImport: false,
+            openExpDow: false,
+            openExp: false,
+            filekey: "",
+            filename: "",
+            tableheight: document.body.offsetHeight - 280,
+            logType: "",
+            openUpdate: false,
+            updateId: NaN,
+            loading: false,
+            tableselected: [],
+            columns: [
                 {
-                  props: {
-                    type: v.type,
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px",
-                    display:
-                      this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
-                  },
-                  on: {
-                    click: () => {
-                      this.openUp(params.row.id, v.name, params.index);
-                    }
-                  }
+                    type: "selection",
+                    width: 54,
+                    align: "center"
                 },
-                v.name
-              )
-            );
-          }
-          return h("div", [child]);
-        }
-      },
-      data: [],
-      total: 0,
-      index: 0,
-      sort: "id",
-      order: "asc",
-      rows: 10,
-      page: 1,
-      funId: "1000",
-      empName: "",
-      deptId: "",
-      deptIdDis: "",
-      openDeptPick: false,
-      //部门
-      searchDeptCloumns: [
-        {
-          title: "部门编码",
-          key: "unitCode",
-          sortable: "custom"
+                {
+                    title: "合同编号",
+                    key: "numberCode",
+                    width: 100,
+
+                    sortable: "custom"
+                },
+                {
+                    title: "员工姓名",
+                    key: "empName",
+                    width: 100
+                },
+                {
+                    title: "部门名称",
+                    key: "deptIdDis",
+                    width: 160,
+                    sortable: "custom"
+                },
+                {
+                    title: "岗位名称",
+                    key: "postIdDis",
+                    width: 160,
+                    sortable: "custom"
+                },
+                {
+                    title: "员工类别",
+                    key: "empTypeDis",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "合同类别",
+                    key: "contTypeDis",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "合同期限",
+                    key: "contPeriodDis",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "合同开始日",
+                    key: "contSdate",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "合同到期日",
+                    key: "contEdate",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "合同工作时间",
+                    key: "contWorktimeDis",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "签署日期",
+                    key: "contSigndate",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "合同到期日",
+                    key: "contEdate",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "试用期限",
+                    key: "contProbatDis",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "试用期到期日",
+                    key: "contProbatdt",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "生效日期",
+                    key: "contValiddate",
+                    sortable: "custom",
+                    width: 120
+                },
+                {
+                    title: "失效日期",
+                    key: "contInvdate",
+                    sortable: "custom",
+                    width: 120
+                }
+            ],
+            tableBtn: {
+                title: "操作",
+                key: "action",
+                width: 100,
+                fixed: "right",
+                align: "center",
+                render: (h, params) => {
+                    let child = [];
+                    for (let v of this.tableButton) {
+                        child.push(
+                            h(
+                                "Button",
+                                {
+                                    props: {
+                                        type: v.type,
+                                        size: "small"
+                                    },
+                                    style: {
+                                        marginRight: "5px",
+                                        display:
+                                            this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.openUp(params.row.id, v.name, params.index);
+                                        }
+                                    }
+                                },
+                                v.name
+                            )
+                        );
+                    }
+                    return h("div", [child]);
+                }
+            },
+            data: [],
+            total: 0,
+            index: 0,
+            sort: "id",
+            order: "asc",
+            rows: 10,
+            page: 1,
+            funId: "1000",
+            empName: "",
+            deptId: "",
+            deptIdDis: "",
+            openDeptPick: false,
+            //部门
+            searchDeptCloumns: [
+                {
+                    title: "部门编码",
+                    key: "unitCode",
+                    sortable: "custom"
+                },
+                {
+                    title: "部门名称",
+                    key: "unitFname"
+                }
+            ],
+            Params: {
+                _mt: "orgUnits.getByOrgFramePageList",
+                rows: 10,
+                page: 1,
+                sort: "id",
+                order: "desc",
+                logType: "部门",
+                unitType: "02dept",
+                state: "02valid"
+            },
+            //   params: {
+            //     _mt: "empContractinfo.getPage",
+            //     sort: "id",
+            //     order: "asc",
+            //     rows: 10,
+            //     page: 1,
+            //     funId: "1",
+            //     logType: "合同信息查询",
+            //     data: "{}"
+            //   },
+            state: this.modity,
+            loading: ""
+        };
+    },
+    computed: {
+        pageShow () {
+            return this.$store.state.btnOperate.pageShow;
         },
-        {
-          title: "部门名称",
-          key: "unitFname"
+        tableButton () {
+            return this.$store.state.btnOperate.tableButton;
+        },
+        modity () {
+            //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+            return this.$store.state.btnOperate.modity;
+        },
+        btnData () {
+            return this.$store.state.btnOperate.btnData;
+        },
+        FlowNode () {
+            return this.$store.state.btnOperate.isFlowNode;
         }
-      ],
-      Params: {
-        _mt: "orgUnits.getByOrgFramePageList",
-        rows: 10,
-        page: 1,
-        sort: "id",
-        order: "desc",
-        logType: "部门",
-        unitType: "02dept",
-        state: "02valid"
-      },
-      //   params: {
-      //     _mt: "empContractinfo.getPage",
-      //     sort: "id",
-      //     order: "asc",
-      //     rows: 10,
-      //     page: 1,
-      //     funId: "1",
-      //     logType: "合同信息查询",
-      //     data: "{}"
-      //   },
-      state: this.modity,
-      loading: ""
-    };
-  },
-  computed: {
-    pageShow() {
-      return this.$store.state.btnOperate.pageShow;
     },
-    tableButton() {
-      return this.$store.state.btnOperate.tableButton;
+    components: {
+        btnList,
+        update,
+        expwindow,
+        expdow,
+        importExcel,
+        searchTable
     },
-    modity() {
-      //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
-      return this.$store.state.btnOperate.modity;
+    //按钮权限控制
+    pickData () {
+        const t = this;
+        t.$refs.searchOrgframe.getData(this.params);
+        t.openPick = true;
     },
-    btnData() {
-      return this.$store.state.btnOperate.btnData;
-    },
-    FlowNode() {
-      return this.$store.state.btnOperate.isFlowNode;
-    }
-  },
-  components: {
-    btnList,
-    update,
-    expwindow,
-    expdow,
-    importExcel,
-    searchTable
-  },
-  //按钮权限控制
-  pickData() {
-    const t = this;
-    t.$refs.searchOrgframe.getData(this.params);
-    t.openPick = true;
-  },
-  created () { 
-       if (this.pageShow !== "") {
+    created () {
+        if (this.pageShow !== "") {
             this.columns.push(this.tableBtn);
             this.tableOperate = true
         }
     },
-  watch:{ 
-       pageShow (val) {
-            if (val ==="" && this.tableOperate === true) {
+    watch: {
+        pageShow (val) {
+            if (val === "" && this.tableOperate === true) {
                 this.columns.pop();
-                 this.tableOperate = false;
+                this.tableOperate = false;
             } else if (this.tableOperate === false) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
             }
         }
     },
-  mounted() {
-    this.getData();
-    this.search();
-    //this.getSelect();
-  },
-  methods: {
-    //状态
-    modityChange(res) {
-      this.getData();
+    mounted () {
+        this.getData();
+        this.search();
+        //this.getSelect();
     },
-    getData(page) {
-      const t = this;
-      this.loading = true;
-      if (page == undefined) {
-        this.page = 1;
-      }
+    methods: {
+        //状态
+        modityChange (res) {
+            this.getData();
+        },
+        getData (page) {
+            const t = this;
+            this.loading = true;
+            if (page == undefined) {
+                this.page = 1;
+            }
 
-      const data = {
-        _mt: "empContractinfo.getPage",
-        rows: t.rows,
-        page: t.page,
-        sort: t.sort,
-        order: t.order,
-        logType: "合同查询",
-        deptId: t.deptId,
-        empName: t.empName,
-        state: t.modity
-      };
+            const data = {
+                _mt: "empContractinfo.getPage",
+                rows: t.rows,
+                page: t.page,
+                sort: t.sort,
+                order: t.order,
+                logType: "合同查询",
+                deptId: t.deptId,
+                empName: t.empName,
+                state: t.modity
+            };
 
-      for (const dat in data) {
-        if (data[dat] === "") {
-          delete data[dat];
-        }
-      }
-      getDataLevelUserLoginNew(data)
-        .then(res => {
-          if (isSuccess(res, t)) {
-            t.data = res.data.content[0].rows;
-            t.total = res.data.content[0].records;
-          }
-        })
-        .catch(() => {
-          //   t.$Modal.error({
-          //     title: this.$t("reminder.err"),
-          //     content: this.$t("reminder.errormessage")
-          //   });
-          this.$Message.error(this.$t("reminder.errormessage"));
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-    //自动计算时间
-    // contSdateChange(){
-    //    if(this.form.contEdate!=='' && this.form.contPeriod!=='') {
+            for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
+            getDataLevelUserLoginNew(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.data = res.data.content[0].rows;
+                        t.total = res.data.content[0].records;
+                    }
+                })
+                .catch(() => {
+                    //   t.$Modal.error({
+                    //     title: this.$t("reminder.err"),
+                    //     content: this.$t("reminder.errormessage")
+                    //   });
+                    this.$Message.error(this.$t("reminder.errormessage"));
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
+        //自动计算时间
+        // contSdateChange(){
+        //    if(this.form.contEdate!=='' && this.form.contPeriod!=='') {
 
-    //        this.form.contSdate = this.form.contEdate+this.form.contPeriod
-    //    }else{
+        //        this.form.contSdate = this.form.contEdate+this.form.contPeriod
+        //    }else{
 
     //    }
     // },
@@ -635,116 +618,113 @@ export default {
             .catch(() => {
               this.$Message.error(this.$t("reminder.errormessage"));
             });
+        }, //修改状态
+        // 导入导出默认方法 无需更改
+        closeImport () {
+            const t = this;
+            t.openImport = false;
         },
-        onCancel: () => {}
-      });
-    }, //修改状态
-    // 导入导出默认方法 无需更改
-    closeImport() {
-      const t = this;
-      t.openImport = false;
-    },
-    // 导入导出默认方法 无需更改
-    importExcel() {
-      const t = this;
-      t.openImport = true;
-      t.$refs.importExcel.getDowModelFile();
-    },
-    // 导入导出默认方法
-    expData() {
-      const t = this;
-      // 填装查询条件
-      const data = {
-        numberCode: t.numberCode,
-        deptId: t.deptId,
-        empId: t.empId,
-        state: t.modity
-      };
-      // 设置导出mt参数
-      this.$refs.expwindow.getData(
-        this.expDataTital,
-        "empContractinfo.export",
-        data
-      );
-      this.openExp = true;
-    },
-    // 导入导出默认方法 无需更改
-    closeExp() {
-      const t = this;
-      t.openExp = false;
-    },
-    // 导入导出默认方法 无需更改
-    closeExpDowMain() {
-      const t = this;
-      t.openExpDow = false;
-    },
-    // 导入导出默认方法 无需更改
-    setFileKey(filekey, filename, openExpDow) {
-      const t = this;
-      t.filekey = filekey;
-      t.filename = filename;
-      t.openExpDow = openExpDow;
-      t.$refs.expdow.getPriToken(t.filekey);
-    },
-    // 子页面新增数据后添加到本页面分页第一行  无需更改
-    addNewArray(res) {
-      const t = this;
-      t.data.unshift(res);
-    },
-    // 子页面修改数据后 本页面修改对应行数的数据 无需更改
-    updateArray(res) {
-      const t = this;
-      t.data.splice(t.index, 1, res);
-    },
+        // 导入导出默认方法 无需更改
+        importExcel () {
+            const t = this;
+            t.openImport = true;
+            t.$refs.importExcel.getDowModelFile();
+        },
+        // 导入导出默认方法
+        expData () {
+            const t = this;
+            // 填装查询条件
+            const data = {
+                numberCode: t.numberCode,
+                deptId: t.deptId,
+                empId: t.empId,
+                state: t.modity
+            };
+            // 设置导出mt参数
+            this.$refs.expwindow.getData(
+                this.expDataTital,
+                "empContractinfo.export",
+                data
+            );
+            this.openExp = true;
+        },
+        // 导入导出默认方法 无需更改
+        closeExp () {
+            const t = this;
+            t.openExp = false;
+        },
+        // 导入导出默认方法 无需更改
+        closeExpDowMain () {
+            const t = this;
+            t.openExpDow = false;
+        },
+        // 导入导出默认方法 无需更改
+        setFileKey (filekey, filename, openExpDow) {
+            const t = this;
+            t.filekey = filekey;
+            t.filename = filename;
+            t.openExpDow = openExpDow;
+            t.$refs.expdow.getPriToken(t.filekey);
+        },
+        // 子页面新增数据后添加到本页面分页第一行  无需更改
+        addNewArray (res) {
+            const t = this;
+            t.data.unshift(res);
+        },
+        // 子页面修改数据后 本页面修改对应行数的数据 无需更改
+        updateArray (res) {
+            const t = this;
+            t.data.splice(t.index, 1, res);
+        },
 
-    //部门
-    cleardeptId() {
-      const t = this;
-      t.deptIdDis = "";
-      t.deptId = "";
-    },
-    pickDeptData() {
-      const t = this;
-      //const paramsDept = deepCopy(t.deptParams);
-      t.$refs.searchTable.getData(t.Params);
-      t.openDeptPick = true;
-    },
-    closeDept() {
-      const t = this;
-      t.$refs.searchTable.unitCode = "";
-      t.openDeptPick = false;
-    },
-    inputPost(name, id, deptIdDis, form) {
-      const t = this;
-      t.deptId = id;
-      t.deptIdDis = name;
-    },
-    changeDeptInput(name, id) {
-      const t = this;
-      t.deptIdDis = name;
-      t.deptId = id;
-    },
-    getPageByType(paramCode) {
-      this.status = paramCode;
-      this.unitTypeId = paramCode;
-      this.getData();
-    } //根据类型获取列表
-  }
+        //部门
+        cleardeptId () {
+            const t = this;
+            t.deptIdDis = "";
+            t.deptId = "";
+        },
+        pickDeptData () {
+            const t = this;
+            //const paramsDept = deepCopy(t.deptParams);
+            t.$refs.searchTable.getData(t.Params);
+            t.openDeptPick = true;
+        },
+        closeDept () {
+            const t = this;
+            t.$refs.searchTable.unitCode = "";
+            t.openDeptPick = false;
+        },
+        inputPost (name, id, deptIdDis, form) {
+            const t = this;
+            t.deptId = id;
+            t.deptIdDis = name;
+        },
+        changeDeptInput (name, id) {
+            const t = this;
+            t.deptIdDis = name;
+            t.deptId = id;
+        },
+        getPageByType (paramCode) {
+            this.status = paramCode;
+            this.unitTypeId = paramCode;
+            this.getData();
+        } //根据类型获取列表
+    }
 };
 </script>
 <style lang="scss" scoped>
 .table-form {
-  margin: 10px 0;
+    margin: 10px 0;
 }
 .margin-right-10 {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s;
+    transition: opacity 0.2s;
 }
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 </style>

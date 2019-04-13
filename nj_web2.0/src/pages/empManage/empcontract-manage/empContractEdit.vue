@@ -242,7 +242,8 @@
                                     </i-col>
                                     <i-col span="19">
                                         <span v-if="file !==''">
-                                            <i-col span="22" @dblclick="disabled?'':clearFile()">
+                                            <i-col span="22"
+                                                   @dblclick="disabled?'':clearFile()">
                                                 <Input v-model="file.name"
                                                        readonly="readonly">
                                                 <span slot="prepend">
@@ -353,8 +354,8 @@ export default {
                 contProbatdt: "",
                 contValiddate: "",
                 contInvdate: "",
-                contBmxy:"",
-                contJzxy:"",
+                contBmxy: "",
+                contJzxy: "",
                 fileKey: "", // 上传附件
                 note: "", //备注
                 funId: "1",
@@ -496,17 +497,13 @@ export default {
                             t.file = { name: res.data.content[0].fileKey.split(":")[0] };
                             t.filekey = res.data.content[0].fileKey.split(":")[1];
                         }
-                        // if (id === res.data.content[0].companyId) {
-                        //   t.forbidden = "disabled";
-                        //   t.distype = true;
-                        // } else {
-                        //   t.forbidden = null;
-                        //   t.distype = false;
-                        // }
                     }
                 })
                 .catch(() => {
+<<<<<<< HEAD
                    
+=======
+>>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -520,7 +517,6 @@ export default {
             //confidential,保密协议
             //worktimetype,合同工作时间
             //probperiod,试用期限
-
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
                 typeCode: 'emptype,contrpertype,contperiod,worktimetype,probperiod,haveyn'
@@ -542,7 +538,10 @@ export default {
                     }
                 })
                 .catch(() => {
+<<<<<<< HEAD
                     
+=======
+>>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -589,12 +588,18 @@ export default {
                             if (isSuccess(res, t)) {
                                 t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
+<<<<<<< HEAD
                                    
+=======
+>>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                                     this.$Message.success(this.$t("reminder.addsuccess"));
                                     t.$refs.form.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
+<<<<<<< HEAD
                                    
+=======
+>>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                                     this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
@@ -628,6 +633,7 @@ export default {
         },
         handleReset () {
             const t = this;
+            t.$refs.form.resetFields();
             t.$emit("closeUp");
         },
         //附件上传
@@ -649,11 +655,18 @@ export default {
                         t.filekey = res.data[key];
                         t.form.fileKey = key + ":" + res.data[key];
                     }
+<<<<<<< HEAD
                      this.$Message.success(this.$t("reminder.uploadsuccess"));
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
                 
+=======
+                    this.$Message.success(this.$t("reminder.uploadsuccess"));
+                }).catch(() => {
+                    this.$Message.error(this.$t("reminder.errormessage"));
+                })
+>>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
         },
         //下载
         downloadFile () {
@@ -785,7 +798,7 @@ export default {
             if (this.form.contPeriod !== "") {
                 this.calculateDate("contPeriod", "contSdate", "contEdate")
             }
-            if(this.form.contProbat !== ""){
+            if (this.form.contProbat !== "") {
                 this.calculateDate("contProbat", "contSdate", "contProbatdt")
             }
         },
