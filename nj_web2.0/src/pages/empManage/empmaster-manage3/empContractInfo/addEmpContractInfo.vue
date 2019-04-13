@@ -259,12 +259,14 @@ export default {
                         t.contPeriodDis = res.data.content[0].contPeriodDis;
                         t.form.conSdate = res.data.content[0].contSdate;
                         t.form.conEdate = res.data.content[0].contEdate;
-                        t.form.contBmxy = res.data.content[0].contBmxy ? res.data.content[0].contBmxy : '0';
-                        t.form.contJzxy = res.data.content[0].contJzxy ? res.data.content[0].contJzxy : '0';
+                        t.form.contBmxy = res.data.content[0].contBmxy;
+                        t.form.contJzxy = res.data.content[0].contJzxy;
                         t.contWorktimeDis = res.data.content[0].contWorktimeDis;
                         t.form.contSigndate = res.data.content[0].contSigndate;
                         t.contProbatDis = res.data.content[0].contProbatDis;
                         t.form.contProbatdt = res.data.content[0].contProbatdt;
+                        console.log(t.form.contBmxy, " t.form.contBmxy");
+
                         if (res.data.content[0].fileKey) {
                             t.file = { name: res.data.content[0].fileKey.split(':')[0] }
                             t.filekey = res.data.content[0].fileKey.split(':')[1]

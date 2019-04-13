@@ -297,8 +297,9 @@ export default {
         },
         close () {
             this.rowId = "";
-            this.$emit("hideMsg");
             this.clear();
+            this.$emit("hideMsg");
+
         }
     }
 };
