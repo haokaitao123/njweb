@@ -161,6 +161,7 @@ export default {
         openExp: false,
         filekey: "",
         filename: "",
+        tableOperate:false,
         // 子页面所需参数 无需变更
         tableheight: document.body.offsetHeight - 280,
         logType: "",
