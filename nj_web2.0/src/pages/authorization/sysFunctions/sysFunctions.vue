@@ -82,7 +82,7 @@
 </template>
 <script>
 import update from './editSysFunctions'
-import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
+import { getDataLevelUserLoginNew, getDataLevelUserLogin, getDataLevelUserLoginNew2 } from '../../../axios/axios'
 import { isSuccess } from '../../../lib/util'
 import searchTable from '../../../components/searchTable/searchPubFun'
 
@@ -217,6 +217,7 @@ export default {
             if (this.order === 'normal') {
                 this.order = 'desc'
             }
+            console.log()
             const data = {
                 _mt: 'sysFunctions.getSysFunctionsByPage',
                 sort: t.sort,
@@ -233,7 +234,7 @@ export default {
                     delete data[dat]
                 }
             }
-            getDataLevelUserLoginNew(data).then((res) => {
+            getDataLevelUserLoginNew2(data).then((res) => {
                 if (isSuccess(res, t)) {
                     t.data = res.data.content[0].rows
                     t.total = res.data.content[0].records
