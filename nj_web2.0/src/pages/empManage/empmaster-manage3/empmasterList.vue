@@ -407,6 +407,7 @@ export default {
                 sort: 'id',
                 order: 'desc',
                 logType: '岗位',
+                state:'02valid',
             },
             state: this.modity,
             tableOperate: false
