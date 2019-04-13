@@ -121,7 +121,7 @@ export default {
                         captid: t.noteCodeKey,
                     }).then((res) => {
                         if (isSuccess(res, t)) {
-                            // setCookie('wtk', res.data.content[0].webToken)
+                            setCookie('wtk', res.data.content[0].webToken)
                             setCookie('useId', res.data.content[0].uid)
                             setCookie('useName', t.form.userName)
                             t.$store.commit('setName', res.data.content[0].username)

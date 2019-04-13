@@ -201,7 +201,7 @@ export default {
                 language: 'CN',
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    // setCookie('wtk', res.data.content[0].webToken)
+                    setCookie('wtk', res.data.content[0].webToken)
                     t.funs = t.subdata(res.data.content[0].userFuns)
                     //console.log(t.funs)
                     // setCookie('wtk', res.data.content[0].webToken)
