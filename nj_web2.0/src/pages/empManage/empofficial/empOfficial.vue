@@ -240,9 +240,9 @@
       tableButton () {
         return this.$store.state.btnOperate.tableButton
       },
-     /* modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+      modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
         return this.$store.state.btnOperate.modity
-      },*/
+      },
       btnData() {
         return this.$store.state.btnOperate.btnData
       },

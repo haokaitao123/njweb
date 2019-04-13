@@ -95,6 +95,7 @@
     data() {
 
       return {
+        tableOperate:false,  //加上这个变量
         // 导出字段设置, code字段名 name列名
         expDataTital: [
           { code: "bodeType", name: "类型" },
@@ -196,25 +197,22 @@
         selectbodeType: [],
       };
     },
-    computed: {
+    computed:{
+      pageShow () {
+        return this.$store.state.btnOperate.pageShow
+      },
+      tableButton () {
+        return this.$store.state.btnOperate.tableButton
+      },
+      /* modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+         return this.$store.state.btnOperate.modity
+       },*/
       btnData() {
-        return this.$store.state.btnOperate.btnData;
+        return this.$store.state.btnOperate.btnData
       },
       FlowNode() {
-        return this.$store.state.btnOperate.isFlowNode;
+        return this.$store.state.btnOperate.isFlowNode
       },
-      pageShow() {
-        return this.$store.state.btnOperate.pageShow;
-      },
-      tableButton() {
-        return this.$store.state.btnOperate.tableButton;
-      },
-      tableOperate() {
-        return this.$store.state.btnOperate.tableOperate;
-      },
-      modity() {
-        return this.$store.state.btnOperate.modity;
-      }
     },
     components: {
       // 初始化子页面
@@ -228,20 +226,20 @@
       const t = this;
       t.openPick = true;
     },
-    created() {
+    created () {
       if (this.pageShow !== "") {
         this.columns.push(this.tableBtn);
-        this.$store.commit("btnOperate/setTableOperate", "true");
+        this.tableOperate = true
       }
     },
-    watch: {
-      pageShow(val) {
-        if (val === "" && this.tableOperate === "true") {
+    watch:{
+      pageShow (val) {
+        if (val ==="" && this.tableOperate === true) {
           this.columns.pop();
-          this.$store.commit("btnOperate/setTableOperate", "false");
-        } else if (this.tableOperate === "false") {
+          this.tableOperate = false;
+        } else if (this.tableOperate === false) {
           this.columns.push(this.tableBtn);
-          this.$store.commit("btnOperate/setTableOperate", "true");
+          this.tableOperate = true;
         }
       }
     },
