@@ -122,6 +122,7 @@
   export default {
     data() {
       return {
+        tableOperate:false,  //加上这个变量
         loading: "",
         // 导入导出默认参数 无需变更
         openImport: false,
@@ -236,22 +237,22 @@
         },
       }
     },
-    computed: {
+    computed:{
       pageShow () {
         return this.$store.state.btnOperate.pageShow
       },
       tableButton () {
         return this.$store.state.btnOperate.tableButton
       },
-      tableOperate () {
-        return this.$store.state.btnOperate.tableOperate
-      },
-      btnData () {
+      /* modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+         return this.$store.state.btnOperate.modity
+       },*/
+      btnData() {
         return this.$store.state.btnOperate.btnData
       },
-      FlowNode () {
+      FlowNode() {
         return this.$store.state.btnOperate.isFlowNode
-      }
+      },
     },
 
     /*引入子页面初始化，js不需要*/
@@ -264,20 +265,20 @@
     },
     //列表项的默认显示隐藏
     created () {
-      if (this.pageShow != "") {
+      if (this.pageShow !== "") {
         this.columns.push(this.tableBtn);
-        this.$store.commit('btnOperate/setTableOperate', 'true');
+        this.tableOperate = true
       }
     },
     //单表不需要
     watch:{
       pageShow (val) {
-        if (val == "" && this.tableOperate == 'true') {
+        if (val ==="" && this.tableOperate === true) {
           this.columns.pop();
-          this.$store.commit('btnOperate/setTableOperate', 'false');
-        } else if (this.tableOperate == 'false') {
+          this.tableOperate = false;
+        } else if (this.tableOperate === false) {
           this.columns.push(this.tableBtn);
-          this.$store.commit('btnOperate/setTableOperate', 'true');
+          this.tableOperate = true;
         }
       }
     },
