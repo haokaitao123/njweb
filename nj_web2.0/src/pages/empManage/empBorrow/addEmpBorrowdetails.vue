@@ -36,6 +36,13 @@
                         </FormItem>
                       </i-col>
                       <i-col span="11">
+                        <FormItem label="金额" prop="bodeAmount">
+                          <Input v-model="formValidate.bodeAmount"
+                                 :disabled="forbidden"
+                                 placeholder="请输入金额"></Input>
+                        </FormItem>
+                      </i-col>
+<!--                      <i-col span="11">
                         <FormItem label="操作时间"
                                   prop="bodeOpetime">
                           <DatePicker type="date"
@@ -45,15 +52,7 @@
                                       format="yyyy-MM-dd"
                                       style="width: 100%"></DatePicker>
                         </FormItem>
-                      </i-col>
-                      <i-col span="11">
-                        <FormItem label="总金额" prop="bodeAmount">
-                          <Input v-model="formValidate.bodeAmount"
-                                 :disabled="forbidden"
-                                 placeholder="请输入总金额"></Input>
-                        </FormItem>
-                      </i-col>
-
+                      </i-col>-->
                       <i-col span="22">
                           <FormItem label="备注"
                                     prop="note">
@@ -85,6 +84,16 @@ import valid from '../../../lib/pub_valid.js'
 
 export default {
     data () {
+      /*数字验证*/
+      const numberCheck = (rule, value, numberValCheck) => {
+        if (value !== '' && value !== undefined) {
+          if (valid.val_number103(value)) {
+            return numberValCheck()
+          }
+          return numberValCheck(new Error(rule.message))
+        }
+        numberValCheck()
+      }
         return {
           file: '',
           filekey: '',
@@ -97,13 +106,26 @@ export default {
             formValidate: {
               bodeType:"",
               bodeReason:"",
-              bodeOpetime:"",
               bodeAmount:"",
               note:"",
             },
             openEmpMaster:false,
           /*必填验证*/
             ruleValidate: {
+              bodeType: [{ required: true, message: "请选择类型", trigger: 'change' },],
+              bodeReason: [{ required: true, message: "请选择原因", trigger: 'change' },],
+              bodeAmount:[
+                {
+                  required: true,
+                  message: "请输入金额",
+                  trigger: "blur"
+                },
+                {
+                  validator: numberCheck,
+                  message: '请输入正确的数字格式',
+                  trigger: 'blur'
+                },
+              ],
             },
         }
     },
@@ -156,7 +178,6 @@ export default {
                    // t.formValidate = res.data.content[0]
                     t.formValidate.bodeType= res.data.content[0].bodeType
                     t.formValidate.bodeReason= res.data.content[0].bodeReason
-                    t.formValidate.bodeOpetime= res.data.content[0].bodeOpetime
                     t.formValidate.bodeAmount= res.data.content[0].bodeAmount
                     t.formValidate.note= res.data.content[0].note
                     if (t.logType === '查看') {

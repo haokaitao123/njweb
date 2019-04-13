@@ -113,7 +113,6 @@ export default {
             ruleValidate: {
               empIdName: [{ required: true, message: "请选择员工姓名", trigger: 'change' },],
               borrTotamount:[
-
                 {
                   required: true,
                   message: "请输入总金额",
