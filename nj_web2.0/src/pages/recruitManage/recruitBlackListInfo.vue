@@ -36,7 +36,7 @@
                     <FormItem label="证件号码"
                               prop="recIdenno">
                         <Input v-model="formValidate.recIdenno"
-                              :disabled="disabled"
+                               :disabled="disabled"
                                placeholder="请输入证件号码"></Input>
                     </FormItem>
                     </Col>
@@ -58,7 +58,6 @@
                     <FormItem label="原因"
                               prop="recReason">
                         <Input v-model="formValidate.recReason"
-                               
                                type="textarea"
                                :autosize="{minRows: 2,maxRows: 5}"
                                placeholder="请输入原因"></Input>
@@ -71,7 +70,6 @@
                     <FormItem label="备注"
                               prop="note">
                         <Input v-model="formValidate.note"
-                               
                                type="textarea"
                                :autosize="{minRows: 2,maxRows: 5}"
                                placeholder="请输入备注"></Input>
@@ -96,7 +94,7 @@
                 </Row>
             </Form>
         </div>
-        
+
     </div>
 </template>
 <script>
@@ -135,14 +133,14 @@ export default {
                 funId: "1",
                 logType: ""
             },
-    
+
             // 字段校验 编码与FormItem上的prop相符合,通常取字段名.  message: 提示信息  trigger
             ruleValidate: {
                 recName: [
                     { required: true, message: '请输入求职者姓名', trigger: 'blur' },
                 ],
-                 recPhone: [
-                      {
+                recPhone: [
+                    {
                         validator: phonecheck,
                         message: '请填写正确的手机号',
                         trigger: 'blur'
@@ -152,7 +150,7 @@ export default {
                         message: '请输入正确的数字格式',
                         trigger: 'blur'
                     },
-                 ],
+                ],
             },
         }
     },
@@ -194,10 +192,6 @@ export default {
 
                 }
             }).catch(() => {
-                // this.$Modal.error({
-                //     title: '错误',
-                //     content: '网络错误',
-                // })
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
         },
@@ -216,45 +210,39 @@ export default {
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
                             // 关闭本页面
-                            t.$emit('closeUp')
+                            t.$emit('closeUp');
+                            t.clear();
                             if (t.logType === '新增') {
-                                // t.$Modal.success({
-                                //     title: '成功',
-                                //     content: '新增成功',
-                                // })
                                 this.$Message.success(this.$t("reminder.addsuccess"));
                                 t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
-                                // t.$Modal.success({
-                                //     title: '成功',
-                                //     content: '修改成功',
-                                // })
                                 this.$Message.success(this.$t("reminder.updsuccess"));
                                 t.$emit('update', res.data.content[0])
                             }
                         }
                     }).catch(() => {
-                        // this.$Modal.error({
-                        //     title: '错误',
-                        //     content: '网络错误',
-                        // })
                         this.$Message.error(this.$t("reminder.errormessage"));
                     })
                 }
             })
         },
-        
-        
-       
         //      关闭本页面 清除页面字段值
         handleReset () {
             const t = this
-            t.formValidate = {}
             //        调用父页面关闭方法 无需变更
+            t.clear();
             t.$emit('closeUp')
             t.$refs.formValidate.resetFields()
         },
+        clear () {
+            const t = this
+            t.formValidate.recName = "";
+            t.formValidate.recIdenno = "";
+            t.formValidate.recPhone = "";
+            t.formValidate.recReason = "";
+            t.formValidate.note = "";
+        }
     },
 }
 </script>
