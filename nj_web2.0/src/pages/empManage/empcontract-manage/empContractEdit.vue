@@ -243,7 +243,7 @@
                                     <i-col span="19">
                                         <span v-if="file !==''">
                                             <i-col span="22"
-                                                   @dblclick="disabled?'':clearFile()">
+                                                   @dblclick.native="disabled?'':clearFile()">
                                                 <Input v-model="file.name"
                                                        readonly="readonly">
                                                 <span slot="prepend">
@@ -324,7 +324,7 @@ export default {
         };
 
         return {
-            aa:false,
+            aa: false,
             type: "",
             distype: false,
             disabled: false,
@@ -500,7 +500,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                   
+
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -535,7 +535,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    
+
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -582,12 +582,12 @@ export default {
                             if (isSuccess(res, t)) {
                                 t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
-                                   
+
                                     this.$Message.success(this.$t("reminder.addsuccess"));
                                     t.$refs.form.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
-                                   
+
                                     this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
@@ -643,11 +643,12 @@ export default {
                         t.filekey = res.data[key];
                         t.form.fileKey = key + ":" + res.data[key];
                     }
-                     this.$Message.success(this.$t("reminder.uploadsuccess"));
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            })
-                
+                    this.$Message.success(this.$t("reminder.uploadsuccess"));
+                    this.loadingStatus = false;
+                }).catch(() => {
+                    this.$Message.error(this.$t("reminder.errormessage"));
+                })
+
         },
         //下载
         downloadFile () {
@@ -800,7 +801,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1100;
+    z-index: 99;
     display: flex;
     justify-content: center;
     align-items: center;
