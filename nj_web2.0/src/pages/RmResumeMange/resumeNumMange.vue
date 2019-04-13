@@ -455,10 +455,11 @@ export default {
       const t = this;
       //如果没有选中
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: "提示",
-          content: "请至少选择一条数据"
-        });
+        // t.$Modal.warning({
+        //   title: "提示",
+        //   content: "请至少选择一条数据"
+        // });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: "提示",
