@@ -500,10 +500,7 @@ export default {
                     }
                 })
                 .catch(() => {
-<<<<<<< HEAD
                    
-=======
->>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -538,10 +535,7 @@ export default {
                     }
                 })
                 .catch(() => {
-<<<<<<< HEAD
                     
-=======
->>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -588,18 +582,12 @@ export default {
                             if (isSuccess(res, t)) {
                                 t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
-<<<<<<< HEAD
                                    
-=======
->>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                                     this.$Message.success(this.$t("reminder.addsuccess"));
                                     t.$refs.form.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
-<<<<<<< HEAD
                                    
-=======
->>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
                                     this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
@@ -655,18 +643,11 @@ export default {
                         t.filekey = res.data[key];
                         t.form.fileKey = key + ":" + res.data[key];
                     }
-<<<<<<< HEAD
                      this.$Message.success(this.$t("reminder.uploadsuccess"));
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
                 
-=======
-                    this.$Message.success(this.$t("reminder.uploadsuccess"));
-                }).catch(() => {
-                    this.$Message.error(this.$t("reminder.errormessage"));
-                })
->>>>>>> ba6ab5ad50cc5620b05fc4a596c6020409113cfa
         },
         //下载
         downloadFile () {

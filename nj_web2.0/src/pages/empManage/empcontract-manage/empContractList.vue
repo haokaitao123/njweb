@@ -1,113 +1,130 @@
 <template>
-    <div class="table">
-        <Row>
-            <Col span="24">
-            <card>
-                <p slot="title">
-                    <Icon type="mouse"></Icon>&nbsp;合同信息管理
-                </p>
-                <Row>
-                    <Input placeholder="请输入员工姓名"
-                           style="width: 200px"
-                           v-model="empName" />
-                    <span @dblclick="cleardeptId()">
-                        <Input v-model="deptIdDis"
-                               style="width: 200px"
-                               icon="search"
-                               :readonly="true"
-                               placeholder="请选择部门"
-                               @on-click="pickDeptData" />
-                    </span>
-                    <btnList @buttonExport="expData"
-                             @buttonImport="importExcel"
-                             @buttonAdd="openUp(NaN,$t('button.add'))"
-                             @buttonDel="deletemsg"
-                             @buttonValid="modifystatus('02valid')"
-                             @buttonDraft="modifystatus('01draft')"
-                             @buttonInvalid="modifystatus('03invalid')"
-                             @moditySelect="modityChange"
-                             @buttonSearch="search"
-                             :btnData="btnData"
-                             :FlowNode="FlowNode"></btnList>
-                </Row>
-                <row class="table-form"
-                     ref="table-form">
-                    <Table @on-selection-change="selectedtable"
-                           @on-sort-change="sortable"
-                           :height="tableheight"
-                           size="small"
-                           border
-                           ref="selection"
-                           :columns="columns"
-                           :data="data"
-                           :loading="loading"></Table>
-                </row>
-                <Row style="display: flex">
-                    <Page :total="total"
-                          size="small"
-                          show-elevator
-                          show-sizer
-                          placement="top"
-                          :current="page"
-                          @on-page-size-change="sizeChange"
-                          @on-change="pageChange"
-                          :page-size-opts="[10, 20, 50, 100]"></Page>
-                    <Button type="ghost"
-                            size="small"
-                            shape="circle"
-                            icon="refresh"
-                            style="margin-left: 20px;display: inline-block;"
-                            @click="search()"></Button>
-                </Row>
-            </card>
-            </Col>
-        </Row>
-        <transition name="fade">
-            <update v-show="openUpdate"
-                    :id="updateId"
-                    :logType="logType"
-                    :index="index"
-                    @closeUp="closeUp"
-                    @getData="addNewArray"
-                    @update="updateArray"
-                    ref="update"></update>
-        </transition>
-        <!--部门-->
-        <transition name="fade">
-            <searchTable v-show="openDeptPick"
-                         :searchDeptClo="searchDeptCloumns"
-                         :params="Params"
-                         @closeDept="closeDept"
-                         @inputDept="inputPost"
-                         @changeinput="changeDeptInput"
-                         ref="searchTable"></searchTable>
-        </transition>
-        <!--导入导出子页面 若没有导入导出可以去掉-->
-        <transition>
-            <expwindow v-show="openExp"
-                       :id="tableselected"
-                       @setFileKey="setFileKey"
-                       :logType="logType"
-                       :index="index"
-                       @closeExp="closeExp"
-                       ref="expwindow"></expwindow>
-        </transition>
-        <transition>
-            <expdow v-show="openExpDow"
-                    :filekey="filekey"
-                    :filename="filename"
-                    @closeExpDowMain="closeExpDowMain"
-                    ref="expdow"></expdow>
-        </transition>
-        <transition name="fade">
-            <importExcel v-show="openImport"
-                         :impid="updateId"
-                         :imp_mt="imp_mt"
-                         @getData="getData"
-                         @closeImport="closeImport"
-                         ref="importExcel"></importExcel>
-        </transition>
-    </div>
+  <div class="table">
+    <Row>
+      <Col span="24">
+        <card>
+          <p slot="title">
+            <Icon type="mouse"></Icon>&nbsp;合同信息管理
+          </p>
+          <Row>
+            <Input placeholder="请输入员工姓名" style="width: 200px" v-model="empName"/>
+            <span @dblclick="cleardeptId()">
+              <Input
+                v-model="deptIdDis"
+                style="width: 200px"
+                icon="search"
+                :readonly="true"
+                placeholder="请选择部门"
+                @on-click="pickDeptData"
+              />
+            </span>
+            <btnList
+              @buttonExport="expData"
+              @buttonImport="importExcel"
+              @buttonAdd="openUp(NaN,$t('button.add'))"
+              @buttonDel="deletemsg"
+              @buttonValid="modifystatus('02valid')"
+              @buttonDraft="modifystatus('01draft')"
+              @buttonInvalid="modifystatus('03invalid')"
+              @moditySelect="modityChange"
+              @buttonSearch="search"
+              :btnData="btnData"
+              :FlowNode="FlowNode"
+            ></btnList>
+          </Row>
+          <row class="table-form" ref="table-form">
+            <Table
+              @on-selection-change="selectedtable"
+              @on-sort-change="sortable"
+              :height="tableheight"
+              size="small"
+              border
+              ref="selection"
+              :columns="columns"
+              :data="data"
+              :loading="loading"
+            ></Table>
+          </row>
+          <Row style="display: flex">
+            <Page
+              :total="total"
+              size="small"
+              show-elevator
+              show-sizer
+              placement="top"
+              :current="page"
+              @on-page-size-change="sizeChange"
+              @on-change="pageChange"
+              :page-size-opts="[10, 20, 50, 100]"
+            ></Page>
+            <Button
+              type="ghost"
+              size="small"
+              shape="circle"
+              icon="refresh"
+              style="margin-left: 20px;display: inline-block;"
+              @click="search()"
+            ></Button>
+          </Row>
+        </card>
+      </Col>
+    </Row>
+    <transition name="fade">
+      <update
+        v-show="openUpdate"
+        :id="updateId"
+        :logType="logType"
+        :index="index"
+        @closeUp="closeUp"
+        @getData="addNewArray"
+        @update="updateArray"
+        ref="update"
+      ></update>
+    </transition>
+    <!--部门-->
+    <transition name="fade">
+      <searchTable
+        v-show="openDeptPick"
+        :searchDeptClo="searchDeptCloumns"
+        :params="Params"
+        @closeDept="closeDept"
+        @inputDept="inputPost"
+        @changeinput="changeDeptInput"
+        ref="searchTable"
+      ></searchTable>
+    </transition>
+    <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
+    </transition>
+  </div>
 </template>
 <script>
 import update from "./empContractEdit";
@@ -400,10 +417,10 @@ export default {
     },
     methods: {
         //状态
-        modityChange (res) {
+     modityChange (res) {
             this.getData();
-        },
-        getData (page) {
+    },
+    getData (page) {
             const t = this;
             this.loading = true;
             if (page == undefined) {
@@ -444,7 +461,7 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
-        },
+    },
         //自动计算时间
         // contSdateChange(){
         //    if(this.form.contEdate!=='' && this.form.contPeriod!=='') {
@@ -609,7 +626,7 @@ export default {
             state: state,
             ids: t.tableselected.toString()
           })
-            .then(res => {
+        .then(res => {
               if (isSuccess(res, t)) {
                 t.getData();
                 this.$Message.success(this.$t("reminder.operatsuccess"));
@@ -618,7 +635,9 @@ export default {
             .catch(() => {
               this.$Message.error(this.$t("reminder.errormessage"));
             });
-        }, //修改状态
+        }
+    });
+    }, //修改状态
         // 导入导出默认方法 无需更改
         closeImport () {
             const t = this;
@@ -709,22 +728,23 @@ export default {
             this.unitTypeId = paramCode;
             this.getData();
         } //根据类型获取列表
-    }
+    },
+      
 };
 </script>
 <style lang="scss" scoped>
 .table-form {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 .margin-right-10 {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.2s;
+  transition: opacity 0.2s;
 }
 .fade-enter,
 .fade-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 </style>
