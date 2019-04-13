@@ -434,13 +434,15 @@ export default {
                 if (isSuccess(res, t)) {
                   t.tableselected = []; //清空选中项
                   t.getData(); //重新渲染列表
+                  this.$Message.success(this.$t("reminder.deletesuccess"));
                 }
               })
               .catch(() => {
-                t.$Modal.error({
-                  title: "错误",
-                  content: "网络错误"
-                });
+                // t.$Modal.error({
+                //   title: "错误",
+                //   content: "网络错误"
+                // });
+                this.$Message.error(this.$t("reminder.errormessage"))
               });
           },
           //点击取消删除
