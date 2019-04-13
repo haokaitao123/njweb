@@ -64,18 +64,36 @@
                         </FormItem>
                     </i-col>
                     <i-col span="11">
-                        <FormItem label="保密协议"
+                        <!-- <FormItem label="保密协议"
                                   prop="contBmxy">
                             <Input v-model="contBmxyDis"
                                    disabled="disabled"></Input>
+                        </FormItem> -->
+                        <FormItem label="保密协议"
+                                  prop="contBmxy">
+                            <RadioGroup v-model="form.contBmxy">
+                                <Radio :label="item.paramCode"
+                                       v-for="(item,index) in haveyn"
+                                       :key="index"
+                                       disabled="disabled">{{item.paramInfoCn}}</Radio>
+                            </RadioGroup>
                         </FormItem>
                     </i-col>
                     <i-col span="11"
                            offset="1">
-                        <FormItem label="竞业限制协议"
+                        <!-- <FormItem label="竞业限制协议"
                                   prop="contJzxy">
                             <Input v-model="contJzxyDis"
                                    disabled="disabled"></Input>
+                        </FormItem> -->
+                        <FormItem label="竞业限制协议"
+                                  prop="contJzxy">
+                            <RadioGroup v-model="form.contJzxy">
+                                <Radio :label="item.paramCode"
+                                       v-for="(item,index) in haveyn"
+                                       :key="index"
+                                       disabled="disabled">{{item.paramInfoCn}}</Radio>
+                            </RadioGroup>
                         </FormItem>
                     </i-col>
                     <i-col span="11">
@@ -184,6 +202,7 @@ export default {
             selectConPeriod: [],
             selectConProbat: [],
             yesOrNo: [],
+            haveyn: [],
             form: {
                 _mt: "empContractInfo.addOrUpd",
                 contType: "",
@@ -213,9 +232,8 @@ export default {
         mainId: Number,
         logType: String
     },
-    components: {},
     mounted () {
-        // this.getSelect();
+        this.getSelect();
     },
     methods: {
         // 新增页面
@@ -241,8 +259,8 @@ export default {
                         t.contPeriodDis = res.data.content[0].contPeriodDis;
                         t.form.conSdate = res.data.content[0].contSdate;
                         t.form.conEdate = res.data.content[0].contEdate;
-                        t.contBmxyDis = res.data.content[0].contBmxyDis;
-                        t.contJzxyDis = res.data.content[0].contJzxyDis;
+                        t.form.contBmxy = res.data.content[0].contBmxy ? res.data.content[0].contBmxy : '0';
+                        t.form.contJzxy = res.data.content[0].contJzxy ? res.data.content[0].contJzxy : '0';
                         t.contWorktimeDis = res.data.content[0].contWorktimeDis;
                         t.form.contSigndate = res.data.content[0].contSigndate;
                         t.contProbatDis = res.data.content[0].contProbatDis;
@@ -277,7 +295,7 @@ export default {
                         t.selectConPeriod = res.data.content[0].value[1].paramList;
                         t.selectConProbat = res.data.content[0].value[2].paramList;
                         t.selectConWorkTime = res.data.content[0].value[3].paramList;
-                        t.yesOrNo = res.data.content[0].value[4].paramList;
+                        t.haveyn = res.data.content[0].value[4].paramList;
                     }
                 })
                 .catch(() => {
