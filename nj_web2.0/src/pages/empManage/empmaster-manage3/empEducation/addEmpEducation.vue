@@ -125,9 +125,9 @@
                                     </Upload>
                                 </i-col>
                                 <i-col :span="disabled?'24':'19'">
-                                    <span v-if="file !== ''"
-                                          @dblclick="disabled?'':clearFile()">
-                                        <i-col span="22">
+                                    <span v-if="file !== ''">
+                                        <i-col span="22"
+                                               @dblclick.native="disabled?'':clearFile()">
                                             <Input v-model="file.name"
                                                    readonly="readonly">
                                             <span slot="prepend">
@@ -321,6 +321,7 @@ export default {
                             t.file = { name: res.data.content[0].fileKey.split(':')[0] }
                             t.filekey = res.data.content[0].fileKey.split(':')[1]
                         }
+                        t.$refs.form.resetFields();
                     }
                 })
                 .catch(() => {
@@ -399,8 +400,9 @@ export default {
         },
         close () {
             this.rowId = "";
-            this.$emit("hideMsg");
             this.clear();
+            this.$emit("hideMsg");
+
         },
         //选择国家
         selectCountry () {
@@ -441,6 +443,7 @@ export default {
                     t.form.fileKey = key + ':' + res.data[key]
                 }
                 this.$Message.error('上传成功');
+                this.loadingStatus = false;
             }).catch(() => {
                 this.$Message.error('网络错误');
             })

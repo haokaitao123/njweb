@@ -754,7 +754,7 @@ export default {
             const t = this
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
-            data.id = t.ids
+            data.id = t.ids === "" ? this.id : t.ids
             if (data.funIsprocess === '1') {
                 data.funIsform = '0'
             }
@@ -847,6 +847,7 @@ export default {
             t.formValidate.funProcesid = code
         },
         handleReset () {
+            this.ids = "";
             this.$emit('closeUp')
         },
         //      changeIsprocess() {

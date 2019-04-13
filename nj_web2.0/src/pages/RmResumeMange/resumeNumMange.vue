@@ -19,17 +19,15 @@
                 style="width: 200px"
               ></DatePicker>
             <!-- 查询按钮 @click后绑定的是一个点击事件 -->
-            <span style="margin: 0;">
-              <Button type="primary" icon="search" @click="getData(1)">查询</Button>
-            </span>
-            <!-- 页面操作按钮 -->
-            <!-- @click="openUp(NaN,'新增')" openUp(NaN,'新增')是页面新增事件 -->
-            <Button type="primary" @click="openUp(NaN,'新增')">新增</Button>
-            <!-- @click="deletemsg" deletemsg()是删除事件 -->
-            <Button type="error" @click="deletemsg">删除</Button>
-            <!-- @click="importExcel" importExcel()是导入事件 -->
-            <Button type="primary" @click="importExcel">导入</Button>
-            <Button type="primary" @click="expData">导出</Button>
+            <btnList
+              @buttonExport="expData"
+              @buttonImport="importExcel"
+              @buttonAdd="openUp(NaN,$t('button.add'))"
+              @buttonDel="deletemsg"
+              @buttonSearch="search"
+              :btnData="btnData"
+              :FlowNode="FlowNode"
+            ></btnList>
 					</Row>
           <!-- table 列表 @on-select @on-select-cancel @on-select-all 后面跟的事件 selectedtable 做的是列表checkbox取消、选中、全选事件 -->
           <!-- @on-sort-change 后面跟的事件  sortable => 做的是列表排序 :current="page" page是当前页面页码 :height="tableheight" tableheight是当前列表高度 :columns="columns" 配置table列 :data="data" data 就是table列表数据-->
@@ -156,6 +154,7 @@ import searchEmpMaster from "../../components/searchTable/searchEmpnhMaster"; //
   import expwindow from '../../components/fileOperations/expSms'
   import expdow from '../../components/fileOperations/expdow'
   import importExcel from '../../components/importModel/importParam'
+  import btnList from "../../components/btnAuth/btnAuth";
 export default {
   //页面初始化的所有变量值
   data() {
@@ -221,35 +220,42 @@ export default {
         //  // sortable: "custom",
         //   width: 220
         // },
-        //列表操作按钮列
-        {
-          title: "操作",
-          key: "action",
-          width: 64,
-          fixed: "right",
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
+      ],
+      tableBtn: {
+        title: "操作",
+        key: "action",
+        width: 100,
+        fixed: "right",
+        align: "center",
+        render: (h, params) => {
+          let child = [];
+          for (let v of this.tableButton) {
+            child.push(
               h(
                 "Button",
                 {
                   props: {
-                    type: "success",
+                    type: v.type,
                     size: "small"
+                  },
+                  style: {
+                    marginRight: "5px",
+                    display:
+                      this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
                   },
                   on: {
                     click: () => {
-                      //操作列点击事件
-                      this.openUp(params.row.id, "修改", params.index); //打开修改弹窗
+                      this.openUp(params.row.id, v.name, params.index);
                     }
                   }
                 },
-                "修改"
+                v.name
               )
-            ]);
+            );
           }
+          return h("div", [child]);
         }
-      ],
+      },
       data: [], //table初始化数据
       total: 0, //table总页数
       index: 0, //表格数据中的选中的index
@@ -268,12 +274,47 @@ export default {
     update, //新增修改的组件
 		//importExcel //导入的组件
 		expwindow,
-      expdow,
-      importExcel,
+    expdow,
+    importExcel,
+    btnList,
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
     this.getData(1);
+  },
+  computed: {
+    pageShow() {
+      return this.$store.state.btnOperate.pageShow;
+    },
+    tableButton() {
+      return this.$store.state.btnOperate.tableButton;
+    },
+    // modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+    //             	       return this.$store.state.btnOperate.modity
+    //         	},
+    btnData() {
+      return this.$store.state.btnOperate.btnData;
+    },
+    FlowNode() {
+      return this.$store.state.btnOperate.isFlowNode;
+    }
+  },
+  watch: {
+    pageShow(val) {
+      if (val === "" && this.tableOperate === true) {
+        this.columns.pop();
+        this.tableOperate = false;
+      } else if (this.tableOperate === false) {
+        this.columns.push(this.tableBtn);
+        this.tableOperate = true;
+      }
+    }
+  },
+  created() {
+    if (this.pageShow !== "") {
+      this.columns.push(this.tableBtn);
+      this.tableOperate = true;
+    }
   },
   // 页面所有方法
   methods: {
@@ -414,10 +455,11 @@ export default {
       const t = this;
       //如果没有选中
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: "提示",
-          content: "请至少选择一条数据"
-        });
+        // t.$Modal.warning({
+        //   title: "提示",
+        //   content: "请至少选择一条数据"
+        // });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: "提示",
@@ -489,6 +531,11 @@ export default {
       const t = this;
       t.empName = "";
       t.empId = "";
+    },
+     //查询
+    search() {
+      this.page = 1;
+      this.getData(1);
     },
     //打开员工信息弹出框
     pickUserData() {

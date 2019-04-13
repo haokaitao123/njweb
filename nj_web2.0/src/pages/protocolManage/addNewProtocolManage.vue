@@ -40,7 +40,7 @@
                             <!--  部门名称输入框  -->
                             <Col span="11" offset="1">
                                 <FormItem label="原部门名称" prop="deptoId">
-                                    <Input v-model="deptoIdName" :disabled="disabled" placeholder="请输入原部门名称"></Input>
+                                    <Input v-model="deptoIdName" disabled="disabled" placeholder="请输入原部门名称"></Input>
                                 </FormItem>
                             </Col>
                         </Row>
@@ -48,13 +48,13 @@
                             <!--  岗位名称输入框 -->
                             <Col span="11">
                             <FormItem label="原岗位名称" prop="postoId">
-                                    <Input v-model="postoName" :disabled="disabled" placeholder="请输入原岗位名称"></Input>
+                                    <Input v-model="postoName" disabled="disabled" placeholder="请输入原岗位名称"></Input>
                                 </FormItem>
                             </Col>
                             <!--  证件号码输入框  -->
                             <Col span="11" offset="1">
                                 <FormItem label="证件号码" prop="empnhIdno">
-                                    <Input v-model="formValidate.empnhIdno" :disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
+                                    <Input v-model="formValidate.empnhIdno" disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
                                 </FormItem>
                             </Col>
                         </Row>
@@ -63,7 +63,7 @@
                             <Col span="11" >
                                 <FormItem label="原员工类型" prop="empoType">
                                 <Select v-model="formValidate.empoType" class="width200"
-                                :disabled="disabled"
+                                disabled="disabled"
                                 placeholder="员工类型" >
                                     <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
                                     :key="index">{{ item.paramInfoName }}
@@ -75,7 +75,7 @@
                             <Col span="11" offset="1">
                                 <FormItem label="原合同类别" prop="contractoType">
                                 <Select v-model="formValidate.contractoType" class="width200"
-                                :disabled="disabled"
+                                disabled="disabled"
                                 placeholder="合同类别" >
                                     <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
                                     :key="index">{{ item.paramInfoName }}
@@ -90,7 +90,7 @@
                             <Col span="11" >
                                 <FormItem label="原合同期限" prop="contractoPeriod">
                                 <Select v-model="formValidate.contractoPeriod" class="width200"
-                                :disabled="disabled"
+                                disabled="disabled"
                                 placeholder="合同期限" >
                                     <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
                                     :key="index">{{ item.paramInfoName }}
@@ -103,7 +103,7 @@
                                 <FormItem label="原合同开始日期" prop="contractoStart">
                                     <DatePicker type="date"
                                         placeholder="选择合同开始日期"
-                                        :disabled="disabled"
+                                        disabled="disabled"
                                         :readonly="disabled"
                                         :editable="false"
                                         v-model="formValidate.contractoStart"
@@ -119,7 +119,7 @@
                                 <FormItem label="原合同结束日期" prop="contractoEnd">
                                     <DatePicker type="date"
                                         placeholder="选择合同结束日期"
-                                        :disabled="disabled"
+                                        disabled="disabled"
                                         :readonly="disabled"
                                         :editable="false"
                                         v-model="formValidate.contractoEnd"
@@ -131,7 +131,7 @@
                             <Col span="11" offset="1">
                                 <FormItem label="原合同工作时间" prop="contractoTime">
                                     <Select v-model="formValidate.contractoTime" class="width200"
-                                    :disabled="disabled"
+                                    disabled="disabled"
                                     placeholder="合同工作时间" >
                                         <Option v-for="(item, index) in selectWorktimetype" :value="item.paramCode"
                                         :key="index">{{ item.paramInfoName }}
@@ -147,7 +147,7 @@
                                 <FormItem label="原签订时间" prop="signingoTime">
                                     <DatePicker type="date"
                                         placeholder="选择签订时间"
-                                        :disabled="disabled"
+                                        disabled="disabled"
                                         :readonly="disabled"
                                         :editable="false"
                                         v-model="formValidate.signingoTime"
@@ -286,7 +286,7 @@
                         <Row>
                             <Col span="11">
                             <FormItem label="原合同编号" prop="contractoNo">
-                                    <Input v-model="formValidate.contractoNo" :disabled="disabled" placeholder="请输入原合同编号"></Input>
+                                    <Input v-model="formValidate.contractoNo" disabled="disabled" placeholder="请输入原合同编号"></Input>
                                 </FormItem>
                             </Col>
                         </Row>

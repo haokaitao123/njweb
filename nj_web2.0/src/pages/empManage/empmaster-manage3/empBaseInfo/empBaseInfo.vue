@@ -412,9 +412,9 @@
                                 </Upload>
                             </i-col>
                             <i-col span="18">
-                                <span v-if="file !== ''"
-                                      @dblclick="disabled?'':clearFile()">
-                                    <i-col span="21">
+                                <span v-if="file !== ''">
+                                    <i-col span="21"
+                                           @dblclick.native="disabled?'':clearFile()">
                                         <Input v-model="file.name"
                                                readonly="readonly">
                                         <span slot="prepend">
@@ -644,6 +644,7 @@ export default {
                 empnhTechdate: "", // 职称取得时间
                 fileKey: "", // 上传附件
                 empnhAttendyn: 1, // 是否考勤
+                empnhCostcent: "", //成本中心
                 note: "", // 备注
             },
             // 弹出框相关参数
@@ -1094,6 +1095,7 @@ export default {
                         t.form.empnhTechspec = res.data.content[0].empnhTechspec;
                         t.form.empnhTechdate = res.data.content[0].empnhTechdate;
                         t.form.empnhAttendyn = res.data.content[0].empnhAttendyn;
+                        t.empnhCostcentDis = res.data.content[0].empnhCostcentDis;
                         t.form.note = res.data.content[0].note;
                         if (res.data.content[0].fileKey) {
                             t.file = { name: res.data.content[0].fileKey.split(':')[0] }
@@ -1334,6 +1336,7 @@ export default {
                     t.form.fileKey = key + ':' + res.data[key]
                 }
                 this.$Message.success('上传成功');
+                this.loadingStatus = false;
             }).catch(() => {
                 this.$Message.error('网络错误');
             })
