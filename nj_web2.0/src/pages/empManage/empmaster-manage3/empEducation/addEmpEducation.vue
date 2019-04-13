@@ -20,7 +20,7 @@
             <Row>
                 <Form :model="form"
                       label-position="right"
-                      :rules="logType=='查看'?{}:ruleValidate"
+                      :rules="ruleValidate"
                       ref="form"
                       :label-width="110">
                     <i-col span="11">
@@ -125,9 +125,9 @@
                                     </Upload>
                                 </i-col>
                                 <i-col :span="disabled?'24':'19'">
-                                    <span v-if="file !== ''"
-                                          @dblclick="disabled?'':clearFile()">
-                                        <i-col span="22">
+                                    <span v-if="file !== ''">
+                                        <i-col span="22"
+                                               @dblclick.native="disabled?'':clearFile()">
                                             <Input v-model="file.name"
                                                    readonly="readonly">
                                             <span slot="prepend">
@@ -221,14 +221,14 @@ export default {
             selectEducationlevel: [],
             selectEdCuntry: [],
             yesOrNo: [
-                {
-                    paramCode: "1",
-                    paramInfoCn: "是"
-                },
-                {
-                    paramCode: "0",
-                    paramInfoCn: "否"
-                }
+                // {
+                //     paramCode: "1",
+                //     paramInfoCn: "是"
+                // },
+                // {
+                //     paramCode: "0",
+                //     paramInfoCn: "否"
+                // }
             ],
             form: {
                 _mt: "empEducation.addOrUpd",
@@ -307,6 +307,7 @@ export default {
             getDataLevelUserLogin(params)
                 .then(res => {
                     if (isSuccess(res, t)) {
+                        console.log(res.data.content[0], "res")
                         t.form.edEducationlevel = res.data.content[0].edEducationlevel;
                         t.form.edIshighest = res.data.content[0].edIshighest ? res.data.content[0].edIshighest : 1;
                         t.form.edCuntry = res.data.content[0].edCuntry;
@@ -378,11 +379,12 @@ export default {
             const t = this;
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: "education"
+                typeCode: "education,yesno"
             })
                 .then(res => {
                     if (isSuccess(res, t)) {
                         t.selectEducationlevel = res.data.content[0].value[0].paramList;
+                        t.yesOrNo = res.data.content[0].value[1].paramList
                     }
                 })
                 .catch(() => {
@@ -399,8 +401,9 @@ export default {
         },
         close () {
             this.rowId = "";
-            this.$emit("hideMsg");
             this.clear();
+            this.$emit("hideMsg");
+
         },
         //选择国家
         selectCountry () {
@@ -440,7 +443,8 @@ export default {
                     t.filekey = res.data[key]
                     t.form.fileKey = key + ':' + res.data[key]
                 }
-                this.$Message.error('上传成功');
+                this.$Message.success('上传成功');
+                this.loadingStatus = false;
             }).catch(() => {
                 this.$Message.error('网络错误');
             })

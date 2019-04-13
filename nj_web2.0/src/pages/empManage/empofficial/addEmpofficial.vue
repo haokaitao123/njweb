@@ -77,14 +77,14 @@
                               </Upload>
                             </i-col>
                             <i-col span="20" >
-                             <span v-if="file !== '' " @dblclick="forbidden?'':fileclean()">
-                              <i-col span="22" >
-                              <Input v-model="file.name">
-                                <span slot="prepend">
-                                  <Icon type="folder" size="16" ></Icon>
-                                </span>
-                              </Input>
-                              </i-col>
+                             <span v-if="file !== '' " >
+                                <i-col span="22"  @dblclick.native="forbidden?'':fileclean()">
+                                <Input v-model="file.name" >
+                                  <span slot="prepend">
+                                    <Icon type="folder" size="16" ></Icon>
+                                  </span>
+                                </Input>
+                                </i-col>
                               <i-col span="2">
                                 <Button type="text" v-show="!forbidden" @click="uploadLocalFile" v-if="loadingStatus">
                                   上传
@@ -343,10 +343,16 @@ export default {
               window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
             } else {
               let doclink = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
+              /*let link = document.createElement('a')
+              link.href = doclink
+              link.download = 'downloadfiletemp'
+              link.click()*/
               let link = document.createElement('a')
               link.href = doclink
               link.download = 'downloadfiletemp'
-              link.click()
+              link.setAttribute('download', 'downloadfiletemp');
+              document.body.appendChild(link);
+              link.click();
             }
             this.$store.state.app.pageOpenedList = JSON.parse(localStorage.pageOpenedListAll)
             localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))

@@ -12,7 +12,7 @@
           <Input placeholder="请输入成本中心名称" style="width: 200px" v-model="costName"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
-          <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
+          <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
         </Row>
         <row class="table-form" ref="table-form">
           <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>

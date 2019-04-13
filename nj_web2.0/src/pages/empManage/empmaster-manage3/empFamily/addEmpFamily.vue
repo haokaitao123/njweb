@@ -20,7 +20,7 @@
             <Row>
                 <Form :model="form"
                       label-position="right"
-                      :rules="logType=='查看'?{}:ruleValidate"
+                      :rules="ruleValidate"
                       ref="form"
                       :label-width="110">
                     <i-col span="11">
@@ -297,8 +297,9 @@ export default {
         },
         close () {
             this.rowId = "";
-            this.$emit("hideMsg");
             this.clear();
+            this.$emit("hideMsg");
+
         }
     }
 };

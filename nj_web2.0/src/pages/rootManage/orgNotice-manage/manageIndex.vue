@@ -94,9 +94,9 @@ import btnList from '../../../components/btnAuth/btnAuth'
 
 export default {
   created () {
-    if (this.pageShow != "") {
+    if (this.pageShow !== "") {
       this.columns.push(this.tableBtn);
-      this.$store.commit('btnOperate/setTableOperate', 'true');
+      this.tableOperate = true
     }
   },
   computed:{
@@ -106,20 +106,21 @@ export default {
     tableButton () {
       return this.$store.state.btnOperate.tableButton
     },
-    tableOperate () {
-      return this.$store.state.btnOperate.tableOperate
+    modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+      return this.$store.state.btnOperate.modity
     },
-    btnData () {
+    btnData() {
       return this.$store.state.btnOperate.btnData
     },
-    FlowNode () {
+    FlowNode() {
       return this.$store.state.btnOperate.isFlowNode
-    }
+    },
   },
 
 
   data() {
     return {
+      tableOperate:false,
       tableheight: document.body.offsetHeight - 280,
       optModel: "", //  通知类型
       noticeType: [],
@@ -224,15 +225,15 @@ export default {
   },
   watch: {
     pageShow (val) {
-      if (val == "" && this.tableOperate == "true") {
+      if (val ==="" && this.tableOperate === true) {
         this.columns.pop();
-        this.$store.commit("btnOperate/setTableOperate", "false");
-      } else if (this.tableOperate == "false") {
+        this.tableOperate = false;
+      } else if (this.tableOperate === false) {
         this.columns.push(this.tableBtn);
-        this.$store.commit("btnOperate/setTableOperate", "true");
+        this.tableOperate = true;
       }
     }
-  },
+},
   methods: {
     btnEvent (res) {
       console.log(res, "res12345")
@@ -262,6 +263,7 @@ export default {
     //获取列表数据
     getData(page) {
       const t = this;
+      this.$store.commit('btnOperate/setSearchLoading', true)
       if (page) {
         t.page = page;
       }
@@ -292,17 +294,15 @@ export default {
       getDataLevelUserLoginNew(data)
         .then(res => {
           if (isSuccess(res, t)) {
-            t.loading = false;
             t.comInfo = res.data.content[0].rows;
             t.total = res.data.content[0].records;
           }
         })
         .catch(() => {
+          t.$Message.error(this.$t('reminder.errormessage'))
+        }).finally(() => {
           t.loading = false;
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+          t.$store.commit('btnOperate/setSearchLoading',false);
         });
     },
     //条数改变

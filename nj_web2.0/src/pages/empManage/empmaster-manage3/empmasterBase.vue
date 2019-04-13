@@ -140,14 +140,14 @@ export default {
             this.empContractInfo = false;
             this.empWorkExp = false;
             this.empFamily = false;
-            this.active = name;
-            this.title = this.logType;
-            this[name] = true;
             this.$refs.empBaseInfo.clear();
             this.$refs.empEducation.clear();
             this.$refs.empContractInfo.clear();
             this.$refs.empWorkExp.clear();
             this.$refs.empFamily.clear();
+            this.active = name;
+            this.title = this.logType;
+            this[name] = true;
             if (name !== "empBaseInfo") {
                 this.getChildFunId(name)
                 this.$refs[name].search('获取');

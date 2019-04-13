@@ -25,293 +25,289 @@
                      id="scrollBox">
                
                 <!-- form表单 :model="formValidate" model表单数据对象绑定了formValidate :rules="ruleValidate" 表单验证规则  :label-width="135" 表单域标签的宽度-->
-                <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
-                    <Row>
-                        <!--  prop 是Form对应表单域 model 里的字段 -->
-                        <!--  员工姓名选择框  -->
-                        <Col span="11">
-                            <FormItem label="员工姓名" prop="empId">
-                                <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                                <span @dblclick="disabled?'':clearUserid">
-                                    <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="pickData3" />
-                                </span>
-                            </FormItem>
-                        </Col>
-                        <!--  部门名称输入框  -->
-                        <Col span="11" offset="1">
-                            <FormItem label="原部门名称" prop="deptoId">
-                                <Input v-model="deptoIdName" :disabled="disabled" placeholder="请输入原部门名称"></Input>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <!--  岗位名称输入框 -->
-                        <Col span="11">
-                        <FormItem label="原岗位名称" prop="postoId">
-                                <Input v-model="postoName" :disabled="disabled" placeholder="请输入原岗位名称"></Input>
-                            </FormItem>
-                        </Col>
-                        <!--  证件号码输入框  -->
-                        <Col span="11" offset="1">
-                            <FormItem label="证件号码" prop="empnhIdno">
-                                <Input v-model="formValidate.empnhIdno" :disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <!--  员工类型  -->
-                        <Col span="11" >
-                            <FormItem label="原员工类型" prop="empoType">
-                            <Select v-model="formValidate.empoType" class="width200"
-                            :disabled="disabled"
-                            placeholder="员工类型" >
-                                <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
-                                :key="index">{{ item.paramInfoName }}
-                                </Option>
-                            </Select>
-                            </FormItem>
-                        </Col>
-                        <!--  合同类别  -->
-                        <Col span="11" offset="1">
-                            <FormItem label="原合同类别" prop="contractoType">
-                            <Select v-model="formValidate.contractoType" class="width200"
-                            :disabled="disabled"
-                            placeholder="合同类别" >
-                                <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
-                                :key="index">{{ item.paramInfoName }}
-                                </Option>
-                            </Select>
-                            </FormItem>
-                        </Col>
-                    </Row>
+                    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
+                        <Row>
+                            <!--  prop 是Form对应表单域 model 里的字段 -->
+                            <!--  员工姓名选择框  -->
+                            <Col span="11">
+                                <FormItem label="员工姓名" prop="empId">
+                                    <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
+                                    <span @dblclick="disabled?'':clearUserid">
+                                        <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="pickData3" />
+                                    </span>
+                                </FormItem>
+                            </Col>
+                            <!--  部门名称输入框  -->
+                            <Col span="11" offset="1">
+                                <FormItem label="原部门名称" prop="deptoId">
+                                    <Input v-model="deptoIdName" disabled="disabled" placeholder="请输入原部门名称"></Input>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <!--  岗位名称输入框 -->
+                            <Col span="11">
+                            <FormItem label="原岗位名称" prop="postoId">
+                                    <Input v-model="postoName" disabled="disabled" placeholder="请输入原岗位名称"></Input>
+                                </FormItem>
+                            </Col>
+                            <!--  证件号码输入框  -->
+                            <Col span="11" offset="1">
+                                <FormItem label="证件号码" prop="empnhIdno">
+                                    <Input v-model="formValidate.empnhIdno" disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <!--  员工类型  -->
+                            <Col span="11" >
+                                <FormItem label="原员工类型" prop="empoType">
+                                <Select v-model="formValidate.empoType" class="width200"
+                                disabled="disabled"
+                                placeholder="员工类型" >
+                                    <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
+                                </FormItem>
+                            </Col>
+                            <!--  合同类别  -->
+                            <Col span="11" offset="1">
+                                <FormItem label="原合同类别" prop="contractoType">
+                                <Select v-model="formValidate.contractoType" class="width200"
+                                disabled="disabled"
+                                placeholder="合同类别" >
+                                    <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
+                                </FormItem>
+                            </Col>
+                        </Row>
 
-                    <Row>
-                        <!-- 原合同期限  -->
-                        <Col span="11" >
-                            <FormItem label="原合同期限" prop="contractoPeriod">
-                            <Select v-model="formValidate.contractoPeriod" class="width200"
-                            :disabled="disabled"
-                            placeholder="合同期限" >
-                                <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
-                                :key="index">{{ item.paramInfoName }}
-                                </Option>
-                            </Select>
-                            </FormItem>
-                        </Col>
-                        <!--  原合同开始日  -->
-                        <Col span="11" offset="1">
-                            <FormItem label="原合同开始日期" prop="contractoStart">
-                                <DatePicker type="date"
-                                    placeholder="选择合同开始日期"
-                                    :disabled="disabled"
-                                    :readonly="disabled"
-                                    :editable="false"
-                                    v-model="formValidate.contractoStart"
-                                    style="width: 100%">
-                                </DatePicker>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    
-                    <Row>
-                        <!-- 原合同结束日-->
-                        <Col span="11" >
-                            <FormItem label="原合同结束日期" prop="contractoEnd">
-                                <DatePicker type="date"
-                                    placeholder="选择合同结束日期"
-                                    :disabled="disabled"
-                                    :readonly="disabled"
-                                    :editable="false"
-                                    v-model="formValidate.contractoEnd"
-                                    style="width: 100%">
-                                </DatePicker>
-                            </FormItem>
-                        </Col>
-                        <!--  原合同工作时间-->
-                        <Col span="11" offset="1">
-                            <FormItem label="原合同工作时间" prop="contractoTime">
-                                <Select v-model="formValidate.contractoTime" class="width200"
+                        <Row>
+                            <!-- 原合同期限  -->
+                            <Col span="11" >
+                                <FormItem label="原合同期限" prop="contractoPeriod">
+                                <Select v-model="formValidate.contractoPeriod" class="width200"
+                                disabled="disabled"
+                                placeholder="合同期限" >
+                                    <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
+                                </FormItem>
+                            </Col>
+                            <!--  原合同开始日  -->
+                            <Col span="11" offset="1">
+                                <FormItem label="原合同开始日期" prop="contractoStart">
+                                    <DatePicker type="date"
+                                        placeholder="选择合同开始日期"
+                                        disabled="disabled"
+                                        :readonly="disabled"
+                                        :editable="false"
+                                        v-model="formValidate.contractoStart"
+                                        style="width: 100%">
+                                    </DatePicker>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        
+                        <Row>
+                            <!-- 原合同结束日-->
+                            <Col span="11" >
+                                <FormItem label="原合同结束日期" prop="contractoEnd">
+                                    <DatePicker type="date"
+                                        placeholder="选择合同结束日期"
+                                        disabled="disabled"
+                                        :readonly="disabled"
+                                        :editable="false"
+                                        v-model="formValidate.contractoEnd"
+                                        style="width: 100%">
+                                    </DatePicker>
+                                </FormItem>
+                            </Col>
+                            <!--  原合同工作时间-->
+                            <Col span="11" offset="1">
+                                <FormItem label="原合同工作时间" prop="contractoTime">
+                                    <Select v-model="formValidate.contractoTime" class="width200"
+                                    disabled="disabled"
+                                    placeholder="合同工作时间" >
+                                        <Option v-for="(item, index) in selectWorktimetype" :value="item.paramCode"
+                                        :key="index">{{ item.paramInfoName }}
+                                        </Option>
+                                    </Select>
+                                </FormItem>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <!-- 原签订时间-->
+                            <Col span="11" >
+                                <FormItem label="原签订时间" prop="signingoTime">
+                                    <DatePicker type="date"
+                                        placeholder="选择签订时间"
+                                        disabled="disabled"
+                                        :readonly="disabled"
+                                        :editable="false"
+                                        v-model="formValidate.signingoTime"
+                                        style="width: 100%">
+                                    </DatePicker>
+                                </FormItem>
+                            </Col>
+                            <!--  新部门名称-->
+                            <Col span="11" offset="1">
+                                <FormItem label="新部门名称"
+                                    prop="deptnId">
+                                    <span @dblclick="clearPid">
+                                        <Input v-model="deptnIdName"
+                                            icon="search"
+                                            :disabled="disabled"
+                                            :readonly=true
+                                            placeholder="请选择部门"
+                                            @on-click="pickData2" />
+                                    </span>
+                                </FormItem>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <!-- 新岗位名称-->
+                            <Col span="11">
+                                <FormItem label="新岗位名称"
+                                    prop="postnId">
+                                    <span @dblclick="clearPost()">
+                                        <Input v-model="postnIdName"
+                                            icon="search"
+                                            :readonly=true
+                                            :disabled="disabled"
+                                            placeholder="请选择岗位名称"
+                                            @on-click="pickData" />
+                                    </span>
+                                </FormItem>
+                            </Col>
+                            <!--  新员工类型-->
+                            <Col span="11" offset="1">
+                                <FormItem label="新员工类型" prop="empnType">
+                                <Select v-model="formValidate.empnType" class="width200"
+                                :disabled="disabled"
+                                placeholder="员工类型" >
+                                    <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
+                                </FormItem>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <!-- 新合同类别-->
+                            <Col span="11" >
+                                <FormItem label="新合同类别" prop="contractnType">
+                                <Select v-model="formValidate.contractnType" class="width200"
+                                :disabled="disabled"
+                                placeholder="合同类别" >
+                                    <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
+                                </FormItem>
+                            </Col>
+                            <!--  新合同期限-->
+                            <Col span="11" offset="1">
+                                <FormItem label="新合同期限" prop="contractnPeriod">
+                                <Select v-model="formValidate.contractnPeriod" class="width200"
+                                :disabled="disabled"
+                                placeholder="员工类型" >
+                                    <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
+                                </FormItem>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <!-- 新合同开始日期-->
+                            <Col span="11" >
+                                <FormItem label="新合同开始日期" prop="contractnStart">
+                                    <DatePicker type="date"
+                                        placeholder="选择合同开始日期"
+                                        :disabled="disabled"
+                                        :editable="false"
+                                        :readonly="disabled"
+                                        v-model="formValidate.contractnStart"
+                                        style="width: 100%">
+                                    </DatePicker>
+                                </FormItem>
+                            </Col>
+                            <!--  新合同结束日期-->
+                            <Col span="11" offset="1">
+                                <FormItem label="新合同结束日期" prop="contractnEnd">
+                                    <DatePicker type="date"
+                                        placeholder="选择合同结束日期"
+                                        :disabled="disabled"
+                                        :readonly="disabled"
+                                        :editable="false"
+                                        v-model="formValidate.contractnEnd"
+                                        style="width: 100%">
+                                    </DatePicker>
+                                </FormItem>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <!-- 新合同工作时间-->
+                            <Col span="11" >
+                                <FormItem label="新合同工作时间" prop="contractnTime">
+                                <Select v-model="formValidate.contractnTime" class="width200"
                                 :disabled="disabled"
                                 placeholder="合同工作时间" >
                                     <Option v-for="(item, index) in selectWorktimetype" :value="item.paramCode"
                                     :key="index">{{ item.paramInfoName }}
                                     </Option>
                                 </Select>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <!-- 原签订时间-->
-                        <Col span="11" >
-                            <FormItem label="原签订时间" prop="signingoTime">
-                                <DatePicker type="date"
-                                    placeholder="选择签订时间"
-                                    :disabled="disabled"
-                                    :readonly="disabled"
-                                    :editable="false"
-                                    v-model="formValidate.signingoTime"
-                                    style="width: 100%">
-                                </DatePicker>
-                            </FormItem>
-                        </Col>
-                        <!--  新部门名称-->
-                        <Col span="11" offset="1">
-                            <FormItem label="新部门名称"
-                                prop="deptnId">
-                                <span @dblclick="clearPid">
-                                    <Input v-model="deptnIdName"
-                                        icon="search"
-                                        :disabled="disabled"
-                                        :readonly=true
-                                        placeholder="请选择部门"
-                                        @on-click="pickData2" />
-                                </span>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <!-- 新岗位名称-->
-                        <Col span="11">
-                            <FormItem label="新岗位名称"
-                                prop="postnId">
-                                <span @dblclick="clearPost()">
-                                    <Input v-model="postnIdName"
-                                        icon="search"
-                                        :readonly=true
-                                        :disabled="disabled"
-                                        placeholder="请选择岗位名称"
-                                        @on-click="pickData" />
-                                </span>
-                            </FormItem>
-                        </Col>
-                        <!--  新员工类型-->
-                        <Col span="11" offset="1">
-                            <FormItem label="新员工类型" prop="empnType">
-                            <Select v-model="formValidate.empnType" class="width200"
-                            :disabled="disabled"
-                            placeholder="员工类型" >
-                                <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
-                                :key="index">{{ item.paramInfoName }}
-                                </Option>
-                            </Select>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <!-- 新合同类别-->
-                        <Col span="11" >
-                            <FormItem label="新合同类别" prop="contractnType">
-                            <Select v-model="formValidate.contractnType" class="width200"
-                            :disabled="disabled"
-                            placeholder="合同类别" >
-                                <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
-                                :key="index">{{ item.paramInfoName }}
-                                </Option>
-                            </Select>
-                            </FormItem>
-                        </Col>
-                        <!--  新合同期限-->
-                        <Col span="11" offset="1">
-                            <FormItem label="新合同期限" prop="contractnPeriod">
-                            <Select v-model="formValidate.contractnPeriod" class="width200"
-                            :disabled="disabled"
-                            placeholder="员工类型" >
-                                <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
-                                :key="index">{{ item.paramInfoName }}
-                                </Option>
-                            </Select>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <!-- 新合同开始日期-->
-                        <Col span="11" >
-                            <FormItem label="新合同开始日期" prop="contractnStart">
-                                <DatePicker type="date"
-                                    placeholder="选择合同开始日期"
-                                    :disabled="disabled"
-                                    :editable="false"
-                                    :readonly="disabled"
-                                    v-model="formValidate.contractnStart"
-                                    style="width: 100%">
-                                </DatePicker>
-                            </FormItem>
-                        </Col>
-                        <!--  新合同结束日期-->
-                        <Col span="11" offset="1">
-                            <FormItem label="新合同结束日期" prop="contractnEnd">
-                                <DatePicker type="date"
-                                    placeholder="选择合同结束日期"
-                                    :disabled="disabled"
-                                    :readonly="disabled"
-                                    :editable="false"
-                                    v-model="formValidate.contractnEnd"
-                                    style="width: 100%">
-                                </DatePicker>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <!-- 新合同工作时间-->
-                        <Col span="11" >
-                            <FormItem label="新合同工作时间" prop="contractnTime">
-                            <Select v-model="formValidate.contractnTime" class="width200"
-                            :disabled="disabled"
-                            placeholder="合同工作时间" >
-                                <Option v-for="(item, index) in selectWorktimetype" :value="item.paramCode"
-                                :key="index">{{ item.paramInfoName }}
-                                </Option>
-                            </Select>
-                            </FormItem>
-                        </Col>
-                        <!--  新签订时间-->
-                        <Col span="11" offset="1">
-                            <FormItem label="新签订时间" prop="signingnTime">
-                                <DatePicker type="date"
-                                    placeholder="选择签订时间"
-                                    :disabled="disabled"
-                                    :readonly="disabled"
-                                    :editable="false"
-                                    v-model="formValidate.signingnTime"
-                                    style="width: 100%">
-                                </DatePicker>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                     <Row>
-                        <Col span="11">
-                        <FormItem label="原合同编号" prop="contractoNo">
-                                <Input v-model="formValidate.contractoNo" :disabled="disabled" placeholder="请输入原合同编号"></Input>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <!--  备注文本域  -->
-                        <Col span="23" >
-                            <FormItem label="备注" prop="note">
-                                <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :disabled="disabled" placeholder="请输入备注"></Input>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <!--  保存 取消 按钮  -->
-                        <Col span="22" offset="1">
-                            <Row type="flex" justify="end">
-                                <FormItem>
-                                    <Button type="ghost" @click="handleReset" style="margin-left: 8px">取消</Button>
-                                    <Button type="primary" @click="handleSubmit">保存</Button>
                                 </FormItem>
-                            </Row>
-                        </Col>
-                    </Row>
-            </Form>
-            </Row>
-      </div>
+                            </Col>
+                            <!--  新签订时间-->
+                            <Col span="11" offset="1">
+                                <FormItem label="新签订时间" prop="signingnTime">
+                                    <DatePicker type="date"
+                                        placeholder="选择签订时间"
+                                        :disabled="disabled"
+                                        :readonly="disabled"
+                                        :editable="false"
+                                        v-model="formValidate.signingnTime"
+                                        style="width: 100%">
+                                    </DatePicker>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="11">
+                            <FormItem label="原合同编号" prop="contractoNo">
+                                    <Input v-model="formValidate.contractoNo" disabled="disabled" placeholder="请输入原合同编号"></Input>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <!--  备注文本域  -->
+                            <Col span="23" >
+                                <FormItem label="备注" prop="note">
+                                    <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :disabled="disabled" placeholder="请输入备注"></Input>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Row>
+        </div>
+         <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>
+                                    <Button
+                                        type="primary"
+                                        @click="handleSubmit"
+                                        class="btn"
+                                        v-show="!disabled"
+                                        >{{$t('button.sav')}}</Button>
     </div>
     <transition name="fade">
         <!--  员工信息的弹出框 v-show="openPickUser"绑定了一个判断员工信息弹窗是否显示隐藏的数据   @closeEmp="closeEmp" 关闭员工信息弹窗事件  @inputEmp="inputEmp" 员工信息弹出框input选中事件  -->
@@ -567,10 +563,11 @@
                     }
             }
             }).catch(() => {
-                this.$Modal.error({
-                    title: '错误',
-                    content: '网络错误',
-                })
+                // this.$Modal.error({
+                //     title: '错误',
+                //     content: '网络错误',
+                // })
+                this.$Message.error(this.$t("reminder.errormessage"));
             })
         },
          getSelect () {
@@ -588,10 +585,11 @@
                     }
                 })
                 .catch(() => {
-                    this.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
+                    // this.$Modal.error({
+                    //     title: this.$t("reminder.err"),
+                    //     content: this.$t("reminder.errormessage")
+                    // });
+                    this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
         //点击提交事件
@@ -642,29 +640,27 @@
                     if (isSuccess(res, t)) {
                         t.$emit('closeUp')
                         if (t.logType === '新增') {
-                            t.$Modal.success({
-                                title:'成功',
-                                content: '新增成功',
-                            })
+                            // t.$Modal.success({
+                            //     title:'成功',
+                            //     content: '新增成功',
+                            // })
+                             this.$Message.success(this.$t("reminder.addsuccess"));
                             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
                             t.$refs.formValidate.resetFields();
                             //像父组件传入新增成功的数据
                             t.$emit('getData', res.data.content[0])
                         } else {
-                            t.$Modal.success({
-                                title: '成功',
-                                content: '修改成功',
-                            })
+                            // t.$Modal.success({
+                            //     title: '成功',
+                            //     content: '修改成功',
+                            // })
+                             this.$Message.success(this.$t("reminder.updsuccess"));
                             //像父组件传入修改成功的数据
                             t.$emit('update', res.data.content[0])
                         }
                     }
                     }).catch(() => {
-                        //请求失败
-                        this.$Modal.error({
-                            title: '错误',
-                            content: '网络错误',
-                        })
+                        // this.$Message.error(this.$t("reminder.errormessage"));
                     })
                 }
             })
@@ -782,4 +778,18 @@
 </script>
 <style lang="scss" scoped>
   @import "../../sass/updateAndAdd";
+  .option-main {
+    position: relative;
+    height: 500px;
+}
+.btn {
+    position: absolute;
+    bottom: 20px;
+    right: 60px;
+}
+.btn1 {
+    position: absolute;
+    bottom: 20px;
+    right: 124px;
+}
 </style>
