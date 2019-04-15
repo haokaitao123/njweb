@@ -111,9 +111,19 @@
   import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
   import { isSuccess, deepCopy } from '../../../lib/util'
   import searchOrgframe from '../../../components/searchTable/searchPost'
+  import valid from '../../../lib/pub_valid'
 
   export default {
     data() {
+      const numberCheck = (rule, value, numberValCheck) => {
+        if (value !== '' && value !== undefined) {
+          if (valid.val_number103(value)) {
+            return numberValCheck()
+          }
+          return numberValCheck(new Error(''))
+        }
+        numberValCheck()
+      }
       const compareTime = (rule, value, callback) => {
         if (value === "" || !value) {
           callback(new Error("请选择押金补充时间"));
@@ -147,11 +157,7 @@
             }
           ],
           depMoney: [
-            {
-              required: true,
-              type:"number",
-              message: "请输入最低押金",
-              trigger: "change"
+            { required: true,  validator:numberCheck, trigger: 'blur', message: "请输入最低押金"
             }
           ],
           depSdate: [
