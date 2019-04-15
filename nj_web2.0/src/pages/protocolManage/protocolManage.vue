@@ -26,9 +26,7 @@
               <!--布置分页列表 变量通用 无需变更-->
               <row class="table-form" ref="table-form">
                 <Table
-                  @on-select="selectedtable"
-                  @on-select-cancel="selectedtable"
-                  @on-select-all="selectedtable"
+                  @on-selection-change="selectedtable"
                   @on-sort-change="sortable"
                   :height="tableheight"
                   size="small"
@@ -583,10 +581,11 @@ export default {
         tipContent = "您确定继续操作吗？";
       }
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        // t.$Modal.warning({
+        //   title: this.$t("reminder.remind"),
+        //   content: this.$t("reminder.leastone")
+        // });
+        this.$Message.warning('请至少选择一条数据');
         return;
       }
       t.$Modal.confirm({

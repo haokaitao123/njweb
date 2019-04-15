@@ -370,6 +370,7 @@
                 sort: 'id',
                 order: 'desc',
                 logType: '岗位',
+                state:'02valid'
             },
         params2: {
                 _mt: 'orgUnits.getByOrgFramePageList',
@@ -381,6 +382,7 @@
                 logType: '组织架构查询',
                 data: '{}',
                 unitPid: 0,
+                state:'02valid'
         },
         params3: {
             _mt: "empContractinfo.getPage",
