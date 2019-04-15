@@ -1219,7 +1219,7 @@ export default {
         pickData () {
             const t = this
             this.popup = '0'
-            this.$refs.searchCity.getData(this.params, '02city\',\'03county')
+            this.$refs.searchCity.getData(this.params, '02city')
             this.openPick = true
         },
         workplace () {
