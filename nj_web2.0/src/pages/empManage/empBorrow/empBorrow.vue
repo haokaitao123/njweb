@@ -303,10 +303,7 @@
       deletemsg() {
         const t = this
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: '提示',
-            content: '请至少选择一条数据',
-          })
+          this.$Message.warning('请至少选择一条数据')
         } else {
           t.$Modal.confirm({
             title: '提示',
@@ -339,10 +336,7 @@
       setState(data) {
         const t = this
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: '提示',
-            content: '请至少选择一条数据',
-          })
+          this.$Message.warning('请至少选择一条数据')
         } else {
           t.$Modal.confirm({
             title: '提示',
