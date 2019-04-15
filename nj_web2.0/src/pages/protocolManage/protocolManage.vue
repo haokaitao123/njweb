@@ -125,7 +125,7 @@ export default {
   data() {
     
       return {
-       
+       tableOperate:false,
         // 导入的mt名称
         imp_mt: "protocolManage.importData",
         // 导出字段设置, code字段名 name列名
@@ -159,7 +159,6 @@ export default {
         openExp: false,
         filekey: "",
         filename: "",
-        tableOperate:false,
         // 子页面所需参数 无需变更
         tableheight: document.body.offsetHeight - 280,
         logType: "",
@@ -371,9 +370,6 @@ export default {
     },
     tableButton() {
       return this.$store.state.btnOperate.tableButton;
-    },
-    tableOperate() {
-      return this.$store.state.btnOperate.tableOperate;
     },
     modity() {
       return this.$store.state.btnOperate.modity;
