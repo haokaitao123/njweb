@@ -32,12 +32,12 @@
                             <FormItem label="员工姓名"
                                       prop="empId">
                                 <!--绑定双击清除方法-->
-                                <span @dblclick="disabled?'':dbclean()">
+                                <span @dblclick="dbclean()">
                                     <!--v-model绑定显示字段-->
                                     <Input v-model="empName"
                                            icon="search"
-                                           :readonly="true"
-                                           :disabled="disabled || aa"
+                                           :readonly=true
+                                           :disabled="disabled "
                                            placeholder="请选择员工"
                                            @on-click=" pickEmpData()" />
                                 </span>
@@ -329,7 +329,7 @@ export default {
         };
 
         return {
-            aa: false,
+            
             type: "",
             distype: false,
             disabled: false,
@@ -342,6 +342,7 @@ export default {
             selectWorktimetype: [],
             selectProbperiod: [],
             selectAttendy: [],
+            loadingStatus:"",
             form: {
                 _mt: "empContractinfo.addOrUpd",
                 numberCode: "XXXXXX",
@@ -454,11 +455,11 @@ export default {
         //上级清除员工选择
         dbclean () {
             const t = this;
-            t.form.empName = "";
+            t.empName = "";
             t.form.empId = "";
-            t.form.deptIdDis = "";
+            t.deptIdDis = "";
             t.form.deptId = "";
-            t.form.postIdDis = "";
+            t.postIdDis = "";
             t.form.postId = "";
         },
         getData (id) {

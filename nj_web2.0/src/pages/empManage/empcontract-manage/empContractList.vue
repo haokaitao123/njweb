@@ -630,10 +630,12 @@ export default {
         .then(res => {
               if (isSuccess(res, t)) {
                 t.getData();
+                t.tableselected = [];
                 this.$Message.success(this.$t("reminder.operatsuccess"));
               }
             })
             .catch(() => {
+                t.tableselected = [];
               this.$Message.error(this.$t("reminder.errormessage"));
             });
         }

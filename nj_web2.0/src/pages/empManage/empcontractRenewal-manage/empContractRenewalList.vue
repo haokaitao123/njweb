@@ -607,10 +607,12 @@ export default {
             .then(res => {
               if (isSuccess(res, t)) {
                 t.getData();
+                t.tableselected = [];
                 this.$Message.success("操作成功");
               }
             })
             .catch(() => {
+                t.tableselected = [];
               this.$Message.error("操作失败");
             });
         },
