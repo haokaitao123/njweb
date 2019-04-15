@@ -3,7 +3,7 @@
     <div class="backbox">
       <div class="title">
         <div class="title-text">
-          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>&nbsp;{{$t('选择用户')}}
+          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>选择用户
         </div>
         <Button type="text"  @click="close">
           <Icon type="close-round" size="16"></Icon>
@@ -11,8 +11,8 @@
       </div>
       <Row class="table-form">
         <Input :placeholder="searchText" style="width: 200px" v-model="userName"/>
-        <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
-        <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">{{$t('button.cle')}}</Button></span>
+        <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">查询</Button></span>
+
       </Row>
       <row class="table-form" ref="table-form">
         <Table height="320" size="small" border ref="selection" :columns="searchCloumns" @on-sort-change="sortable" :data="data" @on-row-dblclick="dbCkick"></Table>
@@ -31,7 +31,7 @@ export default{
       data: [],
       total: NaN,
       userName: '',
-      searchText: this.$t('请输入用户名'),
+      searchText: '请输入用户名',
       params: {
         _mt: 'userMgmt.getSearchUserPage',
         sort: 'id',
@@ -42,13 +42,13 @@ export default{
       },
       searchCloumns: [
         {
-          title: this.$t('用户名称'),
+          title: '用户名称',
           key: 'name',
           sortable: 'custom',
           width: 379,
         },
         {
-          title: this.$t('手机号码'),
+          title: '手机号码',
           key: 'mobileNo',
           sortable: 'custom',
           width: 379,
