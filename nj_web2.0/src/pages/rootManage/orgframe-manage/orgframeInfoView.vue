@@ -159,31 +159,31 @@
                         <i-col span="11">
                             <FormItem label="经理编制"
                                       prop="unitManger">
-                                <InputNumber v-model="formValidate.unitManger"
+                                <Input v-model="formValidate.unitManger"
                                              :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
-                                             placeholder="请输入经理编制"></InputNumber>
+                                             placeholder="请输入经理编制"></Input>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
                             <FormItem label="主管编制"
                                       prop="unitDirec">
-                                <InputNumber v-model="formValidate.unitDirec"
+                                <Input v-model="formValidate.unitDirec"
                                              :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
-                                             placeholder="请输入主管编制"></InputNumber>
+                                             placeholder="请输入主管编制"></Input>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
                             <FormItem label="员工编制"
                                       prop="unitStaff">
-                                <InputNumber v-model="formValidate.unitStaff"
+                                <Input v-model="formValidate.unitStaff"
                                              :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
-                                             placeholder="请输入员工编制"></InputNumber>
+                                             placeholder="请输入员工编制"></Input>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
@@ -251,10 +251,19 @@ import { isSuccess, deepCopy } from '../../../lib/util'
 import searchCity from '../../../components/searchTable/searchCity'
 import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import searchOrgcostcenter from '../../../components/searchTable/searchOrgcostcenter'
-
+import valid from '../../../lib/pub_valid'
 export default {
 
     data () {
+        const numberCheck = (rule, value, numberValCheck) => {
+            	if (value !== '' && value !== undefined) {
+                	if (valid.val_number103(value)) {
+                    		return numberValCheck()
+                	}
+                	return numberValCheck(new Error(rule.message))
+            	}
+           	 numberValCheck()
+            };
         const validatePartEstablish = (rule, value, callback) => {
             if (value === "" || !value) {
                 callback(new Error("请输入部门编制"));
@@ -426,13 +435,13 @@ export default {
                     { required: true, validator: validatePartEstablish, trigger: 'change' }
                 ],
                 unitManger: [
-                    { required: true, type: 'number', message: "请输入经理编制", trigger: 'change' },
+                    { required: true, validator:numberCheck, message: "请输入经理编制", trigger: 'change' },
                 ],
                 unitDirec: [
-                    { required: true, type: 'number', message: "请输入主管编制", trigger: 'change' },
+                    { required: true, validator:numberCheck, message: "请输入主管编制", trigger: 'change' },
                 ],
                 unitStaff: [
-                    { required: true, type: 'number', message: "请输入员工编制", trigger: 'change' },
+                    { required: true, validator:numberCheck, message: "请输入员工编制", trigger: 'change' },
                 ],
                 unitSysalig: [
                     { required: true, message: "请选择系统转正", trigger: 'change' },

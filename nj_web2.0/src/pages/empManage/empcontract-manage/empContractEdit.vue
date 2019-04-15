@@ -64,6 +64,7 @@
                             <FormItem label="员工类型"
                                       prop="empType">
                                 <Select v-model="form.empType"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="请选择员工类型">
                                     <Option :value="item.paramCode"
@@ -77,6 +78,7 @@
                             <FormItem label="合同类型"
                                       prop="contType">
                                 <Select v-model="form.contType"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="请选择合同类型">
                                     <Option :value="item.paramCode"
@@ -89,6 +91,7 @@
                             <FormItem label="合同期限"
                                       prop="contPeriod">
                                 <Select v-model="form.contPeriod"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择合同期限"
                                         @on-change="contPeriodSelect">
@@ -131,6 +134,7 @@
                             <FormItem label="合同工作时间"
                                       prop="contWorktime">
                                 <Select v-model="form.contWorktime"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择合同工作时间">
                                     <Option :value="item.paramCode"
@@ -143,6 +147,7 @@
                             <FormItem label="试用期限"
                                       prop="contProbat">
                                 <Select v-model="form.contProbat"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择试用期限"
                                         @on-change="contProbatSelect">
@@ -354,8 +359,8 @@ export default {
                 contProbatdt: "",
                 contValiddate: "",
                 contInvdate: "",
-                contBmxy: "",
-                contJzxy: "",
+                contBmxy: "0",
+                contJzxy: "0",
                 fileKey: "", // 上传附件
                 note: "", //备注
                 funId: "1",
