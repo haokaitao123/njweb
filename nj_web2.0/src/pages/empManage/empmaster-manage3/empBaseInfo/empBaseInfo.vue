@@ -726,7 +726,10 @@ export default {
                 page: 1,
                 funId: "1",
                 logType: "工作地方查询",
-                data: '{"cityIsvalid" : "1","cityType":"02city"}'
+                data: {
+                  "cityIsvalid" : "1",
+                  "cityType":"02city"
+                }
             },
             searchCloumns: [
                 {
@@ -1219,7 +1222,7 @@ export default {
         pickData () {
             const t = this
             this.popup = '0'
-            this.$refs.searchCity.getData(this.params, '02city')
+            this.$refs.searchCity.getData(this.params)
             this.openPick = true
         },
         workplace () {
