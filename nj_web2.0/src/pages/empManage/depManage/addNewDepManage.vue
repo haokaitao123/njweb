@@ -28,15 +28,15 @@
                 <Col span="10" offset="1">
                     <FormItem label="员工姓名" prop="empId">
                         <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                        <span @dblclick="clearUserid">
-                            <Input v-model="empName" icon="search" :readonly="true" placeholder="请选择员工姓名"  @on-click="pickUserData" />
+                        <span @dblclick="disabled?'':clearUserid()">
+                            <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="pickUserData" />
                         </span>
                     </FormItem>
                 </Col>
                  <!--  部门名称输入框  -->
                 <Col span="10" offset="1">
                     <FormItem label="部门名称" prop="deptId">
-                        <Input v-model="deptIdName" placeholder="请输入部门名称"></Input>
+                        <Input v-model="deptIdName" disabled="disabled" placeholder="请输入部门名称"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -44,13 +44,13 @@
                 <!--  岗位名称输入框 -->
                 <Col span="10" offset="1">
                    <FormItem label="岗位名称" prop="postId">
-                        <Input v-model="postName" placeholder="请输入岗位名称"></Input>
+                        <Input v-model="postName" disabled="disabled" placeholder="请输入岗位名称"></Input>
                     </FormItem>
                 </Col>
                 <!--  证件号码输入框  -->
                 <Col span="10" offset="1">
                     <FormItem label="证件号码" prop="empnhIdno">
-                        <Input v-model="formValidate.empnhIdno" placeholder="请输入证件号码" style="width: 100%"></Input>
+                        <Input v-model="formValidate.empnhIdno" disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -58,13 +58,13 @@
                  <!--  金额输入框  -->
                 <Col span="10" offset="1">
                     <FormItem label="总金额" prop="moneyNum">
-                        <InputNumber v-model="formValidate.moneyNum" placeholder="请输入总金额" style="width: 100%"></InputNumber>
+                        <InputNumber v-model="formValidate.moneyNum" :disabled="disabled" placeholder="请输入总金额" style="width: 100%"></InputNumber>
                     </FormItem>
                 </Col>
                 <!--  备注文本域  -->
                 <Col span="21" offset="1">
                     <FormItem label="备注" prop="note">
-                        <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
+                        <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :disabled="disabled" placeholder="请输入备注"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -73,8 +73,13 @@
                 <Col span="21" offset="1">
                     <Row type="flex" justify="end">
                         <FormItem>
-                            <Button type="ghost" @click="handleReset" style="margin-left: 8px">取消</Button>
-                            <Button type="primary" @click="handleSubmit">保存</Button>
+                            <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>
+                                    <Button
+                                        type="primary"
+                                        @click="handleSubmit"
+                                        class="btn"
+                                        v-show="!disabled"
+                                        >{{$t('button.sav')}}</Button>
                         </FormItem>
                     </Row>
                 </Col>
@@ -94,6 +99,7 @@
   export default {
     data() {
       return {
+        disabled: false,
         openPickUser: false,//员工信息默认false 隐藏
         formValidate: {
             _mt:'depManage.addOrUpd', //新增的数据接口
@@ -156,12 +162,20 @@
                 t.formValidate.empnhIdno = res.data.content[0].empnhIdno
                 t.formValidate.moneyNum = Number(res.data.content[0].moneyNum)
                 t.formValidate.note = res.data.content[0].note
+                 if (id === res.data.content[0].companyId) {
+                            t.forbidden = 'disabled'
+                            t.distype = true
+                    } else {
+                            t.forbidden = null
+                            t.distype = false
+                    }
             }
             }).catch(() => {
-                this.$Modal.error({
-                    title: '错误',
-                    content: '网络错误',
-                })
+                // this.$Modal.error({
+                //     title: '错误',
+                //     content: '网络错误',
+                // })
+                 this.$Message.error(this.$t("reminder.errormessage"));
             })
         },
         //点击提交事件
@@ -182,29 +196,32 @@
                     if (isSuccess(res, t)) {
                         t.$emit('closeUp')
                         if (t.logType === '新增') {
-                            t.$Modal.success({
-                                title:'成功',
-                                content: '新增成功',
-                            })
+                            // t.$Modal.success({
+                            //     title:'成功',
+                            //     content: '新增成功',
+                            // })
+                            this.$Message.success(this.$t("reminder.addsuccess"));
                             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
                             t.$refs.formValidate.resetFields();
                             //像父组件传入新增成功的数据
                             t.$emit('getData', res.data.content[0])
                         } else {
-                            t.$Modal.success({
-                                title: '成功',
-                                content: '修改成功',
-                            })
+                            // t.$Modal.success({
+                            //     title: '成功',
+                            //     content: '修改成功',
+                            // })
+                            this.$Message.success(this.$t("reminder.updsuccess"));
                             //像父组件传入修改成功的数据
                             t.$emit('update', res.data.content[0])
                         }
                     }
                     }).catch(() => {
                         //请求失败
-                        this.$Modal.error({
-                            title: '错误',
-                            content: '网络错误',
-                        })
+                        // this.$Modal.error({
+                        //     title: '错误',
+                        //     content: '网络错误',
+                        // })
+                        this.$Message.error(this.$t("reminder.errormessage"));
                     })
                 }
             })

@@ -34,9 +34,7 @@
           <row class="table-form" ref="table-form">
             <Table
               :loading="loading"
-              @on-select="selectedtable"
-              @on-select-cancel="selectedtable"
-              @on-select-all="selectedtable"
+              @on-selection-change="selectedtable"
               @on-sort-change="sortable"
               :current="page"
               :height="tableheight"

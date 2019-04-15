@@ -3,14 +3,14 @@
     <div class="backbox">
       <div class="title">
         <div class="title-text">
-          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>&nbsp;选择合同编号
+          <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>&nbsp;选择员工姓名
         </div>
         <Button type="text"  @click="close">
           <Icon type="close-round" size="16"></Icon>
         </Button>
       </div>
       <Row class="table-form">
-        <Input :placeholder="searchText" style="width: 200px" v-model="pmtypeCode"/>
+        <Input placeholder="请输入员工姓名" style="width: 200px" v-model="pmtypeCode"/>
         <span style="margin: 0;"><Button type="primary" icon="search" @click="getData('', 1)">{{$t('button.ser')}}</Button></span>
         <!--<span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">清空</Button></span>-->
       </Row>

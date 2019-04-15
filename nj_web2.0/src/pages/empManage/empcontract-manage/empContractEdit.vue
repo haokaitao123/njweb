@@ -15,7 +15,7 @@
                 </Button>
             </div>
             <div class="option-main">
-                <Row style="max-height: 460px;overflow-y: auto;">
+                <Row style="max-height: 460px;overflow-y: auto;" ref="scrollBox">
                     <Form ref="form"
                           :model="form"
                           :rules="ruleValidate"
@@ -32,12 +32,12 @@
                             <FormItem label="员工姓名"
                                       prop="empId">
                                 <!--绑定双击清除方法-->
-                                <span @dblclick="disabled?'':dbclean()">
+                                <span @dblclick="dbclean()">
                                     <!--v-model绑定显示字段-->
                                     <Input v-model="empName"
                                            icon="search"
-                                           :readonly="true"
-                                           :disabled="disabled || aa"
+                                           :readonly=true
+                                           :disabled="disabled "
                                            placeholder="请选择员工"
                                            @on-click=" pickEmpData()" />
                                 </span>
@@ -64,6 +64,7 @@
                             <FormItem label="员工类型"
                                       prop="empType">
                                 <Select v-model="form.empType"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="请选择员工类型">
                                     <Option :value="item.paramCode"
@@ -77,6 +78,7 @@
                             <FormItem label="合同类型"
                                       prop="contType">
                                 <Select v-model="form.contType"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="请选择合同类型">
                                     <Option :value="item.paramCode"
@@ -89,6 +91,7 @@
                             <FormItem label="合同期限"
                                       prop="contPeriod">
                                 <Select v-model="form.contPeriod"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择合同期限"
                                         @on-change="contPeriodSelect">
@@ -131,6 +134,7 @@
                             <FormItem label="合同工作时间"
                                       prop="contWorktime">
                                 <Select v-model="form.contWorktime"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择合同工作时间">
                                     <Option :value="item.paramCode"
@@ -143,6 +147,7 @@
                             <FormItem label="试用期限"
                                       prop="contProbat">
                                 <Select v-model="form.contProbat"
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择试用期限"
                                         @on-change="contProbatSelect">
@@ -243,7 +248,7 @@
                                     <i-col span="19">
                                         <span v-if="file !==''">
                                             <i-col span="22"
-                                                   @dblclick="disabled?'':clearFile()">
+                                                   @dblclick.native="disabled?'':clearFile()">
                                                 <Input v-model="file.name"
                                                        readonly="readonly">
                                                 <span slot="prepend">
@@ -324,7 +329,7 @@ export default {
         };
 
         return {
-            aa:false,
+            
             type: "",
             distype: false,
             disabled: false,
@@ -337,6 +342,7 @@ export default {
             selectWorktimetype: [],
             selectProbperiod: [],
             selectAttendy: [],
+            loadingStatus:"",
             form: {
                 _mt: "empContractinfo.addOrUpd",
                 numberCode: "XXXXXX",
@@ -354,8 +360,8 @@ export default {
                 contProbatdt: "",
                 contValiddate: "",
                 contInvdate: "",
-                contBmxy: "",
-                contJzxy: "",
+                contBmxy: "0",
+                contJzxy: "0",
                 fileKey: "", // 上传附件
                 note: "", //备注
                 funId: "1",
@@ -449,11 +455,11 @@ export default {
         //上级清除员工选择
         dbclean () {
             const t = this;
-            t.form.empName = "";
+            t.empName = "";
             t.form.empId = "";
-            t.form.deptIdDis = "";
+            t.deptIdDis = "";
             t.form.deptId = "";
-            t.form.postIdDis = "";
+            t.postIdDis = "";
             t.form.postId = "";
         },
         getData (id) {
@@ -500,6 +506,7 @@ export default {
                     }
                 })
                 .catch(() => {
+
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -534,6 +541,7 @@ export default {
                     }
                 })
                 .catch(() => {
+
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
@@ -580,10 +588,12 @@ export default {
                             if (isSuccess(res, t)) {
                                 t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
+
                                     this.$Message.success(this.$t("reminder.addsuccess"));
                                     t.$refs.form.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
+
                                     this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
@@ -640,9 +650,11 @@ export default {
                         t.form.fileKey = key + ":" + res.data[key];
                     }
                     this.$Message.success(this.$t("reminder.uploadsuccess"));
+                    this.loadingStatus = false;
                 }).catch(() => {
                     this.$Message.error(this.$t("reminder.errormessage"));
                 })
+
         },
         //下载
         downloadFile () {
@@ -795,7 +807,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1100;
+    z-index: 99;
     display: flex;
     justify-content: center;
     align-items: center;

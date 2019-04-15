@@ -44,6 +44,7 @@
                                       prop="postDfpslevel">
                                 <Select v-model="formValidate.postDfpslevel"
                                         :placeholder="$t('lang_organization.orgpost.postDfpslevelInp')"
+                                        :clearable="!disabled"
                                         :disabled="disabled">
                                     <Option :value="item.paramCode"
                                             v-for="(item,index) in selectDfpslevel"
@@ -72,9 +73,10 @@
                         <i-col span="11">
                             <FormItem :label="$t('lang_organization.orgpost.postStansalary')"
                                       prop="postStansalary">
-                                <InputNumber v-model="formValidate.postStansalary"
+                                <Input v-model="formValidate.postStansalary"
                                              :placeholder="$t('lang_organization.orgpost.postStansalaryInp')"
                                              :disabled="disabled"
+                                             :maxlength="12"
                                              style="width: 290px" />
                             </FormItem>
                         </i-col>
@@ -82,9 +84,10 @@
                                offset="1">
                             <FormItem :label="$t('lang_organization.orgpost.postTrialsalary')"
                                       prop="postTrialsalary">
-                                <InputNumber v-model="formValidate.postTrialsalary"
+                                <Input v-model="formValidate.postTrialsalary"
                                              :placeholder="$t('lang_organization.orgpost.postTrialsalary')"
                                              :disabled="disabled"
+                                             :maxlength="12"
                                              style="width: 290px" />
                             </FormItem>
                         </i-col>
@@ -197,10 +200,22 @@ import {
 import { isSuccess, deepCopy } from "../../../lib/util";
 import searchOrgframe from "../../../components/searchTable/searchOrgframe";
 import searchOrgcostcenter from "../../../components/searchTable/searchOrgcostcenter";
+import valid from '../../../lib/pub_valid'
 //  引入弹出选择页面
 //  import searchCity from '../../../components/searchTable/searchCity'
 export default {
     data () {
+        const numberCheck = (rule, value, numberValCheck) => {
+            	if (value !== '' && value !== undefined) {
+                	if (valid.val_number103(value)) {
+                    		return numberValCheck()
+                	}
+                	return numberValCheck(new Error(rule.message))
+            	}
+           	 numberValCheck()
+            };
+
+
         const compareTime = (rule, value, callback) => {
       if (value === "" || !value) {
         callback(new Error("请选择生效日期"));
@@ -379,7 +394,7 @@ export default {
                     {
                         required: true,
                         message: this.$t("lang_organization.orgpost.postTrialsalaryInp"),
-                        type: 'number',
+                        validator:numberCheck,
                         trigger: "change"
                     }
                 ],
@@ -387,7 +402,7 @@ export default {
                     {
                         required: true,
                         message: this.$t("lang_organization.orgpost.postStansalaryInp"),
-                        type: 'number',
+                        validator:numberCheck,
                         trigger: "change"
                     }
                 ],
@@ -449,8 +464,8 @@ export default {
                         t.formValidate.note = res.data.content[0].note;
                         t.formValidate.postStation = res.data.content[0].postStation;
                         t.formValidate.postDfpslevel = res.data.content[0].postDfpslevel;
-                        t.formValidate.postStansalary = Number(res.data.content[0].postStansalary);
-                        t.formValidate.postTrialsalary = Number(res.data.content[0].postTrialsalary);
+                        t.formValidate.postStansalary = res.data.content[0].postStansalary;
+                        t.formValidate.postTrialsalary = res.data.content[0].postTrialsalary;
                         if (id === res.data.content[0].companyId) {
                             t.forbidden = 'disabled'
                             t.distype = true

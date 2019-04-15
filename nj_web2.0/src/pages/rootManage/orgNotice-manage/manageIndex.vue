@@ -142,6 +142,7 @@ export default {
       noticePeopleDis: "",
       select: this.$t("lang_user.rootuser.valid"),
       loading: "",
+      tableselected: [],
       columns: [
         {
           type: "selection",
@@ -323,8 +324,9 @@ export default {
       for (let i = 0; i < selection.length; i++) {
         newArr.push(selection[i].id);
       }
-      this.selectedArr = newArr.toString();
-      this.updateArr = selection;
+      //this.selectedArr = newArr.toString();
+      //this.updateArr = selection;
+      this.tableselected = newArr
     }, // 已选中数据----------------------------------
     // 新增数据
     openUp(id, logType, index) {
@@ -346,7 +348,7 @@ export default {
     //  删除数据 需要接口
     deletemsg() {
       const t = this;
-      if (t.updateArr.length === 0) {
+      if (t.tableselected.length === 0) {
         this.$Message.warning(this.$t('reminder.leastone'))
       } else {
         t.$Modal.confirm({
@@ -356,7 +358,7 @@ export default {
             const data = {
               _mt: "orgNotice.delByIds",
               logType: "删除",
-              ids: t.selectedArr
+              ids: t.tableselected.toString(),
             };
             for (const dat in data) {
               if (data[dat] === "") {
@@ -366,10 +368,12 @@ export default {
             //删除请求
             getDataLevelUserLogin(data)
               .then(res => {
-                if (isSuccess(res, t)) {
-                  t.$Message.success(this.$t('reminder.deletesuccess'))
-                  t.getData(1);
-                }
+              if (isSuccess(res, t))
+        {
+          t.$Message.success(this.$t('reminder.deletesuccess'))
+          t.tableselected = []
+          t.getData(1)
+        }
               })
               .catch(() => {
                 t.$Message.error(this.$t('reminder.errormessage'))

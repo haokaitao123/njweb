@@ -605,7 +605,7 @@ export default {
         };
         return {
             disabled: false,
-            unitCityName: '',
+
             popup: '',
             form: {
                 _mt: 'empEmpnh.addOrUpd',
@@ -726,7 +726,10 @@ export default {
                 page: 1,
                 funId: "1",
                 logType: "工作地方查询",
-                data: '{"cityIsvalid" : "1","cityType":"02city"}'
+                data: {
+                  "cityIsvalid" : "1",
+                  "cityType":"02city"
+                }
             },
             searchCloumns: [
                 {
@@ -1051,11 +1054,10 @@ export default {
         //获取主表数据 无需变更
         getdata (params) {
             const t = this;
-            t.spinShow = true
+            t.spinShow = true;
             getDataLevelUserLogin(params)
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        t.unitCityName = res.data.content[0].unitCityName
                         t.form.numberCode = res.data.content[0].numberCode;
                         t.form.empnhName = res.data.content[0].empnhName;
                         t.form.empnhPtname = res.data.content[0].empnhPtname;
@@ -1140,6 +1142,7 @@ export default {
         save () {
             const t = this;
             const data = deepCopy(t.form);
+            data._mt = "empEmpnh.addOrUpd";
             data.logType = t.logType;
             data.id = t.id;
             // 日期字段进行转换
@@ -1188,7 +1191,24 @@ export default {
         },
         clear () {
             const t = this;
-            this.$refs.scrollBox.$el.scrollTop = "0"
+            this.$refs.scrollBox.$el.scrollTop = "0";
+            t.form = {};
+            t.empnhRegtypeDis = ""; // 户籍性质显示字段
+            t.empnhSalbankDis = ""; // 开户银行显示字段
+            t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
+            t.empnhGenderDis = ""; // 性别显示字段
+            t.empnhNationDis = ""; // 民族显示字段 弹框
+            t.deptIdDis = ""; // 部门名称显示字段 弹框
+            t.postIdDis = ""; // 岗位名称显示字段  弹框
+            t.empnhPmpDis = ""; // 直接上级显示字段 弹框
+            t.empnhIdtypeDis = ""; // 证件类型显示字段
+            t.empnhRegaddrDis = ""; // 户籍地址显示字段
+            t.empnhAttendynDis = ""; // 是否考勤显示字段
+            t.empnhWklocatDis = ""; // 工作地点显示字段 弹框
+            t.empnhMarriageDis = ""; // 婚姻状况显示字段
+            t.empnhPoliticalDis = ""; // 政治面貌显示字段
+            t.empnhTechtilDis = "";// 职称显示字段
+            t.file = '';
             this.$refs.form.resetFields();
         },
         //城市
@@ -1202,7 +1222,7 @@ export default {
         pickData () {
             const t = this
             this.popup = '0'
-            this.$refs.searchCity.getData(this.params, '02city\',\'03county')
+            this.$refs.searchCity.getData(this.params)
             this.openPick = true
         },
         workplace () {

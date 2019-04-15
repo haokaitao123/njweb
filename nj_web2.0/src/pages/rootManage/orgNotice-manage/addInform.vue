@@ -276,6 +276,9 @@ export default {
             trigger: "blur"
           }
         ],
+        unitPid: [
+          { required: true, message: "请选择发布部门", trigger: 'change' },
+        ],
         noticeType: [
             { required: true, message: "请选择通知类型", trigger: 'change' },
           ],

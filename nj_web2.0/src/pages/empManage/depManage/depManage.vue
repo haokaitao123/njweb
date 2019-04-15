@@ -20,25 +20,22 @@
                       @on-click="pickData" />
               </span>
             <!-- 查询按钮 @click后绑定的是一个点击事件 -->
-            <span style="margin: 0;">
-              <Button type="primary" icon="search" @click="getData(1)">查询</Button>
-            </span>
-            <!-- 页面操作按钮 -->
-            <!-- @click="openUp(NaN,'新增')" openUp(NaN,'新增')是页面新增事件 -->
-            <Button type="primary" @click="openUp(NaN,'新增')">新增</Button>
-            <!-- @click="deletemsg" deletemsg()是删除事件 -->
-            <Button type="error" @click="deletemsg">删除</Button>
-            <!-- @click="importExcel" importExcel()是导入事件 -->
-            <Button type="primary" @click="importExcel">导入</Button>
-            <Button type="primary" @click="expData">导出</Button>
+            <btnList
+              @buttonExport="expData"
+              @buttonImport="importExcel"
+              @buttonAdd="openUp(NaN,$t('button.add'))"
+              @buttonDel="deletemsg"
+              @buttonSearch="search"
+              :btnData="btnData"
+              :FlowNode="FlowNode"
+            ></btnList>
 					</Row>
           <!-- table 列表 @on-select @on-select-cancel @on-select-all 后面跟的事件 selectedtable 做的是列表checkbox取消、选中、全选事件 -->
           <!-- @on-sort-change 后面跟的事件  sortable => 做的是列表排序 :current="page" page是当前页面页码 :height="tableheight" tableheight是当前列表高度 :columns="columns" 配置table列 :data="data" data 就是table列表数据-->
           <row class="table-form" ref="table-form">
             <Table
-              @on-select="selectedtable"
-              @on-select-cancel="selectedtable"
-              @on-select-all="selectedtable"
+              :loading="loading"
+              @on-selection-change="selectedtable"
               @on-sort-change="sortable"
               :current="page"
               :height="tableheight"
@@ -133,6 +130,7 @@
 <script>
 import update from "./addNewDepManage"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
 import { isSuccess } from "../../../lib/util.js"; //调用请求判断成功的公共方法
+import btnList from "../../../components/btnAuth/btnAuth";
 import {
   getDataLevelUserLoginNew,
   getDataLevelUserLogin
@@ -147,6 +145,8 @@ export default {
   //页面初始化的所有变量值
   data() {
     return {
+      tableOperate:false,
+      loading: "",
 			// 导入的mt名称
         imp_mt: 'depManage.importData',
         // 导出字段设置, code字段名 name列名
@@ -208,35 +208,42 @@ export default {
           sortable: "custom",
           width: 220
         },
-        //列表操作按钮列
-        {
-          title: "操作",
-          key: "action",
-          width: 64,
-          fixed: "right",
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
+      ],
+        tableBtn: {
+        title: "操作",
+        key: "action",
+        width: 100,
+        fixed: "right",
+        align: "center",
+        render: (h, params) => {
+          let child = [];
+          for (let v of this.tableButton) {
+            child.push(
               h(
                 "Button",
                 {
                   props: {
-                    type: "success",
+                    type: v.type,
                     size: "small"
+                  },
+                  style: {
+                    marginRight: "5px",
+                    display:
+                      this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
                   },
                   on: {
                     click: () => {
-                      //操作列点击事件
-                      this.openUp(params.row.id, "修改", params.index); //打开修改弹窗
+                      this.openUp(params.row.id, v.name, params.index);
                     }
                   }
                 },
-                "修改"
+                v.name
               )
-            ]);
+            );
           }
+          return h("div", [child]);
         }
-      ],
+      },
       data: [], //table初始化数据
       total: 0, //table总页数
       index: 0, //表格数据中的选中的index
@@ -275,7 +282,8 @@ export default {
     // expdow,//导出的组件
     update, //新增修改的组件
 		//importExcel //导入的组件
-		expwindow,
+    expwindow,
+     btnList,
       expdow,
       searchTable,
       importExcel
@@ -284,6 +292,40 @@ export default {
   mounted() {
     this.getData(1);
   },
+   computed: {
+    pageShow() {
+      return this.$store.state.btnOperate.pageShow;
+    },
+    tableButton() {
+      return this.$store.state.btnOperate.tableButton;
+    },
+    // modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+    //             	       return this.$store.state.btnOperate.modity
+    //         	},
+    btnData() {
+      return this.$store.state.btnOperate.btnData;
+    },
+    FlowNode() {
+      return this.$store.state.btnOperate.isFlowNode;
+    }
+  },
+  watch: {
+    pageShow(val) {
+      if (val === "" && this.tableOperate === true) {
+        this.columns.pop();
+        this.tableOperate = false;
+      } else if (this.tableOperate === false) {
+        this.columns.push(this.tableBtn);
+        this.tableOperate = true;
+      }
+    }
+  },
+   created() {
+    if (this.pageShow !== "") {
+      this.columns.push(this.tableBtn);
+      this.tableOperate = true;
+    }
+  },
   // 页面所有方法
   methods: {
     //获取当前列表数据
@@ -291,7 +333,8 @@ export default {
       const t = this;
       if (page) {
         t.page = page;
-			}
+      }
+      t.loading = true; //请求之前重置状态
       //请求列表数据的参数
       const data = {
         _mt: "depManage.getPage", //接口路径
@@ -315,9 +358,11 @@ export default {
           if (isSuccess(res, t)) {
             t.data = res.data.content[0].rows; //列表数据
             t.total = res.data.content[0].records; //列表总页数
+             t.loading = false; //在成功之后改状态
           }
         })
         .catch(() => {
+          t.loading = false; //在失败之后改状态
           //请求失败
           t.$Modal.error({
             title: "错误",
@@ -414,10 +459,11 @@ export default {
       const t = this;
       //如果没有选中
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: "提示",
-          content: "请至少选择一条数据"
-        });
+        // t.$Modal.warning({
+        //   title: "提示",
+        //   content: "请至少选择一条数据"
+        // });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: "提示",
@@ -434,13 +480,15 @@ export default {
                 if (isSuccess(res, t)) {
                   t.tableselected = []; //清空选中项
                   t.getData(); //重新渲染列表
+                  this.$Message.success(this.$t("reminder.deletesuccess"));
                 }
               })
               .catch(() => {
-                t.$Modal.error({
-                  title: "错误",
-                  content: "网络错误"
-                });
+                // t.$Modal.error({
+                //   title: "错误",
+                //   content: "网络错误"
+                // });
+                this.$Message.error(this.$t("reminder.errormessage"))
               });
           },
           //点击取消删除
@@ -456,6 +504,7 @@ export default {
       t.logType = logType;
       t.index = index;
       t.openUpdate = true; //弹窗显示改为 true
+      t.$refs.update.disabled = false;
       if (logType === "修改") {
         //如果操作类型是修改，弹窗回显数据
         t.$refs.update.getData(id); //调用子组件update里的getData方法 传了一个id值
@@ -483,6 +532,11 @@ export default {
             const t = this
             t.$refs.searchTable.getData(t.params)
             t.openPick = true
+        },
+         //查询
+        search(){
+            this.page = 1;
+            this.getData(1);
         },
         //
         inputPost (name, id, postName, postId) {

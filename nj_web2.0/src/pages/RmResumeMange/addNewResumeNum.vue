@@ -227,6 +227,8 @@
             const t = this
             t.empName = ''
             t.empId = ''
+            t.entryId = ''
+            t.entryName = ''
         },
         //打开员工信息弹出框
         pickUserData() {

@@ -559,10 +559,12 @@ FlowNode() {
             .then(res => {
               if (isSuccess(res, t)) {
                 t.getData();
+                t.tableselected = [];
                 this.$Message.success(this.$t("reminder.operatsuccess"));
               }
             })
             .catch(() => {
+                t.tableselected = [];
               this.$Message.error(this.$t("reminder.errormessage"));
             });
         },
@@ -673,7 +675,7 @@ FlowNode() {
         });
     },
     getPageByType(paramCode) {
-      this.status = paramCode;
+      this.state = paramCode;
       this.unitTypeId = paramCode;
       this.getData();
     } //根据类型获取列表
