@@ -33,22 +33,23 @@ export default{
       pmtypeCode: '',
       searchText: this.$t('lang_evaluation.evaluation.searchPubEmpIns'),
       params: {
-        _mt: 'viewEmpMaster.getPage',
+        _mt: 'empEmpnh.getPage',
         sort: 'id',
         order: 'desc',
         rows: 10,
         page: 1,
         logType: '员工查询',
+        state:'02empstate',
       },
       searchCloumns: [
         {
-          title: this.$t('lang_evaluation.evaluation.empName'),
-          key: 'empName',
+          title: this.$t('员工姓名'),
+          key: 'empnhName',
           sortable: 'custom',
         },
         {
-          title: this.$t('lang_evaluation.evaluation.empGid'),
-          key: 'empGid',
+          title: this.$t('身份证号'),
+          key: 'empnhIdno',
           sortable: 'custom',
         },
       ],
@@ -66,7 +67,7 @@ export default{
           t.params.page = page
       }
       const data = deepCopy(t.params)
-      data['empCname'] = t.pmtypeCode
+      data['empnhName'] = t.pmtypeCode
       for (const dat in data) {
         if (data[dat] === '') {
           delete data[dat]
