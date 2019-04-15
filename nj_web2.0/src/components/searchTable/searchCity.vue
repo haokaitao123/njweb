@@ -48,13 +48,15 @@
       getData(params, cityType, page) {
         const t = this
         const data = deepCopy(params)
-        if (t.theCityType === '') {
-          t.theCityType = cityType
+        if (params.data.cityType !== undefined) {
+          data.cityType = params.data.cityType
+        }
+        if(params.data.cityIsvalid !== undefined){
+            data.cityIsvalid = params.data.cityIsvalid
         }
         if (page) {
           data.page = page
         }
-        data.cityType = t.theCityType
         data.cityName = t.cityName
         for (const dat in data) {
           if (data[dat] === '') {
