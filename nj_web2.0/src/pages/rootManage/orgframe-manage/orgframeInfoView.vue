@@ -106,7 +106,7 @@
                                            icon="search"
                                            :disabled="disabled"
                                            :readonly=true
-                                           placeholder="选择成本中心"
+                                           placeholder="选择雇佣地点"
                                            @on-click="pickData" />
                                 </span>
                             </FormItem>
@@ -149,11 +149,11 @@
                         <i-col span="11">
                             <FormItem label="部门编制"
                                       prop="partEstablish">
-                                <InputNumber v-model="formValidate.partEstablish"
+                                <Input v-model="formValidate.partEstablish"
                                              :disabled="disabled"
                                              size="default"
                                              style="width: 290px"
-                                             placeholder="请输入部门编制"></InputNumber>
+                                             placeholder="请输入部门编制"></Input>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
@@ -268,10 +268,16 @@ export default {
             if (value === "" || !value) {
                 callback(new Error("请输入部门编制"));
             } else {
-                let num = this.formValidate.unitManger + this.formValidate.unitDirec + this.formValidate.unitStaff
-                if (value < num) {
-                    callback(new Error("部门已超编,请重新检查部门编制数量"));
-                }
+                console.log(value,"value")
+                if (valid.val_number103(value)==false) {
+                    return callback(new Error('请输入正确的数字格式'));
+                }else{
+                    let num = Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff)
+                    value = Number(value)
+                    if (value < num) {
+                        callback(new Error("部门已超编,请重新检查部门编制数量"));
+                    }
+                } 
                 callback();
             }
         };
@@ -321,10 +327,10 @@ export default {
                 unitValdate: '',         //生效日期
                 unitInvdate: '',         //失效日期
                 unitInvres: '',          //失效原因
-                partEstablish: null,       //部门编制
-                unitManger: null,          //经理编制
-                unitDirec: null,           //主管编制
-                unitStaff: null,           //员工编制
+                partEstablish: "",       //部门编制
+                unitManger: "",          //经理编制
+                unitDirec: "",           //主管编制
+                unitStaff: "",           //员工编制
                 state: '',               //状态
                 unitSysalig: '1',
                 unitOprecord: '',        //操作记录
@@ -432,7 +438,7 @@ export default {
                     { required: true, type: 'date',validator: compareTime, message: "请选择生效日期", trigger: 'change' },
                 ],
                 partEstablish: [
-                    { required: true, validator: validatePartEstablish, trigger: 'change' }
+                    { required: true, validator: validatePartEstablish, trigger: 'change' },
                 ],
                 unitManger: [
                     { required: true, validator:numberCheck, message: "请输入经理编制", trigger: 'change' },
@@ -490,10 +496,10 @@ export default {
                     t.formValidate.unitValdate = res.data.content[0].unitValdate
                     t.formValidate.unitInvdate = res.data.content[0].unitInvdate
                     t.formValidate.unitInvres = res.data.content[0].unitInvres
-                    t.formValidate.partEstablish = parseInt(res.data.content[0].partEstablish)
-                    t.formValidate.unitManger = parseInt(res.data.content[0].unitManger)
-                    t.formValidate.unitDirec = parseInt(res.data.content[0].unitDirec)
-                    t.formValidate.unitStaff = parseInt(res.data.content[0].unitStaff)
+                    t.formValidate.partEstablish = res.data.content[0].partEstablish
+                    t.formValidate.unitManger = res.data.content[0].unitManger
+                    t.formValidate.unitDirec = res.data.content[0].unitDirec
+                    t.formValidate.unitStaff = res.data.content[0].unitStaff
                     t.formValidate.unitSysalig = res.data.content[0].unitSysalig
                     t.formValidate.unitOprecord = res.data.content[0].unitOprecord
                     t.formValidate.note = res.data.content[0].note
@@ -630,7 +636,7 @@ export default {
             const t = this
             if (!this.disabled) {
                 t.popup = '0'
-                t.$refs.searchCity.getData(this.params, '02city\',\'03county')
+                t.$refs.searchCity.getData(this.params, '02city')
                 t.openPick = true
             }
         },

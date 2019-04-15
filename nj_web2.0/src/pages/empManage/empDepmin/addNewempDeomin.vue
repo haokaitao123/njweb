@@ -27,10 +27,10 @@
           </Col>
           <Col span="10" offset="1">
           <FormItem label="最低押金" prop="depMoney">
-            <InputNumber v-model="formValidate.depMoney"
+            <Input v-model="formValidate.depMoney"
                          size="default"
                          style="width: 100%"
-                         placeholder="请输入最低押金"></InputNumber>
+                         placeholder="请输入最低押金"></Input>
           </FormItem>
           </Col>
         </Row>
@@ -67,10 +67,10 @@
         <Row>
           <Col span="10" offset="1">
           <FormItem label="低于最低扣款" prop="depPenalty">
-            <InputNumber v-model="formValidate.depPenalty"
+            <Input v-model="formValidate.depPenalty"
                          size="default"
                          style="width: 100%"
-                         placeholder="请输入低于最低扣款"></InputNumber>
+                         placeholder="请输入低于最低扣款"></Input>
           </FormItem>
           </Col>
         </Row>
@@ -142,10 +142,10 @@
           funId: '1',
           depPost: '',
           depPostDis:'',
-          depMoney: null,
+          depMoney: '',
           depSdate: '',
           depEdate: '',
-          depPenalty: null,
+          depPenalty: '',
           note: '',
         },
         ruleValidate: {
@@ -157,8 +157,7 @@
             }
           ],
           depMoney: [
-            { required: true,  validator:numberCheck, trigger: 'blur', message: "请输入最低押金"
-            }
+            { required: true,  validator:numberCheck, trigger: 'change', message: "请输入最低押金"}
           ],
           depSdate: [
             {
@@ -177,12 +176,7 @@
             }
           ],
           depPenalty: [
-            {
-              required: true,
-              type:"number",
-              message: "请输入低于最低扣款",
-              trigger: "change"
-            }
+            { required: true,  validator:numberCheck, trigger: 'change', message: "请输入低于最低扣款"}
           ],
         },
         depPostDis: '',
@@ -232,10 +226,10 @@
           if (isSuccess(res, t)) {
             t.formValidate.depPost =res.data.content[0].depPost;
             t.depPostDis =res.data.content[0].depPostDis;
-            t.formValidate.depMoney = parseFloat(res.data.content[0].depMoney)
+            t.formValidate.depMoney = res.data.content[0].depMoney
             t.formValidate.depSdate = res.data.content[0].depSdate
             t.formValidate.depEdate = res.data.content[0].depEdate
-            t.formValidate.depPenalty = parseFloat(res.data.content[0].depPenalty)
+            t.formValidate.depPenalty = res.data.content[0].depPenalty
             t.formValidate.note = res.data.content[0].note
           }
         }).catch(() => {
