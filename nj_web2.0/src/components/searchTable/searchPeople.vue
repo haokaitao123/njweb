@@ -92,7 +92,7 @@ export default {
                 t.params.page = page
             }
             const data = deepCopy(t.params)
-            data['usNname'] = t.userName
+            data['selUsname'] = t.userName
             for (const dat in data) {
                 if (data[dat] === '') {
                     delete data[dat]
