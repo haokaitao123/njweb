@@ -4,11 +4,12 @@
       <row>
         <i-col class="meau-left" span="5">
           <Menu :active-name="active" width="auto" @on-select="pageTo">
-            <MenuItem name="option">
+            <!--主子表左侧页面布局-->
+            <MenuItem name="depoMoption">
               押金信息管理
             </MenuItem>
-            <MenuItem name="content">
-              押金信息明细
+            <MenuItem name="depoContent" >
+              押金明细管理
             </MenuItem>
           </Menu>
         </i-col>
@@ -22,8 +23,10 @@
             </Button>
           </div>
           <div style="margin-top: 40px;padding: 10px;">
-            <mOption v-show="option" :logType="logType" ref="option" :id="id" @update="update" @newdata="newdata"></mOption>
-           <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
+            <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
+            <depoMoption v-show="depoMoption" :logType="logType" ref="depoMoption" :id="id" @update="update" @newdata="newdata"></depoMoption>
+            <!--子表分页页面 mainid为主表id-->
+            <depoContent v-show="depoContent" :logType="logType" ref="depoContent" :mainId="id"></depoContent>
           </div>
         </i-col>
       </row>
@@ -31,73 +34,96 @@
   </div>
 </template>
 <script>
-  import mOption from './addNewDepManage'
-  import mContent from './depoManageDetail'
-
+  import {
+    getDataLevelUserLoginNew,
+    getDataLevelUserLogin,
+  } from "../../../axios/axios";
+  import depoMoption from './addNewDepManage.vue'
+  import depoContent from './depoManageDetail.vue'
+  import { isSuccess, deepCopy, getUrlKey, GetQueryString } from "../../../lib/util";
 
   export default {
     data() {
       return {
-        active: 'option',
-        option: true,
-        content: false,
+//        默认参数 无需变更
+        active: 'depoMoption',
+        depoMoption: true,
+        depoContent: false,
         id: NaN,
-        data: {
-          _mt: 'depManage.getById',
-          funId: '1',
-        },
+        disabled: false,
+//        主表查询单条数据的mt
       }
     },
     components: {
-       mOption,
-       mContent,
+      depoMoption,
+      depoContent,
     },
     props: {
+//      父页面传递参数  visaare一般不传
       logType: String,
       index: Number,
       params: Object,
     },
     mounted() {
-
     },
     methods: {
+//      关闭方法 分别调用本页面 父页面 主表详细信息页面 子表分页的清除方法  无需变更
       handleReset() {
-        this.clear()
-        // this.$refs.option.clear()
-        // this.$refs.content.clear()
         this.$emit('closeUp')
+        this.clear()
       },
+//      默认方法
       changeMenu() {
-        this.active = 'content'
+        this.active = 'depoContent'
       },
+      // 主表信息查询方法 无需变更
       getOption(id, logType) {
         this.id = parseInt(id, 10)
-        this.data.id = id
-        this.data.logType = logType
-        // this.$refs.option.getData(this.data)
+        this.$refs.depoMoption.getData(this.id)
+        this.$refs.depoMoption.disabled = this.disabled
       },
+//       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {
-        this.option = false
-        this.content = false
+        if(isNaN(this.id) || this.id == ''){
+          this.$Message.success('请先保存主表数据');
+          return;
+        }
+        this.depoMoption = false
+        this.depoContent = false
         this.active = name
+        this.$refs.depoMoption.clear()
+        this.$refs.depoContent.clear()
         this[name] = true
-        // if (name === 'content') {
-        //   this.$refs.content.search()
-        // } else {
-        //   this.getOption(this.id, this.$t('button.upd'))
-        // }
+        if (name !== 'depoMoption') {
+          this.$refs.depoContent.disabled = this.disabled
+          this.$refs.depoContent.id = this.id
+          this.$refs.depoContent.getData(1)
+          this.$refs.depoContent.logType = this.logType
+        } else {
+          this.getOption(this.id, '修改')
+        }
       },
+//      清空方法 初始化本页面参数 无需变更
       clear() {
-        this.option = true
-        this.content = false
+        this.depoMoption = true
+        this.depoContent = false
         this.id = NaN
-        this.active = 'option'
-        // this.$refs.option.clear()
+        this.active = 'depoMoption'
+        this.$refs.depoMoption.clear()
+        this.$refs.depoContent.clear()
       },
+      baseclear() {
+        this.depoMoption = true
+        this.depoContent = false
+        this.id = NaN
+        this.active = 'depoMoption'
+      },
+//      更新父页面列表 无需变更
       update(data) {
-        this.$emit('update',data)
+        this.$emit('update', data)
       },
-       newdata(data) {
+//      更新父页面列表 无需变更
+      newdata(data) {
         this.id = data.id
         this.$emit('newdata', data)
       },
@@ -110,7 +136,7 @@
   }
 </style>
 <style lang="scss" scoped>
-  @import "../../sass/updateAndAdd.scss";
+  @import "../../../sass/updateAndAdd";
   .header-box{
     display: flex;
     position: relative;
@@ -161,3 +187,4 @@
     opacity: 0
   }
 </style>
+
