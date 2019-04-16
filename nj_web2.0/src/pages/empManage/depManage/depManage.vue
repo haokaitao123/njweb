@@ -128,7 +128,7 @@
   </div>
 </template>
 <script>
-import update from "./addNewDepManage"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
+import update from "./depoManageBase"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
 import { isSuccess } from "../../../lib/util.js"; //调用请求判断成功的公共方法
 import btnList from "../../../components/btnAuth/btnAuth";
 import {
@@ -155,7 +155,7 @@ export default {
         { code: "empName", name: "员工名称" },
         { code: "postName", name: "岗位名称" },
         { code: "empnhIdno", name: "证件号码" },
-        { code: "moneyNum", name: "总金额" },    
+        { code: "moneyNum", name: "总金额" },
         { code: "note", name: "备注" }
 			],
         // 导入导出默认参数 无需变更
@@ -164,7 +164,7 @@ export default {
         openExp: false,
         filekey: '',
 				filename: '',
-				
+
       empName: "",
       tableheight: document.body.offsetHeight - 280, //table高度
       logType: "", //操作类型
@@ -370,7 +370,7 @@ export default {
           });
         });
     },
-   
+
 
     // 导入导出默认方法 无需更改
       closeImport() {
@@ -502,24 +502,19 @@ export default {
       //  新增 修改 变量
       t.updateId = parseInt(id, 10);
       t.logType = logType;
-      t.index = index;
       t.openUpdate = true; //弹窗显示改为 true
+      t.index = index;
       t.$refs.update.disabled = false;
-      if (logType === "修改") {
+      if (logType !='新增') {
         //如果操作类型是修改，弹窗回显数据
-        t.$refs.update.getData(id); //调用子组件update里的getData方法 传了一个id值
+        t.$refs.update.getOption(id, logType)
       }
     },
     //关闭新增修改弹窗
     closeUp() {
       const t = this;
+      t.$refs.update.baseclear();
       t.openUpdate = false;
-      t.$refs.update.deptIdName = "";
-      t.$refs.update.empName = "";
-      t.$refs.update.postName = "";
-      t.$refs.update.empnhIdno = "";
-      t.$refs.update.formValidate.moneyNum = "";
-      t.$refs.update.formValidate.note = "";
     }, //关闭窗口
      //清除岗位选择框数据
         clearPost () {

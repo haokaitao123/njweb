@@ -1,40 +1,19 @@
 ﻿<template>
-  <div class="table">
-    <Row>
-      <Col span="24">
-        <card>
-          <!-- 标题 -->
-          <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;简历数量管理
-          </p>
-          <!-- 操作按钮和查询输入框 -->
-            <!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
-					<Row>
-							<!-- <Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
-              	<Input v-model="postName" placeholder="请输入岗位名称" style="width: 200px"></Input> -->
-            <!-- 查询按钮 @click后绑定的是一个点击事件 -->
-            <!-- <span style="margin: 0;">
-              <Button type="primary" icon="search" @click="getData(1)">查询</Button>
-            </span> -->
-            <!-- 页面操作按钮 -->
-            <!-- @click="openUp(NaN,'新增')" openUp(NaN,'新增')是页面新增事件 -->
+  <div class="content-main">
+          <Row>
             <Button type="primary" @click="openUp(NaN,'新增')">新增</Button>
-            <!-- @click="deletemsg" deletemsg()是删除事件 -->
             <Button type="error" @click="deletemsg">删除</Button>
-            <!-- @click="importExcel" importExcel()是导入事件 -->
             <Button type="primary" @click="importExcel">导入</Button>
             <Button type="primary" @click="expData">导出</Button>
 					</Row>
-          <!-- table 列表 @on-select @on-select-cancel @on-select-all 后面跟的事件 selectedtable 做的是列表checkbox取消、选中、全选事件 -->
-          <!-- @on-sort-change 后面跟的事件  sortable => 做的是列表排序 :current="page" page是当前页面页码 :height="tableheight" tableheight是当前列表高度 :columns="columns" 配置table列 :data="data" data 就是table列表数据-->
-          <row class="table-form" ref="table-form">
+         <row class="table-form" ref="table-form">
             <Table
               @on-select="selectedtable"
               @on-select-cancel="selectedtable"
               @on-select-all="selectedtable"
               @on-sort-change="sortable"
               :current="page"
-              :height="tableheight"
+              :height="410"
               size="small"
               border
               ref="selection"
@@ -42,7 +21,6 @@
               :data="data"
             ></Table>
           </row>
-          <!-- :total="total" total=>总页数  @on-page-size-change="sizeChange" 切换每页条数时的回调，返回切换后的每页条数 @on-change="pageChange" 页码改变的回调，返回改变后的页码  :page-size-opts 每页条数切换的配置-->
           <Row style="display: flex">
             <Page
               :total="total"
@@ -64,9 +42,6 @@
               @click="getData(1)"
             ></Button>
           </Row>
-        </card>
-      </Col>
-    </Row>
     <!-- transition 弹窗显示 淡入淡出效果 -->
     <transition name="fade">
       <!--  修改新增的弹出框 v-show="openUpdate"绑定了一个判断弹窗是否显示隐藏的数据 :id="updateId" 这是向这个组件传入的当前列的id值 :logType="logType"操作类型 :index="index"点击当前列的index  @closeUp="closeUp" 关闭新增或修改弹窗事件 @getData="addNewArray" 新增成功后的事件  @update="updateArray" 修改成功后的事件-->
@@ -112,28 +87,6 @@
         ref="importExcel"
       ></importExcel>
     </transition>
-		<!--  导入弹出框 :impid="updateId" 传id :imp_mt="imp_mt" 绑定的导入接口路径 @getData="getData" 获取列表 @closeImport="closeImport" 关闭导入弹窗事件-->
-      
-    <!-- <transition name="fade">
-      <importExcel
-        v-show="openImport"
-        :impid="updateId"
-        :imp_mt="imp_mt"
-        @getData="getData"
-        @closeImport="closeImport"
-        ref="importExcel"
-      ></importExcel>
-    </transition> -->
-    <!--导出的弹框-->
-    <!-- <transition>
-      <expdow
-        v-show="openExpDow"
-        :filekey="filekey"
-        :filename="filename"
-        @closeExpDowMain="closeExpDowMain"
-        ref="expdow"
-      ></expdow>
-    </transition> -->
   </div>
 </template>
 <script>
@@ -161,7 +114,7 @@ export default {
         { code: "empName", name: "员工名称" },
         { code: "postName", name: "岗位名称" },
         { code: "empnhIdno", name: "证件号码" },
-        { code: "moneyNum", name: "总金额" },    
+        { code: "moneyNum", name: "总金额" },
         { code: "note", name: "备注" }
 			],
         // 导入导出默认参数 无需变更
@@ -170,7 +123,7 @@ export default {
         openExp: false,
         filekey: '',
 				filename: '',
-				
+
       empName: "",
       tableheight: document.body.offsetHeight - 280, //table高度
       logType: "", //操作类型
@@ -303,7 +256,7 @@ export default {
           });
         });
     },
-   
+
 
     // 导入导出默认方法 无需更改
       closeImport() {
@@ -449,24 +402,25 @@ export default {
       t.$refs.update.formValidate.moneyNum = "";
       t.$refs.update.formValidate.note = "";
     }, //关闭窗口
+    clear(){
+      const t = this;
+      t.page = 1;
+      t.rows = 10;
+    },
   }
 };
 </script>
 
 <style lang="scss" scoped>
 // 页面样式
-.table-form {
-  margin: 10px 0;
+.content-main {
+  height: 500px;
+  .table-form {
+    margin: 10px 0;
+    overflow: hidden;
+  }
 }
-.margin-right-10 {
-  margin-right: 10px;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
+
+
+
 </style>
