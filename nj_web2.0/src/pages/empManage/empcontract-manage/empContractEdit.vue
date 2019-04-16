@@ -35,14 +35,14 @@
                             <FormItem label="员工姓名"
                                       prop="empId">
                                 <!--绑定双击清除方法-->
-                                <span @dblclick="dbclean()">
+                                <span @dblclick="disabled?'':dbclean()">
                                     <!--v-model绑定显示字段-->
                                     <Input v-model="empName"
                                            icon="search"
                                            :readonly=true
                                            :disabled="disabled "
                                            placeholder="请选择员工"
-                                           @on-click=" pickEmpData()" />
+                                           @on-click=" disabled ? '' :pickEmpData()" />
                                 </span>
                             </FormItem>
                         </i-col>
