@@ -28,7 +28,7 @@
                 <Col span="10" offset="1">
                     <FormItem label="员工姓名" prop="empId">
                         <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                        <span @dblclick="disabled?'':clearUserid">
+                        <span @dblclick="disabled?'':clearUserid()">
                             <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="pickUserData" />
                         </span>
                     </FormItem>

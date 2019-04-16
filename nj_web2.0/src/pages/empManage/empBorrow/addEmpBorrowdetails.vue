@@ -130,6 +130,7 @@ export default {
         }
     },
     props: {
+        mainId:String,
         id: Number,
         logType: String,
         index: Number,
@@ -203,6 +204,7 @@ export default {
             if (t.logType === '修改') {
                 data.id = t.id
             }
+            data.bodePid =t.mainId
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {

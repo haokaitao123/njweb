@@ -80,7 +80,7 @@
 //       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {
         if(isNaN(this.id) || this.id == ''){
-          this.$Message.success('请先保存主表数据');
+          this.$Message.warning('请先保存主表数据');
           return;
         }
         this.option = false
@@ -91,6 +91,7 @@
         this[name] = true
         if (name === 'content') {
           this.$refs.content.disabled = this.disabled
+          alert(this.id+"---content---")
           this.$refs.content.id = this.id
           this.$refs.content.search()
           this.$refs.content.logType = this.logType

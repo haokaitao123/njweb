@@ -47,6 +47,7 @@
     <update
     v-show="openUpdate"
     :id="updateId"
+    :mainId="mainId"
     :logType="logType"
     :index="index"
     @closeUp="closeUp"
@@ -112,7 +113,6 @@
         // 子页面所需参数 无需变更
         tableheight: 410,
         logType: "",
-        id: '',
         openUpdate: false,
         updateId: NaN,
         tableselected: [],
@@ -214,6 +214,9 @@
         return this.$store.state.btnOperate.isFlowNode
       },
     },
+    props: {
+      mainId:String,
+    },
     components: {
       // 初始化子页面
       btnList,
@@ -245,7 +248,7 @@
     },
     //初始化自动调用方法
     mounted() {
-      this.getData();
+      //this.getData();
       this.getSelect();
     },
     methods: {
@@ -255,6 +258,7 @@
         if (page === undefined) {
           this.page = 1;
         }
+        alert(t.mainId+"datails----")
         const data = {
           _mt: "empBorrowdetails.getPage",
           rows: t.rows,
@@ -262,7 +266,7 @@
           sort: t.sort,
           order: t.order,
           logType: "借支明细查询",
-          bodePid: t.id,
+          bodePid: t.mainId,
         };
         getDataLevelUserLoginNew(data)
           .then(res => {
@@ -312,10 +316,7 @@
       deletemsg() {
         const t = this;
         if (t.tableselected.length === 0) {
-          t.$Modal.warning({
-            title: this.$t("reminder.remind"),
-            content: this.$t("reminder.leastone")
-          });
+          this.$Message.warning('请至少选择一条数据')
         } else {
           t.$Modal.confirm({
             title: this.$t("reminder.remind"),
@@ -329,14 +330,12 @@
                 .then(res => {
                   if (isSuccess(res, t)) {
                     t.tableselected = [];
+                    this.$Message.success('操作成功')
                     t.getData();
                   }
                 })
                 .catch(() => {
-                  t.$Modal.error({
-                    title: this.$t("reminder.err"),
-                    content: this.$t("reminder.errormessage")
-                  });
+                  this.$Message.error('网络错误')
                 });
             },
             onCancel: () => {}
@@ -354,7 +353,7 @@
         if (logType === "查看") {
           t.$refs.update.disabled = true;
         }
-        if (t.logType === this.$t('button.upd') || logType === "查看") {
+        if (t.logType === "修改" || logType === "查看") {
           // 调用子页面方法 传递参数 无需变更
           t.$refs.update.getData(id, logType)
         }
@@ -373,7 +372,7 @@
         // 填装查询条件
         const data = {
           reeducLevel: t.reeducLevel,
-          reeducPid: t.id,
+          bodePid: t.mainId,
         };
         // 设置导出mt参数
         this.$refs.expwindow.getData(this.expDataTital, "empBorrowdetails.export", data);
@@ -419,10 +418,7 @@
             }
           })
           .catch(() => {
-            this.$Modal.error({
-              title: this.$t("reminder.err"),
-              content: this.$t("reminder.errormessage")
-            });
+            this.$Message.error('网络错误')
           });
       },
       clear() {

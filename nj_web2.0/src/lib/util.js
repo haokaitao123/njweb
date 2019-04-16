@@ -133,6 +133,10 @@ export const encryptNew = (level, params) => {
     param.funCode = params.funCode
     delete params.funCode;
   }
+  if (params.selUsname != undefined) {
+    param.name = params.selUsname
+    delete params.selUsname;
+  }
   param.companyId = params.companyId
   delete params.companyId;
   param._aid = params._aid

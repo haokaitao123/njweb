@@ -32,7 +32,7 @@
                             <Col span="11">
                                 <FormItem label="员工姓名" prop="empId">
                                     <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                                    <span @dblclick="disabled?'':clearUserid">
+                                    <span @dblclick="disabled?'':clearUserid()">
                                         <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="pickData3" />
                                     </span>
                                 </FormItem>
@@ -752,22 +752,19 @@
              const t = this
             t.empName = '';
             t.formValidate.empId='';
-            t.deptIdDis = '';
-            t.formValidate.deptId='';
-            t.postIdDis = '';
-            t.formValidate.postId='';
-            t.empTypeDis = '';
-            t.formValidate.empType='';
-            t.contTypeDis = '';
-            t.formValidate.contType='';
-            t.contPeriodDis = '';
-            t.formValidate.contPeriod='';
-            t.formValidate.contSdate='';
-            t.formValidate.contEdate='';
-            t.contWorktimeDis = '';
-            t.formValidate.contWorktime='';
-            t.formValidate.contSigndate='';
-            t.formValidate.numberCode='';
+            t.deptoIdName = '';
+            t.formValidate.deptoId='';
+            t.postoName = '';
+            t.formValidate.postoId='';
+            t.formValidate.empoType='';
+            t.formValidate.contractoType='';
+            t.formValidate.contractoPeriod='';
+            t.formValidate.empnhIdno='';
+            t.formValidate.contractoNo='';
+            t.formValidate.signingoTime = '';
+            t.formValidate.contractoStart='';
+            t.formValidate.contractoEnd='';
+            t.formValidate.contractoTime='';
         },
         //打开员工信息弹出框
         pickData3() {
