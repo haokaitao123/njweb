@@ -707,10 +707,10 @@ export default {
       t.$refs.update.formValidate.unitValdate = "";
       t.$refs.update.formValidate.unitInvdate = "";
       t.$refs.update.formValidate.unitInvres = "";
-      t.$refs.update.formValidate.partEstablish = null;
-      t.$refs.update.formValidate.unitManger = null;
-      t.$refs.update.formValidate.unitDirec = null;
-      t.$refs.update.formValidate.unitStaff = null;
+      t.$refs.update.formValidate.partEstablish = "";
+      t.$refs.update.formValidate.unitManger = "";
+      t.$refs.update.formValidate.unitDirec = "";
+      t.$refs.update.formValidate.unitStaff = "";
       t.$refs.update.formValidate.unitSysalig = "";
       t.$refs.update.formValidate.unitOprecord = "";
       t.$refs.update.formValidate.note = "";

@@ -14,8 +14,11 @@
                 </Button>
             </div>
             <div class="option-main">
+                <Spin size="large"
+              fix
+              v-if="spinShow"></Spin>
                 <Row style="max-height: 420px;overflow-y: auto;"
-                     id="scrollBox">
+                     ref="scrollBox">
                     <Form ref="formValidate"
                           :model="formValidate"
                           :rules="ruleValidate"
@@ -295,6 +298,7 @@ export default {
            	 }
             };
         return {
+            spinShow:false,
             type: '',
             distype: false,
             disabled: false,
@@ -352,7 +356,7 @@ export default {
                 page: 1,
                 funId: '1',
                 logType: '搜索',
-                data: '{"cityIsvalid" : "1"}',
+                data: '{"   " : "1"}',
             },
             searchCloumns: [
                 {
@@ -477,6 +481,7 @@ export default {
     methods: {
         getData (id) {
             const t = this
+            t.spinShow = true
             getDataLevelUserLogin({
                 _mt: 'orgUnits.selectById',
                 id: id,
@@ -516,11 +521,11 @@ export default {
                     }
                 }
             }).catch(() => {
-                this.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                this.$Message.error(this.$t("reminder.errormessage"));
             })
+            .finally(() => {
+                    t.spinShow = false
+            });
         },
         getSelect (type) { //获取下拉列表数据
             const t = this
@@ -676,8 +681,9 @@ export default {
             }
         },
         handleReset () {
+            this.$refs.scrollBox.$el.scrollTop = "0";
             this.$refs.formValidate.resetFields();
-            document.getElementById("scrollBox").scrollTop = "0";
+            //document.getElementById("scrollBox").scrollTop = "0";
             this.$emit('closeUp')
         },
     },

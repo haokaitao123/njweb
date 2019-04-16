@@ -24,8 +24,8 @@
               @buttonImport="importExcel"
               @buttonAdd="openUp(NaN,$t('button.add'))"
               @buttonDel="deletemsg"
-              @buttonValid="modifystatus('02valid')"
               @buttonDraft="modifystatus('01draft')"
+              @buttonConfirm = "modifystatus('02valid')"
               @moditySelect="modityChange"
               @buttonSearch="search"
               :btnData="btnData"
@@ -142,22 +142,20 @@ export default {
   data() {
     return {
       // 导入的mt名称
-      imp_mt: "empContractinfo.importData",
+      imp_mt: "empConrenewal.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
         { code: "numberCode", name: "合同编号" },
         { code: "empName", name: "员工姓名" },
         { code: "deptIdDis", name: "部门名称" },
         { code: "postIdDis", name: "岗位名称" },
-        { code: "empTypeDis", name: "员工类别" },
-        { code: "contTypeDis", name: "合同类别" },
+        { code: "contrStrdate", name: "原合同开始日" },
+        { code: "contrEndtdate", name: "原合同到期日" },
+        { code: "contrPastdate", name: "原签订时间" },
         { code: "contPeriodDis", name: "合同期限" },
-        { code: "contSdate", name: "合同开始日" },
-        { code: "contEdate", name: "合同到期日" },
-        { code: "contWorktimeDis", name: "合同工作时间" },
-        { code: "contSigndate", name: "签订时间" },
-        { code: "contProbatDis", name: "试用期限" },
-        { code: "contProbatdt", name: "试用期到期日" },
+        { code: "contrSdate", name: "合同开始日" },
+        { code: "contrEdate", name: "合同到期日" },
+        { code: "contrSigndate", name: "签订时间" },
         { code: "contValiddate", name: "生效日期" },
         { code: "contInvdate", name: "失效日期" },
         { code: "note", name: "备注" }
@@ -205,14 +203,20 @@ export default {
           sortable: "custom"
         },
         {
-          title: "员工类别",
-          key: "empTypeDis",
+          title: "原合同开始日",
+          key: "contrStrdate",
           sortable: "custom",
           width: 120
         },
         {
-          title: "合同类别",
-          key: "contTypeDis",
+          title: "原合同到期日",
+          key: "contrEndtdate",
+          sortable: "custom",
+          width: 120
+        },
+        {
+          title: "原签订时间",
+          key: "contrPastdate",
           sortable: "custom",
           width: 120
         },
@@ -224,46 +228,24 @@ export default {
         },
         {
           title: "合同开始日",
-          key: "contSdate",
+          key: "contrSdate",
           sortable: "custom",
           width: 120
         },
         {
           title: "合同到期日",
-          key: "contEdate",
+          key: "contrEdate",
           sortable: "custom",
           width: 120
         },
+        
         {
-          title: "合同工作时间",
-          key: "contWorktimeDis",
+          title: "签订日期",
+          key: "contrSigndate",
           sortable: "custom",
           width: 120
         },
-        {
-          title: "签署日期",
-          key: "contSigndate",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "合同到期日",
-          key: "contEdate",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "试用期限",
-          key: "contProbatDis",
-          sortable: "custom",
-          width: 120
-        },
-        {
-          title: "试用期到期日",
-          key: "contProbatdt",
-          sortable: "custom",
-          width: 120
-        },
+        
         {
           title: "生效日期",
           key: "contValiddate",
@@ -321,6 +303,7 @@ export default {
       page: 1,
       funId: "1000",
       empName: "",
+      deptId: "",
       deptIdDis: "",
       openDeptPick: false,
       //部门
@@ -428,13 +411,13 @@ export default {
       }
 
       const data = {
-        _mt: "empContractinfo.getPage",
+        _mt: "empConrenewal.getPage",
         rows: t.rows,
         page: t.page,
         sort: t.sort,
         order: t.order,
-        logType: "合同查询",
-        deptIdDis: t.deptIdDis,
+        logType: "合同续签查询",
+        deptId: t.deptId,
         empName: t.empName,
         state: t.modity
       };
@@ -459,6 +442,7 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+          this.$store.commit('btnOperate/setSearchLoading',false)
         });
     },
     /**
@@ -494,17 +478,14 @@ export default {
     deletemsg() {
       const t = this;
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: this.$t("reminder.remind"),
           content: this.$t("reminder.confirmdelete"),
           onOk: () => {
             getDataLevelUserLogin({
-              _mt: "empContractinfo.delByIds",
+              _mt: "empConrenewal.delByIds",
               funId: "1",
               logType: this.$t("button.del"),
               ids: t.tableselected.toString()
@@ -514,13 +495,11 @@ export default {
                   t.tableselected = [];
                   // t.getTree()
                   t.getData();
+                   this.$Message.success(this.$t("reminder.deletesuccess"));
                 }
               })
               .catch(() => {
-                t.$Modal.error({
-                  title: this.$t("reminder.err"),
-                  content: this.$t("reminder.errormessage")
-                });
+                this.$Message.error(this.$t("reminder.errormessage"));
               });
           },
           onCancel: () => {}
@@ -555,25 +534,11 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
-      t.$refs.update.form.numberCode = "XXXXXX";
-      t.$refs.update.form.empId = "";
-      t.$refs.update.form.deptId = "";
-      t.$refs.update.form.postId = "";
-      t.$refs.update.form.empType = "";
-      t.$refs.update.form.contType = "";
-      t.$refs.update.form.contPeriod = "";
-      t.$refs.update.form.contSdate = "";
-      t.$refs.update.form.contEdate = "";
-      t.$refs.update.form.contWorktime = "";
-      t.$refs.update.form.contSigndate = "";
-      t.$refs.update.form.contProbat = "";
-      t.$refs.update.form.contProbatdt = "";
-      t.$refs.update.form.contValiddate = "";
-      t.$refs.update.form.contInvdate = "";
-      t.$refs.update.form.note = "";
+     
     },
     search() {
       this.page = 1;
+      this.$store.commit('btnOperate/setSearchLoading',true)
       this.getData();
     },
     modifystatus(state) {
@@ -581,17 +546,11 @@ export default {
       let logType = "";
       let tipContent = "";
       if (state === "02valid") {
-        logType = "生效";
+        logType = "确认";
         tipContent = "您确定继续操作吗？";
-      } else if (state === "03invalid") {
-        logType = "失效";
-        tipContent = "您确定继续操作吗？";
-      }
+      } 
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        this.$Message.warning('请至少选择一条数据');
         return;
       }
       t.$Modal.confirm({
@@ -599,7 +558,7 @@ export default {
         content: tipContent,
         onOk: () => {
           getDataLevelUserLogin({
-            _mt: "empContractinfo.setStateById",
+            _mt: "empConrenewal.setStateById",
             logType: logType,
             state: state,
             ids: t.tableselected.toString()
@@ -608,15 +567,15 @@ export default {
               if (isSuccess(res, t)) {
                 t.getData();
                 t.tableselected = [];
-                this.$Message.success("操作成功");
+                 this.$Message.success(this.$t("reminder.operatsuccess"));
               }
             })
             .catch(() => {
                 t.tableselected = [];
-              this.$Message.error("操作失败");
+              this.$Message.error(this.$t("reminder.errormessage"));
             });
         },
-        onCancel: () => {}
+        //onCancel: () => {}
       });
     }, //修改状态
     // 导入导出默认方法 无需更改
@@ -643,7 +602,7 @@ export default {
       // 设置导出mt参数
       this.$refs.expwindow.getData(
         this.expDataTital,
-        "empContractinfo.export",
+        "empConrenewal.export",
         data
       );
       this.openExp = true;
@@ -681,7 +640,7 @@ export default {
     cleardeptId() {
       const t = this;
       t.deptIdDis = "";
-      t.form.deptId = "";
+      t.deptId = "";
     },
     pickDeptData() {
       const t = this;
@@ -696,17 +655,17 @@ export default {
     },
     inputPost(name, id, deptIdDis, form) {
       const t = this;
-      t.form.deptId = id;
+      t.deptId = id;
       t.deptIdDis = name;
     },
     changeDeptInput(name, id) {
       const t = this;
       t.deptIdDis = name;
-      t.form.deptId = id;
+      t.deptId = id;
     },
     getPageByType(paramCode) {
-      this.status = paramCode;
-      this.unitTypeId = paramCode;
+      this.state = paramCode;
+      //this.unitTypeId = paramCode;
       this.getData();
     } //根据类型获取列表
   }

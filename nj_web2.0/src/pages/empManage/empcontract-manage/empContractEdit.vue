@@ -15,6 +15,9 @@
                 </Button>
             </div>
             <div class="option-main">
+                <Spin size="large"
+              fix
+              v-if="spinShow"></Spin>
                 <Row style="max-height: 460px;overflow-y: auto;" ref="scrollBox">
                     <Form ref="form"
                           :model="form"
@@ -329,7 +332,7 @@ export default {
         };
 
         return {
-            
+            spinShow:false,
             type: "",
             distype: false,
             disabled: false,
@@ -464,6 +467,7 @@ export default {
         },
         getData (id) {
             const t = this;
+            t.spinShow = true
             getDataLevelUserLogin({
                 _mt: "empContractinfo.getById",
                 id: id,
@@ -508,6 +512,9 @@ export default {
                 .catch(() => {
 
                     this.$Message.error(this.$t("reminder.errormessage"));
+                }) 
+                .finally(() => {
+                    t.spinShow = false
                 });
         },
         getSelect () {
@@ -547,7 +554,6 @@ export default {
         },
         handleSubmit () {
             const t = this;
-            console.log(t.form, "form");
             const data = deepCopy(t.form);
             data.logType = t.logType;
             if (t.type === "02dept" && data.unitType === "01company") {
@@ -608,9 +614,11 @@ export default {
 
         /*选择员工*/
         pickEmpData () {
+            if (this.forbidden === null && !this.disabled) {
             const t = this;
             t.$refs.searchEmpMaster.getData();
             t.openEmpMaster = true;
+            }
         },
         closeEmp () {
             const t = this;
@@ -625,9 +633,36 @@ export default {
             t.postIdDis = row.postIdDis;
             t.form.postId = row.postId;
         },
+        //关闭弹窗
         handleReset () {
             const t = this;
+            t.$refs.scrollBox.$el.scrollTop = "0";
             t.$refs.form.resetFields();
+            t.form.numberCode = "XXXXXX";
+            t.form.empId = "";
+            t.form.deptId = "";
+            t.form.postId = "";
+            t.form.empType = "";
+            t.form.contType = "";
+            t.form.contPeriod = "";
+            t.form.contSdate = "";
+            t.form.contEdate = "";
+            t.form.contWorktime = "";
+            t.form.contSigndate = "";
+            t.form.contProbat = "";
+            t.form.contProbatdt = "";
+            t.form.contValiddate = "";
+            t.form.contInvdate = "";
+            t.form.note = "";
+            t.empName = "";
+            t.postIdDis = "";
+            t.deptIdDis = "";
+            t.empTypeDis = "";
+            t.contTypeDis = "";
+            t.contPeriodDis = "";
+            t.contWorktimeDis = "";
+            t.contProbatDis = "";
+            t.file="";
             t.$emit("closeUp");
         },
         //附件上传

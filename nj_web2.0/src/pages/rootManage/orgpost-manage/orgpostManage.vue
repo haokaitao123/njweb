@@ -518,8 +518,8 @@ FlowNode() {
       t.$refs.update.formValidate.postFname = "";
       t.$refs.update.formValidate.seniorityWage = "1";
       t.$refs.update.formValidate.postDfpslevel = "";
-      t.$refs.update.formValidate.postStansalary = null;
-      t.$refs.update.formValidate.postTrialsalary = null;
+      t.$refs.update.formValidate.postStansalary = "";
+      t.$refs.update.formValidate.postTrialsalary = "";
       t.$refs.update.formValidate.postCostsharing = "1";
       t.$refs.update.formValidate.postStation = "";
       t.$refs.update.formValidate.postValiddate = "";

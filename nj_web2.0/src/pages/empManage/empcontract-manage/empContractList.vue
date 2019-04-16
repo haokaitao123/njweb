@@ -460,6 +460,7 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.$store.commit('btnOperate/setSearchLoading',false)
                 });
     },
         //自动计算时间
@@ -504,10 +505,7 @@ export default {
     deletemsg() {
       const t = this;
       if (t.tableselected.length === 0) {
-        t.$Modal.warning({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+        this.$Message.warning('请至少选择一条数据');
       } else {
         t.$Modal.confirm({
           title: this.$t("reminder.remind"),
@@ -548,7 +546,6 @@ export default {
       t.openUpdate = true;
       t.index = index;
       t.$refs.update.disabled = false;
-      t.$refs.update.aa = false;
       t.$refs.update.getSelect("emptype");
       t.$refs.update.getSelect("contrpertype");
       t.$refs.update.getSelect("contperiod");
@@ -566,36 +563,14 @@ export default {
     },
     closeUp() {
       const t = this;
-      //this.$refs.scrollBox.$el.scrollTop = "0";
+      
       t.openUpdate = false;
-      t.$refs.update.form.numberCode = "XXXXXX";
-      t.$refs.update.form.empId = "";
-      t.$refs.update.form.deptId = "";
-      t.$refs.update.form.postId = "";
-      t.$refs.update.form.empType = "";
-      t.$refs.update.form.contType = "";
-      t.$refs.update.form.contPeriod = "";
-      t.$refs.update.form.contSdate = "";
-      t.$refs.update.form.contEdate = "";
-      t.$refs.update.form.contWorktime = "";
-      t.$refs.update.form.contSigndate = "";
-      t.$refs.update.form.contProbat = "";
-      t.$refs.update.form.contProbatdt = "";
-      t.$refs.update.form.contValiddate = "";
-      t.$refs.update.form.contInvdate = "";
-      t.$refs.update.form.note = "";
-       t.$refs.update.empName = "";
-            t.$refs.update.postIdDis = "";
-            t.$refs.update.deptIdDis = "";
-            t.$refs.update.empTypeDis = "";
-            t.$refs.update.contTypeDis = "";
-            t.$refs.update.contPeriodDis = "";
-            t.$refs.update.contWorktimeDis = "";
-            t.$refs.update.contProbatDis = "";
+     
 
     },
     search() {
       this.page = 1;
+      this.$store.commit('btnOperate/setSearchLoading',true)
       this.getData();
     },
     modifystatus(state) {
@@ -727,8 +702,8 @@ export default {
             t.deptId = id;
         },
         getPageByType (paramCode) {
-            this.status = paramCode;
-            this.unitTypeId = paramCode;
+            this.state = paramCode;
+            //this.unitTypeId = paramCode;
             this.getData();
         } //根据类型获取列表
     },
