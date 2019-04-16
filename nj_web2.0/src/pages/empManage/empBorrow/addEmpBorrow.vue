@@ -192,12 +192,13 @@ export default {
         },
         handleSubmit () {
             const t = this
+debugger
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
             data._mt = 'empBorrow.addOrUpd'
 
             if((!isNaN(t.id)) && t.id != ''){
-              //alert(1)
+              alert("修改保存id==")
               t.logType = '修改'
             }
             if (t.logType === '修改') {
@@ -259,8 +260,9 @@ export default {
       },
 //清除
       clear(){
+        debugger
         const t = this
-        t.$refs.formValidate.resetFields()
+        this.$refs.formValidate.resetFields()
         t.openUpdate = false
         t.forbidden = false
       },

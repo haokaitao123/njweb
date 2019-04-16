@@ -103,6 +103,7 @@
       clear() {
         this.option = true
         this.content = false
+        alert("close")
         this.id = NaN
         this.active = 'option'
         this.$refs.option.clear()

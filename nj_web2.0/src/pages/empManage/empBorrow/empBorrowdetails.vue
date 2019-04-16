@@ -215,7 +215,7 @@
       },
     },
     props: {
-      mainId:String,
+      mainId:Number,
     },
     components: {
       // 初始化子页面
