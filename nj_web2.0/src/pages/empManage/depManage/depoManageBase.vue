@@ -85,7 +85,7 @@
 //       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {
         if(isNaN(this.id) || this.id == ''){
-          this.$Message.success('请先保存主表数据');
+          this.$Message.warning('请先保存主表数据');
           return;
         }
         this.depoMoption = false
@@ -117,6 +117,14 @@
         this.depoContent = false
         this.id = NaN
         this.active = 'depoMoption'
+        this.$refs.depoMoption.formValidate.empId = '';
+        this.$refs.depoMoption.empName = '';
+        this.$refs.depoMoption.formValidate.deptId = '';
+        this.$refs.depoMoption.deptIdName = '';
+        this.$refs.depoMoption.formValidate.postId = '';
+        this.$refs.depoMoption.postName = '';
+        this.$refs.depoMoption.formValidate.empnhIdno = '';
+
       },
 //      更新父页面列表 无需变更
       update(data) {
