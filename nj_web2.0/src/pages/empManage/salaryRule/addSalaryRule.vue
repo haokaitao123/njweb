@@ -75,7 +75,19 @@
           return numberValCheck(new Error(rule.message))
         }
         numberValCheck()
-      }
+      };
+        const limitMoney = (rule, value, callback) => {
+            if (value === "" || !value) {
+                callback(new Error("请输入金额"));
+            } else {
+                let salCap = Number(this.formValidate.salCap);
+                let salFloor = Number(this.formValidate.salFloor);
+                if (salCap < salFloor) {
+                    callback(new Error("上限金额必须大于下限金额"));
+                }
+                callback();
+            }
+        };
       return {
         formValidate: {
             _mt: 'empSalRule.addOrUpd', //新增的数据接口
@@ -97,6 +109,11 @@
                 {
                   validator: numberCheck,
                   message: '请输入正确的数字格式',
+                  trigger: 'blur'
+                },
+                {
+                  validator: limitMoney,
+                  message: '上限金额必须大于下限金额',
                   trigger: 'blur'
                 },
               ],
