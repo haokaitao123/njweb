@@ -26,6 +26,8 @@ const protocolManage = resolve => require(['@/pages/protocolManage/protocolManag
 
 const recruitResumeManage = resolve => require(['@/pages/empManage/RecruitResume-manage/recruitResumeManage'], resolve)
 
+const salaryRule = resolve => require(['@/pages/empManage/salaryRule/salaryRule'], resolve)
+
 export default [{
     path: 'goaborddetail',
     name: 'goaborddetail',
@@ -95,5 +97,10 @@ export default [{
     path: 'empBorrow',
     name: 'empBorrow',
     component: empBorrow,
+  },
+  {
+    path: 'salaryRule',
+    name: 'salaryRule',
+    component: salaryRule,
   },
 ]

@@ -340,6 +340,18 @@
     import searchTable from '../../components/searchTable/searchPost'
   export default {
     data() {
+        const compareTime = (rule, value, callback) => {
+        if (value === "" || !value) {
+          callback(new Error("请选择合同开始时间"));
+        } else {
+          let startTimeNum = (new Date(this.formValidate.contractnStart)).getTime();
+          let endTimeNum = (new Date(this.formValidate.contractnEnd)).getTime();
+          if (startTimeNum > endTimeNum) {
+            callback(new Error('开始时间不能大于结束时间'))
+          }
+          callback()
+        }
+      }
       return {
         disabled: false,
         distype: false,
@@ -476,7 +488,7 @@
               {
                 required: true,
                 type: "date",
-                message: "请选择合同开始日期",
+                validator: compareTime,
                 trigger: "blur"
               }
             ],
