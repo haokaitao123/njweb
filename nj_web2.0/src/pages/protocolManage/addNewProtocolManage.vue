@@ -33,7 +33,7 @@
                                 <FormItem label="员工姓名" prop="empId">
                                     <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
                                     <span @dblclick="disabled?'':clearUserid()">
-                                        <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="pickData3" />
+                                        <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="disabled?'':pickData3()" />
                                     </span>
                                 </FormItem>
                             </Col>
@@ -159,13 +159,13 @@
                             <Col span="11" offset="1">
                                 <FormItem label="新部门名称"
                                     prop="deptnId">
-                                    <span @dblclick="clearPid">
+                                    <span @dblclick="disabled?'':clearPid()">
                                         <Input v-model="deptnIdName"
                                             icon="search"
                                             :disabled="disabled"
                                             :readonly=true
                                             placeholder="请选择部门"
-                                            @on-click="pickData2" />
+                                            @on-click="disabled?'':pickData2()" />
                                     </span>
                                 </FormItem>
                             </Col>
@@ -176,13 +176,13 @@
                             <Col span="11">
                                 <FormItem label="新岗位名称"
                                     prop="postnId">
-                                    <span @dblclick="clearPost()">
+                                    <span @dblclick="disabled?'':clearPost()">
                                         <Input v-model="postnIdName"
                                             icon="search"
                                             :readonly=true
                                             :disabled="disabled"
                                             placeholder="请选择岗位名称"
-                                            @on-click="pickData" />
+                                            @on-click="disabled?'':pickData()" />
                                     </span>
                                 </FormItem>
                             </Col>

@@ -159,7 +159,7 @@
                 t.entryName = res.data.content[0].entryName
                 t.empName = res.data.content[0].empName
                 t.formValidate.resumeDate = res.data.content[0].resumeDate
-                t.formValidate.resumeNum = Number(res.data.content[0].resumeNum)
+                t.formValidate.resumeNum = res.data.content[0].resumeNum
                 t.formValidate.note = res.data.content[0].note
             }
             }).catch(() => {
