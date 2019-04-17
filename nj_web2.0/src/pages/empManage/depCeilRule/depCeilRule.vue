@@ -5,13 +5,13 @@
         <card>
           <!-- 标题 -->
           <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;工资填充规则
+            <Icon type="mouse"></Icon>&nbsp;押金封顶规则
           </p>
           <!-- 操作按钮和查询输入框 -->
             <!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
 					<Row>
-							<Input v-model="salCapBigDis" placeholder="请输入比例最大值" style="width: 200px"></Input>
-              <Input v-model="salCapSmallDis" placeholder="请输入比例最小值" style="width: 200px"></Input>
+							<Input v-model="profitBigDis" placeholder="请输入最大封顶金额" style="width: 200px"></Input>
+              <Input v-model="profitSmallDis" placeholder="请输入最小封顶金额" style="width: 200px"></Input>
             <!-- 查询按钮 @click后绑定的是一个点击事件 -->
             <btnList
               @buttonExport="expData"
@@ -112,7 +112,7 @@
   </div>
 </template>
 <script>
-import update from "./addSalaryRule"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
+import update from "./addDepCeilRule"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
 import { isSuccess } from "../../../lib/util.js"; //调用请求判断成功的公共方法
 import {
   getDataLevelUserLoginNew,
@@ -130,13 +130,12 @@ export default {
       loading: "",
       tableOperate:false,
 			// 导入的mt名称
-        imp_mt: 'empSalRule.importData',
+        imp_mt: 'depCeilRule.importData',
         // 导出字段设置, code字段名 name列名
        expDataTital: [
-        { code: "salCap", name: "工资上限金额" },
-        { code: "salFloor", name: "工资下限金额" },
-        { code: "salMinimum", name: "最低应交金额" },
-        { code: "salRatio", name: "比例" },
+        { code: "profitCap", name: "月利润上限" },
+        { code: "profitFloor", name: "月利润下限" },
+        { code: "profitBig", name: "封顶金额" },
         { code: "note", name: "备注" }
 			],
         // 导入导出默认参数 无需变更
@@ -158,26 +157,21 @@ export default {
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
         },
         {
-          title: "工资上限金额",
-          key: "salCap",
+          title: "月利润上限",
+          key: "profitCap",
           sortable: "custom",
           width: 220
         },
         {
-          title: "工资下限金额",
-          key: "salFloor",
+          title: "月利润下限",
+          key: "profitFloor",
           sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
-          title: "最低应交金额",
-          key: "salMinimum",
+          title: "封顶金额",
+          key: "profitBig",
           sortable: "custom",
-          width: 220
-        },
-        {
-          title: "比例",
-          key: "salRatio",
           width: 220
         },
       ],
@@ -224,8 +218,8 @@ export default {
       rows: 10, //每页显示条数
       page: 1, //当前页码
       funId: "1000", //功能ID
-      salCapBigDis: "", //绑定页面输入框的工资上限金额
-      salCapSmallDis: "",
+      profitBigDis: "", //绑定页面输入框的最大封顶金额
+      profitSmallDis:"",
     };
   },
   //外部调用的组件注册到这里
@@ -288,14 +282,14 @@ export default {
       t.loading = true; //请求之前重置状态
       //请求列表数据的参数
       const data = {
-        _mt: "empSalRule.getPage", //接口路径
+        _mt: "depCeilRule.getPage", //接口路径
         rows: t.rows, //每页显示条数
         page: t.page, //当前页
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
-        salCapBigDis: t.salCapBigDis, //最大上限比例
-        salCapSmallDis: t.salCapSmallDis,//最小上限比例
+        profitBigDis: t.profitBigDis, //最大封顶金额
+        profitSmallDis:t.profitSmallDis,//最小封顶金额
 			};
       //删除请求列表数据的参数为空的参数
       for (const dat in data) {
@@ -344,7 +338,7 @@ export default {
           bankSwiftcode: t.bankSwiftcode,
         }
         // 设置导出mt参数
-        this.$refs.expwindow.getData(this.expDataTital, 'empSalRule.export', data)
+        this.$refs.expwindow.getData(this.expDataTital, 'depCeilRule.export', data)
         this.openExp = true
       },
       // 导入导出默认方法 无需更改
@@ -422,7 +416,7 @@ export default {
           onOk: () => {
             //点击确定删除调取删除接口
             getDataLevelUserLogin({
-              _mt: "empSalRule.delByIds",
+              _mt: "depCeilRule.delByIds",
               funId: "1",
               logType: "删除",
               ids: t.tableselected.toString()
@@ -464,10 +458,9 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
-      t.$refs.update.formValidate.salCap = "";
-      t.$refs.update.formValidate.salFloor = "";
-      t.$refs.update.formValidate.salMinimum = "";
-      t.$refs.update.formValidate.salRatio = "";
+      t.$refs.update.formValidate.profitCap = "";
+      t.$refs.update.formValidate.profitFloor = "";
+      t.$refs.update.formValidate.profitBig = "";
       t.$refs.update.formValidate.note = "";
     }, //关闭窗口
 
