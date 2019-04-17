@@ -35,14 +35,14 @@
                             <FormItem label="员工姓名"
                                       prop="empId">
                                 <!--绑定双击清除方法-->
-                                <span @dblclick="dbclean()">
+                                <span @dblclick="disabled?'':dbclean()">
                                     <!--v-model绑定显示字段-->
                                     <Input v-model="empName"
                                            icon="search"
                                            :readonly=true
                                            :disabled="disabled "
                                            placeholder="请选择员工"
-                                           @on-click=" pickEmpData()" />
+                                           @on-click=" disabled ? '' :pickEmpData()" />
                                 </span>
                             </FormItem>
                         </i-col>
@@ -592,11 +592,12 @@ export default {
                     getDataLevelUserLoginSenior(data)
                         .then(res => {
                             if (isSuccess(res, t)) {
-                                t.$emit("closeUp");
+                                t.handleReset();
+                                //t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
 
                                     this.$Message.success(this.$t("reminder.addsuccess"));
-                                    t.$refs.form.resetFields();
+                                    //t.$refs.form.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
 

@@ -15,25 +15,20 @@
             <Row>
                 <!--  prop 是Form对应表单域 model 里的字段 -->
                 <Col span="10" offset="1">
-                    <FormItem label="工资上限金额" prop="salCap">
-                            <Input v-model="formValidate.salCap"   placeholder="请输入工资上限金额"/>
+                    <FormItem label="月利润上限" prop="profitCap">
+                            <Input v-model="formValidate.profitCap"   placeholder="请输入月利润上限"/>
                     </FormItem>
                 </Col>
                 <Col span="10" offset="1">
-                    <FormItem label="工资下限金额" prop="salFloor">
-                        <Input v-model="formValidate.salFloor" placeholder="请输入工资下限金额"></Input>
+                    <FormItem label="月利润下限" prop="profitFloor">
+                        <Input v-model="formValidate.profitFloor" placeholder="请输入月利润下限"></Input>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
                 <Col span="10" offset="1">
-                    <FormItem label="最低应交金额" prop="salMinimum">
-                        <Input v-model="formValidate.salMinimum" placeholder="请输入最低应交金额"></Input>
-                    </FormItem>
-                </Col>
-                <Col span="10" offset="1">
-                    <FormItem label="比例(%)" prop="salRatio">
-                        <Input v-model="formValidate.salRatio" placeholder="请输入比例"  style="width: 100%"></Input>
+                    <FormItem label="封顶金额" prop="profitBig">
+                        <Input v-model="formValidate.profitBig" placeholder="请输入封顶金额"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -80,9 +75,9 @@
             if (value === "" || !value) {
                 callback(new Error("请输入金额"));
             } else {
-                let salCap = Number(this.formValidate.salCap);
-                let salFloor = Number(this.formValidate.salFloor);
-                if (salCap < salFloor) {
+                let profitCap = Number(this.formValidate.profitCap);
+                let profitFloor = Number(this.formValidate.profitFloor);
+                if (profitCap < profitFloor) {
                     callback(new Error("上限金额必须大于下限金额"));
                 }
                 callback();
@@ -90,20 +85,19 @@
         };
       return {
         formValidate: {
-            _mt: 'empSalRule.addOrUpd', //新增的数据接口
+            _mt: 'depCeilRule.addOrUpd', //新增的数据接口
             funId: '1', //功能ID
             logType:this.logType, //操作类型
-            salCap: '',
-            salFloor: '',
-            salMinimum: '', 
-            salRatio: '',
+            profitCap: '',
+            profitFloor: '',
+            profitBig: '', 
             note: '',//备注
         },
         ruleValidate: { 
-             salCap:[
+             profitCap:[
                 {
                   required: true,
-                  message: "请输入工资上限金额",
+                  message: "请输入月利润上限",
                   trigger: "blur"
                 },
                 {
@@ -117,10 +111,10 @@
                   trigger: 'blur'
                 },
               ],
-            salFloor:[
+            profitFloor:[
                 {
                   required: true,
-                  message: "请输入工资下限金额",
+                  message: "请输入月利润下限",
                   trigger: "blur"
                 },
                 {
@@ -129,22 +123,10 @@
                   trigger: 'blur'
                 },
               ],
-             salMinimum:[
+             profitBig:[
                 {
                   required: true,
                   message: "请输入最低应交金额",
-                  trigger: "blur"
-                },
-                {
-                  validator: numberCheck,
-                  message: '请输入正确的数字格式',
-                  trigger: 'blur'
-                },
-              ],
-            salRatio:[
-                {
-                  required: true,
-                  message: "请输入比例",
                   trigger: "blur"
                 },
                 {
@@ -172,16 +154,15 @@
             const t = this
             //根据id获取数据请求接口
             getDataLevelUserLogin({
-                _mt: 'empSalRule.getById',
+                _mt: 'depCeilRule.getById',
                 id: id,
                 logType: '根据id获取数据',
             }).then((res) => {
             if (isSuccess(res, t)) {
                 //回显数据绑定
-                t.formValidate.salCap = res.data.content[0].salCap
-                t.formValidate.salFloor = res.data.content[0].salFloor
-                t.formValidate.salMinimum = res.data.content[0].salMinimum
-                t.formValidate.salRatio = res.data.content[0].salRatio
+                t.formValidate.profitCap = res.data.content[0].profitCap
+                t.formValidate.profitFloor = res.data.content[0].profitFloor
+                t.formValidate.profitBig = res.data.content[0].profitBig
                 t.formValidate.note = res.data.content[0].note
             }
             }).catch(() => {

@@ -1,7 +1,8 @@
 <template>
     <div class="cover">
         <div>
-            <div class="box">
+            <div class="box"
+                 :class="fixed?'fixed':''">
                 <div class="title">
                     <div class="title-text">
                         <Icon type="mouse"
@@ -308,6 +309,7 @@ export default {
                 },
             },
             blockNum: 0,
+            fixed: false
         }
     },
     props: {
@@ -321,6 +323,7 @@ export default {
         aprvrelTitle: String,
         stepId: String,
         requestType: String,
+        aprvCode: String
     },
     created () {
         this.getDataBlock()
@@ -330,6 +333,8 @@ export default {
         this.getAnsrptRecord()
         // 判断保存提交取消按钮的显示
         //    this.showBtn()
+        //我的审批是否定位
+        this.fixedApprovIdea();
     },
     components: {
         commonSingleForm,
@@ -461,7 +466,6 @@ export default {
             }
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    console.log(res, '11111111111111111111111111111111')
                     t.dataBlocksFake = res.data.content[0].dataBlocks
                     t.blockStepId = res.data.content[0].stepId
                     t.flowName = res.data.content[0].stepName
@@ -903,6 +907,13 @@ export default {
         closePage () {
             this.openTestUpd = false
         },
+        fixedApprovIdea () {
+            if (this.aprvCode === "1010") {
+                this.fixed = true;
+            } else {
+                this.fixed = false
+            }
+        }
     },
     watch: {
         thisStepState (value) {
@@ -920,6 +931,7 @@ export default {
 .cover .box {
     width: 1200px;
 }
+
 .content {
     height: 500px;
     position: relative;
@@ -949,6 +961,20 @@ export default {
                 text-align: left;
                 padding: 0 0 0 180px;
             }
+        }
+    }
+}
+.fixed {
+    .content {
+        margin-bottom: 266px;
+        height: 254px;
+        position: static;
+        .approvIdea {
+            position: absolute;
+            width: 100%;
+            bottom: 72px;
+            left: 0;
+            padding: 0 20px;
         }
     }
 }

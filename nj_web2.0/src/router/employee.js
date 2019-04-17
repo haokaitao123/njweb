@@ -3,6 +3,7 @@
  */
 
 //用户普通角色组管理
+import empRefund from '@/pages/empManage/empRefund/empRefund.vue'
 import empBorrow from '@/pages/empManage/empBorrow/empBorrow.vue'
 import empOfficial from '@/pages/empManage/empofficial/empOfficial.vue'
 import empMaster from '@/pages/empManage/empmaster-manage3/empmasterList.vue'
@@ -27,6 +28,8 @@ const protocolManage = resolve => require(['@/pages/protocolManage/protocolManag
 const recruitResumeManage = resolve => require(['@/pages/empManage/RecruitResume-manage/recruitResumeManage'], resolve)
 
 const salaryRule = resolve => require(['@/pages/empManage/salaryRule/salaryRule'], resolve)
+
+const depCeilRule = resolve => require(['@/pages/empManage/depCeilRule/depCeilRule'], resolve)
 
 export default [{
     path: 'goaborddetail',
@@ -102,5 +105,15 @@ export default [{
     path: 'salaryRule',
     name: 'salaryRule',
     component: salaryRule,
+  },
+  {
+    path: 'empRefund',
+    name: 'empRefund',
+    component: empRefund,
+  },
+  {
+    path: 'depCeilRule',
+    name: 'depCeilRule',
+    component: depCeilRule,
   },
 ]

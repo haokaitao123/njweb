@@ -469,7 +469,6 @@ export default {
     },
     handleSubmit() {
       const t = this;
-      console.log(t.form, "form");
       const data = deepCopy(t.form);
       data.logType = t.logType;
       if (t.type === "02dept" && data.unitType === "01company") {
@@ -514,10 +513,11 @@ export default {
           getDataLevelUserLoginSenior(data)
             .then(res => {
               if (isSuccess(res, t)) {
-                t.$emit("closeUp");
+                //t.$emit("closeUp");
+                t.handleReset();
                 if (t.logType === this.$t("button.add")) {
                   this.$Message.success(this.$t("reminder.addsuccess"));
-                  t.$refs.form.resetFields();
+                 // t.$refs.form.resetFields();
                   t.$emit("getData", res.data.content[0]);
                 } else {
                   this.$Message.success(this.$t("reminder.updsuccess"));
