@@ -48,7 +48,7 @@
                                               :ref="'block' + item.flsdbMark"
                                               :lebWidth="200">
                             </commonSingleForm>
-                            <div v-if="stepAuthLimits === '03submit' && item.flsdbOptauth === '02update' && item.flsdbSubisupd === '1'">
+                            <div v-if="stepAuthLimits === '03submit' && item.flsdbOptauth === '02update' && item.flsdbSubisupd === '1'" class="marginB_10">
                                 <div v-show="thisStepState !== 'p_flowst_3' && thisStepState !== 'p_flowst_0'">
                                     <Button class="btns"
                                             type="primary"
@@ -77,7 +77,8 @@
                                            :data="itemTable.table"></Table>
                                     <span v-if="!item.blockColumn && item.id == itemTable.dataBlockId"
                                           @click="PageSize(itemTable.dataBlockId)">
-                                        <Row style="display: flex">
+                                        <Row style="display: flex"
+                                             class="marginT_15">
                                             <Page :total="itemTable.records"
                                                   :current="itemTable.page"
                                                   size="small"
@@ -311,6 +312,7 @@ export default {
                             },
                             on: {
                                 click: () => {
+                                    console.log(params,"params123")
                                     this.update(params.row.id, params.index, params)
                                 },
                             },
@@ -1131,6 +1133,12 @@ export default {
     height: 500px;
     position: relative;
     overflow-y: auto;
+    .marginB_10 {
+        margin-bottom: 10px;
+    }
+    .marginT_15 {
+        margin-top: 15px;
+    }
     .table-form {
         margin-top: 0;
         margin-bottom: 20px;
