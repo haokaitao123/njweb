@@ -93,6 +93,7 @@ export default {
         return {
           file: '',
           filekey: '',
+          updateId:this.id,
           loadingStatus: false,
             type: '',
             distype: false,
@@ -128,7 +129,7 @@ export default {
         }
     },
     props: {
-        id: Number,
+      id: Number,
         logType: String,
         index: Number,
     },
@@ -157,6 +158,8 @@ export default {
       },
         getData (id) {
             const t = this
+          alert(this.id+"---select")
+          alert(this.updateId+"--select--")
             getDataLevelUserLogin({
                 _mt: 'empBorrow.getById',
                 id: id,
@@ -197,9 +200,10 @@ export default {
             data._mt = 'empBorrow.addOrUpd'
 
             if((!isNaN(t.id)) && t.id != ''){
-              //alert(1)
+              alert("修改保存id==")
               t.logType = '修改'
             }
+            alert(t.id)
             if (t.logType === '修改') {
                 data.id = t.id
             }
@@ -211,7 +215,7 @@ export default {
                             if (t.logType === '新增') {
                                 t.$Message.success('新增成功');
                                // t.$refs.formValidate.resetFields()
-                                alert(res.data.content[0].id)
+                                alert(res.data.content[0].id+"--新增成功")
                                 t.id = res.data.content[0].id
                                 t.$emit('newdata', res.data.content[0])
                             } else {
@@ -259,8 +263,11 @@ export default {
       },
 //清除
       clear(){
+        debugger
         const t = this
-        t.$refs.formValidate.resetFields()
+        this.$refs.formValidate.resetFields()
+        t.updateId=NaN
+        t.formValidate = {}
         t.openUpdate = false
         t.forbidden = false
       },

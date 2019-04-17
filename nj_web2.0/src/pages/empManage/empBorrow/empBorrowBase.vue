@@ -24,9 +24,9 @@
           </div>
           <div style="margin-top: 40px;padding: 10px;">
             <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
-            <mOption v-show="option" :logType="logType" ref="option" :id="id" @update="update" @newdata="newdata"></mOption>
+            <mOption v-show="option" :logType="logType" ref="option" :id="updateId" @update="update" @newdata="newdata"></mOption>
             <!--子表分页页面 mainid为主表id-->
-            <mContent v-show="content" :logType="logType" ref="content" :mainId="id"></mContent>
+            <mContent v-show="content" :logType="logType" ref="content" :updateId="updateId"></mContent>
           </div>
         </i-col>
       </row>
@@ -43,8 +43,8 @@
         active: 'option',
         option: true,
         content: false,
-        id: NaN,
         disabled: false,
+        id:this.updateId,
 //        主表查询单条数据的mt
       }
     },
@@ -54,6 +54,7 @@
     },
     props: {
 //      父页面传递参数  visaare一般不传
+      updateId: Number,
       logType: String,
       index: Number,
       params: Object,
@@ -72,17 +73,18 @@
       },
       // 主表信息查询方法 无需变更
       getOption(id, logType) {
-        this.id = parseInt(id, 10)
-        alert(this.id+"---base")
-        this.$refs.option.getData(this.id)
+        //this.id = parseInt(id, 10);
+        // alert(this.id+"--empBorrowBase--")
+        this.$refs.option.getData(id)
         this.$refs.option.disabled = this.disabled
       },
 //       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {
-        if(isNaN(this.id) || this.id == ''){
-          this.$Message.warning('请先保存主表数据');
-          return;
-        }
+        // if(this.id) || this.id == ''){
+        //   this.$Message.warning('请先保存主表数据');
+        //   return;
+        // }
+
         this.option = false
         this.content = false
         this.active = name
@@ -91,7 +93,7 @@
         this[name] = true
         if (name === 'content') {
           this.$refs.content.disabled = this.disabled
-          alert(this.id+"---content---")
+          // alert(id+"---content---")
           this.$refs.content.id = this.id
           this.$refs.content.search()
           this.$refs.content.logType = this.logType
@@ -103,7 +105,8 @@
       clear() {
         this.option = true
         this.content = false
-        this.id = NaN
+        // alert("close")
+        this.id=NaN
         this.active = 'option'
         this.$refs.option.clear()
         this.$refs.content.clear()

@@ -14,6 +14,11 @@
                 </Button>
             </div>
             <div class="option-main">
+              <!--loading效果-->
+              <Spin  size="large"
+                     fix
+                     v-if="spinShow">
+              </Spin>
                 <Row style="max-height: 420px;overflow-y: auto;">
                     <Form ref="formValidate"
                           :model="formValidate"
@@ -95,6 +100,7 @@ export default {
         numberValCheck()
       }
         return {
+          spinShow: false,
           file: '',
           filekey: '',
           bodeTypeList:[],
@@ -130,7 +136,7 @@ export default {
         }
     },
     props: {
-        mainId:String,
+      mianId:Number,
         id: Number,
         logType: String,
         index: Number,
@@ -150,6 +156,8 @@ export default {
       getSelect() {
      //   alert("a")
         const t = this
+        t.spinShow = true; //开启loading效果
+        debugger
         getDataLevelUserLogin({
           _mt: 'baseParmInfo.getSelectValue',
           typeCode: 'bodeType,bodeReason',
@@ -163,14 +171,16 @@ export default {
             title: this.$t('reminder.err'),
             content: this.$t('reminder.errormessage'),
           })
-        })
+        }).finally(() => {
+          t.spinShow = false; //关闭loading效果
+        });
       },
       //上级清除员工选择
         getData (id) {
             const t = this
             getDataLevelUserLogin({
                 _mt: 'empBorrowdetails.getById',
-                id: t.id,
+                id: id,
                 funId: '1',
                 logType: '借支明细id查询',
             }).then((res) => {
@@ -204,15 +214,14 @@ export default {
             if (t.logType === '修改') {
                 data.id = t.id
             }
-            data.bodePid =t.mainId
+            data.bodePid =t.mianId
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
-                            t.$emit('closeUp')
+                            t.handleReset();
                             if (t.logType === '新增') {
                                 t.$Message.success('新增成功');
-                                t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
                                 t.$Message.success('修改成功');
