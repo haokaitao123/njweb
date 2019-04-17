@@ -14,38 +14,26 @@
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
             <Row>
                 <!--  prop 是Form对应表单域 model 里的字段 -->
-                <!--  员工姓名选择框  -->
                 <Col span="10" offset="1">
-                    <FormItem label="员工姓名" prop="empId">
-                        <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                        <span @dblclick="clearUserid">
-                            <Input v-model="empName" icon="search" :readonly="true" placeholder="请选择员工姓名"  @on-click="pickUserData" />
-                        </span>
+                    <FormItem label="工资上限金额" prop="salCap">
+                            <Input v-model="formValidate.salCap"   placeholder="请输入工资上限金额"/>
                     </FormItem>
                 </Col>
-                 <!--  项目名称输入框  -->
                 <Col span="10" offset="1">
-                    <FormItem label="项目名称" prop="entryId">
-                        <Input v-model="entryName" placeholder="请输入项目名称"></Input>
+                    <FormItem label="工资下限金额" prop="salFloor">
+                        <Input v-model="formValidate.salFloor" placeholder="请输入工资下限金额"></Input>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
-                <!--  简历日期选择框 -->
                 <Col span="10" offset="1">
-                    <FormItem label="简历日期" prop="resumeDate">
-                        <DatePicker type="date"
-                            placeholder="选择简历日期"
-                            :editable="false"
-                            v-model="formValidate.resumeDate"
-                            style="width: 100%">
-                        </DatePicker>
+                    <FormItem label="最低应交金额" prop="salMinimum">
+                        <Input v-model="formValidate.salMinimum" placeholder="请输入最低应交金额"></Input>
                     </FormItem>
                 </Col>
-                <!--  简历使用量输入框  -->
                 <Col span="10" offset="1">
-                    <FormItem label="简历使用量" prop="resumeNum">
-                        <Input v-model="formValidate.resumeNum" placeholder="请输入简历使用量"  style="width: 100%"></Input>
+                    <FormItem label="比例" prop="salRatio">
+                        <Input v-model="formValidate.salRatio" placeholder="请输入比例"  style="width: 100%"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -70,20 +58,16 @@
             </Row>
       </Form>
     </div>
-    <transition name="fade">
-        <!--  员工信息的弹出框 v-show="openPickUser"绑定了一个判断员工信息弹窗是否显示隐藏的数据   @closeEmp="closeEmp" 关闭员工信息弹窗事件  @inputEmp="inputEmp" 员工信息弹出框input选中事件  -->
-        <searchEmpMaster v-show="openPickUser" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
-    </transition>
   </div>
 </template>
 <script>
-    import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../axios/axios' //调用请求接口封装的公共方法
-    import { isSuccess, deepCopy } from '../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
-    import searchEmpMaster from '../../components/searchTable/searchEmpnhMaster' //引入员工信息页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
-    import valid from '../../lib/pub_valid.js'
+    import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios' //调用请求接口封装的公共方法
+    import { isSuccess, deepCopy } from '../../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
+    import valid from '../../../lib/pub_valid.js'
   export default {
     data() {
-         const numberCheck = (rule, value, numberValCheck) => {
+        /*数字验证*/
+      const numberCheck = (rule, value, numberValCheck) => {
         if (value !== '' && value !== undefined) {
           if (valid.val_number103(value)) {
             return numberValCheck()
@@ -91,35 +75,52 @@
           return numberValCheck(new Error(rule.message))
         }
         numberValCheck()
-      }
+      };
+        const limitMoney = (rule, value, callback) => {
+            if (value === "" || !value) {
+                callback(new Error("请输入金额"));
+            } else {
+                let salCap = Number(this.formValidate.salCap);
+                let salFloor = Number(this.formValidate.salFloor);
+                if (salCap < salFloor) {
+                    callback(new Error("上限金额必须大于下限金额"));
+                }
+                callback();
+            }
+        };
       return {
-        openPickUser: false,//员工信息默认false 隐藏
         formValidate: {
-            _mt: 'rmResume.addOrUpd', //新增的数据接口
+            _mt: 'empSalRule.addOrUpd', //新增的数据接口
             funId: '1', //功能ID
             logType:this.logType, //操作类型
-            entryId: '', //项目id
-            empId: '', //员工id
-            resumeDate: '', //简历日期
-            resumeNum: '',//resumeNum
+            salCap: '',
+            salFloor: '',
+            salMinimum: '', 
+            salRatio: '',
             note: '',//备注
         },
-        entryName: '',//项目名称
-        empName:'',//员工名称
-        ruleValidate: { //表单验证规则
-            //员工
-            empId: [ 
-                { required: true, message: '请选择员工', trigger: 'change' }
-            ],
-            //简历日期
-            resumeDate: [
-                { required: true, message: '请选择日期', trigger: 'change',pattern: /.+/}
-            ],
-            //简历数量
-            resumeNum:[
+        ruleValidate: { 
+             salCap:[
                 {
                   required: true,
-                  message: "请输入简历数量",
+                  message: "请输入工资上限金额",
+                  trigger: "blur"
+                },
+                {
+                  validator: numberCheck,
+                  message: '请输入正确的数字格式',
+                  trigger: 'blur'
+                },
+                {
+                  validator: limitMoney,
+                  message: '上限金额必须大于下限金额',
+                  trigger: 'blur'
+                },
+              ],
+            salFloor:[
+                {
+                  required: true,
+                  message: "请输入工资下限金额",
                   trigger: "blur"
                 },
                 {
@@ -128,13 +129,27 @@
                   trigger: 'blur'
                 },
               ],
+             salMinimum:[
+                {
+                  required: true,
+                  message: "请输入最低应交金额",
+                  trigger: "blur"
+                },
+                {
+                  validator: numberCheck,
+                  message: '请输入正确的数字格式',
+                  trigger: 'blur'
+                },
+              ],
+            salRatio: [
+                { required: true, message: '请输入比例', trigger: 'change' }
+            ],
         },
       }
     },
     //外部调用的组件注册到这里
     components: {
-        searchEmpMaster,//员工信息弹出框组件
-        valid,
+         valid,
     },
     // 定义子组件获取父组件传入的值
     props: {
@@ -148,18 +163,16 @@
             const t = this
             //根据id获取数据请求接口
             getDataLevelUserLogin({
-                _mt: 'rmResume.getById',
+                _mt: 'empSalRule.getById',
                 id: id,
                 logType: '根据id获取数据',
             }).then((res) => {
             if (isSuccess(res, t)) {
                 //回显数据绑定
-                t.formValidate.entryId = res.data.content[0].entryId
-                t.formValidate.empId = res.data.content[0].empId
-                t.entryName = res.data.content[0].entryName
-                t.empName = res.data.content[0].empName
-                t.formValidate.resumeDate = res.data.content[0].resumeDate
-                t.formValidate.resumeNum = res.data.content[0].resumeNum
+                t.formValidate.salCap = res.data.content[0].salCap
+                t.formValidate.salFloor = res.data.content[0].salFloor
+                t.formValidate.salMinimum = res.data.content[0].salMinimum
+                t.formValidate.salRatio = res.data.content[0].salRatio
                 t.formValidate.note = res.data.content[0].note
             }
             }).catch(() => {
@@ -178,11 +191,6 @@
             data.logType = t.logType
             if (t.logType === '修改') {
                 data.id = t.id
-            }
-            if (data.resumeDate !== undefined && data.resumeDate !== '') {
-               data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')
-            } else {
-               data.resumeDate = ''
             }
             // //form表单校验事件
             this.$refs.formValidate.validate((valid) => {
@@ -229,36 +237,9 @@
             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
             this.$refs.formValidate.resetFields()
         },
-        //关闭员工信息弹出框
-        closeEmp() {
-            const t = this
-            t.openPickUser = false
-        },
-        //员工信息弹出框input选中事件
-        inputEmp(row) {
-            const t = this
-            t.empName = row.empnhName //员工信息name赋值
-            t.formValidate.empId = row.id //员工信息id赋值
-            t.entryName = row.deptIdDis;
-            t.formValidate.entryId = row.deptId;
-        },
-        //清除员工信息
-        clearUserid() {
-            const t = this
-            t.empName = ''
-            t.empId = ''
-            t.entryId = ''
-            t.entryName = ''
-        },
-        //打开员工信息弹出框
-        pickUserData() {
-            const t = this
-            t.$refs.searchEmpMaster.getData() //调用员工信息子组件获取列表数据方法 列表回显数据
-            t.openPickUser = true //打开员工信息弹出框
-        },
     },
   }
 </script>
 <style lang="scss" scoped>
-  @import "../../sass/updateAndAdd";
+  @import "../../../sass/updateAndAdd";
 </style>

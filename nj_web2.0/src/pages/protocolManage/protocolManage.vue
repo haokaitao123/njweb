@@ -4,8 +4,7 @@
       <Col span="24">
         <card>
           <p slot="title">
-            <Icon type="mouse"></Icon>
-            &nbsp;变更协议管理
+            <Icon type="mouse"></Icon>&nbsp;变更协议管理
           </p>
           <Row>
             <Col span="18" style="width: 100% !important">
@@ -123,67 +122,66 @@ import importExcel from "../../components/importModel/importParam";
 import btnList from "../../components/btnAuth/btnAuth";
 export default {
   data() {
-    
-      return {
-       tableOperate:false,
-        // 导入的mt名称
-        imp_mt: "protocolManage.importData",
-        // 导出字段设置, code字段名 name列名
-        expDataTital: [
-          { code: "empName", name: "员工名称" },
-          { code: "deptoIdName", name: "原部门名称" },
-          { code: "empoTypeDis", name: "原员工类型" },
-          { code: "contractoTypeDis", name: "原合同类别" },
-          { code: "contractoPeriodDis", name: "原合同期限" },
-          { code: "postoName", name: "原岗位名称" },
-          { code: "empnhIdno", name: "身份证号码" },
-          { code: "contractoNo", name: "原合同编号" },
-          { code: "contractoStart", name: "原合同开始日期" },
-          { code: "contractoEnd", name: "原合同结束日期" },
-          { code: "contractoTimeDis", name: "原合同工作时间" },
-          { code: "signingoTime", name: "原签订时间" },
-          { code: "deptnIdName", name: "新部门名称" },
-          { code: "postnIdName", name: "新岗位名称" },
-          { code: "empnTypeDis", name: "新员工类型" },
-          { code: "contractnTypeDis", name: "新合同类别" },
-          { code: "contractnPeriodDis", name: "新合同期限" },
-          { code: "contractnStart", name: "新合同开始日期" },
-          { code: "contractnEnd", name: "新合同结束日期" },
-          { code: "contractnTimeDis", name: "新合同工作时间" },
-          { code: "signingnTime", name: "新签订时间" },
-          { code: "note", name: "备注" }
-        ],
-        // 导入导出默认参数 无需变更
-        openImport: false,
-        openExpDow: false,
-        openExp: false,
-        filekey: "",
-        filename: "",
-        // 子页面所需参数 无需变更
-        tableheight: document.body.offsetHeight - 280,
-        logType: "",
-        openUpdate: false,
-        updateId: NaN,
-        loading: false,
-        dataTree: [],
-        //treeheight: document.body.offsetHeight - 200,
-        //tableheight: document.body.offsetHeight - 280,
-        logType: "",
-        openUpdate: false,
-        updateId: NaN,
-        tableselected: [],
-        //页面初始化默认状态
-        state: "01ok",
-        postDfpslevel: "",
-        postDfpslevelData: [], //
-        columns: [
-          {
-            type: "selection",
-            width: 54,
-            fixed: "left",
-            align: "center"
-          },
-            {
+    return {
+      tableOperate: false,
+      // 导入的mt名称
+      imp_mt: "protocolManage.importData",
+      // 导出字段设置, code字段名 name列名
+      expDataTital: [
+        { code: "empName", name: "员工名称" },
+        { code: "deptoIdName", name: "原部门名称" },
+        { code: "empoTypeDis", name: "原员工类型" },
+        { code: "contractoTypeDis", name: "原合同类别" },
+        { code: "contractoPeriodDis", name: "原合同期限" },
+        { code: "postoName", name: "原岗位名称" },
+        { code: "empnhIdno", name: "身份证号码" },
+        { code: "contractoNo", name: "原合同编号" },
+        { code: "contractoStart", name: "原合同开始日期" },
+        { code: "contractoEnd", name: "原合同结束日期" },
+        { code: "contractoTimeDis", name: "原合同工作时间" },
+        { code: "signingoTime", name: "原签订时间" },
+        { code: "deptnIdName", name: "新部门名称" },
+        { code: "postnIdName", name: "新岗位名称" },
+        { code: "empnTypeDis", name: "新员工类型" },
+        { code: "contractnTypeDis", name: "新合同类别" },
+        { code: "contractnPeriodDis", name: "新合同期限" },
+        { code: "contractnStart", name: "新合同开始日期" },
+        { code: "contractnEnd", name: "新合同结束日期" },
+        { code: "contractnTimeDis", name: "新合同工作时间" },
+        { code: "signingnTime", name: "新签订时间" },
+        { code: "note", name: "备注" }
+      ],
+      // 导入导出默认参数 无需变更
+      openImport: false,
+      openExpDow: false,
+      openExp: false,
+      filekey: "",
+      filename: "",
+      // 子页面所需参数 无需变更
+      tableheight: document.body.offsetHeight - 280,
+      logType: "",
+      openUpdate: false,
+      updateId: NaN,
+      loading: false,
+      dataTree: [],
+      //treeheight: document.body.offsetHeight - 200,
+      //tableheight: document.body.offsetHeight - 280,
+      logType: "",
+      openUpdate: false,
+      updateId: NaN,
+      tableselected: [],
+      //页面初始化默认状态
+      state: "01ok",
+      postDfpslevel: "",
+      postDfpslevelData: [], //
+      columns: [
+        {
+          type: "selection",
+          width: 54,
+          fixed: "left",
+          align: "center"
+        },
+        {
           title: "员工名称",
           key: "empName",
           sortable: "custom",
@@ -192,7 +190,7 @@ export default {
         {
           title: "原部门名称",
           key: "deptoIdName",
-       //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
+          //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
@@ -290,72 +288,70 @@ export default {
           key: "contractnTimeDis",
           width: 220
         },
-         {
+        {
           title: "新签订时间",
           key: "signingnTime",
           sortable: "custom",
           width: 220
-        },
-        ],
-        tableBtn: {
-          title: "操作",
-          key: "action",
-          width: 100,
-          fixed: "right",
-          align: "center",
-          render: (h, params) => {
-            let child = [];
-            for (let v of this.tableButton) {
-              child.push(
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: v.type,
-                      size: "small"
-                    },
-                    style: {
-                      marginRight: "5px",
-                      display:
-                        this.pageShow.indexOf(v.btnName) != -1
-                          ? "inline"
-                          : "none"
-                    },
-                    on: {
-                      click: () => {
-                        this.openUp(params.row.id, v.name, params.index);
-                      }
-                    }
+        }
+      ],
+      tableBtn: {
+        title: "操作",
+        key: "action",
+        width: 100,
+        fixed: "right",
+        align: "center",
+        render: (h, params) => {
+          let child = [];
+          for (let v of this.tableButton) {
+            child.push(
+              h(
+                "Button",
+                {
+                  props: {
+                    type: v.type,
+                    size: "small"
                   },
-                  v.name
-                )
-              );
-            }
-            return h("div", [child]);
+                  style: {
+                    marginRight: "5px",
+                    display:
+                      this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
+                  },
+                  on: {
+                    click: () => {
+                      this.openUp(params.row.id, v.name, params.index);
+                    }
+                  }
+                },
+                v.name
+              )
+            );
           }
-        },
-        data: [],
-        total: 0,
-        index: 0,
+          return h("div", [child]);
+        }
+      },
+      data: [],
+      total: 0,
+      index: 0,
+      sort: "id",
+      order: "desc",
+      rows: 10,
+      page: 1,
+      funId: "1000",
+      postFname: "",
+      params: {
+        _mt: "protocolManage.getPage",
         sort: "id",
-        order: "desc",
+        order: "asc",
         rows: 10,
         page: 1,
-        funId: "1000",
-        postFname: "",
-        params: {
-          _mt: "protocolManage.getPage",
-          sort: "id",
-          order: "asc",
-          rows: 10,
-          page: 1,
-          funId: "1",
-          logType: "变更协议信息查询",
-          data: "{}"
-        },
-        state: this.modity,
-        loading: "",
-        empName:""
+        funId: "1",
+        logType: "变更协议信息查询",
+        data: "{}"
+      },
+      state: this.modity,
+      loading: "",
+      empName: ""
     };
   },
   computed: {
@@ -392,17 +388,17 @@ export default {
   created() {
     if (this.pageShow != "") {
       this.columns.push(this.tableBtn);
-      this.$store.commit("btnOperate/setTableOperate", "true");
+      this.tableOperate = true;
     }
   },
-  watch: {
+  Watch: {
     pageShow(val) {
-      if (val == "" && this.tableOperate == "true") {
+      if (val === "" && this.tableOperate === true) {
         this.columns.pop();
-        this.$store.commit("btnOperate/setTableOperate", "false");
-      } else if (this.tableOperate == "false") {
+        this.tableOperate = false;
+      } else if (this.tableOperate === false) {
         this.columns.push(this.tableBtn);
-        this.$store.commit("btnOperate/setTableOperate", "true");
+        this.tableOperate = true;
       }
     }
   },
@@ -430,7 +426,7 @@ export default {
         logType: "变更协议查询",
         funId: "1000",
         empName: t.empName,
-        state: t.modity,
+        state: t.modity
       };
       for (const dat in data) {
         if (data[dat] === "") {
@@ -490,7 +486,7 @@ export default {
         //   title: this.$t("reminder.remind"),
         //   content: this.$t("reminder.leastone")
         // });
-        this.$Message.warning('请至少选择一条数据');
+        this.$Message.warning("请至少选择一条数据");
       } else {
         t.$Modal.confirm({
           title: this.$t("reminder.remind"),
@@ -515,7 +511,7 @@ export default {
                 //   title: this.$t("reminder.err"),
                 //   content: this.$t("reminder.errormessage")
                 // });
-                this.$Message.error(this.$t("reminder.errormessage"))
+                this.$Message.error(this.$t("reminder.errormessage"));
               });
           },
           onCancel: () => {}
@@ -547,7 +543,7 @@ export default {
       t.$refs.update.formValidate.contractoNo = "";
       t.$refs.update.formValidate.contractoStart = "";
       t.$refs.update.formValidate.contractoEnd = "";
-      t.$refs.update.deptnIdName= "";
+      t.$refs.update.deptnIdName = "";
       t.$refs.update.postnIdName = "";
       t.$refs.update.formValidate.contractnStart = "";
       t.$refs.update.formValidate.contractnEnd = "";
@@ -581,7 +577,7 @@ export default {
         //   title: this.$t("reminder.remind"),
         //   content: this.$t("reminder.leastone")
         // });
-        this.$Message.warning('请至少选择一条数据');
+        this.$Message.warning("请至少选择一条数据");
         return;
       }
       t.$Modal.confirm({
@@ -629,7 +625,11 @@ export default {
         state: t.modity
       };
       // 设置导出mt参数
-      this.$refs.expwindow.getData(this.expDataTital, "protocolManage.export", data);
+      this.$refs.expwindow.getData(
+        this.expDataTital,
+        "protocolManage.export",
+        data
+      );
       this.openExp = true;
     },
     // 导入导出默认方法 无需更改
@@ -659,7 +659,7 @@ export default {
     updateArray(res) {
       const t = this;
       t.data.splice(t.index, 1, res);
-    },
+    }
   }
 };
 </script>

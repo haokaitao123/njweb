@@ -5,20 +5,12 @@
         <card>
           <!-- 标题 -->
           <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;押金信息管理
+            <Icon type="mouse"></Icon>&nbsp;工资填充规则
           </p>
           <!-- 操作按钮和查询输入框 -->
             <!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
 					<Row>
-							<Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
-              <span @dblclick="clearPost()">
-                    <Input v-model="postName"
-                      style="width: 200px"
-                      icon="search"
-                      :readonly="true"
-                      placeholder="请选择岗位名称"
-                      @on-click="pickData" />
-              </span>
+							<Input v-model="salCap" placeholder="请输入工资上限金额" style="width: 200px"></Input>
             <!-- 查询按钮 @click后绑定的是一个点击事件 -->
             <btnList
               @buttonExport="expData"
@@ -116,46 +108,34 @@
         ref="importExcel"
       ></importExcel>
     </transition>
-		<transition name="fade">
-      <searchTable v-show="openPick"
-        :searchPostClo="searchCloumns"
-        :params="params"
-         @inputPost="inputPost"
-         @closePost="closeTable"
-         @changeinput="changeinput"
-         ref="searchTable"></searchTable>
-    </transition>
   </div>
 </template>
 <script>
-import update from "./depoManageBase"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
+import update from "./addSalaryRule"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
 import { isSuccess } from "../../../lib/util.js"; //调用请求判断成功的公共方法
-import btnList from "../../../components/btnAuth/btnAuth";
 import {
   getDataLevelUserLoginNew,
   getDataLevelUserLogin
 } from "../../../axios/axios.js"; //调用请求接口封装的公共方法
-
-import searchTable from '../../../components/searchTable/searchPost'
 //导入导出页面 无需变更
   import expwindow from '../../../components/fileOperations/expSms'
   import expdow from '../../../components/fileOperations/expdow'
   import importExcel from '../../../components/importModel/importParam'
+  import btnList from "../../../components/btnAuth/btnAuth";
 export default {
   //页面初始化的所有变量值
   data() {
     return {
-      tableOperate:false,
       loading: "",
+      tableOperate:false,
 			// 导入的mt名称
-        imp_mt: 'depManage.importData',
+        imp_mt: 'empSalRule.importData',
         // 导出字段设置, code字段名 name列名
        expDataTital: [
-        { code: "deptIdName", name: "部门名称" },
-        { code: "empName", name: "员工名称" },
-        { code: "postName", name: "岗位名称" },
-        { code: "empnhIdno", name: "证件号码" },
-        { code: "moneyNum", name: "总金额" },
+        { code: "salCap", name: "工资上限金额" },
+        { code: "salFloor", name: "工资下限金额" },
+        { code: "salMinimum", name: "最低应交金额" },
+        { code: "salRatio", name: "比例" },
         { code: "note", name: "备注" }
 			],
         // 导入导出默认参数 无需变更
@@ -164,8 +144,6 @@ export default {
         openExp: false,
         filekey: '',
 				filename: '',
-
-      empName: "",
       tableheight: document.body.offsetHeight - 280, //table高度
       logType: "", //操作类型
       openUpdate: false, //新增修改弹出框默认false 隐藏
@@ -179,37 +157,30 @@ export default {
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
         },
         {
-          title: "员工名称",
-          key: "empName",
+          title: "工资上限金额",
+          key: "salCap",
           sortable: "custom",
           width: 220
         },
         {
-          title: "部门名称",
-          key: "deptIdName",
+          title: "工资下限金额",
+          key: "salFloor",
           sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
-          title: "岗位名称",
-          key: "postName",
+          title: "最低应交金额",
+          key: "salMinimum",
           sortable: "custom",
           width: 220
         },
         {
-          title: "证件号码",
-          key: "empnhIdno",
-          sortable: "custom",
-          width: 220
-        },
-        {
-          title: "总金额",
-          key: "moneyNum",
-          sortable: "custom",
+          title: "比例",
+          key: "salRatio",
           width: 220
         },
       ],
-        tableBtn: {
+      tableBtn: {
         title: "操作",
         key: "action",
         width: 100,
@@ -252,47 +223,24 @@ export default {
       rows: 10, //每页显示条数
       page: 1, //当前页码
       funId: "1000", //功能ID
-      empName: "", //绑定页面输入框的员工名称
-      postName: "", //绑定页面岗位选择的名称
-      openPick: false,
-      searchCloumns: [
-                {
-                  title: this.$t('lang_employee.searchColumn.postCode'),
-                  key: 'postCode',
-                  sortable: 'custom',
-                },
-                {
-                    title: this.$t('lang_employee.searchColumn.postFnameCnDis'),
-                    key: 'postFname',
-                    sortable: 'custom',
-                }
-            ],
-            params: {
-                _mt: 'orgPost.getPage',
-                rows: '10',
-                page: '1',
-                sort: 'id',
-                order: 'desc',
-                logType: '岗位',
-            },
-     };
+      salCap: "", //绑定页面输入框的工资上限金额
+    };
   },
   //外部调用的组件注册到这里
   components: {
     // expdow,//导出的组件
     update, //新增修改的组件
 		//importExcel //导入的组件
-    expwindow,
-     btnList,
-      expdow,
-      searchTable,
-      importExcel
+		expwindow,
+    expdow,
+    importExcel,
+    btnList,
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
     this.getData(1);
   },
-   computed: {
+  computed: {
     pageShow() {
       return this.$store.state.btnOperate.pageShow;
     },
@@ -320,7 +268,7 @@ export default {
       }
     }
   },
-   created() {
+  created() {
     if (this.pageShow !== "") {
       this.columns.push(this.tableBtn);
       this.tableOperate = true;
@@ -331,20 +279,20 @@ export default {
     //获取当前列表数据
     getData(page) {
       const t = this;
+      this.page = "1"
       if (page) {
         t.page = page;
       }
       t.loading = true; //请求之前重置状态
       //请求列表数据的参数
       const data = {
-        _mt: "depManage.getPage", //接口路径
+        _mt: "empSalRule.getPage", //接口路径
         rows: t.rows, //每页显示条数
         page: t.page, //当前页
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
-				empName: t.empName, //员工名称
-        postId: t.postId, //岗位名称
+				salCap: t.salCap, //工资上限金额
 			};
       //删除请求列表数据的参数为空的参数
       for (const dat in data) {
@@ -358,7 +306,7 @@ export default {
           if (isSuccess(res, t)) {
             t.data = res.data.content[0].rows; //列表数据
             t.total = res.data.content[0].records; //列表总页数
-             t.loading = false; //在成功之后改状态
+            t.loading = false; //在成功之后改状态
           }
         })
         .catch(() => {
@@ -370,7 +318,7 @@ export default {
           });
         });
     },
-
+   
 
     // 导入导出默认方法 无需更改
       closeImport() {
@@ -393,7 +341,7 @@ export default {
           bankSwiftcode: t.bankSwiftcode,
         }
         // 设置导出mt参数
-        this.$refs.expwindow.getData(this.expDataTital, 'depManage.export', data)
+        this.$refs.expwindow.getData(this.expDataTital, 'empSalRule.export', data)
         this.openExp = true
       },
       // 导入导出默认方法 无需更改
@@ -471,7 +419,7 @@ export default {
           onOk: () => {
             //点击确定删除调取删除接口
             getDataLevelUserLogin({
-              _mt: "depManage.delByIds",
+              _mt: "empSalRule.delByIds",
               funId: "1",
               logType: "删除",
               ids: t.tableselected.toString()
@@ -502,54 +450,29 @@ export default {
       //  新增 修改 变量
       t.updateId = parseInt(id, 10);
       t.logType = logType;
-      t.openUpdate = true; //弹窗显示改为 true
       t.index = index;
-      t.$refs.update.disabled = false;
-      if (logType !='新增') {
+      t.openUpdate = true; //弹窗显示改为 true
+      if (logType === "修改") {
         //如果操作类型是修改，弹窗回显数据
-        t.$refs.update.getOption(id, logType)
+        t.$refs.update.getData(id); //调用子组件update里的getData方法 传了一个id值
       }
     },
     //关闭新增修改弹窗
     closeUp() {
       const t = this;
-      t.$refs.update.baseclear();
       t.openUpdate = false;
+      t.$refs.update.formValidate.salCap = "";
+      t.$refs.update.formValidate.salFloor = "";
+      t.$refs.update.formValidate.salMinimum = "";
+      t.$refs.update.formValidate.salRatio = "";
+      t.$refs.update.formValidate.note = "";
     }, //关闭窗口
-     //清除岗位选择框数据
-        clearPost () {
-            const t = this;
-            t.postName = ""
-            t.postId = ""
-        },
-        //打开岗位选择弹出框
-        pickData () {
-            const t = this
-            t.$refs.searchTable.getData(t.params)
-            t.openPick = true
-        },
-         //查询
-        search(){
-            this.page = 1;
-            this.getData(1);
-        },
-        //
-        inputPost (name, id, postName, postId) {
-            const t = this
-            t.postId = id
-            t.postName = name
-        },
-        //关闭岗位弹出框
-        closeTable () {
-            const t = this
-            t.openPick = false
-        },
-        //选择岗位
-        changeinput (name, id) {
-            const t = this
-            t.postName = name
-            t.postId = id
-        },
+
+     //查询
+    search() {
+      this.page = 1;
+      this.getData(1);
+    },
   }
 };
 </script>
