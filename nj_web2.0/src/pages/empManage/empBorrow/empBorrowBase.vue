@@ -84,7 +84,7 @@
         //   this.$Message.warning('请先保存主表数据');
         //   return;
         // }
-        console.log(this.updateId，)
+
         this.option = false
         this.content = false
         this.active = name
