@@ -247,6 +247,7 @@ export default {
         t.formValidate.postId = row.postId;
       },
       handleReset () {
+          const t = this;
           this.$refs.formValidate.resetFields()
           t.formValidate.handleDate="";
           t.formValidate.monTotal="";
