@@ -183,10 +183,7 @@ export default {
                 }
             }).catch(() => {
                 t.loadingStatus = false
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
         importData (filekey) {
@@ -205,11 +202,7 @@ export default {
                     t.imp = window.setInterval(t.getImportState, 1000)
                 }
             }).catch(() => {
-
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
         getImportState () {
@@ -239,10 +232,11 @@ export default {
                             t.$emit('getData');
                             console.log(res.data.content[0].imp_status, "3")
                             t.imp_status = res.data.content[0].imp_status
-                            t.$Modal.success({
-                                title: this.$t('reminder.suc'),
-                                content: this.$t('lang_fileOperation.import.uploadSuc'),
-                            })
+                            // t.$Modal.success({
+                            //     title: this.$t('reminder.suc'),
+                            //     content: this.$t('lang_fileOperation.import.uploadSuc'),
+                            // })
+                            t.$Message.success(this.$t("lang_fileOperation.import.uploadSuc"));
                         } else {
                             t.imp_status = 99
                             t.activeState = 'wrong'
@@ -254,10 +248,7 @@ export default {
                 }
             }).catch(() => {
                 clearInterval(t.imp)
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
         getDowModelFile () {
@@ -273,10 +264,7 @@ export default {
                     this.getPriToken(res.data.content[0].fileKey)
                 }
             }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
         dowFile () {
@@ -309,10 +297,7 @@ export default {
                     t.priToken = res.data.content[0].value
                 }
             }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
     },
