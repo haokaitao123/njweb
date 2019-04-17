@@ -218,10 +218,7 @@ export default {
                             }
                 }
                     }).catch(() => {
-                        this.$Modal.error({
-                            title: this.$t('reminder.err'),
-                            content: this.$t('reminder.errormessage'),
-                        })
+                        this.$Message.error(this.$t("reminder.errormessage"));
                     })
                 }
             })
