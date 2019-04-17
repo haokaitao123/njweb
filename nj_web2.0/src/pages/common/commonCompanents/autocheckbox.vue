@@ -22,7 +22,7 @@
 export default {
     data () {
         return {
-            thisValue: this.value === "0" ? false : true,
+            thisValue: this.value === "1" ? true : false,
             isshow: this.ruleText in this.show,
             thisDis: this.disabled ? this.disabled : !this.dis[this.ruleText],
         }
@@ -56,10 +56,12 @@ export default {
         //     }
         // }
     },
+    created () {
+        console.log(this.value, "value")
+    },
     methods: {
         change (value) {
             this.$emit('on-change', value);
-            console.log(value, "value1231")
         },
         change111 () {
             let t = this
@@ -68,7 +70,7 @@ export default {
     },
     watch: {
         value: function (val) {
-            this.thisValue = val === "0" ? false : true
+            this.thisValue = val === "1" ? true : false
         },
         thisValue (val) {
             this.change111()
