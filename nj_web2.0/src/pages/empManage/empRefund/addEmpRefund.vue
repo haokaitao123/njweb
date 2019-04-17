@@ -136,7 +136,7 @@ export default {
           { required: true, message: "请选择员工姓名", trigger: "change" }
         ],
          refuBgdate: [
-          { required: true, message: "请选择退款开始日期", trigger: "blur" }
+          { required: true,type: "date", message: "请选择退款开始日期", trigger: "blur" }
         ],
         totalSum: [
           {
