@@ -231,8 +231,6 @@ export default {
         },
         doAnsrpt (item) {
             const t = this;
-            console.log(item, "123");
-            debugger;
             if (item.todo_title) {
                 const itemData = JSON.parse(item.todo_data)
                 const data = {

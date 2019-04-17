@@ -335,7 +335,6 @@ export default {
         //    this.showBtn()
         //我的审批是否定位
         this.fixedApprovIdea();
-        console.log(this.aprvCode, "aprvCode")
     },
     components: {
         commonSingleForm,
@@ -467,7 +466,6 @@ export default {
             }
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    console.log(res, '11111111111111111111111111111111')
                     t.dataBlocksFake = res.data.content[0].dataBlocks
                     t.blockStepId = res.data.content[0].stepId
                     t.flowName = res.data.content[0].stepName
@@ -910,7 +908,7 @@ export default {
             this.openTestUpd = false
         },
         fixedApprovIdea () {
-            if (this.aprvCode === "1011") {
+            if (this.aprvCode === "1010") {
                 this.fixed = true;
             } else {
                 this.fixed = false
