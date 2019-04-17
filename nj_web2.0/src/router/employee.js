@@ -29,6 +29,8 @@ const recruitResumeManage = resolve => require(['@/pages/empManage/RecruitResume
 
 const salaryRule = resolve => require(['@/pages/empManage/salaryRule/salaryRule'], resolve)
 
+const depCeilRule = resolve => require(['@/pages/empManage/depCeilRule/depCeilRule'], resolve)
+
 export default [{
     path: 'goaborddetail',
     name: 'goaborddetail',
@@ -108,5 +110,10 @@ export default [{
     path: 'empRefund',
     name: 'empRefund',
     component: empRefund,
+  },
+  {
+    path: 'depCeilRule',
+    name: 'depCeilRule',
+    component: depCeilRule,
   },
 ]
