@@ -68,7 +68,7 @@
     <!--切换-->
    <transition name="fade">
       <update v-show="openUpdate"
-              :id="updateId"
+              :updateId="updateId"
               :logType="logType"
               :index="index"
               @closeUp="closeUp"

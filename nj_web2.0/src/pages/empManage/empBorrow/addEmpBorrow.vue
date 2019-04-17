@@ -93,6 +93,7 @@ export default {
         return {
           file: '',
           filekey: '',
+          updateId:this.id,
           loadingStatus: false,
             type: '',
             distype: false,
@@ -128,7 +129,7 @@ export default {
         }
     },
     props: {
-        id: Number,
+      id: Number,
         logType: String,
         index: Number,
     },
@@ -157,6 +158,8 @@ export default {
       },
         getData (id) {
             const t = this
+          alert(this.id+"---select")
+          alert(this.updateId+"--select--")
             getDataLevelUserLogin({
                 _mt: 'empBorrow.getById',
                 id: id,
@@ -192,7 +195,6 @@ export default {
         },
         handleSubmit () {
             const t = this
-debugger
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
             data._mt = 'empBorrow.addOrUpd'
@@ -201,6 +203,7 @@ debugger
               alert("修改保存id==")
               t.logType = '修改'
             }
+            alert(t.id)
             if (t.logType === '修改') {
                 data.id = t.id
             }
@@ -212,7 +215,7 @@ debugger
                             if (t.logType === '新增') {
                                 t.$Message.success('新增成功');
                                // t.$refs.formValidate.resetFields()
-                                alert(res.data.content[0].id)
+                                alert(res.data.content[0].id+"--新增成功")
                                 t.id = res.data.content[0].id
                                 t.$emit('newdata', res.data.content[0])
                             } else {
@@ -263,6 +266,8 @@ debugger
         debugger
         const t = this
         this.$refs.formValidate.resetFields()
+        t.updateId=NaN
+        t.formValidate = {}
         t.openUpdate = false
         t.forbidden = false
       },
