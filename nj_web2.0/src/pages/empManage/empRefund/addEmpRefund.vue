@@ -127,6 +127,7 @@ export default {
         postIdDis: "",
         refuBgdate: "",
         totalSum: "",
+        state:"",
         note: ""
       },
       openEmpMaster: false,
@@ -200,6 +201,7 @@ export default {
             t.formValidate.postIdDis = res.data.content[0].postIdDis;
             t.formValidate.refuBgdate = res.data.content[0].refuBgdate;
             t.formValidate.totalSum = res.data.content[0].totalSum;
+            t.formValidate.state = res.data.content[0].state;
             t.formValidate.note = res.data.content[0].note;
             if (t.logType === "查看") {
               t.forbidden = true;
@@ -237,9 +239,10 @@ export default {
           getDataLevelUserLoginSenior(data)
             .then(res => {
               if (isSuccess(res, t)) {
+                  // t.handleReset();
                 if (t.logType === "新增") {
                   t.$Message.success("新增成功");
-                   t.$refs.formValidate.resetFields()
+                  // t.$refs.formValidate.resetFields()
                   t.id = res.data.content[0].id;
                   t.$emit("newdata", res.data.content[0]);
                 } else {
@@ -278,7 +281,19 @@ export default {
       t.formValidate.postId = row.postId;
     },
     handleReset() {
+      const t = this;
       this.$refs.formValidate.resetFields();
+      t.formValidate.empIdName = "";
+      t.formValidate.empIdIden = "";
+      t.formValidate.empId = "";
+      t.formValidate.deptIdDis = "";
+      t.formValidate.deptId = "";
+      t.formValidate.postIdDis = "";
+      t.formValidate.postId = "";
+      t.formValidate.refuBgdate = "";
+      t.formValidate.totalSum = "";
+      t.formValidate.state = "";
+      t.formValidate.note = "";
       this.$emit("closeUp");
     },
     handleUpload(file) {
