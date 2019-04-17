@@ -207,10 +207,10 @@ export default {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
-                            t.$emit('closeUp')
+                             t.handleReset();
                             if (t.logType === '新增') {
                                 t.$Message.success('新增成功');
-                                t.$refs.formValidate.resetFields()
+                                //t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
                                 t.$Message.success('修改成功');
@@ -248,6 +248,10 @@ export default {
       },
       handleReset () {
           this.$refs.formValidate.resetFields()
+          t.formValidate.handleDate="";
+          t.formValidate.monTotal="";
+          t.formValidate.note="";
+          
           this.$emit('closeUp')
       },
       handleUpload(file) {

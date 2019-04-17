@@ -237,9 +237,10 @@ export default {
           getDataLevelUserLoginSenior(data)
             .then(res => {
               if (isSuccess(res, t)) {
+                   t.handleReset();
                 if (t.logType === "新增") {
                   t.$Message.success("新增成功");
-                   t.$refs.formValidate.resetFields()
+                  // t.$refs.formValidate.resetFields()
                   t.id = res.data.content[0].id;
                   t.$emit("newdata", res.data.content[0]);
                 } else {
@@ -278,7 +279,18 @@ export default {
       t.formValidate.postId = row.postId;
     },
     handleReset() {
+      const t = this;
       this.$refs.formValidate.resetFields();
+      t.formValidate.empIdName = "";
+      t.formValidate.empIdIden = "";
+      t.formValidate.empId = "";
+      t.formValidate.deptIdDis = "";
+      t.formValidate.deptId = "";
+      t.formValidate.postIdDis = "";
+      t.formValidate.postId = "";
+      t.formValidate.refuBgdate = "";
+      t.formValidate.totalSum = "";
+      t.formValidate.note = "";
       this.$emit("closeUp");
     },
     handleUpload(file) {
