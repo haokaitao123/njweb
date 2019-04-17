@@ -256,6 +256,9 @@ export default {
         case "已入职":
           name = 'buttonEmp2'
           break
+        case "退款":
+          name = 'buttonRefund'
+          break
       }
       return name;
     },
@@ -334,6 +337,10 @@ export default {
           break
         case "button_emp":
           btnName = '入职';
+          bType = 'success';
+          break
+        case "button_refund":
+          btnName = '退款';
           bType = 'success';
           break
       }

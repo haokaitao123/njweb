@@ -592,11 +592,12 @@ export default {
                     getDataLevelUserLoginSenior(data)
                         .then(res => {
                             if (isSuccess(res, t)) {
-                                t.$emit("closeUp");
+                                t.handleReset();
+                                //t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
 
                                     this.$Message.success(this.$t("reminder.addsuccess"));
-                                    t.$refs.form.resetFields();
+                                    //t.$refs.form.resetFields();
                                     t.$emit("getData", res.data.content[0]);
                                 } else {
 

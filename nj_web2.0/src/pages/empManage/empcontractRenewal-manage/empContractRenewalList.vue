@@ -147,6 +147,7 @@ export default {
       expDataTital: [
         { code: "numberCode", name: "合同编号" },
         { code: "empName", name: "员工姓名" },
+        { code: "empIdno", name: "员工身份证号" },
         { code: "deptIdDis", name: "部门名称" },
         { code: "postIdDis", name: "岗位名称" },
         { code: "contrStrdate", name: "原合同开始日" },
@@ -181,7 +182,7 @@ export default {
         {
           title: "合同编号",
           key: "numberCode",
-          width: 100,
+          width: 120,
 
           sortable: "custom"
         },
@@ -189,6 +190,11 @@ export default {
           title: "员工姓名",
           key: "empName",
           width: 100
+        },
+        {
+          title: "员工身份证号",
+          key: "empIdno",
+          width: 160
         },
         {
           title: "部门名称",
@@ -303,6 +309,7 @@ export default {
       page: 1,
       funId: "1000",
       empName: "",
+      empIdno:"",
       deptId: "",
       deptIdDis: "",
       openDeptPick: false,
@@ -318,7 +325,7 @@ export default {
           key: "unitFname"
         }
       ],
-      Params: {
+      ParamsParams: {
         _mt: "orgUnits.getByOrgFramePageList",
         rows: 10,
         page: 1,
@@ -435,10 +442,7 @@ export default {
           }
         })
         .catch(() => {
-          t.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
+          this.$Message.error(this.$t(lang.reminder.errormessage))
         })
         .finally(() => {
           this.loading = false;
