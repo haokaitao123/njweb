@@ -1,16 +1,14 @@
 ﻿<template>
   <div class="content-main">
           <Row>
-            <Button type="primary" @click="openUp(NaN,'新增')">新增</Button>
-            <Button type="error" @click="deletemsg">删除</Button>
-            <Button type="primary" @click="importExcel">导入</Button>
+            <!-- <Button type="primary" @click="openUp(NaN,'新增')">新增</Button>
+            <Button type="error" @click="deletemsg">删除</Button> -->
+            <!-- <Button type="primary" @click="importExcel">导入</Button> -->
             <Button type="primary" @click="expData">导出</Button>
 					</Row>
          <row class="table-form" ref="table-form">
             <Table
-              @on-select="selectedtable"
-              @on-select-cancel="selectedtable"
-              @on-select-all="selectedtable"
+              @on-selection-change="selectedtable"
               @on-sort-change="sortable"
               :current="page"
               :height="410"
@@ -48,6 +46,7 @@
       <update
         v-show="openUpdate"
         :id="updateId"
+        :mainId="mainId"
         :logType="logType"
         :index="index"
         @closeUp="closeUp"
@@ -106,15 +105,15 @@ export default {
   //页面初始化的所有变量值
   data() {
     return {
+      tableOperate:false,  //加上这个变量
 			// 导入的mt名称
-        imp_mt: 'depManage.importData',
+        imp_mt: 'depoManageDetail.importData',
         // 导出字段设置, code字段名 name列名
        expDataTital: [
-        { code: "deptIdName", name: "部门名称" },
-        { code: "empName", name: "员工名称" },
-        { code: "postName", name: "岗位名称" },
-        { code: "empnhIdno", name: "证件号码" },
-        { code: "moneyNum", name: "总金额" },
+        { code: "depoType", name: "押金类型" },
+        { code: "depoHandle", name: "操作时间" },
+        { code: "depoReason", name: "变动原因" },
+        { code: "moneyNum", name: "金额" },
         { code: "note", name: "备注" }
 			],
         // 导入导出默认参数 无需变更
@@ -139,8 +138,7 @@ export default {
         },
         {
           title: "类型",
-          key: "depoType",
-          sortable: "custom",
+          key: "depoTypeDis",
           width: 220
         },
         {
@@ -152,7 +150,6 @@ export default {
         {
           title: "变动原因",
           key: "depoReason",
-          sortable: "custom",
           width: 220
         },
         {
@@ -162,34 +159,44 @@ export default {
           width: 220
         },
         //列表操作按钮列
-        {
+      ],
+       tableBtn: {
           title: "操作",
           key: "action",
-          width: 64,
+          width: 100,
           fixed: "right",
           align: "center",
           render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      //操作列点击事件
-                      this.openUp(params.row.id, "修改", params.index); //打开修改弹窗
+            let child = [];
+            for (let v of this.tableButton) {
+              child.push(
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: v.type,
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px",
+                      display:
+                        this.pageShow.indexOf(v.btnName) !== -1
+                          ? "inline"
+                          : "none"
+                    },
+                    on: {
+                      click: () => {
+                        this.openUp(params.row.id, v.name, params.index);
+                      }
                     }
-                  }
-                },
-                "修改"
-              )
-            ]);
+                  },
+                  v.name
+                )
+              );
+            }
+            return h("div", [child]);
           }
-        }
-      ],
+        },
       data: [], //table初始化数据
       total: 0, //table总页数
       index: 0, //表格数据中的选中的index
@@ -198,10 +205,28 @@ export default {
       rows: 10, //每页显示条数
       page: 1, //当前页码
       funId: "1000", //功能ID
-      // empName: "", //绑定页面输入框的员工名称
-      // postName: "" //绑定页面岗位选择的名称
     };
   },
+  computed:{
+      pageShow () {
+        return this.$store.state.btnOperate.pageShow
+      },
+      tableButton () {
+        return this.$store.state.btnOperate.tableButton
+      },
+      /* modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+         return this.$store.state.btnOperate.modity
+       },*/
+      btnData() {
+        return this.$store.state.btnOperate.btnData
+      },
+      FlowNode() {
+        return this.$store.state.btnOperate.isFlowNode
+      },
+    },
+    props: {
+      mainId:null,
+    },
   //外部调用的组件注册到这里
   components: {
     // expdow,//导出的组件
@@ -211,6 +236,23 @@ export default {
       expdow,
       importExcel,
   },
+  created () {
+      if (this.pageShow !== "") {
+        this.columns.push(this.tableBtn);
+        this.tableOperate = true
+      }
+  },
+  watch:{
+      pageShow (val) {
+        if (val ==="" && this.tableOperate === true) {
+          this.columns.pop();
+          this.tableOperate = false;
+        } else if (this.tableOperate === false) {
+          this.columns.push(this.tableBtn);
+          this.tableOperate = true;
+        }
+      }
+    },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
     this.getData(1);
@@ -231,8 +273,7 @@ export default {
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
-				// empName: t.empName, //员工名称
-        // postName: t.postName //岗位名称
+        dempId:t.mainId,
 			};
       //删除请求列表数据的参数为空的参数
       for (const dat in data) {
@@ -274,12 +315,10 @@ export default {
         const t = this
         // 填装查询条件
         const data = {
-          bankCode: t.bankCode,
-          bankCname: t.bankCname,
-          bankSwiftcode: t.bankSwiftcode,
+          dempId:t.mainId,
         }
         // 设置导出mt参数
-        this.$refs.expwindow.getData(this.expDataTital, 'depManage.export', data)
+        this.$refs.expwindow.getData(this.expDataTital, 'depoManageDetail.export', data)
         this.openExp = true
       },
       // 导入导出默认方法 无需更改
@@ -387,9 +426,10 @@ export default {
       t.logType = logType;
       t.index = index;
       t.openUpdate = true; //弹窗显示改为 true
-      if (logType === "修改") {
+      if (logType === "查看") {
         //如果操作类型是修改，弹窗回显数据
         t.$refs.update.getData(id); //调用子组件update里的getData方法 传了一个id值
+        t.$refs.update.disabled = true;
       }
     },
     //关闭新增修改弹窗

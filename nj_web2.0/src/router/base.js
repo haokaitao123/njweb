@@ -52,6 +52,9 @@ import smsrecordManage from '@/pages/baseManage/smsrecord-manage/smsrecordManage
 //邮件日志
 import emaillogManage from '@/pages/baseManage/emaillog-manage/emaillogManage'
 
+//指定流程审批人
+import procUserPost from '@/pages/baseManage/baseProceuser/procUserPost'
+
 //消息提醒日志
 import cmutRemind from '@/pages/baseManage/cmutRemind/cmutRemind'
 
@@ -159,5 +162,10 @@ export default [
     path: 'baseHousinglease',
     name: 'baseHousinglease',
     component: baseHousinglease,
+  },
+  {
+    path: 'procUserPost',
+    name: 'procUserPost',
+    component: procUserPost,
   },
 ]
