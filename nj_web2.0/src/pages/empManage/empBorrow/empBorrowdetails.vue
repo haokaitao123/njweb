@@ -1,7 +1,7 @@
 <template>
     <div class="content-main">
         <Row>
-            <Select v-model="reeducLevel"
+            <Select v-model="bodeType"
                     style="width: 160px;"
                     placeholder="类型"
                     clearable>
@@ -208,7 +208,7 @@ export default {
             rows: 10,
             page: 1,
             loading: "",
-            reeducLevel: '',
+            bodeType: '',
             selectbodeType: [],
         };
     },
@@ -251,6 +251,7 @@ export default {
                 sort: t.sort,
                 order: t.order,
                 logType: "借支明细查询",
+                bodeType:t.bodeType,
                 bodePid: t.mainId,
             };
             getDataLevelUserLoginNew(data)
@@ -309,7 +310,8 @@ export default {
                         getDataLevelUserLogin({
                             _mt: "empBorrowdetails.delByIds",
                             logType: this.$t("button.del"),
-                            ids: t.tableselected.toString()
+                            ids: t.tableselected.toString(),
+                            pid:t.mainId
                         })
                             .then(res => {
                                 if (isSuccess(res, t)) {
@@ -339,7 +341,7 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                reeducLevel: t.reeducLevel,
+                bodeType: t.bodeType,
                 bodePid: t.mainId,
             };
             // 设置导出mt参数
@@ -406,7 +408,7 @@ export default {
         },
         clear () {
             const t = this;
-            t.reeducLevel = ''
+            t.bodeType = ''
             t.page = 1;
             t.sort = "id"
             t.order = "desc"

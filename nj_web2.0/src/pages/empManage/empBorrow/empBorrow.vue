@@ -123,7 +123,7 @@ export default {
             openExp: false,
             filekey: "",
             filename: "",
-            imp_mt: "empEmpofficial.importData",
+            imp_mt: "empBorrow.importData",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
                 { code: "empIdName", name: "员工姓名" },
@@ -219,7 +219,7 @@ export default {
             empIdIden: '',
             openPick: false,
             params: {
-                _mt: 'empEmpofficial.getPage',
+                _mt: 'empBorrow.getPage',
                 sort: 'id',
                 order: 'asc',
                 rows: 10,
