@@ -60,7 +60,8 @@
                           :pkValue="pkValue"
                           :stepId="stepId"
                           :setpName="stepName"
-                          :stepState="stepState">
+                          :stepState="stepState"
+                          :processState="processState">
         </commonFlowUpdate>
     </div>
 </template>
@@ -98,6 +99,7 @@ export default {
             pkValue: '',
             funId: this.$store.state.user.childFunId,
             stepState: '',
+            processState: '',
             stepName: '',
             step: [],
             titleName: '',
@@ -190,6 +192,7 @@ export default {
                                                         let stepId = params.row[params.column.key].split('$')[1]
                                                         //                            alert(stepId)
                                                         this.stepState = params.row[params.column.key].split('$')[3]
+                                                        this.processState = params.row[params.column.key].split('$')[4]
                                                         if (this.stepState === 'p_flowst_0') {
                                                             return
                                                         }
@@ -351,7 +354,6 @@ export default {
     watch: {
         $route (value, from) {
             if (value.name === 'commonFlowList') {
-                console.log(from)
                 this.getColumns()
             }
         },

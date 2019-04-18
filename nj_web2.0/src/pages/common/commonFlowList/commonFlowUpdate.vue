@@ -48,7 +48,8 @@
                                               :ref="'block' + item.flsdbMark"
                                               :lebWidth="200">
                             </commonSingleForm>
-                            <div v-if="stepAuthLimits === '03submit' && item.flsdbOptauth === '02update' && item.flsdbSubisupd === '1'" class="marginB_10">
+                            <div v-if="stepAuthLimits === '03submit' && item.flsdbOptauth === '02update' && item.flsdbSubisupd === '1'"
+                                 class="marginB_10">
                                 <div v-show="thisStepState !== 'p_flowst_3' && thisStepState !== 'p_flowst_0'">
                                     <Button class="btns"
                                             type="primary"
@@ -308,11 +309,10 @@ export default {
                             },
                             style: {
                                 marginRight: '10px',
-                                display: this.stepState === 'p_flowst_3' ? 'none' : 'inline',
+                                display: this.stepState === 'p_flowst_3' || params.row.subAuth == '0' || this.processState == '01view' ? 'none' : 'inline',
                             },
                             on: {
                                 click: () => {
-                                    console.log(params,"params123")
                                     this.update(params.row.id, params.index, params)
                                 },
                             },
@@ -328,6 +328,7 @@ export default {
         stepId: String,
         setpName: String,
         stepState: String,
+        processState: String
     },
     created () {
         this.getColumns()
@@ -417,7 +418,6 @@ export default {
                             t.ChildDataBloks.push(t.dataBlocksFake[i])
                         }
                     }
-                    //            console.log(t.ChildDataBloks)
                     for (let i = t.dataBlocksFake.length - 1; i > 0; i--) {
                         if (t.dataBlocksFake[i].flsdbType === 'docs') {
                             t.dataBlocksFake[i].flsdbMark = JSON.parse(t.dataBlocksFake[i].flsdbMark)
@@ -506,12 +506,9 @@ export default {
                 t.dataTableAll['records'] = res.data.content[0].records
                 t.dataTableAll['table'] = JSON.parse(res.data.content[0].rows)
                 t.dataTableAll['total'] = res.data.content[0].total
-                //          console.log(t.dataTableAll)
                 t.dataTable.push(t.dataTableAll)
                 t.totalTable = res.data.content[0].total
-                console.log(t.dataTable)
             }).catch(err => {
-                console.log(err)
             })
         },
         getColumnChildTable (dataBlockId) {
@@ -543,7 +540,6 @@ export default {
                 t.columnsChild.push(t.revise)
                 t.columnsChildAll.push(t.columnsChild)
             }).catch(err => {
-                console.log(err)
             })
         },
         btnFunction (flsdbSubformid, flsdbSubformtype, flsdbSubfilter, logType) {
@@ -741,7 +737,6 @@ export default {
                                                         }
                                                         this.thisStepState = params.row[params.column.key].split('$')[3]
                                                         this.thisSetpName = params.row[params.column.key].split('$')[5]
-                                                        console.log('11111111111111111111111' + this.thisStepState)
                                                         this.getDataBlock()
                                                     },
                                                 },
@@ -825,8 +820,6 @@ export default {
                             t.dataBlocksDad.push(t.dataBlocks[j])
                         }
                     }
-                    //            console.log(t.dataBlocksDad,'1111111111111111111111111')
-                    console.log(t.dataBlocks, '1111111111111111111111111')
                     /**
                      * 收集弹出选择的 (key:value)(字段物理名, 字段值)
                      */
@@ -841,7 +834,6 @@ export default {
                         this.$store.commit('flowClmkMap/setPopForm', t.popForm)
                         t.popForm = {} // 清空
                         this.getValueMap(t.dataBlocksDad)
-                        console.log(t.valueMap)
                         Bus.map = t.valueMap
                         Bus.father = t
                         if (onChange.hasOwnProperty(this.tbName)) {
@@ -858,8 +850,6 @@ export default {
         PageSize (id) {
             const t = this
             this.pageDataBlockId = id
-            console.log(id)
-            console.log(this.dataBlocksFakeId)
             for (let i = 0; i < this.dataBlocksFakeId.length; i++) {
                 if (id === this.dataBlocksFakeId[i].id) {
                     this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, true)
@@ -913,12 +903,10 @@ export default {
             for (let j = 0; j < arr.length; j++) {
                 this.tableselected.push(arr[j].split('_')[0])
             }
-            console.log(this.tableselected)
         },
         getValueMap (dataBlocks) {
             const t = this
             t.valueMap = {}
-            console.log(dataBlocks, 'kkkkkkkkkkkk')
             for (let i = 0; i < dataBlocks.length; i++) {
                 let item = dataBlocks[i].blockColumn.columns
                 for (let j = 0; j < item.length; j++) {
@@ -978,7 +966,6 @@ export default {
                 t.formDataSubmit.flowId = t.flowId
                 t.formDataSubmit.pkValue = t.thisPkValue
                 t.formDataSubmit.clmMap = JSON.stringify(t.clmMap)
-                console.log(t.formDataSubmit.stepId + '111111111111111111111')
                 if (t.formDataSubmit.hasOwnProperty('empbcContent')) { // 用来判断提交时是否有多选框  有的话需要把值转为字符串传到后台
                     t.formDataSubmit.empbcContent = t.formDataSubmit.empbcContent.join(',')
                 }

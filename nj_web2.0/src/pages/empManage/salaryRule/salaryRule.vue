@@ -176,7 +176,7 @@ export default {
           width: 220
         },
         {
-          title: "比例",
+          title: "比例(%)",
           key: "salRatio",
           width: 220
         },
