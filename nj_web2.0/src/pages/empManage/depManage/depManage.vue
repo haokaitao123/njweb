@@ -187,19 +187,17 @@ export default {
         {
           title: "部门名称",
           key: "deptIdName",
-          sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
+         //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
           title: "岗位名称",
           key: "postName",
-          sortable: "custom",
           width: 220
         },
         {
           title: "证件号码",
           key: "empnhIdno",
-          sortable: "custom",
           width: 220
         },
         {
@@ -508,6 +506,7 @@ export default {
       if (logType !='新增') {
         //如果操作类型是修改，弹窗回显数据
         t.$refs.update.getOption(id, logType)
+        t.$refs.update.disabled = true;
       }
     },
     //关闭新增修改弹窗
