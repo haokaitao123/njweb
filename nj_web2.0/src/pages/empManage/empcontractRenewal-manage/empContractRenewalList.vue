@@ -325,7 +325,7 @@ export default {
           key: "unitFname"
         }
       ],
-      ParamsParams: {
+      Params: {
         _mt: "orgUnits.getByOrgFramePageList",
         rows: 10,
         page: 1,
