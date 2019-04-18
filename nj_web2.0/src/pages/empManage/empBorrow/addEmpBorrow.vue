@@ -1,5 +1,10 @@
 <template>
     <div class="option-main">
+      <!--loading效果-->
+      <Spin size="large"
+            fix
+            v-if="spinShow">
+      </Spin>
         <Row style="max-height: 420px;overflow-y: auto;">
             <Form ref="formValidate"
                   :model="formValidate"
@@ -102,6 +107,7 @@ export default {
         }
 
         return {
+          spinShow: false,
             file: '',
             filekey: '',
             loadingStatus: false,
@@ -150,8 +156,8 @@ export default {
     },
     computed: {
         id () {
-            return this.$store.state.empBorrow.mainId;
-        },
+        return this.$store.state.empBorrow.mainId;
+      },
         logType () {
             return this.$store.state.empBorrow.logType;
         }
@@ -173,6 +179,7 @@ export default {
         },
         getData (id) {
             const t = this
+            t.spinShow = true; //开启loading效果
             getDataLevelUserLogin({
                 _mt: 'empBorrow.getById',
                 id: id,
@@ -204,7 +211,9 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
-            })
+            }).finally(() => {
+              t.spinShow = false; //关闭loading效果
+            });
         },
         handleSubmit () {
             const t = this

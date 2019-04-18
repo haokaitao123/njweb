@@ -147,7 +147,6 @@ export default {
         }
     },
     props: {
-        mianId: Number,
         id: Number,
         logType: String,
         index: Number,
@@ -157,8 +156,10 @@ export default {
         searchEmpMaster,
         valid,
     },
-    updated () {
-
+    computed: {
+      mainId () {
+        return this.$store.state.empBorrow.mainId;
+      }
     },
     mounted () {
         this.getSelect();
@@ -167,7 +168,6 @@ export default {
         getSelect () {
             //   alert("a")
             const t = this
-            t.spinShow = true; //开启loading效果
             getDataLevelUserLogin({
                 _mt: 'baseParmInfo.getSelectValue',
                 typeCode: 'bodeType,bodeReason',
@@ -181,13 +181,12 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
-            }).finally(() => {
-                t.spinShow = false; //关闭loading效果
-            });
+            })
         },
         //上级清除员工选择
         getData (id) {
             const t = this
+            t.spinShow = true; //开启loading效果
             getDataLevelUserLogin({
                 _mt: 'empBorrowdetails.getById',
                 id: id,
@@ -214,7 +213,9 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
-            })
+            }).finally(() => {
+              t.spinShow = false; //关闭loading效果
+            });
         },
         handleSubmit () {
             const t = this
@@ -224,6 +225,7 @@ export default {
             if (t.logType === '修改') {
                 data.id = t.id
             }
+            console.log(t.mainId,"m")
             data.bodePid = t.mianId
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
