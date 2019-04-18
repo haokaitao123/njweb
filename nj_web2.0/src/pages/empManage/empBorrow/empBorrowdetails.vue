@@ -123,7 +123,7 @@ export default {
                     title: '类型',
                     key: "bodeTypeDis",
                     width: 100,
-                    sortable: "bodeType"
+                    sortable: "bodeTypeDis"
                 },
                 {
                     title: "原因",
