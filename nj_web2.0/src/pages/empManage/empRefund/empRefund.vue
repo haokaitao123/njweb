@@ -79,7 +79,7 @@
     <!--切换-->
    <transition name="fade">
       <update v-show="openUpdate"
-              :id="updateId"
+              :id = "updateId"
               :logType="logType"
               :index="index"
               @closeUp="closeUp"
@@ -488,9 +488,7 @@
         t.logType = logType
         t.openUpdate = true
         t.index = index
-        if (logType !='新增') {
-          t.$refs.update.getOption(id, logType)
-        }
+        t.$refs.update.getOption(id, logType)
       },
       search() {
       this.page = 1;
