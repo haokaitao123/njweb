@@ -13,7 +13,9 @@
                     icon="search"
                     @click="search">{{$t('button.ser')}}</Button>
             <Button type="primary"
-                    @click="openUp(NaN,'新增')">新增</Button>
+                    @click="showMsgBtn('','新增')">新增</Button>
+          <Button type="primary"
+                    @click="deletemsg">删除</Button>
             <Button type="primary"
                     @click="expData">导出</Button>
         </Row>
@@ -50,7 +52,6 @@
         <transition name="fade">
             <update v-show="openUpdate"
                     :id="updateId"
-                    :logType="logType"
                     :index="index"
                     @closeUp="closeUp"
                     @getData="addNewArray"
@@ -109,7 +110,6 @@ export default {
             filename: "",
             // 子页面所需参数 无需变更
             tableheight: 410,
-            logType: "",
             openUpdate: false,
             updateId: NaN,
             tableselected: [],
@@ -200,40 +200,6 @@ export default {
                   }
                 }
             ],
-           /* tableBtn: {
-                title: "操作",
-                key: "action",
-                width: 100,
-                fixed: "right",
-                align: "center",
-                render: (h, params) => {
-                    let child = [];
-                    for (let v of this.tableButton) {
-                        child.push(
-                            h(
-                                "Button",
-                                {
-                                    props: {
-                                        type: v.type,
-                                        size: "small"
-                                    },
-                                    style: {
-                                        marginRight: "5px",
-
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.openUp(params.row.id, v.name, params.index);
-                                        }
-                                    }
-                                },
-                                v.name
-                            )
-                        );
-                    }
-                    return h("div", [child]);
-                }
-            },*/
             data: [],
             total: 0,
             index: 0,
@@ -249,6 +215,9 @@ export default {
     computed: {
         mainId () {
             return this.$store.state.empBorrow.mainId;
+        },
+        logType(){
+            return this.$store.state.empBorrow.logType;
         }
     },
     props: {
@@ -260,16 +229,7 @@ export default {
         expwindow,
         expdow,
     },
-    //按钮权限控制
-    pickData () {
-        const t = this;
-        t.openPick = true;
-    },
     created () {
-        if (this.pageShow !== "") {
-            this.columns.push(this.tableBtn);
-            this.tableOperate = true
-        }
     },
     //初始化自动调用方法
     mounted () {
@@ -310,7 +270,6 @@ export default {
                     this.loading = false;
                 });
         },
-
         // 点击列表表头 调用排序方法 无需更改
         sortable (column) {
             this.sort = column.key;
@@ -350,7 +309,7 @@ export default {
                         getDataLevelUserLogin({
                             _mt: "empBorrowdetails.delByIds",
                             logType: this.$t("button.del"),
-                            delIds: t.tableselected.toString()
+                            ids: t.tableselected.toString()
                         })
                             .then(res => {
                                 if (isSuccess(res, t)) {
@@ -365,22 +324,6 @@ export default {
                     },
                     onCancel: () => { }
                 });
-            }
-        },
-        openUp (id, logType, index) {
-            const t = this;
-            t.updateId = parseInt(id, 10);
-            t.logType = logType;
-            t.openUpdate = true;
-            t.index = index;
-            // t.$refs.update.getSelect()
-            t.$refs.update.disabled = false;
-            if (logType === "查看") {
-                t.$refs.update.disabled = true;
-            }
-            if (t.logType === "修改" || logType === "查看") {
-                // 调用子页面方法 传递参数 无需变更
-                t.$refs.update.getData(id, logType)
             }
         },
         closeUp () {
@@ -421,6 +364,21 @@ export default {
             t.openExpDow = openExpDow;
             t.$refs.expdow.getPriToken(t.filekey);
         },
+        // 打开子表详细信息页面 无需变更
+        showMsgBtn (id, logType, index) {
+        const t = this;
+        this.$store.commit('empBorrow/setChildLogType', logType);
+        t.updateId = parseInt(id, 10);
+        t.openUpdate = true;
+        t.index = index;
+        t.$refs.update.setRowId(id, logType);
+        if (t.logType === '查看') {//主表的类型
+          t.$refs.update.forbidden = true
+        } else {
+          t.$refs.update.forbidden = false
+        }
+
+      },
         // 子页面新增数据后添加到本页面分页第一行  无需更改
         addNewArray (res) {
             const t = this;
@@ -448,21 +406,11 @@ export default {
         },
         clear () {
             const t = this;
-            t.selectbodeType = []
             t.reeducLevel = ''
             t.page = 1;
             t.sort = "id"
             t.order = "desc"
             t.rows = 10
-        },
-        updateArray (res) {
-            const t = this;
-            t.data.splice(t.index, 1, res);
-        },
-        // 子页面新增数据后添加到本页面分页第一行  无需更改
-        addNewArray (res) {
-            const t = this;
-            t.data.unshift(res);
         },
     }
 };
