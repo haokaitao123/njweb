@@ -113,7 +113,7 @@
             ],
             //简历日期
             resumeDate: [
-                { required: true, message: '请选择日期', trigger: 'change',pattern: /.+/}
+                { required: true, type: "date", message: '请选择日期', trigger: 'blur'}
             ],
             //简历数量
             resumeNum:[

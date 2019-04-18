@@ -295,7 +295,7 @@ export default {
           width: 220
         }
       ],
-      tableBtn: {
+    tableBtn: {
         title: "操作",
         key: "action",
         width: 100,
