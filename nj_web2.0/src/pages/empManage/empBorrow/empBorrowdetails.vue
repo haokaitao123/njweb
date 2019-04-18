@@ -50,7 +50,6 @@
         <transition name="fade">
             <update v-show="openUpdate"
                     :id="updateId"
-                    :mainId="mainId"
                     :logType="logType"
                     :index="index"
                     @closeUp="closeUp"
@@ -145,8 +144,63 @@ export default {
                     key: "bodeAmount",
                     sortable: "bodeAmount"
                 },
+                {
+                  title: "操作",
+                  key: "action",
+                  fixed: "right",
+                  align: "center",
+                  width: 64,
+                  render: (h, params) => {
+                    return h("div", [
+                      h(
+                        "Button",
+                        {
+                          props: {
+                            type: "success",
+                            size: "small"
+                          },
+                          style: {
+                            display: this.logType == '修改' ? "inline-block" : "none",
+                          },
+                          on: {
+                            click: () => {
+                              this.showMsgBtn(
+                                params.row.id,
+                                '修改',
+                                params.index
+                              );
+                            }
+                          }
+                        },
+                        '修改'
+                      ),
+                      h(
+                        "Button",
+                        {
+                          props: {
+                            type: "primary",
+                            size: "small"
+                          },
+                          style: {
+                            display: this.logType == '查看' ? "inline-block" : "none",
+                          },
+                          on: {
+                            click: () => {
+                              this.showMsgBtn(
+                                params.row.id,
+                                '查看',
+                                params.index
+                              );
+                            }
+                          }
+                        },
+                        '查看'
+                      )
+                    ]);
+                  }
+                }
             ],
-            tableBtn: {
+           /* tableBtn: {
                 title: "操作",
                 key: "action",
                 width: 100,
@@ -165,10 +219,7 @@ export default {
                                     },
                                     style: {
                                         marginRight: "5px",
-                                        display:
-                                            this.pageShow.indexOf(v.btnName) !== -1
-                                                ? "inline"
-                                                : "none"
+
                                     },
                                     on: {
                                         click: () => {
@@ -182,7 +233,7 @@ export default {
                     }
                     return h("div", [child]);
                 }
-            },
+            },*/
             data: [],
             total: 0,
             index: 0,
@@ -232,6 +283,7 @@ export default {
             if (page === undefined) {
                 this.page = 1;
             }
+            console.log(t.mainId,"t.mainId")
             const data = {
                 _mt: "empBorrowdetails.getPage",
                 rows: t.rows,
