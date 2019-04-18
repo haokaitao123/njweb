@@ -126,18 +126,16 @@ export default {
         }
     },
     props: {
-        mainId:Number,
+        //mainId:Number,
         id: Number,
         logType: String,
         index: Number,
+        mainId:Number
     },
   /*资源加载子页面，js不需要*/
     components: {
         searchEmpMaster,
       valid,
-    },
-    updated () {
-
     },
     mounted () {
         this.getSelect();
@@ -257,8 +255,6 @@ export default {
         this.loadingStatus = true
         return false
       },
-    },
-    watch: {
     },
 }
 </script>

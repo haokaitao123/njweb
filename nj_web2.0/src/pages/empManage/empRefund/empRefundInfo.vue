@@ -5,7 +5,7 @@
               <Option :value="item.paramCode" v-for="(item,index) in selectbodeType" :key="index">{{item.paramInfoCn}}</Option>
             </Select>
             <Button type="primary" icon="search" @click="search">{{$t('button.ser')}}</Button> -->
-            <Button type="primary"  @click="openUp(NaN,'新增')">新增</Button>
+            <!-- <Button type="primary"  @click="openUp(NaN,'新增')">新增</Button> -->
             <Button type="primary"  @click="expData">导出</Button>
           </Row>
           <!--布置分页列表 变量通用 无需变更-->
@@ -47,7 +47,7 @@
     <update
     v-show="openUpdate"
     :id="updateId"
-    :mainId="mainId"
+    :mainId="id"
     :logType="logType"
     :index="index"
     @closeUp="closeUp"
@@ -132,44 +132,29 @@
             key: "monTotal",
             sortable: "monTotal"
           },
-        ],
-        tableBtn: {
-          title: "操作",
-          key: "action",
-          width: 100,
-          fixed: "right",
-          align: "center",
-          render: (h, params) => {
-            let child = [];
-            for (let v of this.tableButton) {
-              child.push(
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: v.type,
-                      size: "small"
-                    },
-                    style: {
-                      marginRight: "5px",
-                      display:
-                        this.pageShow.indexOf(v.btnName) !== -1
-                          ? "inline"
-                          : "none"
-                    },
-                    on: {
-                      click: () => {
-                        this.openUp(params.row.id, v.name, params.index);
-                      }
-                    }
+          {
+            title: this.$t('button.opr'),
+            key: 'action',
+            fixed: 'right',
+            width: 100,
+            align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small',
                   },
-                  v.name
-                )
-              );
-            }
-            return h("div", [child]);
-          }
-        },
+                  on: {
+                    click: () => {
+                      this.openUp(params.row, this.$t('button.view'), params.index)
+                    },
+                  },
+                }, this.$t('button.view')),
+              ])
+            },
+          },
+        ],
         data: [],
         total: 0,
         index: 0,
@@ -182,67 +167,27 @@
         selectbodeType: [],
       };
     },
-    computed:{
-      pageShow () {
-        return this.$store.state.btnOperate.pageShow
-      },
-      tableButton () {
-        return this.$store.state.btnOperate.tableButton
-      },
-      /* modity() { //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
-         return this.$store.state.btnOperate.modity
-       },*/
-      btnData() {
-        return this.$store.state.btnOperate.btnData
-      },
-      FlowNode() {
-        return this.$store.state.btnOperate.isFlowNode
-      },
-    },
     props: {
-      mainId:null,
+        id:Number,
     },
     components: {
       // 初始化子页面
-      btnList,
       update,
       expwindow,
       expdow,
     },
-    //按钮权限控制
-    pickData() {
-      const t = this;
-      t.openPick = true;
-    },
-    created () {
-      if (this.pageShow !== "") {
-        this.columns.push(this.tableBtn);
-        this.tableOperate = true
-      }
-    },
-    watch:{
-      pageShow (val) {
-        if (val ==="" && this.tableOperate === true) {
-          this.columns.pop();
-          this.tableOperate = false;
-        } else if (this.tableOperate === false) {
-          this.columns.push(this.tableBtn);
-          this.tableOperate = true;
-        }
-      }
-    },
     //初始化自动调用方法
     mounted() {
-      //this.getData();
       this.getSelect();
     },
     methods: {
-      getData(id, page) {
+      getData( page) {
         const t = this;
         this.loading = true;
         if (page === undefined) {
           this.page = 1;
         }
+        
         const data = {
           _mt: "empRefundInfo.getPage",
           rows: t.rows,
@@ -269,7 +214,6 @@
             this.loading = false;
           });
       },
-
       // 点击列表表头 调用排序方法 无需更改
       sortable(column) {
         this.sort = column.key;
@@ -329,18 +273,10 @@
       openUp(id, logType, index) {
         const t = this;
         t.updateId = parseInt(id, 10);
-        t.logType = logType;
         t.openUpdate = true;
         t.index = index;
-        // t.$refs.update.getSelect()
-        t.$refs.update.disabled = false;
-        if (logType === "查看") {
-          t.$refs.update.disabled = true;
-        }
-        if (t.logType === "修改" || logType === "查看") {
-          // 调用子页面方法 传递参数 无需变更
-          t.$refs.update.getData(id, logType)
-        }
+         // t.$refs.update.disabled = true;
+          t.$refs.update.getData(id)
       },
       closeUp() {
         const t = this;
@@ -413,15 +349,6 @@
         t.sort = "id"
         t.order = "desc"
         t.rows = 10
-      },
-      updateArray(res) {
-        const t = this;
-        t.data.splice(t.index, 1, res);
-      },
-      // 子页面新增数据后添加到本页面分页第一行  无需更改
-      addNewArray(res) {
-        const t = this;
-        t.data.unshift(res);
       },
     }
   };
