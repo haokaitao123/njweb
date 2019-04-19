@@ -19,7 +19,7 @@
                       fix
                       v-if="spinShow">
                 </Spin>
-                <Row style="max-height: 420px;overflow-y: auto;">
+                <Row style="height: 420px;overflow-y: auto;">
                     <Form ref="formValidate"
                           :model="formValidate"
                           :rules="ruleValidate"

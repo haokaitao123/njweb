@@ -100,10 +100,10 @@ export default {
                 this.$Message.warning('请先保存主表数据');
                 return;
             }
-            this.option = false
-            this.content = false
-            this.active = name
-            this[name] = true
+              this.option =  false
+              this.content = false
+              this.active = name
+              this[name] = true
             if (name === 'content') {
                 this.$refs.content.disabled = this.disabled
                 this.$refs.content.search()

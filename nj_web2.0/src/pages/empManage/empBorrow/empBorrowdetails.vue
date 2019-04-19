@@ -131,18 +131,17 @@ export default {
                     sortable: "bodeReasonDis",
                     key: "bodeReasonDis"
                 },
-
-                {
-                    title: "操作时间",
-                    key: "bodeOpetime",
-                    sortable: "bodeOpetime",
-                    width: 100
-                },
                 {
                     title: "金额",
                     width: 100,
                     key: "bodeAmount",
                     sortable: "bodeAmount"
+                },
+                {
+                  title: "操作时间",
+                  key: "bodeOpetime",
+                  sortable: "bodeOpetime",
+                  width: 100
                 },
                 {
                   title: "操作",
