@@ -37,11 +37,11 @@
     <transition name="fade">
       <searchproType
         v-show="openproType"
-        :searchPostClo="searchCloumns"
+        :searchObjname="searchObjname"
         :params="psparams"
-        @inputPost="inputdepPost"
-        @closePost="close"
-        @changeinput="changedepPost"
+        @inputproType="inputproType"
+        @closeproType="close"
+        @changeinput="changeproType"
         ref="searchproType"
       ></searchproType>
     </transition>
@@ -57,7 +57,7 @@
   import expdow from '../../../components/fileOperations/expdow'
   import importExcel from '../../../components/importModel/importParam'
   import btnList from '../../../components/btnAuth/btnAuth'
-  import searchproType from '../../../components/searchTable/searchPost'
+  import searchproType from '../../../components/searchTable/searchProtype'
 
   export default{
     created () {
@@ -186,26 +186,21 @@
       // 查询条件变量
       procTypeDis: '',
       procType:'',
-      searchCloumns: [
+      searchObjname: [
         {
-          title: "岗位编码",
-          key: "postCode",
+          title: "流程名称",
+          key: "flowName",
           sortable: "custom",
-          sortable: 'custom',
-        },
-        {
-          title: "岗位名称",
-          key: "postFname",
           sortable: 'custom',
         }
       ],
         psparams: {
-        _mt: 'orgPost.getPage',
+          _mt: 'platFlow.getPage',
           rows: '10',
           page: '1',
           sort: 'id',
           order: 'desc',
-          logType: '岗位',
+          logType: '流程',
       },
     }
     },
@@ -366,7 +361,7 @@
         t.$refs.searchproType.getData(this.psparams)
         t.openproType = true
       },
-      closedepPost(){
+      closeproType(){
         const t = this
         t.openproType = false
       },
@@ -374,16 +369,16 @@
         const t = this
         t.openproType = false
       },
-      changedepPost(row) {
+      changeproType(row) {
         const t = this
 //        赋值到显示字段与实际值字段
         t. procType = row.id
-        t.procTypeDis = row.name
+        t.procTypeDis = row.flowName
       },
-      inputdepPost(name, id, postName, postId) {
+      inputproType(flowName, id) {
         const t = this
         t. procType = id
-        t.procTypeDis = name
+        t.procTypeDis = flowName
         t.openproType =false;
       },
       // 删除方法 无需更改
