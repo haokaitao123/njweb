@@ -55,15 +55,15 @@
           </Col>
           <Col span="10" offset="1">
           <FormItem label="操作类型" prop="procOper">
-                <span @dblclick="">
-                  <Input
-                    v-model="procOperDis"
-                    icon="search"
-                    :readonly="true"
-                    placeholder="请选择操作类型"
-                    @on-click=""
-                  />
-                </span>
+            <Select v-model="formValidate.procOper"
+                    :disabled="editdisabled" class="width200"
+                    placeholder="操作类型"
+                    clearable>
+              <Option :value="item.paramCode"
+                      v-for="(item,index) in selprocOper"
+                      :key="index"
+                      @click="getPageByType(item.paramCode)">{{item.paramInfoName}}</Option>
+            </Select>
           </FormItem>
           </Col>
         </Row>
@@ -339,6 +339,7 @@
       id: Number,
       logType: String,
       index: Number,
+      selprocOper: Array,
     },
     components: {
       searchproAua,
@@ -366,7 +367,6 @@
             t.formValidate.procStep =res.data.content[0].procStep;
             t.procStepDis =res.data.content[0].procStepDis;
             t.formValidate.procOper =res.data.content[0].procOper;
-            t.procOperDis =res.data.content[0].procOperDis;
             t.formValidate.procUser =res.data.content[0].procUser;
             t.procUserDis =res.data.content[0].procUserDis;
             t.formValidate.procPost =res.data.content[0].procPost;

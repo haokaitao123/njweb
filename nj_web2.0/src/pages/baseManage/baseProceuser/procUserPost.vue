@@ -32,7 +32,7 @@
       </i-Col>
     </Row>
     <transition name="fade">
-      <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
+      <update v-show="openUpdate" :id="updateId" :selprocOper="procOper" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
     </transition>
     <transition name="fade">
       <searchproType
@@ -52,7 +52,7 @@
   import update from './addUpdprocusps'
   // 默认引用 无需变更
   import { isSuccess } from '../../../lib/util'
-  import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
+  import { getDataLevelUserLoginNew, getDataLevelUserLogin,getDataLevelUserLogin2 } from '../../../axios/axios'
   import expwindow from '../../../components/fileOperations/expSms'
   import expdow from '../../../components/fileOperations/expdow'
   import importExcel from '../../../components/importModel/importParam'
@@ -85,6 +85,7 @@
     },
     data() {
       return {
+        procOper:[],
         tableOperate:false,
         openproType:false,
         loading: "",
@@ -122,25 +123,25 @@
           },
           {
             title: '审批步骤',
-            key: 'procStep',
+            key: 'procStepDis',
             sortable: 'custom',
             width: 220,
           },
           {
             title: '操作类型',
-            key: 'procOper',
+            key: 'procOperDis',
             sortable: 'custom',
             width: 220,
           },
           {
             title: '操作人',
-            key: 'procUser',
+            key: 'procUserDis',
             sortable: 'custom',
             width: 220,
           },
           {
             title: '操作岗',
-            key: 'procPost',
+            key: 'procPostDis',
             sortable: 'custom',
             width: 220,
           },
@@ -212,6 +213,7 @@
     },
     mounted() {
       // 页面打开自动调用查询方法 无需更改
+      this.getSelect();
       this.getData(1)
     },
     watch:{
@@ -226,6 +228,21 @@
       }
   },
     methods: {
+      getSelect() {
+        const t = this;
+        getDataLevelUserLogin2({
+          _mt: "baseParmInfo.getSelectValue",
+          logType: t.logType,
+          typeCode:"bsprocus",
+        }).then(res => {
+          console.log(res)
+          if (isSuccess(res, t)) {
+            t.procOper = res.data.content[0].value[0].paramList;
+          }
+      }).catch(() => {
+          this.$Message.error(this.$t('reminder.errormessage'))
+        });
+      },
       // 查询方法
       getData(page) {
         const t = this
