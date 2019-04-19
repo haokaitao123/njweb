@@ -807,13 +807,6 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                empnhPtname: [
-                    {
-                        required: true,
-                        message: "请输入曾用名",
-                        trigger: "blur"
-                    }
-                ],
                 empnhNation: [
                     {
                         required: true,

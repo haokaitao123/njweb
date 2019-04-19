@@ -595,6 +595,7 @@ export default {
                                 //     title: this.$t('reminder.suc'),
                                 //     content: this.$t('reminder.updsuccess'),
                                 // })
+                                t.$refs.formValidate.resetFields()
                                  this.$Message.success(this.$t("reminder.updsuccess"));
                                 t.$emit('update', res.data.content[0])
                             }
