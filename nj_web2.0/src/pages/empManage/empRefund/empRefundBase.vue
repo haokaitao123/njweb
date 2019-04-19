@@ -32,7 +32,8 @@
             ></mOption>
             <!--子表分页页面 mainid为主表id-->
             <mContent v-show="content"
-                :id="id"
+                :logType="logType"
+                :mainId="id"
                 ref="content" 
             ></mContent>
           </div>
@@ -48,6 +49,7 @@ export default {
   data() {
     return {
       // 默认参数 无需变更
+      id: NaN,
       active: "option",
       option: true,
       content: false,
@@ -61,7 +63,7 @@ export default {
   },
   props: {
     //      父页面传递参数  visaare一般不传
-    id: Number,
+    //id: Number,
     logType: String,
     index: Number,
     params: Object
@@ -79,6 +81,7 @@ export default {
     },
     // 主表信息查询方法 无需变更
     getOption(id, logType) {
+      this.id = parseInt(id, 10)
       this.$refs.option.getData(this.id);
       this.$refs.option.disabled = this.disabled;
     },
@@ -90,6 +93,7 @@ export default {
       }
       this.option = false;
       this.content = false;
+      //this.id = NaN
       this.active = name;
       this[name] = true;
       if (name === "content") {
@@ -101,6 +105,7 @@ export default {
     },
     //      清空方法 初始化本页面参数 无需变更
     clear() {
+      this.id = NaN
       this.option = true;
       this.content = false;
       this.active = "option";
@@ -113,7 +118,7 @@ export default {
     },
     //      更新父页面列表 无需变更
     newdata(data) {
-     // this.id = data.id;
+      this.id = data.id;
       this.$emit("newdata", data);
     }
   }

@@ -47,7 +47,7 @@
     <update
     v-show="openUpdate"
     :id="updateId"
-    :mainId="id"
+    :mainId="mainId"
     :logType="logType"
     :index="index"
     @closeUp="closeUp"
@@ -147,7 +147,7 @@
                   },
                   on: {
                     click: () => {
-                      this.openUp(params.row, this.$t('button.view'), params.index)
+                      this.openUp(params.row.id, this.$t('button.view'), params.index)
                     },
                   },
                 }, this.$t('button.view')),
@@ -168,7 +168,8 @@
       };
     },
     props: {
-        id:Number,
+        //id:Number,
+         mainId:null,
     },
     components: {
       // 初始化子页面
@@ -274,9 +275,12 @@
         const t = this;
         t.updateId = parseInt(id, 10);
         t.openUpdate = true;
+        t.logType = logType;
         t.index = index;
-         // t.$refs.update.disabled = true;
+        if (logType === "查看") {
+          t.$refs.update.disabled = true;
           t.$refs.update.getData(id)
+        }
       },
       closeUp() {
         const t = this;

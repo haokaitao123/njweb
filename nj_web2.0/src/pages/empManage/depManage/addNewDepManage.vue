@@ -57,8 +57,8 @@
         </i-col>
       </Form>
     </Row>
-     <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>
-                                    <Button
+     <!-- <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>-->
+                                    <Button 
                                         type="primary"
                                         @click="handleSubmit"
                                         class="btn"
