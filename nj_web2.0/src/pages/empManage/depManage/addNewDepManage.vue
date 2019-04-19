@@ -8,9 +8,9 @@
         <i-col span="11">
           <FormItem label="员工姓名"  prop="empId"  >
             <!--绑定双击清除方法-->
-            <span @dblclick="dbclean()">
+            <span @dblclick="disabled?'':dbclean()">
               <!--v-model绑定显示字段-->
-              <Input v-model="empName" icon="search" readonly="readonly" :disabled="disabled" placeholder="请选择员工"  @on-click="pickUserData()" />
+              <Input v-model="empName" icon="search" readonly="readonly" :disabled="disabled" placeholder="请选择员工"  @on-click="disabled?'':pickUserData()" />
             </span>
           </FormItem>
         </i-col>
@@ -57,8 +57,8 @@
         </i-col>
       </Form>
     </Row>
-     <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>
-                                    <Button
+     <!-- <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>-->
+                                    <Button 
                                         type="primary"
                                         @click="handleSubmit"
                                         class="btn"

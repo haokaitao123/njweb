@@ -32,16 +32,16 @@
       </i-Col>
     </Row>
     <transition name="fade">
-      <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
+      <update v-show="openUpdate" :id="updateId" :selprocOper="procOper" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
     </transition>
     <transition name="fade">
       <searchproType
         v-show="openproType"
-        :searchPostClo="searchCloumns"
+        :searchObjname="searchObjname"
         :params="psparams"
-        @inputPost="inputdepPost"
-        @closePost="close"
-        @changeinput="changedepPost"
+        @inputproType="inputproType"
+        @closeproType="close"
+        @changeinput="changeproType"
         ref="searchproType"
       ></searchproType>
     </transition>
@@ -52,12 +52,12 @@
   import update from './addUpdprocusps'
   // 默认引用 无需变更
   import { isSuccess } from '../../../lib/util'
-  import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
+  import { getDataLevelUserLoginNew, getDataLevelUserLogin,getDataLevelUserLogin2 } from '../../../axios/axios'
   import expwindow from '../../../components/fileOperations/expSms'
   import expdow from '../../../components/fileOperations/expdow'
   import importExcel from '../../../components/importModel/importParam'
   import btnList from '../../../components/btnAuth/btnAuth'
-  import searchproType from '../../../components/searchTable/searchPost'
+  import searchproType from '../../../components/searchTable/searchProtype'
 
   export default{
     created () {
@@ -85,6 +85,7 @@
     },
     data() {
       return {
+        procOper:[],
         tableOperate:false,
         openproType:false,
         loading: "",
@@ -122,25 +123,25 @@
           },
           {
             title: '审批步骤',
-            key: 'procStep',
+            key: 'procStepDis',
             sortable: 'custom',
             width: 220,
           },
           {
             title: '操作类型',
-            key: 'procOper',
+            key: 'procOperDis',
             sortable: 'custom',
             width: 220,
           },
           {
             title: '操作人',
-            key: 'procUser',
+            key: 'procUserDis',
             sortable: 'custom',
             width: 220,
           },
           {
             title: '操作岗',
-            key: 'procPost',
+            key: 'procPostDis',
             sortable: 'custom',
             width: 220,
           },
@@ -186,26 +187,21 @@
       // 查询条件变量
       procTypeDis: '',
       procType:'',
-      searchCloumns: [
+      searchObjname: [
         {
-          title: "岗位编码",
-          key: "postCode",
+          title: "流程名称",
+          key: "flowName",
           sortable: "custom",
-          sortable: 'custom',
-        },
-        {
-          title: "岗位名称",
-          key: "postFname",
           sortable: 'custom',
         }
       ],
         psparams: {
-        _mt: 'orgPost.getPage',
+          _mt: 'platFlow.getPage',
           rows: '10',
           page: '1',
           sort: 'id',
           order: 'desc',
-          logType: '岗位',
+          logType: '流程',
       },
     }
     },
@@ -217,6 +213,7 @@
     },
     mounted() {
       // 页面打开自动调用查询方法 无需更改
+      this.getSelect();
       this.getData(1)
     },
     watch:{
@@ -231,6 +228,21 @@
       }
   },
     methods: {
+      getSelect() {
+        const t = this;
+        getDataLevelUserLogin2({
+          _mt: "baseParmInfo.getSelectValue",
+          logType: t.logType,
+          typeCode:"bsprocus",
+        }).then(res => {
+          console.log(res)
+          if (isSuccess(res, t)) {
+            t.procOper = res.data.content[0].value[0].paramList;
+          }
+      }).catch(() => {
+          this.$Message.error(this.$t('reminder.errormessage'))
+        });
+      },
       // 查询方法
       getData(page) {
         const t = this
@@ -366,7 +378,7 @@
         t.$refs.searchproType.getData(this.psparams)
         t.openproType = true
       },
-      closedepPost(){
+      closeproType(){
         const t = this
         t.openproType = false
       },
@@ -374,16 +386,16 @@
         const t = this
         t.openproType = false
       },
-      changedepPost(row) {
+      changeproType(row) {
         const t = this
 //        赋值到显示字段与实际值字段
         t. procType = row.id
-        t.procTypeDis = row.name
+        t.procTypeDis = row.flowName
       },
-      inputdepPost(name, id, postName, postId) {
+      inputproType(flowName, id) {
         const t = this
         t. procType = id
-        t.procTypeDis = name
+        t.procTypeDis = flowName
         t.openproType =false;
       },
       // 删除方法 无需更改

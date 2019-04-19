@@ -452,7 +452,6 @@ export default {
                 ],
                 unitDirec: [
                     { required: true, validator:numberCheck, message: "请输入主管编制", trigger: 'change' },
-                     { required: true, validator:numberCheck, message: "请输入主管编制", trigger: 'blur' },
                 ],
                 unitStaff: [
                     { required: true, validator:numberCheck, message: "请输入员工编制", trigger: 'change' },

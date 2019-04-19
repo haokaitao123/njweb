@@ -21,20 +21,7 @@
                           :label-width="100">
 
 
-                      <!-- <i-col span="11">
-                        <FormItem label="类型" prop="bodeType">
-                          <Select v-model="formValidate.bodeType" clearable placeholder="请选择类型" >
-                            <Option :value="item.paramCode" v-for="(item,index) in bodeTypeList" :key="index">{{item.paramInfoCn}}</Option>
-                          </Select>
-                        </FormItem>
-                      </i-col>
-                      <i-col span="11">
-                        <FormItem label="原因" prop="bodeReason">
-                          <Select v-model="formValidate.bodeReason" clearable placeholder="请选择原因" >
-                            <Option :value="item.paramCode" v-for="(item,index) in bodeReasonList" :key="index">{{item.paramInfoCn}}</Option>
-                          </Select>
-                        </FormItem>
-                      </i-col> -->
+                     
                       <i-col span="11">
                         <FormItem label="金额" prop="monTotal">
                           <Input v-model="formValidate.monTotal"
@@ -127,7 +114,7 @@ export default {
     },
     props: {
         //mainId:Number,
-        id: Number,
+        //id: Number,
         logType: String,
         index: Number,
         mainId:Number
@@ -169,10 +156,7 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     console.log(res.data.content[0])
-                   // t.formValidate = res.data.content[0]
-                   // t.formValidate.bodeType= res.data.content[0].bodeType
-                    //t.formValidate.bodeReason= res.data.content[0].bodeReason
-                    t.formValidate.monTotal= res.data.content[0].monTotal
+                   t.formValidate.monTotal= res.data.content[0].monTotal
                     t.formValidate.note= res.data.content[0].note
                     if (t.logType === '查看') {
                         t.forbidden = true
@@ -194,13 +178,14 @@ export default {
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
             data._mt = 'empRefundInfo.addOrUpd'
+            alert(t.id)
             if (t.logType === '修改') {
                 data.id = t.id
             }
             if (data.handleDate !== undefined) {
              data.handleDate = new Date(data.handleDate).format("yyyy-MM-dd");
              }
-            data.monPid =t.mainId
+            //data.monPid =t.mainId
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {

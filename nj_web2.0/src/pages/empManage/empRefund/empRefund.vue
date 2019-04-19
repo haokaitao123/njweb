@@ -29,13 +29,14 @@
                 <btnList :btnData="btnData"   :FlowNode="FlowNode" 
                          @buttonExport="expData"
                          @buttonSearch="search"
-                         @buttonImport="importExcel"
                          @moditySelect="changemodity"
                          @buttonDraft="modifystatus('01draft')"
                          @buttonRefund = "modifystatus('02valid')"
-                         @buttonAdd="openUp(NaN,'新增')"
-                         @buttonDel="deletemsg()"
+                        
                          ></btnList>
+                         <!-- @buttonImport="importExcel"
+                          @buttonAdd="openUp(NaN,'新增')"
+                         @buttonDel="deletemsg()" -->
               </Row>
               <!--table-->
               <row class="table-form"
@@ -211,6 +212,28 @@
             key: 'totalSum',
 
           },
+        //    {
+        //     title: this.$t('button.opr'),
+        //     key: 'action',
+        //     fixed: 'right',
+        //     width: 100,
+        //     align: 'center',
+        //     render: (h, params) => {
+        //       return h('div', [
+        //         h('Button', {
+        //           props: {
+        //             type: 'primary',
+        //             size: 'small',
+        //           },
+        //           on: {
+        //             click: () => {
+        //               this.openUp(params.row.id, this.$t('button.view'), params.index)
+        //             },
+        //           },
+        //         }, this.$t('button.view')),
+        //       ])
+        //     },
+        //   },
         ],
         /*列表操作项*/
         tableBtn: {
@@ -233,10 +256,10 @@
                 },
                 on: {
                   click: () => {
-                    this.openUp(params.row.id, v.name, params.index);
-                  },
+                    this.openUp(params.row.id,  this.$t('button.view'), params.index);
+                  },//v.name
                 },
-              }, v.name))
+              },  this.$t('button.view')))
             };
             return h('div', [
               child,
@@ -488,7 +511,13 @@
         t.logType = logType
         t.openUpdate = true
         t.index = index
+        t.$refs.update.disabled = false;
+        if (logType !='新增') {
+        //如果操作类型是修改，弹窗回显数据
         t.$refs.update.getOption(id, logType)
+        t.$refs.update.disabled = true;
+      }
+       // t.$refs.update.getOption(id, logType)
       },
       search() {
       this.page = 1;

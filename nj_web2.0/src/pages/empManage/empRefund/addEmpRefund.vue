@@ -243,12 +243,13 @@ export default {
                   // t.handleReset();
                 if (t.logType === "新增") {
                   t.$Message.success("新增成功");
+                   t.id = res.data.content[0].id
                   // t.$refs.formValidate.resetFields()
-                 this.$store.commit('empRefund/setMainId', res.data.content[0].id)
+                 //this.$store.commit('empRefund/setMainId', res.data.content[0].id)
                   t.$emit("newdata", res.data.content[0]);
                 } else {
                   t.$Message.success("修改成功");
-                  this.$store.commit('empRefund/setMainId', res.data.content[0].id)
+                  //this.$store.commit('empRefund/setMainId', res.data.content[0].id)
                   t.$emit("update", res.data.content[0]);
                 }
               }

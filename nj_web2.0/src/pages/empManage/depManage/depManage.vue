@@ -503,8 +503,7 @@ export default {
       t.openUpdate = true; //弹窗显示改为 true
       t.index = index;
       t.$refs.update.disabled = false;
-      if (logType !='新增') {
-        //如果操作类型是修改，弹窗回显数据
+      if (logType ==='查看') {
         t.$refs.update.getOption(id, logType)
         t.$refs.update.disabled = true;
       }
