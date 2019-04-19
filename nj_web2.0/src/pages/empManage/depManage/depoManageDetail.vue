@@ -1,13 +1,14 @@
 ﻿<template>
   <div class="content-main">
           <Row>
-            <!-- <Button type="primary" @click="openUp(NaN,'新增')">新增</Button>
-            <Button type="error" @click="deletemsg">删除</Button> -->
+            <!-- <Button type="primary" @click="openUp(NaN,'新增')">新增</Button> -->
+            <!--<Button type="error" @click="deletemsg">删除</Button> -->
             <!-- <Button type="primary" @click="importExcel">导入</Button> -->
             <Button type="primary" @click="expData">导出</Button>
 					</Row>
          <row class="table-form" ref="table-form">
             <Table
+              :loading="loading"
               @on-selection-change="selectedtable"
               @on-sort-change="sortable"
               :current="page"
@@ -105,6 +106,7 @@ export default {
   //页面初始化的所有变量值
   data() {
     return {
+      loading: "",
       tableOperate:false,  //加上这个变量
 			// 导入的mt名称
         imp_mt: 'depoManageDetail.importData',
@@ -264,7 +266,8 @@ export default {
       const t = this;
       if (page) {
         t.page = page;
-			}
+      }
+      t.loading = true; //请求之前重置状态
       //请求列表数据的参数
       const data = {
         _mt: "depoManageDetail.getPage", //接口路径
@@ -287,9 +290,11 @@ export default {
           if (isSuccess(res, t)) {
             t.data = res.data.content[0].rows; //列表数据
             t.total = res.data.content[0].records; //列表总页数
+            t.loading = false; //在成功之后改状态
           }
         })
         .catch(() => {
+          t.loading = false; //在失败之后改状态
           //请求失败
           t.$Modal.error({
             title: "错误",

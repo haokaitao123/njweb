@@ -85,6 +85,7 @@
 <script>
     import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios' //调用请求接口封装的公共方法
     import { isSuccess, deepCopy } from '../../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
+     import valid from '../../../lib/pub_valid.js'
   export default {
     data() {
          const numberCheck = (rule, value, numberValCheck) => {
@@ -122,7 +123,7 @@
             moneyNum:[
                 {
                   required: true,
-                  message: "请输入工资下限金额",
+                  message: "请输入金额",
                   trigger: "blur"
                 },
                 {
@@ -133,6 +134,9 @@
               ],
         },
       }
+    },
+    components: {
+         valid,
     },
     // 定义子组件获取父组件传入的值
     props: {
