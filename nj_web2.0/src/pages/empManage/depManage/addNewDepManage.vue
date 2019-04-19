@@ -8,9 +8,9 @@
         <i-col span="11">
           <FormItem label="员工姓名"  prop="empId"  >
             <!--绑定双击清除方法-->
-            <span @dblclick="dbclean()">
+            <span @dblclick="disabled?'':dbclean()">
               <!--v-model绑定显示字段-->
-              <Input v-model="empName" icon="search" readonly="readonly" :disabled="disabled" placeholder="请选择员工"  @on-click="pickUserData()" />
+              <Input v-model="empName" icon="search" readonly="readonly" :disabled="disabled" placeholder="请选择员工"  @on-click="disabled?'':pickUserData()" />
             </span>
           </FormItem>
         </i-col>
@@ -57,12 +57,13 @@
         </i-col>
       </Form>
     </Row>
-    <!--            <Button type="ghost"
-                        @click="handleReset"
-                        class="btn1">{{$t('button.cal')}}</Button>-->
-    <Button type="primary" v-show="!forbidden"
-            @click="handleSubmit"
-            class="btn">{{$t('button.sav')}}</Button>
+     <!-- <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>-->
+                                    <Button 
+                                        type="primary"
+                                        @click="handleSubmit"
+                                        class="btn"
+                                        v-show="!disabled"
+                                        >{{$t('button.sav')}}</Button>
     <!--一个弹出框一个transition-->
     <transition name="fade">
       <!--  员工信息的弹出框 v-show="openPickUser"绑定了一个判断员工信息弹窗是否显示隐藏的数据   @closeEmp="closeEmp" 关闭员工信息弹窗事件  @inputEmp="inputEmp" 员工信息弹出框input选中事件  -->
@@ -85,7 +86,7 @@
         loadingStatus: false,
         type: '',
         distype: false,
-        forbidden: false,
+        forbidden: null,
         formValidate: {
           deptId:"",
           deptIdName:"",
@@ -155,13 +156,13 @@
           t.formValidate.empnhIdno = res.data.content[0].empnhIdno
           t.formValidate.moneyNum = Number(res.data.content[0].moneyNum)
           t.formValidate.note = res.data.content[0].note
-          if (id === res.data.content[0].companyId) {
-            t.disabled = 'disabled'
-            t.distype = true
-          } else {
-            t.forbidden = null
-            t.distype = false
-          }
+           if (id === res.data.content[0].companyId) {
+                            t.forbidden = 'disabled'
+                            t.distype = true
+                    } else {
+                            t.forbidden = null
+                            t.distype = false
+                    }
         }
       }).catch(() => {
           this.$Message.error(this.$t('reminder.errormessage'))

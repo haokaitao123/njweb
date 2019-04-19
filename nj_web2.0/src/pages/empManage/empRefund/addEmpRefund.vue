@@ -1,5 +1,9 @@
 <template>
   <div class="option-main">
+      <Spin size="large"
+            fix
+            v-if="spinShow">
+      </Spin>
     <Row style="max-height: 420px;overflow-y: auto;">
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         <i-col span="11">
@@ -111,6 +115,7 @@ export default {
     };
 
     return {
+      spinShow: false,
       file: "",
       filekey: "",
       loadingStatus: false,
@@ -164,7 +169,6 @@ export default {
     searchEmpMaster,
     valid
   },
-  updated() {},
   mounted() {
     //this.getSelect("emptype");
   },
@@ -182,55 +186,52 @@ export default {
     },
     getData(id) {
       const t = this;
-      getDataLevelUserLogin({
-        _mt: "empRefund.getById",
-        id: id,
-        funId: "1",
-        logType: "押金退款信息id查询"
-      })
-        .then(res => {
-          if (isSuccess(res, t)) {
-            console.log(res.data.content[0]);
-            t.formValidate = res.data.content[0];
-            t.formValidate.empIdName = res.data.content[0].empIdName;
-            t.formValidate.empIdIden = res.data.content[0].empIdIden;
-            t.formValidate.empId = res.data.content[0].empId;
-            t.formValidate.deptId = res.data.content[0].deptId;
-            t.formValidate.deptIdDis = res.data.content[0].deptIdDis;
-            t.formValidate.postId = res.data.content[0].postId;
-            t.formValidate.postIdDis = res.data.content[0].postIdDis;
-            t.formValidate.refuBgdate = res.data.content[0].refuBgdate;
-            t.formValidate.totalSum = res.data.content[0].totalSum;
-            t.formValidate.state = res.data.content[0].state;
-            t.formValidate.note = res.data.content[0].note;
-            if (t.logType === "查看") {
-              t.forbidden = true;
-              t.distype = true;
-            } else {
-              t.forbidden = false;
-              t.distype = false;
-            }
-          }
+        t.spinShow = true; //开启loading效果
+        getDataLevelUserLogin({
+            _mt: "empRefund.getById",
+            id: id,
+            funId: "1",
+            logType: "押金退款信息id查询"
         })
-        .catch(() => {
-          this.$Modal.error({
-            title: this.$t("reminder.err"),
-            content: this.$t("reminder.errormessage")
-          });
-        });
+            .then(res => {
+            if (isSuccess(res, t)) {
+                console.log(res.data.content[0]);
+                t.formValidate = res.data.content[0];
+                t.formValidate.empIdName = res.data.content[0].empIdName;
+                t.formValidate.empIdIden = res.data.content[0].empIdIden;
+                t.formValidate.empId = res.data.content[0].empId;
+                t.formValidate.deptId = res.data.content[0].deptId;
+                t.formValidate.deptIdDis = res.data.content[0].deptIdDis;
+                t.formValidate.postId = res.data.content[0].postId;
+                t.formValidate.postIdDis = res.data.content[0].postIdDis;
+                t.formValidate.refuBgdate = res.data.content[0].refuBgdate;
+                t.formValidate.totalSum = res.data.content[0].totalSum;
+                t.formValidate.state = res.data.content[0].state;
+                t.formValidate.note = res.data.content[0].note;
+                if (t.logType === "查看") {
+                t.forbidden = true;
+                t.distype = true;
+                } else {
+                t.forbidden = false;
+                t.distype = false;
+                }
+            }
+            })
+            .catch(() => {
+            this.$Modal.error({
+                title: this.$t("reminder.err"),
+                content: this.$t("reminder.errormessage")
+            });
+            }).finally(() => {
+                t.spinShow = false; //关闭loading效果
+            });
     },
     handleSubmit() {
       const t = this;
       const data = deepCopy(t.formValidate);
       data.logType = t.logType;
       data._mt = "empRefund.addOrUpd";
-
-      if (!isNaN(t.id) && t.id != "") {
-        t.logType = "修改";
-      }
-      if (t.logType === "修改") {
         data.id = t.id;
-      }
        if (data.refuBgdate !== undefined) {
         data.refuBgdate = new Date(data.refuBgdate).format("yyyy-MM-dd");
       }
@@ -242,11 +243,13 @@ export default {
                   // t.handleReset();
                 if (t.logType === "新增") {
                   t.$Message.success("新增成功");
+                   t.id = res.data.content[0].id
                   // t.$refs.formValidate.resetFields()
-                  t.id = res.data.content[0].id;
+                 //this.$store.commit('empRefund/setMainId', res.data.content[0].id)
                   t.$emit("newdata", res.data.content[0]);
                 } else {
                   t.$Message.success("修改成功");
+                  //this.$store.commit('empRefund/setMainId', res.data.content[0].id)
                   t.$emit("update", res.data.content[0]);
                 }
               }

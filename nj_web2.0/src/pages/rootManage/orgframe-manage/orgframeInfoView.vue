@@ -35,6 +35,7 @@
                             <FormItem label="组织类型"
                                       prop="unitType">
                                 <Select v-model="formValidate.unitType"
+                                        :clearable="!disabled" 
                                         :disabled="distype||disabled"
                                         placeholder="选择类型">
                                     <Option :value="item.paramCode"
@@ -68,6 +69,7 @@
                             <FormItem label="部门职能"
                                       prop="unitPartfunct">
                                 <Select v-model="formValidate.unitPartfunct"
+                                        :clearable="!disabled" 
                                         :disabled="disabled"
                                         placeholder="选择部门职能">
                                     <Option :value="item.paramCode"
@@ -80,6 +82,7 @@
                             <FormItem label="行业"
                                       prop="unitIndustry">
                                 <Select v-model="formValidate.unitIndustry"
+                                        :clearable="!disabled" 
                                         :disabled="disabled"
                                         placeholder="选择行业">
                                     <Option :value="item.paramCode"

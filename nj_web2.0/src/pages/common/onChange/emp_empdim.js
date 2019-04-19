@@ -8,6 +8,10 @@ const emp_empdim = {
   all_dis() {
     emp_empdim.empdimApplicant_set(this)
   },
+  dimLevday(node) {
+    emp_empdim.dimLevday_set(this.$parent)
+    emp_empdim.dimLevday_dis(this.$parent)
+  },
 
   empdimApplicant_set(t) {
     debugger
@@ -25,6 +29,15 @@ const emp_empdim = {
       }
     }
   },
+
+  dimLevday_set(t) {
+      let entrydate
+      if (t.valueMap.dimLevday) {
+        entrydate = new Date(t.$refs[t.valueMap.dimLevday][0].formDataSubmit.dimLevday)
+      }
+      entrydate.setDate(entrydate.getDate() - 1)
+      t.$refs[t.valueMap.dimLaswkday][0].$set(t.$refs[t.valueMap.dimLaswkday][0].formDataSubmit, 'dimLaswkday',entrydate.getFullYear() + '-' + (entrydate.getMonth() + 1) + '-' + entrydate.getDate())
+    },
 
 }
 export default emp_empdim

@@ -5,7 +5,7 @@
                 <div class="title-text">
                     <Icon type="mouse"
                           size="16"
-                          style="margin-right: 10px;"></Icon>&nbsp;{{logType}}
+                          style="margin-right: 10px;"></Icon>&nbsp;{{childLogType}}
                 </div>
                 <Button type="text"
                         @click="handleReset">
@@ -19,7 +19,7 @@
                       fix
                       v-if="spinShow">
                 </Spin>
-                <Row style="max-height: 420px;overflow-y: auto;">
+                <Row style="height: 420px;overflow-y: auto;">
                     <Form ref="formValidate"
                           :model="formValidate"
                           :rules="ruleValidate"
@@ -148,7 +148,6 @@ export default {
     },
     props: {
         id: Number,
-        logType: String,
         index: Number,
     },
     /*资源加载子页面，js不需要*/
@@ -159,12 +158,22 @@ export default {
     computed: {
       mainId () {
         return this.$store.state.empBorrow.mainId;
+      },
+      childLogType(){
+        return this.$store.state.empBorrow.childLogType;
       }
     },
     mounted () {
         this.getSelect();
     },
     methods: {
+      setRowId (id, logType) {
+        const t = this;
+        t.rowId = id;
+        if (logType !== "新增") {
+          t.getData(id);
+        }
+      },
         getSelect () {
             //   alert("a")
             const t = this
@@ -200,7 +209,7 @@ export default {
                     t.formValidate.bodeReason = res.data.content[0].bodeReason
                     t.formValidate.bodeAmount = res.data.content[0].bodeAmount
                     t.formValidate.note = res.data.content[0].note
-                    if (t.logType === '查看') {
+                    if (t.childLogType === '查看') {
                         t.forbidden = true
                         t.distype = true
                     } else {
@@ -220,19 +229,19 @@ export default {
         handleSubmit () {
             const t = this
             const data = deepCopy(t.formValidate)
-            data.logType = t.logType
+            data.logType = t.childLogType
             data._mt = 'empBorrowdetails.addOrUpd'
-            if (t.logType === '修改') {
+            if (t.childLogType === '修改') {
                 data.id = t.id
             }
             console.log(t.mainId,"m")
-            data.bodePid = t.mianId
+            data.bodePid = t.mainId;
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
                             t.handleReset();
-                            if (t.logType === '新增') {
+                            if (t.childLogType === '新增') {
                                 t.$Message.success('新增成功');
                                 t.$emit('getData', res.data.content[0])
                             } else {

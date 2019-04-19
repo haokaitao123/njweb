@@ -59,16 +59,10 @@
                             </Col>
                         </Row>
                         <Row>
-                            <!--  员工类型  -->
-                            <Col span="11" >
-                                <FormItem label="原员工类型" prop="empoType">
-                                <Select v-model="formValidate.empoType" class="width200"
-                                disabled="disabled"
-                                placeholder="员工类型" >
-                                    <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
-                                    :key="index">{{ item.paramInfoName }}
-                                    </Option>
-                                </Select>
+                            <!--  合同编号  -->
+                             <Col span="11">
+                            <FormItem label="原合同编号" prop="contractoNo">
+                                    <Input v-model="formValidate.contractoNo" disabled="disabled" placeholder="请输入原合同编号"></Input>
                                 </FormItem>
                             </Col>
                             <!--  合同类别  -->
@@ -156,17 +150,15 @@
                                 </FormItem>
                             </Col>
                             <!--  新部门名称-->
-                            <Col span="11" offset="1">
-                                <FormItem label="新部门名称"
-                                    prop="deptnId">
-                                    <span @dblclick="disabled?'':clearPid()">
-                                        <Input v-model="deptnIdName"
-                                            icon="search"
-                                            :disabled="disabled"
-                                            :readonly=true
-                                            placeholder="请选择部门"
-                                            @on-click="disabled?'':pickData2()" />
-                                    </span>
+                            <Col span="11"  offset="1">
+                                <FormItem label="原员工类型" prop="empoType">
+                                <Select v-model="formValidate.empoType" class="width200"
+                                disabled="disabled"
+                                placeholder="员工类型" >
+                                    <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
                                 </FormItem>
                             </Col>
                         </Row>
@@ -186,16 +178,18 @@
                                     </span>
                                 </FormItem>
                             </Col>
-                            <!--  新员工类型-->
+                            <!--  新部门名称-->
                             <Col span="11" offset="1">
-                                <FormItem label="新员工类型" prop="empnType">
-                                <Select v-model="formValidate.empnType" class="width200"
-                                :disabled="disabled"
-                                placeholder="员工类型" >
-                                    <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
-                                    :key="index">{{ item.paramInfoName }}
-                                    </Option>
-                                </Select>
+                                <FormItem label="新部门名称"
+                                    prop="deptnId">
+                                    <span @dblclick="disabled?'':clearPid()">
+                                        <Input v-model="deptnIdName"
+                                            icon="search"
+                                            :disabled="disabled"
+                                            :readonly=true
+                                            placeholder="请选择部门"
+                                            @on-click="disabled?'':pickData2()" />
+                                    </span>
                                 </FormItem>
                             </Col>
                         </Row>
@@ -269,8 +263,21 @@
                                 </Select>
                                 </FormItem>
                             </Col>
-                            <!--  新签订时间-->
+                            <!--  新员工类型-->
                             <Col span="11" offset="1">
+                                <FormItem label="新员工类型" prop="empnType">
+                                <Select v-model="formValidate.empnType" class="width200"
+                                :disabled="disabled"
+                                placeholder="员工类型" >
+                                    <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
+                                    :key="index">{{ item.paramInfoName }}
+                                    </Option>
+                                </Select>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="11" >
                                 <FormItem label="新签订时间" prop="signingnTime">
                                     <DatePicker type="date"
                                         placeholder="选择签订时间"
@@ -280,13 +287,6 @@
                                         v-model="formValidate.signingnTime"
                                         style="width: 100%">
                                     </DatePicker>
-                                </FormItem>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="11">
-                            <FormItem label="原合同编号" prop="contractoNo">
-                                    <Input v-model="formValidate.contractoNo" disabled="disabled" placeholder="请输入原合同编号"></Input>
                                 </FormItem>
                             </Col>
                         </Row>

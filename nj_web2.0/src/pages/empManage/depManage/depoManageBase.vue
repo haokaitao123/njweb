@@ -80,7 +80,7 @@
       getOption(id, logType) {
         this.id = parseInt(id, 10)
         this.$refs.depoMoption.getData(this.id)
-        this.$refs.depoMoption.disabled = this.disabled
+        this.$refs.depoMoption.disabled = true
       },
 //       根据name分别调用 主表或子表的查询方法 无需变更
       pageTo(name) {

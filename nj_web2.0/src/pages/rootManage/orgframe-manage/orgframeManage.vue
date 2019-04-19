@@ -533,6 +533,9 @@ export default {
           //     content: this.$t("reminder.errormessage")
           // });
           this.$Message.error(this.$t("reminder.errormessage"));
+        })
+        .finally(()=>{
+            this.$store.commit('btnOperate/setSearchLoading',false)
         });
     }, //获取列表数据
     getTree() {

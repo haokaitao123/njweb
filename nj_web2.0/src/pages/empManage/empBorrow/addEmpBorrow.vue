@@ -54,7 +54,7 @@
                     <FormItem label="总金额"
                               prop="borrTotamount">
                         <Input v-model="formValidate.borrTotamount"
-                               :disabled="forbidden"
+                               disabled="disabled"
                                placeholder="请输入总金额"></Input>
                     </FormItem>
                 </i-col>
@@ -129,7 +129,7 @@ export default {
             /*必填验证*/
             ruleValidate: {
                 empIdName: [{ required: true, message: "请选择员工姓名", trigger: 'change' },],
-                borrTotamount: [
+                /*borrTotamount: [
                     {
                         required: true,
                         message: "请输入总金额",
@@ -140,7 +140,7 @@ export default {
                         message: '请输入正确的数字格式',
                         trigger: 'blur'
                     },
-                ],
+                ],*/
             },
         }
     },
