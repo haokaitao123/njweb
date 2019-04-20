@@ -242,7 +242,6 @@ export default {
             if (page === undefined) {
                 this.page = 1;
             }
-            console.log(t.mainId,"t.mainId")
             const data = {
                 _mt: "empBorrowdetails.getPage",
                 rows: t.rows,
@@ -253,6 +252,11 @@ export default {
                 bodeType:t.bodeType,
                 bodePid: t.mainId,
             };
+             for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {

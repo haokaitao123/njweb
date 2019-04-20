@@ -579,9 +579,11 @@ export default {
                                     //     content: this.$t("reminder.updsuccess")
                                     // });
                                     // console.log(res, "res")
+                                    t.$refs.formValidate.resetFields();
                                      this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
+                                
                             }
                         })
                         .catch(() => {

@@ -90,7 +90,7 @@
         openproType:false,
         loading: "",
         // 导入的mt名称
-        imp_mt: 'baseProcus.importData',
+        imp_mt: 'platProcus.importData',
         // 导出字段设置, code字段名 name列名
         expDataTital: [{ code: 'procAppr', name: '审批类型' }, { code: 'procStep', name: '审批步骤' },
           { code: 'procOper', name: '操作类型' }, { code: 'procUser', name: '操作人' },
@@ -256,7 +256,7 @@
         }
         // 分页查询mt
         const data = {
-          _mt: 'baseProcus.getPage',
+          _mt: 'platProcus.getPage',
           rows: t.rows,
           page: t.page,
           sort: t.sort,
@@ -307,7 +307,7 @@
           bankSwiftcode: t.bankSwiftcode,
         }
         // 设置导出mt参数
-        this.$refs.expwindow.getData(this.expDataTital, 'baseProcus.export', data)
+        this.$refs.expwindow.getData(this.expDataTital, 'platProcus.export', data)
         this.openExp = true
       },
       // 导入导出默认方法 无需更改
@@ -410,7 +410,7 @@
             onOk: () => {
             getDataLevelUserLogin({
                 // 设置删除mt参数 其余无需更改
-                _mt: 'baseProcus.delByIds',
+                _mt: 'platProcus.delByIds',
                 logType: '删除',
                 ids: t.tableselected.toString(),
         }).then((res) => {

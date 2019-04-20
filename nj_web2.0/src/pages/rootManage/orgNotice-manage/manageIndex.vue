@@ -28,6 +28,7 @@
           <row class="table-form" ref="table-form">
             <Table
               @on-selection-change="selectedtable"
+              @on-sort-change="sortable"
               size="small"
               border
               ref="selection"
@@ -46,6 +47,7 @@
               show-sizer
               placement="top"
               @on-page-size-change="sizeChange"
+              @
               @on-change="pageChange"
               :page-size-opts="[10, 20, 50, 100]"
             ></Page>
@@ -476,11 +478,8 @@ export default {
       } else {
         logType = "失效";
       }
-      if (t.updateArr.length === 0) {
-        t.$Modal.error({
-          title: this.$t("reminder.remind"),
-          content: this.$t("reminder.leastone")
-        });
+      if (t.tableselected.length === 0) {
+        this.$Message.warning(this.$t('reminder.leastone'))
         return;
       }
       // 按钮请求
@@ -492,12 +491,12 @@ export default {
                                 _mt: "orgNotice.setStateByIds",
                                 logType: logType,
                                 state: t.state,
-        ids: t.selectedArr
+        ids: t.tableselected.toString()
         })
         .then(res => {
             if (isSuccess(res, t)) {
             t.getData(1);
-            t.updateArr = [];
+            t.tableselected = []
             t.$Message.success(this.$t('reminder.operatsuccess'))
           }
         })

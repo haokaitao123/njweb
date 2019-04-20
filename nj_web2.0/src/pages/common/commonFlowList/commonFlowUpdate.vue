@@ -1062,6 +1062,24 @@ export default {
                         }
                     }
                 }
+                // console.log(t.formDataSubmit, "t.formDataSubmit");
+                // console.log(t.clmMap, "t.clmMap");
+                // if(t.clmMap.transDeposit&&t.formDataSubmit.transDeposit!==""){
+
+                // }
+                // let data = {
+                //     _mt:'empDeposmin.selectMinMoney',
+                //     logType:"查询步骤Code"
+                // }
+                // getDataLevelUserLoginNew2(data).then((res) => {
+                //     if (isSuccess(res, t)) {
+                        
+                //     }
+                // }).catch(() => {
+                //     t.loading1 = false
+                //     t.$Message.error(this.$t("reminder.errormessage"));
+                //     return
+                // })
                 if (!a) {
                     t.loading1 = false
                     return
