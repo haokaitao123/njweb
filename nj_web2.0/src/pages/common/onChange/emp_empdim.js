@@ -6,6 +6,7 @@ import { isSuccess } from '../../../lib/util'
 
 const emp_empdim = {
   all_dis() {
+    emp_empdim.dimIsreceive_dis(this)
     emp_empdim.empdimApplicant_set(this)
     emp_empdim.dimSalday_set(this)
   },
@@ -13,7 +14,10 @@ const emp_empdim = {
     emp_empdim.dimLevday_set(this.$parent)
     //emp_empdim.dimLevday_dis(this.$parent)
   },
-
+  dimIsreceive(node) {
+    emp_empdim.dimIsreceive_set(this.$parent)
+    emp_empdim.dimIsreceive_dis(this.$parent)
+  },
   empdimApplicant_set(t) {
     //debugger
       if (t.valueMap.dimApplicant) {
@@ -82,6 +86,33 @@ const emp_empdim = {
       t.$refs[t.valueMap.dimLaswkday][0].$set(t.$refs[t.valueMap.dimLaswkday][0].formDataSubmit, 'dimLaswkday',entrydate.getFullYear() + '-' + (entrydate.getMonth() + 1) + '-' + entrydate.getDate())
     },
 
+
+  dimIsreceive_dis(t) {
+    if (t.valueMap.dimIsreceive) {
+      if (t.$refs[t.valueMap.dimIsreceive][0].formDataSubmit.dimIsreceive === '0') {
+        if (t.valueMap.dimReceive) {
+          t.$refs[t.valueMap.dimReceive][0].$delete(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive')
+        }
+      } else {
+        if (t.valueMap.dimReceive) {
+          console.log(t.$refs[t.valueMap.dimReceive],"123");
+          console.log(t.$refs[t.valueMap.dimIsreceive],"123");
+          t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive', '')
+          t.$refs[t.valueMap.dimIsreceive][0].$refs.dimReceive.thisValue = ''
+        }
+      }
+    }
+  },
+
+  dimIsreceive_set(t) {
+    debugger
+    // 是否公司前员工隐藏前清空字段值
+    if (t.valueMap.dimIsreceive && t.$refs[t.valueMap.dimIsreceive][0].formDataSubmit.dimIsreceive === '0') {
+      if (t.valueMap.dimReceive) {
+          t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formDataSubmit, 'dimReceive', '')
+      }
+    }
+  },
 
 }
 export default emp_empdim
