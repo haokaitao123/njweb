@@ -7,14 +7,15 @@ import { isSuccess } from '../../../lib/util'
 const emp_empdim = {
   all_dis() {
     emp_empdim.empdimApplicant_set(this)
+    emp_empdim.dimSalday_set(this)
   },
   dimLevday(node) {
     emp_empdim.dimLevday_set(this.$parent)
-    emp_empdim.dimLevday_dis(this.$parent)
+    //emp_empdim.dimLevday_dis(this.$parent)
   },
 
   empdimApplicant_set(t) {
-    debugger
+    //debugger
       if (t.valueMap.dimApplicant) {
         //alert(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant)
         if(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant.length<=0 || t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant === '0'){
@@ -30,6 +31,48 @@ const emp_empdim = {
     }
   },
 
+//工资发放日期：系统默认20号之后的第一个星期三
+  dimSalday_set(t) {
+
+    if (t.valueMap.dimSalday) {
+      alert(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday)
+      debugger
+      if(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday.length<=0){
+        //当月的20号
+        let nowDate = new Date()
+        //当前月的20号
+        let entrydate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-20')
+        let flag = true
+        while(flag){
+          entrydate.setDate(entrydate.getDate() + 1)//当前日期加1天
+          let week = entrydate.getDay();//当前星期的第几天
+          if(week === 3){//星期三
+            flag = false
+          }
+        }
+        let day1 = nowDate.getDate()//当前
+        let day2 = entrydate.getDate()//20号之后的第一个星期三
+        let resDate
+        if(day1<day2){
+          resDate = entrydate
+        }else {
+          //下个月的20号
+          let date1 = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 2) + '-20')
+          let flag1 = true
+          while(flag1){
+            date1.setDate(date1.getDate() + 1)//当前日期加1天
+            let week = date1.getDay();//当前星期的第几天
+            if(week === 3){//星期三
+              flag1 = false
+            }
+          }
+          resDate = date1
+        }
+        t.$refs[t.valueMap.dimSalday][0].$set(t.$refs[t.valueMap.dimSalday][0].formDataSubmit, 'dimSalday',  resDate.format('yyyy-MM-dd'))
+      }
+    }
+  },
+//最后工作日：离职日期前一天
   dimLevday_set(t) {
       let entrydate
       if (t.valueMap.dimLevday) {
@@ -38,6 +81,7 @@ const emp_empdim = {
       entrydate.setDate(entrydate.getDate() - 1)
       t.$refs[t.valueMap.dimLaswkday][0].$set(t.$refs[t.valueMap.dimLaswkday][0].formDataSubmit, 'dimLaswkday',entrydate.getFullYear() + '-' + (entrydate.getMonth() + 1) + '-' + entrydate.getDate())
     },
+
 
 }
 export default emp_empdim
