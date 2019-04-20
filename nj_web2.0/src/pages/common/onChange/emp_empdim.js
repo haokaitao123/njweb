@@ -12,14 +12,14 @@ const emp_empdim = {
   },
   dimLevday(node) {
     emp_empdim.dimLevday_set(this.$parent)
-    //emp_empdim.dimLevday_dis(this.$parent)
+    emp_empdim.dimLevday_dis(this.$parent)
   },
   dimIsreceive(node) {
     emp_empdim.dimIsreceive_set(this.$parent)
     emp_empdim.dimIsreceive_dis(this.$parent)
   },
   empdimApplicant_set(t) {
-    //debugger
+    debugger
       if (t.valueMap.dimApplicant) {
         //alert(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant)
         if(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant.length<=0 || t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant === '0'){
