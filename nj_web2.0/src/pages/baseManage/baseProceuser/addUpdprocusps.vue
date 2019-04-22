@@ -56,7 +56,7 @@
           <Col span="10" offset="1">
           <FormItem label="操作类型" prop="procOper">
             <Select v-model="formValidate.procOper"
-                    :disabled="editdisabled" class="width200"
+                     class="width200"
                     placeholder="操作类型"
                     clearable>
               <Option :value="item.paramCode"
@@ -186,7 +186,7 @@
     data() {
       return {
         formValidate: {
-          _mt: 'baseProcus.addOrUpd',
+          _mt: 'platProcus.addOrUpd',
           funId: '1',
           procType: '',
           procTypeDis:'',
@@ -355,7 +355,7 @@
       getData(id) {
         const t = this
         getDataLevelUserLogin({
-          _mt: 'baseProcus.getById',
+          _mt: 'platProcus.getById',
           id: id,
           logType: '根据id获取数据',
         }).then((res) => {

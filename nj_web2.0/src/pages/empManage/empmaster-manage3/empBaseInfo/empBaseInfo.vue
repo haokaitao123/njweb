@@ -953,14 +953,6 @@ export default {
                         trigger: 'blur'
                     },
                 ],
-                empnhWechat: [
-                    {
-                        required: false,
-                        validator: numberCheck,
-                        message: '请输入正确的数字格式',
-                        trigger: 'blur'
-                    },
-                ],
                 empnhWklocat: [
                     {
                         required: true,

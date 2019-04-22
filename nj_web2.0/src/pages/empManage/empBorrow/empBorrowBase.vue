@@ -11,7 +11,7 @@
                         <MenuItem name="option">
                         借支信息管理
                         </MenuItem>
-                        <MenuItem name="content">
+                        <MenuItem name="content" v-show="this.id===''?false:true">
                         借支明细管理
                         </MenuItem>
                     </Menu>
@@ -96,10 +96,6 @@ export default {
         },
         //       根据name分别调用 主表或子表的查询方法 无需变更
         pageTo (name) {
-            if (this.id === '') {
-                this.$Message.warning('请先保存主表数据');
-                return;
-            }
               this.option =  false
               this.content = false
               this.active = name
