@@ -91,6 +91,28 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11">
+                            <FormItem label="保密协议"
+                                      prop="contBmxy">
+                                <RadioGroup v-model="form.contBmxy">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectAttendy"
+                                           :key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="11" offset="1">
+                            <FormItem label="竞业限制协议"
+                                      prop="contJzxy">
+                                <RadioGroup v-model="form.contJzxy">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectAttendy"
+                                           :key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="11">
                             <FormItem label="合同期限"
                                       prop="contPeriod">
                                 <Select v-model="form.contPeriod"
@@ -212,29 +234,7 @@
                                             style="width: 100%"></DatePicker>
                             </FormItem>
                         </i-col>
-                        <i-col span="11"
-                               offset="1">
-                            <FormItem label="保密协议"
-                                      prop="contBmxy">
-                                <RadioGroup v-model="form.contBmxy">
-                                    <Radio :label="item.paramCode"
-                                           v-for="(item,index) in selectAttendy"
-                                           :key="index"
-                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
-                                </RadioGroup>
-                            </FormItem>
-                        </i-col>
-                        <i-col span="11">
-                            <FormItem label="竞业限制协议"
-                                      prop="contJzxy">
-                                <RadioGroup v-model="form.contJzxy">
-                                    <Radio :label="item.paramCode"
-                                           v-for="(item,index) in selectAttendy"
-                                           :key="index"
-                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
-                                </RadioGroup>
-                            </FormItem>
-                        </i-col>
+                        
                         <i-col span="22">
                             <FormItem label="附件上传"
                                       prop="fileKey">
