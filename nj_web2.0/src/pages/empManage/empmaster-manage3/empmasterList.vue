@@ -654,6 +654,8 @@ export default {
         },
         // 状态变化
         modityChange (res) {
+            const t = this;
+            t.tableselected = [];
             this.getData();
             this.getTree();
         },
