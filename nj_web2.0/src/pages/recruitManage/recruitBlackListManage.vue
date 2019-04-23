@@ -527,6 +527,7 @@ export default {
     },
     //查询
     search() {
+      this.tableselected = [];
       this.page = 1;
       this.getData();
     }

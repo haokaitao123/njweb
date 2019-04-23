@@ -425,7 +425,8 @@ export default {
     methods: {
         //状态
      modityChange (res) {
-            this.getData();
+         this.tableselected = [];
+         this.getData();
     },
     getData (page) {
             const t = this;
@@ -576,6 +577,7 @@ export default {
 
     },
     search() {
+      this.tableselected = [];
       this.page = 1;
       this.$store.commit('btnOperate/setSearchLoading',true)
       this.getData();

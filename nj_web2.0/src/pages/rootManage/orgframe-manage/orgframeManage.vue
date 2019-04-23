@@ -429,6 +429,7 @@ export default {
   },
   methods: {
     modityChange(res) {
+      this.tableselected = [];
       this.getData();
       this.getTree();
     },
@@ -729,6 +730,7 @@ export default {
     search() {
       this.$store.commit('btnOperate/setSearchLoading',true);
       this.treeid = "";
+      this.tableselected = [];
       this.page = 1;
       this.getData();
     }, //查询

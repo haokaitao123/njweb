@@ -367,6 +367,7 @@
     },
     methods: {
       changemodity(res){
+        this.tableselected = [];
         this.page = 1
         this.getData()
       },
@@ -520,6 +521,7 @@
        // t.$refs.update.getOption(id, logType)
       },
       search() {
+      this.tableselected = [];
       this.page = 1;
       //this.$store.commit('btnOperate/setSearchLoading',true)
       this.getData();

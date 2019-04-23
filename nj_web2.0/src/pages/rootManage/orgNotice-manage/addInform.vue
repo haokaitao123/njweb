@@ -423,7 +423,8 @@ export default {
       }
       getDataLevelUserLogin(data).then((res) => {
         if (isSuccess(res, t)) {
-        localStorage.pageOpenedListAll = JSON.stringify(JSON.parse(localStorage.pageOpenedList))
+        localStorage.pageOpenedListAll = JSON.stringify(JSON.parse(localStorage.pageOpenedList));
+        console.log((pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)),"213")
         if (this.isIE()) {
           window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
         } else {

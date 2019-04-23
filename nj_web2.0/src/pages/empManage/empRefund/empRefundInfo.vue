@@ -287,6 +287,7 @@
         t.openUpdate = false;
       },
       search() {
+        this.tableselected = [];
         this.page = 1;
         this.getData();
       },

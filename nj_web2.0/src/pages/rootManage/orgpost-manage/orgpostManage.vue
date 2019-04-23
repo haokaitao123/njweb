@@ -386,6 +386,7 @@ FlowNode() {
   methods: {
     //状态
     modityChange(res) {
+      this.tableselected = [];
       this.getData();
     },
     getData(page) {
@@ -528,6 +529,7 @@ FlowNode() {
       t.$refs.update.formValidate.note = "";
     },
     search() {
+      this.tableselected = [];
       this.page = 1;
       this.getData();
     },

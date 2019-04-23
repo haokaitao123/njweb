@@ -408,6 +408,7 @@ export default {
   methods: {
     //状态
     modityChange(res) {
+      this.tableselected = [];
       this.getData();
     },
     getData(page) {
@@ -541,6 +542,7 @@ export default {
      
     },
     search() {
+      this.tableselected = [];
       this.page = 1;
       this.$store.commit('btnOperate/setSearchLoading',true)
       this.getData();
