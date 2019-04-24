@@ -94,7 +94,7 @@
         // 导出字段设置, code字段名 name列名
         expDataTital: [{ code: 'procAppr', name: '审批类型' }, { code: 'procStep', name: '审批步骤' },
           { code: 'procOper', name: '操作类型' }, { code: 'procUser', name: '操作人' },
-          { code: 'procPost', name: '操作岗' }, { code: 'note', name: '备注' }],
+          { code: 'procPost', name: '操作岗' },{ code: 'procSbdate', name: '权限开始日期' },{ code: 'procEbdate', name: '权限截止日期' }, { code: 'note', name: '备注' }],
         // 导入导出默认参数 无需变更
         openImport: false,
         openExpDow: false,
@@ -142,6 +142,18 @@
           {
             title: '操作岗',
             key: 'procPostDis',
+            sortable: 'custom',
+            width: 220,
+          },
+          {
+            title: '权限开始日期',
+            key: 'procSbdate',
+            sortable: 'custom',
+            width: 220,
+          },
+          {
+            title: '权限截止日期',
+            key: 'procEbdate',
             sortable: 'custom',
             width: 220,
           },

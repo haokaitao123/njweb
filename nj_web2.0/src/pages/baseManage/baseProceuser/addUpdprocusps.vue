@@ -96,6 +96,34 @@
           </Col>
         </Row>
         <Row>
+          <Col span="10" offset="1">
+            <FormItem
+              label="权限开始日期"
+              prop="procSbdate"
+            >
+              <DatePicker
+                type="date"
+                placeholder="请选择开始日期"
+                v-model="formValidate.procSbdate"
+                style="width: 100%;"
+              ></DatePicker>
+            </FormItem>
+          </Col>
+          <Col span="10" offset="1">
+            <FormItem
+              label="权限截止日期"
+              prop="procEbdate"
+            >
+              <DatePicker
+                type="date"
+                placeholder="请选择截止日期"
+                v-model="formValidate.procEbdate"
+                style="width: 100%;"
+              ></DatePicker>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
           <Col span="21" offset="1">
           <FormItem label="备注" prop="note">
             <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请填写备注"></Input>
@@ -200,6 +228,8 @@
           procUserDis: '',
           procPost: '',
           procPostDis: '',
+          procSbdate:'',
+          procEbdate:'',
           note: '',
         },
         ruleValidate: {
@@ -231,6 +261,22 @@
               trigger: "change"
             }
           ],
+          procSbdate: [
+            {
+              required: true,
+              type: "date",
+              message: "请选择开始日期",
+              trigger: "change"
+            }
+          ],
+          procEbdate: [
+            {
+              required: true,
+              type: "date",
+              message: "请选择截止日期",
+              trigger: "change"
+            }
+          ],
         },
         procTypeDis:'',
         procApprDis: '',
@@ -238,6 +284,8 @@
         procOperDis: '',
         procUserDis: '',
         procPostDis: '',
+        procSbdate:'',
+        procEbdate:'',
         openproaua: false,
         openproaub: false,
         openproauc: false,
@@ -371,6 +419,8 @@
             t.procUserDis =res.data.content[0].procUserDis;
             t.formValidate.procPost =res.data.content[0].procPost;
             t.procPostDis =res.data.content[0].procPostDis;
+            t.formValidate.procSbdate =res.data.content[0].procSbdate;
+            t.formValidate.procEbdate =res.data.content[0].procEbdate;
             t.formValidate.note = res.data.content[0].note
           }
         }).catch(() => {
@@ -522,6 +572,12 @@
         const t = this
         this.$refs.formValidate.validate((valid) => {
           if (valid) {
+            t.formValidate.procSbdate = t.formValidate.procSbdate.format(
+              "yyyy-MM-dd"
+            );
+            t.formValidate.procEbdate = t.formValidate.procEbdate.format(
+              "yyyy-MM-dd"
+            );
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
             if (t.logType === this.$t('button.upd')) {
