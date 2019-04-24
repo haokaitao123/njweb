@@ -359,7 +359,10 @@ export default {
                 page: 1,
                 funId: '1',
                 logType: '搜索',
-                data: '{"   " : "1"}',
+                data: {
+                    "cityIsvalid" : "1",
+                    "cityType":"02city"
+                },
             },
             searchCloumns: [
                 {
@@ -645,7 +648,8 @@ export default {
             const t = this
             if (!this.disabled) {
                 t.popup = '0'
-                t.$refs.searchCity.getData(this.params, '02city')
+                //t.$refs.searchCity.getData(this.params, '02city')
+                t.$refs.searchCity.getData(this.params)
                 t.openPick = true
             }
         },
