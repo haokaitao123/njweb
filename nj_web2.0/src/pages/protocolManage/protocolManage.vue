@@ -449,6 +449,7 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+          this.$store.commit('btnOperate/setSearchLoading',false)
         });
     },
 
@@ -539,7 +540,7 @@ export default {
       t.$refs.update.empName = "";
       t.$refs.update.deptoIdName = "";
       t.$refs.update.postoName = "";
-      t.$refs.update.formValidate.empnhIdno = "";
+      t.$refs.update.empnhIdno = "";
       t.$refs.update.formValidate.contractoNo = "";
       t.$refs.update.formValidate.contractoStart = "";
       t.$refs.update.formValidate.contractoEnd = "";
@@ -563,6 +564,7 @@ export default {
     search() {
       this.page = 1;
       this.getData();
+      this.$store.commit('btnOperate/setSearchLoading',true)
     },
     modifystatus(state) {
       const t = this;

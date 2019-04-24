@@ -112,7 +112,7 @@ export default {
         imp_mt: 'depoManageDetail.importData',
         // 导出字段设置, code字段名 name列名
        expDataTital: [
-        { code: "depoType", name: "押金类型" },
+        { code: "depoTypeDis", name: "类型" },
         { code: "depoHandle", name: "操作时间" },
         { code: "depoReason", name: "变动原因" },
         { code: "moneyNum", name: "金额" },

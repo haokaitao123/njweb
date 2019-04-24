@@ -10,6 +10,11 @@
                 <Icon type="close-round" size="16"></Icon>
             </Button>
         </div>
+        <div class="option-main">
+                <Spin size="large"
+              fix
+              v-if="spinShow"></Spin>
+        </div>
         <!-- form表单 :model="formValidate" model表单数据对象绑定了formValidate :rules="ruleValidate" 表单验证规则  :label-width="135" 表单域标签的宽度-->
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
             <Row>
@@ -18,23 +23,31 @@
                 <Col span="10" offset="1">
                     <FormItem label="员工姓名" prop="empId">
                         <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
-                        <span @dblclick="clearUserid">
-                            <Input v-model="empName" icon="search" :readonly="true" placeholder="请选择员工姓名"  @on-click="pickUserData" />
+                        <span @dblclick="disabled?'':clearUserid()">
+                            <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="disabled?'':pickUserData()" />
                         </span>
                     </FormItem>
                 </Col>
                  <!--  项目名称输入框  -->
                 <Col span="10" offset="1">
                     <FormItem label="项目名称" prop="entryId">
-                        <Input v-model="entryName" placeholder="请输入项目名称"></Input>
+                        <Input v-model="entryName" disabled="disabled" placeholder="请输入项目名称"></Input>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
-                <!--  简历日期选择框 -->
+                 <!--  身份证输入框  -->
+                <Col span="10" offset="1">
+                    <FormItem label="身份证号码" prop="empIdno">
+                        <Input v-model="empIdno" disabled="disabled" placeholder="请输入身份证号码"></Input>
+                    </FormItem>
+                </Col>
+                 <!--  简历日期选择框 -->
                 <Col span="10" offset="1">
                     <FormItem label="简历日期" prop="resumeDate">
                         <DatePicker type="date"
+                            :disabled="disabled"
+                            :readonly="disabled"
                             placeholder="选择简历日期"
                             :editable="false"
                             v-model="formValidate.resumeDate"
@@ -42,10 +55,12 @@
                         </DatePicker>
                     </FormItem>
                 </Col>
-                <!--  简历使用量输入框  -->
+            </Row>
+            <Row>
+                 <!--  简历使用量输入框  -->
                 <Col span="10" offset="1">
                     <FormItem label="简历使用量" prop="resumeNum">
-                        <Input v-model="formValidate.resumeNum" placeholder="请输入简历使用量"  style="width: 100%"></Input>
+                        <Input v-model="formValidate.resumeNum" :disabled="disabled" placeholder="请输入简历使用量"  style="width: 100%"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -53,7 +68,7 @@
                 <!--  备注文本域  -->
                 <Col span="21" offset="1">
                     <FormItem label="备注" prop="note">
-                        <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
+                        <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :disabled="disabled" placeholder="请输入备注"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -62,8 +77,13 @@
                 <Col span="21" offset="1">
                     <Row type="flex" justify="end">
                         <FormItem>
-                            <Button type="ghost" @click="handleReset" style="margin-left: 8px">取消</Button>
-                            <Button type="primary" @click="handleSubmit">保存</Button>
+                           <Button type="ghost" @click="handleReset" class="btn1">{{$t('button.cal')}}</Button>
+                                    <Button
+                                        type="primary"
+                                        @click="handleSubmit"
+                                        class="btn"
+                                        v-show="!disabled"
+                                        >{{$t('button.sav')}}</Button>
                         </FormItem>
                     </Row>
                 </Col>
@@ -93,6 +113,8 @@
         numberValCheck()
       }
       return {
+        spinShow:false,
+        disabled: false,
         openPickUser: false,//员工信息默认false 隐藏
         formValidate: {
             _mt: 'rmResume.addOrUpd', //新增的数据接口
@@ -106,6 +128,7 @@
         },
         entryName: '',//项目名称
         empName:'',//员工名称
+        empIdno:'',//身份证号码
         ruleValidate: { //表单验证规则
             //员工
             empId: [ 
@@ -145,7 +168,8 @@
     methods: {
         //根据id查询信息回显数据
         getData(id) {
-            const t = this
+            const t = this;
+            t.spinShow = true
             //根据id获取数据请求接口
             getDataLevelUserLogin({
                 _mt: 'rmResume.getById',
@@ -156,11 +180,19 @@
                 //回显数据绑定
                 t.formValidate.entryId = res.data.content[0].entryId
                 t.formValidate.empId = res.data.content[0].empId
+                t.empIdno = res.data.content[0].empIdno
                 t.entryName = res.data.content[0].entryName
                 t.empName = res.data.content[0].empName
                 t.formValidate.resumeDate = res.data.content[0].resumeDate
                 t.formValidate.resumeNum = res.data.content[0].resumeNum
                 t.formValidate.note = res.data.content[0].note
+                 if (id === res.data.content[0].companyId) {
+                            t.forbidden = 'disabled'
+                            t.distype = true
+                    } else {
+                            t.forbidden = null
+                            t.distype = false
+                    }
             }
             }).catch(() => {
                 // this.$Modal.error({
@@ -169,6 +201,9 @@
                 // })
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
+            .finally(() => {
+                t.spinShow = false
+            });
         },
         //点击提交事件
         handleSubmit() {
@@ -241,14 +276,16 @@
             t.formValidate.empId = row.id //员工信息id赋值
             t.entryName = row.deptIdDis;
             t.formValidate.entryId = row.deptId;
+            t.empIdno = row.empnhIdno;
         },
         //清除员工信息
         clearUserid() {
             const t = this
             t.empName = ''
-            t.empId = ''
-            t.entryId = ''
+            t.formValidate.empId = ''
+            t.formValidate.entryId = ''
             t.entryName = ''
+            t.empIdno = ''
         },
         //打开员工信息弹出框
         pickUserData() {

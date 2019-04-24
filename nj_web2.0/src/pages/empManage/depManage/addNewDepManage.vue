@@ -1,5 +1,9 @@
 <template>
   <div class="option-main">
+    <Spin size="large"
+            fix
+            v-if="spinShow">
+      </Spin>
     <Row style="max-height: 420px;overflow-y: auto;">
       <Form ref="formValidate"
             :model="formValidate"
@@ -80,6 +84,7 @@
   export default {
     data () {
       return {
+        spinShow: false,
         disabled: false,
         file: '',
         filekey: '',
@@ -138,7 +143,8 @@
         t.formValidate.empnhIdno = '';
       },
       getData (id) {
-        const t = this
+        const t = this;
+        t.spinShow = true; //开启loading效果
         getDataLevelUserLogin({
           _mt: 'depManage.getById',
           id: id,
@@ -166,7 +172,9 @@
         }
       }).catch(() => {
           this.$Message.error(this.$t('reminder.errormessage'))
-      })
+      }).finally(() => {
+                t.spinShow = false; //关闭loading效果
+            });
       },
       handleSubmit () {
         const t = this

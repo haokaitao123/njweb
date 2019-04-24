@@ -11,7 +11,7 @@
             <template>
               <div class="table">
                 <span @dblclick="cleardepPost('1')">
-                 <Input v-model="depPostDis" style="width: 200px" icon="search" :readonly="true"  placeholder="请选择岗位"  @on-click="pickdepPost()"/>
+                <Input v-model="depMoney" placeholder="请输入最低押金" style="width: 200px"></Input>
                 </span>
                 <!-- 页面中调用公共按钮组件标签<btnList> -->
                 <!-- 调用公共按钮组件方法 -->
@@ -114,12 +114,12 @@
             width: 54,
             align: 'center',
           },
-          {
-            title: '岗位',
-            key: 'depPostDis',
-            sortable: 'custom',
-            width: 220,
-          },
+          // {
+          //   title: '岗位',
+          //   key: 'depPostDis',
+          //   sortable: 'custom',
+          //   width: 220,
+          // },
           {
             title: '最低押金',
             key: 'depMoney',
@@ -184,8 +184,7 @@
       rows: 10,
       page: 1,
       // 查询条件变量
-      depPostDis: '',
-      depPost:'',
+      depMoney: '',
       searchCloumns: [
         {
           title: "岗位编码",
@@ -251,8 +250,7 @@
           order: t.order,
           logType: '查看',
 //          添加查询变量
-          depPostDis: t.depPostDis,
-          depPost:t.depPost
+          depMoney: t.depMoney,
         }
         // 删除空字段 无需更改
         for (const dat in data) {

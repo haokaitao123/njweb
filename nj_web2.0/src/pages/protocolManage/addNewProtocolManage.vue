@@ -21,6 +21,9 @@
                     </Button>
                 </div>  
          <div class="option-main">
+             <Spin size="large"
+                fix
+                v-if="spinShow"></Spin>
                 <Row style="max-height: 420px;overflow-y: auto;"
                      id="scrollBox">
                
@@ -54,7 +57,7 @@
                             <!--  证件号码输入框  -->
                             <Col span="11" offset="1">
                                 <FormItem label="证件号码" prop="empnhIdno">
-                                    <Input v-model="formValidate.empnhIdno" disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
+                                    <Input v-model="empnhIdno" disabled="disabled" placeholder="请输入证件号码" style="width: 100%"></Input>
                                 </FormItem>
                             </Col>
                         </Row>
@@ -353,6 +356,7 @@
         }
       }
       return {
+        spinShow:false,
         disabled: false,
         distype: false,
         openPickUser: false,//员工信息默认false 隐藏
@@ -438,7 +442,6 @@
             deptoId: '', //原部门id
             empId: '', //员工id
             postoId: '', //原岗位id
-            empnhIdno: '',//身份证号码
             empoType:'',//原员工类型
             contractoType:'',//原合同类别
             contractoPeriod:'',//原合同期限
@@ -464,6 +467,7 @@
         deptoIdName:'',//原部门名称
         deptnIdName:'',
         postnIdName:'',
+        empnhIdno: '',//身份证号码
         ruleValidate: { //表单验证规则
             //员工
             empId: [ 
@@ -532,7 +536,8 @@
     methods: {
         //根据id查询信息回显数据
         getData(id) {
-            const t = this
+            const t = this;
+            t.spinShow = true
             //根据id获取数据请求接口
             getDataLevelUserLogin({
                 _mt: 'protocolManage.getById',
@@ -566,7 +571,7 @@
                 t.formValidate.contractnEnd = res.data.content[0].contractnEnd
                 t.formValidate.contractnTime = res.data.content[0].contractnTime
                 t.formValidate.signingnTime = res.data.content[0].signingnTime
-                t.formValidate.empnhIdno = res.data.content[0].empnhIdno
+                t.empnhIdno = res.data.content[0].empnhIdno
                 t.formValidate.note = res.data.content[0].note
                 if (id === res.data.content[0].companyId) {
                             t.forbidden = 'disabled'
@@ -583,6 +588,9 @@
                 // })
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
+            .finally(() => {
+                    t.spinShow = false
+            });
         },
          getSelect () {
             const t = this;
@@ -757,7 +765,7 @@
             t.formValidate.contractoTime = row.contWorktime;
             t.formValidate.signingoTime = row.contSigndate;
             t.formValidate.contractoNo = row.numberCode;
-            t.formValidate.empnhIdno = row.empIdno;    
+            t.empnhIdno = row.empIdno;    
         },
         //清除员工信息
         clearUserid() {
@@ -771,7 +779,7 @@
             t.formValidate.empoType='';
             t.formValidate.contractoType='';
             t.formValidate.contractoPeriod='';
-            t.formValidate.empnhIdno='';
+            t.empnhIdno='';
             t.formValidate.contractoNo='';
             t.formValidate.signingoTime = '';
             t.formValidate.contractoStart='';

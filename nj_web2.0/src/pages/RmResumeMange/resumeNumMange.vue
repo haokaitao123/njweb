@@ -165,6 +165,7 @@ export default {
        expDataTital: [
         { code: "empName", name: "员工姓名" },
         { code: "entryName", name: "项目名称" },
+        { code: "empIdno", name: "身份证号码" },
         { code: "resumeDate", name: "简历日期" },
         { code: "resumeNum", name: "简历使用量" },
         { code: "note", name: "备注" }
@@ -199,6 +200,12 @@ export default {
           title: "项目名称",
           key: "entryName",
           sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
+          width: 220
+        },
+        {
+          title: "身份证号码",
+          key: "empIdno",
+         //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
@@ -512,6 +519,7 @@ export default {
       t.$refs.update.empName = "";
       t.$refs.update.formValidate.resumeDate = "";
       t.$refs.update.formValidate.resumeNum = "";
+      t.$refs.update.empIdno = "";
       t.$refs.update.formValidate.note = "";
     }, //关闭窗口
     //关闭员工信息弹出框

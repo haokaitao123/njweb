@@ -10,6 +10,11 @@
                 <Icon type="close-round" size="16"></Icon>
             </Button>
         </div>
+        <div class="option-main">
+                <Spin size="large"
+              fix
+              v-if="spinShow"></Spin>
+        </div>
         <!-- form表单 :model="formValidate" model表单数据对象绑定了formValidate :rules="ruleValidate" 表单验证规则  :label-width="135" 表单域标签的宽度-->
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
             <Row>
@@ -84,6 +89,7 @@
             }
         };
       return {
+        spinShow:false,
         formValidate: {
             _mt: 'depCeilRule.addOrUpd', //新增的数据接口
             funId: '1', //功能ID
@@ -151,7 +157,8 @@
     methods: {
         //根据id查询信息回显数据
         getData(id) {
-            const t = this
+            const t = this;
+            t.spinShow = true
             //根据id获取数据请求接口
             getDataLevelUserLogin({
                 _mt: 'depCeilRule.getById',
@@ -172,6 +179,9 @@
                 // })
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
+            .finally(() => {
+                t.spinShow = false
+            });
         },
         //点击提交事件
         handleSubmit() {

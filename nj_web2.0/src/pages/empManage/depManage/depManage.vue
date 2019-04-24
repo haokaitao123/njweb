@@ -146,7 +146,6 @@ export default {
   data() {
     return {
       tableOperate:false,
-      loading: "",
 			// 导入的mt名称
         imp_mt: 'depManage.importData',
         // 导出字段设置, code字段名 name列名
@@ -164,7 +163,7 @@ export default {
         openExp: false,
         filekey: '',
 				filename: '',
-
+        loading: false,
       empName: "",
       tableheight: document.body.offsetHeight - 280, //table高度
       logType: "", //操作类型
@@ -273,6 +272,7 @@ export default {
                 order: 'desc',
                 logType: '岗位',
             },
+            loading: "",
      };
   },
   //外部调用的组件注册到这里
@@ -356,16 +356,19 @@ export default {
           if (isSuccess(res, t)) {
             t.data = res.data.content[0].rows; //列表数据
             t.total = res.data.content[0].records; //列表总页数
-             t.loading = false; //在成功之后改状态
           }
         })
         .catch(() => {
-          t.loading = false; //在失败之后改状态
           //请求失败
-          t.$Modal.error({
-            title: "错误",
-            content: "网络错误"
-          });
+          // t.$Modal.error({
+          //   title: "错误",
+          //   content: "网络错误"
+          // });
+          this.$Message.error(this.$t("reminder.errormessage"));
+        })
+        .finally(() => {
+          this.loading = false;
+          this.$store.commit('btnOperate/setSearchLoading',false)
         });
     },
 
@@ -528,6 +531,7 @@ export default {
         },
          //查询
         search(){
+            this.$store.commit('btnOperate/setSearchLoading',true)
             this.page = 1;
             this.getData(1);
         },
