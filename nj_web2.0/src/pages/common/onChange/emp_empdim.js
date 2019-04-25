@@ -5,21 +5,20 @@ import { getDataLevelUserLogin } from '../../../axios/axios'
 import { isSuccess } from '../../../lib/util'
 
 const emp_empdim = {
-  all_dis() {
+  all_dis() {emp_empdim.dimLevday_dis
     emp_empdim.dimIsreceive_dis(this)
     emp_empdim.empdimApplicant_set(this)
     emp_empdim.dimSalday_set(this)
   },
   dimLevday(node) {
     emp_empdim.dimLevday_set(this.$parent)
-    emp_empdim.dimLevday_dis(this.$parent)
+   // emp_empdim.dimLevday_dis(this.$parent)
   },
   dimIsreceive(node) {
     emp_empdim.dimIsreceive_set(this.$parent)
     emp_empdim.dimIsreceive_dis(this.$parent)
   },
   empdimApplicant_set(t) {
-    debugger
       if (t.valueMap.dimApplicant) {
         //alert(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant)
         if(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant.length<=0 || t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant === '0'){
@@ -39,8 +38,8 @@ const emp_empdim = {
   dimSalday_set(t) {
 
     if (t.valueMap.dimSalday) {
-      alert(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday)
-      debugger
+      //alert(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday)
+      //debugger
       if(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday.length<=0){
         //当月的20号
         let nowDate = new Date()
@@ -105,8 +104,7 @@ const emp_empdim = {
   },
 
   dimIsreceive_set(t) {
-    debugger
-    // 是否公司前员工隐藏前清空字段值
+    //清空
     if (t.valueMap.dimIsreceive && t.$refs[t.valueMap.dimIsreceive][0].formDataSubmit.dimIsreceive === '0') {
       if (t.valueMap.dimReceive) {
           t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formDataSubmit, 'dimReceive', '')

@@ -56,13 +56,13 @@ export default{
         },
         {
           title: '部门',
-          key: 'deptIdDis',
+          key: 'unitFname',
           sortable: 'deptId',
           width: 100,
         },
         {
           title: '岗位',
-          key: 'postIdDis',
+          key: 'postFname',
           sortable: 'postId',
           width: 100,
         },

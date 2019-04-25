@@ -13,10 +13,10 @@
               <Row>
                 <Input placeholder="请输入员工姓名"
                        style="width: 200px"
-                       v-model="empIdName"/>
+                       v-model="empnhName"/>
                 <Input placeholder="请输入证件号码"
                        style="width: 200px"
-                       v-model="empIdIden"/>
+                       v-model="empnhIdno"/>
                 <!--状态选择框-->
                 <btnList :btnData="btnData"   :FlowNode="FlowNode" @buttonExport="expData"
                          @buttonSearch="getData"
@@ -133,10 +133,10 @@
         imp_mt: "empEmpofficial.importData",
         // 导出字段设置, code字段名 name列名
         expDataTital: [
-          { code: "empIdName", name: "员工姓名" },
-          { code: "empIdIden", name: "证件号码" },
-          { code: "deptIdDis", name: "部门" },
-          { code: "postIdDis", name: "岗位" },
+          { code: "empnhName", name: "员工姓名" },
+          { code: "empnhIdno", name: "证件号码" },
+          { code: "unitFname", name: "部门" },
+          { code: "postFname", name: "岗位" },
           { code: "empoffResult", name: "试用期评价" },
           { code: "note", name: "备注" },
         ],
@@ -157,24 +157,24 @@
           },
           {
             title: "员工姓名",
-            key: 'empIdName',
+            key: 'empnhName',
             width: 140,
             sortable: 'empId',
           },
           {
             title: "证件号码",
             width: 140,
-            key: 'empIdIden',
+            key: 'empnhIdno',
           },
           {
             title: "部门",
             width: 140,
-            key: 'deptIdDis',
+            key: 'unitFname',
           },
           {
             title: "岗位",
             width: 140,
-            key: 'postIdDis',
+            key: 'postFname',
 
           },
         ],
@@ -218,8 +218,8 @@
         page: 1,
         funId: '1000',
         compFnameCnDis: '',
-        empIdName: '',
-        empIdIden: '',
+        empnhName: '',
+        empnhIdno: '',
         openPick: false,
         params: {
           _mt: 'empEmpofficial.getPage',
@@ -307,9 +307,9 @@
             onOk: () => {
               getDataLevelUserLogin({
                 // 设置删除mt参数 其余无需更改
-                _mt: 'empEmpofficial.deleteByIds',
+                _mt: 'empEmpofficial.delByIds',
                 logType: '删除',
-                delIds: t.tableselected.toString(),
+                ids: t.tableselected.toString(),
               }).then((res) => {
                 if (isSuccess(res, t)) {
                   t.tableselected = []
@@ -340,7 +340,7 @@
             onOk: () => {
               getDataLevelUserLogin({
                 // 设置删除mt参数 其余无需更改
-                _mt: 'empEmpofficial.setState',
+                _mt: 'empEmpofficial.setStateByIds',
                 logType: '转正',
                 ids: t.tableselected.toString(),
                 state:data,
@@ -378,8 +378,8 @@
           sort: t.sort,
           order: t.order,
           logType: '员工转正查询',
-          empIdName: t.empIdName,
-          empIdIden: t.empIdIden,
+          empnhName: t.empnhName,
+          empnhIdno: t.empnhIdno,
           state:t.state,
         }
         for (const dat in data) {
@@ -443,7 +443,7 @@
         //debugger
         for (let s in up) {
           if(s!='_mt' && s!='funId'){
-            up[s] = ''
+            up[s] = '' 
           }
         }
         t.$refs.update.file = ''
@@ -477,8 +477,8 @@
         const t = this;
         // 填装查询条件
         const data = {
-          empIdName: t.empIdName,
-          empIdIden: t.empIdIden,
+          empnhName: t.empnhName,
+          empnhIdno: t.empnhIdno,
           state: t.state
         };
         // 设置导出mt参数
