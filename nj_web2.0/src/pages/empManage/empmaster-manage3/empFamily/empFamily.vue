@@ -10,7 +10,7 @@
                     @click="search()">查询</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="showMsgBtn(NaN, '新增')"
+                    @click="showMsgBtn('', '新增')"
                     v-show="logType=='修改'">新增</Button>
             <Button type="primary"
                     icon="primary"
@@ -57,8 +57,8 @@
         <transition>
             <contentMsg v-show="showMsg"
                         @hideMsg="hideMsg"
-                        :mainId="mainId"
-                        :logType="logTypeE"
+                        :id="updateId"
+                        :index="index"
                         ref="contentMsg"
                         @getData="addNewArray"
                         @update="updateArray"></contentMsg>
@@ -68,7 +68,7 @@
             <expwindow v-show="openExp"
                        :id="tableselected"
                        @setFileKey="setFileKey"
-                       :logType="logTypeE"
+                       :logType="logType"
                        :index="index"
                        @closeExp="closeExp"
                        ref="expwindow"></expwindow>
@@ -123,7 +123,6 @@ export default {
             filekey: "",
             filename: "",
             total: NaN,
-            logTypeE: this.logType,
             showMsg: false,
             columns: [
                 {
@@ -246,10 +245,7 @@ export default {
             searchLoading: false
         };
     },
-    //    主表id
     props: {
-        mainId: Number,
-        logType: String
     },
     components: {
         contentMsg,
@@ -257,7 +253,14 @@ export default {
         expdow,
         importExcel
     },
-    mounted () { },
+    computed: {
+        mainId () {
+            return this.$store.state.empMaster.mainId;
+        },
+        logType () {
+            return this.$store.state.empMaster.logType;
+        },
+    },
     methods: {
         search (operate) {
             this.params.pkId = this.mainId + "";
@@ -361,12 +364,13 @@ export default {
         //      打开子表详细信息页面 无需变更
         showMsgBtn (id, logType, index) {
             const t = this;
-            t.showMsg = true;
-            t.logTypeE = logType;
+
+            this.$store.commit('empMaster/setChildLogType', logType);
             t.index = index;
-            console.log(id, "id")
+            t.updateId = parseInt(id, 10);
+            t.showMsg = true;
             t.$refs.contentMsg.setRowId(id, logType);
-            if (t.logTypeE === '查看') {
+            if (t.logType === '查看') {
                 t.$refs.contentMsg.disabled = true
             } else {
                 t.$refs.contentMsg.disabled = false

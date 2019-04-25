@@ -48,8 +48,6 @@
         <transition>
             <contentMsg v-show="showMsg"
                         @hideMsg="hideMsg"
-                        :mainId="mainId"
-                        :logType="logTypeE"
                         ref="contentMsg"></contentMsg>
         </transition>
         <!--导入导出子页面 若没有导入导出可以去掉-->
@@ -57,7 +55,7 @@
             <expwindow v-show="openExp"
                        :id="tableselected"
                        @setFileKey="setFileKey"
-                       :logType="logTypeE"
+                       :logType="logType"
                        :index="index"
                        @closeExp="closeExp"
                        ref="expwindow"></expwindow>
@@ -106,7 +104,6 @@ export default {
             filekey: "",
             filename: "",
             total: NaN,
-            logTypeE: this.logType,
             showMsg: false,
             rows: 10,
             page: 1,
@@ -218,10 +215,13 @@ export default {
             searchLoading: false
         };
     },
-    //    主表id
-    props: {
-        mainId: Number,
-        logType: String
+    computed: {
+        mainId () {
+            return this.$store.state.empMaster.mainId;
+        },
+        logType () {
+            return this.$store.state.empMaster.logType;
+        }
     },
     components: {
         contentMsg,
@@ -311,7 +311,7 @@ export default {
         showMsgBtn (id, logType, index) {
             const t = this;
             t.showMsg = true;
-            t.logTypeE = logType;
+            this.$store.commit('empMaster/setChildLogType', logType);
             t.index = index;
             t.$refs.contentMsg.setRowId(id);
         },

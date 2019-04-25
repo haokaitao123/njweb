@@ -41,13 +41,11 @@
                                  @buttonExport="expData"
                                  @buttonSearch="search"
                                  @buttonImport="importExcel"
-                                 @buttonAdd="openUp(NaN,$t('button.add'))"
+                                 @buttonAdd="openUp('',$t('button.add'))"
                                  @moditySelect="modityChange"
-                                 @buttonEmp1="modifystatus('01empstate')"
-                                 @buttonEmp="entryb"
-                                 @buttonEmp2="modifystatus('02empstate')"
+                                 @buttonEmp="changeState('入职')"
                                  @buttonDel="deletemsg"
-                                 @buttonSubmit="buttonSubmit"></btnList>
+                                 @buttonSubmit="changeState('提交')"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -86,8 +84,6 @@
         <!--布置主子表页面 visaare变量为特殊参数 一般不传  其他无需变更-->
         <transition name="fade">
             <update v-show="openUpdate"
-                    :Id="updateId"
-                    :logType="logType"
                     :index="index"
                     :modity="modity"
                     @closeUp="closeUp"
@@ -539,71 +535,34 @@ export default {
             }
         },
         //新增
-        openUp(id, logType, index) {
-          const t = this;
-          //t.updateId = parseInt(id, 10);
-          t.logType = logType;
-          t.openUpdate = true;
-          t.index = index;
-          // t.$refs.update.getSelect()
-          //t.$refs.update.disabled = false;
-          if (logType === this.$t("button.upd") || logType === "查看") {
-            t.$refs.update.getData(id);
-          }
-          if (logType === "查看") {
-            t.$refs.update.disabled = true;
-          }
-        },
-        // 入职
-        entryb () {
+        openUp (id, logType, index) {
             const t = this;
-            if (t.tableselected.length === 0) {
-                this.$Message.warning('请至少选择一条数据');
-            } else {
-                t.$Modal.confirm({
-                    title: this.$t("reminder.remind"),
-                    content: "请确定是否将数据加入已入职",
-                    onOk: () => {
-                        getDataLevelUserLogin({
-                            _mt: "empEmpnh.updStateByIds",
-                            funId: "1",
-                            logType: "入职",
-                            ids: t.tableselected.toString(),
-                            state: t.modity
-                        })
-                            .then(res => {
-
-                                if (isSuccess(res, t)) {
-                                    this.$Message.success('操作成功');
-                                    t.tableselected = [];
-                                    t.getData(this.treeid)
-
-                                }
-                            })
-                            .catch(() => {
-                                this.$Message.error('操作失败');
-                            });
-                    },
-                    onCancel: () => { }
-                });
+            t.updateId = parseInt(id, 10);
+            t.logType = logType;
+            t.openUpdate = true;
+            t.index = index;
+            t.$store.commit('empMaster/setMainId', id);
+            console.log(logType, "logType")
+            t.$store.commit('empMaster/setLogType', logType);
+            if (logType != '新增') {
+                t.$refs.update.getOption(id, logType);
             }
         },
-        // 提交
-        buttonSubmit () {
+        // 改变流程状态
+        changeState (name) {
             const t = this;
             if (t.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
-                    content: "请确定是否将数据加入确认中",
+                    content: "您确定继续操作吗？",
                     onOk: () => {
                         getDataLevelUserLogin({
                             _mt: "empEmpnh.updStateByIds",
-                            funId: "1",
-                            logType: "提交",
+                            logType: name,
                             ids: t.tableselected.toString(),
-                            state: t.modity
+                            state: t.modity,
                         })
                             .then(res => {
                                 if (isSuccess(res, t)) {
@@ -651,20 +610,20 @@ export default {
             this.tableselected = newArr;
         },
         // 打开主子表页面  无需变更
-        openUp (id, logType, index) {
-            const t = this;
-            t.updateId = parseInt(id, 10);
-            t.logType = logType;
-            t.openUpdate = true;
-            t.index = index;
-            // if (t.logType === "修改")) {
-            //   // 调用子页面方法 传递参数 无需变更
-            //   t.$refs.update.getOption(id, logType);
-            // }
-            t.$refs.update.getOption(id, t.logType);
+        // openUp (id, logType, index) {
+        //     const t = this;
+        //     t.updateId = parseInt(id, 10);
+        //     t.logType = logType;
+        //     t.openUpdate = true;
+        //     t.index = index;
+        //     // if (t.logType === "修改")) {
+        //     //   // 调用子页面方法 传递参数 无需变更
+        //     //   t.$refs.update.getOption(id, logType);
+        //     // }
+        //     t.$refs.update.getOption(id, t.logType);
 
-        },
-        // 关闭主表页面
+        // },
+        // 关闭页面
         closeUp () {
             const t = this;
             t.openUpdate = false;
@@ -675,39 +634,6 @@ export default {
             t.tableselected = [];
             this.getData();
             this.getTree();
-        },
-        // 获取下拉状态
-        getPageByState (paramCode, paramInfoCn) {
-            this.status = paramCode;
-            this.getData(1);
-            this.statusDis = paramInfoCn;
-        },
-        //修改状态
-        modifystatus (state) {
-            const t = this;
-            let logType = "";
-            if (state === "02empstate") {
-                logType = "已入职";
-            }
-            if (t.tableselected.length === 0) {
-                this.$Message.warning('请至少选择一条数据');
-                return;
-            }
-            getDataLevelUserLogin({
-                _mt: "orgUnits.setStateById",
-                logType: logType,
-                state: state,
-                ids: t.tableselected.toString
-            })
-                .then(res => {
-                    if (isSuccess(res, t)) {
-                        t.getData(1);
-                        this.$Message.success('操作成功');
-                    }
-                })
-                .catch(() => {
-                    this.$Message.error('操作失败');
-                });
         },
         // 导入导出默认方法 无需更改
         closeImport () {

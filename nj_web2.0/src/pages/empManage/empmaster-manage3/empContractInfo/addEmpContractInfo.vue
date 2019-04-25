@@ -9,7 +9,7 @@
                     <Icon type="mouse"
                           size="16"
                           style="margin-right: 10px;"></Icon>
-                    &nbsp;{{logType}}
+                    &nbsp;{{childLogType}}
                 </div>
                 <Button type="text"
                         @click="close">
@@ -223,14 +223,16 @@ export default {
             contJzxyDis: "",
             contWorktimeDis: "",
             contProbatDis: "",
-            rowId: "",
             spinShow: ''
         };
     },
-    //    主表id
-    props: {
-        mainId: Number,
-        logType: String
+    computed: {
+        mainId () {
+            return this.$store.state.empMaster.mainId;
+        },
+        childLogType () {
+            return this.$store.state.empMaster.childLogType;
+        }
     },
     mounted () {
         this.getSelect();
@@ -239,8 +241,7 @@ export default {
         // 新增页面
         setRowId (id) {
             const t = this;
-            t.rowId = id;
-            t.getData();
+            t.getData(id);
         },
         // 查询
         getData () {
@@ -248,7 +249,7 @@ export default {
             t.spinShow = true
             const params = {
                 _mt: "empContractinfo.getById",
-                id: t.rowId,
+                id: id,
                 funId: "1",
                 logType: "根据id查询信息"
             };
@@ -265,8 +266,6 @@ export default {
                         t.form.contSigndate = res.data.content[0].contSigndate;
                         t.contProbatDis = res.data.content[0].contProbatDis;
                         t.form.contProbatdt = res.data.content[0].contProbatdt;
-                        console.log(t.form.contBmxy, " t.form.contBmxy");
-
                         if (res.data.content[0].fileKey) {
                             t.file = { name: res.data.content[0].fileKey.split(':')[0] }
                             t.filekey = res.data.content[0].fileKey.split(':')[1]
@@ -305,7 +304,6 @@ export default {
                 });
         },
         close () {
-            this.rowId = "";
             this.$emit("hideMsg");
         },
         //下载

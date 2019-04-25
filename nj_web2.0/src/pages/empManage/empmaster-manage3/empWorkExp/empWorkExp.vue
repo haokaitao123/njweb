@@ -10,7 +10,7 @@
                     @click="search()">查询</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="showMsgBtn(NaN, '新增')"
+                    @click="showMsgBtn('', '新增')"
                     v-show="logType=='修改'">新增</Button>
             <Button type="primary"
                     icon="primary"
@@ -57,8 +57,8 @@
         <transition>
             <contentMsg v-show="showMsg"
                         @hideMsg="hideMsg"
-                        :mainId="mainId"
-                        :logType="logType"
+                        :id="updateId"
+                        :index="index"
                         ref="contentMsg"
                         @newdata="addNewArray"
                         @update="updateArray"></contentMsg>
@@ -128,7 +128,6 @@ export default {
             filename: "",
             updateId: NaN,
             total: NaN,
-            logTypeE: this.logType,
             showMsg: false,
             weComp: '',
             columns: [
@@ -274,18 +273,20 @@ export default {
             searchLoading: false
         };
     },
-    //    主表id
-    props: {
-        mainId: Number,
-        logType: String,
-    },
     components: {
         contentMsg,
         expwindow,
         expdow,
         importExcel
     },
-    mounted () { },
+    computed: {
+        mainId () {
+            return this.$store.state.empMaster.mainId;
+        },
+        logType () {
+            return this.$store.state.empMaster.logType;
+        }
+    },
     methods: {
         search (operate) {
             this.params.pkId = this.mainId + "";
@@ -379,11 +380,12 @@ export default {
         //      打开子表详细信息页面 无需变更
         showMsgBtn (id, logType, index) {
             const t = this;
+            this.$store.commit('empMaster/setChildLogType', logType);
+            t.updateId = parseInt(id, 10);
             t.showMsg = true;
-            t.logTypeE = logType;
             t.index = index;
             t.$refs.contentMsg.setRowId(id, logType);
-            if (t.logTypeE === '查看') {
+            if (logType === '查看') {
                 t.$refs.contentMsg.disabled = true
             } else {
                 t.$refs.contentMsg.disabled = false

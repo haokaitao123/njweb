@@ -15,7 +15,7 @@
                     </Button>
                 </div>
                 <div class="content">
-                    
+
                     <row class="table-form"
                          ref="table-form">
                         <Table v-show="thisPkValue!=='0'"
@@ -26,12 +26,13 @@
                                :data="data"
                                :loading="data.length === 0"></Table>
                     </row>
-                    <div class="dataBlocks" v-show="funId==1406">
+                    <div class="dataBlocks"
+                         v-if="funId==1406&&stepId==0">
                         <div class="dataBlocksTitle">
                             离职注意事项
                         </div>
                         <div class="dataContent">
-                            <ul  >
+                            <ul>
                                 <li>1：业务部门：入职未满三个月，提前七个工作日申请，入职三个月以上提前一个月申请.</li>
                                 <li>2：职能部门：提前一个月申请.</li>
                                 <li>3：备注：交接期间正常出勤，履行工作职责.</li>
@@ -343,8 +344,8 @@ export default {
         stepState: String,
         processState: String
     },
-    computed:{
-        funId(){
+    computed: {
+        funId () {
             return this.$store.state.user.funId;
         }
     },
@@ -359,7 +360,7 @@ export default {
             this.getPageChildTable(this.dataBlocksFakeId[2].id, this.dataBlocksFakeId[2].flsdbOptauth)
         })
         this.getColumns();
-        console.log(this.funId,"funId")
+        console.log(this.funId, "funId")
     },
     components: {
         commonSingleForm,
@@ -1092,7 +1093,7 @@ export default {
                 // }
                 // getDataLevelUserLoginNew2(data).then((res) => {
                 //     if (isSuccess(res, t)) {
-                        
+
                 //     }
                 // }).catch(() => {
                 //     t.loading1 = false
@@ -1191,11 +1192,11 @@ export default {
             .docs {
                 padding: 0 0 20px 100px;
             }
-            ul{
-                padding:0 0 0px 50px;
-                li{
-                    font-size:14px;
-                    color:#333333;
+            ul {
+                padding: 0 0 0px 50px;
+                li {
+                    font-size: 14px;
+                    color: #333333;
                 }
             }
         }
