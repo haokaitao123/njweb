@@ -41,6 +41,7 @@
                                  @buttonExport="expData"
                                  @buttonSearch="search"
                                  @buttonImport="importExcel"
+                                 @buttonAdd="openUp(NaN,$t('button.add'))"
                                  @moditySelect="modityChange"
                                  @buttonEmp1="modifystatus('01empstate')"
                                  @buttonEmp="entryb"
@@ -536,6 +537,22 @@ export default {
                     onCancel: () => { }
                 });
             }
+        },
+        //新增
+        openUp(id, logType, index) {
+          const t = this;
+          //t.updateId = parseInt(id, 10);
+          t.logType = logType;
+          t.openUpdate = true;
+          t.index = index;
+          // t.$refs.update.getSelect()
+          //t.$refs.update.disabled = false;
+          if (logType === this.$t("button.upd") || logType === "查看") {
+            t.$refs.update.getData(id);
+          }
+          if (logType === "查看") {
+            t.$refs.update.disabled = true;
+          }
         },
         // 入职
         entryb () {

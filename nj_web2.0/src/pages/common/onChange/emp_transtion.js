@@ -65,9 +65,6 @@ const emp_transtion = {
   },
 
   // 根据现岗位判断是否显示押金金额字段
-
-
-/*
   postIdnew_dis(t) {
       postId = t.$refs[t.valueMap.postIdnew][0].formDataSubmit.postIdnew
       getDataLevelUserLogin({
@@ -75,9 +72,12 @@ const emp_transtion = {
         id: postId,
       }).then((res) => {
         if (isSuccess(res, this.$parent)) {
-        const data = JSON.parse(res.data.content[0].value)
-        if(data)
-        t.$refs[t.valueMap.empnhLastname][0].$set(t.$refs[t.valueMap.empnhLastname][0].formDataSubmit, 'empnhLastname', data.Lname)
+        //const data = JSON.parse(res.data.content[0].value)
+        if(res.postDfpslevel=="06Manager"){
+          t.$refs[t.valueMap.transDeposit][0].$set(t.$refs[t.valueMap.transDeposit][0].formshow, 'transDeposit', '')
+        }else{
+          t.$refs[t.valueMap.transDeposit][0].$delete(t.$refs[t.valueMap.transDeposit][0].formshow, 'transDeposit')
+        }
       }
     }).catch(() => {
         this.$Modal.error({
@@ -86,8 +86,6 @@ const emp_transtion = {
       })
     })
   },
-*/
-
 
 
 }
