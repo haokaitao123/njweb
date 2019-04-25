@@ -64,7 +64,7 @@
               shape="circle"
               icon="refresh"
               style="margin-left: 20px;display: inline-block;"
-              @click="getData(1)"
+              @click="search()"
             ></Button>
           </Row>
         </card>
@@ -366,14 +366,18 @@ export default {
         .catch(() => {
           t.loading = false; //在失败之后改状态
           //请求失败
-          t.$Modal.error({
-            title: "错误",
-            content: "网络错误"
-          });
+          // t.$Modal.error({
+          //   title: "错误",
+          //   content: "网络错误"
+          // });
+          this.$Message.error(this.$t("reminder.errormessage"));
+        })
+        .finally(() => {
+          this.loading = false;
+          this.$store.commit('btnOperate/setSearchLoading',false)
         });
     },
    
-
     // 导入导出默认方法 无需更改
       closeImport() {
         const t = this
@@ -543,6 +547,8 @@ export default {
     search() {
       this.page = 1;
       this.getData(1);
+      this.$store.commit('btnOperate/setSearchLoading', true);
+      this.tableselected = [];
     },
     //打开员工信息弹出框
     pickUserData() {

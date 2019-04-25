@@ -564,7 +564,9 @@ export default {
     search() {
       this.page = 1;
       this.getData();
-      this.$store.commit('btnOperate/setSearchLoading',true)
+      this.$store.commit('btnOperate/setSearchLoading',true);
+      this.searchLoading = true;
+      this.tableselected = [];
     },
     modifystatus(state) {
       const t = this;

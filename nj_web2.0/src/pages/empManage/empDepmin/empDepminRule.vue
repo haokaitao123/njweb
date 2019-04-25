@@ -26,7 +26,7 @@
           </row>
           <Row style="display: flex">
             <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
-            <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button>
+            <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button>
           </Row>
         </card>
       </i-Col>
@@ -346,6 +346,12 @@
         t.page = page
         t.getData(t.page)
       },
+      search() {
+      this.page = 1;
+      this.getData(1);
+      this.$store.commit('btnOperate/setSearchLoading', true);
+      this.tableselected = [];
+    },
       // 勾选数据方法 无需更改
       selectedtable(selection) {
         const newArr = []

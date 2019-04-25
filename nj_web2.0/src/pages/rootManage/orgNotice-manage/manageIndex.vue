@@ -57,7 +57,7 @@
               shape="circle"
               icon="refresh"
               style="margin-left: 20px;display: inline-block;"
-              @click="getData(1)"
+              @click="search()"
             ></Button>
           </Row>
         </card>
@@ -468,6 +468,12 @@ export default {
       }
       t.getData(1);
       t.statusDis = paramInfoCn;
+    },
+    search(){
+      this.page = 1;
+      this.getData(1);
+      this.searchLoading = true;
+      this.tableselected = [];
     },
     //各种按钮
     modifystatu(state) {

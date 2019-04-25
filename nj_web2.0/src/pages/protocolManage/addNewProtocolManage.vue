@@ -25,7 +25,7 @@
                 fix
                 v-if="spinShow"></Spin>
                 <Row style="max-height: 420px;overflow-y: auto;"
-                     id="scrollBox">
+                     ref="scrollBox">
                
                 <!-- form表单 :model="formValidate" model表单数据对象绑定了formValidate :rules="ruleValidate" 表单验证规则  :label-width="135" 表单域标签的宽度-->
                     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
@@ -427,7 +427,7 @@
         searchCloumns3:[
                 {
                     title: "员工姓名",
-                    key: 'empName',
+                    key: 'empnhName',
                     sortable: 'custom',
                 },
                 {
@@ -691,7 +691,7 @@
         handleReset() {
             this.$emit('closeUp')
             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
-
+            this.$refs.scrollBox.$el.scrollTop = "0"
             this.$refs.formValidate.resetFields()
         },
         //关闭员工信息弹出框
@@ -751,12 +751,12 @@
         inputEmp(row) {
             console.log(row,"row")
               const t = this
-            t.empName = row.empName //员工信息name赋值
+            t.empName = row.empnhName //员工信息name赋值
             t.formValidate.empId = row.empId //员工信息id赋值
-            t.deptoIdName = row.deptIdDis;
+            t.deptoIdName = row.unitsFname;
             t.formValidate.deptoId = row.deptId;
             t.formValidate.postoId = row.postId;
-            t.postoName = row.postIdDis;
+            t.postoName = row.postFname;
             t.formValidate.empoType = row.empType;
             t.formValidate.contractoType = row.contType;
             t.formValidate.contractoPeriod = row.contPeriod;
@@ -765,7 +765,7 @@
             t.formValidate.contractoTime = row.contWorktime;
             t.formValidate.signingoTime = row.contSigndate;
             t.formValidate.contractoNo = row.numberCode;
-            t.empnhIdno = row.empIdno;    
+            t.empnhIdno = row.empnhIdno;    
         },
         //清除员工信息
         clearUserid() {

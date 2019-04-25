@@ -474,6 +474,7 @@ export default {
       this.page = 1;
       this.getData(1);
       this.$store.commit('btnOperate/setSearchLoading', true);
+      this.tableselected = [];
     },
   }
 };
