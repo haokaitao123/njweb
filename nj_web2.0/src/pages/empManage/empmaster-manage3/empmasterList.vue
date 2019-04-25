@@ -151,8 +151,8 @@ export default {
                 { code: "numberCode", name: "唯一编号" },
                 { code: "empnhName", name: "雇员姓名" },
                 { code: "empnhPtname", name: "曾用名" },
-                { code: "deptIdDis", name: "部门名称" },
-                { code: "postIdDis", name: "岗位名称" },
+                { code: "unitFname", name: "部门名称" },
+                { code: "postFname", name: "岗位名称" },
                 { code: "empnhPmpDis", name: "直接上级" },
                 { code: "empnhCostcentDis", name: "成本中心" },
                 { code: "empnhIdtypeDis", name: "证件类型" },
@@ -225,13 +225,13 @@ export default {
 
                 {
                     title: "部门名称",
-                    key: "deptIdDis",
+                    key: "unitFname",
                     width: 140,
                     align: "center"
                 },
                 {
                     title: "岗位名称",
-                    key: "postIdDis",
+                    key: "postFname",
                     width: 140,
                     align: "center"
                 },

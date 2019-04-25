@@ -54,7 +54,7 @@
                     <FormItem label="部门名称"
                               prop="deptId">
                         <span @dblclick="disabled?'':cleardeptId()">
-                            <Input v-model="deptIdDis"
+                            <Input v-model="unitFname"
                                    icon="search"
                                    :disabled="disabled"
                                    :readonly="true"
@@ -71,7 +71,7 @@
                                    icon="search"
                                    :readonly="true"
                                    :disabled='disabled'
-                                   v-model="postIdDis"
+                                   v-model="postFname"
                                    @on-click="disabled?'':selectPost()" />
                         </span>
                     </FormItem>
@@ -653,8 +653,8 @@ export default {
             empnhCostcentDis: "", // 成本中心显示字段 弹框
             empnhGenderDis: "", // 性别显示字段
             empnhNationDis: "", // 民族显示字段 弹框
-            deptIdDis: "", // 部门名称显示字段 弹框
-            postIdDis: "", // 岗位名称显示字段  弹框
+            unitFname: "", // 部门名称显示字段 弹框
+            postFname: "", // 岗位名称显示字段  弹框
             empnhPmpDis: "", // 直接上级显示字段 弹框
             empnhIdtypeDis: "", // 证件类型显示字段
             empnhRegaddrDis: "", // 户籍地址显示字段
@@ -1061,8 +1061,8 @@ export default {
                     t.form.deptId = res.data.content[0].deptId;
                     t.form.postId = res.data.content[0].postId;
                     t.form.empnhPmp = res.data.content[0].empnhPmp;
-                    t.deptIdDis = res.data.content[0].deptIdDis;
-                    t.postIdDis = res.data.content[0].postIdDis;
+                    t.unitFname = res.data.content[0].unitFname;
+                    t.postFname = res.data.content[0].postFname;
                     t.empnhPmpDis = res.data.content[0].empnhPmpDis;
                     t.form.empnhIdtype = res.data.content[0].empnhIdtype;
                     t.form.empnhIdno = res.data.content[0].empnhIdno;
@@ -1200,8 +1200,8 @@ export default {
             t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
             t.empnhGenderDis = ""; // 性别显示字段
             t.empnhNationDis = ""; // 民族显示字段 弹框
-            t.deptIdDis = ""; // 部门名称显示字段 弹框
-            t.postIdDis = ""; // 岗位名称显示字段  弹框
+            t.unitFname = ""; // 部门名称显示字段 弹框
+            t.postFname = ""; // 岗位名称显示字段  弹框
             t.empnhPmpDis = ""; // 直接上级显示字段 弹框
             t.empnhIdtypeDis = ""; // 证件类型显示字段
             t.empnhRegaddrDis = ""; // 户籍地址显示字段
@@ -1237,7 +1237,7 @@ export default {
         //部门
         cleardeptId () {
             const t = this
-            t.deptIdDis = ''
+            t.unitFname = ''
             t.form.deptId = ''
         },
         pickDeptData () {
@@ -1254,14 +1254,14 @@ export default {
         changeDeptInput (name, id) {
             const t = this
             console.log(name, "name")
-            t.deptIdDis = name
+            t.unitFname = name
             t.form.deptId = id
         },
         //岗位
         dbPost () {
             const t = this;
             t.form.postId = "";
-            t.postIdDis = "";
+            t.postFname = "";
         },
         selectPost () {
             const t = this;
@@ -1276,7 +1276,7 @@ export default {
         },
         inputPost (name, id, postName, postId) {
             const t = this;
-            t.postIdDis = name;
+            t.postFname = name;
             t.form.postId = id;
         },
         //选择员工
