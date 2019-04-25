@@ -55,11 +55,11 @@
             <Select v-model="form.noticeType"
                     :disabled="editdisabled" class="width200"
                     placeholder="通知类型"
-                    clearable>
+                    >
               <Option :value="item.paramCode"
                       v-for="(item,index) in selectType"
                       :key="index"
-                      @click="getPageByType(item.paramCode)">{{item.paramInfoName}}</Option>
+                      >{{item.paramInfoName}}</Option>
             </Select>
 
           </FormItem>
@@ -537,7 +537,6 @@ export default {
     },//保存
     handleReset() {
       const t = this;
-
       const data = deepCopy(t.form)
       data.logType = t.logType
       if (t.logType === this.$t('button.upd')) {

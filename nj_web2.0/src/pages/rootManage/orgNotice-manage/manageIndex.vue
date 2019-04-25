@@ -338,6 +338,7 @@ export default {
       t.updateId = parseInt(id, 10);
       t.logType = logType;
       t.index = index;
+       t.$refs.addInform.editdisabled = false;
       if (
         logType === this.$t("修改") ||
         logType === this.$t("查看")
@@ -345,6 +346,9 @@ export default {
         t.$refs.addInform.upData(id);
       }else{
         t.$refs.addInform.getSelectUser();
+      }
+       if (logType === "查看") {
+        t.$refs.addInform.editdisabled = true;
       }
     }, // 新增数据--------------------------------
     //  删除数据 需要接口
