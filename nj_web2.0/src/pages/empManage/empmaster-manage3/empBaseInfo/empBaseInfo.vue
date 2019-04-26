@@ -691,7 +691,7 @@ export default {
                 sort: 'id',
                 order: 'desc',
                 logType: '部门',
-                unitType: '02dept',
+                //unitType: '02dept',
                 state: '02valid'
             },
             //岗位
