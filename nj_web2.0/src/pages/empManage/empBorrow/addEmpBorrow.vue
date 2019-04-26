@@ -1,10 +1,10 @@
 <template>
     <div class="option-main">
-      <!--loading效果-->
-      <Spin size="large"
-            fix
-            v-if="spinShow">
-      </Spin>
+        <!--loading效果-->
+        <Spin size="large"
+              fix
+              v-if="spinShow">
+        </Spin>
         <Row style="max-height: 420px;overflow-y: auto;">
             <Form ref="formValidate"
                   :model="formValidate"
@@ -77,7 +77,8 @@
         <Button type="primary"
                 v-show="!forbidden"
                 @click="handleSubmit"
-                class="btn">{{$t('button.sav')}}</Button>
+                :loading="loadingStatus"
+                class="btn">{{loadingStatus ? '正在保存' : $t('button.sav') }}</Button>
         <!--一个弹出框一个transition-->
         <transition name="fade">
             <searchEmpMaster v-show="openEmpMaster"
@@ -107,7 +108,7 @@ export default {
         }
 
         return {
-          spinShow: false,
+            spinShow: false,
             file: '',
             filekey: '',
             loadingStatus: false,
@@ -156,8 +157,8 @@ export default {
     },
     computed: {
         id () {
-        return this.$store.state.empBorrow.mainId;
-      },
+            return this.$store.state.empBorrow.mainId;
+        },
         logType () {
             return this.$store.state.empBorrow.logType;
         }
@@ -212,12 +213,13 @@ export default {
                     content: this.$t('reminder.errormessage'),
                 })
             }).finally(() => {
-              t.spinShow = false; //关闭loading效果
+                t.spinShow = false; //关闭loading效果
             });
         },
         handleSubmit () {
 
             const t = this
+           
             // t.spinShow = true; //开启loading效果
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
@@ -230,6 +232,7 @@ export default {
             }
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
+                     t.loadingStatus = true
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
                             if (t.logType === '新增') {
@@ -247,9 +250,9 @@ export default {
                             title: this.$t('reminder.err'),
                             content: this.$t('reminder.errormessage'),
                         })
-                    })/*.finally(() => {
-                      t.spinShow = false; //关闭loading效果
-                    });*/
+                    }).finally(() => {
+                        t.loadingStatus = false
+                    })
                 }
             })
         },
@@ -277,11 +280,11 @@ export default {
             this.$refs.formValidate.resetFields()
             this.$emit('closeUp')
         },
-        handleUpload (file) {
-            this.file = file
-            this.loadingStatus = true
-            return false
-        },
+        // handleUpload (file) {
+        //     this.file = file
+        //     this.loadingStatus = true
+        //     return false
+        // },
         //清除
         clear () {
             const t = this
