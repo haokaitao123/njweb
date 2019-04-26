@@ -12,11 +12,11 @@
                   :label-width="100">
                 <i-col span="11">
                     <FormItem label="员工姓名"
-                              prop="empIdName">
+                              prop="empnhName">
                         <!--绑定双击清除方法-->
                         <span @dblclick="forbidden?'':dbclean()">
                             <!--v-model绑定显示字段-->
-                            <Input v-model="formValidate.empIdName"
+                            <Input v-model="formValidate.empnhName"
                                    icon="search"
                                    readonly="readonly"
                                    :disabled="forbidden"
@@ -28,24 +28,24 @@
 
                 <i-col span="11">
                     <FormItem label="证件号码"
-                              prop="empIdIden">
-                        <Input v-model="formValidate.empIdIden"
+                              prop="empnhIdno">
+                        <Input v-model="formValidate.empnhIdno"
                                disabled="disabled"
                                placeholder="请输入证件号码"></Input>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
                     <FormItem label="部门"
-                              prop="deptIdDis">
-                        <Input v-model="formValidate.deptIdDis"
+                              prop="unitFname">
+                        <Input v-model="formValidate.unitFname"
                                disabled="disabled"
                                placeholder="请输入部门名称"></Input>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
                     <FormItem label="岗位"
-                              prop="postIdDis">
-                        <Input v-model="formValidate.postIdDis"
+                              prop="postFname">
+                        <Input v-model="formValidate.postFname"
                                disabled="disabled"
                                placeholder="请输入岗位名称"></Input>
                     </FormItem>
@@ -115,20 +115,20 @@ export default {
             distype: false,
             forbidden: false,
             formValidate: {
-                empIdName: "",
-                empIdIden: "",
+                empnhName: "",
+                empnhIdno: "",
                 empId: "",
                 deptId: "",
-                deptIdDis: "",
+                unitFname: "",
                 postId: "",
-                postIdDis: "",
+                postFname: "",
                 borrTotamount: "",
                 note: "",
             },
             openEmpMaster: false,
             /*必填验证*/
             ruleValidate: {
-                empIdName: [{ required: true, message: "请选择员工姓名", trigger: 'change' },],
+                empnhName: [{ required: true, message: "请选择员工姓名", trigger: 'change' },],
                 /*borrTotamount: [
                     {
                         required: true,
@@ -169,12 +169,12 @@ export default {
         //上级清除员工选择
         dbclean () {
             const t = this
-            t.formValidate.empIdName = '';
-            t.formValidate.empIdIden = '';
+            t.formValidate.empnhName = '';
+            t.formValidate.empnhIdno = '';
             t.formValidate.empId = '';
-            t.formValidate.deptIdDis = '';
+            t.formValidate.unitFname = '';
             t.formValidate.deptId = '';
-            t.formValidate.postIdDis = '';
+            t.formValidate.postFname = '';
             t.formValidate.postId = '';
         },
         getData (id) {
@@ -189,13 +189,13 @@ export default {
                 if (isSuccess(res, t)) {
                     console.log(res.data.content[0])
                     t.formValidate = res.data.content[0]
-                    t.formValidate.empIdName = res.data.content[0].empIdName
-                    t.formValidate.empIdIden = res.data.content[0].empIdIden
+                    t.formValidate.empnhName = res.data.content[0].empnhName
+                    t.formValidate.empnhIdno = res.data.content[0].empnhIdno
                     t.formValidate.empId = res.data.content[0].empId
                     t.formValidate.deptId = res.data.content[0].deptId
-                    t.formValidate.deptIdDis = res.data.content[0].deptIdDis
+                    t.formValidate.unitFname = res.data.content[0].unitFname
                     t.formValidate.postId = res.data.content[0].postId
-                    t.formValidate.postIdDis = res.data.content[0].postIdDis
+                    t.formValidate.postFname = res.data.content[0].postFname
                     t.formValidate.borrTotamount = res.data.content[0].borrTotamount
                     t.formValidate.note = res.data.content[0].note
                     if (t.logType === '查看') {
@@ -216,7 +216,9 @@ export default {
             });
         },
         handleSubmit () {
+
             const t = this
+            // t.spinShow = true; //开启loading效果
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
             data._mt = 'empBorrow.addOrUpd'
@@ -245,7 +247,9 @@ export default {
                             title: this.$t('reminder.err'),
                             content: this.$t('reminder.errormessage'),
                         })
-                    })
+                    })/*.finally(() => {
+                      t.spinShow = false; //关闭loading效果
+                    });*/
                 }
             })
         },
@@ -261,12 +265,12 @@ export default {
         },
         inputEmp (row) {
             const t = this
-            t.formValidate.empIdName = row.empnhName;
-            t.formValidate.empIdIden = row.empnhIdno;
+            t.formValidate.empnhName = row.empnhName;
+            t.formValidate.empnhIdno = row.empnhIdno;
             t.formValidate.empId = row.id;
-            t.formValidate.deptIdDis = row.deptIdDis;
+            t.formValidate.unitFname = row.unitFname;
             t.formValidate.deptId = row.deptId;
-            t.formValidate.postIdDis = row.postIdDis;
+            t.formValidate.postFname = row.postFname;
             t.formValidate.postId = row.postId;
         },
         handleReset () {
