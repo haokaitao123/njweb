@@ -11,7 +11,8 @@
                         <MenuItem name="option">
                         借支信息管理
                         </MenuItem>
-                        <MenuItem name="content" v-show="this.id===''?false:true">
+                        <MenuItem name="content"
+                                  v-show="this.id!==''">
                         借支明细管理
                         </MenuItem>
                     </Menu>
@@ -96,10 +97,10 @@ export default {
         },
         //       根据name分别调用 主表或子表的查询方法 无需变更
         pageTo (name) {
-              this.option =  false
-              this.content = false
-              this.active = name
-              this[name] = true
+            this.option = false
+            this.content = false
+            this.active = name
+            this[name] = true
             if (name === 'content') {
                 this.$refs.content.disabled = this.disabled
                 this.$refs.content.search()

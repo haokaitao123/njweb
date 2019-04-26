@@ -10,13 +10,13 @@
                         <!--主子表左侧页面布局-->
                         <MenuItem name="empBaseInfo">员工基础信息</MenuItem>
                         <MenuItem name="empEducation"
-                                  v-show="id">学历信息管理</MenuItem>
+                                  v-show="this.logType!='新增'">学历信息管理</MenuItem>
                         <MenuItem name="empContractInfo"
-                                  v-show="id">合同信息管理</MenuItem>
+                                  v-show="this.logType!='新增'">合同信息管理</MenuItem>
                         <MenuItem name="empWorkExp"
-                                  v-show="id">工作经历管理</MenuItem>
+                                  v-show="this.logType!='新增'">工作经历管理</MenuItem>
                         <MenuItem name="empFamily"
-                                  v-show="id">家庭成员管理</MenuItem>
+                                  v-show="this.logType!='新增'">家庭成员管理</MenuItem>
                     </Menu>
                 </i-col>
                 <i-col class="meau-right"
@@ -37,30 +37,20 @@
                     <div style="margin-top: 40px;padding: 10px;">
                         <!--主表详细信息页面 visaare为特殊参数一般不传 其余无需变更-->
                         <empBaseInfo v-show="empBaseInfo"
-                                     :logType="logType"
                                      ref="empBaseInfo"
-                                     :id="id"
                                      :index="index"
                                      :modity="modity"
                                      @update="update"
                                      @newdata="newdata"></empBaseInfo>
                         <!--子表分页页面 mainid为主表id-->
                         <empEducation v-show="empEducation"
-                                      :logType="logType"
-                                      ref="empEducation"
-                                      :mainId="id"></empEducation>
+                                      ref="empEducation"></empEducation>
                         <empContractInfo v-show="empContractInfo"
-                                         :logType="logType"
-                                         ref="empContractInfo"
-                                         :mainId="id"></empContractInfo>
+                                         ref="empContractInfo"></empContractInfo>
                         <empWorkExp v-show="empWorkExp"
-                                    :logType="logType"
-                                    ref="empWorkExp"
-                                    :mainId="id"></empWorkExp>
+                                    ref="empWorkExp"></empWorkExp>
                         <empFamily v-show="empFamily"
-                                   :logType="logType"
-                                   ref="empFamily"
-                                   :mainId="id"></empFamily>
+                                   ref="empFamily"></empFamily>
                     </div>
                 </i-col>
             </row>
@@ -82,18 +72,13 @@ import empFamily from "./empFamily/empFamily";
 export default {
     data () {
         return {
-            //        默认参数 无需变更
+            // 默认参数 无需变更
             active: "empBaseInfo",
             empBaseInfo: true,
             empEducation: false,
             empContractInfo: false,
             empWorkExp: false,
             empFamily: false,
-            //        主表查询单条数据的mt
-            data: {
-                _mt: "empEmpnh.getById"
-            },
-            id: this.Id
         };
     },
     components: {
@@ -104,18 +89,22 @@ export default {
         empFamily
     },
     props: {
-        //      父页面传递参数  visaare一般不传
-        Id: Number,
-        logType: String,
         index: Number,
         modity: String
+    },
+    computed: {
+        id () {
+            return this.$store.state.empMaster.mainId;
+        },
+        logType () {
+            return this.$store.state.empMaster.logType;
+        }
     },
     methods: {
         //      关闭方法 分别调用本页面 父页面 主表详细信息页面 子表分页的清除方法  无需变更
         handleReset () {
-            this.clear();
-
             this.$emit("closeUp");
+            this.clear();
         },
         //      默认方法
         changeMenu () {
@@ -123,19 +112,19 @@ export default {
         },
         // 主表信息查询方法 无需变更
         getOption (id, logType) {
-            this.id = parseInt(id, 10);
-            this.data.id = id;
-            this.data.logType = logType;
-            this.$refs.empBaseInfo.getdata(this.data);
-            if (logType == "修改") {
-                this.$refs.empBaseInfo.getSelect();
-                this.$refs.empBaseInfo.disabled = false
-            } else {
+            this.$refs.empBaseInfo.disabled = false
+            if (logType == "修改" || logType == "查看") {
+                this.$refs.empBaseInfo.getdata(id);
+            }
+            if (logType == "查看") {
                 this.$refs.empBaseInfo.disabled = true
             }
         },
         //       根据name分别调用 主表或子表的查询方法 无需变更
         pageTo (name) {
+            if (this.logType === "新增") {
+                return;
+            }
             this.empBaseInfo = false;
             this.empEducation = false;
             this.empContractInfo = false;
@@ -147,8 +136,9 @@ export default {
             this.$refs.empWorkExp.clear();
             this.$refs.empFamily.clear();
             this.active = name;
-            this.title = this.logType;
             this[name] = true;
+            console.log(this.logType, "this.logType");
+            console.log(name, "name");
             if (name !== "empBaseInfo") {
                 this.getChildFunId(name)
                 this.$refs[name].search('获取');
@@ -193,7 +183,6 @@ export default {
             this.empContractInfo = false;
             this.empWorkExp = false;
             this.empFamily = false;
-            this.id = NaN;
             this.active = "empBaseInfo";
             this.$refs.empBaseInfo.clear();
             this.$refs.empEducation.clear();
@@ -203,6 +192,8 @@ export default {
             this.$store.commit('setChildFunId', "");
             let funcode = getUrlKey('code');
             this.$store.commit('setFunCode', funcode);
+            this.$store.commit('empMaster/setMainId', "")
+            this.$store.commit('empMaster/setLogType', "");
         },
         //      更新父页面列表 无需变更
         update (data) {
@@ -210,7 +201,6 @@ export default {
         },
         //      更新父页面列表 无需变更
         newdata (data) {
-            this.id = data.id
             this.$emit('newdata', data)
         },
     }

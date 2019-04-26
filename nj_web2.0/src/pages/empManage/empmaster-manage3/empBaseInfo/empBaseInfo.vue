@@ -54,7 +54,7 @@
                     <FormItem label="部门名称"
                               prop="deptId">
                         <span @dblclick="disabled?'':cleardeptId()">
-                            <Input v-model="deptIdDis"
+                            <Input v-model="unitFname"
                                    icon="search"
                                    :disabled="disabled"
                                    :readonly="true"
@@ -71,7 +71,7 @@
                                    icon="search"
                                    :readonly="true"
                                    :disabled='disabled'
-                                   v-model="postIdDis"
+                                   v-model="postFname"
                                    @on-click="disabled?'':selectPost()" />
                         </span>
                     </FormItem>
@@ -605,7 +605,6 @@ export default {
         };
         return {
             disabled: false,
-
             popup: '',
             form: {
                 _mt: 'empEmpnh.addOrUpd',
@@ -643,7 +642,7 @@ export default {
                 empnhTechspec: "", // 职称专业
                 empnhTechdate: "", // 职称取得时间
                 fileKey: "", // 上传附件
-                empnhAttendyn: 1, // 是否考勤
+                empnhAttendyn: "1", // 是否考勤
                 empnhCostcent: "", //成本中心
                 note: "", // 备注
             },
@@ -654,8 +653,8 @@ export default {
             empnhCostcentDis: "", // 成本中心显示字段 弹框
             empnhGenderDis: "", // 性别显示字段
             empnhNationDis: "", // 民族显示字段 弹框
-            deptIdDis: "", // 部门名称显示字段 弹框
-            postIdDis: "", // 岗位名称显示字段  弹框
+            unitFname: "", // 部门名称显示字段 弹框
+            postFname: "", // 岗位名称显示字段  弹框
             empnhPmpDis: "", // 直接上级显示字段 弹框
             empnhIdtypeDis: "", // 证件类型显示字段
             empnhRegaddrDis: "", // 户籍地址显示字段
@@ -727,8 +726,8 @@ export default {
                 funId: "1",
                 logType: "工作地方查询",
                 data: {
-                  "cityIsvalid" : "1",
-                  "cityType":"02city"
+                    "cityIsvalid": "1",
+                    "cityType": "02city"
                 }
             },
             searchCloumns: [
@@ -1022,8 +1021,6 @@ export default {
     },
     // 接收主子表页面参数 visaare一般不传
     props: {
-        id: Number,
-        logType: String,
         index: Number,
         modity: String
     },
@@ -1035,61 +1032,75 @@ export default {
         searchBank,
         searchOrgcostcenter
     },
+    computed: {
+        id () {
+            return this.$store.state.empMaster.mainId;
+        },
+        logType () {
+            return this.$store.state.empMaster.logType;
+        }
+    },
+    mounted () {
+        this.getSelect();
+    },
     methods: {
         //获取主表数据 无需变更
-        getdata (params) {
+        getdata (id) {
             const t = this;
             t.spinShow = true;
-            getDataLevelUserLogin(params)
-                .then(res => {
-                    if (isSuccess(res, t)) {
-                        t.form.numberCode = res.data.content[0].numberCode;
-                        t.form.empnhName = res.data.content[0].empnhName;
-                        t.form.empnhPtname = res.data.content[0].empnhPtname;
-                        t.form.empnhNation = res.data.content[0].empnhNation;
-                        t.form.deptId = res.data.content[0].deptId;
-                        t.form.postId = res.data.content[0].postId;
-                        t.form.empnhPmp = res.data.content[0].empnhPmp;
-                        t.deptIdDis = res.data.content[0].deptIdDis;
-                        t.postIdDis = res.data.content[0].postIdDis;
-                        t.empnhPmpDis = res.data.content[0].empnhPmpDis;
-                        t.form.empnhIdtype = res.data.content[0].empnhIdtype;
-                        t.form.empnhIdno = res.data.content[0].empnhIdno;
-                        t.form.empnhSday = res.data.content[0].empnhSday;
-                        t.form.empnhEday = res.data.content[0].empnhEday;
-                        t.form.empnhGender = res.data.content[0].empnhGender;
-                        t.form.empnhBirthdate = res.data.content[0].empnhBirthdate;
-                        t.form.empnhMobile = res.data.content[0].empnhMobile;
-                        t.form.empnhResiaddr = res.data.content[0].empnhResiaddr;
-                        t.form.empnhRegtype = res.data.content[0].empnhRegtype;
-                        t.form.empnhRegaddr = res.data.content[0].empnhRegaddr;
-                        t.form.empnhPersmail = res.data.content[0].empnhPersmail ? res.data.content[0].empnhPersmail : '';
-                        t.form.empnhCompmail = res.data.content[0].empnhCompmail ? res.data.content[0].empnhCompmail : '';
-                        t.form.empnhQq = res.data.content[0].empnhQq;
-                        t.form.empnhWechat = res.data.content[0].empnhWechat;
-                        t.form.empnhWklocat = res.data.content[0].empnhWklocat;
-                        t.empnhWklocatDis = res.data.content[0].empnhWklocatDis;
-                        t.form.empnhEntrydate = res.data.content[0].empnhEntrydate;
-                        t.form.empnhIrmentdate = res.data.content[0].empnhIrmentdate;
-                        t.form.empnhSalbank = res.data.content[0].empnhSalbank;
-                        t.empnhSalbankDis = res.data.content[0].empnhSalbankDis;
-                        t.form.empnhSalaccount = res.data.content[0].empnhSalaccount;
-                        t.form.empnhSalaccname = res.data.content[0].empnhSalaccname;
-                        t.form.empnhMarriage = res.data.content[0].empnhMarriage;
-                        t.form.empnhPolitical = res.data.content[0].empnhPolitical;
-                        t.form.empnhFirstwkdate = res.data.content[0].empnhFirstwkdate;
-                        t.form.empnhTechtil = res.data.content[0].empnhTechtil;
-                        t.form.empnhTechspec = res.data.content[0].empnhTechspec;
-                        t.form.empnhTechdate = res.data.content[0].empnhTechdate;
-                        t.form.empnhAttendyn = res.data.content[0].empnhAttendyn;
-                        t.empnhCostcentDis = res.data.content[0].empnhCostcentDis;
-                        t.form.note = res.data.content[0].note;
-                        if (res.data.content[0].fileKey) {
-                            t.file = { name: res.data.content[0].fileKey.split(':')[0] }
-                            t.filekey = res.data.content[0].fileKey.split(':')[1]
-                        }
+            getDataLevelUserLogin({
+                _mt: 'empEmpnh.getById',
+                id: id,
+                logType: '员工信息id查询',
+            }).then(res => {
+                if (isSuccess(res, t)) {
+                    t.form.numberCode = res.data.content[0].numberCode;
+                    t.form.empnhName = res.data.content[0].empnhName;
+                    t.form.empnhPtname = res.data.content[0].empnhPtname;
+                    t.form.empnhNation = res.data.content[0].empnhNation;
+                    t.form.deptId = res.data.content[0].deptId;
+                    t.form.postId = res.data.content[0].postId;
+                    t.form.empnhPmp = res.data.content[0].empnhPmp;
+                    t.unitFname = res.data.content[0].unitFname;
+                    t.postFname = res.data.content[0].postFname;
+                    t.empnhPmpDis = res.data.content[0].empnhPmpDis;
+                    t.form.empnhIdtype = res.data.content[0].empnhIdtype;
+                    t.form.empnhIdno = res.data.content[0].empnhIdno;
+                    t.form.empnhSday = res.data.content[0].empnhSday;
+                    t.form.empnhEday = res.data.content[0].empnhEday;
+                    t.form.empnhGender = res.data.content[0].empnhGender;
+                    t.form.empnhBirthdate = res.data.content[0].empnhBirthdate;
+                    t.form.empnhMobile = res.data.content[0].empnhMobile;
+                    t.form.empnhResiaddr = res.data.content[0].empnhResiaddr;
+                    t.form.empnhRegtype = res.data.content[0].empnhRegtype;
+                    t.form.empnhRegaddr = res.data.content[0].empnhRegaddr;
+                    t.form.empnhPersmail = res.data.content[0].empnhPersmail ? res.data.content[0].empnhPersmail : '';
+                    t.form.empnhCompmail = res.data.content[0].empnhCompmail ? res.data.content[0].empnhCompmail : '';
+                    t.form.empnhQq = res.data.content[0].empnhQq;
+                    t.form.empnhWechat = res.data.content[0].empnhWechat;
+                    t.form.empnhWklocat = res.data.content[0].empnhWklocat;
+                    t.empnhWklocatDis = res.data.content[0].empnhWklocatDis;
+                    t.form.empnhEntrydate = res.data.content[0].empnhEntrydate;
+                    t.form.empnhIrmentdate = res.data.content[0].empnhIrmentdate;
+                    t.form.empnhSalbank = res.data.content[0].empnhSalbank;
+                    t.empnhSalbankDis = res.data.content[0].empnhSalbankDis;
+                    t.form.empnhSalaccount = res.data.content[0].empnhSalaccount;
+                    t.form.empnhSalaccname = res.data.content[0].empnhSalaccname;
+                    t.form.empnhMarriage = res.data.content[0].empnhMarriage;
+                    t.form.empnhPolitical = res.data.content[0].empnhPolitical;
+                    t.form.empnhFirstwkdate = res.data.content[0].empnhFirstwkdate;
+                    t.form.empnhTechtil = res.data.content[0].empnhTechtil;
+                    t.form.empnhTechspec = res.data.content[0].empnhTechspec;
+                    t.form.empnhTechdate = res.data.content[0].empnhTechdate;
+                    t.form.empnhAttendyn = res.data.content[0].empnhAttendyn;
+                    t.empnhCostcentDis = res.data.content[0].empnhCostcentDis;
+                    t.form.note = res.data.content[0].note;
+                    if (res.data.content[0].fileKey) {
+                        t.file = { name: res.data.content[0].fileKey.split(':')[0] }
+                        t.filekey = res.data.content[0].fileKey.split(':')[1]
                     }
-                })
+                }
+            })
                 .catch(() => {
                     this.$Message.error('网络错误');
                 })
@@ -1130,6 +1141,9 @@ export default {
             data._mt = "empEmpnh.addOrUpd";
             data.logType = t.logType;
             data.id = t.id;
+            if (t.logType === '修改') {
+                data.id = t.id
+            }
             // 日期字段进行转换
             if (data.empnhSday !== undefined) {
                 data.empnhSday = data.empnhSday === "" ? "" : new Date(data.empnhSday).format("yyyy-MM-dd");
@@ -1158,12 +1172,13 @@ export default {
                     getDataLevelUserLoginNew(data)
                         .then(res => {
                             if (isSuccess(res, t)) {
-                                if (t.id) {
-                                    this.$Message.success('修改成功');
-
+                                if (t.logType === '修改') {
+                                    t.$Message.success('修改成功');
                                     t.$emit("update", res.data.content[0]);
                                 } else {
-                                    this.$Message.success('新增成功');
+                                    t.$Message.success('新增成功');
+                                    t.$store.commit('empMaster/setMainId', res.data.content[0].id);
+                                    t.$store.commit('empMaster/setLogType', "修改");
                                     t.$emit("newdata", res.data.content[0]);
                                 }
                             }
@@ -1178,13 +1193,15 @@ export default {
             const t = this;
             this.$refs.scrollBox.$el.scrollTop = "0";
             t.form = {};
+            t.form.numberCode = "XXXXXX";
+            t.form.empnhAttendyn = "1";
             t.empnhRegtypeDis = ""; // 户籍性质显示字段
             t.empnhSalbankDis = ""; // 开户银行显示字段
             t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
             t.empnhGenderDis = ""; // 性别显示字段
             t.empnhNationDis = ""; // 民族显示字段 弹框
-            t.deptIdDis = ""; // 部门名称显示字段 弹框
-            t.postIdDis = ""; // 岗位名称显示字段  弹框
+            t.unitFname = ""; // 部门名称显示字段 弹框
+            t.postFname = ""; // 岗位名称显示字段  弹框
             t.empnhPmpDis = ""; // 直接上级显示字段 弹框
             t.empnhIdtypeDis = ""; // 证件类型显示字段
             t.empnhRegaddrDis = ""; // 户籍地址显示字段
@@ -1195,6 +1212,8 @@ export default {
             t.empnhTechtilDis = "";// 职称显示字段
             t.file = '';
             this.$refs.form.resetFields();
+            t.disabled = false
+
         },
         //城市
         close () {
@@ -1218,7 +1237,7 @@ export default {
         //部门
         cleardeptId () {
             const t = this
-            t.deptIdDis = ''
+            t.unitFname = ''
             t.form.deptId = ''
         },
         pickDeptData () {
@@ -1235,14 +1254,14 @@ export default {
         changeDeptInput (name, id) {
             const t = this
             console.log(name, "name")
-            t.deptIdDis = name
+            t.unitFname = name
             t.form.deptId = id
         },
         //岗位
         dbPost () {
             const t = this;
             t.form.postId = "";
-            t.postIdDis = "";
+            t.postFname = "";
         },
         selectPost () {
             const t = this;
@@ -1257,7 +1276,7 @@ export default {
         },
         inputPost (name, id, postName, postId) {
             const t = this;
-            t.postIdDis = name;
+            t.postFname = name;
             t.form.postId = id;
         },
         //选择员工

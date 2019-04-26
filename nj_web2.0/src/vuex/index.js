@@ -37,6 +37,8 @@ import finServicesBoardList from '../pages/financialManagement/finServicesBoard/
 import flowClmkMap from '../pages/common/entryFlow/flowClmkMap'
 import btnOperate from '../components/btnAuth/btnState'
 import empBorrow from '../pages/empManage/empBorrow/empBorrow'
+import commonPage from '../pages/rootManage/orgframe-manage/comPage'
+import empMaster from '../pages/empManage/empmaster-manage3/empmaster'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -83,7 +85,9 @@ const store = new Vuex.Store({
     myWorkOrderNew,
     flowClmkMap,
     btnOperate,
-    empBorrow
+    empBorrow,
+    commonPage,
+    empMaster
   }
 });
 

@@ -14,7 +14,7 @@
                     @click="search()">查询</Button>
             <Button type="primary"
                     icon="primary"
-                    @click="showMsgBtn(NaN, '新增')"
+                    @click="showMsgBtn('', '新增')"
                     v-show="logType=='修改'">新增</Button>
             <Button type="primary"
                     icon="primary"
@@ -61,8 +61,8 @@
         <transition>
             <contentMsg v-show="showMsg"
                         @hideMsg="hideMsg"
-                        :mainId="mainId"
-                        :logType="logTypeE"
+                        :id="updateId"
+                        :index="index"
                         ref="contentMsg"
                         @newdata="addNewArray"
                         @update="updateArray"></contentMsg>
@@ -72,7 +72,7 @@
             <expwindow v-show="openExp"
                        :id="tableselected"
                        @setFileKey="setFileKey"
-                       :logType="logTypeE"
+                       :logType="logType"
                        :index="index"
                        @closeExp="closeExp"
                        ref="expwindow"></expwindow>
@@ -129,7 +129,6 @@ export default {
             filekey: "",
             filename: "",
             total: NaN,
-            logTypeE: this.logType,
             showMsg: false,
             edEducationlevel: "",
             selectEducationlevel: "",
@@ -255,13 +254,12 @@ export default {
             docsName: "",
             params: {
                 _mt: "empEducation.getPage",
-                funId: "1",
                 rows: 10,
                 page: 1,
                 sort: "id",
                 order: "asc",
-                logType: this.logTypeE,
-                pkId: ""
+                logType: this.logType,
+                pkId: this.mainId
             },
             index: 0,
             tableselected: [],
@@ -270,14 +268,12 @@ export default {
             searchLoading: false
         };
     },
-    //    主表id
-    props: {
-        mainId: Number,
-        logType: String
-    },
     computed: {
-        childFunId () {
-            return this.$store.state.user.childFunId;
+        mainId () {
+            return this.$store.state.empMaster.mainId;
+        },
+        logType () {
+            return this.$store.state.empMaster.logType;
         }
     },
     components: {
@@ -383,11 +379,12 @@ export default {
         //      打开子表详细信息页面 无需变更
         showMsgBtn (id, logType, index) {
             const t = this;
+            this.$store.commit('empMaster/setChildLogType', logType);
+            t.updateId = parseInt(id, 10);
             t.showMsg = true;
-            t.logTypeE = logType;
             t.index = index;
             t.$refs.contentMsg.setRowId(id, logType);
-            if (t.logTypeE === '查看') {
+            if (logType === '查看') {
                 t.$refs.contentMsg.disabled = true
             } else {
                 t.$refs.contentMsg.disabled = false

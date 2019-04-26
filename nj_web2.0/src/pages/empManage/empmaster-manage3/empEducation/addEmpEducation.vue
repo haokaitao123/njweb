@@ -9,7 +9,7 @@
                     <Icon type="mouse"
                           size="16"
                           style="margin-right: 10px;"></Icon>
-                    &nbsp;{{logType}}
+                    &nbsp;{{childLogType}}
                 </div>
                 <Button type="text"
                         @click="close">
@@ -220,16 +220,7 @@ export default {
             loadingStatus: false,
             selectEducationlevel: [],
             selectEdCuntry: [],
-            yesOrNo: [
-                // {
-                //     paramCode: "1",
-                //     paramInfoCn: "是"
-                // },
-                // {
-                //     paramCode: "0",
-                //     paramInfoCn: "否"
-                // }
-            ],
+            yesOrNo: [],
             form: {
                 _mt: "empEducation.addOrUpd",
                 edEducationlevel: "", // 教育程度
@@ -268,15 +259,21 @@ export default {
                     }
                 ],
             },
-            rowId: '',
-            logTypeE: this.logType,
             spinShow: ''
         };
     },
     //    主表id
     props: {
-        mainId: Number,
-        logType: String,
+        id: Number,
+        index: Number,
+    },
+    computed: {
+        mainId () {
+            return this.$store.state.empMaster.mainId;
+        },
+        childLogType () {
+            return this.$store.state.empMaster.childLogType;
+        }
     },
     components: {
         searchCountry
@@ -288,19 +285,17 @@ export default {
         // 新增页面
         setRowId (id, logType) {
             const t = this;
-            t.rowId = id;
-            this.logTypeE = logType
             if (logType !== "新增") {
-                t.getData();
+                t.getData(id);
             }
         },
         // 查询
-        getData () {
+        getData (id) {
             const t = this;
             t.spinShow = true
             const params = {
                 _mt: "empEducation.getById",
-                id: t.rowId,
+                id: id,
                 funId: "1",
                 logType: "根据id查询信息"
             };
@@ -335,11 +330,11 @@ export default {
             const t = this;
             const data = deepCopy(t.form);
             data._mt = "empEducation.addOrUpd";
-            data.logType = this.logTypeE;
-            data.id = t.rowId;
-            data.funId = "1";
-            if (this.logTypeE == "新增") {
+            data.logType = t.childLogType;
+            if (t.childLogType === "新增") {
                 data.pkId = t.mainId; // 放入主表id
+            } else {
+                data.id = t.id
             }
             if (data.edSdate !== undefined) {
                 data.edSdate =
@@ -353,13 +348,12 @@ export default {
                         ? ""
                         : new Date(data.edEdate).format("yyyy-MM-dd");
             }
-            console.log(data, "data")
             this.$refs.form.validate(valid => {
                 if (valid) {
                     getDataLevelUserLoginNew(data)
                         .then(res => {
                             if (isSuccess(res, t)) {
-                                if (t.rowId) {
+                                if (t.childLogType === '修改') {
                                     this.$Message.success('修改成功');
                                     t.$emit("update", res.data.content[0]);
                                 } else {
@@ -400,7 +394,6 @@ export default {
             t.$refs.form.resetFields();
         },
         close () {
-            this.rowId = "";
             this.clear();
             this.$emit("hideMsg");
 

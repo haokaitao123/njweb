@@ -9,7 +9,7 @@
                     <Icon type="mouse"
                           size="16"
                           style="margin-right: 10px;"></Icon>
-                    &nbsp;{{logType}}
+                    &nbsp;{{childLogType}}
                 </div>
                 <Button type="text"
                         @click="close">
@@ -191,16 +191,22 @@ export default {
                     { required: true, message: "请选择是否", trigger: "change" }
                 ]
             },
-            logTypeE: this.logType,
             spinShow: ''
         };
     },
     //    主表id
     props: {
-        mainId: Number,
-        logType: String
+        id: Number,
+        index: Number,
     },
-    components: {},
+    computed: {
+        mainId () {
+            return this.$store.state.empMaster.mainId;
+        },
+        childLogType () {
+            return this.$store.state.empMaster.childLogType;
+        }
+    },
     mounted () {
         this.getSelect();
     },
@@ -208,19 +214,17 @@ export default {
         // 新增页面
         setRowId (id, logType) {
             const t = this;
-            t.rowId = id;
-            this.logTypeE = logType
             if (logType !== "新增") {
-                t.getData();
+                t.getData(id);
             }
         },
         // 查询
-        getData () {
+        getData (id) {
             const t = this;
             t.spinShow = true
             const params = {
                 _mt: "empFamily.getById",
-                id: t.rowId,
+                id: id,
                 funId: "1",
                 logType: "根据id查询信息"
             };
@@ -247,17 +251,18 @@ export default {
             const t = this;
             const data = deepCopy(t.form);
             data._mt = "empFamily.addOrUpd";
-            data.logType = this.logTypeE;
-            data.id = t.rowId;
-            if (this.logTypeE == "新增") {
+            data.logType = t.childLogType;
+            if (t.childLogType === "新增") {
                 data.pkId = t.mainId; // 放入主表id
+            } else {
+                data.id = t.id
             }
             this.$refs.form.validate(valid => {
                 if (valid) {
                     getDataLevelUserLoginNew(data)
                         .then(res => {
                             if (isSuccess(res, t)) {
-                                if (t.rowId) {
+                                if (t.childLogType === '修改') {
                                     this.$Message.success('修改成功');
                                     t.$emit("update", res.data.content[0]);
                                 } else {
@@ -296,7 +301,6 @@ export default {
             t.$refs.form.resetFields();
         },
         close () {
-            this.rowId = "";
             this.clear();
             this.$emit("hideMsg");
 
