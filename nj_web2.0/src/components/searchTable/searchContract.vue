@@ -51,6 +51,11 @@ export default{
       }
       const data = deepCopy(t.params)
       data[t.searchCloumns[0].key] = t.pmtypeCode
+       for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
       getDataLevelUserLoginNew(data).then((res) => {
         if (isSuccess(res, t)) {
           t.data = res.data.content[0].rows

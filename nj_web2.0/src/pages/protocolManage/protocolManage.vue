@@ -9,7 +9,7 @@
           <Row>
             <Col span="18" style="width: 100% !important">
               <Row>
-                <Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
+                <Input v-model="empnhName" placeholder="请输入员工姓名" style="width: 200px"></Input>
                 <btnList
                   @buttonExport="expData"
                   @buttonImport="importExcel"
@@ -128,20 +128,20 @@ export default {
       imp_mt: "protocolManage.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "empName", name: "员工名称" },
-        { code: "deptoIdName", name: "原部门名称" },
-        { code: "empoTypeDis", name: "原员工类型" },
-        { code: "contractoTypeDis", name: "原合同类别" },
-        { code: "contractoPeriodDis", name: "原合同期限" },
-        { code: "postoName", name: "原岗位名称" },
+        { code: "empnhName", name: "员工名称" },
+        { code: "unitoFname", name: "原部门名称" },
+        { code: "empTypeDis", name: "原员工类型" },
+        { code: "contTypeDis", name: "原合同类别" },
+        { code: "contPeriodDis", name: "原合同期限" },
+        { code: "postoFname", name: "原岗位名称" },
         { code: "empnhIdno", name: "身份证号码" },
         { code: "contractoNo", name: "原合同编号" },
         { code: "contractoStart", name: "原合同开始日期" },
         { code: "contractoEnd", name: "原合同结束日期" },
-        { code: "contractoTimeDis", name: "原合同工作时间" },
+        { code: "contWorktimeDis", name: "原合同工作时间" },
         { code: "signingoTime", name: "原签订时间" },
-        { code: "deptnIdName", name: "新部门名称" },
-        { code: "postnIdName", name: "新岗位名称" },
+        { code: "unitFname", name: "新部门名称" },
+        { code: "postFname", name: "新岗位名称" },
         { code: "empnTypeDis", name: "新员工类型" },
         { code: "contractnTypeDis", name: "新合同类别" },
         { code: "contractnPeriodDis", name: "新合同期限" },
@@ -183,19 +183,19 @@ export default {
         },
         {
           title: "员工名称",
-          key: "empName",
+          key: "empnhName",
           sortable: "custom",
           width: 220
         },
         {
           title: "原部门名称",
-          key: "deptoIdName",
+          key: "unitoFname",
           //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
           title: "原岗位名称",
-          key: "postoName",
+          key: "postoFname",
           width: 220
         },
         {
@@ -205,17 +205,17 @@ export default {
         },
         {
           title: "原员工类型",
-          key: "empoTypeDis",
+          key: "empTypeDis",
           width: 220
         },
         {
           title: "原合同类别",
-          key: "contractoTypeDis",
+          key: "contTypeDis",
           width: 220
         },
         {
           title: "原合同期限",
-          key: "contractoPeriodDis",
+          key: "contPeriodDis",
           width: 220
         },
         {
@@ -237,7 +237,7 @@ export default {
         },
         {
           title: "原合同工作时间",
-          key: "contractoTimeDis",
+          key: "contWorktimeDis",
           width: 220
         },
         {
@@ -248,12 +248,12 @@ export default {
         },
         {
           title: "新部门名称",
-          key: "deptnIdName",
+          key: "unitFname",
           width: 220
         },
         {
           title: "新岗位名称",
-          key: "postnIdName",
+          key: "postFname",
           width: 220
         },
         {
@@ -351,7 +351,7 @@ export default {
       },
       state: this.modity,
       loading: "",
-      empName: ""
+      empnhName: ""
     };
   },
   computed: {
@@ -425,7 +425,7 @@ export default {
         order: t.order,
         logType: "变更协议查询",
         funId: "1000",
-        empName: t.empName,
+        empnhName: t.empnhName,
         state: t.modity
       };
       for (const dat in data) {
@@ -537,15 +537,15 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
-      t.$refs.update.empName = "";
-      t.$refs.update.deptoIdName = "";
-      t.$refs.update.postoName = "";
+      t.$refs.update.empnhName = "";
+      t.$refs.update.unitoFname = "";
+      t.$refs.update.postoFname = "";
       t.$refs.update.empnhIdno = "";
       t.$refs.update.formValidate.contractoNo = "";
       t.$refs.update.formValidate.contractoStart = "";
       t.$refs.update.formValidate.contractoEnd = "";
-      t.$refs.update.deptnIdName = "";
-      t.$refs.update.postnIdName = "";
+      t.$refs.update.unitFname = "";
+      t.$refs.update.postFname = "";
       t.$refs.update.formValidate.contractnStart = "";
       t.$refs.update.formValidate.contractnEnd = "";
       t.$refs.update.formValidate.signingnTime = "";
@@ -560,6 +560,7 @@ export default {
       t.$refs.update.formValidate.contractnType = "";
       t.$refs.update.formValidate.contractnPeriod = "";
       t.$refs.update.formValidate.contractnTime = "";
+      t.$refs.update.file = "";
     },
     search() {
       this.page = 1;

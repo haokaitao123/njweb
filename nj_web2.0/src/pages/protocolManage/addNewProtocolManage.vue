@@ -36,14 +36,14 @@
                                 <FormItem label="员工姓名" prop="empId">
                                     <!-- @dblclick="clearUserid" 员工姓名清空选择框  -->
                                     <span @dblclick="disabled?'':clearUserid()">
-                                        <Input v-model="empName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="disabled?'':pickData3()" />
+                                        <Input v-model="empnhName" icon="search" :readonly="true" :disabled="disabled" placeholder="请选择员工姓名"  @on-click="disabled?'':pickData3()" />
                                     </span>
                                 </FormItem>
                             </Col>
                             <!--  部门名称输入框  -->
                             <Col span="11" offset="1">
                                 <FormItem label="原部门名称" prop="deptoId">
-                                    <Input v-model="deptoIdName" disabled="disabled" placeholder="请输入原部门名称"></Input>
+                                    <Input v-model="unitoFname" disabled="disabled" placeholder="请输入原部门名称"></Input>
                                 </FormItem>
                             </Col>
                         </Row>
@@ -51,7 +51,7 @@
                             <!--  岗位名称输入框 -->
                             <Col span="11">
                             <FormItem label="原岗位名称" prop="postoId">
-                                    <Input v-model="postoName" disabled="disabled" placeholder="请输入原岗位名称"></Input>
+                                    <Input v-model="postoFname" disabled="disabled" placeholder="请输入原岗位名称"></Input>
                                 </FormItem>
                             </Col>
                             <!--  证件号码输入框  -->
@@ -172,7 +172,7 @@
                                 <FormItem label="新岗位名称"
                                     prop="postnId">
                                     <span @dblclick="disabled?'':clearPost()">
-                                        <Input v-model="postnIdName"
+                                        <Input v-model="postFname"
                                             icon="search"
                                             :readonly=true
                                             :disabled="disabled"
@@ -186,7 +186,7 @@
                                 <FormItem label="新部门名称"
                                     prop="deptnId">
                                     <span @dblclick="disabled?'':clearPid()">
-                                        <Input v-model="deptnIdName"
+                                        <Input v-model="unitFname"
                                             icon="search"
                                             :disabled="disabled"
                                             :readonly=true
@@ -294,6 +294,46 @@
                             </Col>
                         </Row>
                         <Row>
+                          <Col span="22">
+                            <FormItem label="附件上传"
+                                      prop="fileKey">
+                                <Row>
+                                    <i-col span="4"
+                                           v-show="!disabled">
+                                        <Upload :before-upload="handleUpload"
+                                                action=" ">
+                                            <Button type="ghost"
+                                                    icon="ios-cloud-upload-outline"
+                                                    :disabled="disabled">浏览</Button>
+                                        </Upload>
+                                    </i-col>
+                                    <i-col span="19">
+                                        <span v-if="file !==''">
+                                            <i-col span="22"
+                                                   @dblclick.native="disabled?'':clearFile()">
+                                                <Input v-model="file.name"
+                                                       readonly="readonly">
+                                                <span slot="prepend">
+                                                    <Icon type="folder"
+                                                          size="16"></Icon>
+                                                </span>
+                                                </Input>
+                                            </i-col>
+                                            <i-col span="2">
+                                                <Button type="text"
+                                                        @click="uploadLocalFile"
+                                                        v-if="loadingStatus">上传</Button>
+                                                <Button type="text"
+                                                        @click="downloadFile"
+                                                        v-if="!loadingStatus">下载</Button>
+                                            </i-col>
+                                        </span>
+                                    </i-col>
+                                </Row>
+                            </FormItem>
+                           </Col>
+                        </Row>
+                        <Row>
                             <!--  备注文本域  -->
                             <Col span="23" >
                                 <FormItem label="备注" prop="note">
@@ -336,7 +376,7 @@
   </div>
 </template>
 <script>
-    import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../axios/axios' //调用请求接口封装的公共方法
+    import { getDataLevelUserLoginSenior, getDataLevelUserLogin, uploadFile } from '../../axios/axios' //调用请求接口封装的公共方法
     import { isSuccess, deepCopy } from '../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
     import searchContract from '../../components/searchTable/searchContract' //引入员工信息页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
     import searchOrgframe from '../../components/searchTable/searchOrgframe'
@@ -356,6 +396,7 @@
         }
       }
       return {
+        loadingStatus:"",
         spinShow:false,
         disabled: false,
         distype: false,
@@ -397,7 +438,8 @@
                 funId: '1',
                 logType: '组织架构查询',
                 data: '{}',
-                state:'02valid'
+                state:'02valid',
+                unitType:'02dept',
         },
         params3: {
             _mt: "empContractinfo.getPage",
@@ -452,6 +494,7 @@
             deptnId:'',
             postnId:'',
             empnType:'',
+            fileKey: "", // 上传附件
             contractnType:'',
             contractnPeriod:'',
             contractnStart:'',
@@ -461,59 +504,61 @@
             note: '',//备注
             state:'01ok',
         },
-        postoName: '',//原岗位名称
-        empName:'',//员工名称
-        deptoIdName:'',//原部门名称
-        deptnIdName:'',
-        postnIdName:'',
+        fileKey: "", // 上传附件
+        file: "",
+        postoFname: '',//原岗位名称
+        empnhName:'',//员工名称
+        unitoFname:'',//原部门名称
+        unitFname:'',
+        postFname:'',
         empnhIdno: '',//身份证号码
         ruleValidate: { //表单验证规则
-            //员工
+            // //员工
             empId: [ 
-                { required: true, message: '请选择员工', trigger: 'change' }
+                 { required: true, message: '请选择员工', trigger: 'change' }
             ],
-            deptnId: [ 
-                { required: true, message: '请选择部门', trigger: 'change' }
-            ],
-            postnId: [ 
-                { required: true, message: '请选择岗位', trigger: 'change' }
-            ],
-            empnType: [
-                { required: true, message: "请选择员工类型", trigger: "blur" }
-            ],
-            contractnType: [
-                { required: true, message: "请选择合同类别", trigger: "blur" }
-            ],
-            contractnPeriod: [
-                { required: true, message: "请选择合同期限", trigger: "blur" }
-            ],
-            contractnStart: [
-              {
-                required: true,
-                type: "date",
-                validator: compareTime,
-                trigger: "blur"
-              }
-            ],
-            contractnEnd: [
-              {
-                required: true,
-                type: "date",
-                message: "请选择合同结束日期",
-                trigger: "blur"
-              }
-            ],
-            contractnTime: [
-                { required: true, message: "请选择合同工作时间", trigger: "blur" }
-            ],
-            signingnTime: [
-              {
-                required: true,
-                type: "date",
-                message: "请选择新签订时间",
-                trigger: "blur"
-              }
-            ],
+            // deptnId: [ 
+            //     { required: true, message: '请选择部门', trigger: 'change' }
+            // ],
+            // postnId: [ 
+            //     { required: true, message: '请选择岗位', trigger: 'change' }
+            // ],
+            // empnType: [
+            //     { required: true, message: "请选择员工类型", trigger: "blur" }
+            // ],
+            // contractnType: [
+            //     { required: true, message: "请选择合同类别", trigger: "blur" }
+            // ],
+            // contractnPeriod: [
+            //     { required: true, message: "请选择合同期限", trigger: "blur" }
+            // ],
+            // contractnStart: [
+            //   {
+            //     required: true,
+            //     type: "date",
+            //     validator: compareTime,
+            //     trigger: "blur"
+            //   }
+            // ],
+            // contractnEnd: [
+            //   {
+            //     required: true,
+            //     type: "date",
+            //     message: "请选择合同结束日期",
+            //     trigger: "blur"
+            //   }
+            // ],
+            // contractnTime: [
+            //     { required: true, message: "请选择合同工作时间", trigger: "blur" }
+            // ],
+            // signingnTime: [
+            //   {
+            //     required: true,
+            //     type: "date",
+            //     message: "请选择新签订时间",
+            //     trigger: "blur"
+            //   }
+            // ],
         },
       }
     },
@@ -547,9 +592,9 @@
                 //回显数据绑定
                 t.formValidate.deptoId = res.data.content[0].deptoId
                 t.formValidate.empId = res.data.content[0].empId
-                t.deptoIdName = res.data.content[0].deptoIdName
-                t.empName = res.data.content[0].empName
-                t.postoName = res.data.content[0].postoName
+                t.unitoFname = res.data.content[0].unitoFname
+                t.empnhName = res.data.content[0].empnhName
+                t.postoFname = res.data.content[0].postoFname
                 t.formValidate.postoId = res.data.content[0].postoId
                 t.formValidate.empoType = res.data.content[0].empoType
                 t.formValidate.contractoType = res.data.content[0].contractoType
@@ -560,9 +605,9 @@
                 t.formValidate.contractoTime = res.data.content[0].contractoTime
                 t.formValidate.signingoTime = res.data.content[0].signingoTime
                 t.formValidate.deptnId = res.data.content[0].deptnId
-                t.deptnIdName = res.data.content[0].deptnIdName
+                t.unitFname = res.data.content[0].unitFname
                 t.formValidate.postnId = res.data.content[0].postnId
-                t.postnIdName = res.data.content[0].postnIdName
+                t.postFname = res.data.content[0].postFname
                 t.formValidate.empnType = res.data.content[0].empnType
                 t.formValidate.contractnType = res.data.content[0].contractnType
                 t.formValidate.contractnPeriod = res.data.content[0].contractnPeriod
@@ -572,6 +617,10 @@
                 t.formValidate.signingnTime = res.data.content[0].signingnTime
                 t.empnhIdno = res.data.content[0].empnhIdno
                 t.formValidate.note = res.data.content[0].note
+                if (res.data.content[0].fileKey) {
+                            t.file = { name: res.data.content[0].fileKey.split(":")[0] };
+                            t.filekey = res.data.content[0].fileKey.split(":")[1];
+                        }
                 if (id === res.data.content[0].companyId) {
                             t.forbidden = 'disabled'
                             t.distype = true
@@ -612,6 +661,21 @@
                     // });
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
+        },
+
+         //清除附件
+        clearFile (ckdis) {
+            this.$Modal.confirm({
+                title: this.$t("reminder.remind"),
+                content: "是否清除已上传的附件",
+                onOk: () => {
+                    this.file = "";
+                    this.filekey = "";
+                    this.formValidate.fileKey = "";
+                    this.loadingStatus = false;
+                },
+                onCancel: () => { }
+            });
         },
         //点击提交事件
         handleSubmit() {
@@ -698,15 +762,88 @@
             const t = this
             t.openPickUser = false
         },
+         //附件上传
+        handleUpload (file) {
+            this.file = file;
+            this.loadingStatus = true;
+            return false;
+        },
+         //上传
+        uploadLocalFile () {
+            const t = this;
+            const formData = new FormData();
+            formData.append("upfile", t.file);
+            console.log(formData);
+            uploadFile(formData)
+                .then(res => {
+                    for (const key in res.data) {
+                        t.file = { name: key };
+                        t.filekey = res.data[key];
+                        t.formValidate.fileKey = key + ":" + res.data[key];
+                    }
+                    this.$Message.success(this.$t("reminder.uploadsuccess"));
+                    this.loadingStatus = false;
+                }).catch(() => {
+                    this.$Message.error(this.$t("reminder.errormessage"));
+                })
+
+        },
+         //下载
+        downloadFile () {
+            const t = this;
+            let data = {
+                _mt: "userMgmt.getfiletoken",
+                isprivate: true,
+                logType: "导出",
+                filekey: t.filekey,
+                expiresecs: 180
+            };
+            getDataLevelUserLogin(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        localStorage.pageOpenedListAll = JSON.stringify(
+                            JSON.parse(localStorage.pageOpenedList)
+                        );
+                        if (this.isIE()) {
+                            window.location.href =
+                                pubsource.pub_prvf_downlink +
+                                res.data.content[0].value +
+                                "&fname=" +
+                                encodeURI(t.filekey);
+                        } else {
+                            let doclink =
+                                pubsource.pub_prvf_downlink +
+                                res.data.content[0].value +
+                                "&fname=" +
+                                encodeURI(t.filekey);
+                            let link = document.createElement("a");
+                            link.href = doclink;
+                            link.download = "downloadfiletemp";
+                            link.setAttribute("download", "downloadfiletemp");
+                            document.body.appendChild(link);
+                            link.click();
+                        }
+                        this.$store.state.app.pageOpenedList = JSON.parse(
+                            localStorage.pageOpenedListAll
+                        );
+                        localStorage.pageOpenedList = JSON.stringify(
+                            JSON.parse(localStorage.pageOpenedListAll)
+                        );
+                    }
+                })
+                .catch(() => {
+                    this.$Message.error("网络错误");
+                });
+        },
         //清除岗位选择框数据
         clearPost () {
             const t = this;
-            t.postnIdName = ""
+            t.postFname = ""
             t.postnId = ""
         },
         changeinput2 (name, id, type) {
             const t = this
-            t.deptnIdName = name
+            t.unitFname = name
             t.formValidate.deptnId = id
             t.type = type
         },
@@ -719,7 +856,7 @@
         inputPost (name, id, postName, postId) {
             const t = this
             t.formValidate.postnId = id
-            t.postnIdName = name
+            t.postFname = name
         },
         //打开岗位选择弹出框
         pickData () {
@@ -743,19 +880,19 @@
         },
          clearPid () {
                 const t = this
-                t.deptnIdName = ''
+                t.unitFname = ''
                 t.formValidate.deptnId = ''
         },
         //员工信息弹出框input选中事件
         inputEmp(row) {
             console.log(row,"row")
               const t = this
-            t.empName = row.empnhName //员工信息name赋值
+            t.empnhName = row.empnhName //员工信息name赋值
             t.formValidate.empId = row.empId //员工信息id赋值
-            t.deptoIdName = row.unitsFname;
-            t.formValidate.deptoId = row.deptId;
-            t.formValidate.postoId = row.postId;
-            t.postoName = row.postFname;
+            t.unitoFname = row.unitoFname;
+            t.formValidate.deptoId = row.deptoId;
+            t.formValidate.postoId = row.postoId;
+            t.postoFname = row.postoFname;
             t.formValidate.empoType = row.empType;
             t.formValidate.contractoType = row.contType;
             t.formValidate.contractoPeriod = row.contPeriod;
@@ -769,11 +906,11 @@
         //清除员工信息
         clearUserid() {
              const t = this
-            t.empName = '';
+            t.empnhName = '';
             t.formValidate.empId='';
-            t.deptoIdName = '';
+            t.unitoFname = '';
             t.formValidate.deptoId='';
-            t.postoName = '';
+            t.postoFname = '';
             t.formValidate.postoId='';
             t.formValidate.empoType='';
             t.formValidate.contractoType='';

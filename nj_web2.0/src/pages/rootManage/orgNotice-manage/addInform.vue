@@ -299,7 +299,8 @@ export default {
         funId: "1",
         logType: "组织架构查询",
         data: "{}",
-        state:'02valid'
+        state:'02valid',
+        unitType:'02dept'
       },
       unitPidDis: '',
       file: "",
