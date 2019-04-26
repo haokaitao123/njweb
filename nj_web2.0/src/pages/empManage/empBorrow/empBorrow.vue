@@ -13,10 +13,10 @@
                     <Row>
                         <Input placeholder="请输入员工姓名"
                                style="width: 200px"
-                               v-model="empIdName" />
+                               v-model="empnhName" />
                         <Input placeholder="请输入证件号码"
                                style="width: 200px"
-                               v-model="empIdIden" />
+                               v-model="empnhIdno" />
                         <!--状态选择框-->
                         <btnList :btnData="btnData"
                                  :FlowNode="FlowNode"
@@ -126,10 +126,10 @@ export default {
             imp_mt: "empBorrow.importData",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                { code: "empIdName", name: "员工姓名" },
-                { code: "empIdIden", name: "证件号码" },
-                { code: "deptIdDis", name: "部门" },
-                { code: "postIdDis", name: "岗位" },
+                { code: "empnhName", name: "员工姓名" },
+                { code: "empnhIdno", name: "证件号码" },
+                { code: "unitFname", name: "部门" },
+                { code: "postFname", name: "岗位" },
                 { code: "borrTotamount", name: "总金额" },
                 { code: "note", name: "备注" },
             ],
@@ -149,24 +149,24 @@ export default {
                 },
                 {
                     title: "员工姓名",
-                    key: 'empIdName',
+                    key: 'empnhName',
                     width: 140,
                     sortable: 'empId',
                 },
                 {
                     title: "证件号码",
                     width: 140,
-                    key: 'empIdIden',
+                    key: 'empnhIdno',
                 },
                 {
                     title: "部门",
                     width: 140,
-                    key: 'deptIdDis',
+                    key: 'unitFname',
                 },
                 {
                     title: "岗位",
                     width: 140,
-                    key: 'postIdDis',
+                    key: 'postFname',
 
                 }, {
                     title: "总金额",
@@ -215,8 +215,8 @@ export default {
             page: 1,
             funId: '1000',
             compFnameCnDis: '',
-            empIdName: '',
-            empIdIden: '',
+            empnhName: '',
+            empnhIdno: '',
             openPick: false,
             params: {
                 _mt: 'empBorrow.getPage',
@@ -373,8 +373,8 @@ export default {
                 sort: t.sort,
                 order: t.order,
                 logType: '借支信息查询',
-                empIdName: t.empIdName,
-                empIdIden: t.empIdIden,
+                empnhName: t.empnhName,
+                empnhIdno: t.empnhIdno,
             }
             for (const dat in data) {
                 if (data[dat] === '') {
@@ -458,8 +458,8 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                empIdName: t.empIdName,
-                empIdIden: t.empIdIden,
+                empnhName: t.empnhName,
+                empnhIdno: t.empnhIdno,
 
             };
             // 设置导出mt参数

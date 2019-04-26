@@ -284,7 +284,6 @@ export default {
       },
       inputEmp(row) {
         const t = this
-        debugger
         t.formValidate.empnhName = row.empnhName;
         t.formValidate.empnhIdno = row.empnhIdno;
         t.formValidate.empId = row.id;

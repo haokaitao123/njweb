@@ -14,7 +14,7 @@
                     @click="search">{{$t('button.ser')}}</Button>
             <Button type="primary"
                     @click="showMsgBtn('','新增')">新增</Button>
-          <Button type="primary"
+          <Button type="primary" style="color: #fff;background-color: #ed3f14;border-color: #ed3f14;"
                     @click="deletemsg">删除</Button>
             <Button type="primary"
                     @click="expData">导出</Button>
@@ -97,8 +97,8 @@ export default {
             tableOperate: false,  //加上这个变量
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                { code: "bodeType", name: "类型" },
-                { code: "bodeReason", name: "原因" },
+                { code: "bodeTypeDis", name: "类型" },
+                { code: "bodeReasonDis", name: "原因" },
                 { code: "bodeOpetime", name: "操作时间" },
                 { code: "bodeAmount", name: "金额" },
                 { code: "note", name: "备注" },

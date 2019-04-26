@@ -274,7 +274,7 @@
             const t = this
             t.empName = row.empnhName //员工信息name赋值
             t.formValidate.empId = row.id //员工信息id赋值
-            t.entryName = row.deptIdDis;
+            t.entryName = row.unitFname;
             t.formValidate.entryId = row.deptId;
             t.empIdno = row.empnhIdno;
         },
