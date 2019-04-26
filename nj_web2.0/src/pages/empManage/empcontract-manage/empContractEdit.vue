@@ -37,7 +37,7 @@
                                 <!--绑定双击清除方法-->
                                 <span @dblclick="disabled?'':dbclean()">
                                     <!--v-model绑定显示字段-->
-                                    <Input v-model="empName"
+                                    <Input v-model="empnhName"
                                            icon="search"
                                            :readonly=true
                                            :disabled="disabled "
@@ -49,7 +49,7 @@
                         <i-col span="11">
                             <FormItem label="部门"
                                       prop="deptId">
-                                <Input v-model="deptIdDis"
+                                <Input v-model="unitFname"
                                        disabled="disabled"
                                        placeholder="请输入部门名称" />
                             </FormItem>
@@ -58,7 +58,7 @@
                                offset="1">
                             <FormItem label="岗位"
                                       prop="postId">
-                                <Input v-model="postIdDis"
+                                <Input v-model="postFname"
                                        disabled="disabled"
                                        placeholder="请输入岗位名称" />
                             </FormItem>
@@ -376,9 +376,9 @@ export default {
             openDeptPick: false,
             openPost: false,
             openEmpMaster: false,
-            empName: "",
-            deptIdDis: "",
-            postIdDis: "",
+            empnhName: "",
+            unitFname: "",
+            postFname: "",
             ruleValidate: {
                 empId: [
                     { required: true, message: "请选择员工姓名", trigger: "change" }
@@ -458,11 +458,11 @@ export default {
         //上级清除员工选择
         dbclean () {
             const t = this;
-            t.empName = "";
+            t.empnhName = "";
             t.form.empId = "";
-            t.deptIdDis = "";
+            t.unitFname = "";
             t.form.deptId = "";
-            t.postIdDis = "";
+            t.postFname = "";
             t.form.postId = "";
         },
         getData (id) {
@@ -495,9 +495,9 @@ export default {
                         t.form.contJzxy = res.data.content[0].contJzxy;
                         t.form.state = res.data.content[0].state;
                         t.form.note = res.data.content[0].note;
-                        t.empName = res.data.content[0].empName;
-                        t.postIdDis = res.data.content[0].postIdDis;
-                        t.deptIdDis = res.data.content[0].deptIdDis;
+                        t.empnhName = res.data.content[0].empnhName;
+                        t.postFname = res.data.content[0].postFname;
+                        t.unitFname = res.data.content[0].unitFname;
                         t.empTypeDis = res.data.content[0].empTypeDis;
                         t.contTypeDis = res.data.content[0].contTypeDis;
                         t.contPeriodDis = res.data.content[0].contPeriodDis;
@@ -627,11 +627,11 @@ export default {
         },
         inputEmp (row) {
             const t = this;
-            t.empName = row.empnhName;
+            t.empnhName = row.empnhName;
             t.form.empId = row.id;
-            t.deptIdDis = row.deptIdDis;
+            t.unitFname = row.unitFname;
             t.form.deptId = row.deptId;
-            t.postIdDis = row.postIdDis;
+            t.postFname = row.postFname;
             t.form.postId = row.postId;
         },
         //关闭弹窗
@@ -655,9 +655,9 @@ export default {
             t.form.contValiddate = "";
             t.form.contInvdate = "";
             t.form.note = "";
-            t.empName = "";
-            t.postIdDis = "";
-            t.deptIdDis = "";
+            t.empnhName = "";
+            t.unitFname = "";
+            t.postFname = "";
             t.empTypeDis = "";
             t.contTypeDis = "";
             t.contPeriodDis = "";

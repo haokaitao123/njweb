@@ -7,10 +7,10 @@
             <Icon type="mouse"></Icon>&nbsp;合同信息管理
           </p>
           <Row>
-            <Input placeholder="请输入员工姓名" style="width: 200px" v-model="empName"/>
+            <Input placeholder="请输入员工姓名" style="width: 200px" v-model="empnhName"/>
             <span @dblclick="cleardeptId()">
               <Input
-                v-model="deptIdDis"
+                v-model="unitFname"
                 style="width: 200px"
                 icon="search"
                 :readonly="true"
@@ -147,10 +147,10 @@ export default {
             // 导出字段设置, code字段名 name列名
             expDataTital: [
                 { code: "numberCode", name: "合同编号" },
-                { code: "empName", name: "员工姓名" },
-                { code: "empIdno", name: "员工身份证号" },
-                { code: "deptIdDis", name: "部门名称" },
-                { code: "postIdDis", name: "岗位名称" },
+                { code: "empnhName", name: "员工姓名" },
+                { code: "empnhIdno", name: "员工身份证号" },
+                { code: "unitFname", name: "部门名称" },
+                { code: "postFname", name: "岗位名称" },
                 { code: "empTypeDis", name: "员工类别" },
                 { code: "contTypeDis", name: "合同类别" },
                 { code: "contPeriodDis", name: "合同期限" },
@@ -191,23 +191,23 @@ export default {
                 },
                 {
                     title: "员工姓名",
-                    key: "empName",
+                    key: "empnhName",
                     width: 100
                 },
                 {
                     title: "员工身份证号",
-                    key: "empIdno",
+                    key: "empnhIdno",
                     width: 160
                 },
                 {
                     title: "部门名称",
-                    key: "deptIdDis",
+                    key: "unitFname",
                     width: 160,
                     sortable: "custom"
                 },
                 {
                     title: "岗位名称",
-                    key: "postIdDis",
+                    key: "postFname",
                     width: 160,
                     sortable: "custom"
                 },
@@ -327,10 +327,10 @@ export default {
             rows: 10,
             page: 1,
             funId: "1000",
-            empName: "",
-            empIdno:"",
+            empnhName: "",
+            empnhIdno:"",
             deptId: "",
-            deptIdDis: "",
+            unitFname: "",
             openDeptPick: false,
             //部门
             searchDeptCloumns: [
@@ -351,19 +351,10 @@ export default {
                 sort: "id",
                 order: "desc",
                 logType: "部门",
-                unitType: "02dept",
+                //unitType: "02dept",
                 state: "02valid"
             },
-            //   params: {
-            //     _mt: "empContractinfo.getPage",
-            //     sort: "id",
-            //     order: "asc",
-            //     rows: 10,
-            //     page: 1,
-            //     funId: "1",
-            //     logType: "合同信息查询",
-            //     data: "{}"
-            //   },
+           
             state: this.modity,
             loading: ""
         };
@@ -443,7 +434,7 @@ export default {
                 order: t.order,
                 logType: "合同查询",
                 deptId: t.deptId,
-                empName: t.empName,
+                empnhName: t.empnhName,
                 state: t.modity
             };
 
@@ -606,7 +597,7 @@ export default {
         content: tipContent,
         onOk: () => {
           getDataLevelUserLogin({
-            _mt: "empContractinfo.setStateById",
+            _mt: "empContractinfo.setStateByIds",
             logType: logType,
             state: state,
             ids: t.tableselected.toString()
@@ -686,7 +677,7 @@ export default {
         //部门
         cleardeptId () {
             const t = this;
-            t.deptIdDis = "";
+            t.unitFname = "";
             t.deptId = "";
         },
         pickDeptData () {
@@ -700,14 +691,14 @@ export default {
             t.$refs.searchTable.unitCode = "";
             t.openDeptPick = false;
         },
-        inputPost (name, id, deptIdDis, form) {
+        inputPost (name, id, unitFname, form) {
             const t = this;
             t.deptId = id;
-            t.deptIdDis = name;
+            t.unitFname = name;
         },
         changeDeptInput (name, id) {
             const t = this;
-            t.deptIdDis = name;
+            t.unitFname = name;
             t.deptId = id;
         },
         getPageByType (paramCode) {

@@ -218,12 +218,12 @@ export default {
       },
       inputEmp(row) {
         const t = this
-        t.formValidate.empIdName = row.empnhName;
-        t.formValidate.empIdIden = row.empnhIdno;
+        t.formValidate.empnhName = row.empnhName;
+        t.formValidate.empnhIdno = row.empnhIdno;
         t.formValidate.empId = row.id;
-        t.formValidate.deptIdDis = row.deptIdDis;
+        t.formValidate.unitFname = row.unitFname;
         t.formValidate.deptId = row.deptId;
-        t.formValidate.postIdDis = row.postIdDis;
+        t.formValidate.postFname = row.postFname;
         t.formValidate.postId = row.postId;
       },
       handleReset () {

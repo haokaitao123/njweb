@@ -22,12 +22,12 @@
               </FormItem>
             </i-col>
             <i-col span="11" offset="1">
-              <FormItem label="员工姓名" prop="empName">
+              <FormItem label="员工姓名" prop="empnhName">
                 <!--绑定双击清除方法-->
                 <span @dblclick="disabled?'':clearUserid()">
                   <!--v-model绑定显示字段-->
                   <Input
-                    v-model="empName"
+                    v-model="empnhName"
                     icon="search"
                     :readonly="true"
                     :disabled="disabled"
@@ -38,13 +38,13 @@
               </FormItem>
             </i-col>
             <i-col span="11">
-              <FormItem label="部门" prop="deptIdDis">
-                <Input v-model="deptIdDis" disabled="disabled" placeholder="请输入部门名称"/>
+              <FormItem label="部门" prop="unitFname">
+                <Input v-model="unitFname" disabled="disabled" placeholder="请输入部门名称"/>
               </FormItem>
             </i-col>
             <i-col span="11" offset="1">
-              <FormItem label="岗位" prop="postIdDis">
-                <Input v-model="postIdDis" disabled="disabled" placeholder="请输入岗位名称"/>
+              <FormItem label="岗位" prop="postFname">
+                <Input v-model="postFname" disabled="disabled" placeholder="请输入岗位名称"/>
               </FormItem>
             </i-col>
             <i-col span="11">
@@ -251,9 +251,9 @@ export default {
       openDeptPick: false,
       openPost: false,
       openPickUser: false,
-      empName: "",
-      deptIdDis: "",
-      postIdDis: "",
+      empnhName: "",
+      unitFname: "",
+      postFname: "",
       //合同信息
       params3: {
         _mt: "empContractinfo.getPage",
@@ -267,7 +267,7 @@ export default {
       searchCloumns3: [
         {
           title: "员工姓名",
-          key: "empName",
+          key: "empnhName",
           sortable: "custom"
         },
         {
@@ -276,12 +276,12 @@ export default {
         },
         {
           title: "部门名称",
-          key: "deptIdDis",
+          key: "unitFname",
           sortable: "custom"
         },
         {
           title: "岗位名称",
-          key: "postIdDis",
+          key: "postFname",
           sortable: "custom"
         },
         {
@@ -377,11 +377,11 @@ export default {
     //上级清除员工选择
     dbclean() {
       const t = this;
-      t.form.empName = "";
+      t.form.empnhName = "";
       t.form.empId = "";
-      t.form.deptIdDis = "";
+      t.form.unitFname = "";
       t.form.deptId = "";
-      t.form.postIdDis = "";
+      t.form.postFname = "";
       t.form.postId = "";
     },
     getData(id) {
@@ -411,9 +411,9 @@ export default {
             t.form.contInvdate = res.data.content[0].contInvdate;
             t.form.state = res.data.content[0].state;
             t.form.note = res.data.content[0].note;
-            t.empName = res.data.content[0].empName;
-            t.postIdDis = res.data.content[0].postIdDis;
-            t.deptIdDis = res.data.content[0].deptIdDis;
+            t.empnhName = res.data.content[0].empnhName;
+            t.postFname = res.data.content[0].postFname;
+            t.unitFname = res.data.content[0].unitFname;
             t.contPeriodDis = res.data.content[0].contPeriodDis;
 
             if (id === res.data.content[0].companyId) {
@@ -533,22 +533,17 @@ export default {
     },
 
     /*选择员工*/
-    // pickData3 () {
-    //     const t = this;
-    //     t.$refs.searchContract.getDatat.params3();
-    //     t.openPickUser = true;
-    // },
     closeEmp() {
       const t = this;
       t.openPickUser = false;
     },
     inputEmp(row) {
       const t = this;
-      t.empName = row.empName;
+      t.empnhName = row.empnhName;
       t.form.empId = row.empId;
-      t.deptIdDis = row.deptIdDis;
+      t.unitFname = row.unitFname;
       t.form.deptId = row.deptId;
-      t.postIdDis = row.postIdDis;
+      t.postFname = row.postFname;
       t.form.postId = row.postId;
 
       t.form.contrStrdate = row.contSdate;
@@ -558,11 +553,11 @@ export default {
     //清除员工信息
     clearUserid() {
       const t = this;
-      t.empName = "";
+      t.empnhName = "";
       t.form.empId = "";
-      t.deptIdDis = "";
+      t.unitFname = "";
       t.form.deptId = "";
-      t.postIdDis = "";
+      t.postFname = "";
       t.form.postId = "";
 
       t.form.contrStrdate = "";
@@ -594,9 +589,9 @@ export default {
       t.form.contValiddate = "";
       t.form.contInvdate = "";
       t.form.note = "";
-      t.empName = "";
-      t.postIdDis = "";
-      t.deptIdDis = "";
+      t.empnhName = "";
+      t.postFname = "";
+      t.unitFname = "";
       t.$emit("closeUp");
     },
     //合同期限选中事件

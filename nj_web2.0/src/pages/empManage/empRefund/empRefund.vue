@@ -13,10 +13,10 @@
               <Row>
                 <Input placeholder="请输入员工姓名"
                        style="width: 200px"
-                       v-model="empIdName"/>
+                       v-model="empnhName"/>
                 <span @dblclick="cleardeptId()">
               <Input
-                v-model="deptIdDis"
+                v-model="unitFname"
                 style="width: 200px"
                 icon="search"
     
@@ -156,10 +156,10 @@
         imp_mt: "empEmpofficial.importData",
         // 导出字段设置, code字段名 name列名
         expDataTital: [
-          { code: "empIdName", name: "员工姓名" },
-          { code: "empIdIden", name: "证件号码" },
-          { code: "deptIdDis", name: "部门" },
-          { code: "postIdDis", name: "岗位" },
+          { code: "empnhName", name: "员工姓名" },
+          { code: "empnhIdno", name: "证件号码" },
+          { code: "unitFname", name: "部门" },
+          { code: "postFname", name: "岗位" },
           { code: "refuBgdate", name: "退款开始日期" },
           { code: "totalSum", name: "总金额" },
           { code: "note", name: "备注" },
@@ -180,24 +180,24 @@
           },
           {
             title: "员工姓名",
-            key: 'empIdName',
+            key: 'empnhName',
             width: 140,
             sortable: 'empId',
           },
           {
             title: "证件号码",
             width: 140,
-            key: 'empIdIden',
+            key: 'empnhIdno',
           },
           {
             title: "部门",
             width: 140,
-            key: 'deptIdDis',
+            key: 'unitFname',
           },
           {
             title: "岗位",
             width: 140,
-            key: 'postIdDis',
+            key: 'postFname',
 
           },
           {
@@ -275,9 +275,9 @@
         page: 1,
         funId: '1000',
         compFnameCnDis: '',
-        empIdName: '',
+        empnhName: '',
         deptId: '',
-        deptIdDis: '',
+        unitFname: '',
         openPick: false,
         openDeptPick: false,
         state: this.modity,
@@ -462,7 +462,7 @@
           order: t.order,
           funId: t.funId,
           logType: '押金退款信息查询',
-          empIdName: t.empIdName,
+          empnhName: t.empnhName,
           deptId: t.deptId,
           state: t.modity
         }
@@ -557,7 +557,7 @@
         const t = this;
         // 填装查询条件
         const data = {
-          empIdName: t.empIdName,
+          empnhName: t.empnhName,
           //empIdIden: t.empIdIden,
           deptId: t.deptId,
           state: t.modity
@@ -597,7 +597,7 @@
       //部门
     cleardeptId() {
       const t = this;
-      t.deptIdDis = "";
+      t.unitFname = "";
       t.deptId = "";
     },
     pickDeptData() {
@@ -611,14 +611,14 @@
       t.$refs.searchTable.unitCode = "";
       t.openDeptPick = false;
     },
-    inputPost(name, id, deptIdDis, form) {
+    inputPost(name, id, unitFname, form) {
       const t = this;
       t.deptId = id;
-      t.deptIdDis = name;
+      t.unitFname = name;
     },
     changeDeptInput(name, id) {
       const t = this;
-      t.deptIdDis = name;
+      t.unitFname = name;
       t.deptId = id;
     },
     },

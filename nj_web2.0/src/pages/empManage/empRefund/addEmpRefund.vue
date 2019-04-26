@@ -7,12 +7,12 @@
     <Row style="max-height: 420px;overflow-y: auto;">
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         <i-col span="11">
-          <FormItem label="员工姓名" prop="empIdName">
+          <FormItem label="员工姓名" prop="empnhName">
             <!--绑定双击清除方法-->
             <span @dblclick="forbidden?'':dbclean()">
               <!--v-model绑定显示字段-->
               <Input
-                v-model="formValidate.empIdName"
+                v-model="formValidate.empnhName"
                 icon="search"
                 readonly="readonly"
                 :disabled="forbidden"
@@ -24,18 +24,18 @@
         </i-col>
 
         <i-col span="11">
-          <FormItem label="证件号码" prop="empIdIden">
-            <Input v-model="formValidate.empIdIden" disabled="disabled" placeholder="请输入证件号码"></Input>
+          <FormItem label="证件号码" prop="empnhIdno">
+            <Input v-model="formValidate.empnhIdno" disabled="disabled" placeholder="请输入证件号码"></Input>
           </FormItem>
         </i-col>
         <i-col span="11">
-          <FormItem label="部门" prop="deptIdDis">
-            <Input v-model="formValidate.deptIdDis" disabled="disabled" placeholder="请输入部门名称"></Input>
+          <FormItem label="部门" prop="unitFname">
+            <Input v-model="formValidate.unitFname" disabled="disabled" placeholder="请输入部门名称"></Input>
           </FormItem>
         </i-col>
         <i-col span="11">
-          <FormItem label="岗位" prop="postIdDis">
-            <Input v-model="formValidate.postIdDis" disabled="disabled" placeholder="请输入岗位名称"></Input>
+          <FormItem label="岗位" prop="postFname">
+            <Input v-model="formValidate.postFname" disabled="disabled" placeholder="请输入岗位名称"></Input>
           </FormItem>
         </i-col>
         <i-col span="11">
@@ -123,13 +123,13 @@ export default {
       distype: false,
       forbidden: false,
       formValidate: {
-        empIdName: "",
-        empIdIden: "",
+        empnhName: "",
+        empnhIdno: "",
         empId: "",
         deptId: "",
-        deptIdDis: "",
+        unitFname: "",
         postId: "",
-        postIdDis: "",
+        postFname: "",
         refuBgdate: "",
         totalSum: "",
         state:"",
@@ -138,7 +138,7 @@ export default {
       openEmpMaster: false,
       /*必填验证*/
       ruleValidate: {
-        empIdName: [
+        empnhName: [
           { required: true, message: "请选择员工姓名", trigger: "change" }
         ],
          refuBgdate: [
@@ -176,12 +176,12 @@ export default {
     //上级清除员工选择
     dbclean() {
       const t = this;
-      t.formValidate.empIdName = "";
-      t.formValidate.empIdIden = "";
+      t.formValidate.empnhName = "";
+      t.formValidate.empnhIdno = "";
       t.formValidate.empId = "";
-      t.formValidate.deptIdDis = "";
+      t.formValidate.unitFname = "";
       t.formValidate.deptId = "";
-      t.formValidate.postIdDis = "";
+      t.formValidate.postFname = "";
       t.formValidate.postId = "";
     },
     getData(id) {
@@ -197,13 +197,13 @@ export default {
             if (isSuccess(res, t)) {
                 console.log(res.data.content[0]);
                 t.formValidate = res.data.content[0];
-                t.formValidate.empIdName = res.data.content[0].empIdName;
-                t.formValidate.empIdIden = res.data.content[0].empIdIden;
+                t.formValidate.empnhName = res.data.content[0].empnhName;
+                t.formValidate.empnhIdno = res.data.content[0].empnhIdno;
                 t.formValidate.empId = res.data.content[0].empId;
                 t.formValidate.deptId = res.data.content[0].deptId;
-                t.formValidate.deptIdDis = res.data.content[0].deptIdDis;
+                t.formValidate.unitFname = res.data.content[0].unitFname;
                 t.formValidate.postId = res.data.content[0].postId;
-                t.formValidate.postIdDis = res.data.content[0].postIdDis;
+                t.formValidate.postFname = res.data.content[0].postFname;
                 t.formValidate.refuBgdate = res.data.content[0].refuBgdate;
                 t.formValidate.totalSum = res.data.content[0].totalSum;
                 t.formValidate.state = res.data.content[0].state;
@@ -275,23 +275,23 @@ export default {
     },
     inputEmp(row) {
       const t = this;
-      t.formValidate.empIdName = row.empnhName;
-      t.formValidate.empIdIden = row.empnhIdno;
+      t.formValidate.empnhName = row.empnhName;
+      t.formValidate.empnhIdno = row.empnhIdno;
       t.formValidate.empId = row.id;
-      t.formValidate.deptIdDis = row.deptIdDis;
+      t.formValidate.unitFname = row.unitFname;
       t.formValidate.deptId = row.deptId;
-      t.formValidate.postIdDis = row.postIdDis;
+      t.formValidate.postFname = row.postFname;
       t.formValidate.postId = row.postId;
     },
     handleReset() {
       const t = this;
       this.$refs.formValidate.resetFields();
-      t.formValidate.empIdName = "";
-      t.formValidate.empIdIden = "";
+      t.formValidate.empnhName = "";
+      t.formValidate.empnhIdno = "";
       t.formValidate.empId = "";
-      t.formValidate.deptIdDis = "";
+      t.formValidate.unitFname = "";
       t.formValidate.deptId = "";
-      t.formValidate.postIdDis = "";
+      t.formValidate.postFname = "";
       t.formValidate.postId = "";
       t.formValidate.refuBgdate = "";
       t.formValidate.totalSum = "";
