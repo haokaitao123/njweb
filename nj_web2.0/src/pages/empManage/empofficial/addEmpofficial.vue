@@ -278,6 +278,14 @@ export default {
         t.$refs.searchEmpMaster.getData();
         t.openEmpMaster = true;
       },
+      clear(){
+        const t = this
+        t.forbidden = false
+        t.formValidate = {}
+        t.file = ''
+        t.filekey = ''
+      },
+
       closeEmp() {
         const t = this
         t.openEmpMaster = false

@@ -438,17 +438,7 @@
       closeUp() {
         const t = this
         t.openUpdate = false
-        t.$refs.update.forbidden = false
-        let up = t.$refs.update.formValidate
-        //debugger
-        for (let s in up) {
-          if(s!='_mt' && s!='funId'){
-            up[s] = '' 
-          }
-        }
-        t.$refs.update.file = ''
-        t.$refs.update.filekey = ''
-       // t.getData()
+        t.$refs.update.clear()
       },//关闭窗口
       selected(key, name) {
         this.select = name
