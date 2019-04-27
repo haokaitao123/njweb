@@ -91,13 +91,14 @@ const emp_empdim = {
       if (t.$refs[t.valueMap.dimIsreceive][0].formDataSubmit.dimIsreceive === '0') {
         if (t.valueMap.dimReceive) {
           t.$refs[t.valueMap.dimReceive][0].$delete(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive')
+          t.$refs[t.valueMap.dimIsreceive][0].$refs.dimReceive.thisValue = ''
         }
       } else {
         if (t.valueMap.dimReceive) {
           console.log(t.$refs[t.valueMap.dimReceive],"123");
           console.log(t.$refs[t.valueMap.dimIsreceive],"123");
           t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive', '')
-          t.$refs[t.valueMap.dimIsreceive][0].$refs.dimReceive.thisValue = ''
+
         }
       }
     }

@@ -8,14 +8,14 @@ const emp_transtion = {
   all_dis() {
     emp_transtion.transDate_set(this)
     emp_transtion.transPostinfo_dis(this)
-    emp_transtion.postIdnew_dis(this)
+    //emp_transtion.postIdnew_dis(this)
   },
   transPostinfo(node) {
     emp_transtion.transPostinfo_set(this.$parent)
     emp_transtion.transPostinfo_dis(this.$parent)
   },
   postIdnew(node) {
-    emp_transtion.postIdnew_dis(this.$parent)
+  //  emp_transtion.postIdnew_dis(this.$parent)
   },
   transDate_set(t) {
     if (t.valueMap.transDate) {
@@ -30,42 +30,30 @@ const emp_transtion = {
       if (t.$refs[t.valueMap.transPostinfo][0].formDataSubmit.transPostinfo === '0') {
         if (t.valueMap.transMan) {
           t.$refs[t.valueMap.transMan][0].$delete(t.$refs[t.valueMap.transMan][0].formshow, 'transMan')
+          t.$refs[t.valueMap.transPostinfo][0].$refs.transMan.thisValue = ''
         }
-        if (t.valueMap.fileKey) {
-          t.$refs[t.valueMap.fileKey][0].$delete(t.$refs[t.valueMap.fileKey][0].formshow, 'fileKey')
-        }
-        if (t.valueMap.transHandok) {
-          t.$refs[t.valueMap.transHandok][0].$delete(t.$refs[t.valueMap.transHandok][0].formshow, 'transHandok')
-        }
+
       } else {
         if (t.valueMap.transMan) {
           t.$refs[t.valueMap.transMan][0].$set(t.$refs[t.valueMap.transMan][0].formshow, 'transMan', '')
-          t.$refs[t.valueMap.fileKey][0].$set(t.$refs[t.valueMap.fileKey][0].formshow, 'fileKey', '')
-          t.$refs[t.valueMap.transHandok][0].$set(t.$refs[t.valueMap.transHandok][0].formshow, 'transHandok', '')
-          t.$refs[t.valueMap.transPostinfo][0].$refs.transMan.thisValue = ''
-          t.$refs[t.valueMap.transPostinfo][0].$refs.fileKey.thisValue = ''
-          t.$refs[t.valueMap.transPostinfo][0].$refs.transHandok.thisValue = ''
+
+
         }
       }
     }
   },
 
   transPostinfo_set(t) {
-   if (t.valueMap.transPostinfo && t.$refs[t.valueMap.transPostinfo][0].formDataSubmit.transPostinfo === '0') {
-      if (t.valueMap.transMan) {
-        t.$refs[t.valueMap.transMan][0].$set(t.$refs[t.valueMap.transMan][0].formDataSubmit, 'transMan', '')
-      }
-     if (t.valueMap.fileKey) {
-       t.$refs[t.valueMap.fileKey][0].$set(t.$refs[t.valueMap.fileKey][0].formDataSubmit, 'fileKey', '')
+    if (t.valueMap.transPostinfo && t.$refs[t.valueMap.transPostinfo][0].formDataSubmit.transPostinfo === '0') {
+       if (t.valueMap.transMan) {
+         t.$refs[t.valueMap.transMan][0].$set(t.$refs[t.valueMap.transMan][0].formDataSubmit, 'transMan', '')
+       }
+
      }
-     if (t.valueMap.transHandok) {
-       t.$refs[t.valueMap.transHandok][0].$set(t.$refs[t.valueMap.transHandok][0].formDataSubmit, 'transHandok', '')
-     }
-    }
   },
 
   // 根据现岗位判断是否显示押金金额字段
-  postIdnew_dis(t) {
+/*  postIdnew_dis(t) {
       postId = t.$refs[t.valueMap.postIdnew][0].formDataSubmit.postIdnew
       getDataLevelUserLogin({
         _mt: 'orgPost.getById',
@@ -85,7 +73,7 @@ const emp_transtion = {
         content: this.$t('reminder.errormessage'),
       })
     })
-  },
+  },*/
 
 
 }
