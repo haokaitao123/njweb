@@ -817,7 +817,7 @@ export default {
                     {
                         required: true,
                         message: "请选择部门",
-                        trigger: "blur"
+                        trigger: "change"
                     }
                 ],
                 postId: [
@@ -853,11 +853,11 @@ export default {
                         message: '请填写正确的证件号码',
                         trigger: 'blur'
                     },
-                    {
+/*                    {
                         validator: numberCheck,
                         message: '请输入正确的数字格式',
                         trigger: 'blur'
-                    },
+                    },*/
                 ],
                 empnhSday: [
                     {
