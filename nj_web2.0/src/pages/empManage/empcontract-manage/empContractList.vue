@@ -632,9 +632,8 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                numberCode: t.numberCode,
                 deptId: t.deptId,
-                empId: t.empId,
+                empnhName: t.empnhName,
                 state: t.modity
             };
             // 设置导出mt参数

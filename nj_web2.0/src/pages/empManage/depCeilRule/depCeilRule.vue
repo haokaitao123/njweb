@@ -234,7 +234,8 @@ export default {
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
-    this.getData(1);
+      this.search();
+    this.getData();
   },
   computed: {
     pageShow() {
@@ -472,7 +473,7 @@ export default {
      //查询
     search() {
       this.page = 1;
-      this.getData(1);
+      this.getData();
       this.$store.commit('btnOperate/setSearchLoading', true);
       this.tableselected = [];
     },

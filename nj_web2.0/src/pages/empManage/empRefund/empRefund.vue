@@ -188,29 +188,31 @@
             title: "证件号码",
             width: 140,
             key: 'empnhIdno',
+            sortable: "custom",
           },
           {
             title: "部门",
             width: 140,
             key: 'unitFname',
+            sortable: "custom",
           },
           {
             title: "岗位",
             width: 140,
             key: 'postFname',
-
+            sortable: "custom",
           },
           {
             title: "退款开始日期",
             width: 140,
             key: 'refuBgdate',
-
+            sortable: "custom",
           },
           {
             title: "总金额",
             width: 140,
             key: 'totalSum',
-
+            sortable: "custom",
           },
         //    {
         //     title: this.$t('button.opr'),
