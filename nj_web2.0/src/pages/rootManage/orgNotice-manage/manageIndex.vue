@@ -455,6 +455,7 @@ export default {
     changemodity(res){
       console.log(res,"res");
       const t = this;
+      this.tableselected = [];
       t.state =res.funStatecode;
       t.getData(1);
     },

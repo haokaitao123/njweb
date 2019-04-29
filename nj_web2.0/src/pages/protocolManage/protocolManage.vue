@@ -400,6 +400,7 @@ export default {
   methods: {
     //状态
     modityChange(res) {
+      this.tableselected = [];
       this.getData();
     },
     getData(page) {
