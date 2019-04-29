@@ -44,6 +44,7 @@
             <Page
               :total="total"
               size="small"
+              :current="page"
               show-elevator
               show-sizer
               placement="top"
@@ -216,7 +217,7 @@ export default {
       sort: "id", //排序字段
       order: "desc", //排序类型
       rows: 10, //每页显示条数
-      page: 1, //当前页码
+      page: 2, //当前页码
       funId: "1000", //功能ID
       profitBigDis: "", //绑定页面输入框的最大封顶金额
       profitSmallDis:"",
@@ -234,7 +235,8 @@ export default {
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
-    this.getData(1);
+    this.search();
+    this.getData();
   },
   computed: {
     pageShow() {
@@ -275,9 +277,8 @@ export default {
     //获取当前列表数据
     getData(page) {
       const t = this;
-      this.page = "1"
-      if (page) {
-        t.page = page;
+      if (typeof page === undefined) {
+          this.page = 1;
       }
       t.loading = true; //请求之前重置状态
       //请求列表数据的参数
@@ -394,7 +395,7 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      t.getData();
+      t.getData(t.page);
     },
     //列表checkbox选中事件
     selectedtable(selection) {
@@ -472,7 +473,7 @@ export default {
      //查询
     search() {
       this.page = 1;
-      this.getData(1);
+      this.getData();
       this.$store.commit('btnOperate/setSearchLoading', true);
       this.tableselected = [];
     },

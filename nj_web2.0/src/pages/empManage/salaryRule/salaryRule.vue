@@ -44,6 +44,7 @@
             <Page
               :total="total"
               size="small"
+              :current="page"
               show-elevator
               show-sizer
               placement="top"
@@ -400,7 +401,7 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      t.getData();
+      t.getData(t.page);
     },
     //列表checkbox选中事件
     selectedtable(selection) {
