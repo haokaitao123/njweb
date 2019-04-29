@@ -10,11 +10,10 @@
                 <Icon type="close-round" size="16"></Icon>
             </Button>
         </div>
-        <div class="option-main">
+        <div class="">
                 <Spin size="large"
               fix
               v-if="spinShow"></Spin>
-        </div>
         <!-- form表单 :model="formValidate" model表单数据对象绑定了formValidate :rules="ruleValidate" 表单验证规则  :label-width="135" 表单域标签的宽度-->
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
             <Row>
@@ -62,6 +61,7 @@
                 </Col>
             </Row>
       </Form>
+      </div>
     </div>
   </div>
 </template>

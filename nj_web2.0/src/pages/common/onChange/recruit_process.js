@@ -10,6 +10,7 @@ const recruit_process = {
     recruit_process.relibFirstus_set(this)
     recruit_process.relibIsrelatives_dis(this)
     recruit_process.relibIsguaran_dis(this)
+    recruit_process.relibReexamus_set(this)
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
@@ -17,6 +18,9 @@ const recruit_process = {
   relibApplytype(node) {
     recruit_process.relibApplytype_dis(this.$parent)
     recruit_process.relibApplytype_set(this.$parent)
+  },
+  relibReexamus(node) {
+    recruit_process.relibReexamus_set(this)
   },
   relibFirstus(node) {
     recruit_process.relibFirstus_set(this)
@@ -63,6 +67,29 @@ const recruit_process = {
         if (t.valueMap.relibIntrname) {
           t.$refs[t.valueMap.relibIntrname][0].$delete(t.$refs[t.valueMap.relibIntrname][0].formshow, 'relibIntrname')
         }
+      }
+    }
+  },
+  //默认复试人
+  relibReexamus_set(t) {
+    const th = this.$parent
+    if (t.valueMap.relibReexamus) {
+      if (t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus.length <= 0 || t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus === '0') {
+        getDataLevelUserLogin({
+          _mt: 'sysUserinfo.getSysUserinfoByUserId',
+          logType: '查询俯视着',
+          id: t.$store.state.user.userId,
+        }).then((res) => {
+          if (isSuccess(res, this.$parent)) {
+          t.$refs[t.valueMap.relibReexamus][0].$set(t.$refs[t.valueMap.relibReexamus][0].formDataSubmit, 'relibReexamus', res.data.content[0].sysUsempid)
+          t.$refs[t.valueMap.relibReexamus][0].$refs.relibReexamus.thisValue = res.data.content[0].sysUsempidDis
+        }
+      }).catch(() => {
+          this.$Modal.error({
+          title: '错误',
+          content: '网络错误',
+        })
+      })
       }
     }
   },

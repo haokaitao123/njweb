@@ -256,7 +256,7 @@
         t.$refs.updStateUser.getData(t.params)  //  分配角色
         t.$refs.updStateUser.orangize_getData() //  分配组织架构
         t.$refs.updStateUser.cost_getData(id)  //  分配成本中心
-        t.$refs.updStateUser.workOrderType_getData() //分配工单类型
+       // t.$refs.updStateUser.workOrderType_getData() //分配工单类型
         t.$refs.updStateUser.paySal_getData(id) //分配工单类型
         t.$refs.updStateUser.bfarea_getData(id) //分配工单类型
         t.updState = true

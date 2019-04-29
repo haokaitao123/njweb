@@ -51,6 +51,7 @@
             <Page
               :total="total"
               size="small"
+              :current="page"
               show-elevator
               show-sizer
               placement="top"
@@ -65,7 +66,7 @@
               shape="circle"
               icon="refresh"
               style="margin-left: 20px;display: inline-block;"
-              @click="getData(1)"
+              @click="search()"
             ></Button>
           </Row>
         </card>
@@ -288,7 +289,7 @@ export default {
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
-    this.getData(1);
+    this.getData();
   },
    computed: {
     pageShow() {
@@ -445,7 +446,7 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      t.getData();
+      t.getData(t.page);
     },
     //列表checkbox选中事件
     selectedtable(selection) {
@@ -533,7 +534,7 @@ export default {
         search(){
             this.$store.commit('btnOperate/setSearchLoading',true)
             this.page = 1;
-            this.getData(1);
+            this.getData();
         },
         //
         inputPost (name, id, postName, postId) {

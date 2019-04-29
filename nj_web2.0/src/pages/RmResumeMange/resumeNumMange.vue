@@ -50,6 +50,7 @@
             <Page
               :total="total"
               size="small"
+              :current="page"
               show-elevator
               show-sizer
               placement="top"
@@ -286,7 +287,7 @@ export default {
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
-    this.getData(1);
+    this.getData();
   },
   computed: {
     pageShow() {
@@ -327,7 +328,7 @@ export default {
     //获取当前列表数据
     getData(page) {
       const t = this;
-      this.page = "1"
+      this.page = 1;
       if (page) {
         t.page = page;
       }
@@ -450,7 +451,7 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      t.getData();
+      t.getData( t.page);
     },
     //列表checkbox选中事件
     selectedtable(selection) {
@@ -546,7 +547,7 @@ export default {
      //查询
     search() {
       this.page = 1;
-      this.getData(1);
+      this.getData();
       this.$store.commit('btnOperate/setSearchLoading', true);
       this.tableselected = [];
     },

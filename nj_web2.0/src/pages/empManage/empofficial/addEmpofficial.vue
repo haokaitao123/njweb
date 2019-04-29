@@ -278,6 +278,14 @@ export default {
         t.$refs.searchEmpMaster.getData();
         t.openEmpMaster = true;
       },
+      clear(){
+        const t = this
+        t.forbidden = false
+        t.formValidate = {}
+        t.file = ''
+        t.filekey = ''
+      },
+
       closeEmp() {
         const t = this
         t.openEmpMaster = false
@@ -339,6 +347,8 @@ export default {
         getDataLevelUserLogin(data).then((res) => {
           if (isSuccess(res, t)) {
             localStorage.pageOpenedListAll = JSON.stringify(JSON.parse(localStorage.pageOpenedList))
+           // debugger
+            console.log(pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey))
             if (this.isIE()) {
               window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
             } else {
@@ -354,6 +364,7 @@ export default {
               document.body.appendChild(link);
               link.click();
             }
+
             this.$store.state.app.pageOpenedList = JSON.parse(localStorage.pageOpenedListAll)
             localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
           }
