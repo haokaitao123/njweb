@@ -148,7 +148,15 @@ export default {
             type: '',
             distype: false,
             forbidden: false,
-            formValidate: {},
+            formValidate: {
+              empnhName : '',
+              empnhIdno : '',
+              empId : '',
+              unitFname : '',
+              deptId : '',
+              postFname : '',
+              postId : ''
+            },
             openEmpMaster:false,
           /*必填验证*/
             ruleValidate: {
@@ -281,7 +289,15 @@ export default {
       clear(){
         const t = this
         t.forbidden = false
-        t.formValidate = {}
+        t.formValidate = {empnhName : '',
+          empnhIdno : '',
+          empId : '',
+          unitFname : '',
+          deptId : '',
+          postFname : '',
+          postId : '',
+          empoffResult:'',
+        note:'',}
         t.file = ''
         t.filekey = ''
       },
