@@ -827,13 +827,13 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                empnhPmp: [
+/*                empnhPmp: [
                     {
                         required: true,
                         message: "请选择上级",
                         trigger: "blur"
                     }
-                ],
+                ],*/
                 empnhIdtype: [
                     {
                         required: true,
