@@ -1,6 +1,10 @@
 <template>
     <div class="cover">
         <div class="box">
+            <Spin  size="large"
+                    fix
+                    v-if="spinShow">
+            </Spin>
             <div class="title">
                 <div class="title-text">
                     <Icon type="mouse"
@@ -124,6 +128,7 @@ export default {
         }
 
         return {
+            spinShow: false,
             disabled: false,
             forbidden: null,
             //        新增修改方法的mt 以及页面字段
@@ -174,6 +179,7 @@ export default {
     methods: {
         getData (id) {
             const t = this
+            t.spinShow = true;
             this.page = 1;
             getDataLevelUserLogin({
                 //          获取单条数据mt参数
@@ -199,7 +205,9 @@ export default {
                 }
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
-            })
+            }).finally(() => {
+    	        t.spinShow = false; //关闭loading效果
+            });
         },
         //      提交方法  无需变更
         handleSubmit () {

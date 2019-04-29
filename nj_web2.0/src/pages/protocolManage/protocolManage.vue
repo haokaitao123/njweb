@@ -27,6 +27,7 @@
                 <Table
                   @on-selection-change="selectedtable"
                   @on-sort-change="sortable"
+                  :current="page"
                   :height="tableheight"
                   size="small"
                   border
@@ -339,16 +340,6 @@ export default {
       page: 1,
       funId: "1000",
       postFname: "",
-      params: {
-        _mt: "protocolManage.getPage",
-        sort: "id",
-        order: "asc",
-        rows: 10,
-        page: 1,
-        funId: "1",
-        logType: "变更协议信息查询",
-        data: "{}"
-      },
       state: this.modity,
       loading: "",
       empnhName: ""
@@ -411,7 +402,7 @@ export default {
     modityChange(res) {
       this.getData();
     },
-    getData(id, page) {
+    getData(page) {
       const t = this;
       this.loading = true;
       if (page == undefined) {
@@ -466,11 +457,12 @@ export default {
     sizeChange(size) {
       const t = this;
       t.rows = size;
-      t.getData(this.treeid);
+      t.getData();
     },
     pageChange(page) {
       const t = this;
       t.page = page;
+      console.log(t.page,"t.page")
       t.getData(t.page);
     },
     selectedtable(selection) {

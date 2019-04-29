@@ -1,6 +1,6 @@
 <template>
     <div class="cover">
-        <div class="box">
+        <div class="box" >
             <div class="title">
                 <div class="title-text">
                     <Icon type="mouse"
@@ -259,4 +259,6 @@ export default {
   bottom: 20px;
   right: 124px;
 }
+
+
 </style>

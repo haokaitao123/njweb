@@ -394,6 +394,11 @@ export default {
                     {
                         required: true,
                         message: this.$t("lang_organization.orgpost.postTrialsalaryInp"),
+                        trigger: "blur"
+                    },
+                    {
+                        required: true,
+                       message: "请输入正确的数字格式",
                         validator:numberCheck,
                         trigger: "change"
                     }
@@ -402,6 +407,11 @@ export default {
                     {
                         required: true,
                         message: this.$t("lang_organization.orgpost.postStansalaryInp"),
+                        trigger: "blur"
+                    },
+                    {
+                        required: true,
+                        message: "请输入正确的数字格式",
                         validator:numberCheck,
                         trigger: "change"
                     }
