@@ -149,7 +149,7 @@
           _mt: 'depManage.getById',
           id: id,
           funId: '1',
-          logType: '借支信息id查询',
+          logType: '押金信息id查询',
         }).then((res) => {
           if (isSuccess(res, t)) {
           //回显数据绑定

@@ -44,6 +44,7 @@
             <Page
               :total="total"
               size="small"
+              :current="page"
               show-elevator
               show-sizer
               placement="top"
@@ -276,7 +277,7 @@ export default {
     //获取当前列表数据
     getData(page) {
       const t = this;
-      this.page = "1"
+      this.page = 1;
       if (page) {
         t.page = page;
       }
@@ -395,7 +396,7 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      t.getData();
+      t.getData(t.page);
     },
     //列表checkbox选中事件
     selectedtable(selection) {

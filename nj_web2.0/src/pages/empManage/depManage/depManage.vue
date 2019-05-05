@@ -535,6 +535,7 @@ export default {
             this.$store.commit('btnOperate/setSearchLoading',true)
             this.page = 1;
             this.getData();
+            this.tableselected = [];
         },
         //
         inputPost (name, id, postName, postId) {

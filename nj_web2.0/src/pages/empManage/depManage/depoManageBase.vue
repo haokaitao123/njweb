@@ -124,7 +124,7 @@
         this.$refs.depoMoption.formValidate.postId = '';
         this.$refs.depoMoption.postName = '';
         this.$refs.depoMoption.formValidate.empnhIdno = '';
-
+        this.$refs.depoMoption.formValidate.moneyNum = '';
       },
 //      更新父页面列表 无需变更
       update(data) {
