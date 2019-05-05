@@ -1418,7 +1418,10 @@ export default {
 
         //转正日期默认为入职日期3个月以后
         entrydateChange (date) {
-          this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
+          //this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
+          date = new Date(date)
+          let entryDate = date.setMonth(date.getMonth() + 3);
+          this.form.empnhIrmentdate = new Date(entryDate).format('yyyy-MM-dd')
         },
     }
 };
