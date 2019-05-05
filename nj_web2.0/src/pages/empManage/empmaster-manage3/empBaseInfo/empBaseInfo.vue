@@ -267,7 +267,10 @@
                                     :disabled="disabled"
                                     :readonly="disabled"
                                     v-model="form.empnhEntrydate"
-                                    style="width: 100%"></DatePicker>
+                                    @on-change="entrydateChange"
+                                    style="width: 100%">
+
+                        </DatePicker>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
@@ -1043,6 +1046,8 @@ export default {
     mounted () {
         this.getSelect();
     },
+
+
     methods: {
         //获取主表数据 无需变更
         getdata (id) {
@@ -1291,8 +1296,8 @@ export default {
         },
         inputEmp (row) {
             const t = this
-            t.empnhPmpDis = row.empnhPmpDis;
-            t.form.empnhPmp = row.empnhPmp;
+            t.empnhPmpDis = row.empnhName;
+            t.form.empnhPmp = row.id;
         },
         dbclean () {
             const t = this
@@ -1409,6 +1414,11 @@ export default {
                 },
                 onCancel: () => { }
             })
+        },
+
+        //转正日期默认为入职日期3个月以后
+        entrydateChange (date) {
+          this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
         },
     }
 };
