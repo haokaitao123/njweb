@@ -463,7 +463,6 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      console.log(t.page,"t.page")
       t.getData(t.page);
     },
     selectedtable(selection) {
@@ -559,7 +558,6 @@ export default {
       this.page = 1;
       this.getData();
       this.$store.commit('btnOperate/setSearchLoading',true);
-      this.searchLoading = true;
       this.tableselected = [];
     },
     modifystatus(state) {
