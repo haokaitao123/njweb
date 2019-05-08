@@ -101,7 +101,7 @@
                                     <DatePicker type="date"
                                         placeholder="选择合同开始日期"
                                         disabled="disabled"
-                                        :readonly="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.contractoStart"
                                         style="width: 100%">
@@ -117,7 +117,7 @@
                                     <DatePicker type="date"
                                         placeholder="选择合同结束日期"
                                         disabled="disabled"
-                                        :readonly="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.contractoEnd"
                                         style="width: 100%">
@@ -145,7 +145,7 @@
                                     <DatePicker type="date"
                                         placeholder="选择签订时间"
                                         disabled="disabled"
-                                        :readonly="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.signingoTime"
                                         style="width: 100%">
@@ -248,7 +248,7 @@
                                     <DatePicker type="date"
                                         placeholder="选择合同结束日期"
                                         disabled="disabled"
-                                        :readonly="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.contractnEnd"
                                         style="width: 100%">
