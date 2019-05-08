@@ -77,7 +77,7 @@ const recruit_process = {
       if (t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus.length <= 0 || t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
-          logType: '查询俯视着',
+          logType: '查询复试者',
           id: t.$store.state.user.userId,
         }).then((res) => {
           if (isSuccess(res, this.$parent)) {
@@ -92,6 +92,13 @@ const recruit_process = {
       })
       }
     }
+    debugger
+    if (t.valueMap.relibReexamtm) {
+      if (t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit.relibReexamtm.length <= 0) {
+        t.$refs[t.valueMap.relibReexamtm][0].$set(t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit, 'relibReexamtm', new Date().format('yyyy-MM-dd hh:mm:ss'))
+      }
+    }
+
   },
   // 默认初始者与初试时间
   relibFirstus_set(t) {
