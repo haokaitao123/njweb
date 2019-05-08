@@ -97,8 +97,8 @@
                 <DatePicker
                   type="date"
                   placeholder="选择合同到期日"
-                  :disabled="disabled"
-                  :readonly="disabled"
+                  disabled="disabled"
+                  readonly="readonly"
                   :editable="false"
                   v-model="form.contrEdate"
                   style="width: 100%"
@@ -654,6 +654,9 @@ export default {
     },
     //合同期限下拉选择事件
     contPeriodSelect(value) {
+      if(value===undefined){
+          this.form.contrPeriod=""
+      }
       if (this.form.contrSdate !== "") {
         this.calculateDate("contrPeriod", "contrSdate", "contrEdate");
       }
@@ -675,7 +678,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1100;
+  z-index: 99;
   display: flex;
   justify-content: center;
   align-items: center;

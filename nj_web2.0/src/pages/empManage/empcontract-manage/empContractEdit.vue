@@ -813,6 +813,9 @@ export default {
         },
         //合同期限下拉选择事件
         contPeriodSelect (value) {
+            if(value===undefined){
+                this.form.contPeriod=""
+             }
             if (this.form.contSdate !== "") {
                 this.calculateDate("contPeriod", "contSdate", "contEdate")
             }
@@ -828,6 +831,9 @@ export default {
         },
         //试用期限下拉选择事件
         contProbatSelect (value) {
+            if(value===undefined){
+                this.form.contProbat=""
+            }
             if (this.form.contSdate !== "") {
                 this.calculateDate("contProbat", "contSdate", "contProbatdt")
             }
