@@ -283,6 +283,8 @@
     methods: {
       changemodity(res){
         console.log(res,"res");
+        debugger
+        this.tableselected = []
         this.page = 1
         this.state = res.funStatecode
         this.getData()
@@ -370,6 +372,7 @@
       },//关闭员工转正图
       getData() {
         const t = this
+        this.tableselected = []
         t.loading = true; //请求之前重置状态
         const data = {
           _mt: 'empEmpofficial.getPage',

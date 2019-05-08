@@ -101,7 +101,7 @@
                                     <DatePicker type="date"
                                         placeholder="选择合同开始日期"
                                         disabled="disabled"
-                                        :readonly="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.contractoStart"
                                         style="width: 100%">
@@ -117,7 +117,7 @@
                                     <DatePicker type="date"
                                         placeholder="选择合同结束日期"
                                         disabled="disabled"
-                                        :readonly="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.contractoEnd"
                                         style="width: 100%">
@@ -145,7 +145,7 @@
                                     <DatePicker type="date"
                                         placeholder="选择签订时间"
                                         disabled="disabled"
-                                        :readonly="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.signingoTime"
                                         style="width: 100%">
@@ -202,8 +202,9 @@
                             <Col span="11" >
                                 <FormItem label="新合同类别" prop="contractnType">
                                 <Select v-model="formValidate.contractnType" class="width200"
+                                :clearable="!disabled"
                                 :disabled="disabled"
-                                placeholder="合同类别" >
+                                placeholder="选择合同类别" >
                                     <Option v-for="(item, index) in selectContrpertypel" :value="item.paramCode"
                                     :key="index">{{ item.paramInfoName }}
                                     </Option>
@@ -214,8 +215,10 @@
                             <Col span="11" offset="1">
                                 <FormItem label="新合同期限" prop="contractnPeriod">
                                 <Select v-model="formValidate.contractnPeriod" class="width200"
+                                :clearable="!disabled"
                                 :disabled="disabled"
-                                placeholder="员工类型" >
+                                placeholder="选择合同期限" 
+                                @on-change="contractnPeriodSelect">
                                     <Option v-for="(item, index) in selectContperiod" :value="item.paramCode"
                                     :key="index">{{ item.paramInfoName }}
                                     </Option>
@@ -234,6 +237,7 @@
                                         :editable="false"
                                         :readonly="disabled"
                                         v-model="formValidate.contractnStart"
+                                        @on-change="contSdateChange"
                                         style="width: 100%">
                                     </DatePicker>
                                 </FormItem>
@@ -243,8 +247,8 @@
                                 <FormItem label="新合同结束日期" prop="contractnEnd">
                                     <DatePicker type="date"
                                         placeholder="选择合同结束日期"
-                                        :disabled="disabled"
-                                        :readonly="disabled"
+                                        disabled="disabled"
+                                        readonly="readonly"
                                         :editable="false"
                                         v-model="formValidate.contractnEnd"
                                         style="width: 100%">
@@ -258,6 +262,7 @@
                             <Col span="11" >
                                 <FormItem label="新合同工作时间" prop="contractnTime">
                                 <Select v-model="formValidate.contractnTime" class="width200"
+                                :clearable="!disabled"
                                 :disabled="disabled"
                                 placeholder="合同工作时间" >
                                     <Option v-for="(item, index) in selectWorktimetype" :value="item.paramCode"
@@ -270,6 +275,7 @@
                             <Col span="11" offset="1">
                                 <FormItem label="新员工类型" prop="empnType">
                                 <Select v-model="formValidate.empnType" class="width200"
+                                :clearable="!disabled"
                                 :disabled="disabled"
                                 placeholder="员工类型" >
                                     <Option v-for="(item, index) in selectEmptype" :value="item.paramCode"
@@ -475,6 +481,10 @@
                     title: "合同编号",
                     key: 'numberCode',
                 },
+                {
+                    title: "身份证号码",
+                    key: 'empnhIdno',
+                },
             ],
         formValidate: {
             _mt:'protocolManage.addOrUpd', //新增的数据接口
@@ -677,6 +687,76 @@
                 onCancel: () => { }
             });
         },
+           //合同期限选中事件
+        dateAdd (type, number, date) {
+            switch (type) {
+                case "y": {
+                    date.setFullYear(date.getFullYear() + number);
+                    return date;
+                    break;
+                }
+                case "q": {
+                    date.setMonth(date.getMonth() + number * 3);
+                    return date;
+                    break;
+                }
+                case "m": {
+                    date.setMonth(date.getMonth() + number);
+                    return date;
+                    break;
+                }
+                case "w": {
+                    date.setDate(date.getDate() + number * 7);
+                    return date;
+                    break;
+                }
+                case "d": {
+                    date.setDate(date.getDate() + number);
+                    return date;
+                    break;
+                }
+                default: {
+                    date.setDate(date.getDate() + number);
+                    return date;
+                    break;
+                }
+            }
+        },
+         //计算日期
+        calculateDate (selectValue, sDate, eDate) {
+            let value = this.formValidate[selectValue];
+            let num = parseInt(value);
+            let type = "";
+            if (selectValue == "contProbat") {
+                type = 'm';
+            } else {
+                if (value.indexOf('year') != -1) {
+                    type = 'y';
+                } else if (value.indexOf('month') != -1) {
+                    type = 'm';
+                } else if (value.indexOf('day') != -1) {
+                    type = 'd';
+                }
+            }
+            if (value === "99year") {
+                this.formValidate[eDate] = "9999-12-31"
+            } else {
+                let now = new Date(this.formValidate[sDate]);
+                this.formValidate[eDate] = this.dateAdd(type, num, now);
+            }
+        },
+         //合同期限下拉选择事件
+        contractnPeriodSelect (value) {
+            if (this.formValidate.contractnStart !== "") {
+                this.calculateDate("contractnPeriod", "contractnStart", "contractnEnd")
+            }
+        },
+         //合同开始日选择日期事件
+        contSdateChange (date) {
+            if (this.formValidate.contractnPeriod !== "") {
+                this.calculateDate("contractnPeriod", "contractnStart", "contractnEnd")
+            }
+        },
         //点击提交事件
         handleSubmit() {
             const t = this
@@ -839,7 +919,7 @@
         clearPost () {
             const t = this;
             t.postFname = ""
-            t.postnId = ""
+            t.formValidate.postnId = ""
         },
         changeinput2 (name, id, type) {
             const t = this

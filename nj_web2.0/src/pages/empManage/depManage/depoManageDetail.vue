@@ -24,6 +24,7 @@
             <Page
               :total="total"
               size="small"
+              :current="page"
               show-elevator
               show-sizer
               placement="top"
@@ -38,7 +39,7 @@
               shape="circle"
               icon="refresh"
               style="margin-left: 20px;display: inline-block;"
-              @click="getData(1)"
+              @click="search()"
             ></Button>
           </Row>
     <!-- transition 弹窗显示 淡入淡出效果 -->
@@ -257,7 +258,7 @@ export default {
     },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
-    this.getData(1);
+    this.getData();
   },
   // 页面所有方法
   methods: {
@@ -374,7 +375,7 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      t.getData();
+      t.getData(t.page);
     },
     //列表checkbox选中事件
     selectedtable(selection) {
@@ -437,6 +438,11 @@ export default {
         t.$refs.update.disabled = true;
       }
     },
+    search(){
+            this.page = 1;
+            this.getData();
+            this.tableselected = [];
+      },
     //关闭新增修改弹窗
     closeUp() {
       const t = this;

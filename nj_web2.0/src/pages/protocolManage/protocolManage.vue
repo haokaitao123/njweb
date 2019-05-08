@@ -296,7 +296,7 @@ export default {
           width: 220
         }
       ],
-    tableBtn: {
+   tableBtn: {
         title: "操作",
         key: "action",
         width: 100,
@@ -346,21 +346,22 @@ export default {
     };
   },
   computed: {
-    btnData() {
-      return this.$store.state.btnOperate.btnData;
-    },
-    FlowNode() {
-      return this.$store.state.btnOperate.isFlowNode;
-    },
-    pageShow() {
-      return this.$store.state.btnOperate.pageShow;
-    },
-    tableButton() {
-      return this.$store.state.btnOperate.tableButton;
-    },
-    modity() {
-      return this.$store.state.btnOperate.modity;
-    }
+    pageShow () {
+            return this.$store.state.btnOperate.pageShow;
+        },
+        tableButton () {
+            return this.$store.state.btnOperate.tableButton;
+        },
+        modity () {
+            //  初始默认下拉选择状态（页面没有下拉状态选择，则无需添加）
+            return this.$store.state.btnOperate.modity;
+        },
+        btnData () {
+            return this.$store.state.btnOperate.btnData;
+        },
+        FlowNode () {
+            return this.$store.state.btnOperate.isFlowNode;
+        }
   },
   components: {
     // 初始化子页面
@@ -376,23 +377,23 @@ export default {
     t.$refs.searchOrgframe.getData(this.params);
     t.openPick = true;
   },
-  created() {
-    if (this.pageShow != "") {
-      this.columns.push(this.tableBtn);
-      this.tableOperate = true;
-    }
+  created () {
+        if (this.pageShow !== "") {
+            this.columns.push(this.tableBtn);
+            this.tableOperate = true
+        }
   },
-  Watch: {
-    pageShow(val) {
-      if (val === "" && this.tableOperate === true) {
-        this.columns.pop();
-        this.tableOperate = false;
-      } else if (this.tableOperate === false) {
-        this.columns.push(this.tableBtn);
-        this.tableOperate = true;
-      }
-    }
-  },
+   watch: {
+        pageShow (val) {
+            if (val === "" && this.tableOperate === true) {
+                this.columns.pop();
+                this.tableOperate = false;
+            } else if (this.tableOperate === false) {
+                this.columns.push(this.tableBtn);
+                this.tableOperate = true;
+            }
+        }
+    },
   //初始化自动调用方法
   mounted() {
     this.getData();
@@ -400,6 +401,7 @@ export default {
   methods: {
     //状态
     modityChange(res) {
+      this.tableselected = [];
       this.getData();
     },
     getData(page) {
@@ -462,7 +464,6 @@ export default {
     pageChange(page) {
       const t = this;
       t.page = page;
-      console.log(t.page,"t.page")
       t.getData(t.page);
     },
     selectedtable(selection) {
@@ -558,7 +559,6 @@ export default {
       this.page = 1;
       this.getData();
       this.$store.commit('btnOperate/setSearchLoading',true);
-      this.searchLoading = true;
       this.tableselected = [];
     },
     modifystatus(state) {

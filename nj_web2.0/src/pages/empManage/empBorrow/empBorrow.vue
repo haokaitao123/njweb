@@ -365,6 +365,9 @@ export default {
         },//关闭借支信息图
         getData () {
             const t = this
+            //console.log("tableselected1--"+this.tableselected)
+            this.tableselected = []
+            //console.log("tableselected2--"+this.tableselected)
             t.loading = true; //请求之前重置状态
             const data = {
                 _mt: 'empBorrow.getPage',
