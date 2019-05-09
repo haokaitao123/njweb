@@ -13,6 +13,21 @@
                             :key="index"
                             :type="item.btn_id === 'button_del' ? 'error':'primary'"
                             @click="btnFunction(item.btn_id)">{{item.btn_title}}</Button>
+                    <div class="moditySelect">
+                        <Dropdown>
+                            <Button type="primary">
+                                {{flstepName}}
+                                <Icon type="arrow-down-b"></Icon>
+                            </Button>
+                            <DropdownMenu slot="list">
+                                <span v-for="(item,index) in dropdownMenuList"
+                                      :key="index"
+                                      @click="getPageByState(item.id,item.flstepName)">
+                                    <DropdownItem>{{item.flstepName}}</DropdownItem>
+                                </span>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </Row>
                 <row class="table-form"
                      ref="table-form">
@@ -85,6 +100,8 @@ export default {
             tbName: '',
             btns: [],
             data: [],
+            dropdownMenuList: [],
+            flstepName: '全部',
             total: 0,
             index: 0,
             sort: 'id',
@@ -138,6 +155,7 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let aa = []
+                    t.dropdownMenuList = res.data.content[0].rwls;
                     t.flowId = res.data.content[0].flowId
                     t.btns = res.data.content[0].btns
                     t.titleName = res.data.content[0].flowName
@@ -258,7 +276,8 @@ export default {
                 data: '',
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    t.data = JSON.parse(res.data.content[0].rows)
+                    t.data = JSON.parse(res.data.content[0].rows);
+
                     for (let i = 0; i < t.data.length; i++) {
                         t.data[i].cellClassName = {}
                         for (let item in t.data[i]) {
@@ -427,6 +446,9 @@ export default {
             background-color: #598937;
         }
     }
+}
+.moditySelect {
+    display: inline-block;
 }
 </style>
 
