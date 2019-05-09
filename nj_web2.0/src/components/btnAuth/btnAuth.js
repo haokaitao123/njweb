@@ -259,6 +259,12 @@ export default {
         case "退款":
           name = 'buttonRefund'
           break
+        case "通过":
+          name = 'buttonAdopt'
+          break
+        case "不通过":
+          name = 'buttonInAdopt'
+          break
       }
       return name;
     },
@@ -343,6 +349,14 @@ export default {
           btnName = '退款';
           bType = 'success';
           break
+        case "button_adopt":
+          btnName = '通过';
+          bType = 'success';
+          break
+        case "button_inadopt":
+          btnName = '不通过';
+          bType = 'success';
+          break    
       }
       let obj = {
         "bType": bType,
