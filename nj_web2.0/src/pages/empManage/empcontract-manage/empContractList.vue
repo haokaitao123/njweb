@@ -665,7 +665,8 @@ export default {
         // 子页面新增数据后添加到本页面分页第一行  无需更改
         addNewArray (res) {
             const t = this;
-            this.getData();
+            t.data.unshift(res);
+            //this.getData();
         },
         // 子页面修改数据后 本页面修改对应行数的数据 无需更改
         updateArray (res) {
