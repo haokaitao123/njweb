@@ -13,7 +13,7 @@
                 v-model="unitFname"
                 style="width: 200px"
                 icon="search"
-    
+
                 :readonly="true"
                 placeholder="请选择部门"
                 @on-click="pickDeptData"
@@ -147,7 +147,7 @@ export default {
       expDataTital: [
         { code: "numberCode", name: "合同编号" },
         { code: "empnhName", name: "员工姓名" },
-        { code: "empnhIdno", name: "员工身份证号" },
+        { code: "empnhIdno", name: "证件号码" },
         { code: "unitFname", name: "部门名称" },
         { code: "postFname", name: "岗位名称" },
         { code: "contrStrdate", name: "原合同开始日" },
@@ -192,7 +192,7 @@ export default {
           width: 100
         },
         {
-          title: "员工身份证号",
+          title: "证件号码",
           key: "empnhIdno",
           width: 160
         },
@@ -244,14 +244,14 @@ export default {
           sortable: "custom",
           width: 120
         },
-        
+
         {
           title: "签订日期",
           key: "contrSigndate",
           sortable: "custom",
           width: 120
         },
-        
+
         {
           title: "生效日期",
           key: "contValiddate",
@@ -335,7 +335,7 @@ export default {
         //unitType: "02dept",
         state: "02valid"
       },
-    
+
       state: this.modity,
       loading: ""
     };
@@ -530,7 +530,7 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
-      
+
     },
     search() {
       this.tableselected = [];
@@ -545,7 +545,7 @@ export default {
       if (state === "02valid") {
         logType = "确认";
         tipContent = "您确定继续操作吗？";
-      } 
+      }
       if (t.tableselected.length === 0) {
         this.$Message.warning('请至少选择一条数据');
         return;

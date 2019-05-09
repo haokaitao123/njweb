@@ -167,12 +167,12 @@
             key: 'empnhIdno',
           },
           {
-            title: "部门",
+            title: "部门名称",
             width: 140,
             key: 'unitFname',
           },
           {
-            title: "岗位",
+            title: "岗位名称",
             width: 140,
             key: 'postFname',
 

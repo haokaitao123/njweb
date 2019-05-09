@@ -19,20 +19,20 @@
                 v-model="unitFname"
                 style="width: 200px"
                 icon="search"
-    
+
                 :readonly="true"
                 placeholder="请选择部门"
                 @on-click="pickDeptData"
               />
             </span>
                 <!--状态选择框-->
-                <btnList :btnData="btnData"   :FlowNode="FlowNode" 
+                <btnList :btnData="btnData"   :FlowNode="FlowNode"
                          @buttonExport="expData"
                          @buttonSearch="search"
                          @moditySelect="changemodity"
                          @buttonDraft="modifystatus('01draft')"
                          @buttonRefund = "modifystatus('02valid')"
-                        
+
                          ></btnList>
                          <!-- @buttonImport="importExcel"
                           @buttonAdd="openUp(NaN,'新增')"
@@ -146,7 +146,7 @@
   export default {
     data() {
       return {
-       
+
         // 导入导出默认参数 无需变更
         openImport: false,
         openExpDow: false,
@@ -158,8 +158,8 @@
         expDataTital: [
           { code: "empnhName", name: "员工姓名" },
           { code: "empnhIdno", name: "证件号码" },
-          { code: "unitFname", name: "部门" },
-          { code: "postFname", name: "岗位" },
+          { code: "unitFname", name: "部门名称" },
+          { code: "postFname", name: "岗位名称" },
           { code: "refuBgdate", name: "退款开始日期" },
           { code: "totalSum", name: "总金额" },
           { code: "note", name: "备注" },
@@ -191,13 +191,13 @@
             sortable: "custom",
           },
           {
-            title: "部门",
+            title: "部门名称",
             width: 140,
             key: 'unitFname',
             sortable: "custom",
           },
           {
-            title: "岗位",
+            title: "岗位名称",
             width: 140,
             key: 'postFname',
             sortable: "custom",
@@ -455,7 +455,7 @@
         t.loading = true; //请求之前重置状态
          if (page == undefined) {
             this.page = 1;
-        } 
+        }
         const data = {
           _mt: 'empRefund.getPage',
           rows: t.rows,

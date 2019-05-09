@@ -176,6 +176,24 @@ export default {
                     align: "center"
                 },
                 {
+                  title: "姓名",
+                  key: "resuName",
+                  sortable: "custom",
+                  width: 180
+                },
+                {
+                  title: "证件号码",
+                  width: 180,
+                  key: "resuIdno",
+                  sortable: "custom"
+                },
+                {
+                  title: "性别",
+                  width: 180,
+                  key: "resuGenderDis",
+                  sortable: "custom"
+                },
+                {
                     title: '应聘岗位',
                     key: "resuApplypost",
                     width: 180,
@@ -187,31 +205,13 @@ export default {
                     sortable: "custom",
                     key: "resuIdentityDis"
                 },
-
-                {
-                    title: "姓名",
-                    key: "resuName",
-                    sortable: "custom",
-                    width: 180
-                },
-                {
-                    title: "性别",
-                    width: 180,
-                    key: "resuGenderDis",
-                    sortable: "custom"
-                },
                 {
                     title: "手机号",
                     width: 180,
                     key: "resuMobile",
                     sortable: "custom"
                 },
-                {
-                    title: "证件号码",
-                    width: 180,
-                    key: "resuIdno",
-                    sortable: "custom"
-                },
+
             ],
             tableBtn: {
                 title: "操作",

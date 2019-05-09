@@ -129,7 +129,7 @@ export default {
       imp_mt: "protocolManage.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "empnhName", name: "员工名称" },
+        { code: "empnhName", name: "员工姓名" },
         { code: "unitoFname", name: "原部门名称" },
         { code: "empTypeDis", name: "原员工类型" },
         { code: "contTypeDis", name: "原合同类别" },
@@ -183,9 +183,14 @@ export default {
           align: "center"
         },
         {
-          title: "员工名称",
+          title: "员工姓名",
           key: "empnhName",
           sortable: "custom",
+          width: 220
+        },
+        {
+          title: "证件号码",
+          key: "empnhIdno",
           width: 220
         },
         {
@@ -199,11 +204,7 @@ export default {
           key: "postoFname",
           width: 220
         },
-        {
-          title: "身份证号码",
-          key: "empnhIdno",
-          width: 220
-        },
+
         {
           title: "原员工类型",
           key: "empTypeDis",

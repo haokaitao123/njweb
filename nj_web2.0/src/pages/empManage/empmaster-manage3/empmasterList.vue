@@ -210,18 +210,20 @@ export default {
                     align: "center"
                 },
                 {
-                    title: "雇员姓名",
+                    title: "员工姓名",
                     key: "empnhName",
                     fixed: "left",
                     width: 140,
                     align: "center"
                 },
                 {
-                    title: "唯一编号",
-                    key: "numberCode",
-                    width: 130,
-                    align: "center"
+                  title: "证件号码",
+                  key: "empnhIdno",
+                  width: 180,
+                  align: "center",
+                  sortable: 'custom',
                 },
+
 
                 {
                     title: "部门名称",
@@ -236,6 +238,12 @@ export default {
                     align: "center"
                 },
                 {
+                  title: "唯一编号",
+                  key: "numberCode",
+                  width: 130,
+                  align: "center"
+                },
+                {
                     title: "直接上级",
                     key: "empnhPmpDis",
                     width: 140,
@@ -247,13 +255,7 @@ export default {
                     width: 140,
                     align: "center"
                 },
-                {
-                    title: "证件号码",
-                    key: "empnhIdno",
-                    width: 180,
-                    align: "center",
-                    sortable: 'custom',
-                },
+
                 {
                     title: "生效日期",
                     key: "empnhSday",
