@@ -16,11 +16,14 @@ style="width: 200px"/>    <Input v-model="searchParams.empnhIdno"
 style="width: 200px"/>
                         <!-- 页面按钮 -->
                             <btnList @buttonExport="expData"
-    @buttonAdd="openUp"
+    @buttonAdd="openUp(NaN,$t('button.add'))"
     @buttonDel="deletemsg"
     @buttonSearch="search"
     @buttonImport="importExcel"
     @moditySelect="modityChange"
+    @buttonSubmit="modifystatus('02draft','提交')"
+    @buttonAdopt="modifystatus('03draft','通过')"
+    @buttonInAdopt="modifystatus('04draft','不通过')"
     :btnData="btnData"
     :FlowNode="FlowNode">
     </btnList>
@@ -51,7 +54,7 @@ style="width: 200px"/>
                     @newData="addNewArray"
                     @update="updateArray"
                     ref="update"></update>
-        </transition>
+        </transition> 
         <!--搜索 弹出选择框  -->
         <transition name="fade">
         	
@@ -62,9 +65,8 @@ style="width: 200px"/>
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-//import update from "./addNewEmpEmpupd";                    //新增修改组件
+import update from "./empEmpupdEdit";                    //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
-
 export default {
     data () {
         return {
@@ -74,28 +76,28 @@ export default {
             exp_mt: "empEmpupd.export",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                    { code: "empnhName", name: "员工姓名" },
-    { code: "empnhIdno", name: "身份证号码" },
-    { code: "unitFname", name: "部门名称" },
-    { code: "postFname", name: "岗位名称" },
-    { code: "empupdResaddr", name: "居住详细地址" },
-    { code: "empnhSalbankDis", name: "开户银行" },
-    { code: "empupdSalcount", name: "银行账号" },
-    { code: "empupdSalcname", name: "户名" },
-    { code: "empupdReason", name: "未通过原因" },
+                { code: "empnhName", name: "员工姓名" },
+                { code: "empnhIdno", name: "身份证号码" },
+                { code: "unitFname", name: "部门名称" },
+                { code: "postFname", name: "岗位名称" },
+                { code: "empupdResaddr", name: "居住详细地址" },
+                { code: "empnhSalbankDis", name: "开户银行" },
+                { code: "empupdSalcount", name: "银行账号" },
+                { code: "empupdSalcname", name: "户名" },
+                { code: "empupdReason", name: "未通过原因" },
             ],
             // 表格列字段
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
                     { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
-    { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
+    { key: "empnhIdno", title: "身份证号码", width : 220},
     { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
     { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
-    { key: "empupdResaddr", title: "居住详细地址", sortable: "custom" , width : 220},
-    { key: "empnhSalbankDis", title: "开户银行", sortable: "custom" , width : 220},
-    { key: "empupdSalcount", title: "银行账号", sortable: "custom" , width : 220},
-    { key: "empupdSalcname", title: "户名", sortable: "custom" , width : 220},
-    { key: "empupdReason", title: "未通过原因", sortable: "custom" , width : 220},
+    { key: "empupdResaddr", title: "居住详细地址", width : 220},
+    { key: "empnhSalbankDis", title: "开户银行",width : 220},
+    { key: "empupdSalcount", title: "银行账号", width : 220},
+    { key: "empupdSalcname", title: "户名", width : 220},
+    { key: "empupdReason", title: "未通过原因", width : 220},
 
             ],
             // 表格获取数据mt名称
@@ -115,7 +117,7 @@ export default {
             //搜索参数
             searchParams: {
             	empnhName: "",
-empnhIdno: "",
+                empnhIdno: "",
 
             },
             typeCode: "",
@@ -190,6 +192,7 @@ empnhIdno: "",
         },
         //新增后表格数据添加
         addNewArray (res) {
+            console.log(res,"res")
             this.$refs.commonPage.data.unshift(res);
         },
         //修改后表格数据更新
