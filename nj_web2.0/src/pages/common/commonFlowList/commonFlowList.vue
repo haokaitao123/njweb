@@ -43,6 +43,7 @@
                 <Row style="display: flex">
                     <Page :total="total"
                           size="small"
+                          :current="page"
                           show-elevator
                           show-sizer
                           placement="top"
@@ -140,10 +141,12 @@ export default {
     //
     //    },
     mounted () {
+
         this.getColumns()
     },
     methods: {
         refresh () {
+            this.page = 1;
             this.getColumns()
         },
         getColumns () {
@@ -264,25 +267,27 @@ export default {
             this.stepName = ''
             this.openTestUpd = false
         },
-        getPageByState(paramId, paramName) {
-          const t = this;
-          if (paramId === "") {
-            t.curStep = "";
-          } else {
-            t.curStep = paramId;
-          }
-          t.getData(1);
-          t.flstepName = paramName;
+        getPageByState (paramId, paramName) {
+            const t = this;
+            if (paramId === "") {
+                t.curStep = "";
+            } else {
+                t.curStep = paramId;
+            }
+            this.page = 1;
+            t.getData(1);
+
+            t.flstepName = paramName;
         },
         getData (page) {
             const t = this
             if (page) {
-              t.page = page;
+                t.page = page;
             }
             if (typeof (page) == "undefined") {
-              this.page = 1;
+                this.page = 1;
             }
-          t.loading = true;
+            t.loading = true;
             getDataLevelUserLogin({
                 _mt: 'platAutoLayoutGetFlowList.getPage',
                 sort: t.sort,
@@ -314,8 +319,8 @@ export default {
                     content: this.$t('reminder.errormessage'),
                 })
             }).finally(() => {
-            t.loading = false;
-           });
+                t.loading = false;
+            });
         },
         addNewArray (res) {
             const t = this
@@ -393,6 +398,7 @@ export default {
     watch: {
         $route (value, from) {
             if (value.name === 'commonFlowList') {
+                this.flstepName = '全部'
                 this.getColumns()
             }
         },
