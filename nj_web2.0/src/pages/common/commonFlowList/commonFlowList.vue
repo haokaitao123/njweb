@@ -229,7 +229,7 @@ export default {
                     }
                     t.columns = aa
                     if (this.$store.state.user.funId) {
-                        this.getData()
+                        this.getData(1)
                     }
                 }
             }).catch(() => {
@@ -333,18 +333,18 @@ export default {
             this.sort = column.key
             if (column.order !== 'normal') {
                 this.order = column.order
-                this.getData()
+                this.getData(1)
             }
         },
         sizeChange (size) {
             const t = this
             t.rows = size
-            t.getData()
+            t.getData(1)
         },
         pageChange (page) {
             const t = this
             t.page = page
-            t.getData()
+            t.getData(page)
         },
         selectedtable (selection) {
             const newArr = []
@@ -368,7 +368,7 @@ export default {
                 ids: t.tableselected,
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    t.getData()
+                    t.getData(1)
                 }
             }).catch(() => {
                 t.$Modal.error({
