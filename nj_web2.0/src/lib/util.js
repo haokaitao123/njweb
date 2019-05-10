@@ -424,7 +424,9 @@ export const isSuccess = (data, t) => {
     } else if (buscode !== 0) {
       if (buscode === -100) {
         t.$Message.error("网络错误");
-      } else {
+      } else if(buscode === 5602){
+        t.$Message.warning(data.data.stat.stateList[0].desc);
+      }else {
         t.$Message.error(data.data.stat.stateList[0].desc);
       }
       return false;
