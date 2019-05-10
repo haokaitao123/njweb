@@ -108,7 +108,7 @@ export default {
             sort: 'id',
             order: 'desc',
             rows: '10',
-            page: '1',
+            page: 1,
             countryId: '',
             countryCn: '',
             openSelCountry: false,
@@ -122,6 +122,7 @@ export default {
             step: [],
             titleName: '',
             loading: "",
+            curStep:'',
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -288,6 +289,15 @@ export default {
                 this.page = 1;
             }
             t.loading = true;
+            const rcdata = {
+              curStep:t.curStep
+            };
+            var rcvdata="";
+            if(rcdata.curStep===""){
+              rcvdata=""
+            }else{
+              rcvdata=JSON.stringify(rcdata)
+            }
             getDataLevelUserLogin({
                 _mt: 'platAutoLayoutGetFlowList.getPage',
                 sort: t.sort,
@@ -296,7 +306,7 @@ export default {
                 page: t.page,
                 roleType: t.$store.state.user.roleType,
                 logType: 'getPage',
-                data: '',
+                data: rcvdata,
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     t.data = JSON.parse(res.data.content[0].rows);
