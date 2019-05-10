@@ -355,7 +355,7 @@ export default {
           break
         case "button_inadopt":
           btnName = '不通过';
-          bType = 'success';
+          bType = 'error';
           break    
       }
       let obj = {
