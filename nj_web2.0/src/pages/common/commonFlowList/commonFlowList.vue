@@ -37,7 +37,7 @@
                            size="small"
                            ref="selection"
                            :columns="columns"
-                           :loading="data.length === 0"
+                           :loading="loading"
                            :data="data"></Table>
                 </row>
                 <Row style="display: flex">
@@ -120,6 +120,7 @@ export default {
             stepName: '',
             step: [],
             titleName: '',
+            loading: "",
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -263,8 +264,25 @@ export default {
             this.stepName = ''
             this.openTestUpd = false
         },
-        getData () {
+        getPageByState(paramId, paramName) {
+          const t = this;
+          if (paramId === "") {
+            t.curStep = "";
+          } else {
+            t.curStep = paramId;
+          }
+          t.getData(1);
+          t.flstepName = paramName;
+        },
+        getData (page) {
             const t = this
+            if (page) {
+              t.page = page;
+            }
+            if (typeof (page) == "undefined") {
+              this.page = 1;
+            }
+          t.loading = true;
             getDataLevelUserLogin({
                 _mt: 'platAutoLayoutGetFlowList.getPage',
                 sort: t.sort,
@@ -295,7 +313,9 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
-            })
+            }).finally(() => {
+            t.loading = false;
+           });
         },
         addNewArray (res) {
             const t = this
