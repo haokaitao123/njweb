@@ -423,17 +423,19 @@ export const isSuccess = (data, t) => {
       return true;
     } else if (buscode !== 0) {
       if (buscode === -100) {
-        t.$Message.error("网络错误");
-      } else if(buscode === 5602){
+        // t.$Message.error("网络错误");
         t.$Message.warning(data.data.stat.stateList[0].desc);
-      }else {
+      } else if (buscode === 5602) {
+        t.$Message.warning(data.data.stat.stateList[0].desc);
+      } else {
         t.$Message.error(data.data.stat.stateList[0].desc);
       }
       return false;
     }
   } else if (apicode !== 0) {
     if (apicode === -100 || apicode === -120 || apicode === -140 || apicode === -200 || apicode === -280 || apicode === -300 || apicode === -360) {
-      t.$Message.error("网络错误");
+      // t.$Message.error("网络错误");
+      t.$Message.error(data.data.stat.stateList[0].desc);
     } else {
       t.$Message.error(data.data.stat.stateList[0].desc);
     }
