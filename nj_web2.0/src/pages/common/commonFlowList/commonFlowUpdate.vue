@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="cover">
-            <div class="box">
+            <div class="box"
+                 :class="fixed?'fixed':''">
                 <div class="title">
                     <div class="title-text">
                         <Icon type="mouse"
@@ -40,6 +41,7 @@
                         </div>
                     </div>
                     <div class="dataBlocks"
+                         :class="item.flsdbName==='复试信息'&&fixed?'approvIdea':''"
                          v-for="(item, index) in dataBlocks"
                          :key="index">
                         <div class="dataBlocksTitle">
@@ -273,7 +275,6 @@ export default {
             thisStepId: this.stepId,
             thisStepState: this.stepState,
             thisSetpName: this.setpName,
-
             operation: [],
             docs: [],
             mailRecords: [],
@@ -334,6 +335,8 @@ export default {
                     ])
                 },
             },
+            fixed: false,
+            thisStepCode: ''
         }
     },
     props: {
@@ -360,7 +363,6 @@ export default {
             this.getPageChildTable(this.dataBlocksFakeId[2].id, this.dataBlocksFakeId[2].flsdbOptauth)
         })
         this.getColumns();
-        console.log(this.funId, "funId")
     },
     components: {
         commonSingleForm,
@@ -430,6 +432,7 @@ export default {
                 if (isSuccess(res, t)) {
                     t.dataBlocksFake = res.data.content[0].dataBlocks
                     t.thisStepId = res.data.content[0].stepId
+                    t.thisStepCode = res.data.content[0].stepCode
                     t.stepAuthLimits = res.data.content[0].stepAuth
                     t.ChildDataBloks = []
                     /* 子集数据块 没有columns */
@@ -830,6 +833,13 @@ export default {
                             bb[i]['blockColumn'] = res.data.content[0]
                             bb[i]['formlist'] = t.getFormDataSubmit(res.data.content[0].columns)
                         }
+                        if (bb[i].flsdbName === '复试信息' && this.thisStepCode === 'flow_recruitprocess_1010') {
+                            if (this.thisStepState === 'p_flowst_1' || this.thisStepState === 'p_flowst_2') {
+                                this.fixed = true;
+                            }
+                        } else {
+                            this.fixed = false;
+                        }
                     }
                     t.dataBlocksFake = bb // 临时block存储变量最后赋值给正式的block，
                     t.dataBlocks = t.dataBlocksFake
@@ -1202,7 +1212,20 @@ export default {
         }
     }
 }
-
+.fixed {
+    .content {
+        margin-bottom: 262px;
+        height: 254px;
+        position: static;
+        .approvIdea {
+            position: absolute;
+            width: 100%;
+            bottom: 72px;
+            left: 0;
+            padding: 0 20px;
+        }
+    }
+}
 .footer {
     margin-top: 10px;
     padding: 0 30px;
