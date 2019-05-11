@@ -25,12 +25,12 @@
                             <!-- <contact slot="content" ref="contact" v-if="isFinish">
               </contact> -->
                         </Poptip>
-                        <div class="button-item"
+                        <!-- <div class="button-item"
                              @click="upLayIM"
                              v-show="cur_roleType === '3user' || cur_roleType === '3user-hrbp'">
                             <Icon type="social-twitch-outline"
                                   style="margin-right: 5px;"></Icon>{{$t('lang_homePage.menuItem.iquestion')}}
-                        </div>
+                        </div> -->
                         <!--<Poptip trigger="hover" class="mainPop" placement="bottom" width="300" >-->
                         <!--<div class="button-item">-->
                         <!--<Badge dot count="1">-->
@@ -75,7 +75,7 @@
                                 </DropdownMenu>
                             </Dropdown>
                         </div>
-                        <div class="button-item">
+                        <!-- <div class="button-item">
                             <Dropdown transfer
                                       trigger="hover"
                                       @on-click="changeLanguage">
@@ -95,7 +95,7 @@
                                     </DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
-                        </div>
+                        </div> -->
                         <div class="button-item">
                             <Dropdown transfer
                                       trigger="hover"

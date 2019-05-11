@@ -128,8 +128,8 @@ export default {
             expDataTital: [
                 { code: "empnhName", name: "员工姓名" },
                 { code: "empnhIdno", name: "证件号码" },
-                { code: "unitFname", name: "部门" },
-                { code: "postFname", name: "岗位" },
+                { code: "unitFname", name: "部门名称" },
+                { code: "postFname", name: "岗位名称" },
                 { code: "borrTotamount", name: "总金额" },
                 { code: "note", name: "备注" },
             ],
@@ -159,12 +159,12 @@ export default {
                     key: 'empnhIdno',
                 },
                 {
-                    title: "部门",
+                    title: "部门名称",
                     width: 140,
                     key: 'unitFname',
                 },
                 {
-                    title: "岗位",
+                    title: "岗位名称",
                     width: 140,
                     key: 'postFname',
 

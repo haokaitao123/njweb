@@ -161,6 +161,10 @@ export default {
         state_mt: {
             type: String,
         },
+        //导出的mt名称
+        exp_mt: {
+            type: String,
+        }
     },
     computed: {
         pageShow () {
@@ -233,7 +237,7 @@ export default {
                 }
             }
             // 设置导出mt参数
-            this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
+            this.$refs.expwindow.getData(this.expDataTital, this.exp_mt, data);
             this.openExp = true;
         },
         // 导入导出默认方法 无需更改
@@ -254,7 +258,7 @@ export default {
             t.openExpDow = openExpDow;
             t.$refs.expdow.getPriToken(t.filekey);
         },
-         //获取列表数据
+        //获取列表数据
         getData (page, params) {
             const t = this;
             if (typeof page == "undefined") {
@@ -304,7 +308,7 @@ export default {
             } else {
                 this.order = "desc";
             }
-        }, 
+        },
         //改变列表Rows
         sizeChange (size) {
             const t = this;
@@ -316,7 +320,7 @@ export default {
             const t = this;
             t.page = page;
             t.getData(t.page);
-        }, 
+        },
         //列表中选中对应列
         selectedtable (selection) {
             const newArr = [];
@@ -324,7 +328,7 @@ export default {
                 newArr.push(selection[i].id);
             }
             this.tableselected = newArr;
-        }, 
+        },
         //删除数据
         deletemsg () {
             const t = this;
@@ -396,7 +400,7 @@ export default {
                 },
                 onCancel: () => { }
             });
-        }, 
+        },
     }
 };
 </script>

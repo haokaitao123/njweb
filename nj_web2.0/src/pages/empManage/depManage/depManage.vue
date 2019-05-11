@@ -152,7 +152,7 @@ export default {
         // 导出字段设置, code字段名 name列名
        expDataTital: [
         { code: "deptIdName", name: "部门名称" },
-        { code: "empName", name: "员工名称" },
+        { code: "empName", name: "员工姓名" },
         { code: "postName", name: "岗位名称" },
         { code: "empnhIdno", name: "证件号码" },
         { code: "moneyNum", name: "总金额" },
@@ -179,9 +179,14 @@ export default {
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
         },
         {
-          title: "员工名称",
+          title: "员工姓名",
           key: "empName",
           sortable: "custom",
+          width: 220
+        },
+        {
+          title: "证件号码",
+          key: "empnhIdno",
           width: 220
         },
         {
@@ -195,11 +200,7 @@ export default {
           key: "postName",
           width: 220
         },
-        {
-          title: "证件号码",
-          key: "empnhIdno",
-          width: 220
-        },
+
         {
           title: "总金额",
           key: "moneyNum",

@@ -13,6 +13,21 @@
                             :key="index"
                             :type="item.btn_id === 'button_del' ? 'error':'primary'"
                             @click="btnFunction(item.btn_id)">{{item.btn_title}}</Button>
+                    <div class="moditySelect">
+                        <Dropdown>
+                            <Button type="primary">
+                                {{flstepName}}
+                                <Icon type="arrow-down-b"></Icon>
+                            </Button>
+                            <DropdownMenu slot="list">
+                                <span v-for="(item,index) in dropdownMenuList"
+                                      :key="index"
+                                      @click="getPageByState(item.id,item.flstepName)">
+                                    <DropdownItem>{{item.flstepName}}</DropdownItem>
+                                </span>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </Row>
                 <row class="table-form"
                      ref="table-form">
@@ -22,12 +37,13 @@
                            size="small"
                            ref="selection"
                            :columns="columns"
-                           :loading="data.length === 0"
+                           :loading="loading"
                            :data="data"></Table>
                 </row>
                 <Row style="display: flex">
                     <Page :total="total"
                           size="small"
+                          :current="page"
                           show-elevator
                           show-sizer
                           placement="top"
@@ -85,12 +101,14 @@ export default {
             tbName: '',
             btns: [],
             data: [],
+            dropdownMenuList: [],
+            flstepName: '全部',
             total: 0,
             index: 0,
             sort: 'id',
             order: 'desc',
             rows: '10',
-            page: '1',
+            page: 1,
             countryId: '',
             countryCn: '',
             openSelCountry: false,
@@ -103,6 +121,8 @@ export default {
             stepName: '',
             step: [],
             titleName: '',
+            loading: "",
+            curStep:'',
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -122,10 +142,12 @@ export default {
     //
     //    },
     mounted () {
+
         this.getColumns()
     },
     methods: {
         refresh () {
+            this.page = 1;
             this.getColumns()
         },
         getColumns () {
@@ -138,6 +160,7 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let aa = []
+                    t.dropdownMenuList = res.data.content[0].rwls;
                     t.flowId = res.data.content[0].flowId
                     t.btns = res.data.content[0].btns
                     t.titleName = res.data.content[0].flowName
@@ -210,7 +233,7 @@ export default {
                     }
                     t.columns = aa
                     if (this.$store.state.user.funId) {
-                        this.getData()
+                        this.getData(1)
                     }
                 }
             }).catch(() => {
@@ -245,8 +268,36 @@ export default {
             this.stepName = ''
             this.openTestUpd = false
         },
-        getData () {
+        getPageByState (paramId, paramName) {
+            const t = this;
+            if (paramId === "") {
+                t.curStep = "";
+            } else {
+                t.curStep = paramId;
+            }
+            this.page = 1;
+            t.getData(1);
+
+            t.flstepName = paramName;
+        },
+        getData (page) {
             const t = this
+            if (page) {
+                t.page = page;
+            }
+            if (typeof (page) == "undefined") {
+                this.page = 1;
+            }
+            t.loading = true;
+            const rcdata = {
+              curStep:t.curStep
+            };
+            var rcvdata="";
+            if(rcdata.curStep===""){
+              rcvdata=""
+            }else{
+              rcvdata=JSON.stringify(rcdata)
+            }
             getDataLevelUserLogin({
                 _mt: 'platAutoLayoutGetFlowList.getPage',
                 sort: t.sort,
@@ -255,10 +306,11 @@ export default {
                 page: t.page,
                 roleType: t.$store.state.user.roleType,
                 logType: 'getPage',
-                data: '',
+                data: rcvdata,
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    t.data = JSON.parse(res.data.content[0].rows)
+                    t.data = JSON.parse(res.data.content[0].rows);
+
                     for (let i = 0; i < t.data.length; i++) {
                         t.data[i].cellClassName = {}
                         for (let item in t.data[i]) {
@@ -276,7 +328,9 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
-            })
+            }).finally(() => {
+                t.loading = false;
+            });
         },
         addNewArray (res) {
             const t = this
@@ -294,18 +348,18 @@ export default {
             this.sort = column.key
             if (column.order !== 'normal') {
                 this.order = column.order
-                this.getData()
+                this.getData(1)
             }
         },
         sizeChange (size) {
             const t = this
             t.rows = size
-            t.getData()
+            t.getData(1)
         },
         pageChange (page) {
             const t = this
             t.page = page
-            t.getData()
+            t.getData(page)
         },
         selectedtable (selection) {
             const newArr = []
@@ -329,7 +383,7 @@ export default {
                 ids: t.tableselected,
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    t.getData()
+                    t.getData(1)
                 }
             }).catch(() => {
                 t.$Modal.error({
@@ -354,6 +408,7 @@ export default {
     watch: {
         $route (value, from) {
             if (value.name === 'commonFlowList') {
+                this.flstepName = '全部'
                 this.getColumns()
             }
         },
@@ -427,6 +482,9 @@ export default {
             background-color: #598937;
         }
     }
+}
+.moditySelect {
+    display: inline-block;
 }
 </style>
 

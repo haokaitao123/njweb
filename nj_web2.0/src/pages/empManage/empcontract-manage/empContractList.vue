@@ -148,7 +148,7 @@ export default {
             expDataTital: [
                 { code: "numberCode", name: "合同编号" },
                 { code: "empnhName", name: "员工姓名" },
-                { code: "empnhIdno", name: "员工身份证号" },
+                { code: "empnhIdno", name: "证件号码" },
                 { code: "unitFname", name: "部门名称" },
                 { code: "postFname", name: "岗位名称" },
                 { code: "empTypeDis", name: "员工类别" },
@@ -195,7 +195,7 @@ export default {
                     width: 100
                 },
                 {
-                    title: "员工身份证号",
+                    title: "证件号码",
                     key: "empnhIdno",
                     width: 160
                 },
@@ -354,7 +354,7 @@ export default {
                 //unitType: "02dept",
                 state: "02valid"
             },
-           
+
             state: this.modity,
             loading: ""
         };
@@ -562,9 +562,9 @@ export default {
     },
     closeUp() {
       const t = this;
-      
+
       t.openUpdate = false;
-     
+
 
     },
     search() {
@@ -666,6 +666,7 @@ export default {
         addNewArray (res) {
             const t = this;
             t.data.unshift(res);
+            //this.getData();
         },
         // 子页面修改数据后 本页面修改对应行数的数据 无需更改
         updateArray (res) {
@@ -706,7 +707,7 @@ export default {
             this.getData();
         } //根据类型获取列表
     },
-      
+
 };
 </script>
 <style lang="scss" scoped>

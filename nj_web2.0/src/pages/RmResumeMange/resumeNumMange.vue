@@ -117,7 +117,7 @@
       ></importExcel>
     </transition>
 		<!--  导入弹出框 :impid="updateId" 传id :imp_mt="imp_mt" 绑定的导入接口路径 @getData="getData" 获取列表 @closeImport="closeImport" 关闭导入弹窗事件-->
-      
+
     <!-- <transition name="fade">
       <importExcel
         v-show="openImport"
@@ -177,7 +177,7 @@ export default {
         openExp: false,
         filekey: '',
 				filename: '',
-				
+
       empName: "",
       tableheight: document.body.offsetHeight - 280, //table高度
       logType: "", //操作类型
@@ -192,21 +192,21 @@ export default {
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
         },
         {
-          title: "员工名称",
+          title: "员工姓名",
           key: "empName",
           sortable: "custom",
+          width: 220
+        },
+        {
+          title: "身份证号码",
+          key: "empIdno",
+          //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
           title: "项目名称",
           key: "entryName",
           sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
-          width: 220
-        },
-        {
-          title: "身份证号码",
-          key: "empIdno",
-         //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
@@ -378,7 +378,7 @@ export default {
           this.$store.commit('btnOperate/setSearchLoading',false)
         });
     },
-   
+
     // 导入导出默认方法 无需更改
       closeImport() {
         const t = this

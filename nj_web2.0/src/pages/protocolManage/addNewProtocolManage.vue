@@ -747,6 +747,9 @@
         },
          //合同期限下拉选择事件
         contractnPeriodSelect (value) {
+            if(value===undefined){
+                this.formValidate.contractnPeriod=""
+            }
             if (this.formValidate.contractnStart !== "") {
                 this.calculateDate("contractnPeriod", "contractnStart", "contractnEnd")
             }
