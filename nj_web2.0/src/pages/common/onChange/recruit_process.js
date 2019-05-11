@@ -92,7 +92,7 @@ const recruit_process = {
       })
       }
     }
-    debugger
+    //debugger
     if (t.valueMap.relibReexamtm) {
       if (t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit.relibReexamtm.length <= 0) {
         t.$refs[t.valueMap.relibReexamtm][0].$set(t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit, 'relibReexamtm', new Date().format('yyyy-MM-dd hh:mm:ss'))
