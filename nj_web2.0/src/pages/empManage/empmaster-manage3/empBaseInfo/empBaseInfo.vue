@@ -614,11 +614,11 @@ export default {
                 numberCode: "XXXXXX", // 唯一编号
                 empnhName: "", // 雇员姓名
                 empnhPtname: "", // 曾用名
-                empnhNation: "", // 民族
-                deptId: "", // 部门名称
+                empnhNation: "10", // 民族
+                deptId: "",// 部门名称
                 postId: "", // 岗位名称
                 empnhPmp: "", // 直接上级
-                empnhIdtype: "", // 证件类型
+                empnhIdtype: "01id", // 证件类型
                 empnhIdno: "", // 证件号码
                 empnhSday: "", // 生效日期
                 empnhEday: "", // 证件到期日
