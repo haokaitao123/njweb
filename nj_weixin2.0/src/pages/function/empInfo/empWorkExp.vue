@@ -1,0 +1,299 @@
+<template>
+	<div class="empWorkExp">
+		<div class="empWorkExpWrap">
+			<group label-align="left" gutter="0" class="form">
+				<!-- 开始时间 -->
+				<div class="item_box">
+					<cell title="" is-link value-align="left" v-model="form.weSdate" v-verify="form.weSdate" @click.native="popupClick('weSdateShow','weSdate')">
+						<div slot="title">开始时间<span>*</span></div>
+					</cell>
+					<icon type="warn" class="error" v-show="form.weSdate=='请选择'?true:false" v-remind="form.weSdate"></icon>
+				</div>
+				<!-- 结束时间 -->
+				<div class="item_box">
+					<cell title="" is-link value-align="left" v-model="form.weEdate" v-verify="form.weEdate" @click.native="popupClick('weEdateShow','weEdate')">
+						<div slot="title">结束时间<span>*</span></div>
+					</cell>
+					<icon type="warn" class="error" v-show="form.weEdate=='请选择'?true:false" v-remind="form.weEdate"></icon>
+				</div>
+				<!-- 工作单位 -->
+				<div class="item_box">
+					<x-input title="工作单位<span>*</span>" v-model="form.weComp" v-verify="form.weComp" :show-clear="false" placeholder="请填写">
+					</x-input>
+					<icon type="warn" class="error" v-show="form.weComp==''?true:false" v-remind="form.weComp"></icon>
+				</div>
+				<!-- 工作部门 -->
+				<div class="item_box">
+					<x-input title="工作部门" v-model="form.weDept" :show-clear="false" placeholder="请填写">
+					</x-input>
+				</div>
+				<!-- 工作岗位 -->
+				<div class="item_box">
+					<x-input title="工作岗位" v-model="form.wePost" :show-clear="false" placeholder="请填写">
+					</x-input>
+				</div>
+				<!-- 主要业绩 -->
+				<x-textarea :max="300" title="主要业绩" :height="95" v-model="form.wePerforman" :show-counter="false" placeholder="请填写"></x-textarea>
+				<!-- 证明人 -->
+				<div class="item_box">
+					<x-input title="证明人<span>*</span>" v-model="form.weContact" v-verify="form.weContact" :show-clear="false"
+					 placeholder="请填写">
+					</x-input>
+					<icon type="warn" class="error" v-show="form.weContact==''?true:false" v-remind="form.weContact"></icon>
+				</div>
+				<!-- 联系电话 -->
+				<div class="item_box">
+					<x-input title="联系电话<span>*</span>" v-model="form.wePhone" keyboard="number" is-type="china-mobile" v-verify="form.wePhone"
+					 :show-clear="false" placeholder="请填写">
+					</x-input>
+					<icon type="warn" class="error" v-show="form.wePhone==''?true:false" v-remind="form.wePhone"></icon>
+				</div>
+				<!-- 薪资 -->
+				<div class="item_box">
+					<x-input title="薪资<span>*</span>" v-model="form.weSalary" v-verify="form.weSalary" type="tel" :show-clear="false"
+					 placeholder="请填写">
+					</x-input>
+					<icon type="warn" class="error" v-show="form.weSalary==''?true:false" v-remind="form.weSalary"></icon>
+				</div>
+				<!-- 离职原因 -->
+				<x-textarea :max="300" title="离职原因" :height="95" v-model="form.weLevrason" placeholder="请填写" :show-counter="true"></x-textarea>
+				<!-- 备注 -->
+				<x-textarea :max="300" title="备注" :height="95" v-model="form.note" placeholder="请填写" :show-counter="true"></x-textarea>
+
+			</group>
+			<!-- <div class="save_button">
+				<x-button type="primary" class="x_button" @click.native="save" action-type="button">保存</x-button>
+			</div> -->
+			<div class="save_button">
+				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">取消</x-button>
+				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
+			</div>
+		</div>
+		<van-popup v-model="weSdateShow" position="bottom">
+			<van-datetime-picker v-model="weSdateDate" type="date" :min-date="minWeSdate" :max-date="maxWeSdate" @confirm="confirm"
+			 @cancel="cancel" />
+		</van-popup>
+		<van-popup v-model="weEdateShow" position="bottom">
+			<van-datetime-picker v-model="weEdateDate" type="date" :min-date="minWeEdate" :max-date="maxWeEdate" @confirm="confirm"
+			 @cancel="cancel" />
+		</van-popup>
+	</div>
+</template>
+<script>
+	import {
+		getDataLevelUserLogin,
+		getDataLevelUserLoginNew
+	} from '@/axios/axios'
+	import {
+		isSuccess,
+		deepCopy
+	} from '@/lib/util'
+	import {
+		Group,
+		Cell,
+		XInput,
+		XTextarea,
+		Icon,
+		Popup
+	} from 'vux'
+	export default {
+		data() {
+			return {
+				curDom: "",
+				curDomShow: "",
+				weSdateDate: new Date(),
+				weEdateDate: new Date(),
+				minWeSdate: new Date(1900, 1, 1),
+				maxWeSdate: new Date(2099, 12, 31),
+				minWeEdate: new Date(1900, 1, 1),
+				maxWeEdate: new Date(2099, 12, 31),
+				form: {
+					weSdate: "请选择", // 开始时间
+					weEdate: "请选择", // 结束时间
+					weComp: "", // 工作单位
+					weDept: "", // 工作部门
+					wePost: "", // 工作职务
+					wePerforman: "", // 主要业绩
+					weContact: "", // 证明人
+					wePhone: "", // 联系电话
+					weSalary: "", // 薪资
+					weLevrason: "", // 离职原因
+					note: "" // 备注
+				},
+				weSdateShow: false,
+				weEdateShow: false,
+			}
+		},
+		verify: {
+			form: {
+				weSdate: "required",
+				weEdate: "required",
+				weComp: "required",
+				weContact: "required",
+				weSalary: ["required", "number"],
+				wePhone: "required",
+				weLevrason: "required",
+			}
+		},
+		props: {
+			id: {
+				type: String,
+				default: ''
+			},
+		},
+		components: {
+			Group,
+			Cell,
+			XInput,
+			Icon,
+			XTextarea,
+			Popup
+		},
+		mounted() {
+			this.getData();
+		},
+		methods: {
+			//保存
+			save() {
+				const t = this;
+				if (this.$verify.check()) {
+					const data = deepCopy(t.form);
+					data._mt = "wxEmpWorkExp.addOrUpd";
+					data.companyId = pubsource.companyId;
+					let listId = this.id;
+					if (listId !== '') {
+						data.id = listId
+					} else {
+						data.pkId = window.localStorage.getItem('empId');
+					}
+					for (const dat in data) {
+						if (data[dat] === "") {
+							delete data[dat];
+						}
+					}
+					getDataLevelUserLoginNew(data).then(res => {
+						if (isSuccess(res, t)) {
+							t.$notify({
+								message: '保存成功',
+								duration: 1500,
+								background: '#1989fa'
+							});
+							// this.$router.push({
+							// 	name: 'empInfo'
+							// });
+							this.$emit('cancel');
+						}
+					}).catch(() => {
+						t.$notify({
+							message: '网络错误',
+							duration: 1500,
+							background: '#f44'
+						});
+					}).finally(() => {
+						t.$store.commit('hideLoading');
+					});
+				}
+			},
+			//底部弹出
+			popupClick(domShow, dom) {
+				this.curDom = dom;
+				this.curDomShow = domShow;
+				this[domShow] = true;
+			},
+			//底部弹出确定事件
+			confirm(value) {
+				if (this.curDom == 'weSdate') {
+					this.minWeEdate = new Date(value)
+				}
+				if (this.curDom == 'weEdate') {
+					this.maxWeSdate = new Date(value)
+				}
+				value = new Date(value).format('yyyy-MM-dd');
+				this.currentDate = new Date();
+				this.form[this.curDom] = value
+				this[this.curDomShow] = false;
+			},
+			//底部弹出取消事件
+			cancel(value) {
+				this.currentDate = new Date();
+				this[this.curDomShow] = false;
+			},
+			getData() {
+				const t = this;
+				if (t.id === '') {
+				    return;
+				}
+				const data = {
+					_mt: 'wxEmpWorkExp.getById',
+					companyId: pubsource.companyId,
+					id: t.id,
+				}
+				getDataLevelUserLogin(data).then((res) => {
+					if (isSuccess(res, t)) {
+						let data = JSON.parse(res.data.content[0].value);
+						t.form.weSdate = data.weSdate;
+						t.form.weEdate = data.weEdate;
+						t.form.weComp = data.weComp !== undefined ? data.weComp : '';
+						t.form.weDept = data.weDept !== undefined ? data.weDept : '';
+						t.form.wePost = data.wePost !== undefined ? data.wePost : '';
+						t.form.weContact = data.weContact !== undefined ? data.weContact : '';
+						t.form.wePhone = data.wePhone !== undefined ? data.wePhone : '';
+						t.form.weSalary = data.weSalary !== undefined ? data.weSalary : '';
+						t.form.wePerforman = data.wePerforman;
+						t.form.weLevrason = data.weLevrason;
+						t.form.note = data.note;
+					}
+				}).catch((err) => {
+					t.$notify({
+						message: '网络错误',
+						duration: 1500,
+						background: '#f44'
+					});
+				}).finally(() => {
+					t.$store.commit('hideLoading');
+				});
+			},
+			//取消
+			back(){
+				this.$emit('cancel');
+				document.getElementsByClassName('empWorkExpWrap')[0].scrollTop = '0'
+			}
+		},
+	}
+</script>
+<style lang="less">
+	.empWorkExp {
+		height: 100%;
+		background: #f6f6f6;
+		.empWorkExpWrap {
+			overflow: scroll;
+			-webkit-overflow-scrolling: touch;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			background: #f6f6f6;
+			height: 100%;
+			.save_button {
+				padding: 125px 54px 50px;
+				display: flex;
+			
+				.x_button {
+					color: #fff;
+					font-size: 34px;
+					width: 300px;
+				}
+			
+				.button_left {
+					color: #339afe;
+					background: #fff;
+					border: 2px solid #339afe !important;
+				}
+			
+				.weui-btn+.weui-btn {
+					margin-top: 0;
+				}
+			}
+		}
+
+	}
+</style>
