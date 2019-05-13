@@ -1,10 +1,10 @@
 # nj_wx
 
-> A Vue.js project
+> 纳杰员工自助平台
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
