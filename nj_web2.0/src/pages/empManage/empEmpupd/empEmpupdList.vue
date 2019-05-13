@@ -7,27 +7,36 @@
                     <Icon type="mouse"></Icon>&nbsp;员工变更管理
                 </p>
                 <Row>
-                    <Col span="24">
+                    <Col span="6"
+                         class="colTree">
+                    <div class="divtree"
+                         :style="{height:treeheight + 'px'}">
+                        <Tree v-if="dataTree != ''"
+                              :data="dataTree"
+                              @on-select-change="selectChange"
+                              :render="renderContent"></Tree>
+                        <Spin v-if="loading"
+                              size="large"
+                              :style="{height:treeheight + 'px'}"></Spin>
+                    </div>
+                    </Col>
+                    <Col span="18">
                     <Row>
-                    	    <Input v-model="searchParams.empnhName"
-    placeholder="请输入员工姓名"
-style="width: 200px"/>    <Input v-model="searchParams.empnhIdno"
-    placeholder="请输入身份证号码"
-style="width: 200px"/>
+                    	<Input v-model="searchParams.empnhName" placeholder="请输入员工姓名" style="width: 200px"/>    
+                        <Input v-model="searchParams.empnhIdno" placeholder="请输入身份证号码" style="width: 200px"/>
                         <!-- 页面按钮 -->
-                            <btnList @buttonExport="expData"
-    @buttonAdd="openUp(NaN,$t('button.add'))"
-    @buttonDel="deletemsg"
-    @buttonSearch="search"
-    @buttonImport="importExcel"
-    @moditySelect="modityChange"
-    @buttonSubmit="modifystatus('02draft','提交')"
-    @buttonAdopt="modifystatus('03draft','通过')"
-    @buttonInAdopt="modifystatus('04draft','不通过')"
-    :btnData="btnData"
-    :FlowNode="FlowNode">
-    </btnList>
-
+                        <btnList @buttonExport="expData"
+                        @buttonAdd="openUp(NaN,$t('button.add'))"
+                        @buttonDel="deletemsg"
+                        @buttonSearch="search"
+                        @buttonImport="importExcel"
+                        @moditySelect="modityChange"
+                        @buttonSubmit="modifystatus('02draft','提交')"
+                        @buttonAdopt="modifystatus('03draft','通过')"
+                        @buttonInAdopt="modifystatus('04draft','不通过')"
+                        :btnData="btnData"
+                        :FlowNode="FlowNode">
+                        </btnList>
                     </Row>
                     <!-- 表格 分页 -->
                     <commonPage :imp_mt="imp_mt"
@@ -55,10 +64,6 @@ style="width: 200px"/>
                     @update="updateArray"
                     ref="update"></update>
         </transition> 
-        <!--搜索 弹出选择框  -->
-        <transition name="fade">
-        	
-        </transition>
     </div>
 </template>
 <script>
@@ -70,6 +75,9 @@ import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 export default {
     data () {
         return {
+            loading:true,
+            treeheight: document.body.offsetHeight - 200,
+            dataTree: [],
             // 导入的mt名称
             imp_mt: "empEmpupd.importData",
             // 导出的mt名称
@@ -90,14 +98,14 @@ export default {
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
                     { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
-    { key: "empnhIdno", title: "身份证号码", width : 220},
-    { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
-    { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
-    { key: "empupdResaddr", title: "居住详细地址", width : 220},
-    { key: "empnhSalbankDis", title: "开户银行",width : 220},
-    { key: "empupdSalcount", title: "银行账号", width : 220},
-    { key: "empupdSalcname", title: "户名", width : 220},
-    { key: "empupdReason", title: "未通过原因", width : 220},
+                { key: "empnhIdno", title: "身份证号码", width : 220},
+                { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
+                { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
+                { key: "empupdResaddr", title: "居住详细地址", width : 220},
+                { key: "empnhSalbankDis", title: "开户银行",width : 220},
+                { key: "empupdSalcount", title: "银行账号", width : 220},
+                { key: "empupdSalcname", title: "户名", width : 220},
+                { key: "empupdReason", title: "未通过原因", width : 220},
 
             ],
             // 表格获取数据mt名称
@@ -118,7 +126,7 @@ export default {
             searchParams: {
             	empnhName: "",
                 empnhIdno: "",
-
+                deptId:"",
             },
             typeCode: "",
             //弹出选择框
@@ -148,7 +156,7 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-        
+        this.getTree();
     },
     methods: {
         //获取列表项字段
@@ -214,7 +222,122 @@ export default {
         //修改流程状态
         modityChange () {
             this.$refs.commonPage.modityChange()
+            this.getTree();
         },
+
+        //获取树
+        getTree () {
+            const t = this;
+            const data = {
+                _mt: "orgUnits.getTree",
+                rows: "100",
+                page: "1",
+                sort: "unitCode",
+                order: "asc",
+                logType: this.$t("button.ser"),
+                id: "0",
+                state: t.modity
+            };
+            for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
+            getDataLevelUserLoginNew(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        setTimeout(() => {
+                            t.dataTree = t.toTree(res.data.content[0].value);
+                        }, 500);
+                    }
+                })
+                .catch(() => {
+                    this.$Message.error('网络错误');
+                })
+                .finally(() => {
+                    t.loading = false;
+                })
+        },
+
+         selectChange (e) {
+            // debugger;
+            this.treeid = e.id;
+            // this.treeType = e.unitType;
+            this.page = 1;
+
+            this.searchParams.deptId = e.id;
+            this.search();
+        },
+
+        /* 把后台数据转化为tree的格式 */
+        toTree (data) {
+            data.forEach(item => {
+                item.expand = false;
+                item.checked = item.authRoleFunDis === "1";
+                item.title = item.unitCode + " " + item.unitFname;
+                delete item.children;
+            });
+            const map = {};
+            data.forEach(item => {
+                map[item.id] = item;
+            });
+            const val = [];
+            data.forEach(item => {
+                const parent = map[item.unitPid];
+                if (parent) {
+                    (parent.children || (parent.children = [])).push(item);
+                } else {
+                    val.push(item);
+                }
+            });
+            return val;
+        },
+
+           // 渲染树状图
+        renderContent (h, { root, node, data }) {
+            return h(
+                "span",
+                {
+                    style: {
+                        display: "inline-block",
+                        width: "100%"
+                    }
+                },
+                [
+                    h(
+                        "Button",
+                        {
+                            props: {
+                                type: "text",
+                                size: "small"
+                            },
+                            on: {
+                                click: () => {
+                                    this.selectChange(data);
+                                }
+                            }
+                        },
+                        [
+                            h("Icon", {
+                                props: {
+                                    type:
+                                        data.unitType === "01company"
+                                            ? "social-buffer"
+                                            : "ios-people",
+                                    size: "15",
+                                    color: data.unitType === "01company" ? "#3399ff" : "#ff9900"
+                                },
+                                style: {
+                                    marginRight: "8px"
+                                }
+                            }),
+                            h("span", data.title)
+                        ]
+                    )
+                ]
+            );
+        },
+
         //获取下拉列表数据
         getSelectValue () {
             const t = this;
@@ -242,5 +365,19 @@ export default {
 }
 .margin-right-10 {
     margin-right: 10px;
+}
+.colTree {
+    /*min-height: 600px;*/
+    max-height: 100%;
+    overflow-y: auto;
+    position: relative;
+    padding: 0 20px 0 0;
+}
+.divtree {
+    padding-left: 10px;
+    box-sizing: border-box;
+    /*height: 750px;*/
+    overflow: auto;
+    border: 1px #efefef solid;
 }
 </style>
