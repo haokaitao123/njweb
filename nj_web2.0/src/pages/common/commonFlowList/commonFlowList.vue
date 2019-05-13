@@ -290,7 +290,8 @@ export default {
             }
             t.loading = true;
             const rcdata = {
-              curStep:t.curStep
+              curStep:t.curStep,
+              flowId:"1023"
             };
             var rcvdata="";
             if(rcdata.curStep===""){
@@ -299,7 +300,7 @@ export default {
               rcvdata=JSON.stringify(rcdata)
             }
             getDataLevelUserLogin({
-                _mt: 'platAutoLayoutGetFlowList.getPage',
+                _mt: 'platAutoLayoutGetFlowList.getFlowSta',
                 sort: t.sort,
                 order: t.order,
                 rows: t.rows,
