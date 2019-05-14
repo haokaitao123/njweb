@@ -122,7 +122,7 @@ export default {
             step: [],
             titleName: '',
             loading: "",
-            curStep:'',
+            curStep: '',
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -161,6 +161,14 @@ export default {
                 if (isSuccess(res, t)) {
                     let aa = []
                     t.dropdownMenuList = res.data.content[0].rwls;
+                    if (res.data.content[0].rwls.length > 0) {
+                        t.dropdownMenuList = res.data.content[0].rwls;
+                        let obj = {
+                            id: '',
+                            flstepName: '全部'
+                        }
+                        t.dropdownMenuList.push(obj)
+                    }
                     t.flowId = res.data.content[0].flowId
                     t.btns = res.data.content[0].btns
                     t.titleName = res.data.content[0].flowName
@@ -290,13 +298,13 @@ export default {
             }
             t.loading = true;
             const rcdata = {
-              curStep:t.curStep
+                curStep: t.curStep
             };
-            var rcvdata="";
-            if(rcdata.curStep===""){
-              rcvdata=""
-            }else{
-              rcvdata=JSON.stringify(rcdata)
+            var rcvdata = "";
+            if (rcdata.curStep === "") {
+                rcvdata = ""
+            } else {
+                rcvdata = JSON.stringify(rcdata)
             }
             getDataLevelUserLogin({
                 _mt: 'platAutoLayoutGetFlowList.getPage',

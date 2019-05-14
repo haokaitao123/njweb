@@ -433,15 +433,15 @@ export const isSuccess = (data, t) => {
       return false;
     }
   } else if (apicode !== 0) {
-    if (apicode === -100 || apicode === -120 || apicode === -140 || apicode === -200 || apicode === -280 || apicode === -300 || apicode === -360) {
+    if (apicode === -100 || apicode === -120 || apicode === -140 || apicode === -200 || apicode === -280) {
       // t.$Message.error("网络错误");
       t.$Message.error(data.data.stat.stateList[0].desc);
+    } else if (apicode === -180 || apicode === -300 || apicode === -320 || apicode === -340 || apicode === -360 || apicode === -380 || apicode === -370 || apicode === -163 || apicode === -162 || apicode === -160) {
+      //   layer.closeAll() //关闭即时通讯
+      t.$router.push('/loginmain/login');
+      //   t.$Message.warning('请重新登录');
     } else {
       t.$Message.error(data.data.stat.stateList[0].desc);
-    }
-    if (apicode === -300 || apicode === -320 || apicode === -340 || apicode === -360 || apicode === -380 || apicode === -370 || apicode === -163) {
-      layer.closeAll() //关闭即时通讯
-      t.$router.push('/loginmain/login')
     }
     return false;
   }
