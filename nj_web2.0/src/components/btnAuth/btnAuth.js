@@ -265,6 +265,9 @@ export default {
         case "不通过":
           name = 'buttonInAdopt'
           break
+        case "异动":
+          name = 'buttonTrans'
+          break
       }
       return name;
     },
@@ -356,7 +359,11 @@ export default {
         case "button_inadopt":
           btnName = '不通过';
           bType = 'error';
-          break    
+          break
+        case "button_trans":
+          btnName = '异动';
+          bType = 'success';
+          break
       }
       let obj = {
         "bType": bType,
