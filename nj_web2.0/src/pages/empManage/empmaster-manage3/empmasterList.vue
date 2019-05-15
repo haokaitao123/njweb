@@ -1,4 +1,4 @@
-﻿<template>
+<template>
     <div class="table">
         <Row>
             <Col span="24">
@@ -45,7 +45,9 @@
                                  @moditySelect="modityChange"
                                  @buttonEmp="changeState('入职')"
                                  @buttonDel="deletemsg"
-                                 @buttonSubmit="changeState('提交')"></btnList>
+                                 @buttonSubmit="changeState('提交')"
+								 @buttonTrans="buttonTrans"
+								 ></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -125,6 +127,13 @@
                          @changeinput="changeinput"
                          ref="searchTable"></searchTable>
         </transition>
+		<transition name="fade">
+		    <transaction v-show="openTransaction"
+						:id = "tableselected"
+						:logType="logType"
+						@closeTransaction="closeTransaction"
+		                ref="transactionWindow"></transaction>
+		</transition>
     </div>
 </template>
 <script>
@@ -134,7 +143,8 @@ import expwindow from "../../../components/fileOperations/expSms";
 import expdow from "../../../components/fileOperations/expdow";
 import importExcel from "../../../components/importModel/importParam";
 import btnList from "../../../components/btnAuth/btnAuth";
-import searchTable from '../../../components/searchTable/searchPost'
+import searchTable from '../../../components/searchTable/searchPost';
+import transaction from './transaction';
 import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin
@@ -185,6 +195,7 @@ export default {
             openImport: false,
             openExpDow: false,
             openExp: false,
+			openTransaction:false,
             filekey: "",
             filename: "",
             // 子页面参数
@@ -408,7 +419,8 @@ export default {
                 state: '02valid',
             },
             state: this.modity,
-            tableOperate: false
+            tableOperate: false,
+			
         };
     },
     computed: {
@@ -451,7 +463,8 @@ export default {
         expwindow,
         expdow,
         importExcel,
-        searchTable
+        searchTable,
+		transaction
     },
     mounted () {
         this.getData();
@@ -830,6 +843,13 @@ export default {
             t.postName = name
             t.postId = id
         },
+		//异动
+		buttonTrans(){
+			this.openTransaction =true;
+		},
+		closeTransaction(){
+			this.openTransaction =false;
+		}
     }
 };
 </script>
