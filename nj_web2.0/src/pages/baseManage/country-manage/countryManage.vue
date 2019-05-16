@@ -21,7 +21,7 @@
         </row>
         <Row style="display: flex">
            <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
-          <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button>
+          <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button>
         </Row>
       </card>
       </i-Col>
@@ -217,6 +217,10 @@
         t.openExpDow = openExpDow
         t.$refs.expdow.getPriToken(t.filekey)
       },
+      search() {
+      this.getData(1);
+      this.tableselected = [];
+    },
       addNewArray(res) {
         const t = this
         t.data.unshift(res)

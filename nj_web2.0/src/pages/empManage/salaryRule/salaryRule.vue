@@ -282,7 +282,7 @@ export default {
     //获取当前列表数据
     getData(page) {
       const t = this;
-      this.page = "1"
+      this.page = 1;
       if (page) {
         t.page = page;
       }

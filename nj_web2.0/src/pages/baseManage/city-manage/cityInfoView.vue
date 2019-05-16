@@ -130,10 +130,10 @@
           cityCode3: '',
           cityPid: '',
           cityType: '',
-          cityIsvalid: '',
-          cityIssb: '',
-          cityIshf: '',
-          cityIstax: '',
+          cityIsvalid: "0",
+          cityIssb: "0",
+          cityIshf: "0",
+          cityIstax: "0",
           comment: '',
         },
         query: '',
@@ -168,6 +168,9 @@
           ],
           cityType: [
             { required: true, message: this.$t('lang_baseManage.baseCity.cityTypeNameDis'), trigger: 'blur' },
+          ],
+          cityPname: [
+            { required: true, message: this.$t('lang_baseManage.baseCity.cityPnameDis'), trigger: 'blur' },
           ],
         },
       }
