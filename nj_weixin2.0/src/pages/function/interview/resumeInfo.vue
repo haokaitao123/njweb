@@ -14,16 +14,18 @@
                    class="form">
                 <!-- 应聘岗位 -->
                 <div class="item_box">
-                    <x-input title="应聘岗位<span>*</span>"
-                             v-model.trim="form.relibApplypost"
-                             v-verify="form.relibApplypost"
-                             :show-clear="false"
-                             placeholder="请填写">
-                    </x-input>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.relibApplypost==''"
-                          v-remind="form.relibApplypost"></icon>
+					<cell title=""
+						        is-link
+						        value-align="left"
+						        v-model="relibApplypostDis"
+						        v-verify="form.relibApplypost"
+						        @click.native="popupClick('relibApplypostShow')">
+						      <div slot="title">应聘岗位<span>*</span></div>
+						  </cell>
+						  <icon type="warn"
+						        class="error"
+						        v-show="relibApplypostDis=='请选择'"
+						        v-remind="form.relibApplypost"></icon>
                 </div>
                 <!-- 身份 -->
                 <div class="item_box">
@@ -473,7 +475,8 @@
                 </div>
 
             </group>
-            <div class="save_button">
+            <div class="save_button"
+                 v-if="curStep==='初试'">
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
@@ -685,23 +688,39 @@
                                  @confirm="confirm"
                                  @cancel="cancel" />
         </van-popup>
-		<van-popup v-model="educationShow"
+		<!-- 教育信息 -->
+        <van-popup v-model="educationShow"
+                   position="right"
+                   :close-on-click-overlay=false
+                   class="right_popup">
+            <education :id=currentId
+                       @cancel="closeRight('educationShow')"
+                       v-if='educationShow'></education>
+        </van-popup>
+		<!-- 家庭状况 -->
+        <van-popup v-model="familyShow"
+                   position="right"
+                   :close-on-click-overlay=false
+                   class="right_popup">
+            <family :id=currentId
+                    @cancel="closeRight('familyShow')"
+                    v-if='familyShow'></family>
+        </van-popup>
+		<!-- 工作经历 -->
+        <van-popup v-model="workExpShow"
+                   position="right"
+                   :close-on-click-overlay=false
+                   class="right_popup">
+            <workExp :id=currentId
+                     @cancel="closeRight('workExpShow')"
+                     v-if='workExpShow'></workExp>
+        </van-popup>
+		 <!-- 岗位 -->
+		<van-popup v-model="relibApplypostShow"
 		           position="right"
-				   :close-on-click-overlay=false
 		           class="right_popup">
-		    <education :id=currentId @cancel="closeRight('educationShow')" v-if='educationShow'></education>
-		</van-popup>
-		<van-popup v-model="familyShow"
-		           position="right"
-				   :close-on-click-overlay=false
-		           class="right_popup">
-		    <family :id=currentId @cancel="closeRight('familyShow')" v-if='familyShow'></family>
-		</van-popup>
-		<van-popup v-model="workExpShow"
-		           position="right"
-				   :close-on-click-overlay=false
-		           class="right_popup">
-		    <workExp :id=currentId @cancel="closeRight('workExpShow')" v-if='workExpShow'></workExp>
+		    <searchPost @inputPost="inputPost"
+		                :currentId="currentPostId"></searchPost>
 		</van-popup>
     </div>
 </template>
@@ -714,13 +733,16 @@ import city from '@/lib/cityData'
 import education from '@/pages/function/interview/educationMes'
 import family from '@/pages/function/interview/family'
 import workExp from '@/pages/function/interview/workExp.vue'
+import searchPost from '@/components/search/searchPost'
 export default {
     data () {
         return {
-			currentId:'',
-			educationShow:false,
-			familyShow:false,
-			workExpShow:false,
+            curStep: "",
+            currentId: '',
+			currentPostId:"",
+            educationShow: false,
+            familyShow: false,
+            workExpShow: false,
             curDom: "",
             curDomShow: "",
             relibBirtdayDate: new Date(),
@@ -771,6 +793,7 @@ export default {
                 relibEnrorage: "",                  //招生范围
                 relibIsgradu: "",                   //是否毕业
             },
+			relibApplypostDis:'请选择',						//岗位
             relibIdentityDis: '请选择',                     //身份
             relibGenderDis: '请选择',                       //性别
             relibNatalityDis: '请选择',                     //民族
@@ -787,6 +810,7 @@ export default {
             relibIscomDis: '请选择',                        //是否服从调配
             relibEnrorageDis: '请选择',                     //招生范围
             relibIsgraduDis: '请选择',                      //是否毕业 
+			relibApplypostShow:false,
             relibIdentityShow: false,
             relibGenderShow: false,
             relibNatalityShow: false,
@@ -865,9 +889,10 @@ export default {
         XInput,
         Icon,
         XTextarea,
-		education,
-		family,
-		workExp
+        education,
+        family,
+        workExp,
+		searchPost
     },
     mounted () {
         this.getSelect();
@@ -879,8 +904,8 @@ export default {
     },
     methods: {
         goTo (name, id) {
-			this[name]= true;
-			this.currentId = id;
+            this[name] = true;
+            this.currentId = id;
             // this.$router.push({ name: name, query: { id: id } })
         },
         //保存
@@ -899,17 +924,17 @@ export default {
                 }
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
-						t.$notify({
-							message: '保存成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
+                        t.$notify({
+                            message: '保存成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
                     }
                 }).catch(() => {
-                     t.$notify({
-                    	message: '网络错误',
-                    	duration: 1500,
-                    	background: '#f44'
+                    t.$notify({
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
                     });
                 }).finally(() => {
                     t.$store.commit('hideLoading');
@@ -972,10 +997,10 @@ export default {
                     t.selectData(data[12].paramList, "selectRelibIstattoo");
                 }
             }).catch(() => {
-                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             }).finally(() => {
                 t.$store.commit('hideLoading');
@@ -1014,6 +1039,7 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "data");
+                    t.curStep = !data.curStepDis ? "" : data.curStepDis;
                     t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
                     t.form.relibIdentity = data.relibIdentity;
                     t.form.relibName = !data.relibName ? "" : data.relibName;
@@ -1090,10 +1116,10 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
@@ -1114,11 +1140,11 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});          
-			}).finally(() => {
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
                 t.$store.commit('hideLoading');
             });
         },
@@ -1138,11 +1164,11 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});      
-			}).finally(() => {
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
                 t.$store.commit('hideLoading');
             });
         },
@@ -1162,11 +1188,11 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});  
-			}).finally(() => {
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
                 t.$store.commit('hideLoading');
             });
         },
@@ -1204,17 +1230,24 @@ export default {
                 }
             }
         },
-		//取消添加
-		closeRight(dom){	
-			if(dom==='educationShow'){
-				this.getEducation();
-			}else if(dom==='familyShow'){
-				this.getFamily();
-			}else if(dom==='workExpShow'){
-				this.getWorkExp();
-			}
-			this[dom]=false;			
-		}
+        //取消添加
+        closeRight (dom) {
+            if (dom === 'educationShow') {
+                this.getEducation();
+            } else if (dom === 'familyShow') {
+                this.getFamily();
+            } else if (dom === 'workExpShow') {
+                this.getWorkExp();
+            }
+            this[dom] = false;
+        },
+		 //岗位弹出框选中事件
+		inputPost (res) {
+		    console.log(res, "res")
+		    this.relibApplypostShow = false;
+		    this.form.relibApplypost = res.id;
+		    this.relibApplypostDis = res.postFname;
+		},
     },
 }
 </script>
@@ -1286,12 +1319,12 @@ export default {
     }
 }
 .van-popup--right {
-	top: 50% !important;
+    top: 50% !important;
 }
 .right_popup {
-	width: 100%;
-	height: 100%;
-	overflow: scroll;
-	-webkit-overflow-scrolling: touch;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 </style>

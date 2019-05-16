@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="searchWrap">
-            <van-search v-model="empnhName"
+            <van-search v-model="postFname"
                         placeholder="请输入员工姓名"
                         show-action
                         shape="round"
@@ -23,8 +23,8 @@
                            class="form childForm">
                         <div class="item_box"
                              v-for="item in list">
-                            <cell :value=item.empnhName
-                                  :class="currentId ===item.empnhId?'active':'' "
+                            <cell :value=item.postFname
+                                  :class="currentId ===item.postId?'active':'' "
                                   @click.native="changeCountry(item)"
                                   is-link>
                             </cell>
@@ -49,7 +49,7 @@ export default {
         return {
             list: [],
             sort: 'id',
-            order: 'asc',
+            order: 'desc',
             rows: 20,
             page: 1,
             isLoading: false,   //是否处于下拉刷新状态
@@ -57,7 +57,7 @@ export default {
             finished: false,  //是否已加载完所有数据
             totalPage: 0,
             results: [],
-            empnhName: ''
+            postFname: ''
         }
     },
     components: {
@@ -76,17 +76,17 @@ export default {
         async getData () {
 			const t = this;
             const data = {
-				_mt: 'empEmpnh.getPage',
+				_mt: 'orgPost.getPage',
 				sort: t.sort,
 				order: t.order,
 				rows: t.rows,
 				page: t.page,
-				state: '02empstate',
 				funId:1,
-				companyId: pubsource.companyId,
-				logType: '员工弹出框',
+				state:'02valid',
+				// companyId: pubsource.companyId,
+				logType: '岗位',
 			}
-			data.empnhName = t.empnhName
+			data.postFname = t.postFname
 			for (const dat in data) {
 				if (data[dat] === '') {
 					delete data[dat]
@@ -147,7 +147,7 @@ export default {
         },
         //选中
         changeCountry (item) {
-            this.$emit('inputEmp', item);
+            this.$emit('inputPost', item);
         },
         onSearch () {
 			this.onRefresh()

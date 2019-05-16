@@ -144,6 +144,14 @@ const router = new Router({
       }
     },
     {
+      path: '/empChangeDeatail',
+      name: 'empChangeDeatail',
+      component: resolve => require(['@/pages/function/employInfoChange/empChangeDeatail'], resolve),
+      meta: {
+        title: '员工信息修改'
+      }
+    },
+    {
       path: '/empContractRenewal',
       name: 'empContractRenewal',
       component: resolve => require(['@/pages/function/empContractRenewal/empContractRenewal'], resolve),
@@ -175,6 +183,14 @@ const router = new Router({
         title: '员工离职申请'
       }
     },
+		 {
+		  path: '/survey',
+		  name: 'survey',
+		  component: resolve => require(['@/pages/function/dimission/survey'], resolve),
+		  meta: {
+		    title: '问卷调查'
+		  }
+		},
     {
       path: '/informNotice',
       name: 'informNotice',
@@ -236,23 +252,21 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let isLogin = window.localStorage.getItem('token');
   let empId = window.localStorage.getItem('empId');
-  // console.log(isLogin, "isLogin");
-  // console.log(to.name, 'name')
-  // if (to.name !== 'login') {
-  //   if (!isLogin || !empId) {
-  //     router.push({
-  //       name: 'login'
-  //     })
-  //   }
-  // }
-  // // 已登录状态；当路由到login时，跳转至home 
-  // if (to.name === 'login') {
-  //   if (isLogin && empId) {
-  //     router.push({
-  //       name: 'function'
-  //     });
-  //   }
-  // }
+  if (to.name !== 'login') {
+    if (!isLogin || !empId) {
+      router.push({
+        name: 'login'
+      })
+    }
+  }
+  // 已登录状态；当路由到login时，跳转至home 
+  if (to.name === 'login') {
+    if (isLogin && empId) {
+      router.push({
+        name: 'function'
+      });
+    }
+  }
   next();
 });
 

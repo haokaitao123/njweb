@@ -61,6 +61,22 @@
                           v-show="form.relibFilldate=='请选择'?true:false"
                           v-remind="form.relibFilldate"></icon>
                 </div>
+				 <!-- 初试意见 -->
+				<x-textarea :max="300"
+				            title="初试意见"
+				            :height="95"
+				            v-model="relibFirstopin"
+				            placeholder="未填写"
+				            :show-counter="true"
+							v-if="curStepDis==='初试'&&curStepstate==='p_flowst_3'"></x-textarea>
+				<!-- 复试意见 -->
+				<x-textarea :max="300"
+							title="复试意见"
+							:height="95"
+							v-model="relibCheckopin"
+							placeholder="未填写"
+							:show-counter="true"
+							v-if="curStepDis==='复试'&&curStepstate==='p_flowst_3'"></x-textarea>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
@@ -74,6 +90,7 @@
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
+                          :disabled="curStep"
                           action-type="button">保存</x-button>
             </div>
 
@@ -106,6 +123,8 @@ import { Group, Cell, XInput, XTextarea, Icon, Popup } from 'vux'
 export default {
     data () {
         return {
+			curStepDis:"",
+			curStepstate:"",
             curDom: "",
             curDomShow: "",
             relibFilldateDate: new Date(),
@@ -123,6 +142,11 @@ export default {
             relibGenderIndex: 0,
             relibGenderShow: false,
             relibFilldateShow: false,
+            curStep: false,
+			saveState:false,
+			relibFirstopin:"",
+			relibCheckopin:"",
+			idRecord:""
         }
     },
     verify: {
@@ -147,17 +171,20 @@ export default {
     },
     methods: {
         //保存
-        save () {
+        async save () {
             const t = this;
-            if (this.$verify.check()) {
+            if (t.$verify.check()) {
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitProcess.addRecruit";
                 data.companyId = pubsource.companyId;
                 data.userId = window.localStorage.getItem('uid');
-                let listId = this.$route.query.id;
+                let listId = t.$route.query.id;
                 if (listId !== undefined) {
                     data.pkValue = listId
+					t.saveState = true;
                 } else {
+					await t.haveRecruit();
+					data.idRecord = t.idRecord;
                     data.pkValue = 0
                 }
                 for (const dat in data) {
@@ -165,29 +192,70 @@ export default {
                         delete data[dat];
                     }
                 }
-                getDataLevelUserLoginNew(data).then(res => {
-                    if (isSuccess(res, t)) {
-                        console.log(res, "res");
-						t.$notify({
-							message: '保存成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
-                        this.$router.push({
-                            name: 'interview'
-                        })
-                    }
-                }).catch(() => {
-                    t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
+				console.log(t.saveState,"t.saveState")
+				if(t.saveState){
+					getDataLevelUserLoginNew(data).then(res => {
+					    if (isSuccess(res, t)) {
+					        console.log(res, "res");
+					        t.$notify({
+					            message: '保存成功',
+					            duration: 1500,
+					            background: '#1989fa'
+					        });
+					        this.$router.push({
+					            name: 'interview'
+					        })
+					    }
+					}).catch(() => {
+					    t.$notify({
+					        message: '网络错误',
+					        duration: 1500,
+					        background: '#f44'
+					    });
+					}).finally(() => {
+						t.saveState = false;
+					    t.$store.commit('hideLoading');
 					});
-                }).finally(() => {
-                    t.$store.commit('hideLoading');
-                });
+				}
             }
         },
+		//是否面试过
+		async haveRecruit(){
+			const t = this;
+			const data = deepCopy(t.form);
+			data._mt = "wxRecruitProcess.getPersonInfo";
+			data.companyId = pubsource.companyId;
+			data.userId = window.localStorage.getItem('uid');
+			await getDataLevelUserLoginNew(data).then(res => {
+				if (isSuccess(res, t)) {
+					let data = JSON.parse(res.data.content[0].value);
+					console.log(data,"data");
+					if(JSON.stringify(data) !== "{}"){
+						let num = data.times;
+						let reason = data.reason?data.reason:'无';
+						t.idRecord = data.id;
+						t.$dialog.alert({
+							message:    `<div style="line-height:1.2;text-align:left">
+												<p style="margin-bottom:10px"><b >面试次数：</b>${num}次</span>
+												<p style="line-height:1.5"><b >未通过原因：</b>${reason}</p>
+										</div>`
+						}).then(() => {			
+							t.saveState = true;
+						});
+					}else{
+						t.saveState = true;
+					}
+				}
+			}).catch(() => {
+				t.$notify({
+					message: '网络错误',
+					duration: 1500,
+					background: '#f44'
+				});
+			}).finally(() => {
+				t.$store.commit('hideLoading');
+			});
+		},
         //底部弹出
         popupClick (domShow, dom) {
             this.curDom = dom;
@@ -226,6 +294,16 @@ export default {
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
+                    console.log(data, "data");
+                    if (data.curStepDis === '初试' && data.curStepstate !== 'p_flowst_3') {
+                        t.curStep = false;
+                    } else {
+                        t.curStep = true;
+                    }
+					t.curStepDis = data.curStepDis;
+					t.curStepstate = data.curStepstate;
+					t.relibFirstopin = data.relibFirstopin?data.relibFirstopin:'';
+					t.relibCheckopin = data.relibCheckopin?data.relibCheckopin:'';
                     t.form.relibName = data.relibName;
                     t.form.relibGender = data.relibGender;
                     t.form.relibMobile = data.relibMobile;
@@ -233,16 +311,16 @@ export default {
                     t.form.note = data.note;
                     t.relibGenderDis = data.relibGenderDis;
                     t.relibFilldateDate = new Date(data.relibFilldate);
-					t.minRelibFilldate = new Date(data.relibFilldate.getTime()- 24*60*60*1000);
+                    t.minRelibFilldate = new Date(new Date(data.relibFilldate));
                     t.setSelectValue(data.relibGenderDis, 'selectGender', 'relibGenderIndex');
 
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });;
@@ -258,10 +336,10 @@ export default {
                     t.selectData(res.data.content[0].value[0].paramList, "selectGender");
                 }
             }).catch(() => {
-                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             }).finally(() => {
                 t.$store.commit('hideLoading');

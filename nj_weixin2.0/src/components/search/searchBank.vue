@@ -1,8 +1,8 @@
 <template>
     <div class="search">
         <div class="searchWrap">
-            <van-search v-model="empnhName"
-                        placeholder="请输入员工姓名"
+            <van-search v-model="bankCname"
+                        placeholder="请输入银行名称"
                         show-action
                         shape="round"
                         @search="onSearch">
@@ -12,7 +12,6 @@
             <van-pull-refresh v-model="isLoading"
                               @refresh="onRefresh"
                               class="listWrap">
-
                 <van-list v-model="loading"
                           :finished="finished"
                           finished-text=""
@@ -23,9 +22,9 @@
                            class="form childForm">
                         <div class="item_box"
                              v-for="item in list">
-                            <cell :value=item.empnhName
-                                  :class="currentId ===item.empnhId?'active':'' "
-                                  @click.native="changeCountry(item)"
+                            <cell :value=item.bankCname
+                                  :class="currentId ===item.id?'active':'' "
+                                  @click.native="changeBank(item)"
                                   is-link>
                             </cell>
                         </div>
@@ -49,7 +48,7 @@ export default {
         return {
             list: [],
             sort: 'id',
-            order: 'asc',
+            order: 'desc',
             rows: 20,
             page: 1,
             isLoading: false,   //是否处于下拉刷新状态
@@ -57,7 +56,7 @@ export default {
             finished: false,  //是否已加载完所有数据
             totalPage: 0,
             results: [],
-            empnhName: ''
+            bankCname: ''
         }
     },
     components: {
@@ -76,17 +75,16 @@ export default {
         async getData () {
 			const t = this;
             const data = {
-				_mt: 'empEmpnh.getPage',
+				_mt: 'baseBankinfo.getPage',
 				sort: t.sort,
 				order: t.order,
 				rows: t.rows,
 				page: t.page,
-				state: '02empstate',
-				funId:1,
 				companyId: pubsource.companyId,
-				logType: '员工弹出框',
+				funId:1,
+				logType: '开户银行',
 			}
-			data.empnhName = t.empnhName
+			data.bankCname = t.bankCname
 			for (const dat in data) {
 				if (data[dat] === '') {
 					delete data[dat]
@@ -146,8 +144,8 @@ export default {
 			this.getData();
         },
         //选中
-        changeCountry (item) {
-            this.$emit('inputEmp', item);
+        changeBank (item) {
+            this.$emit('inputBank', item);
         },
         onSearch () {
 			this.onRefresh()
