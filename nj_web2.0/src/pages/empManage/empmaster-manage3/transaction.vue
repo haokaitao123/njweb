@@ -56,6 +56,17 @@
                         </span>
                     </FormItem>
                     </Col>
+                    <Col span="11"
+                         offset="1">
+                    <FormItem label="异动日期"
+                              prop="transDate">
+                        <DatePicker type="date"
+                                    placeholder="请输入异动日期"
+                                    :editable="false"
+                                    v-model="formValidate.transDate"
+                                    style="width: 100%"></DatePicker>
+                    </FormItem>
+                    </Col>
                 </Form>
             </div>
             <Button type="primary"
@@ -103,6 +114,7 @@ export default {
                 deptId: "",
                 postId: "",
                 pmpId: "",
+                transDate: "",
                 funId: "1",
             },
             unitFname: "",
@@ -177,6 +189,14 @@ export default {
                         trigger: "change"
                     }
                 ],
+                transDate: [
+                    {
+                        required: true,
+                        type: "date",
+                        message: "请选择日期",
+                        trigger: "change"
+                    }
+                ]
             }
         }
     },
@@ -201,6 +221,7 @@ export default {
                             const data = deepCopy(t.formValidate);
                             data.logType = t.logType;
                             data.ids = t.id.join();
+                            data.transDate = new Date(data.transDate).format("yyyy-MM-dd");
                             getDataLevelUserLogin(data).then(res => {
                                 if (isSuccess(res, t)) {
                                     t.$Message.success('异动成功');
@@ -226,6 +247,7 @@ export default {
             this.formValidate.postId = '';
             this.unitFname = "";
             this.formValidate.deptId = "";
+            this.formValidate.transDate = "";
         },
         //部门
         cleardeptId () {
