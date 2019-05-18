@@ -23,14 +23,14 @@ const emp_transtion = {
 
   transDeposit(node) {
     // debugger;
-
+/*
     node.$el.onblur =function(){
       alert(1)
     }
-
     node.$el.onblur = emp_transtion.transDeposit_dis(this.$parent);
     console.log(node,"node");
-    console.log(node.$el.onblur,"this.$parent");
+    console.log(node.$el.onblur,"this.$parent");*/
+    emp_transtion.transDeposit_dis(this.$parent);
   },
 
   transDate_set(t) {
@@ -45,13 +45,13 @@ const emp_transtion = {
     if (t.valueMap.transPostinfo) {
       if (t.$refs[t.valueMap.transPostinfo][0].formDataSubmit.transPostinfo === '0') {
         if (t.valueMap.transMan) {
+
           //交接人
           t.$refs[t.valueMap.transMan][0].$delete(t.$refs[t.valueMap.transMan][0].formshow, 'transMan')
           t.$refs[t.valueMap.transMan][0].$refs.transMan.thisValue = ''
-          //交接确认
-          t.$refs[t.valueMap.transHandok][0].$delete(t.$refs[t.valueMap.transHandok][0].formshow, 'transHandok')
-          t.$refs[t.valueMap.transHandok][0].$refs.transHandok.thisValue = ''
+
           //上传附件
+
           t.$refs[t.valueMap.fileKey][0].$delete(t.$refs[t.valueMap.fileKey][0].formshow, 'fileKey')
           t.$refs[t.valueMap.fileKey][0].$refs.fileKey.thisValue = ''
 
@@ -61,7 +61,7 @@ const emp_transtion = {
         if (t.valueMap.transMan) {
           t.$refs[t.valueMap.transMan][0].$set(t.$refs[t.valueMap.transMan][0].formshow, 'transMan', '')
 
-          t.$refs[t.valueMap.transHandok][0].$set(t.$refs[t.valueMap.transHandok][0].formshow, 'transHandok', '')
+
 
           t.$refs[t.valueMap.fileKey][0].$set(t.$refs[t.valueMap.fileKey][0].formshow, 'fileKey', '')
         }
@@ -91,6 +91,9 @@ const emp_transtion = {
          t.$refs[t.valueMap.transMan][0].$set(t.$refs[t.valueMap.transMan][0].formDataSubmit, 'transMan', '')
        }
 
+      if (t.valueMap.fileKey) {
+        t.$refs[t.valueMap.fileKey][0].$set(t.$refs[t.valueMap.fileKey][0].formDataSubmit, 'fileKey', '')
+      }
      }
   },
 
@@ -166,24 +169,12 @@ const emp_transtion = {
         }
       }
     }
-  }).catch(() => {
-      this.$Modal.error({
-      title: this.$t('reminder.err'),
-      content: this.$t('reminder.errormessage'),
+    }).catch(() => {
+        this.$Modal.error({
+        title: this.$t('reminder.err'),
+        content: this.$t('reminder.errormessage'),
+      })
     })
-  })
-
-/*  debugger;
-  if(result.unitPartfunct==='100'&& postData.postDfpslevel==='06Manager'){
-    if (t.valueMap.transDeposit) {
-      t.$refs[t.valueMap.transDeposit][0].$delete(t.$refs[t.valueMap.transDeposit][0].formshow, 'transDeposit')
-      t.$refs[t.valueMap.postIdnew][0].$refs.transDeposit.thisValue = ''
-    }
-  }else{
-    if (t.valueMap.transDeposit) {
-      t.$refs[t.valueMap.transDeposit][0].$set(t.$refs[t.valueMap.transDeposit][0].formshow, 'transDeposit', '')
-    }
-  }*/
   }
 
 }
