@@ -46,8 +46,7 @@
                                  @buttonEmp="changeState('入职')"
                                  @buttonDel="deletemsg"
                                  @buttonSubmit="changeState('提交')"
-								 @buttonTrans="buttonTrans"
-								 ></btnList>
+                                 @buttonTrans="buttonTrans"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -127,13 +126,13 @@
                          @changeinput="changeinput"
                          ref="searchTable"></searchTable>
         </transition>
-		<transition name="fade">
-		    <transaction v-show="openTransaction"
-						:id = "tableselected"
-						:logType="logType"
-						@closeTransaction="closeTransaction"
-		                ref="transactionWindow"></transaction>
-		</transition>
+        <transition name="fade">
+            <transaction v-show="openTransaction"
+                         :id="tableselected"
+                         :logType="logType"
+                         @closeTransaction="closeTransaction"
+                         ref="transactionWindow"></transaction>
+        </transition>
     </div>
 </template>
 <script>
@@ -195,7 +194,7 @@ export default {
             openImport: false,
             openExpDow: false,
             openExp: false,
-			openTransaction:false,
+            openTransaction: false,
             filekey: "",
             filename: "",
             // 子页面参数
@@ -228,11 +227,11 @@ export default {
                     align: "center"
                 },
                 {
-                  title: "证件号码",
-                  key: "empnhIdno",
-                  width: 180,
-                  align: "center",
-                  sortable: 'custom',
+                    title: "证件号码",
+                    key: "empnhIdno",
+                    width: 180,
+                    align: "center",
+                    sortable: 'custom',
                 },
 
 
@@ -249,10 +248,10 @@ export default {
                     align: "center"
                 },
                 {
-                  title: "唯一编号",
-                  key: "numberCode",
-                  width: 130,
-                  align: "center"
+                    title: "唯一编号",
+                    key: "numberCode",
+                    width: 130,
+                    align: "center"
                 },
                 {
                     title: "直接上级",
@@ -420,7 +419,7 @@ export default {
             },
             state: this.modity,
             tableOperate: false,
-			
+
         };
     },
     computed: {
@@ -464,7 +463,7 @@ export default {
         expdow,
         importExcel,
         searchTable,
-		transaction
+        transaction
     },
     mounted () {
         this.getData();
@@ -844,13 +843,17 @@ export default {
             t.postName = name
             t.postId = id
         },
-		//异动
-		buttonTrans(){
-			this.openTransaction =true;
-		},
-		closeTransaction(){
-			this.openTransaction =false;
-		}
+        //异动
+        buttonTrans () {
+            if (this.tableselected.length === 0) {
+                this.$Message.warning('请至少选择一条数据');
+            } else {
+                this.openTransaction = true;
+            }
+        },
+        closeTransaction () {
+            this.openTransaction = false;
+        }
     }
 };
 </script>

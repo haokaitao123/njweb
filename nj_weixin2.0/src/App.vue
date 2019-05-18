@@ -40,7 +40,7 @@ export default {
     created () {
         localStorage.getItem("data") && this.$store.replaceState(Object.assign(this.$store.state, JSON.parse(localStorage.getItem("data"))));
         window.addEventListener("beforeunload", () => {
-			this.$store.commit('hideLoading');
+            this.$store.commit('hideLoading');
             localStorage.setItem("data", JSON.stringify(this.$store.state))
         })
     },
@@ -217,19 +217,21 @@ span {
 .van-search__action {
     font-size: 28px;
 }
-.van-notify{
-	font-size: 30px;
-	padding: 10px;
-	line-height: 50px;
+.van-notify {
+    font-size: 30px;
+    padding: 10px;
+    line-height: 50px;
 }
-.van-dialog__message{
-	font-size: 30px;
-	padding: 60px 15px;
-	
+.van-dialog__message {
+    font-size: 30px;
+    padding: 60px 15px;
 }
-.van-button--large{
-	height: 100px;
-	line-height: 100px;
-	font-size:30px;
+.van-button--large {
+    height: 100px;
+    line-height: 100px;
+    font-size: 30px;
+}
+.weui-btn_disabled.weui-btn_primary {
+    background-color: #09fe !important;
 }
 </style>

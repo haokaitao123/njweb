@@ -2,7 +2,7 @@
     <div class="search">
         <div class="searchWrap">
 			<van-search v-model="countryCname"
-			            placeholder="请输入搜索关键词"
+			            placeholder="请输入国家名称"
 			            show-action
 			            shape="round"
 			            @search="onSearch">

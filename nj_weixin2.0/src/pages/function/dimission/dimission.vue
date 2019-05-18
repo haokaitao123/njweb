@@ -22,7 +22,7 @@
                         <span>申请日期：{{item.dimApplydate}}</span>
                     </div>
                     <div class="item_right">
-                        <span>{{item.curStepstate==='p_flowst_3'?'已确认':'待确认'}}</span>
+                        <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
                              @click="deleteItem($event,item.id,index)">
                             <img src="../../../../static/function/close.png"
@@ -62,7 +62,12 @@ export default {
             totalPage: 0,
             companyName: pubsource.companyName,
             finishedText: '',
-			btnName:'添加离职'
+			btnName:'添加离职',
+			curStepstate:{
+				'p_flowst_1':'待确认',
+				'p_flowst_2':'已确认',
+				'p_flowst_3':'已结束'
+			}
         }
     },
     components: {
@@ -230,6 +235,15 @@ export default {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-end;
+				.p_flowst_1 {
+				    color: #339afe;
+				}
+				.p_flowst_2 {
+				    color: green;
+				}
+				.p_flowst_3 {
+				    color: red;
+				}
                 .close {
                     height: 36px;
                     width: 36px;

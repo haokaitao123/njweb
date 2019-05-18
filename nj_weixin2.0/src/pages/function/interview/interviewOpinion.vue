@@ -37,7 +37,7 @@
                 <div class="item_box">
                     <cell title="初试是否通过"
                           is-link
-						  :disabled="disabled"
+                          :disabled="disabled"
                           value-align="left"
                           v-model="relibFirpassDis"
                           v-verify="form.relibFirpass"
@@ -113,8 +113,8 @@ export default {
             relibFirpassShow: false,
             relibFirsttmShow: false,
             saveStatus: true,
-			isRelibFirpass:false,
-			disabled:false,
+            isRelibFirpass: false,
+            disabled: false,
         }
     },
     verify: {
@@ -142,7 +142,7 @@ export default {
         //提交
         async submit () {
             await this.save();
-			console.log(this.saveStatus,'this.saveStatus')
+            console.log(this.saveStatus, 'this.saveStatus')
             const t = this;
             if (this.saveStatus) {
                 const data = {
@@ -153,35 +153,35 @@ export default {
                 }
                 getDataLevelUserLogin(data).then((res) => {
                     if (isSuccess(res, t)) {
-						t.$notify({
-							message: '提交成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
+                        t.$notify({
+                            message: '提交成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
                         this.$router.push({ name: 'interview' })
                     }
                 }).catch((err) => {
                     t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
                 }).finally(() => {
-					this.saveStatus = false;
+                    this.saveStatus = false;
                     t.$store.commit('hideLoading');
                 });
-            } 
+            }
         },
-		comfirmSubmit(){
-			this.$dialog.confirm({
-			  title: '',
-			  message: '是否确认提交？'
-			}).then(() => {
-				this.submit();
-			}).catch(() => {
-			  // on cancel
-			});
-		},
+        comfirmSubmit () {
+            this.$dialog.confirm({
+                title: '',
+                message: '是否确认提交？'
+            }).then(() => {
+                this.submit();
+            }).catch(() => {
+                // on cancel
+            });
+        },
         //保存
         async save () {
             const t = this;
@@ -204,10 +204,10 @@ export default {
                 }).catch(() => {
                     t.saveStatus = false
                     t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
                 }).finally(() => {
                     t.$store.commit('hideLoading');
                 });
@@ -230,48 +230,49 @@ export default {
                     console.log(data, "data");
                     if (!data.relibGenderDis) {
                         t.form.relibFirstopin += "性别信息为空、"
-						t.isRelibFirpass = true;
+                        t.isRelibFirpass = true;
                     } else if (!data.relibHeight) {
                         t.form.relibFirstopin += "身高不详、"
-						t.isRelibFirpass = true;
+                        t.isRelibFirpass = true;
                     } else {
                         if (data.relibGenderDis === '男') {
                             if (Number(data.relibHeight) < 165) {
                                 t.form.relibFirstopin += "身高不符合、"
-								t.isRelibFirpass = true;
+                                t.isRelibFirpass = true;
                             }
                         } else if (data.relibGenderDis === '女') {
                             if (Number(data.relibHeight) < 155) {
                                 t.form.relibFirstopin += "身高不符合、"
-								t.isRelibFirpass = true;
+                                t.isRelibFirpass = true;
                             }
                         }
                     }
                     if (!data.relibIdno) {
                         t.form.relibFirstopin += "年龄不详、"
-						t.isRelibFirpass = true;
+                        t.isRelibFirpass = true;
                     } else {
                         let birthYear = Number(data.relibIdno.substring(6, 10));
                         let nowYear = new Date().getFullYear();
                         if (nowYear - birthYear > 25 || nowYear - birthYear < 19) {
                             t.form.relibFirstopin += "年龄不符、"
-							t.isRelibFirpass = true;
+                            t.isRelibFirpass = true;
                         }
                     }
-					console.log(t.isRelibFirpass,'是否通过')
-					if(t.isRelibFirpass){
-						t.relibFirpassDis = '否';
-						t.disabled = true;
-						t.setSelectValue('否', 'selectRelibFirpass', 'relibFirpassIndex');
-					}
+                    console.log(t.isRelibFirpass, '是否通过')
+                    if (t.isRelibFirpass) {
+                        t.relibFirpassDis = '否';
+                        t.form.relibFirpass = '0';
+                        t.disabled = true;
+                        t.setSelectValue('否', 'selectRelibFirpass', 'relibFirpassIndex');
+                    }
                 }
             }).catch(() => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});          
-			}).finally(() => {
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
                 t.$store.commit('hideLoading');
             });
         },
@@ -310,10 +311,10 @@ export default {
                     t.selectData(res.data.content[0].value[0].paramList, "selectRelibFirpass");
                 }
             }).catch(() => {
-                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             });
         },

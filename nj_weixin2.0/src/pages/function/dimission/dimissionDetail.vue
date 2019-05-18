@@ -109,7 +109,7 @@
 				<x-textarea :max="300" title="备注" :height="95" v-model="form.note" placeholder="请填写" :show-counter="true"></x-textarea>
 
 			</group>
-			<div class="save_button">
+			<div class="save_button" v-if="curStepstate!=='p_flowst_3'">
 				<x-button type="default" class="x_button button_left" action-type="button" @click.native="save">保存</x-button>
 				<x-button type="primary" class="x_button" @click.native="comfirmSubmit">提交</x-button>
 			</div>
@@ -177,6 +177,7 @@
 	export default {
 		data() {
 			return {
+				curStepstate:"",
 				curDom: "",
 				curDomShow: "",
 				currentId: '',
@@ -426,6 +427,7 @@
 						t.form.dimLaswkday = data.dimLaswkday;
 						t.form.dimIsreceive = data.dimIsreceive;
 						t.form.note = data.note;
+						t.curStepstate = data.curStepstate;
 						t.empIdName = data.empIdName;
 						t.deptIdDis = data.deptIdDis;
 						t.postIdDis = data.postIdDis;
@@ -540,7 +542,7 @@
 	}
 
 	.right_popup {
-		width: 100%;
+		width: 80%;
 		height: 100%;
 	}
 </style>
