@@ -88,7 +88,7 @@
             { required: true, message: this.$t('lang_organization.orgcostcenter.cnameDis'), trigger: 'blur' },
           ],
           validdate: [
-            { required: true, type: 'date', message: this.$t('lang_organization.orgcostcenter.validdateDis'), trigger: 'change' },
+            { required: true, type: 'date', message: this.$t('lang_organization.orgcostcenter.validdateDis'), trigger: 'blur' },
           ],
         },
       }

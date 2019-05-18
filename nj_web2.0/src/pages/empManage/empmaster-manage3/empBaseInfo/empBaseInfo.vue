@@ -25,7 +25,9 @@
                               prop="empnhName">
                         <Input v-model="form.empnhName"
                                :disabled="disabled"
-                               placeholder="请输入雇员姓名"></Input>
+                               placeholder="请输入雇员姓名"
+                               @on-blur = "cop()"
+                               ></Input>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
@@ -311,7 +313,8 @@
                               prop="empnhSalaccname">
                         <Input v-model="form.empnhSalaccname"
                                :disabled="disabled"
-                               placeholder="请输入户号"></Input>
+                               placeholder="请输入户名"
+                               ></Input>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
@@ -1112,6 +1115,9 @@ export default {
                 .finally(() => {
                     t.spinShow = false
                 });;
+        },
+        cop(){
+            this.form.empnhSalaccname = this.form.empnhName;
         },
         //查询公共参数
         getSelect () {

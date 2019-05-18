@@ -441,7 +441,17 @@
       closeUp() {
         const t = this
         t.openUpdate = false
-        t.$refs.update.clear()
+        t.$refs.update.formValidate.empnhName  = "",
+        t.$refs.update.formValidate.empnhIdno  = '',
+        t.$refs.update.formValidate.empId = '',
+        t.$refs.update.formValidate.unitFname = '',
+        t.$refs.update.formValidate.deptId =  '',
+        t.$refs.update.formValidate.postFname  =  '',
+        t.$refs.update.formValidate.postId = '',
+        t.$refs.update.formValidate.empoffResult = '',
+        t.$refs.update.formValidate.note = '',
+        t.$refs.update.file = '',
+        t.$refs.update.note = ''
       },//关闭窗口
       selected(key, name) {
         this.select = name
