@@ -476,7 +476,7 @@
 
             </group>
             <div class="save_button"
-                 v-if="curStep==='初试'">
+                 v-if="curStep==='初试'&&curStepstate!=='p_flowst_3'">
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
@@ -738,6 +738,7 @@ export default {
     data () {
         return {
             curStep: "",
+			curStepstate:"",
             currentId: '',
 			currentPostId:"",
             educationShow: false,
@@ -1040,6 +1041,7 @@ export default {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "data");
                     t.curStep = !data.curStepDis ? "" : data.curStepDis;
+					t.curStepstate = !data.curStepstate ? "" : data.curStepstate;
                     t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
                     t.form.relibIdentity = data.relibIdentity;
                     t.form.relibName = !data.relibName ? "" : data.relibName;

@@ -24,11 +24,17 @@ import {
   Loading,
   search,
   ImagePreview,
-	Notify,
-	Dialog 
+  Notify,
+  Dialog,
+  RadioGroup,
+  Radio,
+	Checkbox, 
+	CheckboxGroup
 } from 'vant';
-Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).use(List).use(Loading).use(search).use(ImagePreview).use(Notify).use(Dialog);
-Notify.setDefaultOptions.duration ='1000'
+Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).
+use(List).use(Loading).use(search).use(ImagePreview).use(Notify)
+  .use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup);
+Notify.setDefaultOptions.duration = '1000'
 var myRules = {
   required: {
     test: function (val) {

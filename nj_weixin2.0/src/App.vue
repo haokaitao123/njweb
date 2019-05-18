@@ -234,4 +234,21 @@ span {
 .weui-btn_disabled.weui-btn_primary {
     background-color: #09fe !important;
 }
+.van-checkbox__icon .van-icon{
+	width: 32px!important;
+    height: 32px!important;
+	font-size: 32px;
+	// border: 1px solid #f5f5f5;
+	border: 0.013333rem solid #e8e8e8;
+}
+.van-checkbox__icon{
+	height: 36px;
+	line-height: 36px;
+}
+.van-checkbox{
+	margin-bottom: 15px;
+}
+.van-checkbox__label{
+	font-size: 28px;
+}
 </style>
