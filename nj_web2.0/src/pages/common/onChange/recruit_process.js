@@ -7,7 +7,6 @@ import { isSuccess } from '../../../lib/util'
 const recruit_process = {
   all_dis() {
     recruit_process.relibApplytype_dis(this)
-    recruit_process.relibFirstus_set(this)
     recruit_process.relibIsrelatives_dis(this)
     recruit_process.relibIsguaran_dis(this)
     recruit_process.relibReexamus_set(this)
