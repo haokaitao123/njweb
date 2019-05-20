@@ -848,6 +848,7 @@ export default {
             if (this.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
+                this.logType="批量异动";
                 this.openTransaction = true;
             }
         },

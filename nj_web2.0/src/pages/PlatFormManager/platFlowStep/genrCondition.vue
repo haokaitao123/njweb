@@ -255,7 +255,8 @@ export default {
     },
     methods: {
         changeinput1 (value, id) {
-            console.log()
+            console.log(value, "value");
+            console.log(id, "id")
             this.paramterValue = value
             this.thisId = id
         },
@@ -646,6 +647,16 @@ export default {
                         flvarFieldType: t.flvarFieldType,
                         selectParamVal: t.selectParamVal,
                     })
+                } else if (t.flvarFieldType === 'p_layout_13') {
+                    t.data.push({
+                        conditionValue: '"' + t.selectVariable + '"' + t.logOperatorValue + '"' + t.paramterValue + '"' + t.logOperatorType,
+                        sendValue: '"' + t.variableValue + '"' + t.sendParValue + '"' + t.thisId + '"' + t.sendOperTypeValue,
+                        index: t.arrIndex += 1,
+                        varParamOperType: t.varParamOperType,
+                        logOperatorType: t.logOperatorType,
+                        flvarFieldType: t.flvarFieldType,
+                        selectParamVal: t.selectParamVal,
+                    })
                 } else {
                     t.data.push({
                         conditionValue: '"' + t.selectVariable + '"' + t.logOperatorValue + '"' + t.paramterValue + '"' + t.logOperatorType,
@@ -657,6 +668,7 @@ export default {
                         selectParamVal: t.selectParamVal,
                     })
                 }
+                console.log(t.data, "t.data")
                 //					t.selectVariable = ''
                 //	    		t.logOperatorValue = ''
                 //	    		t.paramterValue = ''

@@ -44,7 +44,7 @@
                     <div class="button_box">
                         <button type="button"
                                 @click="getQrCode($event,item.id)"
-                                v-if="item.curStepDis==='初试'">预约二维码</button>
+                                v-if="item.curStepDis==='初试'&&item.curStepstate!=='p_flowst_3'">预约二维码</button>
                         <button type="button"
                                 v-if="item.curStepstate!=='p_flowst_3'&&item.curStepDis==='初试'"
                                 @click="submit($event,item.id)">提交</button>
