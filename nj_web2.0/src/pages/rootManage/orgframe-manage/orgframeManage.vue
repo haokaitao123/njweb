@@ -7,7 +7,7 @@
             <Icon type="mouse"></Icon>&nbsp;组织信息管理
           </p>
           <Row>
-            <Col span="6" class="colTree">
+            <Col span="5" class="colTree">
               <div class="divtree" :style="{height:treeheight + 'px'}">
                 <Tree
                   v-if="dataTree != ''"
@@ -18,7 +18,7 @@
                 <Spin v-if="loading" size="large" :style="{height:treeheight + 'px'}"></Spin>
               </div>
             </Col>
-            <Col span="18" style="width: 73.3333% !important">
+            <Col span="21" style="width: 73.3333% !important">
               <Row>
                 <Input placeholder="请输入组织名称" style="width: 200px" v-model="unitFname"/>
                 <Select v-model="unitType" style="width: 200px" placeholder="请选择组织类别" clearable>
@@ -177,6 +177,7 @@ export default {
         { code: "unitPname", name: "上级部门" },
         { code: "unitPartfunctName", name: "部门职能" },
         { code: "unitIndustryName", name: "行业" },
+        { code: "empnhName", name: "负责人" },
         { code: "unitCenterName", name: "成本中心" },
         { code: "unitCityName", name: "雇佣地点" },
         { code: "unitValdate", name: "生效日期" },
@@ -252,6 +253,11 @@ export default {
         {
           title: "行业",
           key: "unitIndustryName",
+          width: 140
+        },
+        {
+          title: "负责人",
+          key: "empnhName",
           width: 140
         },
         {
@@ -351,6 +357,7 @@ export default {
       unitCode: "",
       compFnameCnDis: "",
       treeid: "",
+      empnhName: "",
       unitFname: "",
       unitType: "",
       openPick: false,
@@ -584,7 +591,7 @@ export default {
       data.forEach(item => {
         item.expand = false;
         item.checked = item.authRoleFunDis === "1";
-        item.title = item.unitCode + " " + item.unitFname;
+        item.title = item.unitFname;
         delete item.children;
       });
       const map = {};
@@ -703,6 +710,7 @@ export default {
       t.$refs.update.formValidate.unitCode = "XXXXXX";
       t.$refs.update.formValidate.unitType = "";
       t.$refs.update.formValidate.unitFname = "";
+      t.$refs.update.formValidate.empId = "";
       t.$refs.update.formValidate.unitPid = "";
       t.$refs.update.formValidate.unitPartfunct = "";
       t.$refs.update.formValidate.unitIndustry = "";
@@ -721,6 +729,7 @@ export default {
       t.$refs.update.unitCenterName = "";
       t.$refs.update.unitCityName = "";
       t.$refs.update.unitPname = "";
+      t.$refs.update.empnhName = "";
     }, //关闭窗口
     selected(key, name) {
       this.select = name;

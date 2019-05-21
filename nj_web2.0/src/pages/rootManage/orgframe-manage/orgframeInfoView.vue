@@ -203,7 +203,21 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                     
+                     <i-col span="11">
+                            <FormItem label="负责人"
+                                      prop="empId">
+                                <!--绑定双击清除方法-->
+                                <span @dblclick="disabled?'':dbclean()">
+                                    <!--v-model绑定显示字段-->
+                                    <Input v-model="empnhName"
+                                           icon="search"
+                                           :readonly=true
+                                           :disabled="disabled "
+                                           placeholder="请选择负责人"
+                                           @on-click=" disabled ? '' :pickEmpData()" />
+                                </span>
+                            </FormItem>
+                        </i-col>
                         <i-col span="22">
                             <FormItem label="备注"
                                       prop="note">
@@ -249,11 +263,19 @@
                                  @changeinput="changeinput3"
                                  ref="searchOrgcostcenter"></searchOrgcostcenter>
         </transition>
+        <!--直接上級-->
+        <transition name="fade">
+            <searchEmpMaster v-show="openEmpMaster"
+                             @closeEmp="closeEmp"
+                             @inputEmp="inputEmp"
+                             ref="searchEmpMaster"></searchEmpMaster>
+        </transition>
     </div>
 </template>
 <script>
 import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
 import { isSuccess, deepCopy } from '../../../lib/util'
+import searchEmpMaster from "../../../components/searchTable/searchEmpnhMaster";
 import searchCity from '../../../components/searchTable/searchCity'
 import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import searchOrgcostcenter from '../../../components/searchTable/searchOrgcostcenter'
@@ -324,6 +346,7 @@ export default {
             formValidate: {
                 _mt: 'orgUnits.addOrModifyOrgUnits', //新增接口url
                 unitCode: 'XXXXXX',            //组织编码
+                empId:'',            //负责人
                 unitType: '',            //组织类型
                 unitFname: '',           //组织名称
                 unitPid: '',             //上级部门 
@@ -345,12 +368,14 @@ export default {
                 funId: '1',
                 logType: '',
             },
+            openEmpMaster: false,
             openPick: false,
             openPick2: false,
             openPick3: false,
             unitPname: '',
             unitCenterName: '',
             unitCityName: '',
+            empnhName:'',
             params: {
                 _mt: 'baseCity.getPage',
                 sort: 'id',
@@ -429,6 +454,9 @@ export default {
                 unitCode: [
                     { required: true, message: "请输入组织编码", trigger: 'blur' },
                 ],
+                // empId: [
+                //     { required: true, message: "请选择负责人", trigger: 'blur' },
+                // ],
                 unitType: [
                     { required: true, message: "请选择组织类型", trigger: 'blur' },
                 ],
@@ -474,6 +502,7 @@ export default {
         searchCity,
         searchOrgframe,
         searchOrgcostcenter,
+        searchEmpMaster
     },
     updated () {
 
@@ -485,6 +514,12 @@ export default {
 
     },
     methods: {
+         //上级清除员工选择
+        dbclean () {
+            const t = this;
+            t.empnhName = "";
+            t.formValidate.empId = "";
+        },
         getData (id) {
             const t = this
             t.spinShow = true
@@ -498,6 +533,7 @@ export default {
                     console.log(res.data.content[0])
                     t.formValidate.unitCode = res.data.content[0].unitCode
                     t.formValidate.unitFname = res.data.content[0].unitFname
+                    t.formValidate.empId = res.data.content[0].empId
                     t.formValidate.unitType = res.data.content[0].unitType
                     t.formValidate.unitPid = res.data.content[0].unitPid
                     t.formValidate.unitPartfunct = res.data.content[0].unitPartfunct
@@ -517,6 +553,7 @@ export default {
                     t.unitCenterName = res.data.content[0].unitCenterName
                     t.unitCityName = res.data.content[0].unitCityName
                     t.unitPname = res.data.content[0].unitPname
+                    t.empnhName = res.data.content[0].empnhName
                     t.formValidate.state = res.data.content[0].state
                     if (id === res.data.content[0].companyId) {
                         t.forbidden = 'disabled'
@@ -687,6 +724,23 @@ export default {
                 t.unitCenterName = ''
                 t.formValidate.unitCenter = ''
             }
+        },
+        /*选择员工*/
+        pickEmpData () {
+            if (this.forbidden === null && !this.disabled) {
+            const t = this;
+            t.$refs.searchEmpMaster.getData();
+            t.openEmpMaster = true;
+            }
+        },
+        closeEmp () {
+            const t = this;
+            t.openEmpMaster = false;
+        },
+        inputEmp (row) {
+            const t = this;
+            t.empnhName = row.empnhName;
+            t.formValidate.empId = row.id;
         },
         handleReset () {
             this.$refs.scrollBox.$el.scrollTop = "0";
