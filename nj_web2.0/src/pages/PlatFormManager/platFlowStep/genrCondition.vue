@@ -1004,7 +1004,7 @@ export default {
             };
             console.log(sendResValcn, "sendResValcn");
             console.log(sendResVal, "sendResVal");
-            // t.$emit('inputCondition', sendResValcn, sendResVal)
+            t.$emit('inputCondition', sendResValcn, sendResVal)
         },
         //  	下拉框获取value/label
         setOption (value, type) {

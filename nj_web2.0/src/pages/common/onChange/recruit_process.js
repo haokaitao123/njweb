@@ -7,7 +7,7 @@ import { isSuccess } from '../../../lib/util'
 const recruit_process = {
   all_dis() {
     recruit_process.relibApplytype_dis(this)
-    recruit_process.relibFirstus_set(this)
+		recruit_process.relibFirstus_set(this)
     recruit_process.relibIsrelatives_dis(this)
     recruit_process.relibIsguaran_dis(this)
     recruit_process.relibReexamus_set(this)
@@ -19,12 +19,12 @@ const recruit_process = {
     recruit_process.relibApplytype_dis(this.$parent)
     recruit_process.relibApplytype_set(this.$parent)
   },
-  relibReexamus(node) {
-    recruit_process.relibReexamus_set(this)
-  },
-  relibFirstus(node) {
-    recruit_process.relibFirstus_set(this)
-  },
+  // relibReexamus(node) {
+  //   recruit_process.relibReexamus_set(this)
+  // },
+  // relibFirstus(node) {
+  //   recruit_process.relibFirstus_set(this)
+  // },
   relibIsrelatives(node) {
     recruit_process.relibIsrelatives_dis(this.$parent)
     recruit_process.relibIsrelatives_set(this.$parent)
@@ -73,7 +73,7 @@ const recruit_process = {
   //默认复试人
   relibReexamus_set(t) {
     const th = this.$parent
-    if (t.valueMap.relibReexamus) {
+    if (t.valueMap.relibReexamus) {		
       if (t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus.length <= 0 || t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
@@ -92,7 +92,6 @@ const recruit_process = {
       })
       }
     }
-    //debugger
     if (t.valueMap.relibReexamtm) {
       if (t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit.relibReexamtm.length <= 0) {
         t.$refs[t.valueMap.relibReexamtm][0].$set(t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit, 'relibReexamtm', new Date().format('yyyy-MM-dd hh:mm:ss'))

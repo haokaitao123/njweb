@@ -295,6 +295,7 @@ export default {
                 this.searchLoading = true;
             }
             this.getData();
+            this.tableselected = [];
         },
         getData () {
             const t = this;

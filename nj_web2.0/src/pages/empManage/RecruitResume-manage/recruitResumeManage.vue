@@ -27,6 +27,7 @@
                          ref="table-form">
                         <Table @on-selection-change="selectedtable"
                                @on-sort-change="sortable"
+                               :current="page"
                                :height="tableheight"
                                size="small"
                                border
@@ -320,11 +321,12 @@ export default {
         modityChange (res) {
             this.getData();
         },
-        getData (id, page) {
+        getData (page) {
             const t = this;
             this.loading = true;
-            if (page === undefined) {
-                this.page = 1;
+            this.page = 1;
+            if (page ) {
+                t.page = page;
             }
             const data = {
                 _mt: "recruitResume.getPage",

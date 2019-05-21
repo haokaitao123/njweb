@@ -161,22 +161,22 @@ export default {
           /*必填验证*/
             ruleValidate: {
                 empnhName: [
-                    { required: true, message: "请选择员工姓名", trigger: 'change' },
+                    { required: true, message: "请选择员工姓名", trigger: "change" },
                 ],
                 empoffResult: [
-                    { required: true, message: "请填写试用期评价结论", trigger: 'change' },
+                    { required: true, message: "请填写试用期评价结论", trigger: "change" },
                 ]
             },
         }
+    },
+  /*资源加载子页面，js不需要*/
+    components: {
+        searchEmpMaster,
     },
     props: {
         id: Number,
         logType: String,
         index: Number,
-    },
-  /*资源加载子页面，js不需要*/
-    components: {
-        searchEmpMaster,
     },
     updated () {
 
@@ -244,7 +244,7 @@ export default {
               t.spinShow = false; //关闭loading效果
             });
         },
-        handleSubmit () {
+        handleSubmit () { 
             const t = this
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
@@ -257,19 +257,18 @@ export default {
                 if (valid) {
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
-                            t.$emit('closeUp')
                             if (t.logType === '新增') {
                                 /*t.$Modal.success({
                                     title: this.$t('reminder.suc'),
                                     content: this.$t('reminder.addsuccess'),
                                 })*/
                                 t.$Message.success('新增成功');
-                                t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
                                 t.$Message.success('修改成功');
                                 t.$emit('update', res.data.content[0])
                             }
+                            t.handleReset();
                         }
                     }).catch(() => {
                         this.$Modal.error({
@@ -286,22 +285,6 @@ export default {
         t.$refs.searchEmpMaster.getData();
         t.openEmpMaster = true;
       },
-      clear(){
-        const t = this
-        t.forbidden = false
-        t.formValidate = {empnhName : '',
-          empnhIdno : '',
-          empId : '',
-          unitFname : '',
-          deptId : '',
-          postFname : '',
-          postId : '',
-          empoffResult:'',
-        note:'',}
-        t.file = ''
-        t.filekey = ''
-      },
-
       closeEmp() {
         const t = this
         t.openEmpMaster = false

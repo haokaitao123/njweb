@@ -476,6 +476,7 @@ export default {
             this.treeid = "";
             this.$store.commit('btnOperate/setSearchLoading', true)
             this.getData();
+            this.tableselected = [];
         },
         // 获取主表数据
         getData (id, page) {
@@ -847,6 +848,7 @@ export default {
             if (this.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
+                this.logType="批量异动";
                 this.openTransaction = true;
             }
         },

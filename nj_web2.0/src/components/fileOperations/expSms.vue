@@ -90,6 +90,7 @@ export default {
                 logType: this.$t('button.exp'),
                 expDisFields: t.expDisFields.join(';'),
                 data: JSON.stringify(tedata),
+                roleType:localStorage.roleType,
             }
             for (const dat in data) {
                 if (data[dat] === '') {
