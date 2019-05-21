@@ -342,7 +342,8 @@ export default {
         order: t.order, //排序类型
         logType: "查询", //日志描述
 				empName: t.empName, //员工名称
-        resumeDate: t.resumeDate //简历日期
+        resumeDate: t.resumeDate, //简历日期
+        roleType:localStorage.roleType
 			};
 			if (data.resumeDate !== undefined && data.resumeDate !== '') {
        				  data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')

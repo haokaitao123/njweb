@@ -200,6 +200,7 @@
           platSuvStyle: t.platStyle,
         }).then((res) => {
           if (isSuccess(res, t)) {
+            debugger
             console.log(res.data.content[0].listQuestion)
             console.log(res.data.content[0].listCategory)
             if (t.platStyle === 'p_suvstyle_01') {
