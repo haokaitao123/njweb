@@ -491,6 +491,7 @@ export default {
                 sort: t.sort,
                 order: t.order,
                 logType: "员工主数据查询",
+                roleType:localStorage.roleType,
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
                 deptId: id,
