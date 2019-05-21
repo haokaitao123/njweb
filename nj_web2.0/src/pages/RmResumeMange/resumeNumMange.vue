@@ -271,6 +271,7 @@ export default {
       rows: 10, //每页显示条数
       page: 1, //当前页码
       funId: "1000", //功能ID
+      roleType: "3user",//角色类型
       empName: "", //绑定页面输入框的员工名称
       resumeDate: "" //绑定页面日期选择框的简历日期
     };
@@ -341,6 +342,7 @@ export default {
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
+        roleType: "3user",//角色类型
 				empName: t.empName, //员工名称
         resumeDate: t.resumeDate, //简历日期
         roleType:localStorage.roleType

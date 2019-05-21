@@ -476,6 +476,7 @@ export default {
             this.treeid = "";
             this.$store.commit('btnOperate/setSearchLoading', true)
             this.getData();
+            this.tableselected = [];
         },
         // 获取主表数据
         getData (id, page) {

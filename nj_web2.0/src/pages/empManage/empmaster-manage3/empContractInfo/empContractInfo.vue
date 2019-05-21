@@ -239,6 +239,7 @@ export default {
                 this.searchLoading = true;
             }
             this.getData();
+            this.tableselected = [];
         },
         getSelect () {
             const t = this;
