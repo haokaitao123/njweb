@@ -418,6 +418,7 @@ export default {
         sort: t.sort,
         order: t.order,
         logType: "变更协议查询",
+        roleType:localStorage.roleType,//角色类型
         funId: "1000",
         empnhName: t.empnhName,
         state: t.modity

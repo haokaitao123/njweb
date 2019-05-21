@@ -342,7 +342,6 @@ export default {
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
-        roleType: "3user",//角色类型
 				empName: t.empName, //员工名称
         resumeDate: t.resumeDate, //简历日期
         roleType:localStorage.roleType

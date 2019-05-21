@@ -269,10 +269,12 @@ export default {
                 _mt: t.page_mt,
                 rows: t.rows,
                 page: t.page,
+                roleType:localStorage.roleType,//角色类型
                 sort: t.sort,
                 order: t.order,
                 logType: '查询',
-                state: t.modity
+                state: t.modity,
+
             };
             for (let k in this.filterParams) {
                 data[k] = this.filterParams[k]
