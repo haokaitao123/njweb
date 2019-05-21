@@ -435,6 +435,7 @@ export default {
                 logType: "合同查询",
                 deptId: t.deptId,
                 empnhName: t.empnhName,
+                roleType:localStorage.roleType,
                 state: t.modity
             };
 

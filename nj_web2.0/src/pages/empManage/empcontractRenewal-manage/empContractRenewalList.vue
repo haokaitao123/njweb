@@ -418,6 +418,7 @@ export default {
         logType: "合同续签查询",
         deptId: t.deptId,
         empnhName: t.empnhName,
+        roleType:localStorage.roleType,
         state: t.modity
       };
 
