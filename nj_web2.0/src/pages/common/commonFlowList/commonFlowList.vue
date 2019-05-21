@@ -259,7 +259,6 @@ export default {
             }
         },
         btnFunction (btnId) {
-            console.log(btnId, "2122")
             if (btnId === 'button_add') {
                 this.stepId = '0'
                 this.stepState = ''
@@ -268,7 +267,6 @@ export default {
             }
             if (btnId === 'button_sxreeov') {
                 const t = this;
-                alert(t.tableselected);
                 if (t.tableselected.length === 0) {
                     this.$Message.warning(this.$t('reminder.leastone'))
                 } else {
@@ -278,7 +276,6 @@ export default {
                         onOk: () => {
                             const data = {
                                 _mt: "platAutoLayoutFlowSubmit.submitBatch",
-                                logType: "提交",
                                 tbName: t.tbName,
                                 stepId: t.thisStepId,
                                 roleType: t.$store.state.user.roleType,
