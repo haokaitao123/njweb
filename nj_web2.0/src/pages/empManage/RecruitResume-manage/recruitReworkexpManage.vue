@@ -381,7 +381,7 @@ export default {
             // 填装查询条件
             const data = {
                 rewexCompnm: t.rewexCompnm,
-                reeducPid: t.id,
+                rewexPid: t.id,
             };
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "recruitReworkexp.export", data);

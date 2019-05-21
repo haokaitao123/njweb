@@ -34,7 +34,7 @@
             </Col>
             <!--  项目名称输入框  -->
             <Col span="10" offset="1">
-              <FormItem label="项目名称" prop="entryId">
+              <FormItem label="项目名称" prop="deptId">
                 <Input v-model="entryName" disabled="disabled" placeholder="请输入项目名称"></Input>
               </FormItem>
             </Col>
@@ -145,7 +145,7 @@ export default {
         _mt: "rmResume.addOrUpd", //新增的数据接口
         funId: "1", //功能ID
         logType: this.logType, //操作类型
-        entryId: "", //项目id
+        deptId: "", //项目id
         empId: "", //员工id
         resumeDate: "", //简历日期
         resumeNum: "", //resumeNum
@@ -208,7 +208,7 @@ export default {
         .then(res => {
           if (isSuccess(res, t)) {
             //回显数据绑定
-            t.formValidate.entryId = res.data.content[0].entryId;
+            t.formValidate.deptId = res.data.content[0].deptId;
             t.formValidate.empId = res.data.content[0].empId;
             t.empIdno = res.data.content[0].empIdno;
             t.entryName = res.data.content[0].entryName;
@@ -309,7 +309,7 @@ export default {
       t.empName = row.empnhName; //员工信息name赋值
       t.formValidate.empId = row.id; //员工信息id赋值
       t.entryName = row.unitFname;
-      t.formValidate.entryId = row.deptId;
+      t.formValidate.deptId = row.deptId;
       t.empIdno = row.empnhIdno;
     },
     //清除员工信息
@@ -317,7 +317,7 @@ export default {
       const t = this;
       t.empName = "";
       t.formValidate.empId = "";
-      t.formValidate.entryId = "";
+      t.formValidate.deptId = "";
       t.entryName = "";
       t.empIdno = "";
     },
