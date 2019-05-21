@@ -265,6 +265,48 @@ export default {
                 this.pkValue = '0'
                 this.openTestUpd = true
             }
+          if (btnId === 'button_sxreeov') {
+            const t = this;
+            alert(t.tableselected);
+            if (t.tableselected.length === 0) {
+              this.$Message.warning(this.$t('reminder.leastone'))
+            } else {
+              t.$Modal.confirm({
+                title: this.$t("reminder.remind"),
+                content: this.$t("reminder.confirmOper"),
+                onOk: () => {
+                const data = {
+                  _mt: "platAutoLayoutFlowSubmit.submitBatch",
+                  logType: "提交",
+                  tbName:t.tbName,
+                  stepId :t.thisStepId,
+                  roleType: t.$store.state.user.roleType,
+                  flowId: t.flowId,
+                  pkValue: t.tableselected.toString(),
+                  logType: 'submit'
+                };
+              for (const dat in data) {
+                if (data[dat] === "") {
+                  delete data[dat];
+                }
+              }
+              getDataLevelUserLogin(data)
+                .then(res => {
+                if (isSuccess(res, t))
+              {
+                t.$Message.success(this.$t('reminder.operatsuccess'))
+                t.tableselected = []
+                t.getData(1)
+              }
+            })
+            .catch(() => {
+                t.$Message.error(this.$t('reminder.errormessage'))
+            });
+            }
+            });
+            }
+
+          }
         },
         openUp (pkValue, stepId, index) {
             this.stepId = stepId
@@ -375,7 +417,7 @@ export default {
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id)
             }
-            this.tableselected = newArr.toString()
+            this.tableselected = newArr.toString();
         },
         deletemsg () {
             const t = this
