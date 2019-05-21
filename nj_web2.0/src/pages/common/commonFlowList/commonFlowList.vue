@@ -277,7 +277,7 @@ export default {
                             const data = {
                                 _mt: "platAutoLayoutFlowSubmit.submitBatch",
                                 tbName: t.tbName,
-                                stepId: t.thisStepId,
+                                stepId: 0,
                                 roleType: t.$store.state.user.roleType,
                                 flowId: t.flowId,
                                 pkValue: t.tableselected.toString(),
@@ -341,7 +341,7 @@ export default {
             t.loading = true;
             const rcdata = {
                 curStep: t.curStep,
-                flowId: "1023"
+                flowId: t.flowId
             };
             var rcvdata = "";
             if (rcdata.curStep === "") {
@@ -425,7 +425,7 @@ export default {
             if (t.tableselected.length === 0) {
                 t.$Modal.error({
                     title: this.$t('reminder.err'),
-                    content: '请选择要删除的象',
+                    content: '请选择要删除的数据',
                 })
                 return
             }
