@@ -113,7 +113,6 @@ export default {
             const checkedId = []
 
             let ids = [];
-            debugger;
             for (let i = 0; i < t.$refs.tree.flatState.length; i++) {
                 if (t.$refs.tree.flatState[i].node.indeterminate === true) {
                     ids.push({
@@ -146,7 +145,7 @@ export default {
                         title: this.$t('reminder.suc'),
                         content: this.$t('reminder.savsuccess'),
                     })
-                    t.$emit('closePower')
+                    // t.$emit('closePower')
                 }
             }).catch(() => {
                 t.$Modal.error({

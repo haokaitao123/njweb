@@ -197,6 +197,7 @@ export default {
       CmutNoticeStatelist: [],
       file: "",
       filekey: "",
+			fileName:"",
       loadingStatus: false,
       noticePeopleName: "",
       form: {
@@ -393,13 +394,13 @@ export default {
                 pubsource.pub_prvf_downlink +
                 res.data.content[0].value +
                 "&fname=" +
-                encodeURI(t.filekey);
+                encodeURI(t.fileName);
             } else {
               let doclink =
                 pubsource.pub_prvf_downlink +
                 res.data.content[0].value +
                 "&fname=" +
-                encodeURI(t.filekey);
+                encodeURI(t.fileName);
               /*let link = document.createElement('a')
           link.href = doclink
           link.download = 'downloadfiletemp'
@@ -460,6 +461,7 @@ export default {
             t.noticePeopleName = res.data.content[0].noticePeopleDis;
 
             if (res.data.content[0].noticeAttach) {
+							t.fileName = res.data.content[0].noticeAttach.split(":")[0];
               t.file = { name: res.data.content[0].noticeAttach.split(":")[0] };
               t.filekey = res.data.content[0].noticeAttach.split(":")[1];
             }
