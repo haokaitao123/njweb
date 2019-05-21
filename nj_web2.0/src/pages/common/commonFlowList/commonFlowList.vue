@@ -31,7 +31,7 @@
                 </Row>
                 <row class="table-form"
                      ref="table-form">
-                    <Table @on-select-changed="selectedtable"
+                    <Table @on-selection-change="selectedtable"
                            border
                            :height="tableheight"
                            size="small"
@@ -259,54 +259,57 @@ export default {
             }
         },
         btnFunction (btnId) {
+            console.log(btnId, "2122")
             if (btnId === 'button_add') {
                 this.stepId = '0'
                 this.stepState = ''
                 this.pkValue = '0'
                 this.openTestUpd = true
             }
-          if (btnId === 'button_sxreeov') {
-            const t = this;
-            alert(t.tableselected);
-            if (t.tableselected.length === 0) {
-              this.$Message.warning(this.$t('reminder.leastone'))
-            } else {
-              t.$Modal.confirm({
-                title: this.$t("reminder.remind"),
-                content: this.$t("reminder.confirmOper"),
-                onOk: () => {
-                const data = {
-                  _mt: "platAutoLayoutFlowSubmit.submitBatch",
-                  logType: "提交",
-                  tbName:t.tbName,
-                  stepId :t.thisStepId,
-                  roleType: t.$store.state.user.roleType,
-                  flowId: t.flowId,
-                  pkValue: t.tableselected.toString(),
-                  logType: 'submit'
-                };
-              for (const dat in data) {
-                if (data[dat] === "") {
-                  delete data[dat];
+            if (btnId === 'button_sxreeov') {
+                const t = this;
+                alert(t.tableselected);
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("reminder.confirmOper"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "platAutoLayoutFlowSubmit.submitBatch",
+                                logType: "提交",
+                                tbName: t.tbName,
+                                stepId: t.thisStepId,
+                                roleType: t.$store.state.user.roleType,
+                                flowId: t.flowId,
+                                pkValue: t.tableselected.toString(),
+                                logType: 'submit'
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        t.$Message.success(this.$t('reminder.operatsuccess'))
+                                        t.tableselected = []
+                                        t.getData(1)
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
                 }
-              }
-              getDataLevelUserLogin(data)
-                .then(res => {
-                if (isSuccess(res, t))
-              {
-                t.$Message.success(this.$t('reminder.operatsuccess'))
-                t.tableselected = []
-                t.getData(1)
-              }
-            })
-            .catch(() => {
-                t.$Message.error(this.$t('reminder.errormessage'))
-            });
-            }
-            });
-            }
 
-          }
+            }
+            if (btnId === 'button_del') {
+                this.deletemsg();
+            }
         },
         openUp (pkValue, stepId, index) {
             this.stepId = stepId
@@ -326,8 +329,8 @@ export default {
                 t.curStep = paramId;
             }
             this.page = 1;
+            t.tableselected = []
             t.getData(1);
-
             t.flstepName = paramName;
         },
         getData (page) {
@@ -413,11 +416,12 @@ export default {
             t.getData(page)
         },
         selectedtable (selection) {
-            const newArr = []
+            const newArr = [];
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id)
             }
             this.tableselected = newArr.toString();
+
         },
         deletemsg () {
             const t = this
@@ -428,19 +432,28 @@ export default {
                 })
                 return
             }
-            getDataLevelUserLogin({
-                _mt: '',
-                logType: this.$t('button.del'),
-                ids: t.tableselected,
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    t.getData(1)
+            console.log('this.tableselected', this.tableselected)
+            t.$Modal.confirm({
+                title: this.$t("reminder.remind"),
+                content: this.$t("reminder.isDelete"),
+                onOk: () => {
+                    getDataLevelUserLogin({
+                        _mt: '',
+                        logType: this.$t('button.del'),
+                        ids: t.tableselected,
+                    }).then((res) => {
+                        if (isSuccess(res, t)) {
+                            t.$Message.success(this.$t('reminder.deletesuccess'))
+                            t.tableselected = []
+                            t.getData(1)
+                        }
+                    }).catch(() => {
+                        t.$Modal.error({
+                            title: this.$t('reminder.err'),
+                            content: this.$t('reminder.errormessage'),
+                        })
+                    })
                 }
-            }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
             })
         },
         pickCountrySel () {
