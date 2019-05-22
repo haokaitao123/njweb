@@ -975,7 +975,7 @@ export default {
             const t = this;
             getDataLevelNone({
                 _mt: "wxBaseParmInfo.getSelectValue",
-                typeCode: 'Identitytype,gender,nationtype,political,healthcondition,marrystatus,education,relationship,empstate,applysource,enrollrange,graduation,yesno'
+                typeCode: 'Identitytype,gender,nationtype,political,healthcondition,marrystatus,education,relationship,empstatus,applysource,enrollrange,graduation,yesno'
             }).then(res => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
