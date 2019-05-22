@@ -702,6 +702,7 @@ const searchTable = {
       page: 1,
       state:'02empstate',
       logType: '员工弹出框',
+      roleType:localStorage.roleType,
     },
   },
 }
