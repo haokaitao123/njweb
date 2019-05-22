@@ -81,7 +81,6 @@ export default {
         form: Object, // 表单数据
     },
     mounted () {
-        debugger;
         if (this.modiaContent === 'empnh-base-std') {
             searchTable[this.modiaContent].param.roleType = localStorage.roleType;
         }
