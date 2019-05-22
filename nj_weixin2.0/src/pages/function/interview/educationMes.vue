@@ -8,6 +8,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="reeduLevelDis"
                           v-verify="form.reeduLevel"
@@ -19,12 +20,20 @@
                           class="error"
                           v-show="reeduLevelDis==''"
                           v-remind="form.reeduLevel"></icon>
+				    <x-input title="教育程度<span>*</span>"
+						 v-if="disabled"
+						   v-model="reeduLevelDis"
+						  :disabled="disabled"
+						   :show-clear="false"
+						   placeholder="未填写">
+				    </x-input>
                 </div>
                 <!-- 学位 -->
                 <div class="item_box">
                     <x-input title="学位"
                              v-model="form.reeduDegree"
                              v-verify="form.reeduDegree"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -33,6 +42,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="form.reeduSdate"
                           v-verify="form.reeduSdate"
@@ -42,11 +52,19 @@
                     <icon type="warn"
                           class="error"
                           v-remind="form.reeduSdate"></icon>
+					<x-input title="教育开始时间<span>*</span>"
+							v-if="disabled"
+							v-model="form.reeduSdate"
+							:disabled="disabled"
+							:show-clear="false"
+							placeholder="未填写">
+					</x-input>
                 </div>
                 <!-- 教育结束时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="form.reeduEdate"
                           v-verify="form.reeduEdate"
@@ -56,6 +74,13 @@
                     <icon type="warn"
                           class="error"
                           v-remind="form.reeduEdate"></icon>
+					<x-input title="教育结束时间<span>*</span>"
+						 v-if="disabled"
+						   v-model="form.reeduEdate"
+						  :disabled="disabled"
+						   :show-clear="false"
+						   placeholder="未填写">
+					</x-input>
                 </div>
                 <!-- 学校名称 -->
                 <div class="item_box">
@@ -63,6 +88,7 @@
                              v-model="form.reeduSchool"
                              v-verify="form.reeduSchool"
                              :show-clear="false"
+							 :disabled="disabled"
                              placeholder="请填写">
                     </x-input>
 					<icon type="warn"
@@ -74,6 +100,7 @@
                     <x-input title="专业"
                              v-model="form.reeduProfession"
                              v-verify="form.reeduProfession"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -82,6 +109,7 @@
                             title="所获奖励证书"
                             :height="95"
                             v-model="form.reeduAwardcert"
+							:readonly="disabled"
                             placeholder="请填写"
                             :show-counter="false"></x-textarea>
                 <!-- 备注 -->
@@ -89,6 +117,7 @@
                             title="备注"
                             :height="95"
                             v-model="form.note"
+							:readonly="disabled"
                             placeholder="请填写"
                             :show-counter="true"></x-textarea>
 
@@ -100,8 +129,8 @@
                           action-type="button">保存</x-button>
             </div> -->
 			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">取消</x-button>
-				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
+				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
+				<x-button type="primary" class="x_button" @click.native="save" v-if="!disabled">保存</x-button>
 			</div>
         </div>
         <!-- 教育程度 -->
@@ -182,6 +211,10 @@ export default {
 		id: {
 			type: String,
 			default: ''
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		},
 	},
     components: {
@@ -376,12 +409,15 @@ export default {
 				color: #fff;
 				font-size: 34px;
 				width: 300px;
+				flex: 1;
+				height: 80px;
 			}
 		
 			.button_left {
 				color: #339afe;
 				background: #fff;
 				border: 2px solid #339afe !important;
+				margin-right: 5%;
 			}
 		
 			.weui-btn+.weui-btn {

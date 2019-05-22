@@ -8,6 +8,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="form.reweSdate"
                           v-verify="form.reweSdate"
@@ -18,11 +19,19 @@
                           class="error"
                           v-show="form.reweSdate=='请选择'"
                           v-remind="form.reweSdate"></icon>
+				    <x-input title="工作开始时间<span>*</span>"
+						v-if="disabled"
+						v-model="form.reweSdate"
+						:disabled="disabled"
+						:show-clear="false"
+						placeholder="未填写">
+					</x-input>
                 </div>
                 <!-- 工作结束时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="form.reweEdate"
                           v-verify="form.reweEdate"
@@ -33,12 +42,20 @@
                           class="error"
                           v-show="form.reweEdate=='请选择'"
                           v-remind="form.reweEdate"></icon>
+					<x-input title="工作结束时间<span>*</span>"
+						v-if="disabled"
+						v-model="form.reweSdate"
+						:disabled="disabled"
+						:show-clear="false"
+						placeholder="未填写">
+					</x-input>
                 </div>
                 <!-- 单位名称 -->
                 <div class="item_box">
                     <x-input title="单位名称<span>*</span>"
                              v-model="form.reweCompnm"
                              v-verify="form.reweCompnm"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -51,6 +68,7 @@
                 <div class="item_box">
                     <x-input title="职务"
                              v-model="form.rewePost"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -59,6 +77,7 @@
                 <div class="item_box">
                     <x-input title="证明人"
                              v-model="form.reweCertifier"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -68,6 +87,7 @@
                     <x-input title="联系方式"
                              v-model="form.reweCertnub"
                              v-verify="form.reweCertnub"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -81,6 +101,7 @@
                                 title="离职原因<span>*</span>"
                                 :height="95"
                                 v-model="form.reweLevres"
+								:readonly="disabled"
                                 v-verify="form.reweLevres"
                                 placeholder="请填写"
                                 :show-counter="false"></x-textarea>
@@ -95,6 +116,7 @@
                             title="备注"
                             :height="95"
                             v-model="form.note"
+							:readonly="disabled"
                             placeholder="请填写"
                             :show-counter="true"></x-textarea>
 
@@ -106,8 +128,8 @@
                           action-type="button">保存</x-button>
             </div> -->
 			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">取消</x-button>
-				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
+				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
+				<x-button type="primary" class="x_button" @click.native="save" v-if="!disabled">保存</x-button>
 			</div>
         </div>
         <!-- 工作开始时间 -->
@@ -175,6 +197,10 @@ export default {
 		id: {
 			type: String,
 			default: ''
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		},
 	},
     components: {
@@ -310,12 +336,15 @@ export default {
         		color: #fff;
         		font-size: 34px;
         		width: 300px;
+				flex: 1;
+				height: 80px;
         	}
         
         	.button_left {
         		color: #339afe;
         		background: #fff;
         		border: 2px solid #339afe !important;
+				margin-right: 5%;
         	}
         
         	.weui-btn+.weui-btn {

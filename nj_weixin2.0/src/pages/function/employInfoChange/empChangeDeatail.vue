@@ -7,8 +7,10 @@
                 <!-- 员工姓名 -->
                 <div class="item_box">
                     <cell title=""
+						  v-if="!disabled"
                           is-link
                           value-align="left"
+						  :disabled="disabled"
                           v-model="empnhName"
                           v-verify="form.empId"
                           @click.native="popupClick('empShow')">
@@ -18,6 +20,13 @@
                           class="error"
                           v-show="empnhName=='请选择'"
                           v-remind="form.empId"></icon>
+					<x-input title="员工姓名"
+							 v-if="disabled"
+					         v-model="empnhName"
+					         :show-clear="false"
+					         placeholder="未填写"
+					         :disabled="true">
+					</x-input>
                 </div>
                 <!-- 证件号码 -->
                 <div class="item_box">
@@ -52,6 +61,7 @@
                              v-model="form.empupdResaddr"
                              v-verify="form.empupdResaddr"
                              :show-clear="false"
+							 :disabled="disabled"
                              placeholder="请填写">
                     </x-input>
                 </div>
@@ -59,6 +69,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="empnhSalbankDis"
                           v-verify="form.empupdSalbank"
@@ -69,12 +80,20 @@
                           class="error"
                           v-show="empnhSalbankDis=='请选择'"
                           v-remind="form.empupdSalbank"></icon>
+					<x-input title="开户银行"
+							 v-if="disabled"
+					         v-model="empnhSalbankDis"
+					         :show-clear="false"
+					         placeholder="未填写"
+					         :disabled="true">
+					</x-input>
                 </div>
                 <!-- 银行账号 -->
                 <div class="item_box">
                     <x-input title="银行账号<span>*</span>"
                              v-model="form.empupdSalcount "
                              v-verify="form.empupdSalcount"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -88,6 +107,7 @@
                     <x-input title="户名<span>*</span>"
                              v-model="form.empupdSalcname "
                              v-verify="form.empupdSalcname"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -106,11 +126,12 @@
                             title="备注"
                             :height="95"
                             v-model="form.note"
+							:readonly="disabled"
                             placeholder="请填写"
                             :show-counter="true"></x-textarea>
 
             </group>
-            <div class="save_button">
+            <div class="save_button" v-if="state==='01draft'||state==='02draft'">
                 <x-button type="primary"
                           class="x_button"
                           @click.native="comfirmSave"
@@ -156,6 +177,7 @@ export default {
         return {
             curDom: "",
             curDomShow: "",
+			state:"",
             form: {
                 empId: "", 						//员工姓名
                 empnhIdno: "", 					//证件号码
@@ -176,6 +198,7 @@ export default {
             bankShow: false,
             currentEmpId: '',
             currentBankId: '',
+			disabled:false
         }
     },
     verify: {
@@ -285,6 +308,11 @@ export default {
                     t.empnhName = data.empnhName;
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
+					t.state = data.state;
+					if(t.state!=='01draft'&&t.state!=='02draft'){
+						t.disabled =true;
+					}
+					console.log(t.state,"state")
                     t.empnhSalbankDis = data.empnhSalbankDis;
                 }
             }).catch((err) => {

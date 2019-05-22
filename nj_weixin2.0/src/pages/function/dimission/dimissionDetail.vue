@@ -27,6 +27,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="empIdName"
                           v-verify="form.empId"
@@ -37,6 +38,13 @@
                           class="error"
                           v-show="empIdName=='请选择'?true:false"
                           v-remind="form.empId"></icon>
+					<x-input title="员工姓名"
+						     v-if="disabled"
+					         v-model="empIdName"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 证件号码 -->
                 <div class="item_box">
@@ -88,6 +96,7 @@
                     <x-input title="银行账号<span>*</span>"
                              v-model="form.empnhSalaccount"
                              v-verify="form.empnhSalaccount"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -100,17 +109,26 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="dimCertifiDis"
                           @click.native="popupClick('dimCertifiShow','dimCertifi')">
                         <div slot="title">是否需要离职证明</div>
                     </cell>
+					<x-input title="是否需要离职证明"
+						     v-if="disabled"
+					         v-model="dimCertifiDis"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 个人邮箱 -->
                 <div class="item_box">
                     <x-input title="个人邮箱<span>*</span>"
                              v-model="form.dimPersmail"
                              v-verify="form.dimPersmail"
+							 :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -123,6 +141,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="dimTypeDis"
                           v-verify="form.dimType"
@@ -133,11 +152,19 @@
                           class="error"
                           v-show="dimTypeDis=='请选择'?true:false"
                           v-remind="form.dimType"></icon>
+					<x-input title="离职类型"
+						     v-if="disabled"
+					         v-model="dimTypeDis"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 离职原因 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="dimReasonDis"
                           v-verify="form.dimReason"
@@ -148,9 +175,16 @@
                           class="error"
                           v-show="dimReasonDis=='请选择'?true:false"
                           v-remind="form.dimReason"></icon>
+					<x-input title="离职原因"
+						     v-if="disabled"
+					         v-model="dimReasonDis"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 问卷调查 -->
-                <div class="item_box">
+               <!-- <div class="item_box">
                     <cell title=""
                           is-link
                           value-align="left"
@@ -163,11 +197,12 @@
                           class="error"
                           v-show="surveyName=='请选择'?true:false"
                           v-remind="surveyName"></icon>
-                </div>
+                </div> -->
                 <!-- 申请离职日期 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="form.dimLevsqday"
                           v-verify="form.dimLevsqday"
@@ -178,11 +213,19 @@
                           class="error"
                           v-show="form.dimLevsqday=='请选择'?true:false"
                           v-remind="form.dimLevsqday"></icon>
+					<x-input title="申请离职日期"
+						     v-if="disabled"
+					         v-model="form.dimLevsqday"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 约定离职日期 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="form.dimLevday"
                           v-verify="form.dimLevday"
@@ -193,11 +236,19 @@
                           class="error"
                           v-show="form.dimLevday=='请选择'?true:false"
                           v-remind="form.dimLevday"></icon>
+					<x-input title="约定离职日期"
+						     v-if="disabled"
+					         v-model="form.dimLevday"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 最后工作日期 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="form.dimLaswkday"
                           v-verify="form.dimLaswkday"
@@ -208,28 +259,46 @@
                           class="error"
                           v-show="form.dimLaswkday=='请选择'?true:false"
                           v-remind="form.dimLaswkday"></icon>
+					<x-input title="最后工作日期"
+						     v-if="disabled"
+					         v-model="form.dimLaswkday"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 是否工作交接 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+						  v-if="!disabled"
                           value-align="left"
                           v-model="dimIsreceiveDis"
                           @click.native="popupClick('dimIsreceiveShow','dimIsreceive')">
                         <div slot="title">是否工作交接</div>
                     </cell>
+					<x-input title="是否工作交接"
+						     v-if="disabled"
+					         v-model="dimIsreceiveDis"
+					         :show-clear="false"
+					         :disabled="disabled"
+					         placeholder="">
+					</x-input>
                 </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
                             v-model="form.note"
-                            placeholder="请填写"
+							:readonly="disabled"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
+			<!-- 	 -->
             <div class="save_button"
-                 v-if="curStepstate!=='p_flowst_3'">
+		
+                v-if="curStepstate!=='p_flowst_3'&&curStep==='1344'">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -348,7 +417,7 @@ import survey from './survey'
 export default {
     data () {
         return {
-            curStepstate: "",
+            curStep: "",	
             curDom: "",
             curDomShow: "",
             currentId: '',
@@ -408,7 +477,10 @@ export default {
             dimLevdayShow: false,
             dimLaswkdayShow: false,
             surveyShow: false,
-            saveStatus: false
+            saveStatus: false,
+			curStepDis:'',
+			curStepstate:'',
+			disabled:false
         }
     },
     verify: {
@@ -593,6 +665,8 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "t.content ");
+					t.curStepDis = data.curStepDis?data.curStepDis:'';
+					t.curStepstate = data.curStepstate?data.curStepstate:'';
                     t.form.empId = data.empId;
                     t.form.empIdno = data.empIdno;
                     t.form.deptId = data.deptId;
@@ -609,7 +683,14 @@ export default {
                     t.form.dimLaswkday = data.dimLaswkday;
                     t.form.dimIsreceive = data.dimIsreceive;
                     t.form.note = data.note;
-                    t.curStepstate = data.curStepstate;
+                    t.curStep = data.curStep;
+					if(t.curStep!=='1344'){
+						t.disabled =true;
+					}else{
+						if(t.curStepstate ===''){
+							
+						}
+					}
                     t.empIdName = data.empIdName;
                     t.deptIdDis = data.deptIdDis;
                     t.postIdDis = data.postIdDis;

@@ -10,6 +10,7 @@
                              v-model="form.relibName"
                              v-verify="form.relibName"
                              :show-clear="false"
+							 :disabled="curStep"
                              placeholder="请填写">
                     </x-input>
                     <icon type="warn"
@@ -20,6 +21,7 @@
                 <!-- 性别 -->
                 <div class="item_box">
                     <cell title="性别"
+						  v-if='!curStep'
                           is-link
                           value-align="left"
                           v-model="relibGenderDis"
@@ -32,11 +34,19 @@
                           class="error"
                           v-show="relibGenderDis=='请选择'"
                           v-remind="form.relibGender"></icon>
+					<x-input title="性别<span>*</span>"
+							 v-if='curStep'
+					         v-model="relibGenderDis"
+					         :show-clear="false"
+							 :disabled="curStep"
+					         placeholder="未填写">
+					</x-input>
                 </div>
                 <!-- 手机号码 -->
                 <div class="item_box">
                     <x-input title="手机号码<span>*</span>"
                              v-model.trim="form.relibMobile"
+							 :disabled="curStep"
                              v-verify="form.relibMobile"
                              :show-clear="false"
                              placeholder="未填写">
@@ -52,6 +62,7 @@
                           is-link
                           value-align="left"
                           v-model="form.relibFilldate"
+						  v-if='!curStep'
                           v-verify="form.relibFilldate"
                           @click.native="popupClick('relibFilldateShow','relibFilldate')">
                         <div slot="title">面到时间<span>*</span></div>
@@ -60,12 +71,20 @@
                           class="error"
                           v-show="form.relibFilldate=='请选择'?true:false"
                           v-remind="form.relibFilldate"></icon>
+					<x-input title="面到时间<span>*</span>"
+							 v-if='curStep'
+					         v-model="form.relibFilldate"
+					         :show-clear="false"
+							 :disabled="curStep"
+					         placeholder="未填写">
+					</x-input>
                 </div>
 				 <!-- 初试意见 -->
 				<x-textarea :max="300"
 				            title="初试意见"
 				            :height="95"
 				            v-model="relibFirstopin"
+							:readonly='curStep'
 				            placeholder="未填写"
 				            :show-counter="true"
 							v-if="curStepDis==='初试'&&curStepstate==='p_flowst_3'"></x-textarea>
@@ -74,6 +93,7 @@
 							title="复试意见"
 							:height="95"
 							v-model="relibCheckopin"
+							:readonly='curStep'
 							placeholder="未填写"
 							:show-counter="true"
 							v-if="curStepDis==='复试'&&curStepstate==='p_flowst_3'"></x-textarea>
@@ -82,11 +102,12 @@
                             title="备注"
                             :height="95"
                             v-model="form.note"
-                            placeholder="请填写"
+							:readonly='curStep'
+                            :placeholder="curStep?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
-            <div class="save_button">
+            <div class="save_button" > 
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
@@ -123,8 +144,8 @@ import { Group, Cell, XInput, XTextarea, Icon, Popup } from 'vux'
 export default {
     data () {
         return {
-			curStepDis:"",
-			curStepstate:"",
+			curStepDis:this.$route.query.curStepDis?this.$route.query.curStepDis:'',
+			curStepstate:this.$route.query.curStepstate?this.$route.query.curStepstate:'',
             curDom: "",
             curDomShow: "",
             relibFilldateDate: new Date(),
@@ -142,7 +163,7 @@ export default {
             relibGenderIndex: 0,
             relibGenderShow: false,
             relibFilldateShow: false,
-            curStep: false,
+            curStep: this.$route.query.curStep?this.$route.query.curStep:false,
 			saveState:false,
 			relibFirstopin:"",
 			relibCheckopin:"",
@@ -167,7 +188,7 @@ export default {
     },
     mounted () {
         this.getData();
-        this.getSelect();
+		this.getSelect()
     },
     methods: {
         //保存
@@ -183,7 +204,9 @@ export default {
                     data.pkValue = listId
 					t.saveState = true;
                 } else {
-					await t.haveRecruit();
+					if(!t.saveState){
+						await t.haveRecruit();
+					}
 					data.idRecord = t.idRecord;
                     data.pkValue = 0
                 }
@@ -194,6 +217,7 @@ export default {
                 }
 				console.log(t.saveState,"t.saveState")
 				if(t.saveState){
+					console.log("1212312312")
 					getDataLevelUserLoginNew(data).then(res => {
 					    if (isSuccess(res, t)) {
 					        console.log(res, "res");
@@ -232,7 +256,7 @@ export default {
 					console.log(data,"data");
 					if(JSON.stringify(data) !== "{}"){
 						let num = data.times;
-						let reason = data.reason?data.reason:'无';
+						let reason = data.relibCheckopin?data.relibCheckopin:'无';
 						t.idRecord = data.id;
 						t.$dialog.alert({
 							message:    `<div style="line-height:1.2;text-align:left">
@@ -295,13 +319,13 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "data");
-                    if (data.curStepDis === '初试' && data.curStepstate !== 'p_flowst_3') {
-                        t.curStep = false;
-                    } else {
-                        t.curStep = true;
-                    }
-					t.curStepDis = data.curStepDis;
-					t.curStepstate = data.curStepstate;
+                    // if (data.curStepDis === '初试' && data.curStepstate !== 'p_flowst_3') {
+                    //     t.curStep = false;
+                    // } else {
+                    //     t.curStep = true;
+                    // }
+					// t.curStepDis = data.curStepDis;
+					// t.curStepstate = data.curStepstate;
 					t.relibFirstopin = data.relibFirstopin?data.relibFirstopin:'';
 					t.relibCheckopin = data.relibCheckopin?data.relibCheckopin:'';
                     t.form.relibName = data.relibName;

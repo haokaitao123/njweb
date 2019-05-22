@@ -718,7 +718,7 @@
 		 <!-- 岗位 -->
 		<van-popup v-model="relibApplypostShow"
 		           position="right"
-		           class="right_popup">
+		           class="popup_width">
 		    <searchPost @inputPost="inputPost"
 		                :currentId="currentPostId"></searchPost>
 		</van-popup>
@@ -1328,5 +1328,11 @@ export default {
     height: 100%;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
+}
+.popup_width{
+	width: 80%;
+	height: 100%;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 </style>
