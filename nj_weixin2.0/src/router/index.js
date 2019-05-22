@@ -47,30 +47,6 @@ const router = new Router({
         title: "我的"
       }
     },
-    // {
-    //   path: '/',
-    //   name: 'main',
-    //   component: resolve => require(['@/pages/main/main'], resolve),
-    //   children: [{
-    //       path: 'main/function',
-    //       name: 'function',
-    //       component: resolve => require(['@/pages/main/function'], resolve),
-    //       meta: {
-    //         showTar: true,
-    //         title: "功能"
-    //       }
-    //     },
-    //     {
-    //       path: 'main/mine',
-    //       name: 'mine',
-    //       component: resolve => require(['@/pages/main/mine'], resolve),
-    //       meta: {
-    //         showTar: true,
-    //         title: "我的"
-    //       }
-    //     },
-    //   ]
-    // },
     {
       path: '/interview',
       name: 'interview',
@@ -252,21 +228,24 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let isLogin = window.localStorage.getItem('token');
   let empId = window.localStorage.getItem('empId');
-  // if (to.name !== 'login') {
-  //   if (!isLogin || !empId) {
-  //     router.push({
-  //       name: 'login'
-  //     })
-  //   }
-  // }
-  // // 已登录状态；当路由到login时，跳转至home 
-  // if (to.name === 'login') {
-  //   if (isLogin && empId) {
-  //     router.push({
-  //       name: 'function'
-  //     });
-  //   }
-  // }
+	if (to.meta.title) {
+	  document.title = to.meta.title
+	}
+  if (to.name !== 'login') {
+    if (!isLogin || !empId) {
+      router.push({
+        name: 'login'
+      })
+    }
+  }
+  // 已登录状态；当路由到login时，跳转至home 
+  if (to.name === 'login') {
+    if (isLogin && empId) {
+      router.push({
+        name: 'function'
+      });
+    }
+  }
   next();
 });
 
