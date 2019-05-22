@@ -96,7 +96,7 @@
 							:readonly='curStep'
 							placeholder="未填写"
 							:show-counter="true"
-							v-if="curStepDis==='复试'&&curStepstate==='p_flowst_3'"></x-textarea>
+							v-if="curStepDis!=='复试'&&curStepDis!=='初试'"></x-textarea>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
