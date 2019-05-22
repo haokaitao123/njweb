@@ -1079,6 +1079,7 @@ export default {
                     t.form.relibSelfeval = data.relibSelfeval;
                     t.form.relibEnrorage = data.relibEnrorage;
                     t.form.relibIsgradu = data.relibIsgradu;
+					t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
                     t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '请选择';
                     t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '请选择';
                     t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '请选择';

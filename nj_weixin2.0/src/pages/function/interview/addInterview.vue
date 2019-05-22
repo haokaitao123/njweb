@@ -163,7 +163,7 @@ export default {
             relibGenderIndex: 0,
             relibGenderShow: false,
             relibFilldateShow: false,
-            curStep: this.$route.query.curStep?this.$route.query.curStep:false,
+            curStep: this.$route.query.curStep?true:false,
 			saveState:false,
 			relibFirstopin:"",
 			relibCheckopin:"",

@@ -38,7 +38,7 @@
                           class="error"
                           v-show="empIdName=='请选择'?true:false"
                           v-remind="form.empId"></icon>
-					<x-input title="员工姓名"
+					<x-input title="员工姓名<span>*</span>"
 						     v-if="disabled"
 					         v-model="empIdName"
 					         :show-clear="false"
@@ -152,7 +152,7 @@
                           class="error"
                           v-show="dimTypeDis=='请选择'?true:false"
                           v-remind="form.dimType"></icon>
-					<x-input title="离职类型"
+					<x-input title="离职类型<span>*</span>"
 						     v-if="disabled"
 					         v-model="dimTypeDis"
 					         :show-clear="false"
@@ -175,7 +175,7 @@
                           class="error"
                           v-show="dimReasonDis=='请选择'?true:false"
                           v-remind="form.dimReason"></icon>
-					<x-input title="离职原因"
+					<x-input title="离职原因<span>*</span>"
 						     v-if="disabled"
 					         v-model="dimReasonDis"
 					         :show-clear="false"
@@ -213,7 +213,7 @@
                           class="error"
                           v-show="form.dimLevsqday=='请选择'?true:false"
                           v-remind="form.dimLevsqday"></icon>
-					<x-input title="申请离职日期"
+					<x-input title="申请离职日期<span>*</span>"
 						     v-if="disabled"
 					         v-model="form.dimLevsqday"
 					         :show-clear="false"
@@ -236,7 +236,7 @@
                           class="error"
                           v-show="form.dimLevday=='请选择'?true:false"
                           v-remind="form.dimLevday"></icon>
-					<x-input title="约定离职日期"
+					<x-input title="约定离职日期<span>*</span>"
 						     v-if="disabled"
 					         v-model="form.dimLevday"
 					         :show-clear="false"
@@ -259,7 +259,7 @@
                           class="error"
                           v-show="form.dimLaswkday=='请选择'?true:false"
                           v-remind="form.dimLaswkday"></icon>
-					<x-input title="最后工作日期"
+					<x-input title="最后工作日期<span>*</span>"
 						     v-if="disabled"
 					         v-model="form.dimLaswkday"
 					         :show-clear="false"

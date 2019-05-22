@@ -20,7 +20,7 @@
                           class="error"
                           v-show="empnhName=='请选择'"
                           v-remind="form.empId"></icon>
-					<x-input title="员工姓名"
+					<x-input title="员工姓名<span>*</span>"
 							 v-if="disabled"
 					         v-model="empnhName"
 					         :show-clear="false"
@@ -80,7 +80,7 @@
                           class="error"
                           v-show="empnhSalbankDis=='请选择'"
                           v-remind="form.empupdSalbank"></icon>
-					<x-input title="开户银行"
+					<x-input title="开户银行<span>*</span>"
 							 v-if="disabled"
 					         v-model="empnhSalbankDis"
 					         :show-clear="false"

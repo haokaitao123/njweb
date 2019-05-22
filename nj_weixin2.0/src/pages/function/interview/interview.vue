@@ -49,7 +49,7 @@
                                 v-if="item.curStepstate!=='p_flowst_3'&&item.curStepDis==='初试'"
                                 @click="submit($event,item.id)">提交</button>
                         <button type="button"
-                                v-else-if="item.curStepDis==='复试'&&item.curStepstate!=='p_flowst_3'"
+                                v-else-if="item.curStepDis==='初试'&&item.curStepstate!=='p_flowst_3'"
                                 @click="interviewMes($event,item.id)">预约信息</button>
                     </div>
                 </div>

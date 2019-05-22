@@ -15,14 +15,7 @@
 				    </div>
 				    <!-- 身份 -->
 				    <div class="item_box">
-<!-- 				        <cell title="请选择"
-				              is-link
-				              value-align="left"
-				              v-model="relibIdentityDis"
-				             >
-				            <div slot="title">身份</div>
-				        </cell> -->
-						<x-input title="身份<span>*</span>"
+						<x-input title="身份"
 							   v-model="relibIdentityDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -31,11 +24,6 @@
 				    </div>
 				    <!-- 姓名 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="姓名<span>*</span>"
-				                 v-model="form.relibName"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
 						<x-input title="姓名<span>*</span>"
 							   v-model="relibName"
 							   :disabled="disabled"
@@ -45,13 +33,6 @@
 				    </div>
 				    <!-- 证件号码 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="证件号码<span>*</span>"
-				                 v-model="form.relibIdno"
-				                 :show-clear="false"
-				                 v-verify="form.relibIdno"
-				                 @on-blur="idNumber"
-				                 placeholder="请填写">
-				        </x-input> -->
 						<x-input title="证件号码<span>*</span>"
 							   v-model="relibIdno"
 							   :disabled="disabled"
@@ -61,12 +42,6 @@
 				    </div>
 				    <!-- 手机号 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="手机号<span>*</span>"
-				                 v-model="form.relibMobile"
-				                 v-verify="form.relibMobile"
-				                 :show-clear="false"
-				                 placeholder="未填写">
-				        </x-input> -->
 						<x-input title="手机号<span>*</span>"
 							   v-model="relibMobile"
 							   :disabled="disabled"
@@ -76,13 +51,6 @@
 				    </div>
 				    <!-- 性别 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-model="relibGenderDis"
-				             >
-				            <div slot="title">性别<span>*</span></div>
-				        </cell> -->
 						<x-input title="性别<span>*</span>"
 							   v-model="relibGenderDis"
 							   :disabled="disabled"
@@ -92,15 +60,7 @@
 				    </div>
 				    <!-- 出生日期 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-verify="form.relibBirtday"
-				              v-model="form.relibBirtday"
-				              >
-				            <div slot="title">出生日期</div>
-				        </cell> -->
-						<x-input title="出生日期<span>*</span>"
+						<x-input title="出生日期"
 							   v-model="relibBirtday"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -109,12 +69,7 @@
 				    </div>
 				    <!-- 籍贯 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="籍贯"
-				                 v-model="form.relibBirtplace"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="籍贯<span>*</span>"
+						<x-input title="籍贯"
 							   v-model="relibBirtplace"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -123,14 +78,7 @@
 				    </div>
 				    <!-- 民族 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-model="relibNatalityDis"
-				             >
-				            <div slot="title">民族</div>
-				        </cell> -->
-						<x-input title="民族<span>*</span>"
+						<x-input title="民族"
 							   v-model="relibNatalityDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -139,14 +87,7 @@
 				    </div>
 				    <!-- 政治面貌 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-model="relibPoliticalDis"
-				              >
-				            <div slot="title">政治面貌</div>
-				        </cell> -->
-						<x-input title="政治面貌<span>*</span>"
+						<x-input title="政治面貌"
 							   v-model="relibPoliticalDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -155,13 +96,6 @@
 				    </div>
 				    <!-- 邀约时间 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-model="form.relibFilldate"
-				             >
-				            <div slot="title">邀约时间<span>*</span></div>
-				        </cell> -->
 						<x-input title="邀约时间<span>*</span>"
 							   v-model="relibFilldate"
 							   :disabled="disabled"
@@ -171,14 +105,7 @@
 				    </div>
 				    <!-- 健康状况 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-model="relibHealthstaDis"
-				              >
-				            <div slot="title">健康状况</div>
-				        </cell> -->
-						<x-input title="健康状况<span>*</span>"
+						<x-input title="健康状况"
 							   v-model="relibHealthstaDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -187,14 +114,7 @@
 				    </div>
 				    <!-- 婚姻状况 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-model="relibMaritlstaDis"
-				              >
-				            <div slot="title">婚姻状况</div>
-				        </cell> -->
-						<x-input title="婚姻状况<span>*</span>"
+						<x-input title="婚姻状况"
 							   v-model="relibMaritlstaDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -203,12 +123,7 @@
 				    </div>
 				    <!-- 身高 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="身高(cm)<span>*</span>"
-				                 v-model="form.relibHeight"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="身高<span>*</span>"
+						<x-input title="身高(cm)<span>*</span>"
 							   v-model="relibHeight"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -217,12 +132,7 @@
 				    </div>
 				    <!-- 体重 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="体重(kg)<span>*</span>"
-				                 v-model="form.relibWeight"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="体重<span>*</span>"
+						<x-input title="体重(kg)<span>*</span>"
 							   v-model="relibWeight"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -231,14 +141,7 @@
 				    </div>
 				    <!-- 学历 -->
 				    <div class="item_box">
-<!-- 				        <cell title=""
-				              is-link
-				              value-align="left"
-				              v-model="relibEducatDis"
-				              >
-				            <div slot="title">学历</div>
-				        </cell> -->
-						<x-input title="学历<span>*</span>"
+						<x-input title="学历"
 							   v-model="relibEducatDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -247,12 +150,7 @@
 				    </div>
 				    <!-- 毕业院校 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="毕业院校"
-				                 v-model="form.relibSchool"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="毕业院校<span>*</span>"
+						<x-input title="毕业院校"
 							   v-model="relibSchool"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -261,12 +159,7 @@
 				    </div>
 				    <!-- 专业 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="专业"
-				                 v-model="form.relibProfes"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="专业<span>*</span>"
+						<x-input title="专业"
 							   v-model="relibProfes"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -275,12 +168,7 @@
 				    </div>
 				    <!-- 现居住地 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="现居住地"
-				                 v-model="form.relibLiving"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="现居住地<span>*</span>"
+						<x-input title="现居住地"
 							   v-model="relibLiving"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -289,12 +177,7 @@
 				    </div>
 				    <!-- 家庭地址 -->
 				    <div class="item_box">
-	<!-- 			        <x-input title="家庭地址"
-				                 v-model="form.relibFamadds"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="家庭地址<span>*</span>"
+						<x-input title="家庭地址"
 							   v-model="relibFamadds"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -303,12 +186,7 @@
 				    </div>
 				    <!-- 紧急联系人姓名 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="紧急联系人姓名"
-				                 v-model="form.relibEmernm"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="紧急联系人姓名<span>*</span>"
+						<x-input title="紧急联系人姓名"
 							   v-model="relibEmernm"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -317,12 +195,7 @@
 				    </div>
 				    <!-- 紧急联系人电话 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="紧急联系人电话"
-				                 v-model="form.relibEmphone"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="紧急联系人姓名<span>*</span>"
+						<x-input title="紧急联系人电话"
 							   v-model="relibEmphone"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -331,13 +204,7 @@
 				    </div>
 				    <!-- 与本人关系 -->
 				    <div class="item_box">
-	<!-- 			        <cell title="与本人关系"
-				              is-link
-				              value-align="left"
-				              v-model="relibWithmeDis"
-				              >
-				        </cell> -->
-						<x-input title="与本人关系<span>*</span>"
+						<x-input title="与本人关系"
 							   v-model="relibWithmeDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -346,12 +213,7 @@
 				    </div>
 				    <!-- 期望薪资 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="期望薪资"
-				                 v-model="form.relibSalary"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="期望薪资<span>*</span>"
+						<x-input title="期望薪资"
 							   v-model="relibSalary"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -360,13 +222,7 @@
 				    </div>
 				    <!-- 职业状态 -->
 				    <div class="item_box">
-<!-- 				        <cell title="职业状态"
-				              is-link
-				              value-align="left"
-				              v-model="relibProstatusDis"
-				              >
-				        </cell> -->
-						<x-input title="职业状态<span>*</span>"
+						<x-input title="职业状态"
 							   v-model="relibProstatusDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -375,13 +231,7 @@
 				    </div>
 				    <!-- 可到岗时间 -->
 				    <div class="item_box">
-<!-- 				        <cell title="可到岗时间"
-				              is-link
-				              value-align="left"
-				              v-model="form.relibAvaitime"
-				              >
-				        </cell> -->
-						<x-input title="可到岗时间<span>*</span>"
+						<x-input title="可到岗时间"
 							   v-model="relibAvaitime"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -390,13 +240,7 @@
 				    </div>
 				    <!-- 是否有亲戚或朋友在本公司任职 -->
 				    <div class="item_box">
-				        <!-- <cell title="是否有亲戚或朋友在本公司任职"
-				              is-link
-				              value-align="left"
-				              v-model="relibIsrelativesDis"
-				              >
-				        </cell> -->
-						<x-input title="是否有亲戚或朋友在本公司任职<span>*</span>"
+						<x-input title="是否有亲戚或朋友在本公司任职"
 							   v-model="relibIsrelativesDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -405,12 +249,7 @@
 				    </div>
 				    <!-- 本公司任职亲戚或朋友姓名 -->
 				    <div class="item_box">
-	<!-- 			        <x-input title="本公司任职亲戚或朋友姓名"
-				                 v-model="form.relibRelatname"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="本公司任职亲戚或朋友姓名<span>*</span>"
+						<x-input title="本公司任职亲戚或朋友姓名"
 							   v-model="relibRelatname"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -419,12 +258,7 @@
 				    </div>
 				    <!-- 本公司任职亲戚或朋友部门 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="本公司任职亲戚或朋友部门"
-				                 v-model="form.relibRelatdept"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="本公司任职亲戚或朋友姓名<span>*</span>"
+						<x-input title="本公司任职亲戚或朋友部门"
 							   v-model="relibRelatdept"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -433,13 +267,7 @@
 				    </div>
 				    <!-- 有无犯罪记录 -->
 				    <div class="item_box">
-				        <!-- <cell title="是否有犯罪记录"
-				              is-link
-				              value-align="left"
-				              v-model="relibIscriminalDis"
-				              >
-				        </cell> -->
-						<x-input title="是否有犯罪记录<span>*</span>"
+						<x-input title="是否有犯罪记录"
 							   v-model="relibIscriminalDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -448,13 +276,7 @@
 				    </div>
 				    <!-- 有无纹身 -->
 				    <div class="item_box">
-<!-- 				        <cell title="是否有纹身"
-				              is-link
-				              value-align="left"
-				              v-model="relibIstattooDis"
-				              >
-				        </cell> -->
-						<x-input title="是否有纹身<span>*</span>"
+						<x-input title="是否有纹身"
 							   v-model="relibIstattooDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -463,13 +285,7 @@
 				    </div>
 				    <!-- 通过何种方式应聘 -->
 				    <div class="item_box">
-	<!-- 			        <cell title="通过何种方式应聘"
-				              is-link
-				              value-align="left"
-				              v-model="relibApplytypeDis"
-				              >
-				        </cell> -->
-						<x-input title="通过何种方式应聘<span>*</span>"
+						<x-input title="通过何种方式应聘"
 							   v-model="relibApplytypeDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -478,12 +294,7 @@
 				    </div>
 				    <!-- 介绍人姓名 -->
 				    <div class="item_box">
-<!-- 				        <x-input title="介绍人姓名"
-				                 v-model="form.relibIntrname"
-				                 :show-clear="false"
-				                 placeholder="请填写">
-				        </x-input> -->
-						<x-input title="介绍人姓名<span>*</span>"
+						<x-input title="介绍人姓名"
 							   v-model="relibIntrname"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -492,13 +303,7 @@
 				    </div>
 				    <!-- 是否服从分配 -->
 				    <div class="item_box">
-	<!-- 			        <cell title="是否服从调配"
-				              is-link
-				              value-align="left"
-				              v-model="relibIscomDis"
-				              >
-				        </cell> -->
-						<x-input title="是否服从调配<span>*</span>"
+						<x-input title="是否服从调配"
 							   v-model="relibIscomDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -508,13 +313,7 @@
 				
 				    <!-- 招生范围 -->
 				    <div class="item_box">
-<!-- 				        <cell title="招生范围"
-				              is-link
-				              value-align="left"
-				              v-model="relibEnrorageDis"
-				              >
-				        </cell> -->
-						<x-input title="招生范围<span>*</span>"
+						<x-input title="招生范围"
 							   v-model="relibEnrorageDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -523,13 +322,7 @@
 				    </div>
 				    <!-- 是否毕业-->
 				    <div class="item_box">
-<!-- 				        <cell title="是否毕业"
-				              is-link
-				              value-align="left"
-				              v-model="relibIsgraduDis"
-				              >
-				        </cell> -->
-						<x-input title="是否毕业<span>*</span>"
+						<x-input title="是否毕业"
 							   v-model="relibIsgraduDis"
 							   :disabled="disabled"
 							   :show-clear="false"
