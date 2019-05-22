@@ -255,7 +255,6 @@ const searchTable = {
       rows: 10,
       page: 1,
       logType: '查询',
-      unitType: '02dept',
     },
   },
   /*
