@@ -11,6 +11,7 @@ const recruit_process = {
     recruit_process.relibIsrelatives_dis(this)
     recruit_process.relibIsguaran_dis(this)
     recruit_process.relibReexamus_set(this)
+    recruit_process.relibReexampass_set(this)
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
@@ -70,10 +71,20 @@ const recruit_process = {
       }
     }
   },
+  //筛选是否通过
+  relibReexampass_set(t) {
+    if (t.valueMap.relibReexampass && t.valueMap.relibScreeyn) {
+      if(t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '0'){
+        t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 0;
+      }else if(t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '1'){
+        t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit.relibScreeyn === '1'
+      }
+    }
+  },
   //默认复试人
   relibReexamus_set(t) {
     const th = this.$parent
-    if (t.valueMap.relibReexamus) {		
+    if (t.valueMap.relibReexamus) {
       if (t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus.length <= 0 || t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
