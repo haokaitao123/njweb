@@ -1,13 +1,17 @@
 /**
  * Created by Aaron on 2018/4/19.
  */
-import { getDataLevelUserLogin } from '../../../axios/axios'
-import { isSuccess } from '../../../lib/util'
+import {
+  getDataLevelUserLogin
+} from '../../../axios/axios'
+import {
+  isSuccess
+} from '../../../lib/util'
 
 const recruit_process = {
   all_dis() {
     recruit_process.relibApplytype_dis(this)
-		recruit_process.relibFirstus_set(this)
+    recruit_process.relibFirstus_set(this)
     recruit_process.relibIsrelatives_dis(this)
     recruit_process.relibIsguaran_dis(this)
     recruit_process.relibReexamus_set(this)
@@ -74,10 +78,12 @@ const recruit_process = {
   //筛选是否通过
   relibReexampass_set(t) {
     if (t.valueMap.relibReexampass && t.valueMap.relibScreeyn) {
-      if(t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '0'){
+      if (t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '0') {
+        t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '0');
         t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 0;
-      }else if(t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '1'){
-        t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit.relibScreeyn === '1'
+      } else if (t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '1') {
+        t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '1');
+        t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 1;
       }
     }
   },
@@ -92,15 +98,15 @@ const recruit_process = {
           id: t.$store.state.user.userId,
         }).then((res) => {
           if (isSuccess(res, this.$parent)) {
-          t.$refs[t.valueMap.relibReexamus][0].$set(t.$refs[t.valueMap.relibReexamus][0].formDataSubmit, 'relibReexamus', res.data.content[0].sysUsempid)
-          t.$refs[t.valueMap.relibReexamus][0].$refs.relibReexamus.thisValue = res.data.content[0].sysUsempidDis
-        }
-      }).catch(() => {
+            t.$refs[t.valueMap.relibReexamus][0].$set(t.$refs[t.valueMap.relibReexamus][0].formDataSubmit, 'relibReexamus', res.data.content[0].sysUsempid)
+            t.$refs[t.valueMap.relibReexamus][0].$refs.relibReexamus.thisValue = res.data.content[0].sysUsempidDis
+          }
+        }).catch(() => {
           this.$Modal.error({
-          title: '错误',
-          content: '网络错误',
+            title: '错误',
+            content: '网络错误',
+          })
         })
-      })
       }
     }
     if (t.valueMap.relibReexamtm) {
@@ -179,7 +185,7 @@ const recruit_process = {
       }
     }
   },
-// 是否担保
+  // 是否担保
   relibIsguaran_dis(t) {
     if (t.valueMap.relibIsguaran) {
       if (t.$refs[t.valueMap.relibIsguaran][0].formDataSubmit.relibIsguaran === '0') {
@@ -195,5 +201,5 @@ const recruit_process = {
   },
 
 }
-  export default recruit_process
+export default recruit_process
 // export default flow1 612731199608271618
