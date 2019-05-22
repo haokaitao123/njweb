@@ -16,6 +16,9 @@ const recruit_process = {
     recruit_process.relibIsguaran_dis(this)
     recruit_process.relibReexamus_set(this)
     recruit_process.relibReexampass_set(this)
+    recruit_process.relibGuarantee_set(this);
+    recruit_process.relibTrysqus_set(this);
+
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
@@ -75,15 +78,55 @@ const recruit_process = {
       }
     }
   },
-  //筛选是否通过
+  //筛选是否通过  只有为否时才带出否
   relibReexampass_set(t) {
     if (t.valueMap.relibReexampass && t.valueMap.relibScreeyn) {
       if (t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '0') {
         t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '0');
         t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 0;
       } else if (t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '1') {
-        t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '1');
-        t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 1;
+        //t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '1');
+        //t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 1;
+      }
+    }
+  },
+  //默认担保人
+  relibGuarantee_set(t) {
+    const th = this.$parent
+    if (t.valueMap.relibGuarantee) {
+      if (t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit.relibGuarantee.length <= 0 || t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit.relibGuarantee === '0') {
+        getDataLevelUserLogin({
+          _mt: 'sysUserinfo.getSysUserinfoByUserId',
+          logType: '查询担保人',
+          id: t.$store.state.user.userId,
+        }).then((res) => {
+          if (isSuccess(res, this.$parent)) {
+          t.$refs[t.valueMap.relibGuarantee][0].$set(t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit, 'relibGuarantee', res.data.content[0].sysUsempid)
+          t.$refs[t.valueMap.relibGuarantee][0].$refs.relibGuarantee.thisValue = res.data.content[0].sysUsempidDis
+        }
+      }).catch(() => {
+          t.$Message.error('网络错误')
+      })
+      }
+    }
+  },
+  //试岗申请人
+  relibTrysqus_set(t) {
+    const th = this.$parent
+    if (t.valueMap.relibTrysqus) {
+      if (t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit.relibTrysqus.length <= 0 || t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit.relibTrysqus === '0') {
+        getDataLevelUserLogin({
+          _mt: 'sysUserinfo.getSysUserinfoByUserId',
+          logType: '查询试岗申请人',
+          id: t.$store.state.user.userId,
+        }).then((res) => {
+          if (isSuccess(res, this.$parent)) {
+          t.$refs[t.valueMap.relibTrysqus][0].$set(t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit, 'relibTrysqus', res.data.content[0].sysUsempid)
+          t.$refs[t.valueMap.relibTrysqus][0].$refs.relibTrysqus.thisValue = res.data.content[0].sysUsempidDis
+        }
+      }).catch(() => {
+          t.$Message.error('网络错误')
+      })
       }
     }
   },
