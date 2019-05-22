@@ -18,7 +18,7 @@ const recruit_process = {
     recruit_process.relibReexampass_set(this)
     recruit_process.relibGuarantee_set(this);
     recruit_process.relibTrysqus_set(this);
-
+    recruit_process.relibTrypsus_set(this);
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
@@ -123,6 +123,26 @@ const recruit_process = {
           if (isSuccess(res, this.$parent)) {
           t.$refs[t.valueMap.relibTrysqus][0].$set(t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit, 'relibTrysqus', res.data.content[0].sysUsempid)
           t.$refs[t.valueMap.relibTrysqus][0].$refs.relibTrysqus.thisValue = res.data.content[0].sysUsempidDis
+        }
+      }).catch(() => {
+          t.$Message.error('网络错误')
+      })
+      }
+    }
+  },
+  //试岗审批人
+  relibTrypsus_set(t) {
+    const th = this.$parent
+    if (t.valueMap.relibTrypsus) {
+      if (t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit.relibTrypsus.length <= 0 || t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit.relibTrypsus === '0') {
+        getDataLevelUserLogin({
+          _mt: 'sysUserinfo.getSysUserinfoByUserId',
+          logType: '查询试岗审批人',
+          id: t.$store.state.user.userId,
+        }).then((res) => {
+          if (isSuccess(res, this.$parent)) {
+          t.$refs[t.valueMap.relibTrypsus][0].$set(t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit, 'relibTrypsus', res.data.content[0].sysUsempid)
+          t.$refs[t.valueMap.relibTrypsus][0].$refs.relibTrypsus.thisValue = res.data.content[0].sysUsempidDis
         }
       }).catch(() => {
           t.$Message.error('网络错误')
