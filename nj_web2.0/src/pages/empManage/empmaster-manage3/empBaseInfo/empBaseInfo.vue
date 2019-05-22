@@ -26,8 +26,7 @@
                         <Input v-model="form.empnhName"
                                :disabled="disabled"
                                placeholder="请输入雇员姓名"
-                               @on-blur = "cop()"
-                               ></Input>
+                               @on-blur="cop()"></Input>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
@@ -313,8 +312,7 @@
                               prop="empnhSalaccname">
                         <Input v-model="form.empnhSalaccname"
                                :disabled="disabled"
-                               placeholder="请输入户名"
-                               ></Input>
+                               placeholder="请输入户名"></Input>
                     </FormItem>
                 </i-col>
                 <i-col span="11">
@@ -833,13 +831,13 @@ export default {
                         trigger: "blur"
                     }
                 ],
-/*                empnhPmp: [
-                    {
-                        required: true,
-                        message: "请选择上级",
-                        trigger: "blur"
-                    }
-                ],*/
+                /*                empnhPmp: [
+                                    {
+                                        required: true,
+                                        message: "请选择上级",
+                                        trigger: "blur"
+                                    }
+                                ],*/
                 empnhIdtype: [
                     {
                         required: true,
@@ -859,11 +857,11 @@ export default {
                         message: '请填写正确的证件号码',
                         trigger: 'blur'
                     },
-/*                    {
-                        validator: numberCheck,
-                        message: '请输入正确的数字格式',
-                        trigger: 'blur'
-                    },*/
+                    /*                    {
+                                            validator: numberCheck,
+                                            message: '请输入正确的数字格式',
+                                            trigger: 'blur'
+                                        },*/
                 ],
                 empnhSday: [
                     {
@@ -1116,7 +1114,7 @@ export default {
                     t.spinShow = false
                 });;
         },
-        cop(){
+        cop () {
             this.form.empnhSalaccname = this.form.empnhName;
         },
         //查询公共参数
@@ -1206,6 +1204,8 @@ export default {
             t.form = {};
             t.form.numberCode = "XXXXXX";
             t.form.empnhAttendyn = "1";
+            t.form.empnhNation = "10";
+            t.form.empnhIdtype = "01id";
             t.empnhRegtypeDis = ""; // 户籍性质显示字段
             t.empnhSalbankDis = ""; // 开户银行显示字段
             t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
@@ -1421,13 +1421,12 @@ export default {
                 onCancel: () => { }
             })
         },
-
         //转正日期默认为入职日期3个月以后
         entrydateChange (date) {
-          //this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
-          date = new Date(date)
-          let entryDate = date.setMonth(date.getMonth() + 3);
-          this.form.empnhIrmentdate = new Date(entryDate).format('yyyy-MM-dd')
+            //this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
+            date = new Date(date)
+            let entryDate = date.setMonth(date.getMonth() + 3);
+            this.form.empnhIrmentdate = new Date(entryDate).format('yyyy-MM-dd')
         },
     }
 };
