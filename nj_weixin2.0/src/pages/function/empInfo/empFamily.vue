@@ -97,7 +97,7 @@
                           action-type="button">保存</x-button>
             </div> -->
 			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">取消</x-button>
+				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
 				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
 			</div>
         </div>
@@ -342,6 +342,7 @@ export default {
         		color: #fff;
         		font-size: 34px;
         		width: 300px;
+				height: 80px;
         	}
         
         	.button_left {

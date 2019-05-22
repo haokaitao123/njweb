@@ -11,7 +11,7 @@
                       :offset="10">
                 <div class="interviewItem"
                      v-for="(item,index) in list"
-                     @click="goTo(item.id)">
+                     @click="goTo(item.id,item.curStepDis,item.curStepstate)">
                     <div class="interview_item item_first">
                         <h3>{{item.relibName}}</h3>
                         <span>{{item.curStepDis}}</span>
@@ -35,11 +35,11 @@
                     </div>
 					<div class="interview_item"  v-if="item.curStepDis==='初试'&&item.curStepstate==='p_flowst_3'">
 						<label for="">初试结果：</label>
-					    <span >{{item.relibFirstopin}}</span>
+					    <span class="option">{{item.relibFirstopin}}</span>
 					</div>
-					<div class="interview_item"  v-if="item.curStepDis==='复试'&&item.curStepstate==='p_flowst_3'">
+					<div class="interview_item"  v-if="item.curStepDis!=='初试'&&item.curStepDis!=='复试'">
 						<label for="">复试结果：</label>
-					    <span >{{item.relibCheckopin}}</span>
+					    <span class="option">{{item.relibCheckopin===''?'无':item.relibCheckopin}}</span>
 					</div>
                     <div class="button_box">
                         <button type="button"
@@ -132,11 +132,22 @@ export default {
         addNewInterview
     },
     methods: {
-        goTo (id) {
+        goTo (id,curStepDis,curStepstate) {
+			let curStep = false;
+			if(curStepDis&&curStepstate){
+				if (curStepDis === '初试' && curStepstate !== 'p_flowst_3') {
+				    curStep = false;
+				} else {
+				    curStep = true;
+				}
+			}
             this.$router.push({
                 name: 'addInterview',
                 query: {
-                    id: id
+                    id: id,
+					curStep:curStep,
+					curStepDis:curStepDis,
+					curStepstate:curStepstate
                 }
             })
         },
@@ -320,6 +331,12 @@ export default {
                 .p_flowst_3 {
                     color: red;
                 }
+				.option{
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					flex: 1;
+				}
             }
 
             .item_first {
@@ -366,29 +383,6 @@ export default {
                     }
                 }
             }
-
-            // .item_third {
-            //     font-size: 24px;
-            //     color: #999999;
-            //     display: flex;
-            //     span {
-            //         padding: 5px 13px;
-            //         background: #f8f8f8;
-            //         margin-right: 13px;
-            //     }
-            // }
-            // .item_four {
-            //     display: flex;
-            //     img {
-            //         width: 24px;
-            //         height: 24px;
-            //     }
-            //     span {
-            //         font-size: 24px;
-            //         color: #333333;
-            //         margin-left: 14px;
-            //     }
-            // }
             .button_box {
                 display: flex;
                 justify-content: flex-end;

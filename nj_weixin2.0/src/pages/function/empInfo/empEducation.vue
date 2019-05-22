@@ -144,7 +144,7 @@
                           action-type="button">保存</x-button>
             </div> -->
 			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">取消</x-button>
+				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
 				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
 			</div>
         </div>
@@ -215,6 +215,7 @@ export default {
             list: [],
             file: '',
             filekey: '',
+			fileName:'',
             curDom: "",
             curDomShow: "",
             edEdateDate: new Date(),
@@ -423,6 +424,7 @@ export default {
                     t.edIshighestDis = data.edIshighestDis;
                     t.edCuntryDis = data.edCuntryDis !== undefined ? data.edCuntryDis : '中国';;
                     if (data.fileKey) {
+						t.fileName =  data.fileKey.split(':')[0];
                         t.file = { name: data.fileKey.split(':')[0] }
                         t.filekey = data.fileKey.split(':')[1]
                     };
@@ -488,7 +490,7 @@ export default {
                 if (isSuccess(res, t)) {
                     let storage = window.localStorage;
                     console.log(storage.token, "token")
-                    let doclink = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey) + "&_tk=" + encodeURIComponent(storage.token)
+                    let doclink = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.fileName) + "&_tk=" + encodeURIComponent(storage.token)
                     let link = document.createElement('a');
                     link.href = doclink;
                     link.download = "downloadfiletemp";
@@ -537,11 +539,12 @@ export default {
 		.save_button {
 			padding: 125px 54px 50px;
 			display: flex;
-		
+			
 			.x_button {
 				color: #fff;
 				font-size: 34px;
 				width: 300px;
+				height: 80px;
 			}
 		
 			.button_left {

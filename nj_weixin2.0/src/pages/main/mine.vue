@@ -48,7 +48,7 @@
                     </div>
 					 <div class="item">
 					    <label>银行账号：</label>
-					    <span>{{userInfo.empnhSalaccount}}</span>
+					    <span>{{empnhSalaccount}}</span>
 					</div>
                 </div>
             </div>
@@ -57,11 +57,11 @@
                 <div class="company_item">
                     <div class="item">
                         <label>证件号码：</label>
-                        <span>{{userInfo.empnhIdno}}</span>
+                        <span>{{empnhIdno}}</span>
                     </div>
                     <div class="item">
                         <label>手<span>部门</span>机：</label>
-                        <span>{{userInfo.empnhMobile}}</span>
+                        <span>{{empnhMobile}}</span>
                     </div>
 					
                 </div>
@@ -77,13 +77,26 @@
 export default {
     data () {
         return {
-            userInfo: JSON.parse(window.localStorage.getItem('empData'))
+            userInfo: JSON.parse(window.localStorage.getItem('empData')),
+			empnhMobile:"",
+			empnhIdno:"",
+			empnhSalaccount:""
         }
     },
+	created() {
+		this.encrpt()
+	},
     mounted () {
         console.log(this.userInfo, "userInfo")
     },
     methods: {
+		encrpt(){
+			let data = JSON.parse(window.localStorage.getItem('empData'));
+			let tele = "" + data.empnhMobile;
+			this.empnhMobile = tele.substr(0,3) + "****" + tele.substr(7);
+			this.empnhIdno = data.empnhIdno.replace(/(\d{5})\d{6}(\d{6})/, "$1******$2");
+			this.empnhSalaccount = data.empnhSalaccount.replace(/\s/g,'').replace(/(\d{4})\d+(\d{4})$/, "**** **** **** $2")
+		},
         loginOut () {
 			this.$dialog.confirm({
 			  title: '',

@@ -13,6 +13,7 @@
                      @click="goTo(item.id)"
                      v-for="(item,index) in list">
                     <div class="item_left">
+						<span>离职员工：{{item.empIdName}}</span>
                         <span>
                             公<b>公司</b>司：{{companyName}}
                         </span>
@@ -22,6 +23,7 @@
                         <span>申请日期：{{item.dimApplydate}}</span>
                     </div>
                     <div class="item_right">
+						<span>{{item.curStepDis}}</span>
                         <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
                              @click="deleteItem($event,item.id,index)">
@@ -45,7 +47,7 @@
 </template>
 <script>
 import noDimission from '@/components/public/addNew'
-import { getDataLevelUserLogin } from '@/axios/axios'
+import { getDataLevelUserLogin,getDataLevelUserLoginNew} from '@/axios/axios'
 import { isSuccess } from '@/lib/util'
 export default {
     data () {
@@ -64,8 +66,8 @@ export default {
             finishedText: '',
 			btnName:'添加离职',
 			curStepstate:{
-				'p_flowst_1':'待确认',
-				'p_flowst_2':'已确认',
+				'p_flowst_1':'待处理',
+				'p_flowst_2':'已处理',
 				'p_flowst_3':'已结束'
 			}
         }
@@ -148,7 +150,8 @@ export default {
                 order: this.order,
                 userId: window.localStorage.getItem('uid'),
             }
-            await getDataLevelUserLogin(data).then((res) => {
+			// data.dimApplicant = window.localStorage.getItem('empId');
+            await getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
                     let data = JSON.parse(res.data.content[0].value);
 					
@@ -244,10 +247,12 @@ export default {
 				.p_flowst_3 {
 				    color: red;
 				}
+				>span{
+					margin-bottom: 20px;
+				}
                 .close {
                     height: 36px;
                     width: 36px;
-                    margin-top: 20px;
                     img {
                         width: 100%;
                         height: 100%;

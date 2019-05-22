@@ -7,10 +7,12 @@
                 <!-- 家庭成员关系 -->
                 <div class="item_box">
                     <cell title=""
+					      v-if="!disabled"
                           is-link
                           value-align="left"
                           v-model="refaMembersDis"
                           v-verify="form.refaMembers"
+						  :disabled="disabled"
                           @click.native="popupClick('refaMembersShow','refaMembers')">
                         <div slot="title">家庭成员关系<span>*</span></div>
                     </cell>
@@ -18,12 +20,20 @@
                           class="error"
                           v-show="refaMembersDis==''"
                           v-remind="form.refaMembers"></icon>
+					<x-input title="家庭成员关系<span>*</span>"
+							 v-if="disabled"
+					         v-model="refaMembersDis"
+							  :disabled="disabled"
+					         :show-clear="false"
+					         placeholder="未填写">
+					</x-input>
                 </div>
                 <!-- 姓名 -->
                 <div class="item_box">
                     <x-input title="姓名<span>*</span>"
                              v-model="form.refaName"
                              v-verify="form.refaName"
+							  :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -37,6 +47,7 @@
                     <x-input title="工作单位"
                              v-model="form.refaCompnm"
                              v-verify="form.refaCompnm"
+							  :disabled="disabled"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
@@ -45,6 +56,7 @@
                 <div class="item_box">
                     <x-input title="职务"
                              v-model="form.refaPost"
+							  :disabled="disabled"
                              v-verify="form.refaPost"
                              :show-clear="false"
                              placeholder="请填写">
@@ -54,6 +66,7 @@
                 <div class="item_box">
                     <x-input title="联系方式<span>*</span>"
                              v-model="form.refaContact "
+							  :disabled="disabled"
                              v-verify="form.refaContact"
                              :show-clear="false"
                              placeholder="请填写">
@@ -67,6 +80,7 @@
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
+							:readonly="disabled"
                             v-model="form.note"
                             placeholder="请填写"
                             :show-counter="true"></x-textarea>
@@ -79,8 +93,8 @@
                           action-type="button">保存</x-button>
             </div> -->
 			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">取消</x-button>
-				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
+				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
+				<x-button type="primary" class="x_button" @click.native="save" v-if="!disabled">保存</x-button>
 			</div>
         </div>
         <van-popup v-model="refaMembersShow"
@@ -129,6 +143,10 @@ export default {
 		id: {
 			type: String,
 			default: ''
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		},
 	},
     components: {
@@ -299,13 +317,16 @@ export default {
         	.x_button {
         		color: #fff;
         		font-size: 34px;
-        		width: 300px;
+				width: 300px;
+        		flex: 1;
+				height: 80px;
         	}
         
         	.button_left {
         		color: #339afe;
         		background: #fff;
         		border: 2px solid #339afe !important;
+				margin-right: 5%;
         	}
         
         	.weui-btn+.weui-btn {

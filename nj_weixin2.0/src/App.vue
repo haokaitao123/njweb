@@ -232,7 +232,7 @@ span {
     font-size: 30px;
 }
 .weui-btn_disabled.weui-btn_primary {
-    background-color: #09fe !important;
+    background-color: #ccc !important;
 }
 .van-checkbox__icon .van-icon{
 	width: 32px!important;

@@ -22,7 +22,8 @@
                     <div class="item_right">
                         <span class="">{{state[item.state]}}</span>
                         <div class="close"
-                             @click="deleteItem($event,item.id,index)">
+							v-if="item.state==='01draft'"
+                            @click="deleteItem($event,item.id,index)">
                             <img src="../../../../static/function/close.png"
                                  alt="">
                         </div>

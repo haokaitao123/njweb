@@ -34,7 +34,8 @@ export default {
             list: "",
             content: "",
             file: "",
-            filekey: ""
+            filekey: "",
+			fileName:"",
         }
     },
     mounted () {
@@ -55,6 +56,7 @@ export default {
                     t.content = t.list.noticeContent;
                     console.log(t.content, "t.content ");
                     if (t.list.noticeAttach) {
+						t.fileName = t.list.noticeAttach.split(':')[0];
                         t.file = { name: t.list.noticeAttach.split(':')[0] }
                         t.filekey = t.list.noticeAttach.split(':')[1];
                         console.log(t.filekey, "t.filekey1")
@@ -82,9 +84,27 @@ export default {
             }
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    console.log(res, "res");
-                    console.log(pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey), "t.filekey")
-                    window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey);
+                    // console.log(res, "res");
+                    // console.log(pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.fileName)+'&_tk='+window.localStorage.getItem('token'), "t.filekey")
+                    // window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)+'&_tk='+window.localStorage.getItem('token');
+					let storage = window.localStorage;
+					console.log(storage.token, "token")
+					let doclink = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.fileName) + "&_tk=" + encodeURIComponent(storage.token)
+					let link = document.createElement('a');
+					link.href = doclink;
+					link.download = "downloadfiletemp";
+					link.click();
+					 //  let doclink =pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.fileName)+'&_tk='+window.localStorage.getItem('token')
+						// pubsource.pub_prvf_downlink +
+						// res.data.content[0].value +
+						// "&fname=" +
+						// encodeURI(t.filekey);
+						// let link = document.createElement("a");
+						// link.href = doclink;
+						// link.download = "downloadfiletemp";
+						// link.setAttribute("download", "downloadfiletemp");
+						// document.body.appendChild(link);
+						// link.click();
                 }
             }).catch(() => {
                 t.$notify({
