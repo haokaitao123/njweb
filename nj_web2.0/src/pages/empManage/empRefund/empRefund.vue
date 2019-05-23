@@ -258,10 +258,10 @@
                 },
                 on: {
                   click: () => {
-                    this.openUp(params.row.id,  this.$t('button.view'), params.index);
+                    this.openUp(params.row.id,  v.name, params.index);
                   },//v.name
                 },
-              },  this.$t('button.view')))
+              },  v.name))//this.$t('button.view')
             };
             return h('div', [
               child,
