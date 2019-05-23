@@ -10,7 +10,7 @@ const emp_transtion = {
     emp_transtion.transPostinfo_dis(this)
     emp_transtion.transMaterial_dis(this);
     emp_transtion.money_dis(this)
-    emp_transtion.transDeposit_dis(this)
+    //emp_transtion.transDeposit_dis(this)
   },
   transPostinfo(node) {
     emp_transtion.transPostinfo_set(this.$parent)
@@ -21,17 +21,17 @@ const emp_transtion = {
     emp_transtion.transMaterial_dis(this.$parent)
   },
 
-  transDeposit(node) {
+/*  transDeposit(node) {
     // debugger;
-/*
+/!*
     node.$el.onblur =function(){
       alert(1)
     }
     node.$el.onblur = emp_transtion.transDeposit_dis(this.$parent);
     console.log(node,"node");
-    console.log(node.$el.onblur,"this.$parent");*/
+    console.log(node.$el.onblur,"this.$parent");*!/
     emp_transtion.transDeposit_dis(this.$parent);
-  },
+  },*/
 
   transDate_set(t) {
     if (t.valueMap.transDate) {
@@ -98,7 +98,7 @@ const emp_transtion = {
   },
 
   //根据现岗位现部门判断是否显示押金金额字段
-  transDeposit_dis(t){
+/*  transDeposit_dis(t){
     //debugger
     let mey
     mey= t.$refs[t.valueMap.transDeposit][0].formDataSubmit.transDeposit;
@@ -120,7 +120,7 @@ const emp_transtion = {
       content: this.$t('reminder.errormessage'),
     })
   })
-  },
+  },*/
 
   //根据现岗位现部门判断是否显示押金金额字段
   money_dis(t){
