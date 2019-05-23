@@ -7,7 +7,7 @@
                     <Icon type="mouse"></Icon>&nbsp;员工变更管理
                 </p>
                 <Row>
-                    <Col span="6"
+                    <Col span="5"
                          class="colTree">
                     <div class="divtree"
                          :style="{height:treeheight + 'px'}">
@@ -20,7 +20,7 @@
                               :style="{height:treeheight + 'px'}"></Spin>
                     </div>
                     </Col>
-                    <Col span="18">
+                    <Col span="21">
                     <Row>
                     	<Input v-model="searchParams.empnhName" placeholder="请输入员工姓名" style="width: 200px"/>    
                         <Input v-model="searchParams.empnhIdno" placeholder="请输入身份证号码" style="width: 200px"/>
@@ -274,7 +274,7 @@ export default {
             data.forEach(item => {
                 item.expand = false;
                 item.checked = item.authRoleFunDis === "1";
-                item.title = item.unitCode + " " + item.unitFname;
+                item.title = item.unitFname;
                 delete item.children;
             });
             const map = {};

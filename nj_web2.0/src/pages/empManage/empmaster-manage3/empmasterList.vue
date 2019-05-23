@@ -7,7 +7,7 @@
                     <Icon type="mouse"></Icon>&nbsp;员工入职管理
                 </p>
                 <Row>
-                    <Col span="6"
+                    <Col span="5"
                          class="colTree">
                     <div class="divtree"
                          :style="{height:treeheight + 'px'}">
@@ -743,7 +743,7 @@ export default {
             data.forEach(item => {
                 item.expand = false;
                 item.checked = item.authRoleFunDis === "1";
-                item.title = item.unitCode + " " + item.unitFname;
+                item.title = item.unitFname;
                 delete item.children;
             });
             const map = {};
