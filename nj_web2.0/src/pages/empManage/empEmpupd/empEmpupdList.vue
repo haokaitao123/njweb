@@ -20,7 +20,7 @@
                               :style="{height:treeheight + 'px'}"></Spin>
                     </div>
                     </Col>
-                    <Col span="21">
+                    <Col span="18">
                     <Row>
                     	<Input v-model="searchParams.empnhName" placeholder="请输入员工姓名" style="width: 200px"/>    
                         <Input v-model="searchParams.empnhIdno" placeholder="请输入身份证号码" style="width: 200px"/>
