@@ -156,12 +156,12 @@ export default {
         },
     },
     mounted () {
-        //   Bus.$on('calenderGetData', () => {
-        //     this.getData()
-        //   })
-        //   setTimeout(() => {
-        //     this.getData()
-        //   }, 1000)
+        Bus.$on('calenderGetData', () => {
+            this.getData()
+        })
+        setTimeout(() => {
+            this.getData()
+        }, 1000)
     },
     methods: {
         openUpdHome (id) {
@@ -182,26 +182,27 @@ export default {
         },
         getData () {
             const t = this
-            const data = {
-                _mt: 'cmutRemind.getByList',
-                remindStatime: t.remindStatime,
-                remindPlat: t.$store.state.user.roleType,
-            }
-            for (const dat in data) {
-                if (data[dat] === '') {
-                    delete data[dat]
-                }
-            }
-            getDataLevelUserLoginNew(data).then((res) => {
-                if (isSuccess(res, t)) {
-                    t.sysmlvarComment = res.data.content[0].value
-                }
-            }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
-            })
+            console.log("123")
+            // const data = {
+            //     _mt: 'cmutRemind.getByList',
+            //     remindStatime: t.remindStatime,
+            //     remindPlat: t.$store.state.user.roleType,
+            // }
+            // for (const dat in data) {
+            //     if (data[dat] === '') {
+            //         delete data[dat]
+            //     }
+            // }
+            // getDataLevelUserLoginNew(data).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         t.sysmlvarComment = res.data.content[0].value
+            //     }
+            // }).catch(() => {
+            //     t.$Modal.error({
+            //         title: this.$t('reminder.err'),
+            //         content: this.$t('reminder.errormessage'),
+            //     })
+            // })
         },
         openTablePage () {
             const t = this
