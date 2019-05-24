@@ -344,7 +344,7 @@ export default {
                         getDataLevelUserLogin({
                             _mt: t.dele_mt,
                             logType: this.$t("button.del"),
-                            delIds: t.tableselected.toString()
+                            ids: t.tableselected.toString()
                         })
                             .then(res => {
                                 if (isSuccess(res, t)) {
