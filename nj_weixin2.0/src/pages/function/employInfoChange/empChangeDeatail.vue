@@ -6,34 +6,34 @@
                    class="form">
                 <!-- 员工姓名 -->
                 <div class="item_box">
-                    <cell title=""
-						  v-if="!disabled"
+                    <!-- <cell title=""
+                          v-if="!disabled"
                           is-link
                           value-align="left"
-						  :disabled="disabled"
+                          :disabled="disabled"
                           v-model="empnhName"
                           v-verify="form.empId"
                           @click.native="popupClick('empShow')">
                         <div slot="title">员工姓名<span>*</span></div>
-                    </cell>
+                    </cell> -->
                     <icon type="warn"
                           class="error"
                           v-show="empnhName=='请选择'"
                           v-remind="form.empId"></icon>
-					<x-input title="员工姓名<span>*</span>"
-							 v-if="disabled"
-					         v-model="empnhName"
-					         :show-clear="false"
-					         placeholder="未填写"
-					         :disabled="true">
-					</x-input>
+                    <x-input title="员工姓名<span>*</span>"
+                             v-model="empnhName"
+                             v-verify="form.empId"
+                             :show-clear="false"
+                             :placeholder="disabled?'未填写':'请填写'"
+                             :disabled="true">
+                    </x-input>
                 </div>
                 <!-- 证件号码 -->
                 <div class="item_box">
                     <x-input title="证件号码"
                              v-model="form.empnhIdno"
                              :show-clear="false"
-                             placeholder="未填写"
+                             :placeholder="disabled?'未填写':'请填写'"
                              :disabled="true">
                     </x-input>
                 </div>
@@ -42,7 +42,7 @@
                     <x-input title="部门名称"
                              v-model="unitFname"
                              :show-clear="false"
-                             placeholder="未填写"
+                             :placeholder="disabled?'未填写':'请填写'"
                              :disabled="true">
                     </x-input>
                 </div>
@@ -51,7 +51,7 @@
                     <x-input title="岗位名称"
                              v-model="postFname"
                              :show-clear="false"
-                             placeholder="未填写"
+                             :placeholder="disabled?'未填写':'请填写'"
                              :disabled="true">
                     </x-input>
                 </div>
@@ -61,15 +61,19 @@
                              v-model="form.empupdResaddr"
                              v-verify="form.empupdResaddr"
                              :show-clear="false"
-							 :disabled="disabled"
-                             placeholder="请填写">
+                             :disabled="disabled"
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.empupdResaddr==''"
+                          v-remind="form.empupdResaddr"></icon>
                 </div>
                 <!-- 开户银行 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
-						  v-if="!disabled"
+                          v-if="!disabled"
                           value-align="left"
                           v-model="empnhSalbankDis"
                           v-verify="form.empupdSalbank"
@@ -80,22 +84,22 @@
                           class="error"
                           v-show="empnhSalbankDis=='请选择'"
                           v-remind="form.empupdSalbank"></icon>
-					<x-input title="开户银行<span>*</span>"
-							 v-if="disabled"
-					         v-model="empnhSalbankDis"
-					         :show-clear="false"
-					         placeholder="未填写"
-					         :disabled="true">
-					</x-input>
+                    <x-input title="开户银行<span>*</span>"
+                             v-if="disabled"
+                             v-model="empnhSalbankDis"
+                             :show-clear="false"
+                             :placeholder="disabled?'未填写':'请填写'"
+                             :disabled="true">
+                    </x-input>
                 </div>
                 <!-- 银行账号 -->
                 <div class="item_box">
                     <x-input title="银行账号<span>*</span>"
                              v-model="form.empupdSalcount "
                              v-verify="form.empupdSalcount"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -107,36 +111,36 @@
                     <x-input title="户名<span>*</span>"
                              v-model="form.empupdSalcname "
                              v-verify="form.empupdSalcname"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
                           v-show="form.empupdSalcname==''"
                           v-remind="form.empupdSalcname"></icon>
                 </div>
-                <!-- 未通过原因 -->
-                <!-- <div class="item_box">
-					<x-input title="未通过原因" v-model="form.empupdReason " v-verify="form.empupdReason" :show-clear="false" placeholder="请填写">
-					</x-input>
-				</div> -->
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
                             v-model="form.note"
-							:readonly="disabled"
-                            placeholder="请填写"
+                            :disabled="disabled"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
-            <div class="save_button" v-if="state==='01draft'||state==='02draft'">
+            <div class="save_button"
+                 v-if="state==='01draft'||state===''">
+                <x-button type="default"
+                          class="x_button button_left"
+                          action-type="button"
+                          @click.native="save">保存</x-button>
                 <x-button type="primary"
                           class="x_button"
-                          @click.native="comfirmSave"
-                          action-type="button">保存</x-button>
+                          @click.native="comfirmSubmit">提交</x-button>
             </div>
+
         </div>
         <!-- 员工 -->
         <van-popup v-model="empShow"
@@ -175,30 +179,33 @@ import {
 export default {
     data () {
         return {
+            id: "",
             curDom: "",
             curDomShow: "",
-			state:"",
+            state: this.$route.query.state ? this.$route.query.state : '',
+            userData: JSON.parse(window.localStorage.getItem('empData')),
             form: {
-                empId: "", 						//员工姓名
-                empnhIdno: "", 					//证件号码
-                deptId: "", 					//部门名称
-                postId: "", 					//岗位名称
-                empupdResaddr: "", 				//居住详细地址
-                empupdSalbank: "", 				//开户银行
-                empupdSalcount: "",				//银行账号
-                empupdSalcname: "",				//户名
-                empupdReason: "",				//未通过原因
-                note: "",						//备注
+                empId: window.localStorage.getItem('empId'), 						                //员工姓名
+                empnhIdno: JSON.parse(window.localStorage.getItem('empData')).empnhIdno, 			//证件号码
+                deptId: JSON.parse(window.localStorage.getItem('empData')).deptId, 					//部门名称
+                postId: JSON.parse(window.localStorage.getItem('empData')).postId, 					//岗位名称
+                empupdResaddr: "", 				                                                    //居住详细地址
+                empupdSalbank: "", 				                                                    //开户银行
+                empupdSalcount: "",				                                                    //银行账号
+                empupdSalcname: JSON.parse(window.localStorage.getItem('empData')).empnhName,		//户名
+                empupdReason: "",				                                                    //未通过原因
+                note: "",						                                                    //备注
             },
-            empnhName: "请选择",
-            unitFname: "",
-            postFname: "",
+            empnhName: JSON.parse(window.localStorage.getItem('empData')).empnhName,
+            unitFname: JSON.parse(window.localStorage.getItem('empData')).unitFname,
+            postFname: JSON.parse(window.localStorage.getItem('empData')).postFname,
             empnhSalbankDis: "请选择",
             empShow: false,
             bankShow: false,
             currentEmpId: '',
             currentBankId: '',
-			disabled:false
+            disabled: false,
+            saveStatus: false,
         }
     },
     verify: {
@@ -223,17 +230,21 @@ export default {
         this.getData()
     },
     methods: {
-        comfirmSave () {
-            this.$dialog.confirm({
-                title: '',
-                message: '是否确认保存？'
-            }).then(() => {
-                this.save();
-            }).catch(() => {
-                // on cancel
-            });
-        },
-        save () {
+        // comfirmSave () {
+        //     if (this.$verify.check()) {
+        //         this.$dialog.confirm({
+        //             title: '',
+        //             message: '是否确认保存？'
+        //         }).then(() => {
+        //             this.save();
+        //         }).catch(() => {
+        //             // on cancel
+        //         });
+        //     } else {
+        //         this.$vux.toast.text('请检查填写信息', 'middle');
+        //     }
+        // },
+        async save () {
             const t = this;
             if (this.$verify.check()) {
                 const data = deepCopy(t.form);
@@ -244,29 +255,28 @@ export default {
                 let text = "";
                 if (listId !== undefined) {
                     data.id = listId;
-                    text = '修改成功'
                 } else {
-                    text = '新增成功'
+                    data.id = t.id;
                 }
                 for (const dat in data) {
                     if (data[dat] === "") {
                         delete data[dat];
                     }
                 }
-                getDataLevelUserLoginEmpId(data).then(res => {
+                await getDataLevelUserLoginEmpId(data).then(res => {
                     if (isSuccess(res, t)) {
                         let data = JSON.parse(res.data.content[0].value);
                         console.log(data, "t.content ");
-                        this.$router.push({
-                            name: 'employInfoChange'
-                        })
+                        t.id = data.id;
+                        t.saveStatus = true;
                         t.$notify({
-                            message: text,
+                            message: '保存成功',
                             duration: 1500,
                             background: '#1989fa'
                         });
                     }
                 }).catch(() => {
+                    t.saveStatus = false
                     t.$notify({
                         message: '网络错误',
                         duration: 1500,
@@ -275,10 +285,66 @@ export default {
                 }).finally(() => {
                     t.$store.commit('hideLoading');
                 });
+            } else {
+                this.$vux.toast.text('请检查填写信息', 'middle');
             }
         },
         popupClick (domShow) {
             this[domShow] = true;
+        },
+        comfirmSubmit () {
+            this.$dialog.confirm({
+                title: '',
+                message: '是否确认提交？'
+            }).then(() => {
+                this.submitMes();
+            }).catch(() => {
+                // on cancel
+            });
+        },
+        //提交
+        async submitMes () {
+            const t = this;
+            await this.save();
+            if (this.saveStatus) {
+                const data = {
+                    _mt: 'wxEmpEmpupd.setStateByIds',
+                    companyId: pubsource.companyId,
+                    userId: localStorage.getItem('uid'),
+                    ids: this.$route.query.id ? this.$route.query.id : t.id,
+                    state: '02draft'
+                }
+                getDataLevelUserLogin(data).then((res) => {
+                    if (isSuccess(res, t)) {
+                        let data = JSON.parse(res.data.content[0].value);
+                        if (data === 1) {
+                            t.$notify({
+                                message: '提交成功',
+                                duration: 1500,
+                                background: '#1989fa'
+                            });
+                            t.$router.push({
+                                name: 'employInfoChange'
+                            })
+                        } else {
+                            t.$notify({
+                                message: '提交失败',
+                                duration: 1500,
+                                background: '#f44'
+                            });
+                        }
+                    }
+                }).catch((err) => {
+                    t.$notify({
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
+                    t.saveStatus = false
+                }).finally(() => {
+                    t.$store.commit('hideLoading');
+                });
+            }
         },
         //获取详情
         getData () {
@@ -308,11 +374,11 @@ export default {
                     t.empnhName = data.empnhName;
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
-					t.state = data.state;
-					if(t.state!=='01draft'&&t.state!=='02draft'){
-						t.disabled =true;
-					}
-					console.log(t.state,"state")
+                    // t.state = data.state;
+                    if (t.state !== '01draft') {
+                        t.disabled = true;
+                    }
+                    console.log(t.state, "state")
                     t.empnhSalbankDis = data.empnhSalbankDis;
                 }
             }).catch((err) => {
@@ -345,6 +411,7 @@ export default {
             this.form.empupdSalbank = res.id;
             this.empnhSalbankDis = res.bankCname;
         },
+
     },
 
 }
@@ -359,15 +426,7 @@ export default {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-
-        .save_button {
-            padding: 46px 70px;
-
-            .x_button {
-                color: #fff;
-                font-size: 34px;
-            }
-        }
+        background: #f6f6f6;
     }
     .van-popup--right {
         top: 50% !important;
@@ -376,6 +435,26 @@ export default {
     .right_popup {
         width: 80% !important;
         height: 100% !important;
+    }
+    .save_button {
+        padding: 125px 54px 50px;
+        display: flex;
+
+        .x_button {
+            color: #fff;
+            font-size: 34px;
+            width: 300px;
+        }
+
+        .button_left {
+            color: #339afe;
+            background: #fff;
+            border: 2px solid #339afe !important;
+        }
+
+        .weui-btn + .weui-btn {
+            margin-top: 0;
+        }
     }
 }
 </style>

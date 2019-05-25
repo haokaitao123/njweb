@@ -14,50 +14,69 @@
                    class="form">
                 <!-- 应聘岗位 -->
                 <div class="item_box">
-					<cell title=""
-						        is-link
-						        value-align="left"
-						        v-model="relibApplypostDis"
-						        v-verify="form.relibApplypost"
-						        @click.native="popupClick('relibApplypostShow')">
-						      <div slot="title">应聘岗位<span>*</span></div>
-						  </cell>
-						  <icon type="warn"
-						        class="error"
-						        v-show="relibApplypostDis=='请选择'"
-						        v-remind="form.relibApplypost"></icon>
+                    <cell title=""
+                          is-link
+                          v-if="!state"
+                          value-align="left"
+                          v-model="relibApplypostDis"
+                          v-verify="form.relibApplypost"
+                          @click.native="popupClick('relibApplypostShow')">
+                        <div slot="title">应聘岗位<span>*</span></div>
+                    </cell>
+                    <icon type="warn"
+                          class="error"
+                          v-show="relibApplypostDis=='请选择'"
+                          v-remind="form.relibApplypost"></icon>
+                    <x-input title="应聘岗位<span>*</span>"
+                             v-if="state"
+                             v-model="relibApplypostDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 身份 -->
                 <div class="item_box">
                     <cell title="请选择"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibIdentityDis"
                           @click.native="popupClick('relibIdentityShow','relibIdentity')">
                         <div slot="title">身份</div>
                     </cell>
+                    <x-input title="身份"
+                             v-if="state"
+                             v-model="relibIdentityDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 姓名 -->
                 <div class="item_box">
                     <x-input title="姓名<span>*</span>"
                              v-model.trim="form.relibName"
+                             :disabled="state"
                              v-verify="form.relibName"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
                           v-show="form.relibName==''"
                           v-remind="form.relibName"></icon>
+
                 </div>
                 <!-- 证件号码 -->
                 <div class="item_box">
                     <x-input title="证件号码<span>*</span>"
                              v-model="form.relibIdno"
+                             :disabled="state"
                              :show-clear="false"
                              v-verify="form.relibIdno"
                              @on-blur="idNumber"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -66,10 +85,11 @@
                 <!-- 手机号 -->
                 <div class="item_box">
                     <x-input title="手机号<span>*</span>"
+                             :disabled="state"
                              v-model="form.relibMobile"
                              v-verify="form.relibMobile"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -80,6 +100,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibGenderDis"
                           v-verify="form.relibGender"
@@ -90,50 +111,83 @@
                           class="error"
                           v-show="relibGenderDis=='请选择'?true:false"
                           v-remind="form.relibGender"></icon>
+                    <x-input title="性别<span>*</span>"
+                             v-if="state"
+                             v-model="relibGenderDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 出生日期 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-verify="form.relibBirtday"
                           v-model="form.relibBirtday"
                           @click.native="popupClick('relibBirtdaydateShow','relibBirtday')">
                         <div slot="title">出生日期</div>
                     </cell>
+                    <x-input title="出生日期"
+                             v-if="state"
+                             v-model="form.relibBirtday"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 籍贯 -->
                 <div class="item_box">
                     <x-input title="籍贯"
                              v-model="form.relibBirtplace"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 民族 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibNatalityDis"
                           @click.native="popupClick('relibNatalityShow','relibNatality')">
                         <div slot="title">民族</div>
                     </cell>
+                    <x-input title="民族"
+                             v-if="state"
+                             v-model="relibNatalityDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 政治面貌 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibPoliticalDis"
                           @click.native="popupClick('relibPoliticaShow','relibPolitical')">
                         <div slot="title">政治面貌</div>
                     </cell>
+                    <x-input title="政治面貌"
+                             v-if="state"
+                             v-model="relibPoliticalDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 邀约时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-verify="form.relibFilldate"
                           v-model="form.relibFilldate"
@@ -143,26 +197,49 @@
                     <icon type="warn"
                           class="error"
                           v-remind="form.relibFilldate"></icon>
+                    <x-input title="邀约时间<span>*</span>"
+                             v-if="state"
+                             v-model="form.relibFilldate"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 健康状况 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibHealthstaDis"
                           @click.native="popupClick('relibHealthstaShow','relibHealthsta')">
                         <div slot="title">健康状况</div>
                     </cell>
+                    <x-input title="健康状况"
+                             v-if="state"
+                             v-model="relibHealthstaDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 婚姻状况 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibMaritlstaDis"
                           @click.native="popupClick('relibMaritlstaShow','relibMaritlsta')">
                         <div slot="title">婚姻状况</div>
                     </cell>
+                    <x-input title="婚姻状况"
+                             v-if="state"
+                             v-model="relibMaritlstaDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 身高 -->
                 <div class="item_box">
@@ -170,7 +247,8 @@
                              v-model="form.relibHeight"
                              v-verify="form.relibHeight"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -181,8 +259,9 @@
                     <x-input title="体重(kg)<span>*</span>"
                              v-model="form.relibWeight"
                              v-verify="form.relibWeight"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -192,18 +271,27 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibEducatDis"
                           @click.native="popupClick('relibEducatShow','relibEducat')">
                         <div slot="title">学历</div>
                     </cell>
+                    <x-input title="学历"
+                             v-if="state"
+                             v-model="relibEducatDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 毕业院校 -->
                 <div class="item_box">
                     <x-input title="毕业院校"
                              v-model="form.relibSchool"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 专业 -->
@@ -211,32 +299,36 @@
                     <x-input title="专业"
                              v-model="form.relibProfes"
                              v-verify="form.relibProfes"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 现居住地 -->
                 <div class="item_box">
                     <x-input title="现居住地"
                              v-model="form.relibLiving"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 家庭地址 -->
                 <div class="item_box">
                     <x-input title="家庭地址"
                              v-model="form.relibFamadds"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 紧急联系人姓名 -->
                 <div class="item_box">
                     <x-input title="紧急联系人姓名"
                              v-model="form.relibEmernm"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 紧急联系人电话 -->
@@ -244,8 +336,9 @@
                     <x-input title="紧急联系人电话"
                              v-model="form.relibEmphone"
                              v-verify="form.relibEmphone"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -255,18 +348,27 @@
                 <div class="item_box">
                     <cell title="与本人关系"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibWithmeDis"
                           @click.native="popupClick('relibWithmeShow','relibWithme')">
                     </cell>
+                    <x-input title="与本人关系"
+                             v-if="state"
+                             v-model="relibWithmeDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 期望薪资 -->
                 <div class="item_box">
                     <x-input title="期望薪资"
                              v-model="form.relibSalary"
                              v-verify="form.relibSalary"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -276,35 +378,60 @@
                 <div class="item_box">
                     <cell title="职业状态"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibProstatusDis"
                           @click.native="popupClick('relibProstatusShow','relibProstatus')">
                     </cell>
+                    <x-input title="职业状态"
+                             v-if="state"
+                             v-model="relibProstatusDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 可到岗时间 -->
                 <div class="item_box">
                     <cell title="可到岗时间"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="form.relibAvaitime"
                           @click.native="popupClick('relibAvaitimedateShow','relibAvaitime')">
                     </cell>
+                    <x-input title="可到岗时间"
+                             v-if="state"
+                             v-model="form.relibAvaitime"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 是否有亲戚或朋友在本公司任职 -->
                 <div class="item_box">
                     <cell title="是否有亲戚或朋友在本公司任职"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibIsrelativesDis"
                           @click.native="popupClick('relibIsrelativesShow','relibIsrelatives')">
                     </cell>
+                    <x-input title="是否有亲戚或朋友在本公司任职"
+                             v-if="state"
+                             v-model="relibIsrelativesDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 本公司任职亲戚或朋友姓名 -->
                 <div class="item_box">
                     <x-input title="本公司任职亲戚或朋友姓名"
                              v-model="form.relibRelatname"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 本公司任职亲戚或朋友部门 -->
@@ -312,78 +439,128 @@
                     <x-input title="本公司任职亲戚或朋友部门"
                              v-model="form.relibRelatdept"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 有无犯罪记录 -->
                 <div class="item_box">
                     <cell title="是否有犯罪记录"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibIscriminalDis"
                           @click.native="popupClick('relibIscriminalShow','relibIscriminal')">
                     </cell>
+                    <x-input title="是否有犯罪记录"
+                             v-if="state"
+                             v-model="relibIscriminalDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 有无纹身 -->
                 <div class="item_box">
                     <cell title="是否有纹身"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibIstattooDis"
                           @click.native="popupClick('relibIstattooShow','relibIstattoo')">
                     </cell>
+                    <x-input title="是否有纹身"
+                             v-if="state"
+                             v-model="relibIstattooDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 通过何种方式应聘 -->
                 <div class="item_box">
                     <cell title="通过何种方式应聘"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibApplytypeDis"
                           @click.native="popupClick('relibApplytypeShow','relibApplytype')">
                     </cell>
+                    <x-input title="通过何种方式应聘"
+                             v-if="state"
+                             v-model="relibApplytypeDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 介绍人姓名 -->
                 <div class="item_box">
                     <x-input title="介绍人姓名"
                              v-model="form.relibIntrname"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 是否服从分配 -->
                 <div class="item_box">
                     <cell title="是否服从调配"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibIscomDis"
                           @click.native="popupClick('relibIscomShow','relibIscom')">
                     </cell>
+                    <x-input title="是否服从调配"
+                             v-if="state"
+                             v-model="relibIscomDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
-
                 <!-- 招生范围 -->
                 <div class="item_box">
                     <cell title="招生范围"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibEnrorageDis"
                           @click.native="popupClick('relibEnrorageShow','relibEnrorage')">
                     </cell>
+                    <x-input title="招生范围"
+                             v-if="state"
+                             v-model="relibEnrorageDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 是否毕业-->
                 <div class="item_box">
                     <cell title="是否毕业"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="relibIsgraduDis"
                           @click.native="popupClick('relibIsgraduShow','relibIsgradu')">
                     </cell>
+                    <x-input title="是否毕业"
+                             v-if="state"
+                             v-model="relibIsgraduDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 自我评价 -->
                 <x-textarea :max="300"
                             title="自我评价"
                             :height="95"
                             v-model="form.relibSelfeval"
-                            placeholder="请填写"
+                            :disabled="state"
+                            :placeholder="state?'未填写':'请填写'"
                             :show-counter="false"></x-textarea>
             </group>
             <div class="title">
@@ -393,7 +570,8 @@
                     <h3>教育信息</h3>
                 </div>
 
-                <span @click="goTo('educationShow')">添加</span>
+                <span @click="goTo('educationShow')"
+                      v-if="!state">添加</span>
             </div>
             <group label-align="left"
                    gutter="0"
@@ -406,13 +584,13 @@
                           @click.native="goTo('educationShow',item.id)"></cell>
                 </div>
                 <div class="item_box"
-                     v-if="educationList.length<1">
+                     v-if="educationList.length<1&&!state">
                     <cell value='学历信息1'
                           is-link
                           @click.native="goTo('educationShow')"></cell>
                 </div>
                 <div class="item_box"
-                     v-if="educationList.length<2">
+                     v-if="educationList.length<2&&!state">
                     <cell value='学历信息2'
                           is-link
                           @click.native="goTo('educationShow')"></cell>
@@ -424,7 +602,8 @@
                          alt="">
                     <h3>工作经历</h3>
                 </div>
-                <span @click="goTo('workExpShow')">添加</span>
+                <span @click="goTo('workExpShow')"
+                      v-if="!state">添加</span>
             </div>
             <group label-align="left"
                    gutter="0"
@@ -437,19 +616,19 @@
                           is-link></cell>
                 </div>
                 <div class="item_box"
-                     v-if="workExpList.length<1">
+                     v-if="workExpList.length<1&&!state">
                     <cell value='工作经历1'
                           @click.native="goTo('workExpShow')"
                           is-link></cell>
                 </div>
                 <div class="item_box"
-                     v-if="workExpList.length<2">
+                     v-if="workExpList.length<2&&!state">
                     <cell value='工作经历2'
                           @click.native="goTo('workExpShow')"
                           is-link></cell>
                 </div>
                 <div class="item_box"
-                     v-if="workExpList.length<3">
+                     v-if="workExpList.length<3&&!state">
                     <cell value='工作经历3'
                           @click.native="goTo('workExpShow')"
                           is-link></cell>
@@ -462,7 +641,8 @@
                     <h3>家庭成员</h3>
                 </div>
 
-                <span @click="goTo('familyShow')">添加</span>
+                <span @click="goTo('familyShow')"
+                      v-if="!state">添加</span>
             </div>
             <group label-align="left"
                    gutter="0"
@@ -473,12 +653,11 @@
                           @click.native="goTo('familyShow',item.id)"
                           is-link></cell>
                 </div>
-
             </group>
-            <div class="save_button"
-                 v-if="curStep==='初试'&&curStepstate!=='p_flowst_3'">
+            <div class="save_button">
                 <x-button type="primary"
                           class="x_button"
+                          :disabled="state"
                           @click.native="save"
                           action-type="button">保存</x-button>
             </div>
@@ -688,40 +867,43 @@
                                  @confirm="confirm"
                                  @cancel="cancel" />
         </van-popup>
-		<!-- 教育信息 -->
+        <!-- 教育信息 -->
         <van-popup v-model="educationShow"
                    position="right"
                    :close-on-click-overlay=false
                    class="right_popup">
             <education :id=currentId
+                       :disabled=state
                        @cancel="closeRight('educationShow')"
                        v-if='educationShow'></education>
         </van-popup>
-		<!-- 家庭状况 -->
+        <!-- 家庭状况 -->
         <van-popup v-model="familyShow"
                    position="right"
                    :close-on-click-overlay=false
                    class="right_popup">
             <family :id=currentId
+                    :disabled=state
                     @cancel="closeRight('familyShow')"
                     v-if='familyShow'></family>
         </van-popup>
-		<!-- 工作经历 -->
+        <!-- 工作经历 -->
         <van-popup v-model="workExpShow"
                    position="right"
                    :close-on-click-overlay=false
                    class="right_popup">
             <workExp :id=currentId
+                     :disabled=state
                      @cancel="closeRight('workExpShow')"
                      v-if='workExpShow'></workExp>
         </van-popup>
-		 <!-- 岗位 -->
-		<van-popup v-model="relibApplypostShow"
-		           position="right"
-		           class="popup_width">
-		    <searchPost @inputPost="inputPost"
-		                :currentId="currentPostId"></searchPost>
-		</van-popup>
+        <!-- 岗位 -->
+        <van-popup v-model="relibApplypostShow"
+                   position="right"
+                   class="popup_width">
+            <searchPost @inputPost="inputPost"
+                        :currentId="currentPostId"></searchPost>
+        </van-popup>
     </div>
 </template>
 <script>
@@ -738,9 +920,10 @@ export default {
     data () {
         return {
             curStep: "",
-			curStepstate:"",
+            curStepstate: "",
+            state: false,
             currentId: '',
-			currentPostId:"",
+            currentPostId: "",
             educationShow: false,
             familyShow: false,
             workExpShow: false,
@@ -794,7 +977,7 @@ export default {
                 relibEnrorage: "",                  //招生范围
                 relibIsgradu: "",                   //是否毕业
             },
-			relibApplypostDis:'请选择',						//岗位
+            relibApplypostDis: '请选择',						//岗位
             relibIdentityDis: '请选择',                     //身份
             relibGenderDis: '请选择',                       //性别
             relibNatalityDis: '请选择',                     //民族
@@ -811,7 +994,7 @@ export default {
             relibIscomDis: '请选择',                        //是否服从调配
             relibEnrorageDis: '请选择',                     //招生范围
             relibIsgraduDis: '请选择',                      //是否毕业 
-			relibApplypostShow:false,
+            relibApplypostShow: false,
             relibIdentityShow: false,
             relibGenderShow: false,
             relibNatalityShow: false,
@@ -893,7 +1076,7 @@ export default {
         education,
         family,
         workExp,
-		searchPost
+        searchPost
     },
     mounted () {
         this.getSelect();
@@ -1041,7 +1224,10 @@ export default {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "data");
                     t.curStep = !data.curStepDis ? "" : data.curStepDis;
-					t.curStepstate = !data.curStepstate ? "" : data.curStepstate;
+                    t.curStepstate = !data.curStepstate ? "" : data.curStepstate;
+                    if (t.curStep === '初试' && t.curStepstate !== 'p_flowst_3') {
+                        t.state = false;
+                    }
                     t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
                     t.form.relibIdentity = data.relibIdentity;
                     t.form.relibName = !data.relibName ? "" : data.relibName;
@@ -1079,7 +1265,8 @@ export default {
                     t.form.relibSelfeval = data.relibSelfeval;
                     t.form.relibEnrorage = data.relibEnrorage;
                     t.form.relibIsgradu = data.relibIsgradu;
-					t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
+
+                    t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
                     t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '请选择';
                     t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '请选择';
                     t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '请选择';
@@ -1096,6 +1283,29 @@ export default {
                     t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '请选择';
                     t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '请选择';
                     t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '请选择';
+
+                    if (t.state) {
+                        t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '未选择';
+                        t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '未选择';
+                        t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '未选择';
+                        t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '未选择';
+                        t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '未选择';
+                        t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '未选择';
+                        t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '未选择';
+                        t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '未选择';
+                        t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '未选择';
+                        t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '未选择';
+                        t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '未选择';
+                        t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '未选择';
+                        t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '未选择';
+                        t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '未选择';
+                        t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '未选择';
+                        t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '未选择';
+                        t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '未选择';
+                        t.form.relibBirtday = data.relibBirtday ? data.relibBirtday : '未选择';
+                        t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '未选择';
+                        t.form.relibAvaitime = data.relibAvaitime ? data.relibAvaitime : '未选择';
+                    }
                     t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday);
                     t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime);
                     t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate);
@@ -1244,13 +1454,13 @@ export default {
             }
             this[dom] = false;
         },
-		 //岗位弹出框选中事件
-		inputPost (res) {
-		    console.log(res, "res")
-		    this.relibApplypostShow = false;
-		    this.form.relibApplypost = res.id;
-		    this.relibApplypostDis = res.postFname;
-		},
+        //岗位弹出框选中事件
+        inputPost (res) {
+            console.log(res, "res")
+            this.relibApplypostShow = false;
+            this.form.relibApplypost = res.id;
+            this.relibApplypostDis = res.postFname;
+        },
     },
 }
 </script>
@@ -1330,10 +1540,10 @@ export default {
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
 }
-.popup_width{
-	width: 80%;
-	height: 100%;
-	overflow: scroll;
-	-webkit-overflow-scrolling: touch;
+.popup_width {
+    width: 80%;
+    height: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 </style>

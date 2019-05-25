@@ -8,7 +8,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
-						  v-if="!disabled"
+                          v-if="!disabled"
                           value-align="left"
                           v-model="reeduLevelDis"
                           v-verify="form.reeduLevel"
@@ -20,29 +20,29 @@
                           class="error"
                           v-show="reeduLevelDis==''"
                           v-remind="form.reeduLevel"></icon>
-				    <x-input title="教育程度<span>*</span>"
-						 v-if="disabled"
-						   v-model="reeduLevelDis"
-						  :disabled="disabled"
-						   :show-clear="false"
-						   placeholder="未填写">
-				    </x-input>
+                    <x-input title="教育程度<span>*</span>"
+                             v-if="disabled"
+                             v-model="reeduLevelDis"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 学位 -->
                 <div class="item_box">
                     <x-input title="学位"
                              v-model="form.reeduDegree"
                              v-verify="form.reeduDegree"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 教育开始时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
-						  v-if="!disabled"
+                          v-if="!disabled"
                           value-align="left"
                           v-model="form.reeduSdate"
                           v-verify="form.reeduSdate"
@@ -52,19 +52,19 @@
                     <icon type="warn"
                           class="error"
                           v-remind="form.reeduSdate"></icon>
-					<x-input title="教育开始时间<span>*</span>"
-							v-if="disabled"
-							v-model="form.reeduSdate"
-							:disabled="disabled"
-							:show-clear="false"
-							placeholder="未填写">
-					</x-input>
+                    <x-input title="教育开始时间<span>*</span>"
+                             v-if="disabled"
+                             v-model="form.reeduSdate"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 教育结束时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
-						  v-if="!disabled"
+                          v-if="!disabled"
                           value-align="left"
                           v-model="form.reeduEdate"
                           v-verify="form.reeduEdate"
@@ -74,13 +74,13 @@
                     <icon type="warn"
                           class="error"
                           v-remind="form.reeduEdate"></icon>
-					<x-input title="教育结束时间<span>*</span>"
-						 v-if="disabled"
-						   v-model="form.reeduEdate"
-						  :disabled="disabled"
-						   :show-clear="false"
-						   placeholder="未填写">
-					</x-input>
+                    <x-input title="教育结束时间<span>*</span>"
+                             v-if="disabled"
+                             v-model="form.reeduEdate"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 学校名称 -->
                 <div class="item_box">
@@ -88,37 +88,37 @@
                              v-model="form.reeduSchool"
                              v-verify="form.reeduSchool"
                              :show-clear="false"
-							 :disabled="disabled"
-                             placeholder="请填写">
+                             :disabled="disabled"
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-					<icon type="warn"
-					      class="error"
-					      v-remind="form.reeduSchool"></icon>
+                    <icon type="warn"
+                          class="error"
+                          v-remind="form.reeduSchool"></icon>
                 </div>
                 <!-- 专业 -->
                 <div class="item_box">
                     <x-input title="专业"
                              v-model="form.reeduProfession"
                              v-verify="form.reeduProfession"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <x-textarea :max="300"
                             title="所获奖励证书"
                             :height="95"
                             v-model="form.reeduAwardcert"
-							:readonly="disabled"
-                            placeholder="请填写"
+                            :disabled="disabled"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="false"></x-textarea>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
                             v-model="form.note"
-							:readonly="disabled"
-                            placeholder="请填写"
+                            :disabled="disabled"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
@@ -128,10 +128,16 @@
                           @click.native="save"
                           action-type="button">保存</x-button>
             </div> -->
-			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
-				<x-button type="primary" class="x_button" @click.native="save" v-if="!disabled">保存</x-button>
-			</div>
+            <div class="save_button">
+                <x-button type="default"
+                          class="x_button button_left"
+                          action-type="button"
+                          @click.native="back">返回</x-button>
+                <x-button type="primary"
+                          class="x_button"
+                          @click.native="save"
+                          v-if="!disabled">保存</x-button>
+            </div>
         </div>
         <!-- 教育程度 -->
         <van-popup v-model="reeduLevelShow"
@@ -207,16 +213,16 @@ export default {
             reeduSchool: "required",
         }
     },
-	props: {
-		id: {
-			type: String,
-			default: ''
-		},
-		disabled: {
-			type: Boolean,
-			default: false
-		},
-	},
+    props: {
+        id: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+    },
     components: {
         Group,
         Cell,
@@ -238,8 +244,8 @@ export default {
                 data._mt = "wxRecruitEduca.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
                 let id = this.id;
-				console.log(this.id,'this.id');
-				console.log(t.reeduPid,'t.reeduPid');
+                console.log(this.id, 'this.id');
+                console.log(t.reeduPid, 't.reeduPid');
                 if (id !== '') {
                     data.id = id
                 } else {
@@ -253,19 +259,19 @@ export default {
                 console.log(data, "data")
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
-						t.$notify({
-							message: '保存成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
-						this.$emit('cancel');
+                        t.$notify({
+                            message: '保存成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
+                        this.$emit('cancel');
                     }
                 }).catch(() => {
                     t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
                 }).finally(() => {
                     t.$store.commit('hideLoading');
                 });
@@ -325,10 +331,10 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
@@ -345,10 +351,10 @@ export default {
                     t.selectData(data[0].paramList, "selectReeduLevel");
                 }
             }).catch(() => {
-                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             }).finally(() => {
                 t.$store.commit('hideLoading');
@@ -375,11 +381,11 @@ export default {
                 }
             }
         },
-		//取消
-		back(){
-			this.$emit('cancel');
-			document.getElementsByClassName('educationMesWrap')[0].scrollTop = '0';
-		}
+        //取消
+        back () {
+            this.$emit('cancel');
+            document.getElementsByClassName('educationMesWrap')[0].scrollTop = '0';
+        }
     },
 }
 </script>
@@ -393,7 +399,7 @@ export default {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-		height: 100%;
+        height: 100%;
         // .save_button {
         //     padding: 46px 70px;
         //     .x_button {
@@ -401,29 +407,29 @@ export default {
         //         font-size: 34px;
         //     }
         // }
-		.save_button {
-			padding: 125px 54px 50px;
-			display: flex;
-		
-			.x_button {
-				color: #fff;
-				font-size: 34px;
-				width: 300px;
-				flex: 1;
-				height: 80px;
-			}
-		
-			.button_left {
-				color: #339afe;
-				background: #fff;
-				border: 2px solid #339afe !important;
-				margin-right: 5%;
-			}
-		
-			.weui-btn+.weui-btn {
-				margin-top: 0;
-			}
-		}
+        .save_button {
+            padding: 125px 54px 50px;
+            display: flex;
+            margin-bottom: 100px;
+            .x_button {
+                color: #fff;
+                font-size: 34px;
+                width: 300px;
+                flex: 1;
+                height: 80px;
+            }
+
+            .button_left {
+                color: #339afe;
+                background: #fff;
+                border: 2px solid #339afe !important;
+                margin-right: 5%;
+            }
+
+            .weui-btn + .weui-btn {
+                margin-top: 0;
+            }
+        }
     }
 }
 </style>

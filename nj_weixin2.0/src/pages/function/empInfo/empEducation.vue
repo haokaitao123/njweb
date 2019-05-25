@@ -8,6 +8,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!disabled"
                           value-align="left"
                           v-model="edEducationlevelDis"
                           v-verify="form.edEducationlevel"
@@ -18,11 +19,19 @@
                           class="error"
                           v-show="edEducationlevelDis=='请选择'?true:false"
                           v-remind="form.edEducationlevel"></icon>
+                    <x-input title="教育程度<span>*</span>"
+                             v-if="disabled"
+                             v-model="edEducationlevelDis"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 是否最高学历 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!disabled"
                           value-align="left"
                           v-model="edIshighestDis"
                           v-verify="form.edIshighest"
@@ -33,11 +42,19 @@
                           class="error"
                           v-show="edIshighestDis=='请选择'?true:false"
                           v-remind="form.edIshighest"></icon>
+                    <x-input title="是否最高学历<span>*</span>"
+                             v-if="disabled"
+                             v-model="edIshighestDis"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 国家 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!disabled"
                           value-align="left"
                           v-model="edCuntryDis"
                           v-verify="form.edCuntry"
@@ -48,14 +65,22 @@
                           class="error"
                           v-show="edCuntryDis=='请选择'?true:false"
                           v-remind="form.edCuntry"></icon>
+                    <x-input title="国家<span>*</span>"
+                             v-if="disabled"
+                             v-model="edCuntryDis"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 学校 -->
                 <div class="item_box">
                     <x-input title="学校<span>*</span>"
                              v-model="form.edSchool"
                              v-verify="form.edSchool"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -67,8 +92,9 @@
                     <x-input title="学位"
                              v-model="form.edDegree"
                              v-verify="form.edDegree"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 专业 -->
@@ -76,14 +102,16 @@
                     <x-input title="专业"
                              v-model="form.edSpecialty"
                              v-verify="form.edSpecialty"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 开始时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!disabled"
                           value-align="left"
                           v-model="form.edSdate"
                           v-verify="form.edSdate"
@@ -94,11 +122,19 @@
                           class="error"
                           v-show="form.edSdate=='请选择'?true:false"
                           v-remind="form.edSdate"></icon>
+                    <x-input title="开始时间<span>*</span>"
+                             v-if="disabled"
+                             v-model="form.edSdate"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 结束时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!disabled"
                           value-align="left"
                           v-model="form.edEdate"
                           v-verify="form.edEdate"
@@ -109,15 +145,24 @@
                           class="error"
                           v-show="form.edEdate=='请选择'?true:false"
                           v-remind="form.edEdate"></icon>
+                    <x-input title="结束时间<span>*</span>"
+                             v-if="disabled"
+                             v-model="form.edEdate"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 附件 -->
                 <div class="item_box file">
                     <label>附件</label>
                     <div class="file_box "
+                         v-if="!disabled"
                          :class="file==''?'':'justify'">
                         <p class="fileName"
                            v-if="file!=''"
-                           @click="downLoadFile()">
+                           :disabled="disabled"
+                           @click="downLoadFile">
                             {{file.name}}
                         </p>
                         <div class="upload"
@@ -127,33 +172,47 @@
                             +
                         </div>
                     </div>
+                    <div class="file_box justify"
+                         v-if="disabled">
+                        <p class="fileName"
+                           :disabled="disabled"
+                           @click="file.name==='未上传'?'':downLoadFile()">
+                            {{file.name}}
+                        </p>
+                    </div>
                 </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
                             v-model="form.note"
-                            placeholder="请填写"
+                            :disabled="disabled"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
-<!--            <div class="save_button">
+            <!--            <div class="save_button">
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
                           action-type="button">保存</x-button>
             </div> -->
-			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
-				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
-			</div>
+            <div class="save_button">
+                <x-button type="default"
+                          class="x_button button_left"
+                          action-type="button"
+                          @click.native="back">返回</x-button>
+                <x-button type="primary"
+                          class="x_button"
+                          @click.native="save"
+                          v-if="!disabled">保存</x-button>
+            </div>
         </div>
-        <van-popup v-model="edEducationlevelShow" 				
+        <van-popup v-model="edEducationlevelShow"
                    position="bottom">
             <van-picker ref="edEducationlevelPicker"
                         :defaultIndex="edEducationlevelIndex"
                         :columns=selectEdEducationlevel
-						
                         show-toolbar
                         @confirm="confirm"
                         @cancel="cancel" />
@@ -167,15 +226,6 @@
                         @confirm="confirm"
                         @cancel="cancel" />
         </van-popup>
-        <!-- <van-popup v-model="edCountryShow"
-                   position="bottom">
-            <van-picker ref="vanPicker"
-                        :defaultIndex="currentIndex"
-                        :columns=selectEdCountry
-                        show-toolbar
-                        @confirm="confirm"
-                        @cancel="cancel" />
-        </van-popup> -->
         <van-popup v-model="edSdateShow"
                    position="bottom">
             <van-datetime-picker v-model="edSdateDate"
@@ -196,7 +246,7 @@
         </van-popup>
         <van-popup v-model="edCountryShow"
                    position="right"
-				   :lock-scroll='true'
+                   :lock-scroll='true'
                    class="right_popup">
             <searchCountry @inputCountry="inputCountry"
                            :currentId="currentId"></searchCountry>
@@ -215,7 +265,7 @@ export default {
             list: [],
             file: '',
             filekey: '',
-			fileName:'',
+            fileName: '',
             curDom: "",
             curDomShow: "",
             edEdateDate: new Date(),
@@ -262,12 +312,16 @@ export default {
             edEdate: "required",
         }
     },
-	props: {
-		id: {
-			type: String,
-			default: ''
-		},
-	},
+    props: {
+        id: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+    },
     components: {
         Group,
         Cell,
@@ -280,7 +334,7 @@ export default {
     mounted () {
         this.getData();
         this.getSelect();
-		
+
     },
     methods: {
         //保存
@@ -304,22 +358,22 @@ export default {
                 }
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
-						t.$notify({
-							message: '保存成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
+                        t.$notify({
+                            message: '保存成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
                         this.$emit('cancel');
                     }
                 }).catch(() => {
                     t.$notify({
-                    	message: '网络错误',
-                    	duration: 1500,
-                    	background: '#f44'
-                    });  
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
                 }).finally(() => {
-                t.$store.commit('hideLoading');
-            });
+                    t.$store.commit('hideLoading');
+                });
             }
 
         },
@@ -328,7 +382,7 @@ export default {
             this.curDom = dom;
             this.curDomShow = domShow;
             this[domShow] = true;
-			// document.getElementsByClassName('empEducationWrap')[0].style.overflow = 'hidden';
+            // document.getElementsByClassName('empEducationWrap')[0].style.overflow = 'hidden';
         },
         //底部弹出确定事件
         confirm (value) {
@@ -368,10 +422,10 @@ export default {
                 }
             }).catch(() => {
                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
-                });  
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
@@ -399,9 +453,9 @@ export default {
         },
         getData () {
             const t = this;
-			if (t.id === '') {
-			    return;
-			}
+            if (t.id === '') {
+                return;
+            }
             const data = {
                 _mt: 'wxEmpEducation.getById',
                 companyId: pubsource.companyId,
@@ -424,19 +478,23 @@ export default {
                     t.edIshighestDis = data.edIshighestDis;
                     t.edCuntryDis = data.edCuntryDis !== undefined ? data.edCuntryDis : '中国';;
                     if (data.fileKey) {
-						t.fileName =  data.fileKey.split(':')[0];
+                        t.fileName = data.fileKey.split(':')[0];
                         t.file = { name: data.fileKey.split(':')[0] }
                         t.filekey = data.fileKey.split(':')[1]
-                    };
+                    } else {
+                        t.file = {
+                            name: '未上传'
+                        }
+                    }
                     t.setSelectValue(data.edEducationlevel, 'selectEdEducationlevel', 'edEducationlevelIndex');
                     t.setSelectValue(data.edIshighest, 'selectEdIshighest', 'edIshighestIndex');
                 }
             }).catch((err) => {
-				t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});  
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
@@ -460,17 +518,17 @@ export default {
                     }
                     // 用于展示，下载
                     t.$notify({
-                    	message: '上传成功',
-                    	duration: 1500,
-                    	background: '#1989fa'
+                        message: '上传成功',
+                        duration: 1500,
+                        background: '#1989fa'
                     });
                 }
             }).catch((err) => {
                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
-                });  
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
@@ -498,65 +556,66 @@ export default {
                 }
             }).catch(() => {
                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
-                });  
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
         },
         //获取国家
         inputCountry (res) {
-			document.getElementsByClassName('empEducationWrap')[0].style.overflow = 'scroll';
+            document.getElementsByClassName('empEducationWrap')[0].style.overflow = 'scroll';
             this.edCountryShow = false;
             this.form.edCuntry = res.id;
             this.currentId = res.id;
             this.edCuntryDis = res.name;
-			
+
         },
-		//取消
-		back(){
-			this.$emit('cancel');
-			document.getElementsByClassName('empEducationWrap')[0].scrollTop = '0'
-		}
+        //取消
+        back () {
+            this.$emit('cancel');
+            document.getElementsByClassName('empEducationWrap')[0].scrollTop = '0'
+        }
     },
 }
 </script>
-<style lang="less" scoped="scoped">
+<style lang="less">
 .empEducation {
-    height: 100%;
     background: #f6f6f6;
+    height: 100%;
     .empEducationWrap {
-		height: 100%;
-        overflow-y: scroll;
+        overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
+        height: 100%;
+        .save_button {
+            padding: 125px 54px 50px;
+            display: flex;
+            margin-bottom: 100px;
+            .x_button {
+                color: #fff;
+                font-size: 34px;
+                width: 300px;
+                height: 80px;
+                flex: 1;
+            }
 
-		.save_button {
-			padding: 125px 54px 50px;
-			display: flex;
-			
-			.x_button {
-				color: #fff;
-				font-size: 34px;
-				width: 300px;
-				height: 80px;
-			}
-		
-			.button_left {
-				color: #339afe;
-				background: #fff;
-				border: 2px solid #339afe !important;
-			}
-		
-			.weui-btn+.weui-btn {
-				margin-top: 0;
-			}
-		}
+            .button_left {
+                color: #339afe;
+                background: #fff;
+                border: 2px solid #339afe !important;
+                margin-right: 5%;
+            }
+
+            .weui-btn + .weui-btn {
+                margin-top: 0;
+            }
+        }
         .file {
             display: flex;
             padding: 0px 36px 0px 30px;
@@ -576,6 +635,9 @@ export default {
                 line-height: 1.3;
                 justify-content: flex-end;
                 display: flex;
+                > p[disabled] {
+                    color: #888;
+                }
                 .upload {
                     width: 250px;
                     height: 170px;

@@ -10,8 +10,8 @@
                              v-model="form.relibName"
                              v-verify="form.relibName"
                              :show-clear="false"
-							 :disabled="curStep"
-                             placeholder="请填写">
+                             :disabled="curStep"
+                             :placeholder="curStep?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -21,7 +21,7 @@
                 <!-- 性别 -->
                 <div class="item_box">
                     <cell title="性别"
-						  v-if='!curStep'
+                          v-if='!curStep'
                           is-link
                           value-align="left"
                           v-model="relibGenderDis"
@@ -34,22 +34,22 @@
                           class="error"
                           v-show="relibGenderDis=='请选择'"
                           v-remind="form.relibGender"></icon>
-					<x-input title="性别<span>*</span>"
-							 v-if='curStep'
-					         v-model="relibGenderDis"
-					         :show-clear="false"
-							 :disabled="curStep"
-					         placeholder="未填写">
-					</x-input>
+                    <x-input title="性别<span>*</span>"
+                             v-if='curStep'
+                             v-model="relibGenderDis"
+                             :show-clear="false"
+                             :disabled="curStep"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 手机号码 -->
                 <div class="item_box">
                     <x-input title="手机号码<span>*</span>"
                              v-model.trim="form.relibMobile"
-							 :disabled="curStep"
+                             :disabled="curStep"
                              v-verify="form.relibMobile"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :placeholder="curStep?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -62,7 +62,7 @@
                           is-link
                           value-align="left"
                           v-model="form.relibFilldate"
-						  v-if='!curStep'
+                          v-if='!curStep'
                           v-verify="form.relibFilldate"
                           @click.native="popupClick('relibFilldateShow','relibFilldate')">
                         <div slot="title">面到时间<span>*</span></div>
@@ -71,43 +71,43 @@
                           class="error"
                           v-show="form.relibFilldate=='请选择'?true:false"
                           v-remind="form.relibFilldate"></icon>
-					<x-input title="面到时间<span>*</span>"
-							 v-if='curStep'
-					         v-model="form.relibFilldate"
-					         :show-clear="false"
-							 :disabled="curStep"
-					         placeholder="未填写">
-					</x-input>
+                    <x-input title="面到时间<span>*</span>"
+                             v-if='curStep'
+                             v-model="form.relibFilldate"
+                             :show-clear="false"
+                             :disabled="curStep"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
-				 <!-- 初试意见 -->
-				<x-textarea :max="300"
-				            title="初试意见"
-				            :height="95"
-				            v-model="relibFirstopin"
-							:readonly='curStep'
-				            placeholder="未填写"
-				            :show-counter="true"
-							v-if="curStepDis==='初试'&&curStepstate==='p_flowst_3'"></x-textarea>
-				<!-- 复试意见 -->
-				<x-textarea :max="300"
-							title="复试意见"
-							:height="95"
-							v-model="relibCheckopin"
-							:readonly='curStep'
-							placeholder="未填写"
-							:show-counter="true"
-							v-if="curStepDis!=='复试'&&curStepDis!=='初试'"></x-textarea>
+                <!-- 初试意见 -->
+                <x-textarea :max="300"
+                            title="初试意见"
+                            :height="95"
+                            v-model="relibFirstopin"
+                            :disabled='curStep'
+                            placeholder="未填写"
+                            :show-counter="true"
+                            v-if="curStepDis==='初试'&&curStepstate==='p_flowst_3'"></x-textarea>
+                <!-- 复试意见 -->
+                <x-textarea :max="300"
+                            title="复试意见"
+                            :height="95"
+                            v-model="relibCheckopin"
+                            :disabled='curStep'
+                            placeholder="未填写"
+                            :show-counter="true"
+                            v-if="curStepDis!=='复试'&&curStepDis!=='初试'&&curStepDis!==''"></x-textarea>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
                             v-model="form.note"
-							:readonly='curStep'
+                            :disabled='curStep'
                             :placeholder="curStep?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
-            <div class="save_button" > 
+            <div class="save_button">
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
@@ -144,8 +144,8 @@ import { Group, Cell, XInput, XTextarea, Icon, Popup } from 'vux'
 export default {
     data () {
         return {
-			curStepDis:this.$route.query.curStepDis?this.$route.query.curStepDis:'',
-			curStepstate:this.$route.query.curStepstate?this.$route.query.curStepstate:'',
+            curStepDis: this.$route.query.curStepDis ? this.$route.query.curStepDis : '',
+            curStepstate: this.$route.query.curStepstate ? this.$route.query.curStepstate : '',
             curDom: "",
             curDomShow: "",
             relibFilldateDate: new Date(),
@@ -163,11 +163,12 @@ export default {
             relibGenderIndex: 0,
             relibGenderShow: false,
             relibFilldateShow: false,
-            curStep: this.$route.query.curStep?true:false,
-			saveState:false,
-			relibFirstopin:"",
-			relibCheckopin:"",
-			idRecord:""
+            curStep: this.$route.query.curStep ? true : false,
+            saveState: false,
+            blackState: false,
+            relibFirstopin: "",
+            relibCheckopin: "",
+            idRecord: ""
         }
     },
     verify: {
@@ -188,7 +189,7 @@ export default {
     },
     mounted () {
         this.getData();
-		this.getSelect()
+        this.getSelect()
     },
     methods: {
         //保存
@@ -202,12 +203,12 @@ export default {
                 let listId = t.$route.query.id;
                 if (listId !== undefined) {
                     data.pkValue = listId
-					t.saveState = true;
+                    t.saveState = true;
                 } else {
-					if(!t.saveState){
-						await t.haveRecruit();
-					}
-					data.idRecord = t.idRecord;
+                    if (!t.saveState) {
+                        await t.haveRecruit();
+                    }
+                    data.idRecord = t.idRecord;
                     data.pkValue = 0
                 }
                 for (const dat in data) {
@@ -215,71 +216,110 @@ export default {
                         delete data[dat];
                     }
                 }
-				console.log(t.saveState,"t.saveState")
-				if(t.saveState){
-					console.log("1212312312")
-					getDataLevelUserLoginNew(data).then(res => {
-					    if (isSuccess(res, t)) {
-					        console.log(res, "res");
-					        t.$notify({
-					            message: '保存成功',
-					            duration: 1500,
-					            background: '#1989fa'
-					        });
-					        this.$router.push({
-					            name: 'interview'
-					        })
-					    }
-					}).catch(() => {
-					    t.$notify({
-					        message: '网络错误',
-					        duration: 1500,
-					        background: '#f44'
-					    });
-					}).finally(() => {
-						t.saveState = false;
-					    t.$store.commit('hideLoading');
-					});
-				}
+                console.log(t.saveState, "t.saveState")
+                if (t.saveState) {
+                    console.log("1212312312")
+                    getDataLevelUserLoginNew(data).then(res => {
+                        if (isSuccess(res, t)) {
+                            console.log(res, "res");
+                            t.$notify({
+                                message: '保存成功',
+                                duration: 1500,
+                                background: '#1989fa'
+                            });
+                            this.$router.push({
+                                name: 'interview'
+                            })
+                        }
+                    }).catch(() => {
+                        t.$notify({
+                            message: '网络错误',
+                            duration: 1500,
+                            background: '#f44'
+                        });
+                    }).finally(() => {
+                        t.saveState = false;
+                        t.$store.commit('hideLoading');
+                    });
+                }
             }
         },
-		//是否面试过
-		async haveRecruit(){
-			const t = this;
-			const data = deepCopy(t.form);
-			data._mt = "wxRecruitProcess.getPersonInfo";
-			data.companyId = pubsource.companyId;
-			data.userId = window.localStorage.getItem('uid');
-			await getDataLevelUserLoginNew(data).then(res => {
-				if (isSuccess(res, t)) {
-					let data = JSON.parse(res.data.content[0].value);
-					console.log(data,"data");
-					if(JSON.stringify(data) !== "{}"){
-						let num = data.times;
-						let reason = data.relibCheckopin?data.relibCheckopin:'无';
-						t.idRecord = data.id;
-						t.$dialog.alert({
-							message:    `<div style="line-height:1.2;text-align:left">
-												<p style="margin-bottom:10px"><b >面试次数：</b>${num}次</span>
-												<p style="line-height:1.5"><b >未通过原因：</b>${reason}</p>
-										</div>`
-						}).then(() => {			
-							t.saveState = true;
-						});
-					}else{
-						t.saveState = true;
-					}
-				}
-			}).catch(() => {
-				t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
-			}).finally(() => {
-				t.$store.commit('hideLoading');
-			});
-		},
+        //是否面试过
+        async haveRecruit () {
+            const t = this;
+            const data = deepCopy(t.form);
+            data._mt = "wxRecruitProcess.getPersonInfo";
+            data.companyId = pubsource.companyId;
+            data.userId = window.localStorage.getItem('uid');
+            await getDataLevelUserLoginNew(data).then(res => {
+                if (isSuccess(res, t)) {
+                    let data = JSON.parse(res.data.content[0].value);
+                    console.log(data, "data");
+                    if (JSON.stringify(data) !== "{}") {
+                        if (data.times === '-100') {
+                            t.$dialog.alert({
+                                message: '注意此面试人员为黑名单用户！'
+                            }).then(() => {
+                                t.saveState = true;
+                            });
+                        } else {
+                            let num = data.times;
+                            let reason = data.relibCheckopin ? data.relibCheckopin : '无';
+                            t.idRecord = data.id;
+                            t.$dialog.alert({
+                                message: `<div style="line-height:1.2;text-align:left">
+                                                    <p style="margin-bottom:10px"><b >面试次数：</b>${num}次</span>
+                                                    <p style="line-height:1.5"><b >未通过原因：</b>${reason}</p>
+                                            </div>`
+                            }).then(() => {
+                                t.saveState = true;
+                            });
+                        }
+
+                    } else {
+                        t.saveState = true;
+                    }
+                }
+            }).catch(() => {
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
+                t.$store.commit('hideLoading');
+            });
+        },
+        // //黑名单用户
+        // async blacklist () {
+        //     const t = this;
+        //     // const data = {
+        //     //     _mt : "",
+        //     //     companyId : pubsource.companyId,
+        //     //     userId : window.localStorage.getItem('uid'),
+        //     // }
+        //     //  await getDataLevelUserLoginNew(data).then(res => {
+        //     //     if (isSuccess(res, t)) {
+        //     //         let data = JSON.parse(res.data.content[0].value);
+        //     //         console.log(data, "data");
+
+        //     //     }
+        //     // }).catch(() => {
+        //     //     t.$notify({
+        //     //         message: '网络错误',
+        //     //         duration: 1500,
+        //     //         background: '#f44'
+        //     //     });
+        //     // }).finally(() => {
+        //     //     t.$store.commit('hideLoading');
+        //     // });
+        //     await t.$dialog.alert({
+        //         message: '面试人员为黑名单人员'
+        //     }).then(() => {
+        //         // on close
+        //         t.saveState = true;
+        //     });
+        // },
         //底部弹出
         popupClick (domShow, dom) {
             this.curDom = dom;
@@ -324,10 +364,10 @@ export default {
                     // } else {
                     //     t.curStep = true;
                     // }
-					// t.curStepDis = data.curStepDis;
-					// t.curStepstate = data.curStepstate;
-					t.relibFirstopin = data.relibFirstopin?data.relibFirstopin:'';
-					t.relibCheckopin = data.relibCheckopin?data.relibCheckopin:'';
+                    // t.curStepDis = data.curStepDis;
+                    // t.curStepstate = data.curStepstate;
+                    t.relibFirstopin = data.relibFirstopin ? data.relibFirstopin : '';
+                    t.relibCheckopin = data.relibCheckopin ? data.relibCheckopin : '';
                     t.form.relibName = data.relibName;
                     t.form.relibGender = data.relibGender;
                     t.form.relibMobile = data.relibMobile;

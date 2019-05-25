@@ -23,7 +23,7 @@
 </template>
 <script>
 import { getDataLevelNone, getDataLevelUserLogin } from '../../axios/axios'
-import { isSuccess } from '../../lib/util.js'
+import { isSuccess, setCookie } from '../../lib/util.js'
 export default {
     name: 'login',
     data () {
@@ -32,6 +32,15 @@ export default {
             passWord: '',
         }
     },
+    // beforeCreate () {
+    //     let isLogin = window.localStorage.getItem('token');
+    //     let empId = window.localStorage.getItem('empId');
+    //     if (isLogin && empId) {
+    //         this.$router.push({
+    //             name: 'function'
+    //         })
+    //     }
+    // },
     methods: {
         login () {
             const t = this
@@ -53,6 +62,9 @@ export default {
                     storage.setItem("webToken", res.data.content[0].webToken);
                     storage.setItem("token", res.data.content[0].token);
                     storage.setItem("uid", res.data.content[0].uid);
+                    setCookie('wtk', res.data.content[0].webToken);
+                    setCookie('useId', res.data.content[0].uid);
+                    setCookie('token', res.data.content[0].token);
                     this.getEmpId();
                 }
             }).catch((res) => {

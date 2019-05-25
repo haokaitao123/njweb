@@ -7,7 +7,6 @@
                 <div class="tabbar_icon">
                     <img :src="pKey == i.key?i.activeImgSrc:i.imgSrc">
                 </div>
-
                 <span class="font"
                       :class="[pKey == i.key?'tabbar_active':'']">{{i.title}}</span>
             </div>

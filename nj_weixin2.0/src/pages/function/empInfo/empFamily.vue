@@ -8,6 +8,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!disabled"
                           value-align="left"
                           v-model="fmRelationDis"
                           v-verify="form.fmRelation"
@@ -18,11 +19,19 @@
                           class="error"
                           v-show="fmRelationDis=='请选择'?true:false"
                           v-remind="form.fmRelation"></icon>
+                    <x-input title="家庭成员关系<span>*</span>"
+                             v-if="disabled"
+                             v-model="fmRelationDis"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!--  是否紧急联系人 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!disabled"
                           value-align="left"
                           v-model="fmIsurgentDis"
                           v-verify="form.fmIsurgent"
@@ -33,14 +42,22 @@
                           class="error"
                           v-show="fmIsurgentDis=='请选择'?true:false"
                           v-remind="form.fmIsurgent"></icon>
+                    <x-input title="是否紧急联系人<span>*</span>"
+                             v-if="disabled"
+                             v-model="fmIsurgentDis"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 姓名 -->
                 <div class="item_box">
                     <x-input title="姓名<span>*</span>"
                              v-model="form.fmCname"
+                             :disabled="disabled"
                              v-verify="form.fmCname"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -51,9 +68,10 @@
                 <div class="item_box">
                     <x-input title="工作单位<span>*</span>"
                              v-model="form.fmCompany"
+                             :disabled="disabled"
                              v-verify="form.fmCompany"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -64,17 +82,19 @@
                 <div class="item_box">
                     <x-input title="职务"
                              v-model="form.fmPost"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 联系方式 -->
                 <div class="item_box">
                     <x-input title="联系方式<span>*</span>"
                              v-model="form.fmPhone"
+                             :disabled="disabled"
                              v-verify="form.fmPhone"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -86,20 +106,27 @@
                             title="备注"
                             :height="95"
                             v-model="form.note"
-                            placeholder="请填写"
+                            :disabled="disabled"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
-           <!-- <div class="save_button">
+            <!-- <div class="save_button">
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
                           action-type="button">保存</x-button>
             </div> -->
-			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
-				<x-button type="primary" class="x_button" @click.native="save">保存</x-button>
-			</div>
+            <div class="save_button">
+                <x-button type="default"
+                          class="x_button button_left"
+                          action-type="button"
+                          @click.native="back">返回</x-button>
+                <x-button type="primary"
+                          class="x_button"
+                          @click.native="save"
+                          v-if="!disabled">保存</x-button>
+            </div>
         </div>
         <van-popup v-model="fmRelationShow"
                    position="bottom">
@@ -158,12 +185,16 @@ export default {
             fmIsurgent: "required",
         }
     },
-	props: {
-		id: {
-			type: String,
-			default: ''
-		},
-	},
+    props: {
+        id: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+    },
     components: {
         Group,
         Cell,
@@ -197,25 +228,25 @@ export default {
                 }
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
-						t.$notify({
-							message: '保存成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
+                        t.$notify({
+                            message: '保存成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
                         // this.$router.push({
                         //     name: 'empInfo'
                         // })
-						this.$emit('cancel');
+                        this.$emit('cancel');
                     }
                 }).catch(() => {
                     t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
                 }).finally(() => {
-                t.$store.commit('hideLoading');
-            });
+                    t.$store.commit('hideLoading');
+                });
             }
 
         },
@@ -250,10 +281,10 @@ export default {
                     t.selectData(res.data.content[0].value[1].paramList, "selectFmIsurgent");
                 }
             }).catch(() => {
-                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             }).finally(() => {
                 t.$store.commit('hideLoading');
@@ -282,9 +313,9 @@ export default {
         },
         getData () {
             const t = this;
-			if (t.id === '') {
-			    return;
-			}
+            if (t.id === '') {
+                return;
+            }
             const data = {
                 _mt: 'wxEmpFamily.getById',
                 companyId: pubsource.companyId,
@@ -307,18 +338,18 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
         },
-		//取消
-		back(){
-			this.$emit('cancel')
-		}
+        //取消
+        back () {
+            this.$emit('cancel')
+        }
     }
 }
 </script>
@@ -333,27 +364,29 @@ export default {
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
-		height: 100%;
+        height: 100%;
         .save_button {
-        	padding: 125px 54px 50px;
-        	display: flex;
-        
-        	.x_button {
-        		color: #fff;
-        		font-size: 34px;
-        		width: 300px;
-				height: 80px;
-        	}
-        
-        	.button_left {
-        		color: #339afe;
-        		background: #fff;
-        		border: 2px solid #339afe !important;
-        	}
-        
-        	.weui-btn+.weui-btn {
-        		margin-top: 0;
-        	}
+            padding: 125px 54px 50px;
+            display: flex;
+
+            .x_button {
+                color: #fff;
+                font-size: 34px;
+                width: 300px;
+                height: 80px;
+                flex: 1;
+            }
+
+            .button_left {
+                color: #339afe;
+                background: #fff;
+                border: 2px solid #339afe !important;
+                margin-right: 5%;
+            }
+
+            .weui-btn + .weui-btn {
+                margin-top: 0;
+            }
         }
     }
 }

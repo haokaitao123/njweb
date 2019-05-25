@@ -61,6 +61,15 @@ export default {
 
         }
     },
+    beforeCreate () {
+        let isLogin = window.localStorage.getItem('token');
+        let empId = window.localStorage.getItem('empId');
+        if (!isLogin || !empId) {
+            this.$router.push({
+                name: 'login'
+            })
+        }
+    },
     methods: {
         goTo (redirect) {
             this.$router.push({

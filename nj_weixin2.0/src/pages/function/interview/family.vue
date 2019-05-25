@@ -7,12 +7,12 @@
                 <!-- 家庭成员关系 -->
                 <div class="item_box">
                     <cell title=""
-					      v-if="!disabled"
+                          v-if="!disabled"
                           is-link
                           value-align="left"
                           v-model="refaMembersDis"
                           v-verify="form.refaMembers"
-						  :disabled="disabled"
+                          :disabled="disabled"
                           @click.native="popupClick('refaMembersShow','refaMembers')">
                         <div slot="title">家庭成员关系<span>*</span></div>
                     </cell>
@@ -20,22 +20,22 @@
                           class="error"
                           v-show="refaMembersDis==''"
                           v-remind="form.refaMembers"></icon>
-					<x-input title="家庭成员关系<span>*</span>"
-							 v-if="disabled"
-					         v-model="refaMembersDis"
-							  :disabled="disabled"
-					         :show-clear="false"
-					         placeholder="未填写">
-					</x-input>
+                    <x-input title="家庭成员关系<span>*</span>"
+                             v-if="disabled"
+                             v-model="refaMembersDis"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 姓名 -->
                 <div class="item_box">
                     <x-input title="姓名<span>*</span>"
                              v-model="form.refaName"
                              v-verify="form.refaName"
-							  :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -47,29 +47,29 @@
                     <x-input title="工作单位"
                              v-model="form.refaCompnm"
                              v-verify="form.refaCompnm"
-							  :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 职务 -->
                 <div class="item_box">
                     <x-input title="职务"
                              v-model="form.refaPost"
-							  :disabled="disabled"
+                             :disabled="disabled"
                              v-verify="form.refaPost"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 联系方式 -->
                 <div class="item_box">
                     <x-input title="联系方式<span>*</span>"
                              v-model="form.refaContact "
-							  :disabled="disabled"
+                             :disabled="disabled"
                              v-verify="form.refaContact"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -80,9 +80,9 @@
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
-							:readonly="disabled"
+                            :disabled="disabled"
                             v-model="form.note"
-                            placeholder="请填写"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
@@ -92,10 +92,16 @@
                           @click.native="save"
                           action-type="button">保存</x-button>
             </div> -->
-			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
-				<x-button type="primary" class="x_button" @click.native="save" v-if="!disabled">保存</x-button>
-			</div>
+            <div class="save_button">
+                <x-button type="default"
+                          class="x_button button_left"
+                          action-type="button"
+                          @click.native="back">返回</x-button>
+                <x-button type="primary"
+                          class="x_button"
+                          @click.native="save"
+                          v-if="!disabled">保存</x-button>
+            </div>
         </div>
         <van-popup v-model="refaMembersShow"
                    position="bottom">
@@ -139,16 +145,16 @@ export default {
             refaContact: ["required", "mobile"],
         }
     },
-	props: {
-		id: {
-			type: String,
-			default: ''
-		},
-		disabled: {
-			type: Boolean,
-			default: false
-		},
-	},
+    props: {
+        id: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+    },
     components: {
         Group,
         Cell,
@@ -183,19 +189,19 @@ export default {
                 console.log(data, "data")
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
-						t.$notify({
-							message: '保存成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
-						this.$emit('cancel');
+                        t.$notify({
+                            message: '保存成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
+                        this.$emit('cancel');
                     }
                 }).catch(() => {
                     t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
                 }).finally(() => {
                     t.$store.commit('hideLoading');
                 });
@@ -242,10 +248,10 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
@@ -264,9 +270,9 @@ export default {
                 }
             }).catch(() => {
                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             }).finally(() => {
                 t.$store.commit('hideLoading');
@@ -293,17 +299,17 @@ export default {
                 }
             }
         },
-		//取消
-		back(){
-			this.$emit('cancel');
-		}
+        //取消
+        back () {
+            this.$emit('cancel');
+        }
     },
 }
 </script>
 <style lang="less">
 .family {
-    height: 100%;
     background: #f6f6f6;
+    height: 100%;
     .familyWrap {
         overflow: scroll;
         box-sizing: border-box;
@@ -311,27 +317,27 @@ export default {
         display: flex;
         flex-direction: column;
         .save_button {
-        	padding: 125px 54px 50px;
-        	display: flex;
-        
-        	.x_button {
-        		color: #fff;
-        		font-size: 34px;
-				width: 300px;
-        		flex: 1;
-				height: 80px;
-        	}
-        
-        	.button_left {
-        		color: #339afe;
-        		background: #fff;
-        		border: 2px solid #339afe !important;
-				margin-right: 5%;
-        	}
-        
-        	.weui-btn+.weui-btn {
-        		margin-top: 0;
-        	}
+            padding: 125px 54px 50px;
+            display: flex;
+
+            .x_button {
+                color: #fff;
+                font-size: 34px;
+                width: 300px;
+                flex: 1;
+                height: 80px;
+            }
+
+            .button_left {
+                color: #339afe;
+                background: #fff;
+                border: 2px solid #339afe !important;
+                margin-right: 5%;
+            }
+
+            .weui-btn + .weui-btn {
+                margin-top: 0;
+            }
         }
     }
 }

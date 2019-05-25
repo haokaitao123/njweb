@@ -16,8 +16,9 @@
                     <x-input title="姓名<span>*</span>"
                              v-model.trim="form.empnhName"
                              v-verify="form.empnhName"
+                             :disabled="state"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -29,13 +30,15 @@
                     <x-input title="曾用名"
                              v-model.trim="form.empnhPtname"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 民族 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="empnhNationDis"
                           v-verify="empnhNationDis"
@@ -47,11 +50,19 @@
                           class="error"
                           v-show="empnhNationDis==''"
                           v-remind="empnhNationDis"></icon>
+                    <x-input title="民族<span>*</span>"
+                             v-if="state"
+                             v-model.trim="empnhNationDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 证件类型 -->
                 <div class="item_box">
                     <cell title="证件类型"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="empnhIdtypeDis"
                           v-verify="empnhIdtypeDis"
@@ -62,6 +73,13 @@
                           class="error"
                           v-show="empnhIdtypeDis=='请选择'"
                           v-remind="empnhIdtypeDis"></icon>
+                    <x-input title="证件类型<span>*</span>"
+                             v-if="state"
+                             v-model.trim="empnhIdtypeDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 证件号码 -->
                 <div class="item_box">
@@ -69,8 +87,9 @@
                              v-model.trim="form.empnhIdno"
                              v-verify="form.empnhIdno"
                              :show-clear="false"
+                             :disabled="state"
                              @on-blur="idNumber"
-                             placeholder="未填写">
+                             :placeholder="state?'未填写':'请填写'">
 
                     </x-input>
                     <icon type="warn"
@@ -82,6 +101,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="form.empnhSday"
                           v-verify="form.empnhSday"
@@ -92,11 +112,19 @@
                           class="error"
                           v-show="form.empnhSday=='请选择'"
                           v-remind="form.empnhSday"></icon>
+                    <x-input title="生效日期<span>*</span>"
+                             v-if="state"
+                             v-model="form.empnhSday"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 证件到期日 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="form.empnhEday"
                           v-verify="form.empnhEday"
@@ -107,11 +135,19 @@
                           class="error"
                           v-show="form.empnhEday=='请选择'"
                           v-remind="form.empnhEday"></icon>
+                    <x-input title="证件到期日<span>*</span>"
+                             v-if="state"
+                             v-model="form.empnhEday"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 性别 -->
                 <div class="item_box">
                     <cell title="性别"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="empnhGenderDis"
                           v-verify="empnhGenderDis"
@@ -123,11 +159,19 @@
                           class="error"
                           v-show="empnhGenderDis=='请选择'"
                           v-remind="empnhGenderDis"></icon>
+                    <x-input title="性别<span>*</span>"
+                             v-if="state"
+                             v-model="empnhGenderDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 出生日期-->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="form.empnhBirthdate"
                           v-verify="form.empnhBirthdate"
@@ -138,6 +182,13 @@
                           class="error"
                           v-show="form.empnhBirthdate=='请选择'"
                           v-remind="form.empnhBirthdate"></icon>
+                    <x-input title="出生日期<span>*</span>"
+                             v-if="state"
+                             v-model="form.empnhBirthdate"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 手机号码 -->
                 <div class="item_box">
@@ -145,7 +196,8 @@
                              v-model.trim="form.empnhMobile"
                              v-verify="form.empnhMobile"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                         <!-- @on-blur="phone" -->
                     </x-input>
                     <icon type="warn"
@@ -159,7 +211,8 @@
                              v-model.trim="form.empnhResiaddr"
                              v-verify="form.empnhResiaddr"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -172,7 +225,8 @@
                              v-model.trim="form.empnhRegaddr"
                              v-verify="form.empnhRegaddr"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -183,6 +237,7 @@
                 <div class="item_box">
                     <cell title="户籍性质"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="empnhRegtypeDis"
                           v-verify="empnhRegtypeDis"
@@ -193,6 +248,13 @@
                           class="error"
                           v-show="empnhRegtypeDis=='请选择'"
                           v-remind="empnhRegtypeDis"></icon>
+                    <x-input title="户籍性质<span>*</span>"
+                             v-if="state"
+                             v-model="empnhRegtypeDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 个人邮箱 -->
                 <div class="item_box">
@@ -200,7 +262,8 @@
                              v-model.trim="form.empnhPersmail"
                              v-verify="form.empnhPersmail"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -212,7 +275,8 @@
                              v-model.trim="form.empnhQq"
                              v-verify="form.empnhQq"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -223,7 +287,8 @@
                     <x-input title="微信号"
                              v-model.trim="form.empnhWechat"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 银行账号 -->
@@ -232,7 +297,8 @@
                              v-model.trim="form.empnhSalaccount"
                              v-verify="form.empnhSalaccount"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -245,7 +311,8 @@
                              v-model.trim="form.empnhSalaccname"
                              v-verify="form.empnhSalaccname"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -256,26 +323,43 @@
                 <div class="item_box">
                     <cell title="婚姻状况"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="empnhMarriageDis"
                           @click.native="popupClick('empnhMarriageShow','empnhMarriage')">
                         <div slot="title">婚姻状况</div>
                     </cell>
+                    <x-input title="婚姻状况"
+                             v-if="state"
+                             v-model="empnhMarriageDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 政治面貌 -->
                 <div class="item_box">
                     <cell title="政治面貌"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="empnhPoliticalDis"
                           @click.native="popupClick('empnhPoliticalShow','empnhPolitical')">
                         <div slot="title">政治面貌</div>
                     </cell>
+                    <x-input title="政治面貌"
+                             v-if="state"
+                             v-model="empnhPoliticalDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 参加工作时间 -->
                 <div class="item_box">
                     <cell title="参加工作时间"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="form.empnhFirstwkdate"
                           v-verify="form.empnhFirstwkdate"
@@ -286,41 +370,66 @@
                           class="error"
                           v-show="form.empnhFirstwkdate=='请选择'?true:false"
                           v-remind="form.empnhFirstwkdate"></icon>
+                    <x-input title="参加工作时间"
+                             v-if="state"
+                             v-model="form.empnhFirstwkdate"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 职称 -->
                 <div class="item_box">
                     <cell title="职称"
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="empnhTechtilDis"
                           @click.native="popupClick('empnhTechtilShow','empnhTechtil')">
                         <div slot="title">职称</div>
                     </cell>
+                    <x-input title="职称"
+                             v-if="state"
+                             v-model="empnhTechtilDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 职称专业 -->
                 <div class="item_box">
                     <x-input title="职称专业"
                              v-model.trim="form.empnhTechspec"
                              :show-clear="false"
-                             placeholder="未填写">
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 职称取得时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
+                          v-if="!state"
                           value-align="left"
                           v-model="form.empnhTechdate"
                           @click.native="popupClick('empnhTechdateShow','empnhTechdate')">
                         <div slot="title">职称取得时间</div>
                     </cell>
+                    <x-input title="职称取得时间"
+                             v-if="state"
+                             v-model="form.empnhTechdate"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
                             :height="95"
                             v-model="form.note"
-                            placeholder="未填写"
+                            :disabled="state"
+                            :placeholder="state?'未填写':'请填写'"
                             :show-counter="false"></x-textarea>
             </group>
             <div class="title">
@@ -330,7 +439,8 @@
                     <h3>学历信息管理</h3>
                 </div>
 
-                <span @click="goTo('empEducationShow')">添加</span>
+                <span @click="goTo('empEducationShow')"
+                      v-if="!state">添加</span>
             </div>
             <group label-align="left"
                    gutter="0"
@@ -343,13 +453,13 @@
                           @click.native="goTo('empEducationShow',item.id)"></cell>
                 </div>
                 <div class="item_box"
-                     v-if="educationList.length<1">
+                     v-if="educationList.length<1&&!state">
                     <cell value='学历信息1'
                           is-link
                           @click.native="goTo('empEducationShow')"></cell>
                 </div>
                 <div class="item_box"
-                     v-if="educationList.length<2">
+                     v-if="educationList.length<2&&!state">
                     <cell value='学历信息2'
                           is-link
                           @click.native="goTo('empEducationShow')"></cell>
@@ -362,7 +472,8 @@
                     <h3>工作经历管理</h3>
                 </div>
 
-                <span @click="goTo('empWorkExpShow')">添加</span>
+                <span @click="goTo('empWorkExpShow')"
+                      v-if="!state">添加</span>
             </div>
             <group label-align="left"
                    gutter="0"
@@ -375,19 +486,19 @@
                           is-link></cell>
                 </div>
                 <div class="item_box"
-                     v-if="workExpList.length<1">
+                     v-if="workExpList.length<1&&!state">
                     <cell value='工作经历1'
                           @click.native="goTo('empWorkExpShow')"
                           is-link></cell>
                 </div>
                 <div class="item_box"
-                     v-if="workExpList.length<2">
+                     v-if="workExpList.length<2&&!state">
                     <cell value='工作经历2'
                           @click.native="goTo('empWorkExpShow')"
                           is-link></cell>
                 </div>
                 <div class="item_box"
-                     v-if="workExpList.length<3">
+                     v-if="workExpList.length<3&&!state">
                     <cell value='工作经历3'
                           @click.native="goTo('empWorkExpShow')"
                           is-link></cell>
@@ -400,7 +511,8 @@
                     <h3>家庭成员管理</h3>
                 </div>
 
-                <span @click="goTo('empFamilyShow')">添加</span>
+                <span @click="goTo('empFamilyShow')"
+                      v-if="!state">添加</span>
             </div>
             <group label-align="left"
                    gutter="0"
@@ -413,9 +525,11 @@
                 </div>
             </group>
             <div class="save_button">
+                <!-- v-if="state==='01empstate'||state==='06empstate'" -->
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
+                          :disabled="state"
                           action-type="button">保存</x-button>
             </div>
         </div>
@@ -544,19 +658,16 @@
                    :close-on-click-overlay=false
                    class="right_popup">
             <empEducation :id=currentId
+                          :disabled=state
                           @cancel="closeRight('empEducationShow')"
                           v-if='empEducationShow'></empEducation>
         </van-popup>
-        <!-- <div :class="slideClass" class="slideRight">
-		    <empEducation :id=currentId @cancel="closeRight('empEducationShow')" v-show="empEducationShow"></empEducation>
-			<empFamily :id=currentId @cancel="closeRight('empFamilyShow')" v-show="empFamilyShow"></empFamily>
-			<empWorkExp :id=currentId @cancel="closeRight('empWorkExpShow')" v-show="empWorkExpShow"></empWorkExp>
-		</div> -->
         <van-popup v-model="empFamilyShow"
                    position="right"
                    :close-on-click-overlay=false
                    class="right_popup">
             <empFamily :id=currentId
+                       :disabled=state
                        @cancel="closeRight('empFamilyShow')"
                        v-if='empFamilyShow'></empFamily>
         </van-popup>
@@ -565,6 +676,7 @@
                    :close-on-click-overlay=false
                    class="right_popup">
             <empWorkExp :id=currentId
+                        :disabled=state
                         @cancel="closeRight('empWorkExpShow')"
                         v-if='empWorkExpShow'></empWorkExp>
         </van-popup>
@@ -589,6 +701,7 @@ export default {
             empWorkExpShow: false,
             curDom: "",
             curDomShow: "",
+            state: false,
             empnhSdayDate: new Date(),
             empnhEdayDate: new Date(),
             empnhBirthdateDate: new Date(),
@@ -713,15 +826,8 @@ export default {
     methods: {
         //跳转
         goTo (name, id) {            ;
-
-
             this[name] = true;
             this.currentId = id;
-            // this.slideClass = 'slideMove';
-            // document.querySelector('.resumeInfoWrap').addEventListener('touchmove',function(e){
-            // document.getElementsByClassName('resumeInfoWrap')[0].style.overflow = 'hidden';
-            // },false);
-            // this.$router.push({ name: name, query: { id: id } })
         },
         //证件号码验证
         idNumber () {
@@ -917,6 +1023,10 @@ export default {
                     t.form.empnhTechspec = !data.empnhTechspec ? "" : data.empnhTechspec;
                     t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '请选择';
                     t.form.note = data.note;
+                    // t.state = data.state;
+                    if (data.state !== '01empstate' && data.state !== '06empstate') {
+                        t.state = true
+                    }
                     t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '请选择';
                     t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '请选择';
                     t.empnhGenderDis = data.empnhGenderDis ? data.empnhGenderDis : '请选择';
@@ -924,7 +1034,21 @@ export default {
                     t.empnhMarriageDis = data.empnhMarriageDis ? data.empnhMarriageDis : '请选择';
                     t.empnhPoliticalDis = data.empnhPoliticalDis ? data.empnhPoliticalDis : '请选择';
                     t.empnhTechtilDis = data.empnhTechtilDis ? data.empnhTechtilDis : '请选择';
-                    console.log(data, "data");
+                    if (t.state) {
+                        t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '未填写';
+                        t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '未填写';
+                        t.empnhGenderDis = data.empnhGenderDis ? data.empnhGenderDis : '未填写';
+                        t.empnhRegtypeDis = data.empnhRegtypeDis ? data.empnhRegtypeDis : '未填写';
+                        t.empnhMarriageDis = data.empnhMarriageDis ? data.empnhMarriageDis : '未填写';
+                        t.empnhPoliticalDis = data.empnhPoliticalDis ? data.empnhPoliticalDis : '未填写';
+                        t.empnhTechtilDis = data.empnhTechtilDis ? data.empnhTechtilDis : '未填写';
+                        t.form.empnhSday = data.empnhSday ? data.empnhSday : '未填写';
+                        t.form.empnhEday = data.empnhEday ? data.empnhEday : '未填写';
+                        t.form.empnhBirthdate = data.empnhBirthdate ? data.empnhBirthdate : '未填写';
+                        t.form.empnhFirstwkdate = data.empnhFirstwkdate ? data.empnhFirstwkdate : '未填写';
+                        t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '未填写';
+
+                    }
                     t.empnhSdayDate = !data.empnhSday ? new Date() : new Date(data.empnhSday);
                     t.empnhEdayDate = !data.empnhEday ? new Date() : new Date(data.empnhEday);
                     t.empnhBirthdateDate = !data.empnhBirthdate ? new Date() : new Date(data.empnhBirthdate);
@@ -1128,5 +1252,8 @@ export default {
     height: 100%;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
+}
+.popup_height {
+    height: auto;
 }
 </style>

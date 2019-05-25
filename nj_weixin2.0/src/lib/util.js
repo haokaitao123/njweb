@@ -90,7 +90,10 @@ export const isSuccess = (data, t) => {
         duration: 1500,
         background: '#f44'
       });
-      // t.$router.push('/login');
+      // t.$router.push('login');
+      //   t.$router.push({
+      //     name: 'login'
+      //   })
     } else {
       t.$notify({
         message: '网络错误',
@@ -323,15 +326,30 @@ export const encryptEmpId = (level, params) => {
   }
   return param;
 }
-Array.prototype.indexOf = function(val) {
-    for (var i = 0; i < this.length; i++) {
-          if (this[i] == val) return i;
-    }
-    return -1;
+Array.prototype.indexOf = function (val) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == val) return i;
+  }
+  return -1;
 };
-Array.prototype.remove = function(val) {
-    var index = this.indexOf(val);
-    if (index > -1) {
-        this.splice(index, 1);
-    }
+Array.prototype.remove = function (val) {
+  var index = this.indexOf(val);
+  if (index > -1) {
+    this.splice(index, 1);
+  }
+};
+export const setCookie = (name, value) => {
+  let Days = 30;
+  let exp = new Date();
+  exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+  document.cookie = name + '=' + escape(value) + ';expires=' +
+    exp.toGMTString() + '; path=/';
+};
+export const getCookie = (name) => {
+  let arr, reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+  if (arr = document.cookie.match(reg)) {
+    return decodeURIComponent(arr[2]);
+  } else {
+    return null;
+  }
 };

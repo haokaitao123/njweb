@@ -234,21 +234,47 @@ span {
 .weui-btn_disabled.weui-btn_primary {
     background-color: #ccc !important;
 }
-.van-checkbox__icon .van-icon{
-	width: 32px!important;
-    height: 32px!important;
-	font-size: 32px;
-	// border: 1px solid #f5f5f5;
-	border: 0.013333rem solid #e8e8e8;
+.van-checkbox__icon .van-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 32px;
+    // border: 1px solid #f5f5f5;
+    border: 0.013333rem solid #e8e8e8;
 }
-.van-checkbox__icon{
-	height: 36px;
-	line-height: 36px;
+.van-checkbox__icon {
+    height: 36px;
+    line-height: 36px;
 }
-.van-checkbox{
-	margin-bottom: 15px;
+.van-checkbox {
+    margin-bottom: 15px;
 }
-.van-checkbox__label{
-	font-size: 28px;
+.van-checkbox__label {
+    font-size: 28px;
+}
+::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: #888;
+}
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #888;
+}
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #888;
+}
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #888;
+}
+textarea[readonly] {
+    color: #888 !important;
+}
+.van-pull-refresh__head {
+    font-size: 32px;
+    line-height: 40px;
+}
+.form .vux-x-textarea .weui-textarea {
+    color: #888;
 }
 </style>

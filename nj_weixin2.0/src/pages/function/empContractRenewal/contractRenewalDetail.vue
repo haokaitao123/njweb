@@ -9,7 +9,7 @@
                     <x-input title="合同编号"
                              v-model="contractRenewal.numberCode"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -18,7 +18,7 @@
                     <x-input title="员工姓名"
                              v-model="contractRenewal.empnhName"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -27,7 +27,7 @@
                     <x-input title="部门名称"
                              v-model="contractRenewal.unitFname"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -36,7 +36,7 @@
                     <x-input title="岗位名称"
                              v-model="contractRenewal.postFname"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -45,7 +45,7 @@
                     <x-input title="身份证号"
                              v-model="contractRenewal.empnhIdno"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -54,7 +54,7 @@
                     <x-input title="原合同开始日"
                              v-model="contractRenewal.contrStrdate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -63,7 +63,7 @@
                     <x-input title="原合同到期日"
                              v-model="contractRenewal.contrEndtdate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -72,7 +72,7 @@
                     <x-input title="原签订时间"
                              v-model="contractRenewal.contrPastdate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -81,7 +81,7 @@
                     <x-input title="合同期限"
                              v-model="contractRenewal.contPeriodDis"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -90,7 +90,7 @@
                     <x-input title="合同开始日"
                              v-model="contractRenewal.contrSdate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -99,7 +99,7 @@
                     <x-input title="合同到期日"
                              v-model="contractRenewal.contrEdate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -108,7 +108,7 @@
                     <x-input title="签订时间"
                              v-model="contractRenewal.contrSigndate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -117,7 +117,7 @@
                     <x-input title="生效日期"
                              v-model="contractRenewal.contValiddate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -126,7 +126,7 @@
                     <x-input title="失效日期"
                              v-model="contractRenewal.contInvdate"
                              :show-clear="false"
-                             :readonly="true"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -136,7 +136,7 @@
                             :height="95"
                             v-model="contractRenewal.note"
                             placeholder="未填写"
-                            :readonly="true"
+                            :disabled="true"
                             :show-counter="false"></x-textarea>
 
             </group>
@@ -172,16 +172,16 @@ export default {
         ]),
     },
     methods: {
-		comfirmSave(){
-			this.$dialog.confirm({
-			  title: '',
-			  message: '是否确认？'
-			}).then(() => {
-				this.save();
-			}).catch(() => {
-			  // on cancel
-			});
-		},
+        comfirmSave () {
+            this.$dialog.confirm({
+                title: '',
+                message: '是否确认？'
+            }).then(() => {
+                this.save();
+            }).catch(() => {
+                // on cancel
+            });
+        },
         save () {
             const t = this
             const data = {
@@ -193,21 +193,21 @@ export default {
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     console.log(res, "res");
-					t.$notify({
-						message: '确认成功',
-						duration: 1500,
-						background: '#1989fa'
-					});
+                    t.$notify({
+                        message: '确认成功',
+                        duration: 1500,
+                        background: '#1989fa'
+                    });
                     this.$router.push({
                         name: 'empContractRenewal'
                     })
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });

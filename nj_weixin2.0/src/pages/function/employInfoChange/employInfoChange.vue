@@ -6,11 +6,10 @@
                           class="employInfoChangeWrap">
             <van-list v-model="loading"
                       :finished="finished"
-                      :finished-text="finishedText"
                       @load="onLoad"
                       :offset="10">
                 <div class="employInfoChangeItem"
-                     @click="goTo(item.id)"
+                     @click="goTo(item.id,item.state)"
                      v-for="(item,index) in list">
                     <div class="item_left">
                         <span>
@@ -22,8 +21,8 @@
                     <div class="item_right">
                         <span class="">{{state[item.state]}}</span>
                         <div class="close"
-							v-if="item.state==='01draft'"
-                            @click="deleteItem($event,item.id,index)">
+                             v-if="item.state==='01draft'"
+                             @click="deleteItem($event,item.id,index)">
                             <img src="../../../../static/function/close.png"
                                  alt="">
                         </div>
@@ -78,8 +77,8 @@ export default {
         // this.getData();
     },
     methods: {
-        goTo (id) {
-            this.$router.push({ name: 'empChangeDeatail', query: { id: id } })
+        goTo (id, state) {
+            this.$router.push({ name: 'empChangeDeatail', query: { id: id, state: state } })
         },
         //上拉加载
         onLoad () {

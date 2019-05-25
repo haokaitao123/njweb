@@ -8,7 +8,7 @@
                 <div class="item_box">
                     <cell title=""
                           is-link
-						  v-if="!disabled"
+                          v-if="!disabled"
                           value-align="left"
                           v-model="form.reweSdate"
                           v-verify="form.reweSdate"
@@ -19,19 +19,19 @@
                           class="error"
                           v-show="form.reweSdate=='请选择'"
                           v-remind="form.reweSdate"></icon>
-				    <x-input title="工作开始时间<span>*</span>"
-						v-if="disabled"
-						v-model="form.reweSdate"
-						:disabled="disabled"
-						:show-clear="false"
-						placeholder="未填写">
-					</x-input>
+                    <x-input title="工作开始时间<span>*</span>"
+                             v-if="disabled"
+                             v-model="form.reweSdate"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 工作结束时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
-						  v-if="!disabled"
+                          v-if="!disabled"
                           value-align="left"
                           v-model="form.reweEdate"
                           v-verify="form.reweEdate"
@@ -42,22 +42,22 @@
                           class="error"
                           v-show="form.reweEdate=='请选择'"
                           v-remind="form.reweEdate"></icon>
-					<x-input title="工作结束时间<span>*</span>"
-						v-if="disabled"
-						v-model="form.reweSdate"
-						:disabled="disabled"
-						:show-clear="false"
-						placeholder="未填写">
-					</x-input>
+                    <x-input title="工作结束时间<span>*</span>"
+                             v-if="disabled"
+                             v-model="form.reweSdate"
+                             :disabled="disabled"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>
                 </div>
                 <!-- 单位名称 -->
                 <div class="item_box">
                     <x-input title="单位名称<span>*</span>"
                              v-model="form.reweCompnm"
                              v-verify="form.reweCompnm"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -68,18 +68,18 @@
                 <div class="item_box">
                     <x-input title="职务"
                              v-model="form.rewePost"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 证明人 -->
                 <div class="item_box">
                     <x-input title="证明人"
                              v-model="form.reweCertifier"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 联系方式 -->
@@ -87,9 +87,9 @@
                     <x-input title="联系方式"
                              v-model="form.reweCertnub"
                              v-verify="form.reweCertnub"
-							 :disabled="disabled"
+                             :disabled="disabled"
                              :show-clear="false"
-                             placeholder="请填写">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -101,9 +101,9 @@
                                 title="离职原因<span>*</span>"
                                 :height="95"
                                 v-model="form.reweLevres"
-								:readonly="disabled"
+                                :disabled="disabled"
                                 v-verify="form.reweLevres"
-                                placeholder="请填写"
+                                :placeholder="disabled?'未填写':'请填写'"
                                 :show-counter="false"></x-textarea>
                     <icon type="warn"
                           class="error"
@@ -116,21 +116,27 @@
                             title="备注"
                             :height="95"
                             v-model="form.note"
-							:readonly="disabled"
-                            placeholder="请填写"
+                            :disabled="disabled"
+                            :placeholder="disabled?'未填写':'请填写'"
                             :show-counter="true"></x-textarea>
 
             </group>
-           <!-- <div class="save_button">
+            <!-- <div class="save_button">
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
                           action-type="button">保存</x-button>
             </div> -->
-			<div class="save_button">
-				<x-button type="default" class="x_button button_left" action-type="button" @click.native="back">返回</x-button>
-				<x-button type="primary" class="x_button" @click.native="save" v-if="!disabled">保存</x-button>
-			</div>
+            <div class="save_button">
+                <x-button type="default"
+                          class="x_button button_left"
+                          action-type="button"
+                          @click.native="back">返回</x-button>
+                <x-button type="primary"
+                          class="x_button"
+                          @click.native="save"
+                          v-if="!disabled">保存</x-button>
+            </div>
         </div>
         <!-- 工作开始时间 -->
         <van-popup v-model="reweSdateShow"
@@ -193,16 +199,16 @@ export default {
             reweCertnub: "mobile",
         }
     },
-	props: {
-		id: {
-			type: String,
-			default: ''
-		},
-		disabled: {
-			type: Boolean,
-			default: false
-		},
-	},
+    props: {
+        id: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+    },
     components: {
         Group,
         Cell,
@@ -236,20 +242,20 @@ export default {
                 console.log(data, "data")
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
-						t.$notify({
-							message: '保存成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
-						this.$emit('cancel');
+                        t.$notify({
+                            message: '保存成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
+                        this.$emit('cancel');
                         // this.$router.push({ name: 'resumeInfo', query: { id: t.rewePid } })
                     }
                 }).catch(() => {
                     t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
                 }).finally(() => {
                     t.$store.commit('hideLoading');
                 });
@@ -282,10 +288,10 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
             }).finally(() => {
                 t.$store.commit('hideLoading');
             });
@@ -309,11 +315,11 @@ export default {
         cancel (value) {
             this[this.curDomShow] = false;
         },
-		//取消
-		back(){
-			this.$emit('cancel');
-			document.getElementsByClassName('workExpWrap')[0].scrollTop = '0';
-		}
+        //取消
+        back () {
+            this.$emit('cancel');
+            document.getElementsByClassName('workExpWrap')[0].scrollTop = '0';
+        }
     },
 }
 </script>
@@ -321,35 +327,36 @@ export default {
 .workExp {
     height: 100%;
     background: #f6f6f6;
+    -webkit-overflow-scrolling: touch;
     .workExpWrap {
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-		height: 100%;
+        height: 100%;
         .save_button {
-        	padding: 125px 54px 50px;
-        	display: flex;
-        
-        	.x_button {
-        		color: #fff;
-        		font-size: 34px;
-        		width: 300px;
-				flex: 1;
-				height: 80px;
-        	}
-        
-        	.button_left {
-        		color: #339afe;
-        		background: #fff;
-        		border: 2px solid #339afe !important;
-				margin-right: 5%;
-        	}
-        
-        	.weui-btn+.weui-btn {
-        		margin-top: 0;
-        	}
+            padding: 125px 54px 50px;
+            display: flex;
+            margin-bottom: 100px;
+            .x_button {
+                color: #fff;
+                font-size: 34px;
+                width: 300px;
+                flex: 1;
+                height: 80px;
+            }
+
+            .button_left {
+                color: #339afe;
+                background: #fff;
+                border: 2px solid #339afe !important;
+                margin-right: 5%;
+            }
+
+            .weui-btn + .weui-btn {
+                margin-top: 0;
+            }
         }
     }
 }

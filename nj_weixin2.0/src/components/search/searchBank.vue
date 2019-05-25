@@ -73,27 +73,27 @@ export default {
     },
     methods: {
         async getData () {
-			const t = this;
+            const t = this;
             const data = {
-				_mt: 'baseBankinfo.getPage',
-				sort: t.sort,
-				order: t.order,
-				rows: t.rows,
-				page: t.page,
-				companyId: pubsource.companyId,
-				funId:1,
-				logType: '开户银行',
-			}
-			data.bankCname = t.bankCname
-			for (const dat in data) {
-				if (data[dat] === '') {
-					delete data[dat]
-				}
-			}
+                _mt: 'baseBankinfo.getPage',
+                sort: t.sort,
+                order: t.order,
+                rows: t.rows,
+                page: t.page,
+                companyId: pubsource.companyId,
+                funId: 1,
+                logType: '开户银行',
+            }
+            data.bankCname = t.bankCname
+            for (const dat in data) {
+                if (data[dat] === '') {
+                    delete data[dat]
+                }
+            }
             await getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
                     let data = res.data.content[0];
-					console.log(data,"data")
+                    console.log(data, "data")
                     if (this.list.length > 0) {//当请求前有数据时 第n次请求
                         if (this.loading) {// 上拉加载
                             this.list = this.list.concat(data.rows) //上拉加载新数据添加到数组中
@@ -118,37 +118,37 @@ export default {
                     }
                 }
             }).catch((err) => {
-				this.isLoading = false;
-				this.loading = false;
                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             }).finally(() => {
+                // this.isLoading = false;
+                // this.loading = false;
                 t.$store.commit('hideLoading');
             });
         },
         //下拉刷新
         onRefresh () {
-			this.page = 1;
-			this.isLoading = true
-			this.getData();
+            this.page = 1;
+            this.isLoading = true
+            this.getData();
         },
         //上拉加载
         onLoad () {
-			if (this.list.length > 0) {
-			    this.page++;
-			}
-			this.loading = true
-			this.getData();
+            if (this.list.length > 0) {
+                this.page++;
+            }
+            this.loading = true
+            this.getData();
         },
         //选中
         changeBank (item) {
             this.$emit('inputBank', item);
         },
         onSearch () {
-			this.onRefresh()
+            this.onRefresh()
         }
     },
 }

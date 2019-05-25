@@ -46,10 +46,10 @@
                         <label>工作地点：</label>
                         <span>{{userInfo.empnhWklocatDis}}</span>
                     </div>
-					 <div class="item">
-					    <label>银行账号：</label>
-					    <span>{{empnhSalaccount}}</span>
-					</div>
+                    <div class="item">
+                        <label>银行账号：</label>
+                        <span>{{empnhSalaccount}}</span>
+                    </div>
                 </div>
             </div>
             <h3>个人信息</h3>
@@ -63,7 +63,7 @@
                         <label>手<span>部门</span>机：</label>
                         <span>{{empnhMobile}}</span>
                     </div>
-					
+
                 </div>
             </div>
             <x-button type="primary"
@@ -78,36 +78,43 @@ export default {
     data () {
         return {
             userInfo: JSON.parse(window.localStorage.getItem('empData')),
-			empnhMobile:"",
-			empnhIdno:"",
-			empnhSalaccount:""
+            empnhMobile: "",
+            empnhIdno: "",
+            empnhSalaccount: ""
         }
     },
-	created() {
-		this.encrpt()
-	},
+    beforeCreate () {
+        let isLogin = window.localStorage.getItem('token');
+        let empId = window.localStorage.getItem('empId');
+        if (!isLogin || !empId) {
+            this.$router.push({
+                name: 'login'
+            })
+        }
+    },
     mounted () {
+        this.encrpt()
         console.log(this.userInfo, "userInfo")
     },
     methods: {
-		encrpt(){
-			let data = JSON.parse(window.localStorage.getItem('empData'));
-			let tele = "" + data.empnhMobile;
-			this.empnhMobile = tele.substr(0,3) + "****" + tele.substr(7);
-			this.empnhIdno = data.empnhIdno.replace(/(\d{5})\d{6}(\d{6})/, "$1******$2");
-			this.empnhSalaccount = data.empnhSalaccount.replace(/\s/g,'').replace(/(\d{4})\d+(\d{4})$/, "**** **** **** $2")
-		},
+        encrpt () {
+            let data = JSON.parse(window.localStorage.getItem('empData'));
+            let tele = "" + data.empnhMobile;
+            this.empnhMobile = tele.substr(0, 3) + "****" + tele.substr(7);
+            this.empnhIdno = data.empnhIdno.replace(/(\d{5})\d{6}(\d{6})/, "$1******$2");
+            this.empnhSalaccount = data.empnhSalaccount.replace(/\s/g, '').replace(/(\d{4})\d+(\d{4})$/, "**** **** **** $2")
+        },
         loginOut () {
-			this.$dialog.confirm({
-			  title: '',
-			  message: '是否确认退出？'
-			}).then(() => {
-			  window.localStorage.clear();
-			  this.$router.push({ name: 'login' })
-			}).catch(() => {
-			  // on cancel
-			});
-            
+            this.$dialog.confirm({
+                title: '',
+                message: '是否确认退出？'
+            }).then(() => {
+                window.localStorage.clear();
+                this.$router.push({ name: 'login' })
+            }).catch(() => {
+                // on cancel
+            });
+
         }
     }
 }

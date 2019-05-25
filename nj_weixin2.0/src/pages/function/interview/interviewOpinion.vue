@@ -334,8 +334,8 @@
 				                title="自我评价"
 				                :height="95"
 				                v-model="relibSelfeval"
-								:readonly="disabled"
-				                placeholder="请填写"
+								:disabled="disabled"
+				                placeholder="未填写"
 				                :show-counter="false"></x-textarea>
 				</group>
 				<div class="title">
@@ -434,7 +434,7 @@
                 <div class="item_box">
                     <cell title="初试是否通过"
                           is-link
-                          :disabled="pass"
+                          v-if="!pass"
                           value-align="left"
                           v-model="relibFirpassDis"
                           v-verify="form.relibFirpass"
@@ -446,6 +446,13 @@
                           class="error"
                           v-show="relibFirpassDis=='请选择'"
                           v-remind="form.relibFirpass"></icon>
+                    <x-input title="初试是否通过<span>*</span>"
+                             v-if="pass"
+                             v-model="relibFirpassDis"
+                             :disabled="true"
+                             :show-clear="false"
+                             placeholder="未填写">
+                    </x-input>     
                 </div>
                 <!-- 初试意见 -->
                 <x-textarea :max="300"
@@ -867,7 +874,7 @@ export default {
 		            t.relibEmernm = !data.relibEmernm ? "" : data.relibEmernm;
 		            t.relibEmphone = !data.relibEmphone ? "" : data.relibEmphone;
 		            t.relibSalary = !data.relibSalary ? "" : data.relibSalary;
-		            t.relibAvaitime = data.relibAvaitime ? data.relibAvaitime : '请选择';
+		            t.relibAvaitime = data.relibAvaitime ? data.relibAvaitime : '未选择';
 		            t.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
 		            t.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
 		            t.relibIntrname = !data.relibIntrname ? "" : data.relibIntrname;

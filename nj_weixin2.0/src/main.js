@@ -28,8 +28,8 @@ import {
   Dialog,
   RadioGroup,
   Radio,
-	Checkbox, 
-	CheckboxGroup
+  Checkbox,
+  CheckboxGroup
 } from 'vant';
 Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).
 use(List).use(Loading).use(search).use(ImagePreview).use(Notify)
@@ -155,7 +155,6 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 );
-
 
 /* eslint-disable no-new */
 window.vm = new Vue({

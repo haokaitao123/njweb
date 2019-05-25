@@ -23,24 +23,27 @@
                             <span>{{item.relibMobile}}</span>
                         </div>
                         <div class="item_right">
-                            <span>{{new Date(item.relibFilldate).format('MM月dd日')}}</span>
-                            <span>{{new Date(item.relibFilldate).format('hh:mm:ss')}}</span>
-							
+                            <!-- new Date(item.relibFilldate.replace(/\-/g, '/')).format('MM月dd日') -->
+                            <span>{{item.relibFilldate.replace(/\-/g, '/')}}</span>
+                            <span>{{new Date(item.relibFilldate.replace(/\-/g, '/')).format('hh:mm:ss')}}</span>
+
                         </div>
                     </div>
-					
+
                     <div class="interview_item">
                         <span class="curStepstate"
                               :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                     </div>
-					<div class="interview_item"  v-if="item.curStepDis==='初试'&&item.curStepstate==='p_flowst_3'">
-						<label for="">初试结果：</label>
-					    <span class="option">{{item.relibFirstopin}}</span>
-					</div>
-					<div class="interview_item"  v-if="item.curStepDis!=='初试'&&item.curStepDis!=='复试'">
-						<label for="">复试结果：</label>
-					    <span class="option">{{item.relibCheckopin===''?'无':item.relibCheckopin}}</span>
-					</div>
+                    <div class="interview_item"
+                         v-if="item.curStepDis==='初试'&&item.curStepstate==='p_flowst_3'">
+                        <label for="">初试结果：</label>
+                        <span class="option">{{item.relibFirstopin}}</span>
+                    </div>
+                    <div class="interview_item"
+                         v-if="item.curStepDis!=='初试'&&item.curStepDis!=='复试'">
+                        <label for="">复试结果：</label>
+                        <span class="option">{{item.relibCheckopin&&item.relibCheckopin!==''?item.relibCheckopin:'无'}}</span>
+                    </div>
                     <div class="button_box">
                         <button type="button"
                                 @click="getQrCode($event,item.id)"
@@ -49,7 +52,7 @@
                                 v-if="item.curStepstate!=='p_flowst_3'&&item.curStepDis==='初试'"
                                 @click="submit($event,item.id)">提交</button>
                         <button type="button"
-                                v-else-if="item.curStepDis==='初试'&&item.curStepstate!=='p_flowst_3'"
+                                v-else-if="item.curStepDis==='复试'&&item.curStepstate!=='p_flowst_3'"
                                 @click="interviewMes($event,item.id)">预约信息</button>
                     </div>
                 </div>
@@ -132,22 +135,22 @@ export default {
         addNewInterview
     },
     methods: {
-        goTo (id,curStepDis,curStepstate) {
-			let curStep = false;
-			if(curStepDis&&curStepstate){
-				if (curStepDis === '初试' && curStepstate !== 'p_flowst_3') {
-				    curStep = false;
-				} else {
-				    curStep = true;
-				}
-			}
+        goTo (id, curStepDis, curStepstate) {
+            let curStep = false;
+            if (curStepDis && curStepstate) {
+                if (curStepDis === '初试' && curStepstate !== 'p_flowst_3') {
+                    curStep = false;
+                } else {
+                    curStep = true;
+                }
+            }
             this.$router.push({
                 name: 'addInterview',
                 query: {
                     id: id,
-					curStep:curStep,
-					curStepDis:curStepDis,
-					curStepstate:curStepstate
+                    curStep: curStep,
+                    curStepDis: curStepDis,
+                    curStepstate: curStepstate
                 }
             })
         },
@@ -279,7 +282,7 @@ export default {
             this.show = true;
             this.maskShow = true;
             var canvas = document.getElementById('canvas');
-            const url = pubsource.pub_url+'#/resumeInfo?id=' + id
+            const url = pubsource.pub_url + '#/resumeInfo?id=' + id
             QRCode.toCanvas(canvas, url, function (error) {
                 if (error) console.error(error)
                 console.log('url', url);
@@ -317,7 +320,7 @@ export default {
             .interview_item {
                 display: flex;
                 margin-bottom: 30px;
-				font-size:28px;
+                font-size: 28px;
                 .curStepstate {
                     font-size: 28px;
                     color: #339afe;
@@ -331,12 +334,12 @@ export default {
                 .p_flowst_3 {
                     color: red;
                 }
-				.option{
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					overflow: hidden;
-					flex: 1;
-				}
+                .option {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    flex: 1;
+                }
             }
 
             .item_first {

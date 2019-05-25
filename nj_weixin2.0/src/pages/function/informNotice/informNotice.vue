@@ -1,43 +1,64 @@
 <!--通知公告-->
 <template>
-	<div class="informNotice">
-		<div class="informNoticeWrap">
-			<div class="header_tab">
-				<div class="unread tabNav" @click="tabNav">
-					<span :class="state?'activeColor':''">未读</span>
-					<img src="../../../../static/function/read.png" v-if="state" alt="">
-					<img src="../../../../static/function/unRead.png" v-else="!state" alt="">
-				</div>
-				<div class="read tabNav" @click="tabNav">
-					<span :class="state?'':'activeColor'">已读</span>
-					<img src="../../../../static/function/unRead.png" v-if="state" alt="">
-					<img src="../../../../static/function/read.png" v-if="!state" alt="">
-				</div>
-			</div>
-			<van-pull-refresh v-model="isLoading" @refresh="onRefresh" class="listWrap" v-if="this.list.length!=0">
-				<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" :offset="10">
-					<div class="informNoticeContent" v-for="item in list">
-						<div class="info_item"  @click="goInformDetail(item.id)">
-							<div class="item_header">
-								<div class="item_title">{{item.noticeTitle}}</div>
-								<div class="item_date">{{item.noticePublish}}</div>
-							</div>
-							<div class="item_detail">
-								<span>详情</span>
-								<img src="../../../../static/function/left_arrow.png" alt="">
-							</div>
-						</div>
-					</div>
-				</van-list>
-			</van-pull-refresh>
-			<div class="noData_box" v-else>
-				<noData></noData>
-			</div>
-		</div>
-	</div>
+    <div class="informNotice">
+        <div class="informNoticeWrap">
+            <div class="header_tab">
+                <div class="unread tabNav"
+                     @click="tabNav">
+                    <span :class="state?'activeColor':''">未读</span>
+                    <img src="../../../../static/function/read.png"
+                         v-if="state"
+                         alt="">
+                    <img src="../../../../static/function/unRead.png"
+                         v-else="!state"
+                         alt="">
+                </div>
+                <div class="read tabNav"
+                     @click="tabNav">
+                    <span :class="state?'':'activeColor'">已读</span>
+                    <img src="../../../../static/function/unRead.png"
+                         v-if="state"
+                         alt="">
+                    <img src="../../../../static/function/read.png"
+                         v-if="!state"
+                         alt="">
+                </div>
+            </div>
+            <van-pull-refresh v-model="isLoading"
+                              @refresh="onRefresh"
+                              class="listWrap"
+                              v-if="this.list.length!=0">
+                <van-list v-model="loading"
+                          :finished="finished"
+                          finished-text="没有更多了"
+                          @load="onLoad"
+                          :offset="10">
+                    <div class="informNoticeContent"
+                         v-for="item in list">
+                        <div class="info_item"
+                             @click="goInformDetail(item.id)">
+                            <div class="item_header">
+                                <div class="item_title">{{item.noticeTitle}}</div>
+                                <div class="item_date">{{item.noticePublish}}</div>
+                            </div>
+                            <div class="item_detail">
+                                <span>详情</span>
+                                <img src="../../../../static/function/left_arrow.png"
+                                     alt="">
+                            </div>
+                        </div>
+                    </div>
+                </van-list>
+            </van-pull-refresh>
+            <div class="noData_box"
+                 v-else>
+                <noData></noData>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
-	import { getDataLevelUserLoginNew } from '@/axios/axios'
+import { getDataLevelUserLoginNew } from '@/axios/axios'
 import { isSuccess } from '@/lib/util'
 import noData from '../../../components/public/noData'
 export default {
@@ -55,7 +76,7 @@ export default {
             loading: false,   //是否处于加载状态
             finished: false,  //是否已加载完所有数据
             totalPage: 0,
-			recFlag:'',
+            recFlag: '',
         }
     },
     components: {
@@ -68,17 +89,17 @@ export default {
         tabNav () {
             if (this.state) {
                 this.state = false;
-				this.recFlag='read'
+                this.recFlag = 'read'
             } else {
                 this.state = true;
-				this.recFlag=''
+                this.recFlag = ''
             }
             this.page = 1;
             this.isLoading = false;
             this.loading = false;
             this.finished = false;
             this.totalPage = 0;
-			this.getData()
+            this.getData()
             // this.onRefresh();
         },
         goInformDetail (id) {
@@ -99,7 +120,7 @@ export default {
                 page: this.page,
                 sort: this.sort,
                 order: this.order,
-                recFlag:this.recFlag
+                recFlag: this.recFlag,
             }
             getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {
@@ -113,17 +134,16 @@ export default {
                 }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});;
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });;
             }).finally(() => {
                 t.$store.commit('hideLoading');
-            });		
+            });
         },
         //下拉刷新
         onRefresh () {
-			console.log("onRefresh")
             const t = this
             setTimeout(() => {
                 this.page = 1;
@@ -146,7 +166,7 @@ export default {
                     page: this.page + 1,
                     sort: this.sort,
                     order: this.order,
-                    recFlag:this.recFlag
+                    recFlag: this.recFlag,
                 }
                 getDataLevelUserLoginNew(data).then((res) => {
                     if (isSuccess(res, t)) {
@@ -162,20 +182,20 @@ export default {
                     }
                 }).catch((err) => {
                     t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});              
-				}).finally(() => {
-                t.$store.commit('hideLoading');
-            });
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
+                }).finally(() => {
+                    t.$store.commit('hideLoading');
+                });
             }, 500);
         }
     },
 }
 </script>
 <style lang="less" type="text/less" scoped>
-	.informNotice {
+.informNotice {
     width: 100%;
     height: 100%;
     background: #f6f6f6;
