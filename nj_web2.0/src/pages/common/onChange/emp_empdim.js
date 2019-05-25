@@ -81,8 +81,8 @@ const emp_empdim = {
 
     if (t.valueMap.dimSalday) {
       //alert(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday)
-      debugger
-      if(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday.length<=0){
+      //debugger
+      if(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday.length<=0 && t.$refs[t.valueMap.dimLastsalday][0].formDataSubmit.dimLastsalday.length<=0){
         //当月的20号
         let nowDate = new Date()
         //当前月的20号
@@ -90,13 +90,18 @@ const emp_empdim = {
 
         let day1 = nowDate.getDate()//当前
         let day2 = entrydate.getDate()//20号
-        let resDate
+        let resDate                 //当前月
+        let resLastDate             //下个月
         if(day1<day2){
           resDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-27')
+          resLastDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 2) + '-27')
+          t.$refs[t.valueMap.dimSalday][0].$set(t.$refs[t.valueMap.dimSalday][0].formDataSubmit, 'dimSalday',  resDate.format('yyyy-MM-dd'))
         }else{
-          resDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 2) + '-27')
+          //resDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-20')
+          t.$refs[t.valueMap.dimSalday][0].$set(t.$refs[t.valueMap.dimSalday][0].formDataSubmit, 'dimSalday',  '')
+          resLastDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 2) + '-27')
         }
-        t.$refs[t.valueMap.dimSalday][0].$set(t.$refs[t.valueMap.dimSalday][0].formDataSubmit, 'dimSalday',  resDate.format('yyyy-MM-dd'))
+        t.$refs[t.valueMap.dimLastsalday][0].$set(t.$refs[t.valueMap.dimLastsalday][0].formDataSubmit, 'dimLastsalday',  resLastDate.format('yyyy-MM-dd'))
       }
     }
   },
