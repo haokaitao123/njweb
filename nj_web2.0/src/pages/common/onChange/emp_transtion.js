@@ -137,7 +137,7 @@ const emp_transtion = {
     }).then((res) => {
       if (isSuccess(res, this.$parent)) {
       let result  = res.data.content[0];
-      if(result.unitPartfunct==='100'){
+      if(result.unitPartfunct==='101'){
         getDataLevelUserLogin({
           _mt: 'orgPost.getById',
           logType:'查询岗位职级',
