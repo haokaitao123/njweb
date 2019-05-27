@@ -19,9 +19,13 @@ const recruit_process = {
     recruit_process.relibGuarantee_set(this);
     recruit_process.relibTrysqus_set(this);
     recruit_process.relibTrypsus_set(this);
+    recruit_process.relibApplypost_set(this);
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
+  },
+  relibScore(node) {
+    recruit_process.relibScore_set(this.$parent)
   },
   relibApplytype(node) {
     recruit_process.relibApplytype_dis(this.$parent)
@@ -56,6 +60,31 @@ const recruit_process = {
       }
     }
   },
+
+  //入职岗位默认应聘岗位的值
+  relibApplypost_set(t){
+    let post
+    if (t.valueMap.relibHirepost){
+      post = t.$refs[t.valueMap.relibApplypost][0].formDataSubmit.relibApplypost
+      console.log(123,post);
+      t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = post
+    }
+  },
+
+
+  //根据分数判断是否通过考试
+  relibScore_set(t) {
+    let score
+    if (t.valueMap.relibScore) {
+      score = t.$refs[t.valueMap.relibScore][0].formDataSubmit.relibScore
+      if(score>80){
+        t.$refs[t.valueMap.relibExamina][0].$refs.relibExamina.thisValue = '1'
+      }else{
+        t.$refs[t.valueMap.relibExamina][0].$refs.relibExamina.thisValue = '0'
+      }
+    }
+  },
+
   // 介绍人显示隐藏与设置值
   relibApplytype_set(t) {
     if (t.valueMap.relibApplytype && t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype !== '03introducer') {
