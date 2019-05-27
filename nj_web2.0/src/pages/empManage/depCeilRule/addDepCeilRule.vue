@@ -17,7 +17,7 @@
           <Row>
 
             <!--  prop 是Form对应表单域 model 里的字段 -->
-            <Col span="11" offset="1">
+            <Col span="10" offset="1">
                                 <FormItem label="部门名称"
                                     prop="deptId">
                                     <span @dblclick="disabled?'':clearDeptId()">
@@ -30,19 +30,20 @@
                                     </span>
                                 </FormItem>
                             </Col>
-            <Col span="10" offset="1">
+            <Col span="10">
               <FormItem label="月利润上限" prop="profitCap">
                 <Input v-model="formValidate.profitCap" placeholder="请输入月利润上限"/>
               </FormItem>
             </Col>
-            <Col span="10" offset="1">
+          </Row>
+          <Row>
+             <Col span="10" offset="1">
               <FormItem label="月利润下限" prop="profitFloor">
                 <Input v-model="formValidate.profitFloor" placeholder="请输入月利润下限"></Input>
               </FormItem>
             </Col>
-          </Row>
-          <Row>
-            <Col span="10" offset="1">
+
+            <Col span="10">
               <FormItem label="封顶金额" prop="profitBig">
                 <Input v-model="formValidate.profitBig" placeholder="请输入封顶金额"></Input>
               </FormItem>

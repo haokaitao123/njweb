@@ -18,7 +18,7 @@
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
             <Row>
                 <!--  prop 是Form对应表单域 model 里的字段 -->
-                <Col span="11" offset="1">
+                <Col span="10" offset="1">
                                 <FormItem label="部门名称"
                                     prop="deptId">
                                     <span @dblclick="disabled?'':clearDeptId()">
@@ -31,23 +31,25 @@
                                     </span>
                                 </FormItem>
                             </Col>
-                <Col span="10" offset="1">
+                <Col span="10">
                     <FormItem label="工资上限金额" prop="salCap">
                             <Input v-model="formValidate.salCap"   placeholder="请输入工资上限金额"/>
-                    </FormItem>
-                </Col>
-                <Col span="10" offset="1">
-                    <FormItem label="工资下限金额" prop="salFloor">
-                        <Input v-model="formValidate.salFloor" placeholder="请输入工资下限金额"></Input>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
                 <Col span="10" offset="1">
+                    <FormItem label="工资下限金额" prop="salFloor">
+                        <Input v-model="formValidate.salFloor" placeholder="请输入工资下限金额"></Input>
+                    </FormItem>
+                </Col>
+                <Col span="10">
                     <FormItem label="最低应交金额" prop="salMinimum">
                         <Input v-model="formValidate.salMinimum" placeholder="请输入最低应交金额"></Input>
                     </FormItem>
                 </Col>
+            </Row>
+            <Row>
                 <Col span="10" offset="1">
                     <FormItem label="比例(%)" prop="salRatio">
                         <Input v-model="formValidate.salRatio" placeholder="请输入比例"  style="width: 100%"></Input>
