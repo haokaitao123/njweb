@@ -36,6 +36,20 @@
                                    placeholder="请选择岗位名称"
                                    @on-click="pickData" />
                         </span>
+                        <DatePicker
+                            type="date"
+                            placeholder="请选择入职日期"
+                            :editable="false"
+                            v-model="empnhEntrydate"
+                            style="width: 200px"
+                        ></DatePicker>
+                        <DatePicker
+                            type="date"
+                            placeholder="请选择离职日期"
+                            :editable="false"
+                            v-model="dimLevsqday"
+                            style="width: 200px"
+                        ></DatePicker>
                         <btnList :btnData="btnData"
                                  :FlowNode="FlowNode"
                                  @buttonExport="expData"
@@ -212,6 +226,8 @@ export default {
             hua: "",
             postId: "",
             postName: "",
+            empnhEntrydate:"",
+            dimLevsqday:"",
             columns: [
                 {
                     type: "selection",
@@ -494,6 +510,8 @@ export default {
                 roleType:localStorage.roleType,
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
+                dimLevsqday:t.dimLevsqday,
+                empnhEntrydate:t.empnhEntrydate,
                 deptId: id,
                 postId: t.postId,
                 state: t.modity
@@ -502,6 +520,16 @@ export default {
                 if (data[dat] === "") {
                     delete data[dat];
                 }
+            }
+            if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
+       				  data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
+                } else {
+                    data.empnhEntrydate = ''
+            }
+            if (data.dimLevsqday !== undefined && data.dimLevsqday !== '') {
+       				  data.dimLevsqday = new Date(data.dimLevsqday).format('yyyy-MM-dd')
+                } else {
+                    data.dimLevsqday = ''
             }
             this.loading = true;
             getDataLevelUserLoginNew(data)
