@@ -35,7 +35,7 @@
                                 <!-- @buttonAdd（配置的按钮对应方法名称） = "btnEvent"（是你当前页面对应点击事件） -->
                                 <btnList :btnData="btnData"
                                          :FlowNode="FlowNode"
-                                         @buttonSearch="getData(1)"
+                                         @buttonSearch="search()"
                                          @buttonAdd="openUp(NaN,'新增')"
                                          @buttonDel="deletemsg"></btnList>
 
@@ -140,7 +140,7 @@ export default {
             // 导入的mt名称
             imp_mt: 'empDeposmin.importData',
             // 导出字段设置, code字段名 name列名
-            expDataTital: [ { code: "unitFname", name: "部门名称" }, { code: 'depMoney', name: '最低押金' },
+            expDataTital: [{ code: "unitFname", name: "部门名称" }, { code: 'depMoney', name: '最低押金' },
             { code: 'depSdate', name: '押金补充时间' }, { code: 'depEdate', name: '补充结束时间' },
             { code: 'depPenalty', name: '低于最低扣款' }, { code: 'note', name: '备注' }],
             // 导入导出默认参数 无需变更
@@ -575,7 +575,8 @@ export default {
                             if (isSuccess(res, t)) {
                                 t.$Message.success(this.$t('reminder.deletesuccess'))
                                 t.tableselected = []
-                                t.getData(1)
+                                t.getData();
+                                t.getTree();
                             }
                         }).catch(() => {
                             t.$Message.error(this.$t('reminder.errormessage'))
