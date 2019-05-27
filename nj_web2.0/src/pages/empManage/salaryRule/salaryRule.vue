@@ -141,10 +141,11 @@ export default {
             imp_mt: 'empSalRule.importData',
             // 导出字段设置, code字段名 name列名
             expDataTital: [
+                { code: "unitFname", name: "部门名称" },
                 { code: "salCap", name: "工资上限金额" },
                 { code: "salFloor", name: "工资下限金额" },
                 { code: "salMinimum", name: "最低应交金额" },
-                { code: "salRatio", name: "比例" },
+                { code: "salRatio", name: "比例(%)" },
                 { code: "note", name: "备注" }
             ],
             // 导入导出默认参数 无需变更

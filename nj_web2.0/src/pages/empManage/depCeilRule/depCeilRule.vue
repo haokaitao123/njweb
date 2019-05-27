@@ -141,6 +141,7 @@ export default {
             imp_mt: 'depCeilRule.importData',
             // 导出字段设置, code字段名 name列名
             expDataTital: [
+                { code: "unitFname", name: "部门名称" },
                 { code: "profitCap", name: "月利润上限" },
                 { code: "profitFloor", name: "月利润下限" },
                 { code: "profitBig", name: "封顶金额" },
