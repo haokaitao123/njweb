@@ -140,7 +140,7 @@ export default {
             // 导入的mt名称
             imp_mt: 'empDeposmin.importData',
             // 导出字段设置, code字段名 name列名
-            expDataTital: [{ code: 'depPost', name: '岗位' }, { code: 'depMoney', name: '最低押金' },
+            expDataTital: [ { code: "unitFname", name: "部门名称" }, { code: 'depMoney', name: '最低押金' },
             { code: 'depSdate', name: '押金补充时间' }, { code: 'depEdate', name: '补充结束时间' },
             { code: 'depPenalty', name: '低于最低扣款' }, { code: 'note', name: '备注' }],
             // 导入导出默认参数 无需变更
