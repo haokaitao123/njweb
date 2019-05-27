@@ -251,8 +251,8 @@ export default {
     },
     //所有加载完成后  生命周期 页面方法可以在这里调用
     mounted () {
-        this.search();
         this.getData();
+        this.getTree();
     },
     computed: {
         pageShow () {
