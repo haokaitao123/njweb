@@ -470,6 +470,8 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
+      t.$refs.update.formValidate.deptId="";
+      t.$refs.update.unitFname = "";
       t.$refs.update.formValidate.salCap = "";
       t.$refs.update.formValidate.salFloor = "";
       t.$refs.update.formValidate.salMinimum = "";

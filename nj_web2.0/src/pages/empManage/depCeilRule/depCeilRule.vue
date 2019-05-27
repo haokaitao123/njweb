@@ -465,6 +465,8 @@ export default {
     closeUp() {
       const t = this;
       t.openUpdate = false;
+      t.$refs.update.formValidate.deptId="";
+      t.$refs.update.unitFname = "";
       t.$refs.update.formValidate.profitCap = "";
       t.$refs.update.formValidate.profitFloor = "";
       t.$refs.update.formValidate.profitBig = "";

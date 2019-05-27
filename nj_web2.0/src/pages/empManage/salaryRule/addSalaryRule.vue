@@ -18,6 +18,19 @@
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
             <Row>
                 <!--  prop 是Form对应表单域 model 里的字段 -->
+                <Col span="11" offset="1">
+                                <FormItem label="部门名称"
+                                    prop="deptId">
+                                    <span @dblclick="disabled?'':clearDeptId()">
+                                        <Input v-model="unitFname"
+                                            icon="search"
+                                            :disabled="disabled"
+                                            :readonly=true
+                                            placeholder="请选择部门"
+                                            @on-click="disabled?'':pickData2()" />
+                                    </span>
+                                </FormItem>
+                            </Col>
                 <Col span="10" offset="1">
                     <FormItem label="工资上限金额" prop="salCap">
                             <Input v-model="formValidate.salCap"   placeholder="请输入工资上限金额"/>
@@ -62,6 +75,14 @@
             </Row>
       </Form>
       </div>
+      <transition name="fade">
+        <searchOrgframe v-show="openPick2"
+            :searchCloumns="searchCloumns2"
+            :params="params2"
+            @closeUp="close2"
+            @changeinput="changeinput2"
+            ref="searchOrgframe"></searchOrgframe>
+    </transition>
     </div>
   </div>
 </template>
@@ -69,6 +90,7 @@
     import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios' //调用请求接口封装的公共方法
     import { isSuccess, deepCopy } from '../../../lib/util'  //调用请求判断成功的公共方法和深拷贝方法
     import valid from '../../../lib/pub_valid.js'
+    import searchOrgframe from '../../../components/searchTable/searchOrgframe'
   export default {
     data() {
         /*数字验证*/
@@ -94,11 +116,42 @@
             }
         };
       return {
+          unitFname:'',
+          disabled: false,
+           openPick2: false,
         spinShow:false,
+         params2: {
+                _mt: 'orgUnits.getByOrgFramePageList',
+                sort: 'id',
+                order: 'desc',
+                rows: 10,
+                page: 1,
+                funId: '1',
+                logType: '组织架构查询',
+                data: '{}',
+                state:'02valid',
+                unitType:'02dept',
+        },
+        searchCloumns2:[
+                {
+                    title: "组织编码",
+                    key: 'unitCode',
+                    sortable: 'custom',
+                },
+                {
+                    title: "组织名称",
+                    key: 'unitFname',
+                },
+                {
+                    title: "组织类型",
+                    key: 'unitTypeName',
+                },
+            ],
         formValidate: {
             _mt: 'empSalRule.addOrUpd', //新增的数据接口
             funId: '1', //功能ID
             logType:this.logType, //操作类型
+            deptId:'',
             salCap: '',
             salFloor: '',
             salMinimum: '', 
@@ -106,6 +159,9 @@
             note: '',//备注
         },
         ruleValidate: { 
+            deptId: [ 
+                 { required: true, message: '请选择部门', trigger: 'change' }
+             ],
              salCap:[
                 {
                   required: true,
@@ -165,6 +221,7 @@
     //外部调用的组件注册到这里
     components: {
          valid,
+         searchOrgframe
     },
     // 定义子组件获取父组件传入的值
     props: {
@@ -185,6 +242,8 @@
             }).then((res) => {
             if (isSuccess(res, t)) {
                 //回显数据绑定
+                 t.formValidate.deptId = res.data.content[0].deptId
+                t.unitFname = res.data.content[0].unitFname
                 t.formValidate.salCap = res.data.content[0].salCap
                 t.formValidate.salFloor = res.data.content[0].salFloor
                 t.formValidate.salMinimum = res.data.content[0].salMinimum
@@ -201,6 +260,27 @@
             .finally(() => {
                 t.spinShow = false
             });
+        },
+
+         close2 () {
+            const t = this
+            t.openPick2 = false
+        },
+        pickData2 () {
+                const t = this
+                t.$refs.searchOrgframe.getData(t.params2)
+                t.openPick2 = true
+        },
+         clearDeptId () {
+                const t = this
+                t.unitFname = ''
+                t.formValidate.deptId = ''
+        },
+      changeinput2 (name, id, type) {
+            const t = this
+            t.unitFname = name
+            t.formValidate.deptId = id
+            t.type = type
         },
         //点击提交事件
         handleSubmit() {

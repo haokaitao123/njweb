@@ -12,7 +12,7 @@
       </div>
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="135">
         <Row>
-          <Col span="10" offset="1">
+          <!-- <Col span="10" offset="1">
           <FormItem label="岗位" prop="depPost">
                 <span @dblclick="clearPid()">
                   <Input
@@ -24,7 +24,20 @@
                   />
                 </span>
           </FormItem>
-          </Col>
+          </Col> -->
+          <Col span="11" offset="1">
+                                <FormItem label="部门名称"
+                                    prop="deptId">
+                                    <span @dblclick="disabled?'':clearDeptId()">
+                                        <Input v-model="unitFname"
+                                            icon="search"
+                                            :disabled="disabled"
+                                            :readonly=true
+                                            placeholder="请选择部门"
+                                            @on-click="disabled?'':pickData2()" />
+                                    </span>
+                                </FormItem>
+                            </Col>
           <Col span="10" offset="1">
           <FormItem label="最低押金" prop="depMoney">
             <Input v-model="formValidate.depMoney"
@@ -94,6 +107,14 @@
       </Form>
     </div>
     <transition name="fade">
+        <searchOrgframe v-show="openPick2"
+            :searchCloumns="searchCloumns2"
+            :params="params2"
+            @closeUp="close2"
+            @changeinput="changeinput2"
+            ref="searchOrgframe"></searchOrgframe>
+    </transition>
+    <!-- <transition name="fade">
       <searchOrgframe
         v-show="openPick"
         :searchPostClo="searchCloumns"
@@ -103,15 +124,16 @@
         @changeinput="changeinput"
         ref="searchOrgframe"
       ></searchOrgframe>
-    </transition>
+    </transition> -->
   </div>
 </template>
 <script>
   import E from "wangeditor";
   import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
   import { isSuccess, deepCopy } from '../../../lib/util'
-  import searchOrgframe from '../../../components/searchTable/searchPost'
+  //import searchOrgframe from '../../../components/searchTable/searchPost'
   import valid from '../../../lib/pub_valid'
+  import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 
   export default {
     data() {
@@ -137,9 +159,13 @@
         }
       }
       return {
+           openPick2: false,
+           unitFname:'',
+           disabled: false,
         formValidate: {
           _mt: 'empDeposmin.addOrUpd',
           funId: '1',
+          deptId:'',
           depPost: '',
           depPostDis:'',
           depMoney: '',
@@ -149,7 +175,11 @@
           note: '',
         },
         ruleValidate: {
+            deptId: [ 
+                 { required: true, message: '请选择部门', trigger: 'change' }
+             ],
           depPost: [
+              
             {
               required: true,
               message: "请选择岗位",
@@ -202,6 +232,31 @@
           order: 'desc',
           logType: '岗位',
         },
+        params2: {
+                _mt: 'orgUnits.getByOrgFramePageList',
+                sort: 'id',
+                order: 'desc',
+                rows: '10',
+                page: 1,
+                logType: '组织架构查询',
+                state:'02valid',
+                unitType:'02dept',
+        },
+        searchCloumns2:[
+                {
+                    title: "组织编码",
+                    key: 'unitCode',
+                    sortable: 'custom',
+                },
+                {
+                    title: "组织名称",
+                    key: 'unitFname',
+                },
+                {
+                    title: "组织类型",
+                    key: 'unitTypeName',
+                },
+            ],
       }
     },
     props: {
@@ -224,6 +279,8 @@
           logType: '根据id获取数据',
         }).then((res) => {
           if (isSuccess(res, t)) {
+             t.formValidate.deptId = res.data.content[0].deptId
+                t.unitFname = res.data.content[0].unitFname
             t.formValidate.depPost =res.data.content[0].depPost;
             t.depPostDis =res.data.content[0].depPostDis;
             t.formValidate.depMoney = res.data.content[0].depMoney
@@ -239,6 +296,26 @@
           })
         })
       },
+      close2 () {
+            const t = this
+            t.openPick2 = false
+        },
+      pickData2 () {
+                const t = this
+                t.$refs.searchOrgframe.getData(t.params2)
+                t.openPick2 = true
+        },
+         clearDeptId() {
+                const t = this
+                t.unitFname = ''
+                t.formValidate.deptId = ''
+        },
+      changeinput2 (name, id, type) {
+            const t = this
+            t.unitFname = name
+            t.formValidate.deptId = id
+            t.type = type
+        },
       clearPid() {
         const t = this;
         t.depPostDis= "";

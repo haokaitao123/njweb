@@ -450,6 +450,8 @@
       closeUp() {
         const t = this
         t.openUpdate = false
+        t.$refs.update.formValidate.deptId="";
+        t.$refs.update.unitFname = "";
       },
     },
   }
