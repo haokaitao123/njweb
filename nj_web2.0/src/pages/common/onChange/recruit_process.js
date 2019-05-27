@@ -19,9 +19,13 @@ const recruit_process = {
     recruit_process.relibGuarantee_set(this);
     recruit_process.relibTrysqus_set(this);
     recruit_process.relibTrypsus_set(this);
+    recruit_process.relibApplypost_set(this);
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
+  },
+  relibScore(node) {
+    recruit_process.relibScore_set(this.$parent)
   },
   relibApplytype(node) {
     recruit_process.relibApplytype_dis(this.$parent)
@@ -56,6 +60,34 @@ const recruit_process = {
       }
     }
   },
+
+  //入职岗位默认应聘岗位的值
+  relibApplypost_set(t) {
+    let post
+    if (t.valueMap.relibHirepost) {
+      post = t.$refs[t.valueMap.relibApplypost][0].formDataSubmit.relibApplypost;
+      console.log(t.$refs[t.valueMap.relibHirepost][0], " t.$refs[t.valueMap.relibApplypost][0]")
+      console.log(123, post);
+      console.log(t.$refs[t.valueMap.relibHirepost][0].formData1.columns[0].clmDisValue)
+      t.$refs[t.valueMap.relibHirepost][0].$set(t.$refs[t.valueMap.relibHirepost][0].formDataSubmit, 'relibHirepost', post)
+      t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = t.$refs[t.valueMap.relibApplypost][0].formData1.columns[0].clmDisValue
+    }
+  },
+
+
+  //根据分数判断是否通过考试
+  relibScore_set(t) {
+    let score
+    if (t.valueMap.relibScore) {
+      score = t.$refs[t.valueMap.relibScore][0].formDataSubmit.relibScore
+      if (score > 80) {
+        t.$refs[t.valueMap.relibExamina][0].$refs.relibExamina.thisValue = '1'
+      } else {
+        t.$refs[t.valueMap.relibExamina][0].$refs.relibExamina.thisValue = '0'
+      }
+    }
+  },
+
   // 介绍人显示隐藏与设置值
   relibApplytype_set(t) {
     if (t.valueMap.relibApplytype && t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype !== '03introducer') {
@@ -101,12 +133,12 @@ const recruit_process = {
           id: t.$store.state.user.userId,
         }).then((res) => {
           if (isSuccess(res, this.$parent)) {
-          t.$refs[t.valueMap.relibGuarantee][0].$set(t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit, 'relibGuarantee', res.data.content[0].sysUsempid)
-          t.$refs[t.valueMap.relibGuarantee][0].$refs.relibGuarantee.thisValue = res.data.content[0].sysUsempidDis
-        }
-      }).catch(() => {
+            t.$refs[t.valueMap.relibGuarantee][0].$set(t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit, 'relibGuarantee', res.data.content[0].sysUsempid)
+            t.$refs[t.valueMap.relibGuarantee][0].$refs.relibGuarantee.thisValue = res.data.content[0].sysUsempidDis
+          }
+        }).catch(() => {
           t.$Message.error('网络错误')
-      })
+        })
       }
     }
   },
@@ -121,12 +153,12 @@ const recruit_process = {
           id: t.$store.state.user.userId,
         }).then((res) => {
           if (isSuccess(res, this.$parent)) {
-          t.$refs[t.valueMap.relibTrysqus][0].$set(t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit, 'relibTrysqus', res.data.content[0].sysUsempid)
-          t.$refs[t.valueMap.relibTrysqus][0].$refs.relibTrysqus.thisValue = res.data.content[0].sysUsempidDis
-        }
-      }).catch(() => {
+            t.$refs[t.valueMap.relibTrysqus][0].$set(t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit, 'relibTrysqus', res.data.content[0].sysUsempid)
+            t.$refs[t.valueMap.relibTrysqus][0].$refs.relibTrysqus.thisValue = res.data.content[0].sysUsempidDis
+          }
+        }).catch(() => {
           t.$Message.error('网络错误')
-      })
+        })
       }
     }
   },
@@ -141,12 +173,12 @@ const recruit_process = {
           id: t.$store.state.user.userId,
         }).then((res) => {
           if (isSuccess(res, this.$parent)) {
-          t.$refs[t.valueMap.relibTrypsus][0].$set(t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit, 'relibTrypsus', res.data.content[0].sysUsempid)
-          t.$refs[t.valueMap.relibTrypsus][0].$refs.relibTrypsus.thisValue = res.data.content[0].sysUsempidDis
-        }
-      }).catch(() => {
+            t.$refs[t.valueMap.relibTrypsus][0].$set(t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit, 'relibTrypsus', res.data.content[0].sysUsempid)
+            t.$refs[t.valueMap.relibTrypsus][0].$refs.relibTrypsus.thisValue = res.data.content[0].sysUsempidDis
+          }
+        }).catch(() => {
           t.$Message.error('网络错误')
-      })
+        })
       }
     }
   },
