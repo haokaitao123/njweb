@@ -173,6 +173,12 @@ export default {
                 //   width: 220,
                 // },
                 {
+                    title: "部门名称",
+                    key: "unitFname",
+                    sortable: "custom",
+                    width: 220
+                },
+                {
                     title: '最低押金',
                     key: 'depMoney',
                     sortable: 'custom',
@@ -454,7 +460,6 @@ export default {
                 order: "asc",
                 logType: this.$t("button.ser"),
                 id: "0",
-                state: t.modity
             };
             for (const dat in data) {
                 if (data[dat] === "") {
@@ -595,7 +600,9 @@ export default {
         // 关闭子页面 无需更改
         closeUp () {
             const t = this
-            t.openUpdate = false
+            t.$refs.update.formValidate.deptId = "";
+            t.$refs.update.unitFname = "";
+            t.openUpdate = false;
         },
     },
 }

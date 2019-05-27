@@ -168,6 +168,12 @@ export default {
                     align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
                 },
                 {
+                    title: "部门名称",
+                    key: "unitFname",
+                    sortable: "custom",
+                    width: 220
+                },
+                {
                     title: "月利润上限",
                     key: "profitCap",
                     sortable: "custom",
@@ -301,7 +307,7 @@ export default {
                 logType: "查询", //日志描述
                 profitBigDis: t.profitBigDis, //最大封顶金额
                 profitSmallDis: t.profitSmallDis,//最小封顶金额
-                unitPid: id,
+                deptId: id,
             };
             //删除请求列表数据的参数为空的参数
             for (const dat in data) {
@@ -476,6 +482,8 @@ export default {
         closeUp () {
             const t = this;
             t.openUpdate = false;
+            t.$refs.update.formValidate.deptId = "";
+            t.$refs.update.unitFname = "";
             t.$refs.update.formValidate.profitCap = "";
             t.$refs.update.formValidate.profitFloor = "";
             t.$refs.update.formValidate.profitBig = "";
@@ -490,6 +498,40 @@ export default {
             this.tableselected = [];
             this.page = 1;
             this.getData();
+        },
+        //获取树状图数据
+        getTree () {
+            const t = this;
+            const data = {
+                _mt: "orgUnits.getTree",
+                rows: "100",
+                page: "1",
+                sort: "unitCode",
+                order: "asc",
+                logType: this.$t("button.ser"),
+                id: "0",
+            };
+            for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
+            getDataLevelUserLoginNew(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.loading = false;
+                        setTimeout(() => {
+                            t.dataTree = t.toTree(res.data.content[0].value);
+                        }, 500);
+                    }
+                })
+                .catch(() => {
+                    // t.$Modal.error({
+                    //     title: this.$t("reminder.err"),
+                    //     content: this.$t("reminder.errormessage")
+                    // });
+                    this.$Message.error(this.$t("reminder.errormessage"));
+                });
         },
         /* 树点击事件 */
         selectChange (e) {

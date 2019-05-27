@@ -169,6 +169,12 @@ export default {
                     align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
                 },
                 {
+                    title: "部门名称",
+                    key: "unitFname",
+                    sortable: "custom",
+                    width: 220
+                },
+                {
                     title: "工资上限金额",
                     key: "salCap",
                     sortable: "custom",
@@ -480,6 +486,8 @@ export default {
         closeUp () {
             const t = this;
             t.openUpdate = false;
+            t.$refs.update.formValidate.deptId = "";
+            t.$refs.update.unitFname = "";
             t.$refs.update.formValidate.salCap = "";
             t.$refs.update.formValidate.salFloor = "";
             t.$refs.update.formValidate.salMinimum = "";
@@ -506,7 +514,6 @@ export default {
                 order: "asc",
                 logType: this.$t("button.ser"),
                 id: "0",
-                state: t.modity
             };
             for (const dat in data) {
                 if (data[dat] === "") {
