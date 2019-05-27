@@ -249,6 +249,7 @@
                    :lock-scroll='true'
                    class="right_popup">
             <searchCountry @inputCountry="inputCountry"
+                           v-if="edCountryShow"
                            :currentId="currentId"></searchCountry>
         </van-popup>
         <!-- <van-popup v-model="edCountryShow">内容</van-popup> -->
@@ -272,7 +273,7 @@ export default {
             edSdateDate: new Date(),
             edEducationlevelIndex: 0,
             edIshighestIndex: 0,
-            currentId: '',
+            currentId: '1127',
             minEdSdate: new Date(1900, 1, 1),
             maxEdSdate: new Date(2099, 12, 31),
             minEdEdate: new Date(1900, 1, 1),
@@ -280,7 +281,7 @@ export default {
             form: {
                 edEducationlevel: "",       // 教育程度
                 edIshighest: "",           // 是否最高学位
-                edCuntry: "",               // 国家
+                edCuntry: "1127",               // 国家
                 edSchool: "",               // 学校
                 edDegree: "",               // 学位
                 edSpecialty: "",            // 专业
@@ -291,7 +292,7 @@ export default {
             },
             edEducationlevelDis: "请选择",
             edIshighestDis: "请选择",
-            edCuntryDis: "请选择",
+            edCuntryDis: "中国",
             edEducationlevelShow: false,
             edIshighestShow: false,
             edCountryShow: false,
@@ -466,17 +467,17 @@ export default {
                     let data = JSON.parse(res.data.content[0].value);
                     t.form.edEducationlevel = data.edEducationlevel;
                     t.form.edIshighest = data.edIshighest;
-                    t.form.edCuntry = data.edCuntry !== undefined ? data.edCuntry : '1127';
+                    t.form.edCuntry = data.edCuntry ? data.edCuntry : '1127';
                     t.currentId = t.form.edCuntry;
-                    t.form.edSchool = data.edSchool !== undefined ? data.edSchool : '';
-                    t.form.edDegree = data.edDegree !== undefined ? data.edDegree : '';
-                    t.form.edSpecialty = data.edSpecialty !== undefined ? data.edDegree : '';
+                    t.form.edSchool = data.edSchool ? data.edSchool : '';
+                    t.form.edDegree = data.edDegree ? data.edDegree : '';
+                    t.form.edSpecialty = data.edSpecialty ? data.edDegree : '';
                     t.form.edSdate = data.edSdate;
                     t.form.edEdate = data.edEdate;
                     t.form.note = data.note;
                     t.edEducationlevelDis = data.edEducationlevelDis;
                     t.edIshighestDis = data.edIshighestDis;
-                    t.edCuntryDis = data.edCuntryDis !== undefined ? data.edCuntryDis : '中国';;
+                    t.edCuntryDis = data.edCuntryDis ? data.edCuntryDis : '中国';;
                     if (data.fileKey) {
                         t.fileName = data.fileKey.split(':')[0];
                         t.file = { name: data.fileKey.split(':')[0] }

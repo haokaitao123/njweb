@@ -23,10 +23,8 @@
                             <span>{{item.relibMobile}}</span>
                         </div>
                         <div class="item_right">
-                            <!-- new Date(item.relibFilldate.replace(/\-/g, '/')).format('MM月dd日') -->
-                            <span>{{item.relibFilldate.replace(/\-/g, '/')}}</span>
+                            <span>{{new Date(item.relibFilldate.replace(/\-/g, '/')).format('MM月dd日')}}</span>
                             <span>{{new Date(item.relibFilldate.replace(/\-/g, '/')).format('hh:mm:ss')}}</span>
-
                         </div>
                     </div>
 
@@ -309,14 +307,12 @@ export default {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-
         .interviewItem {
             background: #fff;
             padding: 44px 34px;
             display: flex;
             flex-direction: column;
             margin-bottom: 17px;
-
             .interview_item {
                 display: flex;
                 margin-bottom: 30px;
@@ -341,7 +337,6 @@ export default {
                     flex: 1;
                 }
             }
-
             .item_first {
                 justify-content: space-between;
 
@@ -356,7 +351,6 @@ export default {
                     color: #ff6b00;
                 }
             }
-
             .item_second {
                 justify-content: space-between;
 
@@ -375,7 +369,6 @@ export default {
                         margin-right: 14px;
                     }
                 }
-
                 .item_right {
                     display: flex;
                     font-size: 24px;
@@ -389,7 +382,6 @@ export default {
             .button_box {
                 display: flex;
                 justify-content: flex-end;
-
                 button {
                     outline: none;
                     background: #fff;
@@ -406,7 +398,6 @@ export default {
             }
         }
     }
-
     .qrCodeContent {
         position: fixed;
         width: 100%;
@@ -419,7 +410,6 @@ export default {
         background: #fff;
         z-index: 100;
         transition: all 0.5s;
-
         #canvas {
             width: 80% !important;
             height: 90% !important;

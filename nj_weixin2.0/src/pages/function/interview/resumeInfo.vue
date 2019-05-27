@@ -66,7 +66,6 @@
                           class="error"
                           v-show="form.relibName==''"
                           v-remind="form.relibName"></icon>
-
                 </div>
                 <!-- 证件号码 -->
                 <div class="item_box">
@@ -308,7 +307,7 @@
                 <div class="item_box">
                     <x-input title="现居住地"
                              v-model="form.relibLiving"
-                             :disabled="state"
+                             :readonly="state"
                              :show-clear="false"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
@@ -317,7 +316,7 @@
                 <div class="item_box">
                     <x-input title="家庭地址"
                              v-model="form.relibFamadds"
-                             :disabled="state"
+                             :readonly="state"
                              :show-clear="false"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
@@ -902,7 +901,9 @@
                    position="right"
                    class="popup_width">
             <searchPost @inputPost="inputPost"
-                        :currentId="currentPostId"></searchPost>
+                        :currentId="currentPostId"
+                        v-if="relibApplypostShow"
+                        ref="searchPost"></searchPost>
         </van-popup>
     </div>
 </template>
@@ -921,7 +922,7 @@ export default {
         return {
             curStep: "",
             curStepstate: "",
-            state: false,
+            state: true,
             currentId: '',
             currentPostId: "",
             educationShow: false,
@@ -1306,9 +1307,9 @@ export default {
                         t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '未选择';
                         t.form.relibAvaitime = data.relibAvaitime ? data.relibAvaitime : '未选择';
                     }
-                    t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday);
-                    t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime);
-                    t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate);
+                    t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday.replace(/-/g, '/'));
+                    t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime.replace(/-/g, '/'));
+                    t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate.replace(/-/g, '/'));
                     t.setSelectValue(data.relibIdentityDis, 'selectRelibIdentity', 'relibIdentityIndex');
                     t.setSelectValue(data.relibGenderDis, 'selectRelibGender', 'relibGenderIndex');
                     t.setSelectValue(data.relibNatalityDis, 'selectRelibNatality', 'relibNatalityIndex');
@@ -1459,6 +1460,7 @@ export default {
             console.log(res, "res")
             this.relibApplypostShow = false;
             this.form.relibApplypost = res.id;
+            this.currentPostId = res.id;
             this.relibApplypostDis = res.postFname;
         },
     },

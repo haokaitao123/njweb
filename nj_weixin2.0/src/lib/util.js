@@ -79,9 +79,6 @@ export const isSuccess = (data, t) => {
         });
         return false;
       }
-      t.loading = false;
-      t.finished = true;
-      t.finishedText = '加载失败';
     }
   } else if (apicode !== 0) {
     if (apicode === -300 || apicode === -320 || apicode === -340 || apicode === -360 || apicode === -380 || apicode === -370 || apicode === -163) {
@@ -101,9 +98,6 @@ export const isSuccess = (data, t) => {
         background: '#f44'
       });
     }
-    t.loading = false;
-    t.finished = true;
-    t.finishedText = '加载失败';
     return false;
   }
 }
@@ -148,7 +142,6 @@ export const getUrlKey = (name) => {
 }
 
 export const encryptNew = (level, params) => {
-
   /* 删除jqgrid中下一页的时候默认参数中包含上一次的_sig参数 */
   delete params._sig;
   delete params.data;

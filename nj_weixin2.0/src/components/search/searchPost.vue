@@ -2,7 +2,7 @@
     <div class="search">
         <div class="searchWrap">
             <van-search v-model="postFname"
-                        placeholder="请输入员工姓名"
+                        placeholder="请输入应聘岗位"
                         show-action
                         shape="round"
                         @search="onSearch">
@@ -15,7 +15,7 @@
 
                 <van-list v-model="loading"
                           :finished="finished"
-                          finished-text=""
+                          :finished-text="finishedText"
                           @load="onLoad"
                           :offset="10">
                     <group label-align="left"
@@ -24,13 +24,17 @@
                         <div class="item_box"
                              v-for="item in list">
                             <cell :value=item.postFname
-                                  :class="currentId ===item.postId?'active':'' "
+                                  :class="item.id === currentId ?'active':'' "
                                   @click.native="changeCountry(item)"
                                   is-link>
                             </cell>
                         </div>
                     </group>
                 </van-list>
+                <div v-if="list.length==0"
+                     class="noList">
+                    没有找到相关岗位
+                </div>
             </van-pull-refresh>
             <!-- <div class="noData_box"
                  v-else>
@@ -40,7 +44,7 @@
     </div>
 </template>
 <script>
-import { getDataLevelUserLogin, getDataLevelUserLoginNew } from '@/axios/axios'
+import { getDataLevelUserLogin, getDataLevelUserLoginNew, getDataLevelNoneNew } from '@/axios/axios'
 import { isSuccess, deepCopy } from '@/lib/util'
 import { Group, Cell, XInput, Popup, Search } from 'vux'
 import noData from '../public/noData'
@@ -57,7 +61,9 @@ export default {
             finished: false,  //是否已加载完所有数据
             totalPage: 0,
             results: [],
-            postFname: ''
+            postFname: '',
+            finishedText: "",
+            // currentId: ""
         }
     },
     components: {
@@ -72,11 +78,13 @@ export default {
             type: String
         }
     },
+    mounted () {
+    },
     methods: {
         async getData () {
             const t = this;
             const data = {
-                _mt: 'orgPost.getPage',
+                _mt: 'orgPost.getPopupPageNo',
                 sort: t.sort,
                 order: t.order,
                 rows: t.rows,
@@ -84,7 +92,7 @@ export default {
                 funId: 1,
                 state: '02valid',
                 postDfpslevel: '08Employee',
-                // companyId: pubsource.companyId,
+                companyId: pubsource.companyId,
                 logType: '岗位',
             }
             data.postFname = t.postFname
@@ -93,10 +101,12 @@ export default {
                     delete data[dat]
                 }
             }
-            await getDataLevelUserLoginNew(data).then((res) => {
+            await getDataLevelNoneNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
                     let data = res.data.content[0];
-                    console.log(data, "data")
+                    console.log(data, "data");
+                    // debugger;
+                    console.log(this.list.length, "this.list")
                     if (this.list.length > 0) {//当请求前有数据时 第n次请求
                         if (this.loading) {// 上拉加载
                             this.list = this.list.concat(data.rows) //上拉加载新数据添加到数组中
@@ -117,12 +127,27 @@ export default {
                         }
                     } else {//当请求没有数据时 第一次请求
                         this.list = data.rows
+                        if (this.list.length === 0) {
+                            this.finished = true;
+                            this.finishedText = '';
+                        } else {
+                            this.finished = false;
+                            this.finishedText = '没有更多了';
+                        }
+                        this.isLoading = false
                         this.loading = false  //关闭上拉加载中
                     }
+                } else {
+                    this.isLoading = false;
+                    this.loading = false
+                    this.finished = true;
+                    this.finishedText = '请求失败，重新加载';
                 }
             }).catch((err) => {
                 this.isLoading = false;
                 this.loading = false;
+                this.finished = true;
+                this.finishedText = '请求失败，重新加载';
                 t.$notify({
                     message: '网络错误',
                     duration: 1500,
@@ -135,7 +160,8 @@ export default {
         //下拉刷新
         onRefresh () {
             this.page = 1;
-            this.isLoading = true
+            this.isLoading = true;
+            this.error = false;
             this.getData();
         },
         //上拉加载
@@ -193,6 +219,14 @@ export default {
                         }
                     }
                 }
+            }
+            .noList {
+                width: 100%;
+                height: 300px;
+                font-size: 32px;
+                text-align: center;
+                margin-top: 20px;
+                padding-top: 40px;
             }
         }
     }

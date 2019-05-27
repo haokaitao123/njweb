@@ -285,9 +285,6 @@ export default {
                             duration: 1500,
                             background: '#1989fa'
                         });
-                        // this.$router.push({
-                        // 	name: 'empInfo'
-                        // });
                         this.$emit('cancel');
                     }
                 }).catch(() => {
@@ -340,12 +337,12 @@ export default {
                     let data = JSON.parse(res.data.content[0].value);
                     t.form.weSdate = data.weSdate;
                     t.form.weEdate = data.weEdate;
-                    t.form.weComp = data.weComp !== undefined ? data.weComp : '';
-                    t.form.weDept = data.weDept !== undefined ? data.weDept : '';
-                    t.form.wePost = data.wePost !== undefined ? data.wePost : '';
-                    t.form.weContact = data.weContact !== undefined ? data.weContact : '';
-                    t.form.wePhone = data.wePhone !== undefined ? data.wePhone : '';
-                    t.form.weSalary = data.weSalary !== undefined ? data.weSalary : '';
+                    t.form.weComp = data.weComp ? data.weComp : '';
+                    t.form.weDept = data.weDept ? data.weDept : '';
+                    t.form.wePost = data.wePost ? data.wePost : '';
+                    t.form.weContact = data.weContact ? data.weContact : '';
+                    t.form.wePhone = data.wePhone ? data.wePhone : '';
+                    t.form.weSalary = data.weSalary ? data.weSalary : '';
                     t.form.wePerforman = data.wePerforman;
                     t.form.weLevrason = data.weLevrason;
                     t.form.note = data.note;

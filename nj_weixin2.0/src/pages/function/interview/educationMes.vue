@@ -283,6 +283,7 @@ export default {
             this[domShow] = true;
         },
         confirm (value) {
+            console.log(value, "value")
             if (this.curDomShow.indexOf("dateShow") != -1) {
                 if (this.curDom == 'reeduSdate') {
                     this.minReeduEdate = new Date(value);
@@ -325,8 +326,8 @@ export default {
                     t.form.reeduAwardcert = data.reeduAwardcert;
                     t.form.note = data.note;
                     t.reeduLevelDis = data.reeduLevelDis;
-                    t.reeduSdateDate = !data.reeduSdate ? new Date() : new Date(data.reeduSdate);
-                    t.reeduEdateDate = !data.reeduEdate ? new Date() : new Date(data.reeduEdate);
+                    t.reeduSdateDate = !data.reeduSdate ? new Date() : new Date(data.reeduSdate.replace(/-/g, '/'));
+                    t.reeduEdateDate = !data.reeduEdate ? new Date() : new Date(data.reeduEdate.replace(/-/g, '/'));
                     t.setSelectValue(data.reeduLevel, 'selectReeduLevel', 'reeduLevelIndex');
                 }
             }).catch((err) => {

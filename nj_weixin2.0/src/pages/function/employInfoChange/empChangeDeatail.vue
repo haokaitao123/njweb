@@ -154,6 +154,7 @@
                    position="right"
                    class="right_popup">
             <searchBank @inputBank="inputBank"
+                        v-if="bankShow"
                         :currentId="currentBankId"></searchBank>
         </van-popup>
     </div>
@@ -185,18 +186,18 @@ export default {
             state: this.$route.query.state ? this.$route.query.state : '',
             userData: JSON.parse(window.localStorage.getItem('empData')),
             form: {
-                empId: window.localStorage.getItem('empId'), 						                //员工姓名
+                empId: window.localStorage.getItem('empId') ? window.localStorage.getItem('empId') : '', 						                //员工姓名
                 empnhIdno: JSON.parse(window.localStorage.getItem('empData')).empnhIdno, 			//证件号码
                 deptId: JSON.parse(window.localStorage.getItem('empData')).deptId, 					//部门名称
                 postId: JSON.parse(window.localStorage.getItem('empData')).postId, 					//岗位名称
                 empupdResaddr: "", 				                                                    //居住详细地址
                 empupdSalbank: "", 				                                                    //开户银行
                 empupdSalcount: "",				                                                    //银行账号
-                empupdSalcname: JSON.parse(window.localStorage.getItem('empData')).empnhName,		//户名
+                empupdSalcname: JSON.parse(window.localStorage.getItem('empData')).empnhName ? JSON.parse(window.localStorage.getItem('empData')).empnhName : '',		//户名
                 empupdReason: "",				                                                    //未通过原因
                 note: "",						                                                    //备注
             },
-            empnhName: JSON.parse(window.localStorage.getItem('empData')).empnhName,
+            empnhName: JSON.parse(window.localStorage.getItem('empData')).empnhName ? JSON.parse(window.localStorage.getItem('empData')).empnhName : '',
             unitFname: JSON.parse(window.localStorage.getItem('empData')).unitFname,
             postFname: JSON.parse(window.localStorage.getItem('empData')).postFname,
             empnhSalbankDis: "请选择",
@@ -371,14 +372,12 @@ export default {
                     t.form.empupdSalcname = data.empupdSalcname;
                     t.form.empupdReason = data.empupdReason;
                     t.form.note = data.note;
-                    t.empnhName = data.empnhName;
+                    t.empnhName = data.empnhName ? data.empnhName : '';
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
-                    // t.state = data.state;
                     if (t.state !== '01draft') {
                         t.disabled = true;
                     }
-                    console.log(t.state, "state")
                     t.empnhSalbankDis = data.empnhSalbankDis;
                 }
             }).catch((err) => {
@@ -395,7 +394,7 @@ export default {
         inputEmp (res) {
             console.log(res, "res")
             this.empShow = false;
-            this.currentId = res.id;
+            this.currentEmpId = res.id;
             this.form.empId = res.id;
             this.form.empnhIdno = res.empnhIdno;
             this.form.deptId = res.deptId;
@@ -408,12 +407,11 @@ export default {
         inputBank (res) {
             console.log(res, "res")
             this.bankShow = false;
+            this.currentBankId = res.id;
             this.form.empupdSalbank = res.id;
             this.empnhSalbankDis = res.bankCname;
         },
-
     },
-
 }
 </script>
 <style lang="less" >

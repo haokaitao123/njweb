@@ -189,7 +189,8 @@ export default {
     },
     mounted () {
         this.getData();
-        this.getSelect()
+        this.getSelect();
+
     },
     methods: {
         //保存
@@ -275,7 +276,6 @@ export default {
                                 t.saveState = true;
                             });
                         }
-
                     } else {
                         t.saveState = true;
                     }
@@ -359,13 +359,6 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "data");
-                    // if (data.curStepDis === '初试' && data.curStepstate !== 'p_flowst_3') {
-                    //     t.curStep = false;
-                    // } else {
-                    //     t.curStep = true;
-                    // }
-                    // t.curStepDis = data.curStepDis;
-                    // t.curStepstate = data.curStepstate;
                     t.relibFirstopin = data.relibFirstopin ? data.relibFirstopin : '';
                     t.relibCheckopin = data.relibCheckopin ? data.relibCheckopin : '';
                     t.form.relibName = data.relibName;
@@ -374,10 +367,11 @@ export default {
                     t.form.relibFilldate = data.relibFilldate;
                     t.form.note = data.note;
                     t.relibGenderDis = data.relibGenderDis;
-                    t.relibFilldateDate = new Date(data.relibFilldate);
-                    t.minRelibFilldate = new Date(new Date(data.relibFilldate));
+                    t.relibFilldateDate = new Date(data.relibFilldate.replace(/-/g, '/'));
+                    let nowdate = new Date(data.relibFilldate.replace(/-/g, '/'));
+                    nowdate.setMonth(nowdate.getMonth() - 1);
+                    t.minRelibFilldate = new Date(nowdate);
                     t.setSelectValue(data.relibGenderDis, 'selectGender', 'relibGenderIndex');
-
                 }
             }).catch((err) => {
                 t.$notify({

@@ -15,7 +15,7 @@
 
                 <van-list v-model="loading"
                           :finished="finished"
-                          finished-text=""
+                          :finished-text="finishedText"
                           @load="onLoad"
                           :offset="10">
                     <group label-align="left"
@@ -24,18 +24,18 @@
                         <div class="item_box"
                              v-for="item in list">
                             <cell :value=item.empnhName
-                                  :class="currentId ===item.empnhId?'active':'' "
+                                  :class="item.id ===currentId?'active':'' "
                                   @click.native="changeCountry(item)"
                                   is-link>
                             </cell>
                         </div>
                     </group>
                 </van-list>
+                <div v-if="list.length==0"
+                     class="noList">
+                    没有找到相关人员
+                </div>
             </van-pull-refresh>
-            <!-- <div class="noData_box"
-                 v-else>
-                <noData></noData>
-            </div> -->
         </div>
     </div>
 </template>
@@ -57,7 +57,8 @@ export default {
             finished: false,  //是否已加载完所有数据
             totalPage: 0,
             results: [],
-            empnhName: ''
+            empnhName: '',
+            finishedText: ""
         }
     },
     components: {
@@ -74,28 +75,29 @@ export default {
     },
     methods: {
         async getData () {
-			const t = this;
+            const t = this;
             const data = {
-				_mt: 'empEmpnh.getPage',
-				sort: t.sort,
-				order: t.order,
-				rows: t.rows,
-				page: t.page,
-				state: '02empstate',
-				funId:1,
-				companyId: pubsource.companyId,
-				logType: '员工弹出框',
-			}
-			data.empnhName = t.empnhName
-			for (const dat in data) {
-				if (data[dat] === '') {
-					delete data[dat]
-				}
-			}
+                _mt: 'empEmpnh.getPage',
+                sort: t.sort,
+                order: t.order,
+                rows: t.rows,
+                page: t.page,
+                state: '02empstate',
+                funId: 1,
+                companyId: pubsource.companyId,
+                logType: '员工弹出框',
+            }
+            data.empnhName = t.empnhName
+            for (const dat in data) {
+                if (data[dat] === '') {
+                    delete data[dat]
+                }
+            }
             await getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
+                    debugger
                     let data = res.data.content[0];
-					console.log(data,"data")
+                    console.log(data, "data")
                     if (this.list.length > 0) {//当请求前有数据时 第n次请求
                         if (this.loading) {// 上拉加载
                             this.list = this.list.concat(data.rows) //上拉加载新数据添加到数组中
@@ -116,16 +118,27 @@ export default {
                         }
                     } else {//当请求没有数据时 第一次请求
                         this.list = data.rows
+                        if (this.list.length === 0) {
+                            this.finished = true;
+                        }
+                        this.isLoading = false
                         this.loading = false  //关闭上拉加载中
                     }
+                } else {
+                    this.isLoading = false;
+                    this.loading = false
+                    this.finished = true;
+                    this.finishedText = '请求失败，重新加载';
                 }
             }).catch((err) => {
-				this.isLoading = false;
-				this.loading = false;
+                this.isLoading = false;
+                this.loading = false;
+                this.finished = true;
+                this.finishedText = '请求失败，重新加载';
                 t.$notify({
-                	message: '网络错误',
-                	duration: 1500,
-                	background: '#f44'
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
                 });
             }).finally(() => {
                 t.$store.commit('hideLoading');
@@ -133,24 +146,24 @@ export default {
         },
         //下拉刷新
         onRefresh () {
-			this.page = 1;
-			this.isLoading = true
-			this.getData();
+            this.page = 1;
+            this.isLoading = true
+            this.getData();
         },
         //上拉加载
         onLoad () {
-			if (this.list.length > 0) {
-			    this.page++;
-			}
-			this.loading = true
-			this.getData();
+            if (this.list.length > 0) {
+                this.page++;
+            }
+            this.loading = true
+            this.getData();
         },
         //选中
         changeCountry (item) {
             this.$emit('inputEmp', item);
         },
         onSearch () {
-			this.onRefresh()
+            this.onRefresh()
         }
     },
 }
@@ -192,6 +205,14 @@ export default {
                         }
                     }
                 }
+            }
+            .noList {
+                width: 100%;
+                height: 300px;
+                font-size: 32px;
+                text-align: center;
+                margin-top: 20px;
+                padding-top: 40px;
             }
         }
     }

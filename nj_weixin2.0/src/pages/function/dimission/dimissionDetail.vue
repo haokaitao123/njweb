@@ -313,6 +313,7 @@
                    position="right"
                    class="right_popup">
             <searchEmp @inputEmp="inputEmp"
+                       v-if="empShow"
                        :currentId="currentId"></searchEmp>
         </van-popup>
         <!-- 问卷调查 -->
@@ -416,6 +417,7 @@ import survey from './survey'
 export default {
     data () {
         return {
+            id: 0,
             curStep: "1344",
             curDom: "",
             curDomShow: "",
@@ -446,7 +448,7 @@ export default {
                 dimLevsqday: "请选择", //申请离职日期
                 dimLevday: "请选择", //约定离职日期
                 dimLaswkday: "请选择", //最后工作日期
-                dimIsreceive: "", //是否工作交接
+                dimIsreceive: "0", //是否工作交接
                 note: "" //备注
             },
             dimApplicantDis: JSON.parse(window.localStorage.getItem('empData')).empnhName,
@@ -458,7 +460,7 @@ export default {
             dimCertifiDis: "请选择",
             dimTypeDis: "请选择",
             dimReasonDis: "请选择",
-            dimIsreceiveDis: "请选择",
+            dimIsreceiveDis: "否",
             empShow: false,
             dimCertifiShow: false,
             dimTypeShow: false,
@@ -467,7 +469,7 @@ export default {
             dimCertifiIndex: 0,
             dimTypeIndex: 0,
             dimReasonIndex: 0,
-            dimIsreceiveIndex: 0,
+            dimIsreceiveIndex: 1,
             selectDimCertifi: [],
             selectDimType: [],
             selectDimReason: [],
@@ -521,7 +523,7 @@ export default {
                 if (listId !== undefined) {
                     data.pkValue = listId
                 } else {
-                    data.pkValue = 0
+                    data.pkValue = t.id
                 }
                 for (const dat in data) {
                     if (data[dat] === "") {
@@ -531,6 +533,8 @@ export default {
                 await getDataLevelUserLoginEmpId(data).then(res => {
                     if (isSuccess(res, t)) {
                         console.log(res, "res");
+                        let data = JSON.parse(res.data.content[0].value);
+                        t.id = data.id
                         t.saveStatus = true;
                         if (type !== 'submit') {
                             t.$notify({
@@ -571,15 +575,11 @@ export default {
             await this.save('submit');
             const t = this;
             if (this.saveStatus) {
-                let listId = this.$route.query.id;
-                if (listId === undefined) {
-                    listId = 0
-                }
                 const data = {
                     _mt: 'wxEmpEmpdim.submitEmpEmpDim',
                     companyId: pubsource.companyId,
                     userId: localStorage.getItem('uid'),
-                    pkValue: listId
+                    pkValue: this.$route.query.id ? this.$route.query.id : t.id,
                 }
                 getDataLevelUserLogin(data).then((res) => {
                     if (isSuccess(res, t)) {
@@ -704,9 +704,9 @@ export default {
                         t.dimCertifiDis = "未填写";
                         t.dimIsreceiveDis = "未填写"
                     }
-                    t.dimLevsqdayDate = new Date(data.dimLevsqday);
-                    t.dimLevdayDate = new Date(data.dimLevday);
-                    t.dimLaswkdayDate = new Date(data.dimLaswkday);
+                    t.dimLevsqdayDate = new Date(data.dimLevsqday.replace(/-/g, '/'));
+                    t.dimLevdayDate = new Date(data.dimLevday.replace(/-/g, '/'));
+                    t.dimLaswkdayDate = new Date(data.dimLaswkday.replace(/-/g, '/'));
                     t.setSelectValue(data.dimCertifiDis, 'selectDimCertifi', 'dimCertifiIndex');
                     t.setSelectValue(data.dimTypeDis, 'selectDimType', 'dimTypeIndex');
                     t.setSelectValue(data.dimReasonDis, 'selectDimReason', 'dimReasonIndex');

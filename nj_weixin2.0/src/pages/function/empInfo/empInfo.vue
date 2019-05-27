@@ -211,7 +211,7 @@
                              v-model.trim="form.empnhResiaddr"
                              v-verify="form.empnhResiaddr"
                              :show-clear="false"
-                             :disabled="state"
+                             :readonly="state"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
@@ -225,7 +225,7 @@
                              v-model.trim="form.empnhRegaddr"
                              v-verify="form.empnhRegaddr"
                              :show-clear="false"
-                             :disabled="state"
+                             :readonly="state"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
@@ -1025,7 +1025,7 @@ export default {
                     t.form.note = data.note;
                     // t.state = data.state;
                     if (data.state !== '01empstate' && data.state !== '06empstate') {
-                        t.state = true
+                        t.state = false
                     }
                     t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '请选择';
                     t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '请选择';
@@ -1049,11 +1049,11 @@ export default {
                         t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '未填写';
 
                     }
-                    t.empnhSdayDate = !data.empnhSday ? new Date() : new Date(data.empnhSday);
-                    t.empnhEdayDate = !data.empnhEday ? new Date() : new Date(data.empnhEday);
-                    t.empnhBirthdateDate = !data.empnhBirthdate ? new Date() : new Date(data.empnhBirthdate);
-                    t.empnhFirstwkdateDate = !data.empnhFirstwkdate ? new Date() : new Date(data.empnhFirstwkdate);
-                    t.empnhTechdateDate = !data.empnhTechdate ? new Date() : new Date(data.empnhTechdate);
+                    t.empnhSdayDate = !data.empnhSday ? new Date() : new Date(data.empnhSday.replace(/-/g, '/'));
+                    t.empnhEdayDate = !data.empnhEday ? new Date() : new Date(data.empnhEday.replace(/-/g, '/'));
+                    t.empnhBirthdateDate = !data.empnhBirthdate ? new Date() : new Date(data.empnhBirthdate.replace(/-/g, '/'));
+                    t.empnhFirstwkdateDate = !data.empnhFirstwkdate ? new Date() : new Date(data.empnhFirstwkdate.replace(/-/g, '/'));
+                    t.empnhTechdateDate = !data.empnhTechdate ? new Date() : new Date(data.empnhTechdate.replace(/-/g, '/'));
                     t.setSelectValue(data.empnhNationDis, 'selectNation', 'empnhNationIndex');
                     t.setSelectValue(data.empnhIdtypeDis, 'selectIdtype', 'empnhIdtypeIndex');
                     t.setSelectValue(data.empnhGenderDis, 'selectGender', 'empnhGenderIndex');

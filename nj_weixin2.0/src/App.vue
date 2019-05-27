@@ -253,28 +253,33 @@ span {
 }
 ::-webkit-input-placeholder {
     /* WebKit, Blink, Edge */
-    color: #888;
+    color: #333333;
 }
 :-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
-    color: #888;
+    color: #333333;
 }
 ::-moz-placeholder {
     /* Mozilla Firefox 19+ */
-    color: #888;
+    color: #333333;
 }
 :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
-    color: #888;
+    color: #333333;
 }
-textarea[readonly] {
-    color: #888 !important;
+textarea[disabled] {
+    -webkit-text-fill-color: #888;
+    opacity: 1;
+}
+input[readonly] {
+    -webkit-text-fill-color: #888;
+    opacity: 1;
 }
 .van-pull-refresh__head {
     font-size: 32px;
     line-height: 40px;
 }
 .form .vux-x-textarea .weui-textarea {
-    color: #888;
+    color: #333333;
 }
 </style>

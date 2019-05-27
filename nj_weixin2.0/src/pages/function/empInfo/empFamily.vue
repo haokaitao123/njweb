@@ -326,10 +326,10 @@ export default {
                     let data = JSON.parse(res.data.content[0].value);
                     t.form.fmRelation = data.fmRelation;
                     t.form.fmIsurgent = data.fmIsurgent;
-                    t.form.fmCname = data.fmCname !== undefined ? data.fmCname : '1127';
-                    t.form.fmCompany = data.fmCompany !== undefined ? data.fmCompany : '';
-                    t.form.fmPost = data.fmPost !== undefined ? data.fmPost : '';
-                    t.form.fmPhone = data.fmPhone !== undefined ? data.fmPhone : '';
+                    t.form.fmCname = data.fmCname ? data.fmCname : '';
+                    t.form.fmCompany = data.fmCompany ? data.fmCompany : '';
+                    t.form.fmPost = data.fmPost ? data.fmPost : '';
+                    t.form.fmPhone = data.fmPhone ? data.fmPhone : '';
                     t.form.note = data.note;
                     t.fmRelationDis = data.fmRelationDis;
                     t.fmIsurgentDis = data.fmIsurgentDis;

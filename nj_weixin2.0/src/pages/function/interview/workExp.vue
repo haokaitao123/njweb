@@ -283,8 +283,8 @@ export default {
                     t.form.reweCertnub = !data.reweCertnub ? '' : data.reweCertnub;
                     t.form.reweLevres = data.reweLevres;
                     t.form.note = data.note;
-                    t.reweSdateDate = !data.reweSdate ? new Date() : new Date(data.reweSdate);
-                    t.reweEdateDate = !data.reweEdate ? new Date() : new Date(data.reweEdate);
+                    t.reweSdateDate = !data.reweSdate ? new Date() : new Date(data.reweSdate.replace(/-/g, '/'));
+                    t.reweEdateDate = !data.reweEdate ? new Date() : new Date(data.reweEdate.replace(/-/g, '/'));
                 }
             }).catch((err) => {
                 t.$notify({

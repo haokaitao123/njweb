@@ -14,7 +14,7 @@
                               class="listWrap">
                 <van-list v-model="loading"
                           :finished="finished"
-                          finished-text=""
+                          :finished-text="finishedText"
                           @load="onLoad"
                           :offset="10">
                     <group label-align="left"
@@ -30,11 +30,11 @@
                         </div>
                     </group>
                 </van-list>
+                <div v-if="list.length==0"
+                     class="noList">
+                    没有找到相关银行
+                </div>
             </van-pull-refresh>
-            <!-- <div class="noData_box"
-                 v-else>
-                <noData></noData>
-            </div> -->
         </div>
     </div>
 </template>
@@ -56,7 +56,8 @@ export default {
             finished: false,  //是否已加载完所有数据
             totalPage: 0,
             results: [],
-            bankCname: ''
+            bankCname: '',
+            finishedText: ""
         }
     },
     components: {
@@ -108,24 +109,43 @@ export default {
                         if (this.isLoading) {//关闭下拉刷新
                             this.isLoading = false //关闭下拉刷新中
                             this.list = data.rows  //重新给数据赋值
+
+                            if (this.list.length === 0) {
+                                this.finishedText = '';
+                            }
                             if (this.finished) { //如果上拉加载完毕为true则设为false。解决上拉加载完毕后再下拉刷新就不会执行上拉加载问题
                                 this.finished = false
                             }
                         }
                     } else {//当请求没有数据时 第一次请求
                         this.list = data.rows
+                        if (this.list.length === 0) {
+                            this.finished = true;
+                            this.finishedText = '';
+                        } else {
+                            this.finished = false;
+                            this.finishedText = '没有更多了';
+                        }
+                        this.isLoading = false
                         this.loading = false  //关闭上拉加载中
                     }
+                } else {
+                    this.isLoading = false;
+                    this.loading = false;
+                    this.finished = true;
+                    this.finishedText = '请求失败，重新加载';
                 }
             }).catch((err) => {
+                this.isLoading = false;
+                this.loading = false;
+                this.finished = true;
+                this.finishedText = '请求失败，重新加载';
                 t.$notify({
                     message: '网络错误',
                     duration: 1500,
                     background: '#f44'
                 });
             }).finally(() => {
-                // this.isLoading = false;
-                // this.loading = false;
                 t.$store.commit('hideLoading');
             });
         },
@@ -190,6 +210,14 @@ export default {
                         }
                     }
                 }
+            }
+            .noList {
+                width: 100%;
+                height: 300px;
+                font-size: 32px;
+                text-align: center;
+                margin-top: 20px;
+                padding-top: 40px;
             }
         }
     }
