@@ -903,8 +903,7 @@
 						this.form.empnhGender = '02female';
 					}
 					let UUserCard = this.form.empnhIdno;
-					this.form.empnhBirthdate = UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14);
-					console.log(this.form.empnhBirthdate);
+					this.form.empnhBirthdate = new Date(UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14))
 					}
 				}
 			},

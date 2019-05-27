@@ -270,9 +270,9 @@ export default {
         dowFile () {
             localStorage.pageOpenedListAll = JSON.stringify(JSON.parse(localStorage.pageOpenedList))
             if (this.isIE()) {
-                window.location.href = pubsource.pub_prvf_downlink + this.priToken + '&fname=' + encodeURI(this.filekey)
+                window.location.href = pubsource.pub_prvf_downlink + this.priToken + '&fname=' + encodeURI(this.filename)
             } else {
-                let doclink = pubsource.pub_prvf_downlink + this.priToken + '&fname=' + encodeURI(this.filekey)
+                let doclink = pubsource.pub_prvf_downlink + this.priToken + '&fname=' + encodeURI(this.filename)
                 let link = document.createElement('a')
                 link.href = doclink
                 link.download = 'downloadfiletemp'
