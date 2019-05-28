@@ -285,6 +285,30 @@
                              placeholder="未填写">
                     </x-input>
                 </div>
+                <!-- 交接人 -->
+                <div class="item_box">
+                    <cell title=""
+                          is-link
+                          v-if="!disabled&&form.dimIsreceive==='1'"
+                          value-align="left"
+                          v-model="dimReceiveDis"
+                          v-verify="form.dimReceive"
+                          @click.native="popupClick('empShow','dimReceive')">
+                        <div slot="title">交接人姓名<span>*</span></div>
+                    </cell>
+                    <icon type="warn"
+                          class="error"
+                          v-show="dimReceiveDis==''"
+                          v-remind="form.dimReceive"></icon>
+                    <x-input title="交接人姓名<span>*</span>"
+                             v-if="disabled"
+                             v-model="dimReceiveDis"
+                             v-verify="form.dimReceive"
+                             :show-clear="false"
+                             :placeholder="disabled?'未填写':'请填写'"
+                             :disabled="disabled">
+                    </x-input>
+                </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
@@ -449,6 +473,7 @@ export default {
                 dimLevday: "请选择", //约定离职日期
                 dimLaswkday: "请选择", //最后工作日期
                 dimIsreceive: "0", //是否工作交接
+                dimReceive: "",//交接人
                 note: "" //备注
             },
             dimApplicantDis: JSON.parse(localStorage.getItem('empData')).empnhName,
@@ -461,6 +486,7 @@ export default {
             dimTypeDis: "正常离职",
             dimReasonDis: "请选择",
             dimIsreceiveDis: "否",
+            dimReceiveDis: '请选择',
             empShow: false,
             dimCertifiShow: false,
             dimTypeShow: false,
@@ -495,6 +521,7 @@ export default {
             dimLevday: "required",
             dimLaswkday: "required",
             surveyName: "required",
+            dimReceive: "required",
         }
     },
     components: {
@@ -633,17 +660,8 @@ export default {
             console.log(res, "res")
             this.empShow = false;
             this.currentId = res.id;
-            this.form.empId = res.id;
-            this.form.empIdno = res.empnhIdno;
-            this.form.deptId = res.deptId;
-            this.form.postId = res.postId;
-            this.form.dimBuspmp = res.empnhPmp;
-            this.form.empnhMobile = res.empnhMobile;
-            this.form.empnhSalaccount = res.empnhSalaccount;
-            this.empIdName = res.empnhName;
-            this.deptIdDis = res.unitFname;
-            this.postIdDis = res.postFname;
-            this.dimBuspmpDis = res.empnhPmpDis
+            this.form.dimReceive = res.id;
+            this.dimReceiveDis = res.empnhName;
         },
         //问卷调查事件
         inputSurvey (res) {
@@ -673,8 +691,10 @@ export default {
                     } else if (t.curStepstate === "p_flowst_3") {
                         t.disabled = true;
                     }
+                    console.log()
                     t.curStepDis = data.curStepDis ? data.curStepDis : '';
                     t.curStepstate = data.curStepstate ? data.curStepstate : '';
+                    t.form.dimApplicant = data.dimApplicant;
                     t.form.empId = data.empId;
                     t.form.empIdno = data.empIdno;
                     t.form.deptId = data.deptId;
@@ -690,16 +710,20 @@ export default {
                     t.form.dimLevday = data.dimLevday;
                     t.form.dimLaswkday = data.dimLaswkday;
                     t.form.dimIsreceive = data.dimIsreceive;
+                    t.form.dimReceive = data.dimReceive;
                     t.form.note = data.note;
                     t.curStep = data.curStep;
                     t.empIdName = data.empIdName;
                     t.deptIdDis = data.deptIdDis;
                     t.postIdDis = data.postIdDis;
+                    t.dimApplicantDis = data.dimApplicantDis;
                     t.dimBuspmpDis = !data.dimBuspmpDis ? '' : data.dimBuspmpDis;
                     t.dimCertifiDis = data.dimCertifiDis ? data.dimCertifiDis : '请选择';
                     t.dimTypeDis = data.dimTypeDis;
                     t.dimReasonDis = data.dimReasonDis;
                     t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '请选择';
+                    t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '请选择';
+                    t.currentId = data.dimReceive;
                     if (t.disabled) {
                         t.dimCertifiDis = "未填写";
                         t.dimIsreceiveDis = "未填写"
