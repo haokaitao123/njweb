@@ -307,6 +307,41 @@ export default {
             if (btnId === 'button_del') {
                 this.deletemsg();
             }
+            if (btnId === 'button_blacklist') {
+                this.addBlackUser()
+            }
+        },
+        addBlackUser () {
+            const t = this
+            if (t.tableselected.length === 0) {
+                t.$Modal.error({
+                    title: this.$t('reminder.err'),
+                    content: '请选择要加入黑名单的数据',
+                })
+                return
+            }
+            t.$Modal.confirm({
+                title: this.$t("reminder.remind"),
+                content: "确认要加入黑名单？",
+                onOk: () => {
+                    getDataLevelUserLogin({
+                        _mt: '',
+                        logType: "黑名单",
+                        ids: t.tableselected,
+                    }).then((res) => {
+                        if (isSuccess(res, t)) {
+                            t.$Message.success("添加成功")
+                            t.tableselected = []
+                            t.getData(1)
+                        }
+                    }).catch(() => {
+                        t.$Modal.error({
+                            title: this.$t('reminder.err'),
+                            content: this.$t('reminder.errormessage'),
+                        })
+                    })
+                }
+            })
         },
         openUp (pkValue, stepId, index) {
             this.stepId = stepId
