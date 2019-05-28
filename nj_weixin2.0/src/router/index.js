@@ -236,26 +236,26 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let isLogin = window.localStorage.getItem('token');
   let empId = window.localStorage.getItem('empId');
-  //   if (to.meta.title) {
-  //     document.title = to.meta.title
-  //   }
-  //   // 已登录状态；当路由到login时，跳转至home 
-  //   if (to.name === 'login') {
-  //     if (isLogin && empId) {
-  //       router.push({
-  //         name: 'function'
-  //       });
-  //       next('/function')
-  //     }
-  //   } else {
-  //     if (to.name !== 'resumeInfo') {
-  //       if (!isLogin || !empId) {
-  //         router.push({
-  //           name: 'login'
-  //         });
-  //       }
-  //     }
-  //   }
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  // 已登录状态；当路由到login时，跳转至home 
+  if (to.name === 'login') {
+    if (isLogin && empId) {
+      router.push({
+        name: 'function'
+      });
+      next('/function')
+    }
+  } else {
+    if (to.name !== 'resumeInfo') {
+      if (!isLogin || !empId) {
+        router.push({
+          name: 'login'
+        });
+      }
+    }
+  }
   next();
 });
 

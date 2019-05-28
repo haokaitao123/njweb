@@ -7,7 +7,6 @@
                          alt="">
                     <h3>基本信息</h3>
                 </div>
-
             </div>
             <group label-align="left"
                    gutter="0"
@@ -79,6 +78,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
+                          v-show="form.relibIdno==''"
                           v-remind="form.relibIdno"></icon>
                 </div>
                 <!-- 手机号 -->
@@ -108,7 +108,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="relibGenderDis=='请选择'?true:false"
+                          v-show="relibGenderDis=='请选择'"
                           v-remind="form.relibGender"></icon>
                     <x-input title="性别<span>*</span>"
                              v-if="state"
@@ -127,9 +127,13 @@
                           v-verify="form.relibBirtday"
                           v-model="form.relibBirtday"
                           @click.native="popupClick('relibBirtdaydateShow','relibBirtday')">
-                        <div slot="title">出生日期</div>
+                        <div slot="title">出生日期<span>*</span></div>
                     </cell>
-                    <x-input title="出生日期"
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibBirtday==='请选择'"
+                          v-remind="form.relibBirtday"></icon>
+                    <x-input title="出生日期<span>*</span>"
                              v-if="state"
                              v-model="form.relibBirtday"
                              :show-clear="false"
@@ -195,6 +199,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
+                          v-show="form.relibFilldate==='请选择'"
                           v-remind="form.relibFilldate"></icon>
                     <x-input title="邀约时间<span>*</span>"
                              v-if="state"
@@ -251,6 +256,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
+                          v-show="form.relibHeight==''"
                           v-remind="form.relibHeight"></icon>
                 </div>
                 <!-- 体重 -->
@@ -264,6 +270,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
+                          v-show="form.relibWeight==''"
                           v-remind="form.relibWeight"></icon>
                 </div>
                 <!-- 学历 -->
@@ -273,16 +280,21 @@
                           v-if="!state"
                           value-align="left"
                           v-model="relibEducatDis"
+                          v-verify="form.relibEducat"
                           @click.native="popupClick('relibEducatShow','relibEducat')">
-                        <div slot="title">学历</div>
+                        <div slot="title">学历<span>*</span></div>
                     </cell>
-                    <x-input title="学历"
+                    <x-input title="学历<span>*</span>"
                              v-if="state"
                              v-model="relibEducatDis"
                              :show-clear="false"
                              :disabled="state"
                              placeholder="未填写">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibEducat==''"
+                          v-remind="form.relibEducat"></icon>
                 </div>
                 <!-- 毕业院校 -->
                 <div class="item_box">
@@ -323,16 +335,21 @@
                 </div>
                 <!-- 紧急联系人姓名 -->
                 <div class="item_box">
-                    <x-input title="紧急联系人姓名"
+                    <x-input title="紧急联系人姓名<span>*</span>"
                              v-model="form.relibEmernm"
+                             v-verify="form.relibEmernm"
                              :disabled="state"
                              :show-clear="false"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibEmernm==''"
+                          v-remind="form.relibEmernm"></icon>
                 </div>
                 <!-- 紧急联系人电话 -->
                 <div class="item_box">
-                    <x-input title="紧急联系人电话"
+                    <x-input title="紧急联系人电话<span>*</span>"
                              v-model="form.relibEmphone"
                              v-verify="form.relibEmphone"
                              :disabled="state"
@@ -341,6 +358,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
+                          v-show="form.relibEmphone==''"
                           v-remind="form.relibEmphone"></icon>
                 </div>
                 <!-- 与本人关系 -->
@@ -444,20 +462,26 @@
                 </div>
                 <!-- 有无犯罪记录 -->
                 <div class="item_box">
-                    <cell title="是否有犯罪记录"
+                    <cell title=""
                           is-link
                           v-if="!state"
                           value-align="left"
                           v-model="relibIscriminalDis"
+                          v-verify="form.relibIscriminal"
                           @click.native="popupClick('relibIscriminalShow','relibIscriminal')">
+                        <div slot="title">是否有犯罪记录<span>*</span></div>
                     </cell>
-                    <x-input title="是否有犯罪记录"
+                    <x-input title="是否有犯罪记录<span>*</span>"
                              v-if="state"
                              v-model="relibIscriminalDis"
                              :show-clear="false"
                              :disabled="state"
                              placeholder="未填写">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibIscriminal==''"
+                          v-remind="form.relibIscriminal"></icon>
                 </div>
                 <!-- 有无纹身 -->
                 <div class="item_box">
@@ -521,20 +545,26 @@
                 </div>
                 <!-- 招生范围 -->
                 <div class="item_box">
-                    <cell title="招生范围"
+                    <cell title=""
                           is-link
                           v-if="!state"
                           value-align="left"
                           v-model="relibEnrorageDis"
+                          v-verify="form.relibEnrorage"
                           @click.native="popupClick('relibEnrorageShow','relibEnrorage')">
+                        <div slot="title">招生范围<span>*</span></div>
                     </cell>
-                    <x-input title="招生范围"
+                    <x-input title="招生范围<span>*</span>"
                              v-if="state"
                              v-model="relibEnrorageDis"
                              :show-clear="false"
                              :disabled="state"
                              placeholder="未填写">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibEnrorage==''"
+                          v-remind="form.relibEnrorage"></icon>
                 </div>
                 <!-- 是否毕业-->
                 <div class="item_box">
@@ -543,15 +573,21 @@
                           v-if="!state"
                           value-align="left"
                           v-model="relibIsgraduDis"
+                          v-verify="form.relibIsgradu"
                           @click.native="popupClick('relibIsgraduShow','relibIsgradu')">
+                        <div slot="title">是否毕业<span>*</span></div>
                     </cell>
-                    <x-input title="是否毕业"
+                    <x-input title="是否毕业<span>*</span>"
                              v-if="state"
                              v-model="relibIsgraduDis"
                              :show-clear="false"
                              :disabled="state"
                              placeholder="未填写">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibIsgradu==''"
+                          v-remind="form.relibIsgradu"></icon>
                 </div>
                 <!-- 自我评价 -->
                 <x-textarea :max="300"
@@ -568,7 +604,6 @@
                          alt="">
                     <h3>教育信息</h3>
                 </div>
-
                 <span @click="goTo('educationShow')"
                       v-if="!state">添加</span>
             </div>
@@ -917,12 +952,13 @@ import education from '@/pages/function/interview/educationMes'
 import family from '@/pages/function/interview/family'
 import workExp from '@/pages/function/interview/workExp.vue'
 import searchPost from '@/components/search/searchPost'
+import wx from 'weixin-js-sdk'
 export default {
     data () {
         return {
             curStep: "",
             curStepstate: "",
-            state: true,
+            state: false,
             currentId: '',
             currentPostId: "",
             educationShow: false,
@@ -1062,10 +1098,16 @@ export default {
             relibGender: "required",
             relibFilldate: "required",
             relibIdno: ["required", "idNumber"],
-            relibEmphone: "mobile",
+            relibEmphone: ["required", "mobile"],
             relibSalary: "number",
             relibHeight: ["required", "number"],
             relibWeight: ["required", "number"],
+            relibBirtday: "required",
+            relibEducat: "required",
+            relibEmernm: "required",
+            relibEnrorage: "required",
+            relibIscriminal: "required",
+            relibIsgradu: "required",
         }
     },
     components: {
@@ -1091,7 +1133,6 @@ export default {
         goTo (name, id) {
             this[name] = true;
             this.currentId = id;
-            // this.$router.push({ name: name, query: { id: id } })
         },
         //保存
         save () {
@@ -1114,6 +1155,7 @@ export default {
                             duration: 1500,
                             background: '#1989fa'
                         });
+                        wx.closeWindow()
                     }
                 }).catch(() => {
                     t.$notify({
@@ -1136,7 +1178,11 @@ export default {
         },
         confirm (value) {
             if (this.curDomShow.indexOf("dateShow") != -1) {
-                value = new Date(value).format('yyyy-MM-dd hh:mm:ss');
+                if (this.curDomShow === 'relibBirtdaydateShow') {
+                    value = new Date(value).format('yyyy-MM-dd');
+                } else {
+                    value = new Date(value).format('yyyy-MM-dd hh:mm:ss');
+                }
                 this.form[this.curDom] = value
             } else {
                 this.form[this.curDom] = value.key;

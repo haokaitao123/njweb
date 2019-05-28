@@ -1023,9 +1023,8 @@ export default {
                     t.form.empnhTechspec = !data.empnhTechspec ? "" : data.empnhTechspec;
                     t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '请选择';
                     t.form.note = data.note;
-                    // t.state = data.state;
                     if (data.state !== '01empstate' && data.state !== '06empstate') {
-                        t.state = false
+                        t.state = true
                     }
                     t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '请选择';
                     t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '请选择';

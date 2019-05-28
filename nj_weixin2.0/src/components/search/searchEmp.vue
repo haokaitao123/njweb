@@ -95,7 +95,6 @@ export default {
             }
             await getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
-                    debugger
                     let data = res.data.content[0];
                     console.log(data, "data")
                     if (this.list.length > 0) {//当请求前有数据时 第n次请求

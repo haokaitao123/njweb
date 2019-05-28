@@ -25,7 +25,7 @@
 
                 <!-- 员工姓名 -->
                 <div class="item_box">
-                    <cell title=""
+                    <!-- <cell title=""
                           is-link
                           v-if="!disabled"
                           value-align="left"
@@ -33,17 +33,17 @@
                           v-verify="form.empId"
                           @click.native="popupClick('empShow','empId')">
                         <div slot="title">员工姓名<span>*</span></div>
-                    </cell>
+                    </cell> -->
                     <icon type="warn"
                           class="error"
-                          v-show="empIdName=='请选择'?true:false"
+                          v-show="empIdName==''"
                           v-remind="form.empId"></icon>
                     <x-input title="员工姓名<span>*</span>"
-                             v-if="disabled"
                              v-model="empIdName"
+                             v-verify="form.empId"
                              :show-clear="false"
-                             :disabled="disabled"
-                             placeholder="">
+                             :placeholder="disabled?'未填写':'请填写'"
+                             :disabled="true">
                     </x-input>
                 </div>
                 <!-- 证件号码 -->
@@ -102,7 +102,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.empnhSalaccount==''?true:false"
+                          v-show="form.empnhSalaccount==''"
                           v-remind="form.empnhSalaccount"></icon>
                 </div>
                 <!-- 是否需要离职证明 -->
@@ -134,7 +134,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.dimPersmail==''?true:false"
+                          v-show="form.dimPersmail==''"
                           v-remind="form.dimPersmail"></icon>
                 </div>
                 <!-- 离职类型 -->
@@ -150,7 +150,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="dimTypeDis=='请选择'?true:false"
+                          v-show="dimTypeDis=='请选择'"
                           v-remind="form.dimType"></icon>
                     <x-input title="离职类型<span>*</span>"
                              v-if="disabled"
@@ -173,7 +173,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="dimReasonDis=='请选择'?true:false"
+                          v-show="dimReasonDis=='请选择'"
                           v-remind="form.dimReason"></icon>
                     <x-input title="离职原因<span>*</span>"
                              v-if="disabled"
@@ -211,7 +211,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="form.dimLevsqday=='请选择'?true:false"
+                          v-show="form.dimLevsqday=='请选择'"
                           v-remind="form.dimLevsqday"></icon>
                     <x-input title="申请离职日期<span>*</span>"
                              v-if="disabled"
@@ -234,7 +234,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="form.dimLevday=='请选择'?true:false"
+                          v-show="form.dimLevday=='请选择'"
                           v-remind="form.dimLevday"></icon>
                     <x-input title="约定离职日期<span>*</span>"
                              v-if="disabled"
@@ -257,7 +257,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="form.dimLaswkday=='请选择'?true:false"
+                          v-show="form.dimLaswkday=='请选择'"
                           v-remind="form.dimLaswkday"></icon>
                     <x-input title="最后工作日期<span>*</span>"
                              v-if="disabled"
@@ -432,18 +432,18 @@ export default {
             minDimLaswkday: new Date(1900, 10, 1),
             maxDimLaswkday: new Date(2099, 12, 31),
             form: {
-                dimApplicant: window.localStorage.getItem('empId'), //申请人
+                dimApplicant: localStorage.getItem('empId'), //申请人
                 dimApplydate: new Date().format("yyyy-MM-dd"), //申请日期
-                empId: "", //员工id
-                empIdno: "", //证件号码
-                deptId: "", //部门
-                postId: "", //岗位
-                dimBuspmp: "", //上级经理
-                empnhMobile: "", //手机号码
-                empnhSalaccount: "", //银行卡号
+                empId: localStorage.getItem('empId'), //员工id
+                empIdno: JSON.parse(localStorage.getItem('empData')).empnhIdno, //证件号码
+                deptId: JSON.parse(localStorage.getItem('empData')).deptId, //部门
+                postId: JSON.parse(localStorage.getItem('empData')).postId, //岗位
+                dimBuspmp: JSON.parse(localStorage.getItem('empData')).empnhPmp, //上级经理
+                empnhMobile: JSON.parse(localStorage.getItem('empData')).empnhMobile, //手机号码
+                empnhSalaccount: JSON.parse(localStorage.getItem('empData')).empnhSalaccount, //银行卡号
                 dimCertifi: "", //是否需要离职证明
                 dimPersmail: "", //个人邮箱
-                dimType: "", //离职类型
+                dimType: "02involuntary", //离职类型
                 dimReason: "", //离职原因
                 dimLevsqday: "请选择", //申请离职日期
                 dimLevday: "请选择", //约定离职日期
@@ -451,14 +451,14 @@ export default {
                 dimIsreceive: "0", //是否工作交接
                 note: "" //备注
             },
-            dimApplicantDis: JSON.parse(window.localStorage.getItem('empData')).empnhName,
+            dimApplicantDis: JSON.parse(localStorage.getItem('empData')).empnhName,
             surveyName: '请选择',
-            empIdName: "请选择",
-            deptIdDis: "",
-            postIdDis: "",
-            dimBuspmpDis: "",
+            empIdName: JSON.parse(localStorage.getItem('empData')).empnhName,
+            deptIdDis: JSON.parse(localStorage.getItem('empData')).unitFname,
+            postIdDis: JSON.parse(localStorage.getItem('empData')).postFname,
+            dimBuspmpDis: JSON.parse(localStorage.getItem('empData')).empnhPmpDis,
             dimCertifiDis: "请选择",
-            dimTypeDis: "请选择",
+            dimTypeDis: "正常离职",
             dimReasonDis: "请选择",
             dimIsreceiveDis: "否",
             empShow: false,

@@ -60,7 +60,7 @@
 				    </div>
 				    <!-- 出生日期 -->
 				    <div class="item_box">
-						<x-input title="出生日期"
+						<x-input title="出生日期<span>*</span>"
 							   v-model="relibBirtday"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -141,7 +141,7 @@
 				    </div>
 				    <!-- 学历 -->
 				    <div class="item_box">
-						<x-input title="学历"
+						<x-input title="学历<span>*</span>"
 							   v-model="relibEducatDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -186,7 +186,7 @@
 				    </div>
 				    <!-- 紧急联系人姓名 -->
 				    <div class="item_box">
-						<x-input title="紧急联系人姓名"
+						<x-input title="紧急联系人姓名<span>*</span>"
 							   v-model="relibEmernm"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -195,7 +195,7 @@
 				    </div>
 				    <!-- 紧急联系人电话 -->
 				    <div class="item_box">
-						<x-input title="紧急联系人电话"
+						<x-input title="紧急联系人电话<span>*</span>"
 							   v-model="relibEmphone"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -267,7 +267,7 @@
 				    </div>
 				    <!-- 有无犯罪记录 -->
 				    <div class="item_box">
-						<x-input title="是否有犯罪记录"
+						<x-input title="是否有犯罪记录<span>*</span>"
 							   v-model="relibIscriminalDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -313,7 +313,7 @@
 				
 				    <!-- 招生范围 -->
 				    <div class="item_box">
-						<x-input title="招生范围"
+						<x-input title="招生范围<span>*</span>"
 							   v-model="relibEnrorageDis"
 							   :disabled="disabled"
 							   :show-clear="false"
@@ -322,7 +322,7 @@
 				    </div>
 				    <!-- 是否毕业-->
 				    <div class="item_box">
-						<x-input title="是否毕业"
+						<x-input title="是否毕业<span>*</span>"
 							   v-model="relibIsgraduDis"
 							   :disabled="disabled"
 							   :show-clear="false"
