@@ -325,7 +325,7 @@ export default {
                 content: "确认要加入黑名单？",
                 onOk: () => {
                     getDataLevelUserLogin({
-                        _mt: '',
+                        _mt: 'recruitProcess.updateById',
                         logType: "黑名单",
                         ids: t.tableselected,
                     }).then((res) => {

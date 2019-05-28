@@ -268,6 +268,9 @@ export default {
         case "异动":
           name = 'buttonTrans'
           break
+        case "黑名单":
+          name = 'buttonBlacklist'
+          break  
       }
       return name;
     },
@@ -363,6 +366,10 @@ export default {
         case "button_trans":
           btnName = '异动';
           bType = 'success';
+          break
+        case "button_blacklist":
+          btnName = '黑名单';
+          bType = 'error';
           break
       }
       let obj = {
