@@ -20,6 +20,7 @@ const recruit_process = {
     recruit_process.relibTrysqus_set(this);
     recruit_process.relibTrypsus_set(this);
     recruit_process.relibApplypost_set(this);
+    recruit_process.relibTrysqtime_set(this);
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
@@ -80,9 +81,11 @@ const recruit_process = {
     let score
     if (t.valueMap.relibScore) {
       score = t.$refs[t.valueMap.relibScore][0].formDataSubmit.relibScore
-      if (score > 80) {
+      if (score >= 80) {
+        t.$refs[t.valueMap.relibExamina][0].$set(t.$refs[t.valueMap.relibExamina][0].formDataSubmit, 'relibExamina', '1')
         t.$refs[t.valueMap.relibExamina][0].$refs.relibExamina.thisValue = '1'
       } else {
+        t.$refs[t.valueMap.relibExamina][0].$set(t.$refs[t.valueMap.relibExamina][0].formDataSubmit, 'relibExamina', '0')
         t.$refs[t.valueMap.relibExamina][0].$refs.relibExamina.thisValue = '0'
       }
     }
@@ -96,7 +99,13 @@ const recruit_process = {
       }
     }
   },
-
+  //默认试岗申请时间为当前时间
+  relibTrysqtime_set(t) {
+    if (t.valueMap.relibTrysqtime && t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime.length <= 0) {
+      let nowDate = new Date()
+      t.$refs[t.valueMap.relibTrysqtime][0].$set(t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit, 'relibTrysqtime', nowDate.format('yyyy-MM-dd'))
+    }
+  },
   relibApplytype_dis(t) {
     if (t.valueMap.relibApplytype) {
       if (t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype === '03introducer') {

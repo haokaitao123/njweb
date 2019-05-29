@@ -24,7 +24,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="relibApplypostDis=='请选择'"
+                          v-show="relibApplypostDis==='请选择'"
                           v-remind="form.relibApplypost"></icon>
                     <x-input title="应聘岗位<span>*</span>"
                              v-if="state"
@@ -56,7 +56,7 @@
                 <div class="item_box">
                     <x-input title="姓名<span>*</span>"
                              v-model.trim="form.relibName"
-                             :disabled="state"
+                             :disabled="true"
                              v-verify="form.relibName"
                              :show-clear="false"
                              :placeholder="state?'未填写':'请填写'">
@@ -84,7 +84,7 @@
                 <!-- 手机号 -->
                 <div class="item_box">
                     <x-input title="手机号<span>*</span>"
-                             :disabled="state"
+                             :disabled="true"
                              v-model="form.relibMobile"
                              v-verify="form.relibMobile"
                              :show-clear="false"
@@ -97,7 +97,7 @@
                 </div>
                 <!-- 性别 -->
                 <div class="item_box">
-                    <cell title=""
+                    <!-- <cell title=""
                           is-link
                           v-if="!state"
                           value-align="left"
@@ -109,12 +109,11 @@
                     <icon type="warn"
                           class="error"
                           v-show="relibGenderDis=='请选择'"
-                          v-remind="form.relibGender"></icon>
+                          v-remind="form.relibGender"></icon> -->
                     <x-input title="性别<span>*</span>"
-                             v-if="state"
                              v-model="relibGenderDis"
                              :show-clear="false"
-                             :disabled="state"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -124,14 +123,14 @@
                           is-link
                           v-if="!state"
                           value-align="left"
-                          v-verify="form.relibBirtday"
                           v-model="form.relibBirtday"
+                          v-verify="form.relibBirtday"
                           @click.native="popupClick('relibBirtdaydateShow','relibBirtday')">
                         <div slot="title">出生日期<span>*</span></div>
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="form.relibBirtday==='请选择'"
+                          v-show="form.relibBirtday=='请选择'"
                           v-remind="form.relibBirtday"></icon>
                     <x-input title="出生日期<span>*</span>"
                              v-if="state"
@@ -188,7 +187,7 @@
                 </div>
                 <!-- 邀约时间 -->
                 <div class="item_box">
-                    <cell title=""
+                    <!-- <cell title=""
                           is-link
                           v-if="!state"
                           value-align="left"
@@ -200,12 +199,11 @@
                     <icon type="warn"
                           class="error"
                           v-show="form.relibFilldate==='请选择'"
-                          v-remind="form.relibFilldate"></icon>
+                          v-remind="form.relibFilldate"></icon> -->
                     <x-input title="邀约时间<span>*</span>"
-                             v-if="state"
                              v-model="form.relibFilldate"
                              :show-clear="false"
-                             :disabled="state"
+                             :disabled="true"
                              placeholder="未填写">
                     </x-input>
                 </div>
@@ -293,7 +291,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.relibEducat==''"
+                          v-show="relibEducatDis==='请选择'"
                           v-remind="form.relibEducat"></icon>
                 </div>
                 <!-- 毕业院校 -->
@@ -309,7 +307,6 @@
                 <div class="item_box">
                     <x-input title="专业"
                              v-model="form.relibProfes"
-                             v-verify="form.relibProfes"
                              :disabled="state"
                              :show-clear="false"
                              :placeholder="state?'未填写':'请填写'">
@@ -480,7 +477,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.relibIscriminal==''"
+                          v-show="form.relibIscriminal===''"
                           v-remind="form.relibIscriminal"></icon>
                 </div>
                 <!-- 有无纹身 -->
@@ -563,7 +560,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.relibEnrorage==''"
+                          v-show="form.relibEnrorage===''"
                           v-remind="form.relibEnrorage"></icon>
                 </div>
                 <!-- 是否毕业-->
@@ -586,7 +583,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.relibIsgradu==''"
+                          v-show="form.relibIsgradu===''"
                           v-remind="form.relibIsgradu"></icon>
                 </div>
                 <!-- 自我评价 -->
@@ -602,7 +599,10 @@
                 <div class="title_left">
                     <img src="../../../../static/function/educatInfo.png"
                          alt="">
-                    <h3>教育信息</h3>
+                    <h3>教育信息<span>*</span></h3>
+                    <icon type="warn"
+                          class="error"
+                          v-show="educationState"></icon>
                 </div>
                 <span @click="goTo('educationShow')"
                       v-if="!state">添加</span>
@@ -634,7 +634,10 @@
                 <div class="title_left">
                     <img src="../../../../static/function/work.png"
                          alt="">
-                    <h3>工作经历</h3>
+                    <h3>工作经历<span>*</span></h3>
+                    <icon type="warn"
+                          class="error"
+                          v-show="workExpState"></icon>
                 </div>
                 <span @click="goTo('workExpShow')"
                       v-if="!state">添加</span>
@@ -958,7 +961,7 @@ export default {
         return {
             curStep: "",
             curStepstate: "",
-            state: true,
+            state: false,
             currentId: '',
             currentPostId: "",
             educationShow: false,
@@ -984,7 +987,7 @@ export default {
                 relibGender: "",                    //性别
                 relibBirtday: "请选择",              //出生日期
                 relibBirtplace: "",                 //籍贯
-                relibNatality: "",                  //民族
+                relibNatality: "10",                  //民族
                 relibPolitical: "",                 //政治面貌
                 relibFilldate: "请选择",             //邀约时间
                 relibHealthsta: "",                 //健康状况
@@ -1017,7 +1020,7 @@ export default {
             relibApplypostDis: '请选择',						//岗位
             relibIdentityDis: '请选择',                     //身份
             relibGenderDis: '请选择',                       //性别
-            relibNatalityDis: '请选择',                     //民族
+            relibNatalityDis: '汉',                     //民族
             relibPoliticalDis: '请选择',                    //政治面貌
             relibHealthstaDis: '请选择',                    //健康状况
             relibMaritlstaDis: '请选择',                    //婚育状况
@@ -1088,6 +1091,9 @@ export default {
             familyList: [],
             dateShow: false,
             popupShow: false,
+            educationState: false,
+            workExpState: false,
+            childCheck: false
         }
     },
     verify: {
@@ -1134,10 +1140,37 @@ export default {
             this[name] = true;
             this.currentId = id;
         },
+        checkChild () {
+            const t = this;
+            if (t.workExpList.length < 1) {
+                t.childCheck = true
+                t.workExpState = true;
+                if (t.educationList.length < 1) {
+                    t.educationState = true;
+                } else {
+                    t.educationState = false;
+                }
+                return false;
+            } else {
+                t.workExpState = false;
+                t.childCheck = false
+                if (t.educationList.length < 1) {
+                    t.educationState = true;
+                    t.childCheck = true;
+                    return false;
+                } else {
+                    t.educationState = false;
+                    t.childCheck = false;
+                }
+            }
+            return true;
+        },
         //保存
         save () {
             const t = this;
-            if (t.$verify.check()) {
+            console.log(t.checkChild(), "123")
+            if (t.$verify.check() && t.checkChild()) {
+
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitProcess.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
@@ -1286,14 +1319,14 @@ export default {
                     t.form.relibGender = data.relibGender;
                     t.form.relibBirtday = data.relibBirtday ? data.relibBirtday : '请选择';
                     t.form.relibBirtplace = !data.relibBirtplace ? "" : data.relibBirtplace;
-                    t.form.relibNatality = data.relibNatality;
+                    t.form.relibNatality = data.relibNatality ? data.relibNatality : '10';
                     t.form.relibPolitical = data.relibPolitical;
                     t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '请选择';
                     t.form.relibHealthsta = data.relibHealthsta;
                     t.form.relibMaritlsta = data.relibMaritlsta;
                     t.form.relibHeight = !data.relibHeight ? "" : data.relibHeight;
                     t.form.relibWeight = !data.relibWeight ? "" : data.relibWeight;
-                    t.form.relibEducat = data.relibEducat;
+                    t.form.relibEducat = data.relibEducat ? data.relibEducat : '';;
                     t.form.relibSchool = !data.relibSchool ? "" : data.relibSchool;
                     t.form.relibProfes = !data.relibProfes ? "" : data.relibProfes;
                     t.form.relibLiving = !data.relibLiving ? "" : data.relibLiving;
@@ -1307,19 +1340,18 @@ export default {
                     t.form.relibIsrelatives = data.relibIsrelatives;
                     t.form.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
                     t.form.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
-                    t.form.relibIscriminal = data.relibIscriminal;
+                    t.form.relibIscriminal = data.relibIscriminal ? data.relibIscriminal : '';
                     t.form.relibIstattoo = data.relibIstattoo;
                     t.form.relibApplytype = data.relibApplytype;
                     t.form.relibIntrname = !data.relibIntrname ? "" : data.relibIntrname;
                     t.form.relibIscom = data.relibIscom;
                     t.form.relibSelfeval = data.relibSelfeval;
-                    t.form.relibEnrorage = data.relibEnrorage;
-                    t.form.relibIsgradu = data.relibIsgradu;
-
+                    t.form.relibEnrorage = data.relibEnrorage ? data.relibEnrorage : '';
+                    t.form.relibIsgradu = data.relibIsgradu ? data.relibIsgradu : '';
                     t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
                     t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '请选择';
                     t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '请选择';
-                    t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '请选择';
+                    t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '汉族';
                     t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '请选择';
                     t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '请选择';
                     t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '请选择';
@@ -1359,9 +1391,13 @@ export default {
                     t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday.replace(/-/g, '/'));
                     t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime.replace(/-/g, '/'));
                     t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate.replace(/-/g, '/'));
+                    if (!data.relibNatalityDis) {
+                        t.setSelectValue('汉族', 'selectRelibNatality', 'relibNatalityIndex');
+                    } else {
+                        t.setSelectValue(data.relibNatalityDis, 'selectRelibNatality', 'relibNatalityIndex');
+                    }
                     t.setSelectValue(data.relibIdentityDis, 'selectRelibIdentity', 'relibIdentityIndex');
                     t.setSelectValue(data.relibGenderDis, 'selectRelibGender', 'relibGenderIndex');
-                    t.setSelectValue(data.relibNatalityDis, 'selectRelibNatality', 'relibNatalityIndex');
                     t.setSelectValue(data.relibPoliticalDis, 'selectRelibPolitica', 'relibPoliticaIndex');
                     t.setSelectValue(data.relibHealthstaDis, 'selectRelibHealthsta', 'relibHealthstaIndex');
                     t.setSelectValue(data.relibMaritlstaDis, 'selectRelibMaritlsta', 'relibMaritlstaIndex');
@@ -1375,7 +1411,6 @@ export default {
                     t.setSelectValue(data.relibIscomDis, 'selectRelibIscom', 'relibIscomIndex');
                     t.setSelectValue(data.relibEnrorageDis, 'selectRelibEnrorage', 'relibEnrorageIndex');
                     t.setSelectValue(data.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
-
                 }
             }).catch((err) => {
                 t.$notify({
@@ -1503,6 +1538,7 @@ export default {
                 this.getWorkExp();
             }
             this[dom] = false;
+            this.checkChild();
         },
         //岗位弹出框选中事件
         inputPost (res) {
@@ -1533,6 +1569,9 @@ export default {
             justify-content: space-between;
             .title_left {
                 display: flex;
+                i {
+                    margin-left: 20px;
+                }
             }
             > span {
                 font-size: 30px;
@@ -1548,6 +1587,10 @@ export default {
                 font-size: 30px;
                 font-weight: normal;
                 color: #999999;
+                > span {
+                    display: inline;
+                    color: red;
+                }
             }
             &:after {
                 content: " ";

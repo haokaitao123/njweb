@@ -11,7 +11,7 @@
                     <Button class="btns"
                             v-for="(item, index) in btns"
                             :key="index"
-                            :type="item.btn_id === 'button_del' ? 'error':'primary'"
+                            :type="item.btn_id === 'button_del'||item.btn_id === 'button_blacklist' ? 'error':'primary'"
                             @click="btnFunction(item.btn_id)">{{item.btn_title}}</Button>
                     <div class="moditySelect">
                         <Dropdown>
