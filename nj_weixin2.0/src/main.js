@@ -15,6 +15,7 @@ import {
 } from 'vux'
 import verify from "vue-verify-plugin";
 import valid from './lib/pub_valid'
+import 'vant/lib/index.css';
 import {
   Picker,
   Popup,
@@ -29,11 +30,12 @@ import {
   RadioGroup,
   Radio,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Icon 
 } from 'vant';
 Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).
 use(List).use(Loading).use(search).use(ImagePreview).use(Notify)
-  .use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup);
+  .use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Icon);
 Notify.setDefaultOptions.duration = '1000'
 var myRules = {
   required: {
