@@ -991,6 +991,7 @@ export default {
             relibFirsttmdateShow: false,
             saveStatus: true,
             isRelibFirpass: false,
+            isCanInterview: false,
         }
     },
     verify: {
@@ -1078,6 +1079,20 @@ export default {
                 message: '是否确认提交？'
             }).then(() => {
                 this.submit();
+                this.getInterviewTime()
+                if (this.isCanInterview) {
+                    //this.submit(); 
+                    console.log(1);
+                } else if (!this.isCanInterview) {
+                    this.$store.commit('hideLoading');
+                    this.$dialog.confirm({
+                        title: '',
+                        message: '距上一次的面试不到一个月，不能为您安排面试'
+                    }).then(() => {
+                        this.relibFirpassDis = "否",              // 初试是否通过
+                            this.form.relibFirstopin += "距上一次的面试不到一个月，不能为您安排面试。"
+                    })
+                }
             }).catch(() => {
                 // on cancel
             });
@@ -1115,6 +1130,35 @@ export default {
                 t.saveStatus = false
                 t.$vux.toast.text('请检查填写信息');
             }
+        },
+        //判断一个月之内是否面试过
+        getInterviewTime () {
+            const t = this;
+            const data = deepCopy(t.form);
+            data._mt = "wxRecruitProcess.getFuShiNo";
+            data.companyId = pubsource.companyId;
+            data.userId = window.localStorage.getItem('uid');
+            data.data = JSON.stringify(t.form);
+            for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
+            getDataLevelUserLoginNew(data).then((res) => {
+                console.log(res.data.content[0])
+                if (res.data.content[0].value == 1) {
+                    t.isCanInterview = false;
+                    console.log(t.isCanInterview);
+                } else if (res.data.content[0].value == 0) {
+                    t.isCanInterview = true;
+                    console.log(t.isCanInterview);
+                }
+            }).catch(() => {
+
+            }).finally(() => {
+                t.$store.commit('hideLoading');
+            });
+
         },
         //判断硬性条件是否符合
         getData () {
