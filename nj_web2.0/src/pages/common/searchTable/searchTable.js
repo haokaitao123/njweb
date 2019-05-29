@@ -258,6 +258,32 @@ const searchTable = {
     },
   },
   /*
+ * 选择招聘入职部门(按照部门类型倒序)
+ * */
+  'org-deptdesc-std': {
+    title: '选择部门',
+    searchText: '请输入部门名称',
+    valueText: 'unitFname',
+    searchCloumns: [
+      {
+        title: '部门编码',
+        key: 'unitCode',
+      },
+      {
+        title: '部门名称',
+        key: 'unitDetailName',
+      },
+    ],
+    param: {
+      _mt: 'orgUnits.getPageByUnitType',
+      sort: 'id',
+      order: 'asc',
+      rows: 10,
+      page: 1,
+      logType: '查询',
+    },
+  },
+  /*
    * 选择岗位
    * */
   'org-post-std': {
