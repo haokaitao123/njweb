@@ -952,13 +952,13 @@ import education from '@/pages/function/interview/educationMes'
 import family from '@/pages/function/interview/family'
 import workExp from '@/pages/function/interview/workExp.vue'
 import searchPost from '@/components/search/searchPost'
-import wx from 'weixin-js-sdk'
+// import wx from 'weixin-js-sdk'
 export default {
     data () {
         return {
             curStep: "",
             curStepstate: "",
-            state: false,
+            state: true,
             currentId: '',
             currentPostId: "",
             educationShow: false,
@@ -1155,7 +1155,7 @@ export default {
                             duration: 1500,
                             background: '#1989fa'
                         });
-                        wx.closeWindow()
+                        // wx.closeWindow()
                     }
                 }).catch(() => {
                     t.$notify({
