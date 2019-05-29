@@ -10,7 +10,7 @@
           </p>
           <Row>
             <!--查询项 v-model中放查询变量-->
-            <Input placeholder="请输入招聘者姓名" style="width: 200px" v-model="recName"/>
+            <Input placeholder="请输入求职者姓名" style="width: 200px" v-model="recName"/>
             <Input placeholder="请输入证件号码" style="width: 200px" v-model="recIdenno"/>
 
             <!--按钮 @click中放方法() 无需变更-->
