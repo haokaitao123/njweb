@@ -80,6 +80,14 @@ const router = new Router({
       }
     },
     {
+      path: '/interviewSuccess',
+      name: 'interviewSuccess',
+      component: resolve => require(['@/pages/function/interview/interviewSuccess'], resolve),
+      meta: {
+        title: '简历信息'
+      }
+    },
+    {
       path: '/resumeInfo',
       name: 'resumeInfo',
       component: resolve => require(['@/pages/function/interview/resumeInfo'], resolve),
@@ -127,14 +135,14 @@ const router = new Router({
         title: '员工信息修改'
       }
     },
-    {
-      path: '/empChange',
-      name: 'empChange',
-      component: resolve => require(['@/pages/function/employInfoChange/empChange'], resolve),
-      meta: {
-        title: '员工信息修改'
-      }
-    },
+//  {
+//    path: '/empChange',
+//    name: 'empChange',
+//    component: resolve => require(['@/pages/function/employInfoChange/empChange'], resolve),
+//    meta: {
+//      title: '员工信息修改'
+//    }
+//  },
     {
       path: '/empContractRenewal',
       name: 'empContractRenewal',
