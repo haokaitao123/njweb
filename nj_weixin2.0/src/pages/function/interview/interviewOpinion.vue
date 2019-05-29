@@ -1078,19 +1078,21 @@ export default {
                 title: '',
                 message: '是否确认提交？'
             }).then(() => {
-                this.submit();
+                //this.submit();
+                console.log('最',this.isCanInterview)
                 this.getInterviewTime()
                 if (this.isCanInterview) {
                     //this.submit(); 
-                    console.log(1);
+                    console.log('hao',1);
                 } else if (!this.isCanInterview) {
                     this.$store.commit('hideLoading');
                     this.$dialog.confirm({
                         title: '',
                         message: '距上一次的面试不到一个月，不能为您安排面试'
                     }).then(() => {
-                        this.relibFirpassDis = "否",              // 初试是否通过
-                            this.form.relibFirstopin += "距上一次的面试不到一个月，不能为您安排面试。"
+                    	    this.form.relibFirpass = '0',
+                            this.relibFirpassDis = "否",// 初试是否通过
+                            this.form.relibFirstopin += "你的上次面试没通过，且距上一次的面试时间不到一个月，不能为您安排面试。"
                     })
                 }
             }).catch(() => {
@@ -1148,10 +1150,10 @@ export default {
                 console.log(res.data.content[0])
                 if (res.data.content[0].value == 1) {
                     t.isCanInterview = false;
-                    console.log(t.isCanInterview);
+                    console.log('123',t.isCanInterview);
                 } else if (res.data.content[0].value == 0) {
                     t.isCanInterview = true;
-                    console.log(t.isCanInterview);
+                    console.log('1234',t.isCanInterview);
                 }
             }).catch(() => {
 
@@ -1301,7 +1303,6 @@ export default {
         },
         //判断硬性条件是否符合
         condition () {
-            debugger;
             this.form.relibFirstopin = "";
             if (!this.relibGenderDis) {
                 this.form.relibFirstopin += "性别信息为空、"
