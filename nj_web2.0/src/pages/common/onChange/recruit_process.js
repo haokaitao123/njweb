@@ -21,6 +21,7 @@ const recruit_process = {
     recruit_process.relibTrypsus_set(this);
     recruit_process.relibApplypost_set(this);
     recruit_process.relibTrysqtime_set(this);
+    recruit_process.relibAppsqus_set(this);
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
@@ -191,6 +192,29 @@ const recruit_process = {
       }
     }
   },
+
+  //审批人
+  relibAppsqus_set(t) {
+    const th = this.$parent
+    if (t.valueMap.relibAppsqus) {
+      if (t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit.relibAppsqus.length <= 0 || t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit.relibAppsqus === '0') {
+        getDataLevelUserLogin({
+          _mt: 'sysUserinfo.getSysUserinfoByUserId',
+          logType: '查询试岗审批人',
+          id: t.$store.state.user.userId,
+        }).then((res) => {
+          if (isSuccess(res, this.$parent)) {
+            t.$refs[t.valueMap.relibAppsqus][0].$set(t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit, 'relibAppsqus', res.data.content[0].sysUsempid)
+            t.$refs[t.valueMap.relibAppsqus][0].$refs.relibAppsqus.thisValue = res.data.content[0].sysUsempidDis
+          }
+        }).catch(() => {
+          t.$Message.error('网络错误')
+        })
+      }
+    }
+  },
+
+
   //默认复试人
   relibReexamus_set(t) {
     const th = this.$parent
