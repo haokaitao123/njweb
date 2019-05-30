@@ -698,10 +698,22 @@ export default {
             const data = {
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
+                dimLevsqday:t.dimLevsqday,
+                empnhEntrydate:t.empnhEntrydate,
                 postId: t.postId,
                 state: t.modity,
                 deptId: t.treeid
             };
+            if (data.dimLevsqday !== undefined && data.dimLevsqday !== '') {
+       				  data.dimLevsqday = new Date(data.dimLevsqday).format('yyyy-MM-dd')
+                } else {
+                    data.dimLevsqday = ''
+            }
+             if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
+       				  data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
+                } else {
+                    data.empnhEntrydate = ''
+            }
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "empEmpnh.export", data);
             this.openExp = true;
