@@ -109,16 +109,22 @@ const recruit_process = {
   },
   //试岗必须3天后再入职,试岗申请时间与可入职当前时间
   relibApproval_set(t) {
-    debugger
     if (t.valueMap.relibTrysqtime){
         let nowDate = new Date()//可入职当前时间
-        nowDate = nowDate.getDate();//定义时间,倒退3天
-        let day1 = t.$refs[t.valueMap.relibScore][0].formDataSubmit.relibTrysqtime//试岗申请时间
-        console.log(day1,"shijian")
-        day1 = new Date(day1).getDate()
-        if(day1>day2){//试岗申请时间大于（可入职时间-3），不可入职
-            t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '0')
-            t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
+        nowDate = new Date(nowDate).getTime();//可入职当前时间时间戳
+        let day1 = t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime//试岗申请时间
+        day1 = new Date(day1).getTime()
+        let day2 = 3*24*60*60*1000
+        if(t.valueMap.relibTrypspass){
+            if((nowDate-day1)>day2){//可入职时间-试岗申请时间大于3，不可入职
+                
+                    t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '1')
+                    //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
+                
+            }else{
+                t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '0')
+                //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
+            }
         }
     }
   },

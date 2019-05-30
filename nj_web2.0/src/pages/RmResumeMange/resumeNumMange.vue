@@ -397,10 +397,14 @@ export default {
         const t = this
         // 填装查询条件
         const data = {
-          bankCode: t.bankCode,
-          bankCname: t.bankCname,
-          bankSwiftcode: t.bankSwiftcode,
+          resumeDate: t.resumeDate,
+          empName: t.empName,
         }
+        if (data.resumeDate !== undefined && data.resumeDate !== '') {
+       				  data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')
+                } else {
+                    data.resumeDate = ''
+            }
         // 设置导出mt参数
         this.$refs.expwindow.getData(this.expDataTital, 'rmResume.export', data)
         this.openExp = true

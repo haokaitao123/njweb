@@ -1183,12 +1183,15 @@ export default {
                 }
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
-                        t.$notify({
-                            message: '保存成功',
-                            duration: 1500,
-                            background: '#1989fa'
-                        });
-                        // wx.closeWindow()
+//                      t.$notify({
+//                          message: '保存成功',
+//                          duration: 1500,
+//                          background: '#1989fa'
+//                      });
+                        console.log(1)
+                       this.$router.push({
+                            name: 'interviewSuccess'
+                        })
                     }
                 }).catch(() => {
                     t.$notify({
