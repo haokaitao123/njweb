@@ -108,6 +108,7 @@ const recruit_process = {
   },
   relibApplytype_dis(t) {
     if (t.valueMap.relibApplytype) {
+      console.log(t.$refs[t.valueMap.relibApplytype][0], "t.valueMap.relibApplytype")
       if (t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype === '03introducer') {
         if (t.valueMap.relibIntrname) {
           t.$refs[t.valueMap.relibIntrname][0].$set(t.$refs[t.valueMap.relibIntrname][0].formshow, 'relibIntrname', '')
