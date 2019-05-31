@@ -81,8 +81,11 @@ export default {
         id: '',
         roleName: String,
     },
+    beforemounted(){
+    	 
+    },
     mounted () {
-        this.getData()
+       this.getData()
     },
     methods: {
         getData () {
@@ -94,7 +97,7 @@ export default {
                 if (isSuccess(res, t)) {
                     if (res.data.content[0]) {
                         t.disabled = (res.data.content[0].value[0].authRoleFunDis === '0')
-                        // console.log(res.data.content[0].value)
+                         console.log('后台取得数据',res.data.content[0].value)
                         t.data = t.toTree(res.data.content[0].value)
                     }
                 }
@@ -109,6 +112,7 @@ export default {
             const t = this
             const checkedId = []
             let ids = []
+            console.log('123456',t.$refs.tree.flatState)
             for (let i = 0; i < t.$refs.tree.flatState.length; i++) {
                 if (t.$refs.tree.flatState[i].node.indeterminate === true) {
                     ids.push({
@@ -127,6 +131,7 @@ export default {
                     funState: 1,
                 })
             }
+            console.log('保存',ids)
             // 拿值根节点、父节点
             // for (let i = 0; i < checked.length; i++) {
             //   checkedId.push(checked[i].id)
@@ -164,8 +169,9 @@ export default {
                 // sysFunctionsIds: ret.toString(),
             }
 
-
+         
             getDataLevelUserLogin(data).then((res) => {
+            	console.log('ceshi',res)
                 if (isSuccess(res, t)) {
                     t.$Modal.success({
                         title: this.$t('reminder.suc'),
@@ -186,9 +192,17 @@ export default {
         toTree (data) {
             data.forEach((item) => {
                 item.expand = false
-                item.checked = item.authRoleFunDis === '1'
+                console.log(item.authRoleFunDis,"item.authRoleFunDis")
+                if(item.authRoleFunDis === '1'){
+                	item.checked = true
+                }else if(item.authRoleFunDis === '0'){
+                	item.checked = false
+                	data[0].authRoleFunDis = '2'
+                	data[0].checked = undefined
+                }
                 item.title = item.funName
                 delete item.children
+                console.log('转化dom树',item.checked)
             })
             const map = {}
             data.forEach((item) => {
