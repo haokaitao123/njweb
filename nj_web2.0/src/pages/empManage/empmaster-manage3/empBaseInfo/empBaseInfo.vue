@@ -297,7 +297,7 @@
 			</transition>
 			<!--直接上級-->
 			<transition name="fade">
-				<searchEmpMaster v-show="openEmpMaster" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
+				<searchEmpMaster v-show="openEmpMaster" :deptId ="deptId" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
 			</transition>
 			<!--银行-->
 			<transition name="fade">
@@ -471,7 +471,8 @@
 				openEmpMaster: false,
 				openBank: false,
 				openCostCenter: false,
-				spinShow: false,
+                spinShow: false,
+                deptId:"",
 				//部门
 				searchDeptCloumns: [{
 						title: '部门编码',
@@ -860,7 +861,25 @@
 					});;
 			},
 			cop() {
-				this.form.empnhSalaccname = this.form.empnhName;
+                this.form.empnhSalaccname = this.form.empnhName;
+                const t =this;
+                getDataLevelUserLogin({
+                    _mt : "empEmpnh.getCompmailByName",
+                    logType : t.logType,
+                    name :t.form.empnhName,
+                })
+                .then(res => {
+                    if(isSuccess(res, t)) {
+                        debugger;
+                        let empnhCompmail = res.data.content[0].empnhCompmail;
+                        if(empnhCompmail){
+                            this.form.empnhCompmail = empnhCompmail
+                        }
+                    }
+                })
+                .catch(() => {
+                    t.$Message.error('网络错误');
+                });
 			},
 			//查询公共参数
 			getSelect() {
@@ -1057,9 +1076,15 @@
 		},
 		//选择员工
 		pickEmpData() {
-			const t = this;
-			t.$refs.searchEmpMaster.getData();
-			t.openEmpMaster = true;
+            const t = this;
+            if(t.unitFname===""){
+                this.$Message.warning('请选择部门');
+            }else{
+                console.log( t.form.deptId," t.form.deptId")
+                t.$store.commit('empMaster/setDeptId', t.form.deptId);
+                t.$refs.searchEmpMaster.getData();
+			    t.openEmpMaster = true;
+            }
 		},
 		closeEmp() {
 			const t = this

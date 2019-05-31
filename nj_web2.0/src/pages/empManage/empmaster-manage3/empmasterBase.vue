@@ -194,6 +194,7 @@ export default {
             this.$store.commit('setFunCode', funcode);
             this.$store.commit('empMaster/setMainId', "")
             this.$store.commit('empMaster/setLogType', "");
+            this.$store.commit('empMaster/setDeptId', "");
         },
         //      更新父页面列表 无需变更
         update (data) {

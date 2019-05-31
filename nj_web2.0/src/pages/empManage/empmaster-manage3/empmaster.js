@@ -5,6 +5,7 @@ const empMaster = {
     logType: '', // 主表操作类型
     childId: '', //子表id
     childLogType: '', //子表操作类型
+    deptId: '' // 部门Id
   },
   mutations: {
     //主表
@@ -22,6 +23,10 @@ const empMaster = {
     setChildLogType(state, value) {
       state.childLogType = value
     },
+    //设置部门Id
+    setDeptId(state, value) {
+      state.deptId = value
+    }
   },
 }
 
