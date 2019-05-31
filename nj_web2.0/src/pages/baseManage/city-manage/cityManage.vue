@@ -107,7 +107,7 @@
             key: 'cityName',
             sortable: 'custom',
             fixed: 'left',
-            width: 150,
+            width: 120,
           },
           {
             title: this.$t('lang_baseManage.baseCity.cityCode1'),
@@ -148,20 +148,20 @@
             title: this.$t('lang_baseManage.baseCity.cityIsvalidName'),
             key: 'cityIsvalidName',
             sortable: 'custom',
-            width: 110,
+            width: 90,
 //          width: 105,
           },
           {
             title: this.$t('lang_baseManage.baseCity.cityIssbName'),
             key: 'cityIssbName',
             sortable: 'custom',
-            width: 150,
+            width: 110,
           },
           {
             title: this.$t('lang_baseManage.baseCity.cityIshfName'),
             key: 'cityIshfName',
             sortable: 'custom',
-            width: 180,
+            width: 150,
           },
           {
             title: this.$t('lang_baseManage.baseCity.cityIstaxName'),

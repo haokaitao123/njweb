@@ -100,16 +100,16 @@ export default {
             ],
             // 表格列字段
             columns: [
-                { type: "selection", width: 54, fixed: "left", align: "center" },
-                { key: "empnhName", title: "员工姓名", sortable: "custom", width: 220 },
-                { key: "empnhIdno", title: "身份证号码", width: 220 },
-                { key: "unitFname", title: "部门名称", sortable: "custom", width: 220 },
-                { key: "postFname", title: "岗位名称", sortable: "custom", width: 220 },
-                { key: "empupdResaddr", title: "居住详细地址", width: 220 },
-                { key: "empnhSalbankDis", title: "开户银行", width: 220 },
-                { key: "empupdSalcount", title: "银行账号", width: 220 },
-                { key: "empupdSalcname", title: "户名", width: 220 },
-                { key: "empupdReason", title: "未通过原因", width: 220 },
+            	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
+                { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110},
+                { key: "empnhIdno", title: "身份证号码", width : 190},
+                { key: "unitFname", title: "部门名称", sortable: "custom" , width : 180},
+                { key: "postFname", title: "岗位名称", sortable: "custom" , width : 110},
+                { key: "empupdResaddr", title: "居住详细地址", width : 280},
+                { key: "empnhSalbankDis", title: "开户银行",width : 220},
+                { key: "empupdSalcount", title: "银行账号", width : 220},
+                { key: "empupdSalcname", title: "户名", width : 90},
+                { key: "empupdReason", title: "未通过原因", width : 220},
 
             ],
             // 表格获取数据mt名称
