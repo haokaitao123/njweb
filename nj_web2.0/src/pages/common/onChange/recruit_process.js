@@ -21,6 +21,7 @@ const recruit_process = {
     recruit_process.relibTrypsus_set(this);
     recruit_process.relibApplypost_set(this);
     recruit_process.relibTrysqtime_set(this);
+    recruit_process.relibApproval_set(this);
   },
   relibIdno(node) {
     recruit_process.relibIdno_set(this.$parent)
@@ -106,7 +107,29 @@ const recruit_process = {
       t.$refs[t.valueMap.relibTrysqtime][0].$set(t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit, 'relibTrysqtime', nowDate.format('yyyy-MM-dd'))
     }
   },
+  //试岗必须3天后再入职,试岗申请时间与可入职当前时间
+  relibApproval_set(t) {
+    if (t.valueMap.relibTrysqtime){
+        let nowDate = new Date()//可入职当前时间
+        nowDate = new Date(nowDate).getTime();//可入职当前时间时间戳
+        let day1 = t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime//试岗申请时间
+        day1 = new Date(day1).getTime()
+        let day2 = 3*24*60*60*1000
+        if(t.valueMap.relibTrypspass){
+            if((nowDate-day1)>day2){//可入职时间-试岗申请时间大于3，不可入职
+                
+                    t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '1')
+                    //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
+                
+            }else{
+                t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '0')
+                //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
+            }
+        }
+    }
+  },
   relibApplytype_dis(t) {
+    
     if (t.valueMap.relibApplytype) {
       if (t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype === '03introducer') {
         if (t.valueMap.relibIntrname) {

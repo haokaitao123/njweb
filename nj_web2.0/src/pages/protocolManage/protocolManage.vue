@@ -618,9 +618,7 @@ export default {
       const t = this;
       // 填装查询条件
       const data = {
-        postCode: t.postCode,
-        postFname: t.postFname,
-        postDfpslevel: t.postDfpslevel,
+        empnhName: t.empnhName,
         state: t.modity
       };
       // 设置导出mt参数

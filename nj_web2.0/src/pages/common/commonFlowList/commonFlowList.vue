@@ -67,6 +67,13 @@
                         @close="closeSelCountry"
                         ref="selCountry"></selCountry>
         </transition>
+         <transition name="fade">
+            <transaction v-show="openTransaction"
+                         :id="tableselected"
+                         :logType="logType"
+                         @closeTransaction="closeTransaction"
+                         ref="transactionWindow"></transaction>
+        </transition>
         <commonFlowUpdate v-if="openTestUpd"
                           @close="closeTest"
                           ref="commonFlowUpdate"
@@ -86,7 +93,7 @@ import { getDataLevelUserLogin } from '../../../axios/axios'
 import { isSuccess } from '../../../lib/util'
 import selCountry from '../../../components/commonsel/selCountry'
 import commonFlowUpdate from './commonFlowUpdate'
-
+import transaction from './transaction';
 export default {
     data () {
         return {
@@ -95,6 +102,7 @@ export default {
             logType: '',
             openUpdate: false,
             openTestUpd: false,
+            openTransaction: false,
             updateId: NaN,
             tableselected: [],
             columns: [],
@@ -137,6 +145,7 @@ export default {
         selCountry,
         commonFlowUpdate,
         //      update,
+        transaction,
     },
     //    created() {
     //
@@ -330,35 +339,12 @@ export default {
         },
         addBlackUser () {
             const t = this
-            if (t.tableselected.length === 0) {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: '请选择要加入黑名单的数据',
-                })
-                return
+            if (this.tableselected.length === 0) {
+                this.$Message.warning('请至少选择一条数据');
+            } else {
+                this.logType="加入黑名单";
+                this.openTransaction = true;
             }
-            t.$Modal.confirm({
-                title: this.$t("reminder.remind"),
-                content: "确认要加入黑名单？",
-                onOk: () => {
-                    getDataLevelUserLogin({
-                        _mt: 'recruitProcess.updateById',
-                        logType: "黑名单",
-                        ids: t.tableselected,
-                    }).then((res) => {
-                        if (isSuccess(res, t)) {
-                            t.$Message.success("添加成功")
-                            t.tableselected = []
-                            t.getData(1)
-                        }
-                    }).catch(() => {
-                        t.$Modal.error({
-                            title: this.$t('reminder.err'),
-                            content: this.$t('reminder.errormessage'),
-                        })
-                    })
-                }
-            })
         },
         openUp (pkValue, stepId, index) {
             this.stepId = stepId
@@ -517,6 +503,9 @@ export default {
         closeSelCountry () {
             this.openSelCountry = false
         },
+         closeTransaction () {
+            this.openTransaction = false;
+        }
     },
     watch: {
         $route (value, from) {

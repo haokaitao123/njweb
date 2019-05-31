@@ -357,9 +357,8 @@ export default {
             const t = this
             // 填装查询条件
             const data = {
-                bankCode: t.bankCode,
-                bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode,
+                profitBigDis: t.profitBigDis,
+                profitSmallDis: t.profitSmallDis,
             }
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, 'depCeilRule.export', data)
