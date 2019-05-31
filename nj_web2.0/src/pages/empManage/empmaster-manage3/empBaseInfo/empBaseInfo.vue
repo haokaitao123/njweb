@@ -1192,7 +1192,7 @@
 		entrydateChange(date) {
 			//this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
 			date = new Date(date)
-			let entryDate = date.setMonth(date.getMonth() + 3);
+			let entryDate = date.setMonth(date.getMonth() + 6);
 			console.log(new Date(entryDate).getDate()-1,"123")
 			entryDate = new Date(entryDate).setDate(new Date(entryDate).getDate()-1);
 			this.form.empnhIrmentdate = new Date(entryDate).format('yyyy-MM-dd')
@@ -1211,7 +1211,7 @@
 			right: 20px;
 		}
 	}
-	
+
 	// #empForm:after {
 	//     clear: both;
 	//     content: "";
