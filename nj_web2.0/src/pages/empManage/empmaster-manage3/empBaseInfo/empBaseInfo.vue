@@ -459,7 +459,7 @@
 				empnhIdtypeDis: "", // 证件类型显示字段
 				empnhRegaddrDis: "", // 户籍地址显示字段
 				empnhAttendynDis: "", // 是否考勤显示字段
-				empnhWklocatDis: "", // 工作地点显示字段 弹框
+				empnhWklocatDis: "武汉市", // 工作地点显示字段 弹框
 				empnhMarriageDis: "", // 婚姻状况显示字段
 				empnhPoliticalDis: "", // 政治面貌显示字段
 				empnhTechtilDis: "", // 职称显示字段
