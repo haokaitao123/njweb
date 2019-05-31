@@ -198,13 +198,13 @@
             title: '扣除年度',
             key: 'taxYear',
             fixed: 'left',
-            width: 100,
+            width: 80,
           },
           {
             title: '姓名',
             key: 'taxCname',
             fixed: 'left',
-            width: 100,
+            width: 80,
           },
           {
             title: '证件类型',
@@ -214,12 +214,12 @@
           {
             title: '证件号码',
             key: 'taxIdno',
-            width: 100,
+            width: 120,
           },
           {
             title: '纳税人识别号',
             key: 'taxNo',
-            width: 100,
+            width: 130,
           },
           {
             title: '手机号',
@@ -229,12 +229,12 @@
           {
             title: '邮箱',
             key: 'taxEmail',
-            width: 100,
+            width: 120,
           },
           {
             title: '扣缴义务人纳税人识别号',
             key: 'taxAgentno',
-            width: 180,
+            width: 170,
           },
           {
             title: '扣缴义务人名称',
@@ -254,7 +254,7 @@
           {
             title: '配偶姓名',
             key: 'taxSpouse',
-            width: 100,
+            width: 90,
           },
           {
             title: '配偶证件类型',
@@ -269,7 +269,7 @@
           {
             title: '是否是独生子女',
             key: 'taxOnlychildDis',
-            width: 130,
+            width: 120,
           },
           {
             title: '分摊方式',

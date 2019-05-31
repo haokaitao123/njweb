@@ -49,7 +49,7 @@
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontCode'),
             key: 'platRolecontCode',
-            width: 150,
+            width: 100,
             sortable: 'custom',
           },
           {
@@ -67,49 +67,49 @@
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontDesc'),
             key: 'platRolecontDesc',
-            width: 150,
+            width: 200,
             sortable: 'custom',
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontNotice'),
             key: 'platRolecontNoticeDis',
-            width: 150,
+            width: 130,
             sortable: 'custom',
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontPhone'),
             key: 'platRolecontPhone',
-            width: 150,
+            width: 140,
             sortable: 'custom',
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontSms'),
             key: 'platRolecontSms',
-            width: 150,
+            width: 140,
             sortable: 'custom',
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontUnifiedcn'),
             key: 'platRolecontUnifiedcn',
-            width: 150,
+            width: 140,
             sortable: 'custom',
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontUnifieden'),
             key: 'platRolecontUnifieden',
-            width: 150,
+            width: 140,
             sortable: 'custom',
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontMail'),
             key: 'platRolecontMail',
-            width: 150,
+            width: 140,
             sortable: 'custom',
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontVaild'),
             key: 'platRolecontVaildDis',
-            width: 150,
+            width: 100,
             sortable: 'custom',
           },
           {
