@@ -88,7 +88,7 @@
                         </FormItem>
                     </i-col>
                     <i-col span="11">
-                        <FormItem label="结束时间"
+                        <FormItem label="毕业时间"
                                   prop="edEdate">
                             <DatePicker type="date"
                                         placeholder="请选择结束日期"
@@ -109,6 +109,17 @@
                                        :disabled="disabled"
                                        :key="index">{{item.paramInfoCn}}</Radio>
                             </RadioGroup>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="11">
+                        <FormItem label="录取方式"
+                                  prop="recruitType">
+                            <Select v-model="form.recruitType"
+                                    :disabled="disabled">
+                                <Option :value="item.paramCode"
+                                        v-for="(item,index) in selectRecruitType"
+                                        :key="index">{{item.paramInfoCn}}</Option>
+                            </Select>
                         </FormItem>
                     </i-col>
                     <i-col span="23">
@@ -219,18 +230,20 @@ export default {
             filekey: "",
             loadingStatus: false,
             selectEducationlevel: [],
+            selectRecruitType:[],
             selectEdCuntry: [],
             yesOrNo: [],
             form: {
                 _mt: "empEducation.addOrUpd",
                 edEducationlevel: "", // 教育程度
                 edIshighest: "1", // 是否最高学位
+                recruitType:"",//录取方式
                 edCuntry: "", // 国家
                 edSchool: "", // 学校
                 edDegree: "", // 学位
                 edSpecialty: "", // 专业
                 edSdate: "", // 开始时间
-                edEdate: "",// 结束时间
+                edEdate: "",// 毕业时间
                 fileKey: "",
                 note: ""
             },
@@ -241,6 +254,9 @@ export default {
                 ],
                 edIshighest: [
                     { required: true, message: "请选择是否是高学历", trigger: "change" }
+                ],
+                recruitType: [
+                    { required: true, message: "请选择录取方式", trigger: "blur" }
                 ],
                 edSdate: [
                     {
@@ -313,6 +329,7 @@ export default {
                         t.form.edSdate = res.data.content[0].edSdate;
                         t.form.edEdate = res.data.content[0].edEdate;
                         t.form.note = res.data.content[0].note;
+                        t.form.recruitType = res.data.content[0].recruitType;
                         if (res.data.content[0].fileKey) {
                             t.file = { name: res.data.content[0].fileKey.split(':')[0] }
                             t.filekey = res.data.content[0].fileKey.split(':')[1]
@@ -373,12 +390,13 @@ export default {
             const t = this;
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: "education,yesno"
+                typeCode: "education,yesno,recruitType,"
             })
                 .then(res => {
                     if (isSuccess(res, t)) {
                         t.selectEducationlevel = res.data.content[0].value[0].paramList;
                         t.yesOrNo = res.data.content[0].value[1].paramList
+                        t.selectRecruitType = res.data.content[0].value[2].paramList
                     }
                 })
                 .catch(() => {

@@ -146,6 +146,12 @@ export default {
                     sortable: "custom"
                 },
                 {
+                    title: "录取方式",
+                    key: "recruitTypeDis",
+                    width: 150,
+                    align: "center",
+                },
+                {
                     title: "是否最高学位",
                     key: "edIshighestDis",
                     width: 150,
@@ -188,7 +194,7 @@ export default {
                     sortable: "custom"
                 },
                 {
-                    title: "结束时间",
+                    title: "毕业时间",
                     key: "edEdate",
                     width: 150,
                     align: "center",
