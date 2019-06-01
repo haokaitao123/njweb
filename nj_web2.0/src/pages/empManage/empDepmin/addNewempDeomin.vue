@@ -62,7 +62,7 @@
               ></DatePicker>
             </FormItem>
           </Col>
-          <Col span="10" offset="1">
+          <Col span="10" offset="2">
             <FormItem
               label="补充结束时间"
               prop="depEdate"

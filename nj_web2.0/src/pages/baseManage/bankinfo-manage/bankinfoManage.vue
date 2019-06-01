@@ -71,12 +71,14 @@
             type: 'selection',
             width: 54,
             align: 'center',
+            fixed: 'left'
           },
           {
             title: this.$t('lang_baseManage.baseBankinfo.bankCode'),
             key: 'bankCode',
             sortable: 'custom',
             width: 220,
+            fixed: 'left'
           },
           {
             title: this.$t('lang_baseManage.baseBankinfo.bankCityName'),
