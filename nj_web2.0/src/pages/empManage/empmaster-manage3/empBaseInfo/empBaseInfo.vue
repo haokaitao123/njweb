@@ -406,15 +406,18 @@
 				}
             };
             //居住地址验证
-			const addressCheck = (rule, value, addressValCheck) => {
+			const addressCheck = (rule, value, callback) => {
 				if(value !== '' && value !== undefined) {
-                    let address =  this.form.empnhResiaddr;
-					if(address.lenth>3) {
-						return addressValCheck()
+                     let address =  this.form.empnhResiaddr;
+					if(value.lenth>3) {
+						return callback()
 					}
-					return addressValCheck(new Error('请输入详细的居住地址'))
-				}
-				addressValCheck()
+					return callback(new Error('请输入详细的居住地址'))
+                }
+                else{
+
+                    callback(new Error('请输入居住地址'))
+                }
 			};
 			return {
 				disabled: false,
@@ -697,11 +700,11 @@
 						},
 					],
 					empnhResiaddr: [
-                        {
-						required: true,
-						message: "请输入居住地址",
-						trigger: "blur"
-                        },
+                        // {
+						// required: true,
+						// message: "请输入居住地址",
+						// trigger: "blur"
+                        // },
                         {
 							validator: addressCheck,
 							message: '请输入详细的居住地址',
@@ -736,11 +739,11 @@
 						message: '请输入正确的数字格式',
 						trigger: 'blur'
 					}, ],
-					empnhWklocat: [{
-						required: true,
-						message: "选择工作地点",
-						trigger: "change"
-					}],
+					// empnhWklocat: [{
+					// 	required: true,
+					// 	message: "选择工作地点",
+					// 	trigger: "change"
+					// }],
 					empnhEntrydate: [{
 						required: true,
 						type: "date",
