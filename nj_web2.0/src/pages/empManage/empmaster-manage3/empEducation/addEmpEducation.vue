@@ -255,9 +255,6 @@ export default {
                 edIshighest: [
                     { required: true, message: "请选择是否是高学历", trigger: "change" }
                 ],
-                recruitType: [
-                    { required: true, message: "请选择录取方式", trigger: "blur" }
-                ],
                 edSdate: [
                     {
                         required: true,
