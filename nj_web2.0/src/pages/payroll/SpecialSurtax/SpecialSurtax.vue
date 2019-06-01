@@ -197,13 +197,13 @@
           {
             title: '扣除年度',
             key: 'taxYear',
-            
+             fixed: 'left',
             width: 80,
           },
           {
             title: '姓名',
             key: 'taxCname',
-            
+             fixed: 'left',
             width: 80,
           },
           {

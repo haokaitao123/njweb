@@ -228,7 +228,6 @@ export default {
                 {
                     type: "selection",
                     width: 54,
-                    fixed: "left",
                     align: "center"
                 },
                 {

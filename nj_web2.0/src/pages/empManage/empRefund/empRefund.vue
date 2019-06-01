@@ -177,13 +177,13 @@
             type: 'selection',
             width: 54,
             align: 'center',
-            fixed: 'left'
+           
           },
           {
             title: "员工姓名",
             key: 'empnhName',
             width: 140,
-            sortable: 'empId',
+            sortable: 'empId'
           },
           {
             title: "证件号码",

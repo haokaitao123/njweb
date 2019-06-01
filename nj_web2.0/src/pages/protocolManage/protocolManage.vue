@@ -186,6 +186,7 @@ export default {
           title: "员工姓名",
           key: "empnhName",
           sortable: "custom",
+          fixed: "left",
           width: 220
         },
         {
