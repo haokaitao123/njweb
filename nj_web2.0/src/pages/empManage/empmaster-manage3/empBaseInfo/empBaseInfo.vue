@@ -613,7 +613,7 @@
 					postId: [{
 						required: true,
 						message: "请选择岗位",
-						trigger: "blur"
+						trigger: "change"
 					}],
 					/*                empnhPmp: [
 					                    {
@@ -881,7 +881,7 @@
                         t.$Message.error('网络错误');
                     });
                 }
-               
+
 			},
 			//查询公共参数
 			getSelect() {
