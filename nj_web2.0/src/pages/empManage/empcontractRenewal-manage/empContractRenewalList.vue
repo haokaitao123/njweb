@@ -184,7 +184,8 @@ export default {
           title: "合同编号",
           key: "numberCode",
           width: 120,
-          sortable: "custom"
+          sortable: "custom",
+          fixed:'left'
         },
         {
           title: "员工姓名",

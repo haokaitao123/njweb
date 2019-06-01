@@ -187,7 +187,7 @@ export default {
                     title: "合同编号",
                     key: "numberCode",
                     width: 120,
-
+										fixed: "left",
                     sortable: "custom"
                 },
                 {

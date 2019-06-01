@@ -180,7 +180,8 @@ export default {
                   title: "姓名",
                   key: "resuName",
                   sortable: "custom",
-                  width: 180
+                  width: 180,
+                  fixed: "left"
                 },
                 {
                   title: "证件号码",

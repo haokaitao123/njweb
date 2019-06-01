@@ -101,7 +101,7 @@ export default {
             // 表格列字段
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110},
+                { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110 , fixed : "left" },
                 { key: "empnhIdno", title: "身份证号码", width : 190},
                 { key: "unitFname", title: "部门名称", sortable: "custom" , width : 180},
                 { key: "postFname", title: "岗位名称", sortable: "custom" , width : 110},

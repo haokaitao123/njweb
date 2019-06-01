@@ -194,6 +194,7 @@ export default {
                         }
                         if(aa[i].title == '姓名'){
                         	aa[i].width = 80
+                        	aa[i].fixed = 'left'
                         }else if(aa[i].title == '初试人员'){
                         	aa[i].width = 80
                         }else if(aa[i].title == '复试人员'){
@@ -202,6 +203,7 @@ export default {
                         	aa[i].width = 150
                         }else if(aa[i].title == '员工姓名'){
                         	aa[i].width = 80
+                        	aa[i].fixed = 'left'
                         }else if(aa[i].title =='证件号码'){
                         	aa[i].width = 150
                         }else if(aa[i].title == '部门名称'){

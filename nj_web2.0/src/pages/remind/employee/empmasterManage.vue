@@ -152,20 +152,19 @@ export default {
                 {
                     title: "性别",
 
-                    key: "empnhGender"
+                    key: "empnhGenderDis"
                 },
-
                 {
                     title: "部门名称",
-                    key: "deptId"
+                    key: "unitFname"
                 },
                 {
                     title: "岗位名称",
-                    key: "postId"
-                },
-
-
-
+                    key: "postFname"
+                },{
+                    title: "试岗时间",
+                    key: "createTime"
+                }/*,
                 {
                     title: "操作",
                     key: "action",
@@ -195,7 +194,7 @@ export default {
                             )
                         ]);
                     }
-                }
+                }*/
             ],
             data: [],
             total: 0,
@@ -264,7 +263,7 @@ export default {
                 t.page = page;
             }
             const dataPar = {
-                _mt: "empEmpnh.getPage",
+                _mt: "empEmpnh.getCmutPage",
                 rows: t.rows,
                 page: t.page,
                 sort: t.sort,
@@ -296,9 +295,13 @@ export default {
                                     id: res.data.content[0].rows[i].id,
                                     empnhName: res.data.content[0].rows[i].empnhName,
                                     deptId: res.data.content[0].rows[i].deptId,
+                                  unitFname: res.data.content[0].rows[i].unitFname,
                                     empnhNation: res.data.content[0].rows[i].empnhNationDis,
+                                  empnhGenderDis: res.data.content[0].rows[i].empnhGenderDis,
                                     empnhGender: res.data.content[0].rows[i].empnhGender,
                                     postId: res.data.content[0].rows[i].postId,
+                                  postFname: res.data.content[0].rows[i].postFname,
+                                 createTime : res.data.content[0].rows[i].createTime,
                                 });
                             }
                             t.total = res.data.content[0].records;

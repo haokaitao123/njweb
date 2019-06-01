@@ -216,6 +216,7 @@ export default {
                     title: "组织编码",
                     key: "unitCode",
                     width: 140,
+                    fixed: "left",
                     sortable: "custom"
                 },
                 {
