@@ -504,6 +504,9 @@ export default {
             const val = [];
             data.forEach(item => {
                 const parent = map[item.unitPid];
+                if (item.unitPid === "0") {
+                    item.expand = true;
+                }
                 if (parent) {
                     (parent.children || (parent.children = [])).push(item);
                 } else {

@@ -5,17 +5,16 @@
         <card>
           <!-- 标题 -->
           <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;简历数量管理
+            <Icon type="mouse"></Icon>&nbsp;招聘报表管理
           </p>
           <!-- 操作按钮和查询输入框 -->
             <!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
 					<Row>
-							<Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
               <DatePicker
                 type="date"
-                placeholder="请选择简历日期"
+                placeholder="请选择面试日期"
                 :editable="false"
-                v-model="resumeDate"
+                v-model="relibFilldate"
                 style="width: 200px"
               ></DatePicker>
             <!-- 查询按钮 @click后绑定的是一个点击事件 -->
@@ -33,7 +32,6 @@
           <!-- @on-sort-change 后面跟的事件  sortable => 做的是列表排序 :current="page" page是当前页面页码 :height="tableheight" tableheight是当前列表高度 :columns="columns" 配置table列 :data="data" data 就是table列表数据-->
           <row class="table-form" ref="table-form">
             <Table
-              :loading="loading"
               @on-selection-change="selectedtable"
               @on-sort-change="sortable"
               :current="page"
@@ -71,20 +69,6 @@
         </card>
       </Col>
     </Row>
-    <!-- transition 弹窗显示 淡入淡出效果 -->
-    <transition name="fade">
-      <!--  修改新增的弹出框 v-show="openUpdate"绑定了一个判断弹窗是否显示隐藏的数据 :id="updateId" 这是向这个组件传入的当前列的id值 :logType="logType"操作类型 :index="index"点击当前列的index  @closeUp="closeUp" 关闭新增或修改弹窗事件 @getData="addNewArray" 新增成功后的事件  @update="updateArray" 修改成功后的事件-->
-      <update
-        v-show="openUpdate"
-        :id="updateId"
-        :logType="logType"
-        :index="index"
-        @closeUp="closeUp"
-        @getData="addNewArray"
-        @update="updateArray"
-        ref="update"
-      ></update>
-    </transition>
 		<!--导入导出子页面 若没有导入导出可以去掉-->
     <transition>
       <expwindow
@@ -116,32 +100,9 @@
         ref="importExcel"
       ></importExcel>
     </transition>
-		<!--  导入弹出框 :impid="updateId" 传id :imp_mt="imp_mt" 绑定的导入接口路径 @getData="getData" 获取列表 @closeImport="closeImport" 关闭导入弹窗事件-->
-
-    <!-- <transition name="fade">
-      <importExcel
-        v-show="openImport"
-        :impid="updateId"
-        :imp_mt="imp_mt"
-        @getData="getData"
-        @closeImport="closeImport"
-        ref="importExcel"
-      ></importExcel>
-    </transition> -->
-    <!--导出的弹框-->
-    <!-- <transition>
-      <expdow
-        v-show="openExpDow"
-        :filekey="filekey"
-        :filename="filename"
-        @closeExpDowMain="closeExpDowMain"
-        ref="expdow"
-      ></expdow>
-    </transition> -->
   </div>
 </template>
 <script>
-import update from "./addNewResumeNum"; //引入新增修改页面弹出框 之后在export default 里的components加入这个组件 页面才可以使用
 import { isSuccess } from "../../lib/util.js"; //调用请求判断成功的公共方法
 import {
   getDataLevelUserLoginNew,
@@ -164,12 +125,15 @@ export default {
         imp_mt: 'rmResume.importData',
         // 导出字段设置, code字段名 name列名
        expDataTital: [
-        { code: "empName", name: "员工姓名" },
-        { code: "entryName", name: "项目名称" },
-        { code: "empIdno", name: "身份证号码" },
-        { code: "resumeDate", name: "简历日期" },
-        { code: "resumeNum", name: "简历使用量" },
-        { code: "note", name: "备注" }
+        { code: "relibFilldate", name: "面试日期" },
+        { code: "relibName", name: "姓名" },
+        { code: "relibFruit", name: "面试结果" },
+        { code: "relibApplypostDis", name: "应聘岗位" },
+        { code: "relibHiredeptDis", name: "部门" },
+        { code: "relibFirstus", name: "初试人" },
+        { code: "relibEducatDis", name: "学历" },
+        { code: "relibReexamusDis", name: "复试人" },
+        { code: "reason", name: "备注" }
 			],
         // 导入导出默认参数 无需变更
         openImport: false,
@@ -192,41 +156,52 @@ export default {
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
         },
         {
-          title: "员工姓名",
-          key: "empName",
+          title: "面试日期",
+          key: "relibFilldate",
           sortable: "custom",
           width: 220
         },
         {
-          title: "身份证号码",
-          key: "empIdno",
+          title: "姓名",
+          key: "relibName",
           //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
-          title: "项目名称",
-          key: "entryName",
-          sortable: "custom", //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
+          title: "面试结果",
+          key: "relibFruit",
           width: 220
         },
         {
-          title: "简历日期",
-          key: "resumeDate",
-          sortable: "custom",
+          title: "应聘岗位",
+          key: "relibApplypostDis",
           width: 220
         },
         {
-          title: "简历使用量",
-          key: "resumeNum",
-          sortable: "custom",
+          title: "部门",
+          key: "relibHiredeptDis",
           width: 220
         },
-        // {
-        //   title: "备注",
-        //   key: "note",
-        //  // sortable: "custom",
-        //   width: 220
-        // },
+        {
+          title: "初试人",
+          key: "relibFirstusDis",
+          width: 220
+        },
+        {
+          title: "学历",
+          key: "relibEducatDis",
+          width: 220
+        },
+        {
+          title: "复试人",
+          key: "relibReexamusDis",
+          width: 220
+        },
+        {
+          title: "备注",
+          key: "reason",
+          width: 220
+        },
       ],
       tableBtn: {
         title: "操作",
@@ -272,15 +247,11 @@ export default {
       page: 1, //当前页码
       funId: "1000", //功能ID
       roleType: "3user",//角色类型
-      empName: "", //绑定页面输入框的员工名称
-      resumeDate: "" //绑定页面日期选择框的简历日期
+      relibFilldate: "" //绑定页面日期选择框的面试日期
     };
   },
   //外部调用的组件注册到这里
   components: {
-    // expdow,//导出的组件
-    update, //新增修改的组件
-		//importExcel //导入的组件
 		expwindow,
     expdow,
     importExcel,
@@ -288,7 +259,7 @@ export default {
   },
   //所有加载完成后  生命周期 页面方法可以在这里调用
   mounted() {
-    this.getData();
+    //this.getData();
   },
   computed: {
     pageShow() {
@@ -336,20 +307,19 @@ export default {
       t.loading = true; //请求之前重置状态
       //请求列表数据的参数
       const data = {
-        _mt: "rmResume.getPage", //接口路径
+        _mt: "recruitProcess.getPage", //接口路径
         rows: t.rows, //每页显示条数
         page: t.page, //当前页
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
-				empName: t.empName, //员工名称
-        resumeDate: t.resumeDate, //简历日期
+        relibFilldate: t.relibFilldate, //面试日期
         roleType:localStorage.roleType
 			};
-			if (data.resumeDate !== undefined && data.resumeDate !== '') {
-       				  data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')
+			if (data.relibFilldate !== undefined && data.relibFilldate !== '') {
+       				  data.relibFilldate = new Date(data.relibFilldate).format('yyyy-MM-dd')
         } else {
-               data.resumeDate = ''
+               data.relibFilldate = ''
           }
       //删除请求列表数据的参数为空的参数
       for (const dat in data) {
@@ -397,16 +367,15 @@ export default {
         const t = this
         // 填装查询条件
         const data = {
-          resumeDate: t.resumeDate,
-          empName: t.empName,
+          relibFilldate: t.relibFilldate,
         }
-        if (data.resumeDate !== undefined && data.resumeDate !== '') {
-       				  data.resumeDate = new Date(data.resumeDate).format('yyyy-MM-dd')
-                } else {
-                    data.resumeDate = ''
-            }
+        if (data.relibFilldate !== undefined && data.relibFilldate !== '') {
+       				  data.relibFilldate = new Date(data.relibFilldate).format('yyyy-MM-dd')
+        } else {
+               data.relibFilldate = ''
+          }
         // 设置导出mt参数
-        this.$refs.expwindow.getData(this.expDataTital, 'rmResume.export', data)
+        this.$refs.expwindow.getData(this.expDataTital, 'recruitProcess.export', data)
         this.openExp = true
       },
       // 导入导出默认方法 无需更改
@@ -522,34 +491,6 @@ export default {
         t.$refs.update.getData(id); //调用子组件update里的getData方法 传了一个id值
       }
     },
-    //关闭新增修改弹窗
-    closeUp() {
-      const t = this;
-      t.openUpdate = false;
-      t.$refs.update.entryName = "";
-      t.$refs.update.empName = "";
-      t.$refs.update.formValidate.resumeDate = "";
-      t.$refs.update.formValidate.resumeNum = "";
-      t.$refs.update.empIdno = "";
-      t.$refs.update.formValidate.note = "";
-    }, //关闭窗口
-    //关闭员工信息弹出框
-    closeEmp() {
-      const t = this;
-      t.openPickUser = false;
-    },
-    //员工信息弹出框input选中事件
-    inputEmp(row) {
-      const t = this;
-      t.empName = row.empnhName; //员工信息name赋值
-      t.formValidate.empId = row.id; //员工信息id赋值
-    },
-    //清除员工信息
-    clearUserid() {
-      const t = this;
-      t.empName = "";
-      t.empId = "";
-    },
      //查询
     search() {
       this.page = 1;
@@ -557,12 +498,6 @@ export default {
       this.$store.commit('btnOperate/setSearchLoading', true);
       this.tableselected = [];
     },
-    //打开员工信息弹出框
-    pickUserData() {
-      const t = this;
-      t.$refs.searchEmpMaster.getData(); //调用员工信息子组件获取列表数据方法 列表回显数据
-      t.openPickUser = true; //打开员工信息弹出框
-    }
   }
 };
 </script>

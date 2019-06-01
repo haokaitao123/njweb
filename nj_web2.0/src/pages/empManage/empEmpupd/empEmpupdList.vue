@@ -3,7 +3,7 @@
         <Row>
             <Col span="24">
             <card>
-            	<p slot="title">
+                <p slot="title">
                     <Icon type="mouse"></Icon>&nbsp;员工变更管理
                 </p>
                 <Row>
@@ -22,20 +22,24 @@
                     </Col>
                     <Col span="18">
                     <Row>
-                    	<Input v-model="searchParams.empnhName" placeholder="请输入员工姓名" style="width: 200px"/>    
-                        <Input v-model="searchParams.empnhIdno" placeholder="请输入身份证号码" style="width: 200px"/>
+                        <Input v-model="searchParams.empnhName"
+                               placeholder="请输入员工姓名"
+                               style="width: 200px" />
+                        <Input v-model="searchParams.empnhIdno"
+                               placeholder="请输入身份证号码"
+                               style="width: 200px" />
                         <!-- 页面按钮 -->
                         <btnList @buttonExport="expData"
-                        @buttonAdd="openUp(NaN,$t('button.add'))"
-                        @buttonDel="deletemsg"
-                        @buttonSearch="search"
-                        @buttonImport="importExcel"
-                        @moditySelect="modityChange"
-                        @buttonSubmit="modifystatus('02draft','提交')"
-                        @buttonAdopt="modifystatus('03draft','通过')"
-                        @buttonInAdopt="modifystatus('04draft','不通过')"
-                        :btnData="btnData"
-                        :FlowNode="FlowNode">
+                                 @buttonAdd="openUp(NaN,$t('button.add'))"
+                                 @buttonDel="deletemsg"
+                                 @buttonSearch="search"
+                                 @buttonImport="importExcel"
+                                 @moditySelect="modityChange"
+                                 @buttonSubmit="modifystatus('02draft','提交')"
+                                 @buttonAdopt="modifystatus('03draft','通过')"
+                                 @buttonInAdopt="modifystatus('04draft','不通过')"
+                                 :btnData="btnData"
+                                 :FlowNode="FlowNode">
                         </btnList>
                     </Row>
                     <!-- 表格 分页 -->
@@ -63,7 +67,7 @@
                     @newData="addNewArray"
                     @update="updateArray"
                     ref="update"></update>
-        </transition> 
+        </transition>
     </div>
 </template>
 <script>
@@ -75,7 +79,7 @@ import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 export default {
     data () {
         return {
-            loading:true,
+            loading: true,
             treeheight: document.body.offsetHeight - 200,
             dataTree: [],
             // 导入的mt名称
@@ -97,14 +101,14 @@ export default {
             // 表格列字段
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
-                { key: "empnhIdno", title: "身份证号码", width : 220},
-                { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
-                { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
-                { key: "empupdResaddr", title: "居住详细地址", width : 220},
+                { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110},
+                { key: "empnhIdno", title: "身份证号码", width : 190},
+                { key: "unitFname", title: "部门名称", sortable: "custom" , width : 180},
+                { key: "postFname", title: "岗位名称", sortable: "custom" , width : 110},
+                { key: "empupdResaddr", title: "居住详细地址", width : 280},
                 { key: "empnhSalbankDis", title: "开户银行",width : 220},
                 { key: "empupdSalcount", title: "银行账号", width : 220},
-                { key: "empupdSalcname", title: "户名", width : 220},
+                { key: "empupdSalcname", title: "户名", width : 90},
                 { key: "empupdReason", title: "未通过原因", width : 220},
 
             ],
@@ -124,17 +128,17 @@ export default {
             openUpdate: false,
             //搜索参数
             searchParams: {
-            	empnhName: "",
+                empnhName: "",
                 empnhIdno: "",
-                deptId:"",
+                deptId: "",
             },
             typeCode: "",
             //弹出选择框
-            
+
         };
     },
     components: {
-    	
+
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -200,7 +204,7 @@ export default {
         },
         //新增后表格数据添加
         addNewArray (res) {
-            console.log(res,"res")
+            console.log(res, "res")
             this.$refs.commonPage.data.unshift(res);
         },
         //修改后表格数据更新
@@ -259,7 +263,7 @@ export default {
                 })
         },
 
-         selectChange (e) {
+        selectChange (e) {
             // debugger;
             this.treeid = e.id;
             // this.treeType = e.unitType;
@@ -284,6 +288,9 @@ export default {
             const val = [];
             data.forEach(item => {
                 const parent = map[item.unitPid];
+                if (item.unitPid === "0") {
+                    item.expand = true;
+                }
                 if (parent) {
                     (parent.children || (parent.children = [])).push(item);
                 } else {
@@ -293,7 +300,7 @@ export default {
             return val;
         },
 
-           // 渲染树状图
+        // 渲染树状图
         renderContent (h, { root, node, data }) {
             return h(
                 "span",
@@ -347,14 +354,14 @@ export default {
                 typeCode: t.typeCode
             }).then(res => {
                 if (isSuccess(res, t)) {
-                	
+
                 }
             })
                 .catch(() => {
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
-        
+
     }
 };
 </script>

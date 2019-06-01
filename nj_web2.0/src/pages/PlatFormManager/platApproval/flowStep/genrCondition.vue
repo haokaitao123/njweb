@@ -78,7 +78,8 @@
                         <i-col span="6"
                                style="line-height: 30px;">
                             <RadioGroup v-model="paramterValue"
-                                        v-if="flvarFieldType === 'p_layout_11'">
+                                        v-if="flvarFieldType === 'p_layout_11'"
+                                        @on-change="radioChange">
                                 <Radio label="是"></Radio>
                                 <Radio label="否"></Radio>
                             </RadioGroup>
@@ -633,6 +634,26 @@ export default {
                         flvarFieldType: t.flvarFieldType,
                         selectParamVal: t.selectParamVal,
                     })
+                } else if (t.flvarFieldType === 'p_layout_11') {
+                    t.data.push({
+                        conditionValue: '"' + t.selectVariable + '"' + t.logOperatorValue + '"' + t.paramterValue + '"' + t.logOperatorType,
+                        sendValue: '"' + t.variableValue + '"' + t.sendParValue + '"' + t.paramterValue2 + '"' + t.sendOperTypeValue,
+                        index: t.arrIndex += 1,
+                        varParamOperType: t.varParamOperType,
+                        logOperatorType: t.logOperatorType,
+                        flvarFieldType: t.flvarFieldType,
+                        selectParamVal: t.selectParamVal,
+                    })
+                } else if (t.flvarFieldType === 'p_layout_13') {
+                    t.data.push({
+                        conditionValue: '"' + t.selectVariable + '"' + t.logOperatorValue + '"' + t.paramterValue + '"' + t.logOperatorType,
+                        sendValue: '"' + t.variableValue + '"' + t.sendParValue + '"' + t.thisId + '"' + t.sendOperTypeValue,
+                        index: t.arrIndex += 1,
+                        varParamOperType: t.varParamOperType,
+                        logOperatorType: t.logOperatorType,
+                        flvarFieldType: t.flvarFieldType,
+                        selectParamVal: t.selectParamVal,
+                    })
                 } else {
                     t.data.push({
                         conditionValue: '"' + t.selectVariable + '"' + t.logOperatorValue + '"' + t.paramterValue + '"' + t.logOperatorType,
@@ -644,6 +665,7 @@ export default {
                         selectParamVal: t.selectParamVal,
                     })
                 }
+                console.log(t.data, "t.data")
                 //					t.selectVariable = ''
                 //	    		t.logOperatorValue = ''
                 //	    		t.paramterValue = ''
@@ -983,6 +1005,14 @@ export default {
             if (value) {
                 t.paramterValue = value.value
                 t.paramterValue2 = value.label
+            }
+        },
+        // 是否单选框change事件
+        radioChange (value) {
+            if (value === "是") {
+                this.paramterValue2 = "1"
+            } else {
+                this.paramterValue2 = "0"
             }
         },
         //  	校验

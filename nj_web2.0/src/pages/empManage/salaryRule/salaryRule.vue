@@ -361,9 +361,8 @@ export default {
             const t = this
             // 填装查询条件
             const data = {
-                bankCode: t.bankCode,
-                bankCname: t.bankCname,
-                bankSwiftcode: t.bankSwiftcode,
+                salCapBigDis: t.salCapBigDis,
+                salCapSmallDis: t.salCapSmallDis,
             }
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, 'empSalRule.export', data)
@@ -559,6 +558,9 @@ export default {
             const val = [];
             data.forEach(item => {
                 const parent = map[item.unitPid];
+                if (item.unitPid === "0") {
+                    item.expand = true;
+                }
                 if (parent) {
                     (parent.children || (parent.children = [])).push(item);
                 } else {

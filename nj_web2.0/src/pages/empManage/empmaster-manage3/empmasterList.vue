@@ -36,20 +36,16 @@
                                    placeholder="请选择岗位名称"
                                    @on-click="pickData" />
                         </span>
-                        <DatePicker
-                            type="date"
-                            placeholder="请选择入职日期"
-                            :editable="false"
-                            v-model="empnhEntrydate"
-                            style="width: 200px"
-                        ></DatePicker>
-                        <DatePicker
-                            type="date"
-                            placeholder="请选择离职日期"
-                            :editable="false"
-                            v-model="dimLevsqday"
-                            style="width: 200px"
-                        ></DatePicker>
+                        <DatePicker type="date"
+                                    placeholder="请选择入职日期"
+                                    :editable="false"
+                                    v-model="empnhEntrydate"
+                                    style="width: 200px"></DatePicker>
+                        <DatePicker type="date"
+                                    placeholder="请选择离职日期"
+                                    :editable="false"
+                                    v-model="dimLevsqday"
+                                    style="width: 200px"></DatePicker>
                         <btnList :btnData="btnData"
                                  :FlowNode="FlowNode"
                                  @buttonExport="expData"
@@ -226,8 +222,8 @@ export default {
             hua: "",
             postId: "",
             postName: "",
-            empnhEntrydate:"",
-            dimLevsqday:"",
+            empnhEntrydate: "",
+            dimLevsqday: "",
             columns: [
                 {
                     type: "selection",
@@ -242,15 +238,20 @@ export default {
                     width: 140,
                     align: "center"
                 },
+                // {
+                //     title: "证件号码",
+                //     key: "empnhIdno",
+                //     width: 180,
+                //     align: "center",
+                //     sortable: 'custom',
+                // },
+
                 {
-                    title: "证件号码",
-                    key: "empnhIdno",
-                    width: 180,
-                    align: "center",
-                    sortable: 'custom',
+                    title: "性别",
+                    key: "empnhGenderDis",
+                    width: 100,
+                    align: "center"
                 },
-
-
                 {
                     title: "部门名称",
                     key: "unitFname",
@@ -264,47 +265,8 @@ export default {
                     align: "center"
                 },
                 {
-                    title: "唯一编号",
-                    key: "numberCode",
-                    width: 130,
-                    align: "center"
-                },
-                {
-                    title: "直接上级",
-                    key: "empnhPmpDis",
-                    width: 140,
-                    align: "center"
-                },
-                {
-                    title: "证件类型",
-                    key: "empnhIdtypeDis",
-                    width: 140,
-                    align: "center"
-                },
-
-                {
-                    title: "生效日期",
-                    key: "empnhSday",
-                    width: 140,
-                    align: "center",
-                    sortable: 'custom',
-                },
-                {
-                    title: "证件到期日",
-                    key: "empnhEday",
-                    width: 140,
-                    align: "center",
-                    sortable: 'custom',
-                },
-                {
-                    title: "性别",
-                    key: "empnhGenderDis",
-                    width: 100,
-                    align: "center"
-                },
-                {
-                    title: "出生日期",
-                    key: "empnhBirthdate",
+                    title: "入职日期",
+                    key: "empnhEntrydate",
                     width: 140,
                     align: "center",
                     sortable: "custom"
@@ -316,58 +278,91 @@ export default {
                     align: "center",
                     sortable: "custom"
                 },
-                {
-                    title: "户籍性质",
-                    key: "empnhRegtypeDis",
-                    width: 140,
-                    align: "center"
-                },
-                {
-                    title: "工作地点",
-                    key: "empnhWklocatDis",
-                    width: 140,
-                    align: "center"
-                },
-                {
-                    title: "入职日期",
-                    key: "empnhEntrydate",
-                    width: 140,
-                    align: "center",
-                    sortable: "custom"
-                },
-                {
-                    title: "转正日期",
-                    key: "empnhIrmentdate",
-                    width: 140,
-                    align: "center",
-                    sortable: "custom"
-                },
-                {
-                    title: "开户银行",
-                    key: "empnhSalbankDis",
-                    width: 160,
-                    align: "center"
-                },
-                {
-                    title: "户名",
-                    key: "empnhSalaccname",
-                    width: 140,
-                    align: "center"
-                },
-                {
-                    title: "参加工作时间",
-                    key: "empnhFirstwkdate",
-                    width: 140,
-                    align: "center",
-                    sortable: "custom"
-                },
-                {
-                    title: "是否考勤",
-                    key: "empnhAttendynDis",
-                    width: 140,
-                    align: "center",
-                    sortable: "custom",
-                }
+                // {
+                //     title: "唯一编号",
+                //     key: "numberCode",
+                //     width: 130,
+                //     align: "center"
+                // },
+                // {
+                //     title: "直接上级",
+                //     key: "empnhPmpDis",
+                //     width: 140,
+                //     align: "center"
+                // },
+                // {
+                //     title: "证件类型",
+                //     key: "empnhIdtypeDis",
+                //     width: 140,
+                //     align: "center"
+                // },
+
+                // {
+                //     title: "生效日期",
+                //     key: "empnhSday",
+                //     width: 140,
+                //     align: "center",
+                //     sortable: 'custom',
+                // },
+                // {
+                //     title: "证件到期日",
+                //     key: "empnhEday",
+                //     width: 140,
+                //     align: "center",
+                //     sortable: 'custom',
+                // },
+                // {
+                //     title: "出生日期",
+                //     key: "empnhBirthdate",
+                //     width: 140,
+                //     align: "center",
+                //     sortable: "custom"
+                // },
+                // {
+                //     title: "户籍性质",
+                //     key: "empnhRegtypeDis",
+                //     width: 140,
+                //     align: "center"
+                // },
+                // {
+                //     title: "工作地点",
+                //     key: "empnhWklocatDis",
+                //     width: 140,
+                //     align: "center"
+                // },
+                // {
+                //     title: "转正日期",
+                //     key: "empnhIrmentdate",
+                //     width: 140,
+                //     align: "center",
+                //     sortable: "custom"
+                // },
+                // {
+                //     title: "开户银行",
+                //     key: "empnhSalbankDis",
+                //     width: 160,
+                //     align: "center"
+                // },
+                // {
+                //     title: "户名",
+                //     key: "empnhSalaccname",
+                //     width: 140,
+                //     align: "center"
+                // },
+                // {
+                //     title: "参加工作时间",
+                //     key: "empnhFirstwkdate",
+                //     width: 140,
+                //     align: "center",
+                //     sortable: "custom"
+                // },
+                // {
+                //     title: "是否考勤",
+                //     key: "empnhAttendynDis",
+                //     width: 140,
+                //     align: "center",
+                //     sortable: "custom",
+                // }
             ],
             tableBtn: {
                 title: "操作",
@@ -507,11 +502,11 @@ export default {
                 sort: t.sort,
                 order: t.order,
                 logType: "员工主数据查询",
-                roleType:localStorage.roleType,
+                roleType: localStorage.roleType,
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
-                dimLevsqday:t.dimLevsqday,
-                empnhEntrydate:t.empnhEntrydate,
+                dimLevsqday: t.dimLevsqday,
+                empnhEntrydate: t.empnhEntrydate,
                 deptId: id,
                 postId: t.postId,
                 state: t.modity
@@ -522,14 +517,14 @@ export default {
                 }
             }
             if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
-       				  data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
-                } else {
-                    data.empnhEntrydate = ''
+                data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
+            } else {
+                data.empnhEntrydate = ''
             }
             if (data.dimLevsqday !== undefined && data.dimLevsqday !== '') {
-       				  data.dimLevsqday = new Date(data.dimLevsqday).format('yyyy-MM-dd')
-                } else {
-                    data.dimLevsqday = ''
+                data.dimLevsqday = new Date(data.dimLevsqday).format('yyyy-MM-dd')
+            } else {
+                data.dimLevsqday = ''
             }
             this.loading = true;
             getDataLevelUserLoginNew(data)
@@ -698,10 +693,22 @@ export default {
             const data = {
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
+                dimLevsqday: t.dimLevsqday,
+                empnhEntrydate: t.empnhEntrydate,
                 postId: t.postId,
                 state: t.modity,
                 deptId: t.treeid
             };
+            if (data.dimLevsqday !== undefined && data.dimLevsqday !== '') {
+                data.dimLevsqday = new Date(data.dimLevsqday).format('yyyy-MM-dd')
+            } else {
+                data.dimLevsqday = ''
+            }
+            if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
+                data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
+            } else {
+                data.empnhEntrydate = ''
+            }
             // 设置导出mt参数
             this.$refs.expwindow.getData(this.expDataTital, "empEmpnh.export", data);
             this.openExp = true;
@@ -781,6 +788,9 @@ export default {
             const val = [];
             data.forEach(item => {
                 const parent = map[item.unitPid];
+                if (item.unitPid === "0") {
+                    item.expand = true;
+                }
                 if (parent) {
                     (parent.children || (parent.children = [])).push(item);
                 } else {
@@ -877,7 +887,7 @@ export default {
             if (this.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
-                this.logType="批量异动";
+                this.logType = "批量异动";
                 this.openTransaction = true;
             }
         },
