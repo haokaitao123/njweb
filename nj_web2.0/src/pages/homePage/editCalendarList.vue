@@ -107,7 +107,7 @@
       }
       return {
         form: {
-          _mt: 'cmutRemind.addOrUpd',
+          _mt: 'cmutReminds.addOrUpd',
           remindType: '',
           remindContent: '',
           remindTitle: '',
@@ -152,7 +152,7 @@
           this.logType = '查看'
         }
         getDataLevelUserLogin({
-          _mt: 'cmutRemind.getById',
+          _mt: 'cmutReminds.getById',
           id: id,
           logType: this.logType,
         }).then((res) => {
