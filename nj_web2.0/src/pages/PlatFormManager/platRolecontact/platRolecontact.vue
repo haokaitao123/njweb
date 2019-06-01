@@ -52,7 +52,6 @@
             key: 'platRolecontCode',
             width: 100,
             sortable: 'custom',
-            fixed: 'left'
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontCnname'),

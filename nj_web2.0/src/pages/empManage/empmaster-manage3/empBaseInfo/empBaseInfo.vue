@@ -62,6 +62,18 @@
                         </span>
 					</FormItem>
 				</i-col>
+                <i-col span="11">
+					<FormItem label="工作地点" prop="empnhWklocat">
+						<span @dblclick="disabled?'':workplace()">
+                            <Input v-model="empnhWklocatDis"
+                                   icon="search"
+                                   :disabled="disabled"
+                                   :readonly="true"
+                                   placeholder="选择工作地点"
+                                   @on-click="disabled?'':pickData()" />
+                        </span>
+					</FormItem>
+				</i-col>
 				<i-col span="11">
 					<FormItem label="证件类型" prop="empnhIdtype">
 						<Select v-model="form.empnhIdtype" :clearable="!disabled" :disabled="disabled">
@@ -140,18 +152,7 @@
 						<Input v-model="form.empnhWechat" :disabled="disabled" placeholder="请输入微信号码"></Input>
 					</FormItem>
 				</i-col>
-				<i-col span="11">
-					<FormItem label="工作地点" prop="empnhWklocat">
-						<span @dblclick="disabled?'':workplace()">
-                            <Input v-model="empnhWklocatDis"
-                                   icon="search"
-                                   :disabled="disabled"
-                                   :readonly="true"
-                                   placeholder="选择工作地点"
-                                   @on-click="disabled?'':pickData()" />
-                        </span>
-					</FormItem>
-				</i-col>
+				
 				<i-col span="11">
 					<FormItem label="成本中心" prop="empnhCostcent">
 						<span @dblclick="disabled?'':clearCostcenter()">
@@ -328,7 +329,8 @@
 		getDataLevelUserLogin,
 		uploadFile
 	} from "../../../../axios/axios";
-	import { isSuccess, deepCopy } from "../../../../lib/util";
+    import { isSuccess, deepCopy } from "../../../../lib/util";
+    import city from '@/lib/cityData'
 	import valid from '../../../../lib/pub_valid'
 	import searchCity from "../../../../components/searchTable/searchCity";
 	import searchDept from '../../../../components/searchTable/searchDept'
@@ -402,6 +404,17 @@
 					}
 					callback()
 				}
+            };
+            //居住地址验证
+			const addressCheck = (rule, value, addressValCheck) => {
+				if(value !== '' && value !== undefined) {
+                    let address =  this.form.empnhResiaddr;
+					if(address.lenth>3) {
+						return addressValCheck()
+					}
+					return addressValCheck(new Error('请输入详细的居住地址'))
+				}
+				addressValCheck()
 			};
 			return {
 				disabled: false,
@@ -422,7 +435,7 @@
 					empnhGender: "", // 性别
 					empnhBirthdate: "", // 出生日期
 					empnhMobile: "", // 手机号码
-					empnhResiaddr: "", // 居住地址
+					empnhResiaddr: "武汉市", // 居住地址
 					empnhRegtype: "", // 户籍性质
 					empnhRegaddr: "", // 户籍地址
 					empnhPersmail: "", // 个人邮箱
@@ -683,11 +696,18 @@
 							trigger: 'blur'
 						},
 					],
-					empnhResiaddr: [{
+					empnhResiaddr: [
+                        {
 						required: true,
 						message: "请输入居住地址",
 						trigger: "blur"
-					}],
+                        },
+                        {
+							validator: addressCheck,
+							message: '请输入详细的居住地址',
+							trigger: 'blur'
+						},
+                    ],
 					empnhRegaddr: [{
 						required: true,
 						message: "请输入户籍地址",
@@ -915,19 +935,26 @@
 			monthCount(){
 				if(this.form.empnhIdtype === '01id') {
 					if(valid.val_identity(this.form.empnhIdno)){
-					let str = this.form.empnhIdno;
-					let res = parseInt(str.substring(16, 17));
-					console.log(res)
-					if(res % 2 == 1) {
-						this.form.empnhGender = '01male';
-					} else {
-						this.form.empnhGender = '02female';
-					}
-					let UUserCard = this.form.empnhIdno;
-					this.form.empnhBirthdate = new Date(UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14))
+                        let str = this.form.empnhIdno;
+                        let res = parseInt(str.substring(16, 17));
+                        console.log(res)
+                        if(res % 2 == 1) {
+                            this.form.empnhGender = '01male';
+                        } else {
+                            this.form.empnhGender = '02female';
+                        }
+                        let UUserCard = this.form.empnhIdno;
+                        this.form.empnhBirthdate = new Date(UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14))
+                         for (let v of city.cityData) {
+                            if (UUserCard.substring(0, 6) == v.code) {
+                               
+                                this.form.empnhRegaddr = v.title
+                            }
+                            }
 					}
 				}
-			},
+            },
+            
 
 	//保存方法
 	save() {
@@ -1018,7 +1045,8 @@
 		},
 		changeinput(name, id) {
 			this.empnhWklocatDis = name;
-			this.form.empnhWklocat = id;
+            this.form.empnhWklocat = id;
+            this.form.empnhResiaddr = this.empnhWklocatDis;
 		},
 		pickData() {
 			const t = this
@@ -1223,7 +1251,8 @@
 			console.log(new Date(entryDate).getDate()-1,"123")
 			entryDate = new Date(entryDate).setDate(new Date(entryDate).getDate()-1);
 			this.form.empnhIrmentdate = new Date(entryDate).format('yyyy-MM-dd')
-		},
+        },
+        
 	}
 	};
 </script>

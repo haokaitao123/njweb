@@ -206,6 +206,8 @@ export default {
                         	aa[i].width = 150
                         }else if(aa[i].title == '部门名称'){
                         	aa[i].width = 80
+                        }else if(aa[i].type == 'selection'){
+                       		aa[i].fixed = 'left'
                         }
                         if (aa[i].className !== '') {
                             aa[i].width = 120

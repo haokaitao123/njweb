@@ -31,7 +31,7 @@
                                     </span>
                                 </FormItem>
                             </Col>
-                <Col span="10">
+                <Col span="10" offset="1">
                     <FormItem label="工资上限金额" prop="salCap">
                             <Input v-model="formValidate.salCap"   placeholder="请输入工资上限金额"/>
                     </FormItem>
@@ -43,7 +43,7 @@
                         <Input v-model="formValidate.salFloor" placeholder="请输入工资下限金额"></Input>
                     </FormItem>
                 </Col>
-                <Col span="10">
+                <Col span="10" offset="1">
                     <FormItem label="最低应交金额" prop="salMinimum">
                         <Input v-model="formValidate.salMinimum" placeholder="请输入最低应交金额"></Input>
                     </FormItem>

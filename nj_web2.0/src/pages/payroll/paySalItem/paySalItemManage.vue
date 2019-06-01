@@ -55,6 +55,7 @@
             type: 'selection',
             width: 54,
             align: 'center',
+            fixed:'left'
           },
           {
             title: this.$t('lang_payroll.paySalItem.paysiOrder'),

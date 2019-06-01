@@ -30,6 +30,7 @@
                                     prop="deptId">
                                     <span @dblclick="disabled?'':clearDeptId()">
                                         <Input v-model="unitFname"
+                                        	  style="width: 100%"
                                             icon="search"
                                             :disabled="disabled"
                                             :readonly=true
@@ -48,7 +49,7 @@
           </Col>
         </Row>
         <Row>
-          <Col span="10" offset="1">
+          <Col span="11" offset="1">
             <FormItem
               label="押金补充时间"
               prop="depSdate"
@@ -62,7 +63,7 @@
               ></DatePicker>
             </FormItem>
           </Col>
-          <Col span="10" offset="2">
+          <Col span="10" offset="1">
             <FormItem
               label="补充结束时间"
               prop="depEdate"
@@ -78,7 +79,7 @@
           </Col>
         </Row>
         <Row>
-          <Col span="10" offset="1">
+          <Col span="11" offset="1">
           <FormItem label="低于最低扣款" prop="depPenalty">
             <Input v-model="formValidate.depPenalty"
                          size="default"
@@ -88,14 +89,14 @@
           </Col>
         </Row>
         <Row>
-          <Col span="21" offset="1">
+          <Col span="22" offset="1">
           <FormItem label="备注" prop="note">
             <Input v-model="formValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请填写备注"></Input>
           </FormItem>
           </Col>
         </Row>
         <Row>
-          <Col span="21" offset="1">
+          <Col span="22" offset="1">
           <Row type="flex" justify="end">
             <FormItem>
               <Button type="ghost" @click="handleReset" style="margin-left: 8px">{{$t('button.cal')}}</Button>

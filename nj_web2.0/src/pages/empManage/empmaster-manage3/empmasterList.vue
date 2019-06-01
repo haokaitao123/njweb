@@ -234,7 +234,6 @@ export default {
                 {
                     title: "员工姓名",
                     key: "empnhName",
-                    fixed: "left",
                     width: 140,
                     align: "center"
                 },

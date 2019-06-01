@@ -149,7 +149,8 @@ export default {
       columns: [
         {
           type: "selection",
-          width: 54
+          width: 54,
+          fixed: 'left'
         },
         {
           title: "标题",

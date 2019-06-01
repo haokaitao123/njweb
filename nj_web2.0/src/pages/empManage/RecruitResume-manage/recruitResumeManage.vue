@@ -117,7 +117,7 @@ export default {
         return {
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                { code: "resuApplypost", name: "应聘岗位" },
+                { code: "resuApplypostDis", name: "应聘岗位" },
                 { code: "resuIdentityDis", name: "身份" },
                 { code: "resuFilldate", name: "面试日期" },
                 { code: "resuName", name: "姓名" },
@@ -196,7 +196,7 @@ export default {
                 },
                 {
                     title: '应聘岗位',
-                    key: "resuApplypost",
+                    key: "resuApplypostDis",
                     width: 180,
                     sortable: "custom"
                 },
