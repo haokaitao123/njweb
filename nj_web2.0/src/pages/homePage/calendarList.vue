@@ -41,7 +41,7 @@
                                   type="volume-high"
                                   color="#f33155"></Icon>
                             <div class="div"
-                                 @click="openUpdHome( item.id )">
+                                 @click="openUpdHome( item)">
                                 {{item.remindTitle}}
                             </div>
                         </div>
@@ -164,44 +164,49 @@ export default {
         }, 1000)
     },
     methods: {
-        openUpdHome (id) {
+        openUpdHome (item) {
             const t = this
-            t.id = id
-            t.openUpdateHome = true
-            t.dateShow = true
-            t.logType = this.$t('lang_homePage.calendarList.view')
-            setTimeout(() => {
-                this.$refs.addOrUpdate.getInfoById(id)
-            }, 100);
-            // t.$refs.update.showDis()
-            // t.$refs.update.getSelect()
-            // t.$refs.update.getData(id)
+            if (item.remindNodeCode) {
+                this.$router.push({ path: 'empmasterManage' })
+            } else {
+                t.id = item.remindMemid
+                t.openUpdateHome = true
+                t.dateShow = true
+                t.logType = this.$t('lang_homePage.calendarList.view')
+                setTimeout(() => {
+                    this.$refs.addOrUpdate.getInfoById(t.id)
+                }, 100);
+                t.$refs.addOrUpdate.showDis()
+                t.$refs.addOrUpdate.getSelect()
+                t.$refs.addOrUpdate.getData(t.id)
+            }
+
         },
         rerender () {
 
         },
         getData () {
             const t = this
-             const data = {
-                 _mt: 'cmutReminds.getByList',
-                 remindStatime: t.remindStatime,
-                 remindPlat: t.$store.state.user.roleType,
-             }
-             for (const dat in data) {
-                 if (data[dat] === '') {
-                     delete data[dat]
-                 }
-             }
-             getDataLevelUserLoginNew(data).then((res) => {
-                 if (isSuccess(res, t)) {
-                     t.sysmlvarComment = res.data.content[0].value
-                 }
-             }).catch(() => {
-                 t.$Modal.error({
-                     title: this.$t('reminder.err'),
-                     content: this.$t('reminder.errormessage'),
-                 })
-             })
+            const data = {
+                _mt: 'cmutReminds.getByList',
+                remindStatime: t.remindStatime,
+                remindPlat: t.$store.state.user.roleType,
+            }
+            for (const dat in data) {
+                if (data[dat] === '') {
+                    delete data[dat]
+                }
+            }
+            getDataLevelUserLoginNew(data).then((res) => {
+                if (isSuccess(res, t)) {
+                    t.sysmlvarComment = res.data.content[0].value
+                }
+            }).catch(() => {
+                t.$Modal.error({
+                    title: this.$t('reminder.err'),
+                    content: this.$t('reminder.errormessage'),
+                })
+            })
         },
         openTablePage () {
             const t = this

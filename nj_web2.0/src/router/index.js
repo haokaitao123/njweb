@@ -2,7 +2,7 @@ import Vue from 'vue'
 import main from '@/pages/main'
 import home from '@/pages/homePage/home'
 import authorization from './authorization'
-import customOption from './customOption' 
+import customOption from './customOption'
 import platform from './platform'
 import Router from 'vue-router'
 import root from './root'
@@ -24,22 +24,21 @@ import laborEvaluation from './laborEvaluation'
 import talentAssessManage from './talentAssessManage'
 import evaluationManage from './evaluationManage'
 import recruit from './recruit'
+import remind from './remind'
 Vue.use(Router)
 
 export default new Router({
   // base: '/tshrssc3/',
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'main',
       component: main,
-      children:[
-        {
+      children: [{
           path: 'home',
           name: 'home',
           component: home,
         },
-       
+
         ...root,
         ...authorization,
         ...customOption,
@@ -60,6 +59,7 @@ export default new Router({
         ...talentAssessManage,
         ...evaluationManage,
         ...recruit,
+        ...remind
       ]
     },
     ...emp,
