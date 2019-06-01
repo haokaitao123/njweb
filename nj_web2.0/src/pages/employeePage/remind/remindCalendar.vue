@@ -277,7 +277,7 @@
       getData(startTime, endTime) {
         let t = this
         getDataLevelUserLogin({
-          _mt: 'cmutRemind.getdataByList',
+          _mt: 'cmutReminds.getdataByList',
           logType: this.$t('button.ser'),
           data: JSON.stringify({
             remindPlat: '6essmss',

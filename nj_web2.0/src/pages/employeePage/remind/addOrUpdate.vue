@@ -322,7 +322,7 @@
         t.id = id
         if (id !== '') {
           getDataLevelUserLogin({
-            _mt: 'cmutRemind.getById',
+            _mt: 'cmutReminds.getById',
             logType: '查询1',
             id: id,
           }).then((res) => {
@@ -378,7 +378,7 @@
       deleteEvent(e) {
         const t = this
         let data = {}
-        data['_mt'] = 'cmutRemind.delByIds'
+        data['_mt'] = 'cmutReminds.delByIds'
         data.delIds = t.id
         data.logType = '删除'
         data.remindMasterSlave = e
@@ -434,7 +434,7 @@
         }
         data.remindRepeatweek = data.remindRepeatweek.join(',')
         getDataLevelUserLogin({
-          _mt: 'cmutRemind.addOrUpd',
+          _mt: 'cmutReminds.addOrUpd',
           logType: '新增或更新',
           data: JSON.stringify(data),
         }).then((res) => {
@@ -507,7 +507,7 @@
         data.remindRepeatweek = data.remindRepeatweek.join(',')
         data.remindMasterSlave = 3
         getDataLevelUserLogin({
-          _mt: 'cmutRemind.addOrUpd',
+          _mt: 'cmutReminds.addOrUpd',
           logType: '新增或更新',
           data: JSON.stringify(data),
         }).then((res) => {
@@ -551,7 +551,7 @@
         data.remindRepeatweek = data.remindRepeatweek.join(',')
         data.remindMasterSlave = 2
         getDataLevelUserLogin({
-          _mt: 'cmutRemind.addOrUpd',
+          _mt: 'cmutReminds.addOrUpd',
           logType: '新增或更新',
           data: JSON.stringify(data),
         }).then((res) => {
