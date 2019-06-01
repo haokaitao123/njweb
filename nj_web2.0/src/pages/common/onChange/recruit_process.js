@@ -24,9 +24,6 @@ const recruit_process = {
     recruit_process.relibTrysqtime_set(this);
     recruit_process.relibApproval_set(this);
   },
-  relibIdno(node) {
-    recruit_process.relibIdno_set(this.$parent)
-  },
   relibScore(node) {
     recruit_process.relibScore_set(this.$parent)
   },
@@ -47,34 +44,6 @@ const recruit_process = {
   relibIsguaran(node) {
     recruit_process.relibIsguaran_dis(this.$parent)
     recruit_process.relibIsguaran_set(this.$parent)
-  },
-  // 根据身份证号码获取性别 出生日期
-  relibIdno_set(t) {
-    let idcard
-    // if (t.valueMap.relibIdno) {
-    //   idcard = t.$refs[t.valueMap.relibIdno][0].formDataSubmit.relibIdno
-    //   if (idcard.length === 18) {
-    //     if (valid.val_identity(idcard)) {
-    //       if (idcard.substr(16, 1) % 2 === 1) {
-    //         t.$refs[t.valueMap.relibGender][0].$set(t.$refs[t.valueMap.relibGender][0].formDataSubmit, 'relibGender', '01male')
-    //       } else {
-    //         t.$refs[t.valueMap.relibGender][0].$set(t.$refs[t.valueMap.relibGender][0].formDataSubmit, 'relibGender', '02female')
-    //       }
-    //       t.$refs[t.valueMap.relibBirtday][0].$set(t.$refs[t.valueMap.relibBirtday][0].formDataSubmit, 'relibBirtday', idcard.substr(6, 4) + '-' + idcard.substr(10, 2) + '-' + idcard.substr(12, 2))
-    //       for (let v of city.cityData) {
-    //         if (idcard.substring(0, 6) == v.code) {
-    //           t.$refs[t.valueMap.relibBirtplace][0].$set(t.$refs[t.valueMap.relibBirtplace][0].formDataSubmit, 'relibBirtplace', v.title)
-    //           t.$refs[t.valueMap.relibBirtplace][0].$refs.relibBirtplace.thisValue = v.title
-    //         }
-    //       }
-
-    //     } else {
-    //       t.$Message.warning("请填写正确的证件号码")
-    //     }
-    //   } else if (idcard.length > 18) {
-    //     t.$Message.warning("请填写正确的证件号码")
-    //   }
-    // }
   },
 
   //入职岗位默认应聘岗位的值
@@ -250,7 +219,7 @@ const recruit_process = {
         })
       }
     }
-      if (t.valueMap.relibReexamtm) {
+    if (t.valueMap.relibReexamtm) {
       if (t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit.relibReexamtm.length <= 0) {
         t.$refs[t.valueMap.relibReexamtm][0].$set(t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit, 'relibReexamtm', new Date().format('yyyy-MM-dd hh:mm:ss'))
       }
