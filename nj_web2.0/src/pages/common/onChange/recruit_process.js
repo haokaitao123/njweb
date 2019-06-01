@@ -51,30 +51,30 @@ const recruit_process = {
   // 根据身份证号码获取性别 出生日期
   relibIdno_set(t) {
     let idcard
-    if (t.valueMap.relibIdno) {
-      idcard = t.$refs[t.valueMap.relibIdno][0].formDataSubmit.relibIdno
-      if (idcard.length === 18) {
-        if (valid.val_identity(idcard)) {
-          if (idcard.substr(16, 1) % 2 === 1) {
-            t.$refs[t.valueMap.relibGender][0].$set(t.$refs[t.valueMap.relibGender][0].formDataSubmit, 'relibGender', '01male')
-          } else {
-            t.$refs[t.valueMap.relibGender][0].$set(t.$refs[t.valueMap.relibGender][0].formDataSubmit, 'relibGender', '02female')
-          }
-          t.$refs[t.valueMap.relibBirtday][0].$set(t.$refs[t.valueMap.relibBirtday][0].formDataSubmit, 'relibBirtday', idcard.substr(6, 4) + '-' + idcard.substr(10, 2) + '-' + idcard.substr(12, 2))
-          for (let v of city.cityData) {
-            if (idcard.substring(0, 6) == v.code) {
-              t.$refs[t.valueMap.relibBirtplace][0].$set(t.$refs[t.valueMap.relibBirtplace][0].formDataSubmit, 'relibBirtplace', v.title)
-              t.$refs[t.valueMap.relibBirtplace][0].$refs.relibBirtplace.thisValue = v.title
-            }
-          }
+    // if (t.valueMap.relibIdno) {
+    //   idcard = t.$refs[t.valueMap.relibIdno][0].formDataSubmit.relibIdno
+    //   if (idcard.length === 18) {
+    //     if (valid.val_identity(idcard)) {
+    //       if (idcard.substr(16, 1) % 2 === 1) {
+    //         t.$refs[t.valueMap.relibGender][0].$set(t.$refs[t.valueMap.relibGender][0].formDataSubmit, 'relibGender', '01male')
+    //       } else {
+    //         t.$refs[t.valueMap.relibGender][0].$set(t.$refs[t.valueMap.relibGender][0].formDataSubmit, 'relibGender', '02female')
+    //       }
+    //       t.$refs[t.valueMap.relibBirtday][0].$set(t.$refs[t.valueMap.relibBirtday][0].formDataSubmit, 'relibBirtday', idcard.substr(6, 4) + '-' + idcard.substr(10, 2) + '-' + idcard.substr(12, 2))
+    //       for (let v of city.cityData) {
+    //         if (idcard.substring(0, 6) == v.code) {
+    //           t.$refs[t.valueMap.relibBirtplace][0].$set(t.$refs[t.valueMap.relibBirtplace][0].formDataSubmit, 'relibBirtplace', v.title)
+    //           t.$refs[t.valueMap.relibBirtplace][0].$refs.relibBirtplace.thisValue = v.title
+    //         }
+    //       }
 
-        } else {
-          t.$Message.warning("请填写正确的证件号码")
-        }
-      } else if (idcard.length > 18) {
-        t.$Message.warning("请填写正确的证件号码")
-      }
-    }
+    //     } else {
+    //       t.$Message.warning("请填写正确的证件号码")
+    //     }
+    //   } else if (idcard.length > 18) {
+    //     t.$Message.warning("请填写正确的证件号码")
+    //   }
+    // }
   },
 
   //入职岗位默认应聘岗位的值
@@ -123,27 +123,27 @@ const recruit_process = {
   },
   //试岗必须3天后再入职,试岗申请时间与可入职当前时间
   relibApproval_set(t) {
-    if (t.valueMap.relibTrysqtime){
-        let nowDate = new Date()//可入职当前时间
-        nowDate = new Date(nowDate).getTime();//可入职当前时间时间戳
-        let day1 = t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime//试岗申请时间
-        day1 = new Date(day1).getTime()
-        let day2 = 3*24*60*60*1000
-        if(t.valueMap.relibTrypspass){
-            if((nowDate-day1)>day2){//可入职时间-试岗申请时间大于3，不可入职
-                
-                    t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '1')
-                    //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
-                
-            }else{
-                t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '0')
-                //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
-            }
+    if (t.valueMap.relibTrysqtime) {
+      let nowDate = new Date() //可入职当前时间
+      nowDate = new Date(nowDate).getTime(); //可入职当前时间时间戳
+      let day1 = t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime //试岗申请时间
+      day1 = new Date(day1).getTime()
+      let day2 = 3 * 24 * 60 * 60 * 1000
+      if (t.valueMap.relibTrypspass) {
+        if ((nowDate - day1) > day2) { //可入职时间-试岗申请时间大于3，不可入职
+
+          t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '1')
+          //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
+
+        } else {
+          t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '0')
+          //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
         }
+      }
     }
   },
   relibApplytype_dis(t) {
-    
+
     if (t.valueMap.relibApplytype) {
       if (t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype === '03introducer') {
         if (t.valueMap.relibIntrname) {

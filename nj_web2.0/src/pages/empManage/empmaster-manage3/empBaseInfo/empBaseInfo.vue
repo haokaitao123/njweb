@@ -11,7 +11,7 @@
 				</i-col>
 				<i-col span="11">
 					<FormItem label="雇员姓名" prop="empnhName">
-						<Input v-model="form.empnhName" :disabled="disabled" placeholder="请输入雇员姓名" @on-blur="cop()"></Input>
+						<Input v-model.trim="form.empnhName" :disabled="disabled" placeholder="请输入雇员姓名" @on-blur="cop()"></Input>
 					</FormItem>
 				</i-col>
 				<i-col span="11">
@@ -862,24 +862,26 @@
 			},
 			cop() {
                 this.form.empnhSalaccname = this.form.empnhName;
-                const t =this;
-                getDataLevelUserLogin({
-                    _mt : "empEmpnh.getCompmailByName",
-                    logType : t.logType,
-                    name :t.form.empnhName,
-                })
-                .then(res => {
-                    if(isSuccess(res, t)) {
-                        debugger;
-                        let empnhCompmail = res.data.content[0].empnhCompmail;
-                        if(empnhCompmail){
-                            this.form.empnhCompmail = empnhCompmail
+                if( this.form.empnhName!==""){
+                     const t =this;
+                    getDataLevelUserLogin({
+                        _mt : "empEmpnh.getCompmailByName",
+                        logType : t.logType,
+                        name :t.form.empnhName,
+                    })
+                    .then(res => {
+                        if(isSuccess(res, t)) {
+                            let empnhCompmail = res.data.content[0].empnhCompmail;
+                            if(empnhCompmail){
+                                this.form.empnhCompmail = empnhCompmail
+                            }
                         }
-                    }
-                })
-                .catch(() => {
-                    t.$Message.error('网络错误');
-                });
+                    })
+                    .catch(() => {
+                        t.$Message.error('网络错误');
+                    });
+                }
+               
 			},
 			//查询公共参数
 			getSelect() {

@@ -16,9 +16,19 @@ import autoupload from './autoupload' // 上传文件
 import autophotoupload from './autophotoupload' // 上传照片
 import autocheckgroup from './autocheckgroup' // 多选框group
 import validCode from './validCode'
-import { getDataLevelUserLoginNew } from '../../../axios/axios'
-import { isSuccess, deepCopy } from '../../../lib/util'
-import { onChange } from '../onChange/index'
+import {
+  getDataLevelUserLoginNew
+} from '../../../axios/axios'
+import {
+  isSuccess,
+  deepCopy
+} from '../../../lib/util'
+import {
+  onChange
+} from '../onChange/index'
+import {
+  onBlur
+} from '../onBlur/index'
 import Bus from '../bus'
 
 
@@ -53,8 +63,8 @@ export default {
   },
   mounted() {
     /*
-    * 解决富文本编辑器zindex问题
-    * */
+     * 解决富文本编辑器zindex问题
+     * */
     let nodes = document.getElementsByClassName('ivu-select-dropdown')
     for (let i = 0; i < nodes.length; i++) {
       nodes[i].style.zIndex = 10002
@@ -82,13 +92,13 @@ export default {
   },
   methods: {
     /*
-    * 格式化数据
-    * */
+     * 格式化数据
+     * */
     getFormDataSubmit() {
       let columns = this.formData.columns // 字段
       let formData = {}
-      let form = {}  // 表单
-      let ruler = {}  // 校验规则
+      let form = {} // 表单
+      let ruler = {} // 校验规则
       let clmmap = {}
       for (let i = 0; i < columns.length; i++) {
         if (columns[i].clmLayout === 20) {
@@ -109,12 +119,12 @@ export default {
           for (let j = 0; j < columns[i].columnValid.length; j++) {
             ruler[columns[i].clmName].push({
               validator: (rule, value, callback) => {
-              if (!validCode[rule.valid](form[rule.field])) {
-                callback(new Error(rule.message))
-              } else {
-                callback()
-              }
-            },
+                if (!validCode[rule.valid](form[rule.field])) {
+                  callback(new Error(rule.message))
+                } else {
+                  callback()
+                }
+              },
               trigger: 'change',
               message: columns[i].clmDname + columns[i].columnValid[j].clmvPrompts,
               valid: columns[i].columnValid[j].clmvMod,
@@ -131,8 +141,8 @@ export default {
     },
 
     /*
-    * 校验页面表单
-    * */
+     * 校验页面表单
+     * */
     validor(rule, value, callback) {
       if (!validCode[rule.valid](this.formDataSubmit[rule.field])) {
         callback(new Error(rule.message))
@@ -150,7 +160,16 @@ export default {
         }
       }
     },
-
+    /**
+     * blur事件
+     */
+    blur(node) {
+      if (onBlur.hasOwnProperty(this.formData.tbName)) {
+        if (onBlur[this.formData.tbName].hasOwnProperty(node.ruleText)) {
+          onBlur[this.formData.tbName][node.ruleText].call(this, node)
+        }
+      }
+    },
     // setJLData(obj) {
     //   for (let item in obj) {
     //     if (item.toString().indexOf('_dis') !== -1) {
@@ -209,8 +228,8 @@ export default {
       }
     },
     /*
-    * 单表保存页面
-    * */
+     * 单表保存页面
+     * */
     saveForm() {
       const t = this
       t.$refs.formList.validate().then(v => {
@@ -248,44 +267,131 @@ export default {
     },
   },
   watcher: {
-    formDataSubmit(value) {
-    },
+    formDataSubmit(value) {},
   },
   render: function (createElement) {
     let nodes = []
     for (let i = 0; i < this.formData.columns.length; i++) {
       let child = []
       switch (this.formData.columns[i].clmLayout) {
-        case 1: child.push(createElement('autoinput', {
-          props: {
-            value: this.formDataSubmit[this.formData.columns[i].clmName],
-            show: this.formshow,
-            itemLabel: this.formData.columns[i].clmDname,
-            ruleText: this.formData.columns[i].clmName,
-            message: this.formData.columns[i].clmDescribe,
-            disabled: this.disabled,
-            dis: this.dis,
-            required: this.formData.columns[i].columnValid !== undefined,
-          },
-          /*
-           * 实现双向绑定
-           * */
-          on: {
-            'on-change': (value) => {
-              this.formDataSubmit[this.formData.columns[i].clmName] = value
+        case 1:
+          child.push(createElement('autoinput', {
+            props: {
+              value: this.formDataSubmit[this.formData.columns[i].clmName],
+              show: this.formshow,
+              itemLabel: this.formData.columns[i].clmDname,
+              ruleText: this.formData.columns[i].clmName,
+              message: this.formData.columns[i].clmDescribe,
+              disabled: this.disabled,
+              dis: this.dis,
+              required: this.formData.columns[i].columnValid !== undefined,
             },
-            change: (value) => {
-              this.change(value)
+            /*
+             * 实现双向绑定
+             * */
+            on: {
+              'on-change': (value) => {
+                this.formDataSubmit[this.formData.columns[i].clmName] = value
+              },
+              change: (value) => {
+                console.log(value, "value1")
+                this.change(value)
+              },
+              blur: (value) => {
+                console.log(value, "value2")
+                this.blur(value)
+              }
             },
-          },
-          ref: this.formData.columns[i].clmName,
-        }))
+            ref: this.formData.columns[i].clmName,
+          }))
           break
-        /*
-        * 数字文本框
-        * */
-        case 2: child.push(createElement('autonumber',
-          {
+          /*
+           * 数字文本框
+           * */
+        case 2:
+          child.push(createElement('autonumber', {
+            props: {
+              value: this.formDataSubmit[this.formData.columns[i].clmName],
+              show: this.formshow,
+              itemLabel: this.formData.columns[i].clmDname,
+              ruleText: this.formData.columns[i].clmName,
+              disabled: this.disabled,
+              dis: this.dis,
+              message: this.formData.columns[i].clmDescribe,
+              required: this.formData.columns[i].columnValid !== undefined,
+            },
+            /*
+             * 实现双向绑定
+             * */
+            on: {
+              'on-change': (value) => {
+                this.formDataSubmit[this.formData.columns[i].clmName] = value
+              },
+              change: (value) => {
+                console.log(value, "value2")
+                this.change(value)
+              },
+            },
+            ref: this.formData.columns[i].clmName,
+          }, ))
+          break
+          /*
+           * 日期选择框
+           * */
+        case 3:
+          child.push(createElement('autodatepicker', {
+            props: {
+              value: this.formDataSubmit[this.formData.columns[i].clmName],
+              show: this.formshow,
+              itemLabel: this.formData.columns[i].clmDname,
+              ruleText: this.formData.columns[i].clmName,
+              disabled: this.disabled,
+              dis: this.dis,
+              message: this.formData.columns[i].clmDescribe,
+              required: this.formData.columns[i].columnValid !== undefined,
+            },
+            on: {
+              'on-change': (value) => {
+                this.formDataSubmit[this.formData.columns[i].clmName] = value
+              },
+              change: (value) => {
+                this.change(value)
+              },
+            },
+            ref: this.formData.columns[i].clmName,
+          }, ))
+          break
+          /*
+           * 日期时间选择框
+           * */
+        case 4:
+          child.push(createElement('autodatetime', {
+            props: {
+              value: this.formDataSubmit[this.formData.columns[i].clmName],
+              show: this.formshow,
+              itemLabel: this.formData.columns[i].clmDname,
+              ruleText: this.formData.columns[i].clmName,
+              disabled: this.disabled,
+              dis: this.dis,
+              message: this.formData.columns[i].clmDescribe,
+              required: this.formData.columns[i].columnValid !== undefined,
+            },
+            on: {
+              'on-change': (value) => {
+                this.formDataSubmit[this.formData.columns[i].clmName] = value
+              },
+              change: (value) => {
+                this.change(value)
+              },
+            },
+            ref: this.formData.columns[i].clmName,
+          }, ))
+          break
+          /*
+           * 长文本框
+           * */
+        case 5:
+          child.push(createElement('autolonginput', {
             props: {
               value: this.formDataSubmit[this.formData.columns[i].clmName],
               show: this.formshow,
@@ -308,96 +414,13 @@ export default {
               },
             },
             ref: this.formData.columns[i].clmName,
-          },
-        ))
+          }))
           break
-        /*
-        * 日期选择框
-        * */
-        case 3: child.push(createElement('autodatepicker',
-          {
-            props: {
-              value: this.formDataSubmit[this.formData.columns[i].clmName],
-              show: this.formshow,
-              itemLabel: this.formData.columns[i].clmDname,
-              ruleText: this.formData.columns[i].clmName,
-              disabled: this.disabled,
-              dis: this.dis,
-              message: this.formData.columns[i].clmDescribe,
-              required: this.formData.columns[i].columnValid !== undefined,
-            },
-            on: {
-              'on-change': (value) => {
-                this.formDataSubmit[this.formData.columns[i].clmName] = value
-              },
-              change: (value) => {
-                this.change(value)
-              },
-            },
-            ref: this.formData.columns[i].clmName,
-          },
-        ))
-          break
-        /*
-        * 日期时间选择框
-        * */
-        case 4: child.push(createElement('autodatetime',
-          {
-            props: {
-              value: this.formDataSubmit[this.formData.columns[i].clmName],
-              show: this.formshow,
-              itemLabel: this.formData.columns[i].clmDname,
-              ruleText: this.formData.columns[i].clmName,
-              disabled: this.disabled,
-              dis: this.dis,
-              message: this.formData.columns[i].clmDescribe,
-              required: this.formData.columns[i].columnValid !== undefined,
-            },
-            on: {
-              'on-change': (value) => {
-                this.formDataSubmit[this.formData.columns[i].clmName] = value
-              },
-              change: (value) => {
-                this.change(value)
-              },
-            },
-            ref: this.formData.columns[i].clmName,
-          },
-        ))
-          break
-        /*
-        * 长文本框
-        * */
-        case 5: child.push(createElement('autolonginput', {
-          props: {
-            value: this.formDataSubmit[this.formData.columns[i].clmName],
-            show: this.formshow,
-            itemLabel: this.formData.columns[i].clmDname,
-            ruleText: this.formData.columns[i].clmName,
-            disabled: this.disabled,
-            dis: this.dis,
-            message: this.formData.columns[i].clmDescribe,
-            required: this.formData.columns[i].columnValid !== undefined,
-          },
           /*
-           * 实现双向绑定
+           * 文本域
            * */
-          on: {
-            'on-change': (value) => {
-              this.formDataSubmit[this.formData.columns[i].clmName] = value
-            },
-            change: (value) => {
-              this.change(value)
-            },
-          },
-          ref: this.formData.columns[i].clmName,
-        }))
-          break
-        /*
-        * 文本域
-        * */
-        case 6: child.push(createElement('autotextarea',
-          {
+        case 6:
+          child.push(createElement('autotextarea', {
             props: {
               value: this.formDataSubmit[this.formData.columns[i].clmName],
               show: this.formshow,
@@ -420,14 +443,13 @@ export default {
               },
             },
             ref: this.formData.columns[i].clmName,
-          },
-        ))
+          }, ))
           break
-        /*
-        * 富文本编辑器
-        * */
-        case 7: child.push(createElement('autoeditor',
-          {
+          /*
+           * 富文本编辑器
+           * */
+        case 7:
+          child.push(createElement('autoeditor', {
             props: {
               value: this.formDataSubmit[this.formData.columns[i].clmName],
               show: this.formshow,
@@ -438,14 +460,13 @@ export default {
               message: this.formData.columns[i].clmDescribe,
               required: this.formData.columns[i].columnValid !== undefined,
             },
-          },
-        ))
+          }, ))
           break
-        /*
-         * 单个多选框
-         * */
-        case 10: child.push(createElement('autocheckbox',
-          {
+          /*
+           * 单个多选框
+           * */
+        case 10:
+          child.push(createElement('autocheckbox', {
             props: {
               value: this.formDataSubmit[this.formData.columns[i].clmName],
               show: this.formshow,
@@ -471,12 +492,11 @@ export default {
               },
             },
             ref: this.formData.columns[i].clmName,
-          },
-        ))
+          }, ))
           break
-        /*
-         * 单选框
-         * */
+          /*
+           * 单选框
+           * */
         case 11: {
           let childSelect = []
           for (let j = 0; j < this.formData.columnOptions.length; j++) {
@@ -485,33 +505,31 @@ export default {
               break
             }
           }
-          child.push(createElement('autoradio',
-            {
-              props: {
-                value: this.formDataSubmit[this.formData.columns[i].clmName],
-                show: this.formshow,
-                itemLabel: this.formData.columns[i].clmDname,
-                ruleText: this.formData.columns[i].clmName,
-                disabled: this.disabled,
-                dis: this.dis,
-                message: this.formData.columns[i].clmDescribe,
-                data: childSelect,
-                required: this.formData.columns[i].columnValid !== undefined,
-              },
-              /*
-               * 实现双向绑定
-               * */
-              on: {
-                'on-change': (value) => {
-                  this.formDataSubmit[this.formData.columns[i].clmName] = value
-                },
-                change: (value) => {
-                  this.change(value)
-                },
-              },
-              ref: this.formData.columns[i].clmName,
+          child.push(createElement('autoradio', {
+            props: {
+              value: this.formDataSubmit[this.formData.columns[i].clmName],
+              show: this.formshow,
+              itemLabel: this.formData.columns[i].clmDname,
+              ruleText: this.formData.columns[i].clmName,
+              disabled: this.disabled,
+              dis: this.dis,
+              message: this.formData.columns[i].clmDescribe,
+              data: childSelect,
+              required: this.formData.columns[i].columnValid !== undefined,
             },
-          ))
+            /*
+             * 实现双向绑定
+             * */
+            on: {
+              'on-change': (value) => {
+                this.formDataSubmit[this.formData.columns[i].clmName] = value
+              },
+              change: (value) => {
+                this.change(value)
+              },
+            },
+            ref: this.formData.columns[i].clmName,
+          }, ))
           break
         }
         /*
@@ -525,8 +543,7 @@ export default {
               break
             }
           }
-          child.push(createElement('autoselect',
-          {
+          child.push(createElement('autoselect', {
             props: {
               value: this.formDataSubmit[this.formData.columns[i].clmName],
               show: this.formshow,
@@ -547,15 +564,14 @@ export default {
               },
             },
             ref: this.formData.columns[i].clmName,
-          },
-        ))
+          }, ))
           break
         }
         /*
          * 弹出选择
          * */
-        case 13: child.push(createElement('automodal',
-          {
+        case 13:
+          child.push(createElement('automodal', {
             props: {
               value: this.formData.columns[i].clmDisValue,
               oldValue: 0, // fd
@@ -586,14 +602,13 @@ export default {
               },
             },
             ref: this.formData.columns[i].clmName,
-          },
-        ))
+          }, ))
           break
-        /*
-         * 弹出选择后可修改
-         * */
-        case 14: child.push(createElement('automodaledit',
-          {
+          /*
+           * 弹出选择后可修改
+           * */
+        case 14:
+          child.push(createElement('automodaledit', {
             props: {
               value: this.formDataSubmit[this.formData.columns[i].clmName],
               show: this.formshow,
@@ -616,12 +631,11 @@ export default {
               },
             },
             ref: this.formData.columns[i].clmName,
-          },
-        ))
+          }, ))
           break
-        /*
-         * CheckboxGroup
-         * */
+          /*
+           * CheckboxGroup
+           * */
         case 20: {
           let childSelect = []
           for (let j = 0; j < this.formData.columnOptions.length; j++) {
@@ -630,37 +644,7 @@ export default {
               break
             }
           }
-          child.push(createElement('autocheckgroup',
-            {
-              props: {
-                value: this.formDataSubmit[this.formData.columns[i].clmName],
-                show: this.formshow,
-                itemLabel: this.formData.columns[i].clmDname,
-                ruleText: this.formData.columns[i].clmName,
-                disabled: this.disabled,
-                dis: this.dis,
-                message: this.formData.columns[i].clmDescribe,
-                data: childSelect,
-                required: this.formData.columns[i].columnValid !== undefined,
-              },
-              on: {
-                'on-change': (value) => {
-                  this.formDataSubmit[this.formData.columns[i].clmName] = value
-                },
-                change: (value) => {
-                  this.change(value)
-                },
-              },
-              ref: this.formData.columns[i].clmName,
-            },
-          ))
-          break
-        }
-        /*
-         * 多选框弹出选择
-         * */
-        case 21: child.push(createElement('automodalmany',
-          {
+          child.push(createElement('autocheckgroup', {
             props: {
               value: this.formDataSubmit[this.formData.columns[i].clmName],
               show: this.formshow,
@@ -669,46 +653,10 @@ export default {
               disabled: this.disabled,
               dis: this.dis,
               message: this.formData.columns[i].clmDescribe,
+              data: childSelect,
               required: this.formData.columns[i].columnValid !== undefined,
             },
-          },
-        ))
-          break
-        /*
-         * 页面描述说明
-         * */
-        case 70: child.push(createElement('autodisc',
-          {
-            props: {
-              value: this.formDataSubmit[this.formData.columns[i].clmName],
-              show: this.formshow,
-              itemLabel: this.formData.columns[i].clmDname,
-              ruleText: this.formData.columns[i].clmName,
-              disabled: this.disabled,
-              dis: this.dis,
-              message: this.formData.columns[i].clmDescribe,
-              required: this.formData.columns[i].columnValid !== undefined,
-            },
-          },
-        ))
-          break
-        /*
-         * 文件上传
-         * */
-         case 71: child.push(createElement('autoupload', {
-          props: {
-          	value: this.formData.columns[i].clmDisValue,
-          	id: this.formData.columns[i].clmValue,
-          	fileKey: this.formData.columns[i].clmValue.split(':')[1],
-            itemLabel: this.formData.columns[i].clmDname,
-            show: this.formshow,
-            ruleText: this.formData.columns[i].clmName,
-            message: this.formData.columns[i].clmDescribe,
-            disabled: this.disabled,
-            dis: this.dis,
-            required: this.formData.columns[i].columnValid !== undefined,
-          },
-          on: {
+            on: {
               'on-change': (value) => {
                 this.formDataSubmit[this.formData.columns[i].clmName] = value
               },
@@ -717,43 +665,105 @@ export default {
               },
             },
             ref: this.formData.columns[i].clmName,
-        }))
+          }, ))
           break
+        }
         /*
-         * 照片上传
+         * 多选框弹出选择
          * */
+        case 21:
+          child.push(createElement('automodalmany', {
+            props: {
+              value: this.formDataSubmit[this.formData.columns[i].clmName],
+              show: this.formshow,
+              itemLabel: this.formData.columns[i].clmDname,
+              ruleText: this.formData.columns[i].clmName,
+              disabled: this.disabled,
+              dis: this.dis,
+              message: this.formData.columns[i].clmDescribe,
+              required: this.formData.columns[i].columnValid !== undefined,
+            },
+          }, ))
+          break
+          /*
+           * 页面描述说明
+           * */
+        case 70:
+          child.push(createElement('autodisc', {
+            props: {
+              value: this.formDataSubmit[this.formData.columns[i].clmName],
+              show: this.formshow,
+              itemLabel: this.formData.columns[i].clmDname,
+              ruleText: this.formData.columns[i].clmName,
+              disabled: this.disabled,
+              dis: this.dis,
+              message: this.formData.columns[i].clmDescribe,
+              required: this.formData.columns[i].columnValid !== undefined,
+            },
+          }, ))
+          break
+          /*
+           * 文件上传
+           * */
+        case 71:
+          child.push(createElement('autoupload', {
+            props: {
+              value: this.formData.columns[i].clmDisValue,
+              id: this.formData.columns[i].clmValue,
+              fileKey: this.formData.columns[i].clmValue.split(':')[1],
+              itemLabel: this.formData.columns[i].clmDname,
+              show: this.formshow,
+              ruleText: this.formData.columns[i].clmName,
+              message: this.formData.columns[i].clmDescribe,
+              disabled: this.disabled,
+              dis: this.dis,
+              required: this.formData.columns[i].columnValid !== undefined,
+            },
+            on: {
+              'on-change': (value) => {
+                this.formDataSubmit[this.formData.columns[i].clmName] = value
+              },
+              change: (value) => {
+                this.change(value)
+              },
+            },
+            ref: this.formData.columns[i].clmName,
+          }))
+          break
+          /*
+           * 照片上传
+           * */
         case 72:
           child.push(createElement('autophotoupload', {
-          props: {
-            value: this.formData.columns[i].clmValue,
-            id: this.formData.columns[i].clmValue,
-            fileKey: this.formData.columns[i].clmValue.split(':')[1],
-            itemLabel: this.formData.columns[i].clmDname,
-            show: this.formshow,
-            ruleText: this.formData.columns[i].clmName,
-            message: this.formData.columns[i].clmDescribe,
-            disabled: this.disabled,
-            dis: this.dis,
-            required: this.formData.columns[i].columnValid !== undefined,
-          },
-          on: {
-            'on-change': (value) => {
-              this.formDataSubmit[this.formData.columns[i].clmName] = value
+            props: {
+              value: this.formData.columns[i].clmValue,
+              id: this.formData.columns[i].clmValue,
+              fileKey: this.formData.columns[i].clmValue.split(':')[1],
+              itemLabel: this.formData.columns[i].clmDname,
+              show: this.formshow,
+              ruleText: this.formData.columns[i].clmName,
+              message: this.formData.columns[i].clmDescribe,
+              disabled: this.disabled,
+              dis: this.dis,
+              required: this.formData.columns[i].columnValid !== undefined,
             },
-            change: (value) => {
-              this.change(value)
+            on: {
+              'on-change': (value) => {
+                this.formDataSubmit[this.formData.columns[i].clmName] = value
+              },
+              change: (value) => {
+                this.change(value)
+              },
             },
-          },
-          ref: this.formData.columns[i].clmName,
-        }))
+            ref: this.formData.columns[i].clmName,
+          }))
           break
       }
       nodes.push(child)
     }
     return createElement('div',
       [
-        createElement('Form',
-          {
+        createElement('Form', {
             props: {
               'label-width': this.lebWidth,
               // 'label-position': 'top',
