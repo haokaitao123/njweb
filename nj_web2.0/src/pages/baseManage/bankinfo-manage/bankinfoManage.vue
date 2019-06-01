@@ -78,7 +78,7 @@
             key: 'bankCode',
             sortable: 'custom',
             width: 220,
-            fixed: 'left'
+           
           },
           {
             title: this.$t('lang_baseManage.baseBankinfo.bankCityName'),

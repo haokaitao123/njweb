@@ -30,7 +30,7 @@
                                     </span>
                                 </FormItem>
                             </Col>
-            <Col span="10">
+            <Col span="10" offset="1" >
               <FormItem label="月利润上限" prop="profitCap">
                 <Input v-model="formValidate.profitCap" placeholder="请输入月利润上限"/>
               </FormItem>
@@ -43,7 +43,7 @@
               </FormItem>
             </Col>
 
-            <Col span="10">
+            <Col span="10" offset="1">
               <FormItem label="封顶金额" prop="profitBig">
                 <Input v-model="formValidate.profitBig" placeholder="请输入封顶金额"></Input>
               </FormItem>

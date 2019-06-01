@@ -106,7 +106,6 @@
             title: this.$t('lang_baseManage.baseCity.cityName'),
             key: 'cityName',
             sortable: 'custom',
-            fixed: 'left',
             width: 120,
           },
           {
