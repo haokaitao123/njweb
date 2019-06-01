@@ -47,6 +47,7 @@
             type: 'selection',
             width: 54,
             align: 'center',
+            fixed: 'left'
           },
           {
             title: 'orgdemocode',

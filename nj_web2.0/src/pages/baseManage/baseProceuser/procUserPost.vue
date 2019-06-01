@@ -121,7 +121,7 @@
             key: 'procTypeDis',
             sortable: 'custom',
             width: 220,
-            fixed: 'left'
+           
           },
           {
             title: '审批步骤',

@@ -24,6 +24,7 @@
             type: 'selection',
             width: 60,
             align: 'center',
+            fixed: 'left'
           },
           {
             title: this.$t('lang_payroll.payEndSalItem.pleditmType'),

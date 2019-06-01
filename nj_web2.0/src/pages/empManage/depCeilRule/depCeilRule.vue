@@ -166,7 +166,8 @@ export default {
                 {
                     type: "selection", //列类型，选择selection类型 就是checkbox
                     width: 54, //列宽
-                    align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
+                    align: "center", //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
+                    fixed: "left"
                 },
                 {
                     title: "部门名称",

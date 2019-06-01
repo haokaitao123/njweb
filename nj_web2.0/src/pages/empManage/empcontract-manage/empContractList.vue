@@ -180,7 +180,8 @@ export default {
                 {
                     type: "selection",
                     width: 54,
-                    align: "center"
+                    align: "center",
+                    fixed: "left"
                 },
                 {
                     title: "合同编号",

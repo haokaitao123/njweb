@@ -146,6 +146,7 @@ export default {
                     type: 'selection',
                     width: 54,
                     align: 'center',
+                    fixed: 'left'
                 },
                 {
                     title: "员工姓名",
