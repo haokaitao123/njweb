@@ -114,12 +114,14 @@
             type: 'selection',
             width: 54,
             align: 'center',
+            fixed: 'left'
           },
           {
             title: '审批类型',
             key: 'procTypeDis',
             sortable: 'custom',
             width: 220,
+            fixed: 'left'
           },
           {
             title: '审批步骤',

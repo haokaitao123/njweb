@@ -45,12 +45,14 @@
             type: 'selection',
             width: 54,
             align: 'center',
+            fixed: 'left'
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontCode'),
             key: 'platRolecontCode',
             width: 100,
             sortable: 'custom',
+            fixed: 'left'
           },
           {
             title: this.$t('lang_authorization.platRolecont.platRolecontCnname'),
