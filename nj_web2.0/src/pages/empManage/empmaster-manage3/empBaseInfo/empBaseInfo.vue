@@ -409,7 +409,7 @@
 			const addressCheck = (rule, value, callback) => {
 				if(value !== '' && value !== undefined) {
                      let address =  this.form.empnhResiaddr;
-					if(value.lenth>3) {
+					if(value.length>3) {
 						return callback()
 					}
 					return callback(new Error('请输入详细的居住地址'))
@@ -445,7 +445,7 @@
 					empnhCompmail: "", // 公司邮箱
 					empnhQq: "", // QQ号码
 					empnhWechat: "", // 微信号
-					empnhWklocat: "", // 工作地点
+					empnhWklocat: "1410", // 工作地点
 					empnhEntrydate: "", // 入职日期
 					empnhIrmentdate: "", // 转正日期
 					empnhSalbank: "", // 开户银行
@@ -739,11 +739,11 @@
 						message: '请输入正确的数字格式',
 						trigger: 'blur'
 					}, ],
-					// empnhWklocat: [{
-					// 	required: true,
-					// 	message: "选择工作地点",
-					// 	trigger: "change"
-					// }],
+					empnhWklocat: [{
+						required: true,
+						message: "选择工作地点",
+						trigger: "change"
+					}],
 					empnhEntrydate: [{
 						required: true,
 						type: "date",
@@ -1021,7 +1021,9 @@
 			t.form.numberCode = "XXXXXX";
 			t.form.empnhAttendyn = "1";
 			t.form.empnhNation = "10";
-			t.form.empnhIdtype = "01id";
+            t.form.empnhIdtype = "01id";
+            t.form.empnhWklocat = "1410";
+            t.form.empnhResiaddr = "武汉市";
 			t.empnhRegtypeDis = ""; // 户籍性质显示字段
 			t.empnhSalbankDis = ""; // 开户银行显示字段
 			t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
@@ -1033,7 +1035,7 @@
 			t.empnhIdtypeDis = ""; // 证件类型显示字段
 			t.empnhRegaddrDis = ""; // 户籍地址显示字段
 			t.empnhAttendynDis = ""; // 是否考勤显示字段
-			t.empnhWklocatDis = ""; // 工作地点显示字段 弹框
+			t.empnhWklocatDis = "武汉市"; // 工作地点显示字段 弹框
 			t.empnhMarriageDis = ""; // 婚姻状况显示字段
 			t.empnhPoliticalDis = ""; // 政治面貌显示字段
 			t.empnhTechtilDis = ""; // 职称显示字段
