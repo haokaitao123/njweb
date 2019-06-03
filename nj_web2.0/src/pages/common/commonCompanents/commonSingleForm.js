@@ -294,11 +294,9 @@ export default {
                 this.formDataSubmit[this.formData.columns[i].clmName] = value
               },
               change: (value) => {
-                console.log(value, "value1")
                 this.change(value)
               },
               blur: (value) => {
-                console.log(value, "value2")
                 this.blur(value)
               }
             },
@@ -328,7 +326,6 @@ export default {
                 this.formDataSubmit[this.formData.columns[i].clmName] = value
               },
               change: (value) => {
-                console.log(value, "value2")
                 this.change(value)
               },
             },

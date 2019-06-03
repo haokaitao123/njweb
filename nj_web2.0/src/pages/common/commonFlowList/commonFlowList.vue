@@ -67,7 +67,7 @@
                         @close="closeSelCountry"
                         ref="selCountry"></selCountry>
         </transition>
-         <transition name="fade">
+        <transition name="fade">
             <transaction v-show="openTransaction"
                          :id="tableselected"
                          :logType="logType"
@@ -182,9 +182,9 @@ export default {
                     t.btns = res.data.content[0].btns
                     t.titleName = res.data.content[0].flowName
                     t.tbName = res.data.content[0].tbName
-                    console.log('aa1',res.data.content[0].columns)
+                    console.log('aa1', res.data.content[0].columns)
                     aa = res.data.content[0].columns
-                    
+
                     for (let i = 0; i < aa.length; i++) {
                         aa[i].sortable = false
                         if (!aa[i].width) {
@@ -192,24 +192,24 @@ export default {
                         } else {
                             aa[i].width = 60
                         }
-                        if(aa[i].title == '姓名'){
-                        	aa[i].width = 80
-                        	aa[i].fixed = 'left'
-                        }else if(aa[i].title == '初试人员'){
-                        	aa[i].width = 80
-                        }else if(aa[i].title == '复试人员'){
-                        	aa[i].width = 80
-                        }else if(aa[i].title == '面到时间'){
-                        	aa[i].width = 150
-                        }else if(aa[i].title == '员工姓名'){
-                        	aa[i].width = 80
-                        	aa[i].fixed = 'left'
-                        }else if(aa[i].title =='证件号码'){
-                        	aa[i].width = 150
-                        }else if(aa[i].title == '部门名称'){
-                        	aa[i].width = 80
-                        }else if(aa[i].type == 'selection'){
-                       		aa[i].fixed = 'left'
+                        if (aa[i].title == '姓名') {
+                            aa[i].width = 80
+                            aa[i].fixed = 'left'
+                        } else if (aa[i].title == '初试人员') {
+                            aa[i].width = 80
+                        } else if (aa[i].title == '复试人员') {
+                            aa[i].width = 80
+                        } else if (aa[i].title == '面到时间') {
+                            aa[i].width = 150
+                        } else if (aa[i].title == '员工姓名') {
+                            aa[i].width = 80
+                            aa[i].fixed = 'left'
+                        } else if (aa[i].title == '证件号码') {
+                            aa[i].width = 150
+                        } else if (aa[i].title == '部门名称') {
+                            aa[i].width = 80
+                        } else if (aa[i].type == 'selection') {
+                            aa[i].fixed = 'left'
                         }
                         if (aa[i].className !== '') {
                             aa[i].width = 120
@@ -346,7 +346,8 @@ export default {
             if (this.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
-                this.logType="加入黑名单";
+                this.logType = "加入黑名单";
+                this.tableselected = this.tableselected.toString();
                 this.openTransaction = true;
             }
         },
@@ -507,7 +508,7 @@ export default {
         closeSelCountry () {
             this.openSelCountry = false
         },
-         closeTransaction () {
+        closeTransaction () {
             this.openTransaction = false;
         }
     },
