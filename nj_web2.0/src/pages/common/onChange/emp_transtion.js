@@ -8,8 +8,9 @@ const emp_transtion = {
   all_dis() {
     emp_transtion.transDate_set(this)
     emp_transtion.transPostinfo_dis(this)
+    //emp_transtion.transMaterialtm_set(this);
     emp_transtion.transMaterial_dis(this);
-    emp_transtion.money_dis(this)
+    emp_transtion.money_dis(this);
     //emp_transtion.transDeposit_dis(this)
   },
   transPostinfo(node) {
@@ -41,6 +42,13 @@ const emp_transtion = {
     }
   },
 
+//   transMaterialtm_set(t) {
+//     if (t.valueMap.transMaterialtm) {
+//         if(t.$refs[t.valueMap.transMaterialtm][0].formDataSubmit.transMaterialtm.length<=0){
+//           t.$refs[t.valueMap.transMaterialtm][0].$set(t.$refs[t.valueMap.transMaterialtm][0].formDataSubmit, 'transMaterialtm',  new Date().format('yyyy-MM-dd'))
+//         }
+//     }
+//   },
   transPostinfo_dis(t) {
     if (t.valueMap.transPostinfo) {
       if (t.$refs[t.valueMap.transPostinfo][0].formDataSubmit.transPostinfo === '0') {
