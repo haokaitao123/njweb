@@ -39,6 +39,8 @@ import btnOperate from '../components/btnAuth/btnState'
 import empBorrow from '../pages/empManage/empBorrow/empBorrow'
 import commonPage from '../components/commonPage/comPage'
 import empMaster from '../pages/empManage/empmaster-manage3/empmaster'
+import recruitProcess from '../pages/common/commonFlowList/recruitProcess'
+import autoSearch from '@/pages/common/searchTable/autoSearch'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -87,7 +89,9 @@ const store = new Vuex.Store({
     btnOperate,
     empBorrow,
     commonPage,
-    empMaster
+    empMaster,
+    recruitProcess,
+    autoSearch
   }
 });
 

@@ -146,6 +146,7 @@ export default {
             })
         },
         close () {
+            this.$store.commit('autoSearch/setRow', '')
             this.$emit('closeUp')
         },
         dbCkick (row) {
@@ -155,7 +156,8 @@ export default {
             for (let i = 0; i < aa.length; i++) {
                 jldata[aa[i].key] = row[aa[i].value]
             }
-            t.$emit('setJLData', jldata)
+            t.$emit('setJLData', jldata);
+            t.$store.commit('autoSearch/setRow', row)
             if (searchTable[this.modiaContent].code) {
                 this.$emit('changeinput', row[t.valueText], row[searchTable[this.modiaContent].code])
             } else {

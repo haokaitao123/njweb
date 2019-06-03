@@ -62,7 +62,7 @@
                         </span>
 					</FormItem>
 				</i-col>
-                <i-col span="11">
+				<i-col span="11">
 					<FormItem label="工作地点" prop="empnhWklocat">
 						<span @dblclick="disabled?'':workplace()">
                             <Input v-model="empnhWklocatDis"
@@ -152,7 +152,7 @@
 						<Input v-model="form.empnhWechat" :disabled="disabled" placeholder="请输入微信号码"></Input>
 					</FormItem>
 				</i-col>
-				
+
 				<i-col span="11">
 					<FormItem label="成本中心" prop="empnhCostcent">
 						<span @dblclick="disabled?'':clearCostcenter()">
@@ -298,7 +298,7 @@
 			</transition>
 			<!--直接上級-->
 			<transition name="fade">
-				<searchEmpMaster v-show="openEmpMaster" :deptId ="deptId" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
+				<searchEmpMaster v-show="openEmpMaster" :deptId="deptId" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
 			</transition>
 			<!--银行-->
 			<transition name="fade">
@@ -329,8 +329,8 @@
 		getDataLevelUserLogin,
 		uploadFile
 	} from "../../../../axios/axios";
-    import { isSuccess, deepCopy } from "../../../../lib/util";
-    import city from '@/lib/cityData'
+	import { isSuccess, deepCopy } from "../../../../lib/util";
+	import city from '@/lib/cityData'
 	import valid from '../../../../lib/pub_valid'
 	import searchCity from "../../../../components/searchTable/searchCity";
 	import searchDept from '../../../../components/searchTable/searchDept'
@@ -404,22 +404,31 @@
 					}
 					callback()
 				}
-            };
-            //居住地址验证
+			};
+			//居住地址验证
 			const addressCheck = (rule, value, callback) => {
 				if(value !== '' && value !== undefined) {
-                     let address =  this.form.empnhResiaddr;
-					if(value.length>3) {
+					let address = this.form.empnhResiaddr;
+					if(value.length > 3) {
 						return callback()
 					}
 					return callback(new Error('请输入详细的居住地址'))
-                }
-                else{
+				} else {
 
-                    callback(new Error('请输入居住地址'))
-                }
+					callback(new Error('请输入居住地址'))
+				}
+			};
             };
             
+			//银行卡号码的验证
+			const backCardCheck = (rule, value, callback) => {
+				var pattern = /^([1-9]{1})(\d{14}|\d{18})$/,
+					str = value.replace(/\s+/g, "");
+				if(!pattern.test(str)) {
+					callback(new Error('请输入正确的银行卡号码'))
+				}
+				callback()
+			}
 			return {
 				disabled: false,
 				popup: '',
@@ -488,8 +497,8 @@
 				openEmpMaster: false,
 				openBank: false,
 				openCostCenter: false,
-                spinShow: false,
-                deptId:"",
+				spinShow: false,
+				deptId: "",
 				//部门
 				searchDeptCloumns: [{
 						title: '部门编码',
@@ -701,17 +710,17 @@
 						},
 					],
 					empnhResiaddr: [
-                        // {
+						// {
 						// required: true,
 						// message: "请输入居住地址",
 						// trigger: "blur"
-                        // },
-                        {
+						// },
+						{
 							validator: addressCheck,
 							message: '请输入详细的居住地址',
 							trigger: 'blur'
 						},
-                    ],
+					],
 					empnhRegaddr: [{
 						required: true,
 						message: "请输入户籍地址",
@@ -768,7 +777,7 @@
 							trigger: "blur"
 						},
 						{
-							validator: numberCheck,
+							validator: backCardCheck,
 							message: '请输入正确的数字格式',
 							trigger: 'blur'
 						},
@@ -885,26 +894,26 @@
 					});;
 			},
 			cop() {
-                this.form.empnhSalaccname = this.form.empnhName;
-                if( this.form.empnhName!==""){
-                     const t =this;
-                    getDataLevelUserLogin({
-                        _mt : "empEmpnh.getCompmailByName",
-                        logType : t.logType,
-                        name :t.form.empnhName,
-                    })
-                    .then(res => {
-                        if(isSuccess(res, t)) {
-                            let empnhCompmail = res.data.content[0].empnhCompmail;
-                            if(empnhCompmail){
-                                this.form.empnhCompmail = empnhCompmail
-                            }
-                        }
-                    })
-                    .catch(() => {
-                        t.$Message.error('网络错误');
-                    });
-                }
+				this.form.empnhSalaccname = this.form.empnhName;
+				if(this.form.empnhName !== "") {
+					const t = this;
+					getDataLevelUserLogin({
+							_mt: "empEmpnh.getCompmailByName",
+							logType: t.logType,
+							name: t.form.empnhName,
+						})
+						.then(res => {
+							if(isSuccess(res, t)) {
+								let empnhCompmail = res.data.content[0].empnhCompmail;
+								if(empnhCompmail) {
+									this.form.empnhCompmail = empnhCompmail
+								}
+							}
+						})
+						.catch(() => {
+							t.$Message.error('网络错误');
+						});
+				}
 
 			},
 			//查询公共参数
@@ -936,330 +945,329 @@
 			},
 
 			//失去焦点事件
-			monthCount(){
+			monthCount() {
 				if(this.form.empnhIdtype === '01id') {
-					if(valid.val_identity(this.form.empnhIdno)){
-                        let str = this.form.empnhIdno;
-                        let res = parseInt(str.substring(16, 17));
-                        console.log(res)
-                        if(res % 2 == 1) {
-                            this.form.empnhGender = '01male';
-                        } else {
-                            this.form.empnhGender = '02female';
-                        }
-                        let UUserCard = this.form.empnhIdno;
-                        this.form.empnhBirthdate = new Date(UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14))
-                         for (let v of city.cityData) {
-                            if (UUserCard.substring(0, 6) == v.code) {
-                               
-                                this.form.empnhRegaddr = v.title
-                            }
-                            }
-					}
-				}
-            },
-            
+					if(valid.val_identity(this.form.empnhIdno)) {
+						let str = this.form.empnhIdno;
+						let res = parseInt(str.substring(16, 17));
+						console.log(res)
+						if(res % 2 == 1) {
+							this.form.empnhGender = '01male';
+						} else {
+							this.form.empnhGender = '02female';
+						}
+						let UUserCard = this.form.empnhIdno;
+						this.form.empnhBirthdate = new Date(UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14))
+						for(let v of city.cityData) {
+							if(UUserCard.substring(0, 6) == v.code) {
 
-	//保存方法
-	save() {
-			const t = this;
-			const data = deepCopy(t.form);
-			data._mt = "empEmpnh.addOrUpd";
-			data.logType = t.logType;
-			data.id = t.id;
-			if(t.logType === '修改') {
-				data.id = t.id
-			}
-			// 日期字段进行转换
-			if(data.empnhSday !== undefined) {
-				data.empnhSday = data.empnhSday === "" ? "" : new Date(data.empnhSday).format("yyyy-MM-dd");
-			}
-			if(data.empnhEday !== undefined) {
-				data.empnhEday = data.empnhEday === "" ? "" : new Date(data.empnhEday).format("yyyy-MM-dd");
-			}
-			if(data.empnhBirthdate !== undefined) {
-				data.empnhBirthdate = data.empnhBirthdate === "" ? "" : new Date(data.empnhBirthdate).format("yyyy-MM-dd");
-			}
-			if(data.empnhEntrydate !== undefined) {
-				data.empnhEntrydate = data.empnhEntrydate === "" ? "" : new Date(data.empnhEntrydate).format("yyyy-MM-dd");
-			}
-			if(data.empnhIrmentdate !== undefined) {
-				data.empnhIrmentdate = data.empnhIrmentdate === "" ? "" : new Date(data.empnhIrmentdate).format("yyyy-MM-dd");
-			}
-			if(data.empnhFirstwkdate !== undefined) {
-				data.empnhFirstwkdate = data.empnhFirstwkdate === "" ? "" : new Date(data.empnhFirstwkdate).format("yyyy-MM-dd");
-			}
-			if(data.empnhTechdate !== undefined) {
-				data.empnhTechdate = data.empnhTechdate === "" ? "" : new Date(data.empnhTechdate).format("yyyy-MM-dd");
-			}
-			//        保存无需关闭页面 无需变更
-			this.$refs.form.validate((valid) => {
-				if(valid) {
-					getDataLevelUserLoginNew(data)
-						.then(res => {
-							if(isSuccess(res, t)) {
-								if(t.logType === '修改') {
-									t.$Message.success('修改成功');
-									t.$emit("update", res.data.content[0]);
-								} else {
-									t.$Message.success('新增成功');
-									t.$store.commit('empMaster/setMainId', res.data.content[0].id);
-									t.$store.commit('empMaster/setLogType', "修改");
-									t.$emit("newdata", res.data.content[0]);
-								}
+								this.form.empnhRegaddr = v.title
 							}
-						})
-						.catch(() => {
-							this.$Message.error('网络错误');
-						});
+						}
+					}
 				}
-			});
-		},
-		clear() {
-			const t = this;
-			this.$refs.scrollBox.$el.scrollTop = "0";
-			t.form = {};
-			t.form.numberCode = "XXXXXX";
-			t.form.empnhAttendyn = "1";
-			t.form.empnhNation = "10";
-            t.form.empnhIdtype = "01id";
-            t.form.empnhWklocat = "1410";
-            t.form.empnhResiaddr = "武汉市";
-			t.empnhRegtypeDis = ""; // 户籍性质显示字段
-			t.empnhSalbankDis = ""; // 开户银行显示字段
-			t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
-			t.empnhGenderDis = ""; // 性别显示字段
-			t.empnhNationDis = ""; // 民族显示字段 弹框
-			t.unitFname = ""; // 部门名称显示字段 弹框
-			t.postFname = ""; // 岗位名称显示字段  弹框
-			t.empnhPmpDis = ""; // 直接上级显示字段 弹框
-			t.empnhIdtypeDis = ""; // 证件类型显示字段
-			t.empnhRegaddrDis = ""; // 户籍地址显示字段
-			t.empnhAttendynDis = ""; // 是否考勤显示字段
-			t.empnhWklocatDis = "武汉市"; // 工作地点显示字段 弹框
-			t.empnhMarriageDis = ""; // 婚姻状况显示字段
-			t.empnhPoliticalDis = ""; // 政治面貌显示字段
-			t.empnhTechtilDis = ""; // 职称显示字段
-			t.file = '';
-			this.$refs.form.resetFields();
-			t.disabled = false
+			},
 
-		},
-		//城市
-		close() {
-			this.openPick = false;
-		},
-		changeinput(name, id) {
-			this.empnhWklocatDis = name;
-            this.form.empnhWklocat = id;
-            this.form.empnhResiaddr = this.empnhWklocatDis;
-		},
-		pickData() {
-			const t = this
-			this.popup = '0'
-			this.$refs.searchCity.getData(this.params)
-			this.openPick = true
-		},
-		workplace() {
-			const t = this
-			t.empnhWklocatDis = ''
-			t.form.empnhWklocat = ''
-		},
-		//部门
-		cleardeptId() {
-			const t = this
-			t.unitFname = ''
-			t.form.deptId = ''
-		},
-		pickDeptData() {
-			const t = this
-			const paramsDept = deepCopy(t.deptParams)
-			t.$refs.searchDept.getData(paramsDept)
-			t.openDeptPick = true
-		},
-		closeDept() {
-			const t = this
-			t.$refs.searchDept.unitCode = ''
-			t.openDeptPick = false
-		},
-		changeDeptInput(name, id) {
-			const t = this
-			console.log(name, "name")
-			t.unitFname = name
-			t.form.deptId = id
-		},
-		//岗位
-		dbPost() {
-			const t = this;
-			t.form.postId = "";
-			t.postFname = "";
-		},
-		selectPost() {
-			const t = this;
-			const paramsPost = deepCopy(t.paramsPost);
-			t.$refs.searchPost.getData(paramsPost);
-			t.openPost = true;
-		},
-		closePost() {
-			const t = this;
-			t.$refs.searchPost.postCode = "";
-			t.openPost = false;
-		},
-		inputPost(name, id, postName, postId) {
-			const t = this;
-			t.postFname = name;
-			t.form.postId = id;
-		},
-		//选择员工
-		pickEmpData() {
-            const t = this;
-            if(t.unitFname===""){
-                this.$Message.warning('请选择部门');
-            }else{
-                console.log( t.form.deptId," t.form.deptId")
-                t.$store.commit('empMaster/setDeptId', t.form.deptId);
-                t.$refs.searchEmpMaster.getData();
-			    t.openEmpMaster = true;
-            }
-		},
-		closeEmp() {
-			const t = this
-			t.openEmpMaster = false
-		},
-		inputEmp(row) {
-			const t = this
-			t.empnhPmpDis = row.empnhName;
-			t.form.empnhPmp = row.id;
-		},
-		dbclean() {
-			const t = this
-			t.empnhPmpDis = '';
-			t.form.empnhPmp = '';
-		},
-		//银行
-		selectBank() {
-			const t = this;
-			t.$refs.searchBank.getData(this.paramsBank);
-			t.openBank = true;
-		},
-		inputBank(name, id) {
-			const t = this;
-			console.log(name, "name")
-			t.empnhSalbankDis = name;
-			t.form.empnhSalbank = id;
-		},
-		dbbkBank() {
-			const t = this;
-			t.empnhSalbankDis = "";
-			t.form.empnhSalbank = "";
-		},
-		closeBank() {
-			const t = this;
-			t.$refs.searchBank.bankCname = "";
-			t.openBank = false;
-		},
-		//成本中心
-		clearCostcenter() {
-			const t = this
-			t.empnhCostcentDis = ''
-			t.form.empnhCostcent = ''
-		},
-		pickCostCenterkData() {
-			const t = this
-			t.$refs.searchOrgcostcenter.getData(this.paramsCostCenter)
-			t.openCostCenter = true
-		},
-		inputCostCenter(name, id) {
-			const t = this
-			t.empnhCostcentDis = name
-			t.form.empnhCostcent = id
-		},
-		closeCostCenter() {
-			const t = this
-			t.openCostCenter = false
-		},
-		//附件上传
-		handleUpload(file) {
-			this.file = file
-			this.loadingStatus = true
-			return false
-		},
-		//上传
-		uploadLocalFile() {
-			const t = this
-			const formData = new FormData()
-			formData.append('upfile', t.file)
-			console.log(formData)
-			uploadFile(formData).then(res => {
-				for(const key in res.data) {
-					t.file = {
-						name: key
-					}
-					t.filekey = res.data[key]
-					t.form.fileKey = key + ':' + res.data[key]
+			//保存方法
+			save() {
+				const t = this;
+				const data = deepCopy(t.form);
+				data._mt = "empEmpnh.addOrUpd";
+				data.logType = t.logType;
+				data.id = t.id;
+				if(t.logType === '修改') {
+					data.id = t.id
 				}
-				this.$Message.success('上传成功');
-				this.loadingStatus = false;
-			}).catch(() => {
-				this.$Message.error('网络错误');
-			})
-		},
-		//下载
-		downloadFile() {
-			const t = this
-			let data = {
-				_mt: 'userMgmt.getfiletoken',
-				isprivate: true,
-				logType: '导出',
-				filekey: t.filekey,
-				expiresecs: 180,
-			}
-			getDataLevelUserLogin(data).then((res) => {
-				if(isSuccess(res, t)) {
-					localStorage.pageOpenedListAll = JSON.stringify(JSON.parse(localStorage.pageOpenedList))
-					if(this.isIE()) {
-						window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
-					} else {
-						let doclink = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
-						let link = document.createElement('a')
-						link.href = doclink
-						link.download = 'downloadfiletemp'
-						link.setAttribute('download', 'downloadfiletemp');
-						document.body.appendChild(link);
-						link.click();
-					}
-					this.$store.state.app.pageOpenedList = JSON.parse(localStorage.pageOpenedListAll)
-					localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
+				// 日期字段进行转换
+				if(data.empnhSday !== undefined) {
+					data.empnhSday = data.empnhSday === "" ? "" : new Date(data.empnhSday).format("yyyy-MM-dd");
 				}
-			}).catch(() => {
-				this.$Message.error('网络错误');
-			})
-		},
-		//清除附件
-		clearFile(ckdis) {
-			this.$Modal.confirm({
-				title: this.$t("reminder.remind"),
-				content: "是否清除已上传的附件",
-				onOk: () => {
-					this.file = ""
-					this.filekey = ""
-					this.form.fileKey = ""
+				if(data.empnhEday !== undefined) {
+					data.empnhEday = data.empnhEday === "" ? "" : new Date(data.empnhEday).format("yyyy-MM-dd");
+				}
+				if(data.empnhBirthdate !== undefined) {
+					data.empnhBirthdate = data.empnhBirthdate === "" ? "" : new Date(data.empnhBirthdate).format("yyyy-MM-dd");
+				}
+				if(data.empnhEntrydate !== undefined) {
+					data.empnhEntrydate = data.empnhEntrydate === "" ? "" : new Date(data.empnhEntrydate).format("yyyy-MM-dd");
+				}
+				if(data.empnhIrmentdate !== undefined) {
+					data.empnhIrmentdate = data.empnhIrmentdate === "" ? "" : new Date(data.empnhIrmentdate).format("yyyy-MM-dd");
+				}
+				if(data.empnhFirstwkdate !== undefined) {
+					data.empnhFirstwkdate = data.empnhFirstwkdate === "" ? "" : new Date(data.empnhFirstwkdate).format("yyyy-MM-dd");
+				}
+				if(data.empnhTechdate !== undefined) {
+					data.empnhTechdate = data.empnhTechdate === "" ? "" : new Date(data.empnhTechdate).format("yyyy-MM-dd");
+				}
+				//        保存无需关闭页面 无需变更
+				this.$refs.form.validate((valid) => {
+					if(valid) {
+						getDataLevelUserLoginNew(data)
+							.then(res => {
+								if(isSuccess(res, t)) {
+									if(t.logType === '修改') {
+										t.$Message.success('修改成功');
+										t.$emit("update", res.data.content[0]);
+									} else {
+										t.$Message.success('新增成功');
+										t.$store.commit('empMaster/setMainId', res.data.content[0].id);
+										t.$store.commit('empMaster/setLogType', "修改");
+										t.$emit("newdata", res.data.content[0]);
+									}
+								}
+							})
+							.catch(() => {
+								this.$Message.error('网络错误');
+							});
+					}
+				});
+			},
+			clear() {
+				const t = this;
+				this.$refs.scrollBox.$el.scrollTop = "0";
+				t.form = {};
+				t.form.numberCode = "XXXXXX";
+				t.form.empnhAttendyn = "1";
+				t.form.empnhNation = "10";
+				t.form.empnhIdtype = "01id";
+				t.form.empnhWklocat = "1410";
+				t.form.empnhResiaddr = "武汉市";
+				t.empnhRegtypeDis = ""; // 户籍性质显示字段
+				t.empnhSalbankDis = ""; // 开户银行显示字段
+				t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
+				t.empnhGenderDis = ""; // 性别显示字段
+				t.empnhNationDis = ""; // 民族显示字段 弹框
+				t.unitFname = ""; // 部门名称显示字段 弹框
+				t.postFname = ""; // 岗位名称显示字段  弹框
+				t.empnhPmpDis = ""; // 直接上级显示字段 弹框
+				t.empnhIdtypeDis = ""; // 证件类型显示字段
+				t.empnhRegaddrDis = ""; // 户籍地址显示字段
+				t.empnhAttendynDis = ""; // 是否考勤显示字段
+				t.empnhWklocatDis = "武汉市"; // 工作地点显示字段 弹框
+				t.empnhMarriageDis = ""; // 婚姻状况显示字段
+				t.empnhPoliticalDis = ""; // 政治面貌显示字段
+				t.empnhTechtilDis = ""; // 职称显示字段
+				t.file = '';
+				this.$refs.form.resetFields();
+				t.disabled = false
+
+			},
+			//城市
+			close() {
+				this.openPick = false;
+			},
+			changeinput(name, id) {
+				this.empnhWklocatDis = name;
+				this.form.empnhWklocat = id;
+				this.form.empnhResiaddr = this.empnhWklocatDis;
+			},
+			pickData() {
+				const t = this
+				this.popup = '0'
+				this.$refs.searchCity.getData(this.params)
+				this.openPick = true
+			},
+			workplace() {
+				const t = this
+				t.empnhWklocatDis = ''
+				t.form.empnhWklocat = ''
+			},
+			//部门
+			cleardeptId() {
+				const t = this
+				t.unitFname = ''
+				t.form.deptId = ''
+			},
+			pickDeptData() {
+				const t = this
+				const paramsDept = deepCopy(t.deptParams)
+				t.$refs.searchDept.getData(paramsDept)
+				t.openDeptPick = true
+			},
+			closeDept() {
+				const t = this
+				t.$refs.searchDept.unitCode = ''
+				t.openDeptPick = false
+			},
+			changeDeptInput(name, id) {
+				const t = this
+				console.log(name, "name")
+				t.unitFname = name
+				t.form.deptId = id
+			},
+			//岗位
+			dbPost() {
+				const t = this;
+				t.form.postId = "";
+				t.postFname = "";
+			},
+			selectPost() {
+				const t = this;
+				const paramsPost = deepCopy(t.paramsPost);
+				t.$refs.searchPost.getData(paramsPost);
+				t.openPost = true;
+			},
+			closePost() {
+				const t = this;
+				t.$refs.searchPost.postCode = "";
+				t.openPost = false;
+			},
+			inputPost(name, id, postName, postId) {
+				const t = this;
+				t.postFname = name;
+				t.form.postId = id;
+			},
+			//选择员工
+			pickEmpData() {
+				const t = this;
+				if(t.unitFname === "") {
+					this.$Message.warning('请选择部门');
+				} else {
+					console.log(t.form.deptId, " t.form.deptId")
+					t.$store.commit('empMaster/setDeptId', t.form.deptId);
+					t.$refs.searchEmpMaster.getData();
+					t.openEmpMaster = true;
+				}
+			},
+			closeEmp() {
+				const t = this
+				t.openEmpMaster = false
+			},
+			inputEmp(row) {
+				const t = this
+				t.empnhPmpDis = row.empnhName;
+				t.form.empnhPmp = row.id;
+			},
+			dbclean() {
+				const t = this
+				t.empnhPmpDis = '';
+				t.form.empnhPmp = '';
+			},
+			//银行
+			selectBank() {
+				const t = this;
+				t.$refs.searchBank.getData(this.paramsBank);
+				t.openBank = true;
+			},
+			inputBank(name, id) {
+				const t = this;
+				console.log(name, "name")
+				t.empnhSalbankDis = name;
+				t.form.empnhSalbank = id;
+			},
+			dbbkBank() {
+				const t = this;
+				t.empnhSalbankDis = "";
+				t.form.empnhSalbank = "";
+			},
+			closeBank() {
+				const t = this;
+				t.$refs.searchBank.bankCname = "";
+				t.openBank = false;
+			},
+			//成本中心
+			clearCostcenter() {
+				const t = this
+				t.empnhCostcentDis = ''
+				t.form.empnhCostcent = ''
+			},
+			pickCostCenterkData() {
+				const t = this
+				t.$refs.searchOrgcostcenter.getData(this.paramsCostCenter)
+				t.openCostCenter = true
+			},
+			inputCostCenter(name, id) {
+				const t = this
+				t.empnhCostcentDis = name
+				t.form.empnhCostcent = id
+			},
+			closeCostCenter() {
+				const t = this
+				t.openCostCenter = false
+			},
+			//附件上传
+			handleUpload(file) {
+				this.file = file
+				this.loadingStatus = true
+				return false
+			},
+			//上传
+			uploadLocalFile() {
+				const t = this
+				const formData = new FormData()
+				formData.append('upfile', t.file)
+				console.log(formData)
+				uploadFile(formData).then(res => {
+					for(const key in res.data) {
+						t.file = {
+							name: key
+						}
+						t.filekey = res.data[key]
+						t.form.fileKey = key + ':' + res.data[key]
+					}
+					this.$Message.success('上传成功');
 					this.loadingStatus = false;
-				},
-				onCancel: () => {}
-			})
-		},
-		//转正日期默认为入职日期3个月以后
-		entrydateChange(date) {
-			//this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
-			date = new Date(date)
-			let entryDate = date.setMonth(date.getMonth() + 6);
-			console.log(new Date(entryDate).getDate()-1,"123")
-			entryDate = new Date(entryDate).setDate(new Date(entryDate).getDate()-1);
-			this.form.empnhIrmentdate = new Date(entryDate).format('yyyy-MM-dd')
-        },
-        
-	}
+				}).catch(() => {
+					this.$Message.error('网络错误');
+				})
+			},
+			//下载
+			downloadFile() {
+				const t = this
+				let data = {
+					_mt: 'userMgmt.getfiletoken',
+					isprivate: true,
+					logType: '导出',
+					filekey: t.filekey,
+					expiresecs: 180,
+				}
+				getDataLevelUserLogin(data).then((res) => {
+					if(isSuccess(res, t)) {
+						localStorage.pageOpenedListAll = JSON.stringify(JSON.parse(localStorage.pageOpenedList))
+						if(this.isIE()) {
+							window.location.href = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
+						} else {
+							let doclink = pubsource.pub_prvf_downlink + res.data.content[0].value + '&fname=' + encodeURI(t.filekey)
+							let link = document.createElement('a')
+							link.href = doclink
+							link.download = 'downloadfiletemp'
+							link.setAttribute('download', 'downloadfiletemp');
+							document.body.appendChild(link);
+							link.click();
+						}
+						this.$store.state.app.pageOpenedList = JSON.parse(localStorage.pageOpenedListAll)
+						localStorage.pageOpenedList = JSON.stringify(JSON.parse(localStorage.pageOpenedListAll))
+					}
+				}).catch(() => {
+					this.$Message.error('网络错误');
+				})
+			},
+			//清除附件
+			clearFile(ckdis) {
+				this.$Modal.confirm({
+					title: this.$t("reminder.remind"),
+					content: "是否清除已上传的附件",
+					onOk: () => {
+						this.file = ""
+						this.filekey = ""
+						this.form.fileKey = ""
+						this.loadingStatus = false;
+					},
+					onCancel: () => {}
+				})
+			},
+			//转正日期默认为入职日期3个月以后
+			entrydateChange(date) {
+				//this.empnhIrmentdate=date.setMonth(date.getMonth() + 3);
+				date = new Date(date)
+				let entryDate = date.setMonth(date.getMonth() + 6);
+				console.log(new Date(entryDate).getDate() - 1, "123")
+				entryDate = new Date(entryDate).setDate(new Date(entryDate).getDate() - 1);
+				this.form.empnhIrmentdate = new Date(entryDate).format('yyyy-MM-dd')
+			},
+
+		}
 	};
 </script>
 <style lang="scss" scoped>
@@ -1273,7 +1281,7 @@
 			right: 20px;
 		}
 	}
-
+	
 	// #empForm:after {
 	//     clear: both;
 	//     content: "";

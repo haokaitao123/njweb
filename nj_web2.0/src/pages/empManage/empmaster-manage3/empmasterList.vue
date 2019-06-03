@@ -46,6 +46,20 @@
                                     :editable="false"
                                     v-model="dimLevsqday"
                                     style="width: 200px"></DatePicker>
+                                <Select
+                                v-model="empnhSalaccount"
+                                style="width: 200px"
+                                placeholder="请选择有无银行卡号"
+                                clearable
+                                >
+                                <Option
+                                    :value="item.paramCode"
+                                    v-for="(item,index) in selectBank"
+                                    :key="index"
+                                     @click="getPageByType(item.paramCode)"
+                                >{{item.paramInfoCn}}</Option>
+                                </Select>
+                        </i-col>
                         <btnList :btnData="btnData"
                                  :FlowNode="FlowNode"
                                  @buttonExport="expData"
@@ -211,6 +225,7 @@ export default {
             treeheight: document.body.offsetHeight - 200,
             tableheight: document.body.offsetHeight - 280,
             tableselected: [],
+            selectBank:[],
             loading: true,
             logType: "",
             openUpdate: false,
@@ -224,6 +239,7 @@ export default {
             postName: "",
             empnhEntrydate: "",
             dimLevsqday: "",
+            empnhSalaccount:"",
             columns: [
                 {
                     type: "selection",
@@ -477,6 +493,7 @@ export default {
     mounted () {
         this.getData();
         this.getTree();
+        this.getSelect();
     },
     methods: {
         // 查询
@@ -504,6 +521,7 @@ export default {
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
                 dimLevsqday: t.dimLevsqday,
+                empnhSalaccount:t.empnhSalaccount,
                 empnhEntrydate: t.empnhEntrydate,
                 deptId: id,
                 postId: t.postId,
@@ -869,6 +887,24 @@ export default {
             t.postId = id
             t.postName = name
         },
+        getSelect () {
+            const t = this;
+            getDataLevelUserLogin({
+                _mt: "baseParmInfo.getSelectValue",
+                typeCode: "haveyn,"
+            })
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        t.selectBank = res.data.content[0].value[0].paramList;
+                    }
+                })
+                .catch(() => {
+                    this.$Message.error('网络错误');
+                });
+        },
+        getPageByType (paramCode) {
+            this.getData();
+        },//根据类型获取列表
         //关闭岗位弹出框
         closeTable () {
             const t = this

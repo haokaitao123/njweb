@@ -350,6 +350,9 @@ export default {
     computed: {
         funId () {
             return this.$store.state.user.funId;
+        },
+        entry () {
+            return this.$store.state.recruitProcess.entry;
         }
     },
     created () {
@@ -946,26 +949,39 @@ export default {
         },
         close () {
             const t = this
-            t.$Modal.confirm({
-                title: this.$t('reminder.remind'),
-                content: '是否确认关闭？',
-                onOk: () => {
-                    t.docs = []
-                    t.operation = []
-                    t.mailRecords = []
-                    t.$emit('close')
-                },
-            })
+            // t.$Modal.confirm({
+            //     title: this.$t('reminder.remind'),
+            //     content: '是否确认关闭？',
+            //     onOk: () => {
+            t.docs = []
+            t.operation = []
+            t.mailRecords = []
+            if (t.funId == 1406 && t.stepId == 0) {
+                t.$store.commit('autoSearch/setRow', '')
+            }
+            t.$emit('close')
+            //     },
+            // })
         },
         isSubmit () {
             const t = this
-            t.$Modal.confirm({
-                title: this.$t('reminder.remind'),
-                content: '是否确认提交？',
-                onOk: () => {
-                    t.submit()
-                },
-            })
+            if (this.entry === 'true') {
+                t.$Modal.confirm({
+                    title: this.$t('reminder.remind'),
+                    content: '是否确认提交？',
+                    onOk: () => {
+                        t.submit()
+                    },
+                })
+            } else {
+                t.$Modal.confirm({
+                    title: this.$t('reminder.remind'),
+                    content: '试岗3天后才可以入职,是否确认提交？',
+                    onOk: () => {
+                        t.submit()
+                    },
+                })
+            }
         },
         async submit () {
             const t = this
