@@ -417,9 +417,7 @@
 
 					callback(new Error('请输入居住地址'))
 				}
-			};
-            };
-            
+			}; 
 			//银行卡号码的验证
 			const backCardCheck = (rule, value, callback) => {
 				var pattern = /^([1-9]{1})(\d{14}|\d{18})$/,
@@ -778,7 +776,7 @@
 						},
 						{
 							validator: backCardCheck,
-							message: '请输入正确的数字格式',
+							message: '请输入正确位数的银行账号',
 							trigger: 'blur'
 						},
 					],
