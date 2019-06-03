@@ -418,7 +418,8 @@
 
                     callback(new Error('请输入居住地址'))
                 }
-			};
+            };
+            
 			return {
 				disabled: false,
 				popup: '',
