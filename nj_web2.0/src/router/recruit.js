@@ -6,6 +6,8 @@
 import recruitBlackList from '@/pages/recruitManage/recruitBlackListManage'
 //招聘信息报表
 import RecruitReport from '@/pages/RecruitReManage/recruitReManage'
+//招聘报表统计
+import RecruitCensus from '@/pages/RecruitCensus/RecruitCensusList'
 export default [
 
     {
@@ -17,5 +19,10 @@ export default [
       path: 'RecruitReport',
       name: 'RecruitReport',
       component: RecruitReport,
+    },
+    {
+      path: 'RecruitCensus',
+      name: 'RecruitCensus',
+      component: RecruitCensus,
     },
 ]
