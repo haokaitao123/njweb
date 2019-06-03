@@ -10,13 +10,17 @@
                         <!--主子表左侧页面布局-->
                         <MenuItem name="empBaseInfo">员工基础信息</MenuItem>
                         <MenuItem name="empEducation"
-                                  v-show="this.logType!='新增'">学历信息管理</MenuItem>
+                                  :disabled="logType==='新增'"
+                                  @click.native="logType==='新增'?tips():''">学历信息管理</MenuItem>
                         <MenuItem name="empContractInfo"
-                                  v-show="this.logType!='新增'">合同信息管理</MenuItem>
+                                  :disabled="logType==='新增'"
+                                  @click.native="logType==='新增'?tips():''">合同信息管理</MenuItem>
                         <MenuItem name="empWorkExp"
-                                  v-show="this.logType!='新增'">工作经历管理</MenuItem>
+                                  :disabled="logType==='新增'"
+                                  @click.native="logType==='新增'?tips():''">工作经历管理</MenuItem>
                         <MenuItem name="empFamily"
-                                  v-show="this.logType!='新增'">家庭成员管理</MenuItem>
+                                  :disabled="logType==='新增'"
+                                  @click.native="logType==='新增'?tips():''">家庭成员管理</MenuItem>
                     </Menu>
                 </i-col>
                 <i-col class="meau-right"
@@ -108,7 +112,7 @@ export default {
         },
         //      默认方法
         changeMenu () {
-            this.active = "content";
+            this.active = "empBaseInfo";
         },
         // 主表信息查询方法 无需变更
         getOption (id, logType) {
@@ -119,6 +123,10 @@ export default {
             if (logType == "查看") {
                 this.$refs.empBaseInfo.disabled = true
             }
+        },
+        tips () {
+            this.active = "empBaseInfo";
+            this.$Message.warning('请先保存数据!');
         },
         //       根据name分别调用 主表或子表的查询方法 无需变更
         pageTo (name) {
