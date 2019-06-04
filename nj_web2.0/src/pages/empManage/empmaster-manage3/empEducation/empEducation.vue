@@ -260,7 +260,7 @@ export default {
             docsName: "",
             params: {
                 _mt: "empEducation.getPage",
-                rows: 10,
+                rows: 20,
                 page: 1,
                 sort: "id",
                 order: "asc",

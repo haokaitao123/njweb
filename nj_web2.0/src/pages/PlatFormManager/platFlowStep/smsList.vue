@@ -7,7 +7,7 @@
     <row class="table-form" ref="table-form">
       <Table @on-selection-change="selectedtable" @on-sort-change="sortable" :height="410" size="small" border ref="selection" :columns="columns" :data="$store.state.flowStepData.childTable6"></Table>
     </row>
-    <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
+    <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
     <updSmsDetail v-show="showMsg" @hideMsg="hideMsg" ref="updSmsDetail" :logType="logType"></updSmsDetail>
     <smsToList v-show="showConMsg" @hideMsg="hideConMsg" ref="smsToList" :logType="logType"></smsToList>
     <smsVar v-show="showVarMsg" @hideMsg="hideVarMsg" ref="smsVar"></smsVar>
@@ -28,7 +28,7 @@
         total: NaN,
         sort: 'id',
         order: 'desc',
-        rows: 10,
+        rows: 20,
         page: 1,
         tableselected: [],
         showMsg: false,

@@ -18,7 +18,7 @@
         <row class="table-form" ref="table-form">
           <Table @on-select="selectedtable" @on-select-cancel="selectedtable"@on-sort-change="sortable"  @on-select-all="selectedtable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="$store.state.platGetValDefine.mainTable"></Table>
         </row>
-        <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" :current="page" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
+        <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" :current="page" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
       </card>
       </Col>
     </Row>
@@ -89,7 +89,7 @@
         index: 0,
         sort: 'id',
         order: 'desc',
-        rows: 10,
+        rows: 20,
         page: 1,
         funId: '1000',
         gvfMarkOrName: '',
