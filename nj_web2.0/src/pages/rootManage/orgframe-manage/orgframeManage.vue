@@ -178,6 +178,7 @@ export default {
                 { code: "unitManger", name: "经理编制" },
                 { code: "unitDirec", name: "主管编制" },
                 { code: "unitStaff", name: "员工编制" },
+                { code: "unitPtstaff", name: "驻厂员工编制" },
                 { code: "unitSysaligName", name: "系统转正" },
                 { code: "note", name: "备注" }
             ],
@@ -292,6 +293,11 @@ export default {
                     title: "员工编制",
                     key: "unitStaff",
                     width: 140
+                },
+                {
+                  title: "驻厂员工编制",
+                  key: "unitPtstaff",
+                  width: 140
                 },
                 {
                     title: "系统转正",
@@ -719,6 +725,7 @@ export default {
             t.$refs.update.formValidate.unitManger = "";
             t.$refs.update.formValidate.unitDirec = "";
             t.$refs.update.formValidate.unitStaff = "";
+            t.$refs.update.formValidate.unitPtstaff = "";
             t.$refs.update.formValidate.unitSysalig = "";
             t.$refs.update.formValidate.unitOprecord = "";
             t.$refs.update.formValidate.note = "";
