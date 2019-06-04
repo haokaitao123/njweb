@@ -47,7 +47,7 @@
                                     v-model="empnhLevday"
                                     style="width: 200px"></DatePicker>
                                 <Select
-                                v-model="empnhSalaccount"
+                                v-model="empBankNoyn"
                                 style="width: 200px"
                                 placeholder="请选择有无银行卡号"
                                 clearable
@@ -239,7 +239,7 @@ export default {
             postName: "",
             empnhEntrydate: "",
             empnhLevday: "",
-            empnhSalaccount:"",
+            empBankNoyn:"",
             columns: [
                 {
                     type: "selection",
@@ -521,7 +521,7 @@ export default {
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
                 empnhLevday: t.empnhLevday,
-                empnhSalaccount:t.empnhSalaccount,
+                empBankNoyn:t.empBankNoyn,
                 empnhEntrydate: t.empnhEntrydate,
                 deptId: id,
                 postId: t.postId,
