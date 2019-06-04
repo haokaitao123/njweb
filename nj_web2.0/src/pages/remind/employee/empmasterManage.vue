@@ -288,6 +288,7 @@ export default {
         update,
         expwindow,
         expdow,
+        searchTable,
         // addemployee
     },
     mounted () {
@@ -312,7 +313,7 @@ export default {
                 order: t.order,
                 logType: "员工主数据查询",
                 selType:"todo",
-                 roleType: localStorage.roleType,
+                roleType: localStorage.roleType,
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
                 deptId: id,
@@ -535,6 +536,7 @@ export default {
             this.page = 1;
             this.treeType = "";
             this.getData(" ", 1);
+            this.tableselected = [];
         },
 
         renderContent (h, { root, node, data }) {
@@ -611,6 +613,7 @@ export default {
       const data = {
         empnhName: t.empnhName,
         empnhIdno: t.empnhIdno,
+        deptId: t.treeid
       };
       // 设置导出mt参数
       this.$refs.expwindow.getData(
