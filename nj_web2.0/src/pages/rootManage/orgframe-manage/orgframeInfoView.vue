@@ -35,7 +35,7 @@
                             <FormItem label="组织类型"
                                       prop="unitType">
                                 <Select v-model="formValidate.unitType"
-                                        :clearable="!disabled" 
+                                        :clearable="!disabled"
                                         :disabled="distype||disabled"
                                         placeholder="选择类型">
                                     <Option :value="item.paramCode"
@@ -69,7 +69,7 @@
                             <FormItem label="部门职能"
                                       prop="unitPartfunct">
                                 <Select v-model="formValidate.unitPartfunct"
-                                        :clearable="!disabled" 
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择部门职能">
                                     <Option :value="item.paramCode"
@@ -82,7 +82,7 @@
                             <FormItem label="行业"
                                       prop="unitIndustry">
                                 <Select v-model="formValidate.unitIndustry"
-                                        :clearable="!disabled" 
+                                        :clearable="!disabled"
                                         :disabled="disabled"
                                         placeholder="选择行业">
                                     <Option :value="item.paramCode"
@@ -193,6 +193,16 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11">
+                          <FormItem label="驻厂员工编制"
+                                    prop="unitPtstaff">
+                            <Input v-model="formValidate.unitPtstaff"
+                                   :disabled="disabled"
+                                   size="default"
+                                   style="width: 290px"
+                                   placeholder="请输入驻厂员工编制"></Input>
+                          </FormItem>
+                        </i-col>
+                        <i-col span="11">
                             <FormItem label="系统转正"
                                       prop="unitSysalig">
                                 <RadioGroup v-model="formValidate.unitSysalig">
@@ -300,12 +310,12 @@ export default {
                 if (valid.val_number103(value)==false) {
                     return callback(new Error('请输入正确的数字格式'));
                 }else{
-                    let num = Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff)
+                    let num = Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff)+ Number(this.formValidate.unitPtstaff)
                     value = Number(value)
                     if (value < num) {
                         callback(new Error("部门已超编,请重新检查部门编制数量"));
                     }
-                } 
+                }
                 callback();
             }
         };
@@ -349,7 +359,7 @@ export default {
                 empId:'',            //负责人
                 unitType: '',            //组织类型
                 unitFname: '',           //组织名称
-                unitPid: '',             //上级部门 
+                unitPid: '',             //上级部门
                 unitPartfunct: '',       //部门职能
                 unitIndustry: '',        //行业
                 unitCenter: '',          //默认成本中心
@@ -361,6 +371,7 @@ export default {
                 unitManger: "",          //经理编制
                 unitDirec: "",           //主管编制
                 unitStaff: "",           //员工编制
+                unitPtstaff: "",         //驻厂员工编制
                 state: '',               //状态
                 unitSysalig: '1',
                 unitOprecord: '',        //操作记录
@@ -487,6 +498,9 @@ export default {
                 unitStaff: [
                     { required: true, validator:numberCheck, message: "请输入员工编制", trigger: 'change' },
                 ],
+                unitPtstaff: [
+                  { required: true, validator:numberCheck, message: "请输入驻厂员工编制", trigger: 'change' },
+                ],
                 unitSysalig: [
                     { required: true, message: "请选择系统转正", trigger: 'change' },
                 ],
@@ -547,6 +561,7 @@ export default {
                     t.formValidate.unitManger = res.data.content[0].unitManger
                     t.formValidate.unitDirec = res.data.content[0].unitDirec
                     t.formValidate.unitStaff = res.data.content[0].unitStaff
+                    t.formValidate.unitPtstaff = res.data.content[0].unitPtstaff
                     t.formValidate.unitSysalig = res.data.content[0].unitSysalig
                     t.formValidate.unitOprecord = res.data.content[0].unitOprecord
                     t.formValidate.note = res.data.content[0].note

@@ -753,7 +753,7 @@ const searchTable = {
         }
       ],
       param: {
-        _mt: 'empEmpnh.getRecPage',
+        _mt: 'empEmpnh.getPage',
         sort: 'id',
         order: 'desc',
         rows: 10,
@@ -761,6 +761,7 @@ const searchTable = {
         state:'02empstate',
         logType: '员工弹出框',
         roleType:localStorage.roleType,
+        selType:'rec',
       },
     },
 }

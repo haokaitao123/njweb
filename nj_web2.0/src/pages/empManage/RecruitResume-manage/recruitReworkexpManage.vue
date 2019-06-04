@@ -246,7 +246,7 @@ export default {
     },
     //初始化自动调用方法
     mounted () {
-        this.getData();
+        //this.getData();
         this.getSelect();
     },
     methods: {

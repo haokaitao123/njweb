@@ -47,8 +47,8 @@
               show-sizer
               placement="top"
               @on-page-size-change="sizeChange"
-              @
               @on-change="pageChange"
+              :page-size=[rows]
               :page-size-opts="[10, 20, 50, 100]"
             ></Page>
             <Button
@@ -137,7 +137,7 @@ export default {
       companyId: 1,
       sort: "id",
       order: "asc",
-      rows: 10,
+      rows: 20,
       page: 1,
       noticeTitle: "",
       noticePeople: "",

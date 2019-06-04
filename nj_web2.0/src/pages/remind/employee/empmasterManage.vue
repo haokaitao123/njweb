@@ -304,12 +304,13 @@ export default {
                 t.page = page;
             }
             const dataPar = {
-                _mt: "empEmpnh.getCmutPage",
+                _mt: "empEmpnh.getPage",
                 rows: t.rows,
                 page: t.page,
                 sort: t.sort,
                 order: t.order,
                 logType: "员工主数据查询",
+                selType:"todo",
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
                 deptId: id,

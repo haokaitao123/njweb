@@ -14,7 +14,7 @@
           <Table @on-select-changed="selectedtable" border :height="tableheight" size="small" ref="selection" :columns="columns" :loading="data.length === 0" :data="data"></Table>
         </row>
         <row style="display: flex">
-          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page>
+          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=[rows] :page-size-opts = "[10, 20, 50, 100]" ></Page>
           <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;" @click="refresh"></Button>
         </row>
       </card>
@@ -61,7 +61,7 @@
         index: 0,
         sort: 'id',
         order: 'desc',
-        rows: '10',
+        rows: 20,
         page: '1',
         countryId: '',
         countryCn: '',

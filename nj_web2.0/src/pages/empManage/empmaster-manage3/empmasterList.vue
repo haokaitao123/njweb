@@ -44,10 +44,10 @@
                         <DatePicker type="date"
                                     placeholder="请选择离职日期"
                                     :editable="false"
-                                    v-model="dimLevsqday"
+                                    v-model="empnhLevday"
                                     style="width: 200px"></DatePicker>
                                 <Select
-                                v-model="empnhSalaccount"
+                                v-model="empBankNoyn"
                                 style="width: 200px"
                                 placeholder="请选择有无银行卡号"
                                 clearable
@@ -238,8 +238,8 @@ export default {
             postId: "",
             postName: "",
             empnhEntrydate: "",
-            dimLevsqday: "",
-            empnhSalaccount:"",
+            empnhLevday: "",
+            empBankNoyn:"",
             columns: [
                 {
                     type: "selection",
@@ -520,8 +520,8 @@ export default {
                 roleType: localStorage.roleType,
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
-                dimLevsqday: t.dimLevsqday,
-                empnhSalaccount:t.empnhSalaccount,
+                empnhLevday: t.empnhLevday,
+                empBankNoyn:t.empBankNoyn,
                 empnhEntrydate: t.empnhEntrydate,
                 deptId: id,
                 postId: t.postId,
@@ -537,10 +537,10 @@ export default {
             } else {
                 data.empnhEntrydate = ''
             }
-            if (data.dimLevsqday !== undefined && data.dimLevsqday !== '') {
-                data.dimLevsqday = new Date(data.dimLevsqday).format('yyyy-MM-dd')
+            if (data.empnhLevday !== undefined && data.empnhLevday !== '') {
+                data.empnhLevday = new Date(data.empnhLevday).format('yyyy-MM-dd')
             } else {
-                data.dimLevsqday = ''
+                data.empnhLevday = ''
             }
             this.loading = true;
             getDataLevelUserLoginNew(data)
@@ -709,16 +709,16 @@ export default {
             const data = {
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
-                dimLevsqday: t.dimLevsqday,
+                empnhLevday: t.empnhLevday,
                 empnhEntrydate: t.empnhEntrydate,
                 postId: t.postId,
                 state: t.modity,
                 deptId: t.treeid
             };
-            if (data.dimLevsqday !== undefined && data.dimLevsqday !== '') {
-                data.dimLevsqday = new Date(data.dimLevsqday).format('yyyy-MM-dd')
+            if (data.empnhLevday !== undefined && data.empnhLevday !== '') {
+                data.empnhLevday = new Date(data.empnhLevday).format('yyyy-MM-dd')
             } else {
-                data.dimLevsqday = ''
+                data.empnhLevday = ''
             }
             if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
                 data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')

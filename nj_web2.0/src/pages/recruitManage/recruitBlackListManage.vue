@@ -48,6 +48,7 @@
               placement="top"
               @on-page-size-change="sizeChange"
               @on-change="pageChange"
+              :page-size=[rows]
               :page-size-opts="[10, 20, 50, 100]"
             ></Page>
             <Button
@@ -224,7 +225,7 @@ export default {
       index: 0,
       sort: "id", // 默认排序字段
       order: "desc", // 默认排序方式
-      rows: 10,
+      rows: 20,
       page: 1,
       // 查询条件变量
       recName: "",
