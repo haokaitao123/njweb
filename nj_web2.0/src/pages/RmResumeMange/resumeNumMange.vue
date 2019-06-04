@@ -56,6 +56,7 @@
               placement="top"
               @on-page-size-change="sizeChange"
               @on-change="pageChange"
+              :page-size=[rows]
               :page-size-opts="[10, 20, 50, 100]"
             ></Page>
             <!-- 列表刷新按钮  -->
@@ -269,7 +270,7 @@ export default {
       index: 0, //表格数据中的选中的index
       sort: "id", //排序字段
       order: "desc", //排序类型
-      rows: 10, //每页显示条数
+      rows: 20, //每页显示条数
       page: 1, //当前页码
       funId: "1000", //功能ID
       roleType: "3user",//角色类型

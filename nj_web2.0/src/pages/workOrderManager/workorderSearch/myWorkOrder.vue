@@ -23,7 +23,7 @@
         </row>
         <Row style="display: flex">
           <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page"
-              @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
+              @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=[rows] :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
       </card>
       </Col>
     </Row>
@@ -98,7 +98,7 @@
         flowShow: false,
         sort: 'id',
         order: 'desc',
-        rows: 10,
+        rows: 20,
         page: 1,
         total: NaN,
         orderDetailList: false,

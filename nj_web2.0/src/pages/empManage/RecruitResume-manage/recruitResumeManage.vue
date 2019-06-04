@@ -257,7 +257,7 @@ export default {
             index: 0,
             sort: "id",
             order: "desc",
-            rows: 10,
+            rows: 20,
             page: 1,
             funId: "1000",
             resuIdno: "",

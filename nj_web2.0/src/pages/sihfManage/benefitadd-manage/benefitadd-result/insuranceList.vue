@@ -19,7 +19,7 @@
     <row class="table-form" ref="table-form">
       <Table @on-selection-change="selectedtable" @on-sort-change="sortable" :height="410" size="small" border ref="selection" :columns="columns" :data="data"></Table>
     </row>
-    <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
+    <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=[rows] :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
     <contentMsg v-show="showMsg" :logType="logType" :sibaEntrydate="sibaEntrydate" :sibaStatus="sibaStatus" :selectPcyinsIns="selectPcyinsIns" @hideMsg="hideMsg" :id="id" :idname="idname" ref="contentMsg" @getData="getdata" @update="updateArray" ></contentMsg>
   </div>
 </template>
@@ -112,7 +112,7 @@
         params: {
           _mt: 'sihfBenefitaddInsurance.getPage',
           funId: '1',
-          rows: 10,
+          rows: 20,
           page: 1,
           sort: 'id',
           order: 'asc',
