@@ -718,6 +718,10 @@ const searchTable = {
       {
         title: '证件号码',
         key: 'empnhIdno',
+      },
+      {
+        title: '直接上级',
+        key: 'empnhPmpDis',
       }
     ],
     param: {
