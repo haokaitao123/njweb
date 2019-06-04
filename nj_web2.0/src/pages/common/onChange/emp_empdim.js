@@ -46,6 +46,11 @@ const emp_empdim = {
         t.$refs[t.valueMap.dimApplydate][0].$set(t.$refs[t.valueMap.dimApplydate][0].formDataSubmit, 'dimApplydate', new Date().format('yyyy-MM-dd'))
       }
     }
+    if (t.valueMap.dimLevsqday) {
+        if(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit.dimLevsqday.length<=0){
+          t.$refs[t.valueMap.dimLevsqday][0].$set(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit, 'dimLevsqday',  new Date().format('yyyy-MM-dd'))
+        }
+    }
   },
 
   //工资发放日期：系统默认20号之后的第一个星期三

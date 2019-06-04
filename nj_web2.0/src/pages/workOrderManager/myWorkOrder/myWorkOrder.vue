@@ -31,7 +31,7 @@
               <Row style="margin: 10px 0;">
                 <Table style="width:100% !important;" :height="tableheight" size="small" :columns="columns" :data="data"></Table>
               </Row>
-              <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
+              <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
             </i-col>
           </Row>
 
@@ -64,7 +64,7 @@
           ranTimeRight: '',
 	        sort: 'id',
           order: 'desc',
-          rows: '10',
+          rows: 20,
           page: '1',
 	        total: NaN,
           searchCloumns: [

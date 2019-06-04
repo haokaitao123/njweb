@@ -55,8 +55,9 @@
                                     @click="search()">查询</Button>
                         </span>
                         <!-- <Button type="primary" @click="openUp1(NaN,$t('button.add'))">{{$t('button.add')}}</Button> -->
-                        <Button type="error"
-                                @click="deletemsg">删除</Button>
+                        <!-- <Button type="error"
+                                @click="deletemsg">删除</Button> -->
+                         <Button type="primary" @click="expData">导出</Button>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -81,6 +82,7 @@
                               :current="page"
                               @on-page-size-change="sizeChange"
                               @on-change="pageChange"
+                              :page-size=rows
                               :page-size-opts="[10, 20, 50, 100]"></Page>
                         <Button type="ghost"
                                 size="small"
@@ -97,6 +99,27 @@
         <!-- <transition name="fade">
       <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
     </transition> -->
+    <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
         <transition name="fade">
             <update v-if="openUpdate"
                     :pklv="pklv"
@@ -117,14 +140,31 @@
 import update from "./empPoBase";
 // import addemployee from "./addNewEmployee";
 import { isSuccess } from "../../../lib/util";
+import expwindow from "../../../components/fileOperations/expSms";
+import expdow from "../../../components/fileOperations/expdow";
 import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin
 } from "../../../axios/axios";
+import searchTable from '../../../components/searchTable/searchPost';
 
 export default {
     data () {
         return {
+            // 导出字段设置, code字段名 name列名
+            expDataTital: [
+                { code: "empnhName", name: "雇员姓名" },
+                { code: "empnhGenderDis", name: "性别" },
+                { code: "unitFname", name: "部门名称" },
+                { code: "postFname", name: "岗位名称" },
+                { code: "createTime", name: "试岗时间" }
+            ],
+            openExpDow: false,
+            openExp: false,
+            filekey: "",
+            filename: "",
+
+           // state: this.modity,
             dataTree: [],
             loading: true,
             treeheight: document.body.offsetHeight - 200,
@@ -201,7 +241,7 @@ export default {
             index: 0,
             sort: "id",
             order: "desc",
-            rows: 10,
+            rows: 20,
             page: 1,
             funId: "1000",
             // empCname: "",
@@ -246,6 +286,8 @@ export default {
     computed: {},
     components: {
         update,
+        expwindow,
+        expdow,
         // addemployee
     },
     mounted () {
@@ -263,15 +305,17 @@ export default {
                 t.page = page;
             }
             const dataPar = {
-                _mt: "empEmpnh.getCmutPage",
+                _mt: "empEmpnh.getPage",
                 rows: t.rows,
                 page: t.page,
                 sort: t.sort,
                 order: t.order,
                 logType: "员工主数据查询",
+                selType:"todo",
+                 roleType: localStorage.roleType,
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
-                deptId: t.deptId,
+                deptId: id,
                 postId: t.postId,
                 // state:t.stata,
                 // empkiWorkno: t.empNo,
@@ -331,7 +375,8 @@ export default {
                 sort: "unitCode",
                 order: "asc",
                 logType: this.$t("button.ser"),
-                id: "0"
+                id: "0",
+                //state: t.modity
             };
             for (const dat in data) {
                 if (data[dat] === "") {
@@ -353,21 +398,23 @@ export default {
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")
                     });
+                }).finally(() => {
+                    t.loading = false;
                 });
         },
         /* 树点击事件 */
         selectChange (e) {
             this.treeid = e.id;
-            this.treeType = e.unitType;
+            //this.treeType = e.unitType;
             this.page = 1;
-            this.getData(e.unitType + "$" + e.id, 1);
+            this.getData( e.id, 1);
         },
         /* 把后台数据转化为tree的格式 */
         toTree (data) {
             data.forEach(item => {
                 item.expand = false;
                 item.checked = item.authRoleFunDis === "1";
-                item.title = item.unitCode + " " + item.unitFname;
+                item.title =  item.unitFname;
                 delete item.children;
             });
             const map = {};
@@ -377,6 +424,9 @@ export default {
             const val = [];
             data.forEach(item => {
                 const parent = map[item.unitPid];
+                if (item.unitPid === "0") {
+                    item.expand = true;
+                }
                 if (parent) {
                     (parent.children || (parent.children = [])).push(item);
                 } else {
@@ -554,6 +604,40 @@ export default {
             t.deptName = name
             t.deptId = id
         },
+        // 导入导出默认方法
+    expData() {
+      const t = this;
+      // 填装查询条件
+      const data = {
+        empnhName: t.empnhName,
+        empnhIdno: t.empnhIdno,
+      };
+      // 设置导出mt参数
+      this.$refs.expwindow.getData(
+        this.expDataTital,
+        "empEmpnh.exportCum",
+        data
+      );
+      this.openExp = true;
+    },
+    // 导入导出默认方法 无需更改
+    closeExp() {
+      const t = this;
+      t.openExp = false;
+    },
+    // 导入导出默认方法 无需更改
+    closeExpDowMain() {
+      const t = this;
+      t.openExpDow = false;
+    },
+    // 导入导出默认方法 无需更改
+    setFileKey(filekey, filename, openExpDow) {
+      const t = this;
+      t.filekey = filekey;
+      t.filename = filename;
+      t.openExpDow = openExpDow;
+      t.$refs.expdow.getPriToken(t.filekey);
+    },
     }
 };
 </script>

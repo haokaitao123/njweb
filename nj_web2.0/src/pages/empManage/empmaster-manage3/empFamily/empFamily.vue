@@ -229,7 +229,7 @@ export default {
             params: {
                 _mt: "empFamily.getPage",
                 funId: "1",
-                rows: 10,
+                rows: 20,
                 page: 1,
                 sort: "id",
                 order: "asc",

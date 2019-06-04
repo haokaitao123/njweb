@@ -62,6 +62,7 @@
                                   :current="page"
                                   @on-page-size-change="sizeChange"
                                   @on-change="pageChange"
+                                  :page-size=rows
                                   :page-size-opts="[10, 20, 50, 100]"></Page>
                             <Button type="ghost"
                                     size="small"
@@ -240,7 +241,7 @@ export default {
             index: 0,
             sort: 'id', // 默认排序字段
             order: 'desc', // 默认排序方式
-            rows: 10,
+            rows: 20,
             page: 1,
             // 查询条件变量
             depMoney: '',
@@ -259,7 +260,7 @@ export default {
             ],
             psparams: {
                 _mt: 'orgPost.getPage',
-                rows: '10',
+                rows: 20,
                 page: '1',
                 sort: 'id',
                 order: 'desc',
