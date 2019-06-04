@@ -32,7 +32,7 @@
               placement="top"
               @on-page-size-change="sizeChange"
               @on-change="pageChange"
-              :page-size=[rows]
+              :page-size=rows
               :page-size-opts="[10, 20, 50, 100]"
             ></Page>
             <Button
