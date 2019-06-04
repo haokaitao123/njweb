@@ -8,7 +8,7 @@
     <row class="table-form" ref="table-form">
       <Table @on-selection-change="selectedtable" @on-sort-change="sortable" :height="410" size="small" border ref="selection" :columns="columns" :data="$store.state.docTemp.childTable1"></Table>
     </row>
-    <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange":page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
+    <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
     <updDocTempVar v-show="showMsg" @hideMsg="hideMsg" ref="updDocTempVar" :logType="logType"></updDocTempVar>
   </div>
 </template>
@@ -24,7 +24,7 @@
         total: NaN,
         sort: 'platDcvarCode',
         order: 'asc',
-        rows: '10',
+        rows: 20,
         page: '1',
         showMsg: false,
         tableselected: '',
