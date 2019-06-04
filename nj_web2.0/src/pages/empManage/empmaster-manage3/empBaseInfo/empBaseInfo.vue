@@ -416,17 +416,17 @@
 				} else {
 
 					callback(new Error('请输入居住地址'))
-				}
-			}; 
+                }
+            }
 			//银行卡号码的验证
-			const backCardCheck = (rule, value, callback) => {
-				var pattern = /^([1-9]{1})(\d{14}|\d{18})$/,
-					str = value.replace(/\s+/g, "");
-				if(!pattern.test(str)) {
-					callback(new Error('请输入正确的银行卡号码'))
-				}
-				callback()
-			}
+			// const backCardCheck = (rule, value, callback) => {
+			// 	var pattern = /^([1-9]{1})(\d{14}|\d{18})$/,
+			// 		str = value.replace(/\s+/g, "");
+			// 	if(!pattern.test(str)) {
+			// 		callback(new Error('请输入正确的银行卡号码'))
+			// 	}
+			// 	callback()
+			// }
 			return {
 				disabled: false,
 				popup: '',
@@ -775,8 +775,8 @@
 							trigger: "blur"
 						},
 						{
-							validator: backCardCheck,
-							message: '请输入正确位数的银行账号',
+							validator: numberCheck,
+							message: '请输入正确的数字格式',
 							trigger: 'blur'
 						},
 					],
@@ -823,7 +823,6 @@
 		mounted() {
 			this.getSelect();
 		},
-
 		methods: {
 			//获取主表数据 无需变更
 			getdata(id) {

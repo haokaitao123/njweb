@@ -15,7 +15,7 @@ const emp_empdim = {
     emp_empdim.empdimApplicant_set(this)
     emp_empdim.dimSalday_set(this)
     emp_empdim.dimLevsqday_dis(this)
-
+    emp_empdim.dimType_dis(this)
   },
 
   dimLevsqday(node) {
@@ -233,6 +233,25 @@ const emp_empdim = {
     if (t.valueMap.dimIsreceive && t.$refs[t.valueMap.dimIsreceive][0].formDataSubmit.dimIsreceive === '0') {
       if (t.valueMap.dimReceive) {
         t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formDataSubmit, 'dimReceive', '')
+      }
+    }
+  },
+  dimType_dis(t) {
+    if (t.valueMap.dimType) {
+      if (t.$refs[t.valueMap.dimType][0].formDataSubmit.dimType === '01voluntary') {
+        //if (t.valueMap.dimReceive) {
+        t.$refs[t.valueMap.dimAttday][0].$delete(t.$refs[t.valueMap.dimAttday][0].formshow, 'dimAttday')
+        t.$refs[t.valueMap.dimActlevday][0].$delete(t.$refs[t.valueMap.dimActlevday][0].formshow, 'dimActlevday')
+        t.$refs[t.valueMap.dimLastsalday][0].$delete(t.$refs[t.valueMap.dimLastsalday][0].formshow, 'dimLastsalday')
+        // t.$refs[t.valueMap.dimType][0].$refs.dimReceive.thisValue = ''
+        //}
+      } else {
+        //if (t.valueMap.dimReceive) {
+        t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive', '')
+        t.$refs[t.valueMap.dimActlevday][0].$set(t.$refs[t.valueMap.dimActlevday][0].formshow, 'dimActlevday', '')
+        t.$refs[t.valueMap.dimLastsalday][0].$set(t.$refs[t.valueMap.dimLastsalday][0].formshow, 'dimLastsalday', '')
+
+        // }
       }
     }
   },

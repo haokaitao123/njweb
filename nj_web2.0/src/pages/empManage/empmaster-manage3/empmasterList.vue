@@ -52,13 +52,12 @@
                                 placeholder="请选择有无银行卡号"
                                 clearable
                                 >
-                                <Option
-                                    :value="item.paramCode"
+                                clearable>
+                            <Option :value="item.paramCode"
                                     v-for="(item,index) in selectBank"
                                     :key="index"
-                                     @click="getPageByType(item.paramCode)"
-                                >{{item.paramInfoCn}}</Option>
-                                </Select>
+                                    @click="getPageByType(item.paramCode)">{{item.paramInfoCn}}</Option>
+                        </Select>
                         </i-col>
                         <btnList :btnData="btnData"
                                  :FlowNode="FlowNode"
@@ -226,7 +225,7 @@ export default {
             treeheight: document.body.offsetHeight - 200,
             tableheight: document.body.offsetHeight - 280,
             tableselected: [],
-            selectBank:[],
+            selectBank: [],
             loading: true,
             logType: "",
             openUpdate: false,
@@ -445,7 +444,7 @@ export default {
             },
             state: this.modity,
             tableOperate: false,
-
+            treeArr: []
         };
     },
     computed: {
@@ -787,8 +786,27 @@ export default {
             this.treeid = e.id;
             // this.treeType = e.unitType;
             this.page = 1;
-
-            this.getData(e.id);
+            this.treeArr = [];
+            if (e.children) {
+                this.treeArr.push(e.id);
+                this.getTreeId(e.id, e.children);
+            } else {
+                this.treeArr.push(e.id);
+            }
+            this.treeid = this.treeArr.toString();
+            console.log(this.treeid, "this.treeid")
+            this.getData(this.treeid);
+        },
+        getTreeId (id, treeData) {
+            let t = this;
+            for (let v of treeData) {
+                if (v.unitPid === id) {
+                    t.treeArr.push(v.id)
+                    if (v.children) {
+                        t.getTreeId(v.id, v.children)
+                    }
+                }
+            }
         },
         /* 把后台数据转化为tree的格式 */
         toTree (data) {
