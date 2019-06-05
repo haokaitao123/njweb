@@ -146,7 +146,7 @@ import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin
 } from "../../../axios/axios";
-import searchTable from '../../../components/searchTable/searchPost';
+//import searchTable from '../../../components/searchTable/searchPost';
 
 export default {
     data () {
