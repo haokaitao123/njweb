@@ -198,18 +198,18 @@ export default {
         postId: [
           { required: true, message: "请选择岗位名称", trigger: "change" }
         ],
-        empupdResaddr: [
-          { required: true, message: "请输入居住详细地址", trigger: "change" }
-        ],
-        empupdSalbank: [
-          { required: true, message: "请选择开户银行", trigger: "change" }
-        ],
-        empupdSalcount: [
-          { required: true, message: "请输入银行账号", trigger: "change" }
-        ],
-        empupdSalcname: [
-          { required: true, message: "请输入户名", trigger: "change" }
-        ],
+        // empupdResaddr: [
+        //   { required: true, message: "请输入居住详细地址", trigger: "change" }
+        // ],
+        // empupdSalbank: [
+        //   { required: true, message: "请选择开户银行", trigger: "change" }
+        // ],
+        // empupdSalcount: [
+        //   { required: true, message: "请输入银行账号", trigger: "change" }
+        // ],
+        // empupdSalcname: [
+        //   { required: true, message: "请输入户名", trigger: "change" }
+        // ],
       }
     };
   },
@@ -345,6 +345,11 @@ export default {
       t.postFname = row.postFname;
       t.form.postId = row.postId;
       t.empnhIdno = row.empnhIdno;
+      t.form.empupdResaddr = row.empnhResiaddr;
+      t.form.empupdSalbank = row.empnhSalbank;
+      t.empnhSalbankDis = row.empnhSalbankDis;
+      t.form.empupdSalcount = row.empnhSalaccount;
+      t.form.empupdSalcname = row.empnhSalaccname;
     },
     //清除员工信息
     clearUserid() {
@@ -356,6 +361,10 @@ export default {
       t.postFname = "";
       t.unitFname = "";
       t.empnhIdno = "";
+      t.form.empupdResaddr = "";
+      t.form.empupdSalbank = "";
+      t.form.empupdSalcount = "";
+      t.form.empupdSalcname = "";
     },
     //打开员工信息弹出框
     pickUserData() {
