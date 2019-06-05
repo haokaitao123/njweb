@@ -13,7 +13,7 @@
                    class="form">
                 <!-- 应聘岗位 -->
                 <div class="item_box">
-                    <cell title=""
+                    <!-- <cell title=""
                           is-link
                           v-if="!state"
                           value-align="left"
@@ -21,7 +21,7 @@
                           v-verify="form.relibApplypost"
                           @click.native="popupClick('relibApplypostShow')">
                         <div slot="title">应聘岗位<span>*</span></div>
-                    </cell>
+                    </cell> -->
                     <icon type="warn"
                           class="error"
                           v-show="relibApplypostDis==='请选择'"
@@ -105,13 +105,14 @@
                           v-verify="form.relibGender"
                           @click.native="popupClick('relibGenderShow','relibGender')">
                         <div slot="title">性别<span>*</span></div>
-                    </cell>
+                    </cell> -->
                     <icon type="warn"
                           class="error"
                           v-show="relibGenderDis=='请选择'"
-                          v-remind="form.relibGender"></icon> -->
+                          v-remind="form.relibGender"></icon>
                     <x-input title="性别<span>*</span>"
                              v-model="relibGenderDis"
+                             v-verify="form.relibGender"
                              :show-clear="false"
                              :disabled="true"
                              placeholder="未填写">
@@ -271,6 +272,52 @@
                           v-show="form.relibWeight==''"
                           v-remind="form.relibWeight"></icon>
                 </div>
+                <!-- 招生范围 -->
+                <div class="item_box">
+                    <cell title=""
+                          is-link
+                          v-if="!state"
+                          value-align="left"
+                          v-model="relibEnrorageDis"
+                          v-verify="form.relibEnrorage"
+                          @click.native="popupClick('relibEnrorageShow','relibEnrorage')">
+                        <div slot="title">招生范围<span>*</span></div>
+                    </cell>
+                    <x-input title="招生范围<span>*</span>"
+                             v-if="state"
+                             v-model="relibEnrorageDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibEnrorage===''"
+                          v-remind="form.relibEnrorage"></icon>
+                </div>
+                <!-- 是否毕业-->
+                <div class="item_box">
+                    <cell title="是否毕业"
+                          is-link
+                          v-if="!state"
+                          value-align="left"
+                          v-model="relibIsgraduDis"
+                          v-verify="form.relibIsgradu"
+                          @click.native="popupClick('relibIsgraduShow','relibIsgradu')">
+                        <div slot="title">是否毕业<span>*</span></div>
+                    </cell>
+                    <x-input title="是否毕业<span>*</span>"
+                             v-if="state"
+                             v-model="relibIsgraduDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibIsgradu===''"
+                          v-remind="form.relibIsgradu"></icon>
+                </div>
                 <!-- 学历 -->
                 <div class="item_box">
                     <cell title=""
@@ -296,12 +343,17 @@
                 </div>
                 <!-- 毕业院校 -->
                 <div class="item_box">
-                    <x-input title="毕业院校"
+                    <x-input title="毕业院校<span>*</span>"
                              v-model="form.relibSchool"
+                             v-verify="form.relibSchool"
                              :disabled="state"
                              :show-clear="false"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibSchool===''"
+                          v-remind="form.relibSchool"></icon>
                 </div>
                 <!-- 专业 -->
                 <div class="item_box">
@@ -314,12 +366,17 @@
                 </div>
                 <!-- 现居住地 -->
                 <div class="item_box">
-                    <x-input title="现居住地"
+                    <x-input title="现居住地<span>*</span>"
                              v-model="form.relibLiving"
+                             v-verify="form.relibLiving"
                              :readonly="state"
                              :show-clear="false"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibLiving===''"
+                          v-remind="form.relibLiving"></icon>
                 </div>
                 <!-- 家庭地址 -->
                 <div class="item_box">
@@ -540,52 +597,7 @@
                              placeholder="未填写">
                     </x-input>
                 </div>
-                <!-- 招生范围 -->
-                <div class="item_box">
-                    <cell title=""
-                          is-link
-                          v-if="!state"
-                          value-align="left"
-                          v-model="relibEnrorageDis"
-                          v-verify="form.relibEnrorage"
-                          @click.native="popupClick('relibEnrorageShow','relibEnrorage')">
-                        <div slot="title">招生范围<span>*</span></div>
-                    </cell>
-                    <x-input title="招生范围<span>*</span>"
-                             v-if="state"
-                             v-model="relibEnrorageDis"
-                             :show-clear="false"
-                             :disabled="state"
-                             placeholder="未填写">
-                    </x-input>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.relibEnrorage===''"
-                          v-remind="form.relibEnrorage"></icon>
-                </div>
-                <!-- 是否毕业-->
-                <div class="item_box">
-                    <cell title="是否毕业"
-                          is-link
-                          v-if="!state"
-                          value-align="left"
-                          v-model="relibIsgraduDis"
-                          v-verify="form.relibIsgradu"
-                          @click.native="popupClick('relibIsgraduShow','relibIsgradu')">
-                        <div slot="title">是否毕业<span>*</span></div>
-                    </cell>
-                    <x-input title="是否毕业<span>*</span>"
-                             v-if="state"
-                             v-model="relibIsgraduDis"
-                             :show-clear="false"
-                             :disabled="state"
-                             placeholder="未填写">
-                    </x-input>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.relibIsgradu===''"
-                          v-remind="form.relibIsgradu"></icon>
-                </div>
+
                 <!-- 自我评价 -->
                 <x-textarea :max="300"
                             title="自我评价"
@@ -1114,6 +1126,8 @@ export default {
             relibEnrorage: "required",
             relibIscriminal: "required",
             relibIsgradu: "required",
+            relibSchool: "required",
+            relibLiving: "required",
         }
     },
     components: {
@@ -1183,13 +1197,13 @@ export default {
                 }
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
-//                      t.$notify({
-//                          message: '保存成功',
-//                          duration: 1500,
-//                          background: '#1989fa'
-//                      });
+                        //                      t.$notify({
+                        //                          message: '保存成功',
+                        //                          duration: 1500,
+                        //                          background: '#1989fa'
+                        //                      });
                         console.log(1)
-                       this.$router.push({
+                        this.$router.push({
                             name: 'interviewSuccess'
                         })
                     }
@@ -1214,7 +1228,7 @@ export default {
         },
         confirm (value) {
             if (this.curDomShow.indexOf("dateShow") != -1) {
-                if (this.curDomShow === 'relibBirtdaydateShow') {
+                if (this.curDomShow === 'relibBirtdaydateShow' || this.curDomShow === 'relibAvaitimedateShow') {
                     value = new Date(value).format('yyyy-MM-dd');
                 } else {
                     value = new Date(value).format('yyyy-MM-dd hh:mm:ss');
@@ -1317,7 +1331,7 @@ export default {
                     t.form.relibIdno = !data.relibIdno ? "" : data.relibIdno;
                     t.form.relibMobile = !data.relibMobile ? "" : data.relibMobile;
                     t.form.relibGender = data.relibGender;
-                    t.form.relibBirtday = data.relibBirtday ? data.relibBirtday : '请选择';
+                    t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
                     t.form.relibBirtplace = !data.relibBirtplace ? "" : data.relibBirtplace;
                     t.form.relibNatality = data.relibNatality ? data.relibNatality : '10';
                     t.form.relibPolitical = data.relibPolitical;
@@ -1336,7 +1350,7 @@ export default {
                     t.form.relibWithme = data.relibWithme;
                     t.form.relibSalary = !data.relibSalary ? "" : data.relibSalary;
                     t.form.relibProstatus = data.relibProstatus;
-                    t.form.relibAvaitime = data.relibAvaitime ? data.relibAvaitime : '请选择';
+                    t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
                     t.form.relibIsrelatives = data.relibIsrelatives;
                     t.form.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
                     t.form.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
@@ -1384,9 +1398,9 @@ export default {
                         t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '未选择';
                         t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '未选择';
                         t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '未选择';
-                        t.form.relibBirtday = data.relibBirtday ? data.relibBirtday : '未选择';
+                        t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
                         t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '未选择';
-                        t.form.relibAvaitime = data.relibAvaitime ? data.relibAvaitime : '未选择';
+                        t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
                     }
                     t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday.replace(/-/g, '/'));
                     t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime.replace(/-/g, '/'));
@@ -1423,14 +1437,14 @@ export default {
             });
         },
         //获取工作经历
-        getWorkExp () {
+        async getWorkExp () {
             const t = this;
             const data = {
                 _mt: 'wxRecruitWorkexp.getByRefaPidNoLogin',
                 companyId: pubsource.companyId,
                 refaPid: this.$route.query.id,
             }
-            getDataLevelNone(data).then((res) => {
+            await getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.workExpList = data
@@ -1471,14 +1485,14 @@ export default {
             });
         },
         //获取教育信息
-        getEducation () {
+        async getEducation () {
             const t = this;
             const data = {
                 _mt: 'wxRecruitEduca.getByRefaPidNoLogin',
                 companyId: pubsource.companyId,
                 refaPid: this.$route.query.id,
             }
-            getDataLevelNone(data).then((res) => {
+            await getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.educationList = data
@@ -1529,13 +1543,13 @@ export default {
             }
         },
         //取消添加
-        closeRight (dom) {
+        async closeRight (dom) {
             if (dom === 'educationShow') {
-                this.getEducation();
+                await this.getEducation();
             } else if (dom === 'familyShow') {
                 this.getFamily();
             } else if (dom === 'workExpShow') {
-                this.getWorkExp();
+                await this.getWorkExp();
             }
             this[dom] = false;
             this.checkChild();

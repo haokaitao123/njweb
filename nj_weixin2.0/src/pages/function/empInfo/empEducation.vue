@@ -107,6 +107,29 @@
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
+                <!-- 录取方式 -->
+                <div class="item_box">
+                    <cell title=""
+                          is-link
+                          v-if="!disabled"
+                          value-align="left"
+                          v-model="recruitTypeDis"
+                          v-verify="form.recruitType"
+                          @click.native="popupClick('recruitTypeShow','recruitType')">
+                        <div slot="title">录取方式</div>
+                    </cell>
+                    <x-input title="录取方式"
+                             v-if="disabled"
+                             v-model="recruitTypeDis"
+                             :show-clear="false"
+                             :disabled="disabled"
+                             placeholder="未填写">
+                    </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.recruitType===''"
+                          v-remind="form.recruitType"></icon>
+                </div>
                 <!-- 开始时间 -->
                 <div class="item_box">
                     <cell title=""
@@ -139,13 +162,13 @@
                           v-model="form.edEdate"
                           v-verify="form.edEdate"
                           @click.native="popupClick('edEdateShow','edEdate')">
-                        <div slot="title">结束时间<span>*</span></div>
+                        <div slot="title">毕业时间<span>*</span></div>
                     </cell>
                     <icon type="warn"
                           class="error"
                           v-show="form.edEdate=='请选择'?true:false"
                           v-remind="form.edEdate"></icon>
-                    <x-input title="结束时间<span>*</span>"
+                    <x-input title="毕业时间<span>*</span>"
                              v-if="disabled"
                              v-model="form.edEdate"
                              :disabled="disabled"
@@ -217,6 +240,17 @@
                         @confirm="confirm"
                         @cancel="cancel" />
         </van-popup>
+        <!-- 招生范围 -->
+        <van-popup v-model="recruitTypeShow"
+                   position="bottom">
+            <van-picker ref="vanPicker"
+                        :defaultIndex="recruitTypeIndex"
+                        :columns=selectRecruitType
+                        show-toolbar
+                        @confirm="confirm"
+                        @cancel="cancel" />
+
+        </van-popup>
         <van-popup v-model="edIshighestShow"
                    position="bottom">
             <van-picker ref="picker"
@@ -272,6 +306,7 @@ export default {
             edEdateDate: new Date(),
             edSdateDate: new Date(),
             edEducationlevelIndex: 0,
+            recruitTypeIndex: 0,
             edIshighestIndex: 0,
             currentId: '1127',
             minEdSdate: new Date(1900, 1, 1),
@@ -285,6 +320,7 @@ export default {
                 edSchool: "",               // 学校
                 edDegree: "",               // 学位
                 edSpecialty: "",            // 专业
+                recruitType: "",
                 edSdate: "请选择",          // 开始时间
                 edEdate: "请选择",          // 结束时间
                 note: "",                   // 备注
@@ -292,15 +328,18 @@ export default {
             },
             edEducationlevelDis: "请选择",
             edIshighestDis: "请选择",
+            recruitTypeDis: "请选择",
             edCuntryDis: "中国",
             edEducationlevelShow: false,
             edIshighestShow: false,
+            recruitTypeShow: false,
             edCountryShow: false,
             edSdateShow: false,
             edEdateShow: false,
             selectEdEducationlevel: [],
             selectEdIshighest: [],
             selectEdCountry: [],
+            selectRecruitType: [],
         }
     },
     verify: {
@@ -413,11 +452,12 @@ export default {
             const t = this;
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: 'education,yesno'
+                typeCode: 'education,yesno,recruitType'
             }).then(res => {
                 if (isSuccess(res, t)) {
                     t.selectData(res.data.content[0].value[0].paramList, "selectEdEducationlevel");
                     t.selectData(res.data.content[0].value[1].paramList, "selectEdIshighest");
+                    t.selectData(res.data.content[0].value[2].paramList, "selectRecruitType");
                     console.log(t.selectEdEducationlevel, "selectEdEducationlevel");
                     console.log(t.selectEdIshighest, "selectEdIshighest")
                 }
@@ -489,6 +529,7 @@ export default {
                     }
                     t.setSelectValue(data.edEducationlevel, 'selectEdEducationlevel', 'edEducationlevelIndex');
                     t.setSelectValue(data.edIshighest, 'selectEdIshighest', 'edIshighestIndex');
+                    t.setSelectValue(data.recruitType, 'selectRecruitType', 'recruitTypeIndex');
                 }
             }).catch((err) => {
                 t.$notify({

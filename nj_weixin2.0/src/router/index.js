@@ -135,14 +135,14 @@ const router = new Router({
         title: '员工信息修改'
       }
     },
-//  {
-//    path: '/empChange',
-//    name: 'empChange',
-//    component: resolve => require(['@/pages/function/employInfoChange/empChange'], resolve),
-//    meta: {
-//      title: '员工信息修改'
-//    }
-//  },
+    //  {
+    //    path: '/empChange',
+    //    name: 'empChange',
+    //    component: resolve => require(['@/pages/function/employInfoChange/empChange'], resolve),
+    //    meta: {
+    //      title: '员工信息修改'
+    //    }
+    //  },
     {
       path: '/empContractRenewal',
       name: 'empContractRenewal',

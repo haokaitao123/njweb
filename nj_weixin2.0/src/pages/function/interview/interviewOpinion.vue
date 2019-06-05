@@ -8,7 +8,7 @@
                     <cell title=""
                           is-link
                           value-align="left"
-                          v-model="relibApplypostDis"
+                          v-model="relibApplypostDis "
                           v-verify="form.relibApplypost"
                           @click.native="popupClick('relibApplypostShow')">
                         <div slot="title">应聘岗位<span>*</span></div>
@@ -181,12 +181,43 @@
                              v-model="form.relibWeight"
                              v-verify="form.relibWeight"
                              :show-clear="false"
+                             @on-blur="condition"
                              placeholder="请填写">
                     </x-input>
                     <icon type="warn"
                           class="error"
                           v-show="form.relibWeight==''"
                           v-remind="form.relibWeight"></icon>
+                </div>
+                <!-- 招生范围 -->
+                <div class="item_box">
+                    <cell title=""
+                          is-link
+                          value-align="left"
+                          v-model="relibEnrorageDis"
+                          v-verify="form.relibEnrorage"
+                          @click.native="popupClick('relibEnrorageShow','relibEnrorage')">
+                        <div slot="title">招生范围<span>*</span></div>
+                    </cell>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibEnrorage==''"
+                          v-remind="form.relibEnrorage"></icon>
+                </div>
+                <!-- 是否毕业-->
+                <div class="item_box">
+                    <cell title="是否毕业"
+                          is-link
+                          value-align="left"
+                          v-model="relibIsgraduDis"
+                          v-verify="form.relibIsgradu"
+                          @click.native="popupClick('relibIsgraduShow','relibIsgradu')">
+                        <div slot="title">是否毕业<span>*</span></div>
+                    </cell>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibIsgradu==''"
+                          v-remind="form.relibIsgradu"></icon>
                 </div>
                 <!-- 学历 -->
                 <div class="item_box">
@@ -205,11 +236,16 @@
                 </div>
                 <!-- 毕业院校 -->
                 <div class="item_box">
-                    <x-input title="毕业院校"
+                    <x-input title="毕业院校<span>*</span>"
                              v-model="form.relibSchool"
+                             v-verify="form.relibSchool"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibSchool===''"
+                          v-remind="form.relibSchool"></icon>
                 </div>
                 <!-- 专业 -->
                 <div class="item_box">
@@ -222,11 +258,16 @@
                 </div>
                 <!-- 现居住地 -->
                 <div class="item_box">
-                    <x-input title="现居住地"
+                    <x-input title="现居住地<span>*</span>"
                              v-model="form.relibLiving"
+                             v-verify="form.relibLiving"
                              :show-clear="false"
                              placeholder="请填写">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.relibLiving===''"
+                          v-remind="form.relibLiving"></icon>
                 </div>
                 <!-- 家庭地址 -->
                 <div class="item_box">
@@ -376,36 +417,7 @@
                           @click.native="popupClick('relibIscomShow','relibIscom')">
                     </cell>
                 </div>
-                <!-- 招生范围 -->
-                <div class="item_box">
-                    <cell title=""
-                          is-link
-                          value-align="left"
-                          v-model="relibEnrorageDis"
-                          v-verify="form.relibEnrorage"
-                          @click.native="popupClick('relibEnrorageShow','relibEnrorage')">
-                        <div slot="title">招生范围<span>*</span></div>
-                    </cell>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.relibEnrorage==''"
-                          v-remind="form.relibEnrorage"></icon>
-                </div>
-                <!-- 是否毕业-->
-                <div class="item_box">
-                    <cell title="是否毕业"
-                          is-link
-                          value-align="left"
-                          v-model="relibIsgraduDis"
-                          v-verify="form.relibIsgradu"
-                          @click.native="popupClick('relibIsgraduShow','relibIsgradu')">
-                        <div slot="title">是否毕业<span>*</span></div>
-                    </cell>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.relibIsgradu==''"
-                          v-remind="form.relibIsgradu"></icon>
-                </div>
+
                 <!-- 自我评价 -->
                 <x-textarea :max="300"
                             title="自我评价"
@@ -418,7 +430,10 @@
                 <div class="title_left">
                     <img src="../../../../static/function/educatInfo.png"
                          alt="">
-                    <h3>教育信息</h3>
+                    <h3>教育信息<span>*</span></h3>
+                    <icon type="warn"
+                          class="error"
+                          v-show="educationState"></icon>
                 </div>
                 <span @click="goTo('educationShow')">添加</span>
             </div>
@@ -449,7 +464,10 @@
                 <div class="title_left">
                     <img src="../../../../static/function/work.png"
                          alt="">
-                    <h3>工作经历</h3>
+                    <h3>工作经历<span>*</span></h3>
+                    <icon type="warn"
+                          class="error"
+                          v-show="workExpState"></icon>
                 </div>
                 <span @click="goTo('workExpShow')">添加</span>
             </div>
@@ -537,24 +555,24 @@
                 <div class="item_box">
                     <cell title="初试是否通过"
                           is-link
+                          v-if="!pass"
                           value-align="left"
                           v-model="relibFirpassDis"
                           v-verify="form.relibFirpass"
                           @click.native="popupClick('relibFirpassShow','relibFirpass')">
                         <div slot="title">初试是否通过<span>*</span></div>
                     </cell>
-
                     <icon type="warn"
                           class="error"
                           v-show="relibFirpassDis=='请选择'"
                           v-remind="form.relibFirpass"></icon>
-                    <!-- <x-input title="初试是否通过<span>*</span>"
-                             v-if="pass"
+                    <x-input title="初试是否通过<span>*</span>"
                              v-model="relibFirpassDis"
+                             v-if="pass"
                              :disabled="true"
                              :show-clear="false"
                              placeholder="未填写">
-                    </x-input> -->
+                    </x-input>
                 </div>
                 <!-- 初试意见 -->
                 <x-textarea :max="300"
@@ -989,9 +1007,59 @@ export default {
             relibFirpassIndex: 0,
             relibFirpassShow: false,
             relibFirsttmdateShow: false,
-            saveStatus: true,
+            saveStatus: false,
             isRelibFirpass: false,
             isCanInterview: false,
+            educationState: false,
+            workExpState: false,
+            childCheck: false,
+            json: {
+                children: [
+                    {
+                        id: '1370',
+                        unitPid: "1344"
+                    },
+                    {
+                        id: '1371',
+                        unitPid: "1344"
+                    },
+                    {
+                        id: '1372',
+                        children: [
+                            {
+                                id: '1386',
+                                unitPid: "1372"
+                            },
+                        ],
+                        unitPid: "1344"
+                    },
+                    {
+                        id: '1373',
+                        children: [
+                            {
+                                id: '1387',
+                                unitPid: "1373"
+                            },
+                            {
+                                id: '1388',
+                                unitPid: "1373"
+                            },
+                            {
+                                id: '1389',
+                                unitPid: "1373"
+                            },
+                        ],
+                        unitPid: "1344"
+                    },
+                    {
+                        id: '1374',
+                        unitPid: "1344"
+                    },
+                ],
+                id: "1344",
+                unitPid: "1000"
+            },
+            children: []
         }
     },
     verify: {
@@ -1015,6 +1083,8 @@ export default {
             relibFirstus: "required",
             relibFirsttm: "required",
             relibFirpass: "required",
+            relibSchool: "required",
+            relibLiving: "required",
         }
     },
     components: {
@@ -1030,7 +1100,7 @@ export default {
         searchPost
     },
     created () {
-        // this.getCondition();
+        // this.getCondition(); 
     },
     mounted () {
         this.getSelect();
@@ -1043,7 +1113,6 @@ export default {
         //提交
         async submit () {
             await this.save();
-            console.log(this.saveStatus, 'this.saveStatus')
             const t = this;
             if (this.saveStatus) {
                 const data = {
@@ -1078,23 +1147,7 @@ export default {
                 title: '',
                 message: '是否确认提交？'
             }).then(() => {
-                //this.submit();
-                console.log('最',this.isCanInterview)
-                this.getInterviewTime()
-                if (this.isCanInterview) {
-                    //this.submit(); 
-                    console.log('hao',1);
-                } else if (!this.isCanInterview) {
-                    this.$store.commit('hideLoading');
-                    this.$dialog.confirm({
-                        title: '',
-                        message: '距上一次的面试不到一个月，不能为您安排面试'
-                    }).then(() => {
-                    	    this.form.relibFirpass = '0',
-                            this.relibFirpassDis = "否",// 初试是否通过
-                            this.form.relibFirstopin += "你的上次面试没通过，且距上一次的面试时间不到一个月，不能为您安排面试。"
-                    })
-                }
+                this.submit();
             }).catch(() => {
                 // on cancel
             });
@@ -1102,14 +1155,18 @@ export default {
         //保存
         async save () {
             const t = this;
-            if (this.$verify.check()) {
+            if (!t.isCanInterview) {
+                await this.getInterviewTime();
+            }
+            console.log(t.isCanInterview, "t.isCanInterview")
+            if (t.isCanInterview) {
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitProcess.addRecruit";
                 data.companyId = pubsource.companyId;
                 data.userId = localStorage.getItem('uid');
                 data.pkValue = this.$route.query.id;
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
@@ -1128,39 +1185,80 @@ export default {
                 }).finally(() => {
                     t.$store.commit('hideLoading');
                 });
-            } else {
-                t.saveStatus = false
-                t.$vux.toast.text('请检查填写信息');
             }
         },
-        //判断一个月之内是否面试过
-        getInterviewTime () {
+        //校验子表
+        checkChild () {
             const t = this;
-            const data = deepCopy(t.form);
-            data._mt = "wxRecruitProcess.getFuShiNo";
-            data.companyId = pubsource.companyId;
-            data.userId = window.localStorage.getItem('uid');
-            data.data = JSON.stringify(t.form);
-            for (const dat in data) {
-                if (data[dat] === "") {
-                    delete data[dat];
+            if (t.workExpList.length < 1) {
+                t.childCheck = true
+                t.workExpState = true;
+                if (t.educationList.length < 1) {
+                    t.educationState = true;
+                } else {
+                    t.educationState = false;
+                }
+                return false;
+            } else {
+                t.workExpState = false;
+                t.childCheck = false
+                if (t.educationList.length < 1) {
+                    t.educationState = true;
+                    t.childCheck = true;
+                    return false;
+                } else {
+                    t.educationState = false;
+                    t.childCheck = false;
                 }
             }
-            getDataLevelUserLoginNew(data).then((res) => {
-                console.log(res.data.content[0])
-                if (res.data.content[0].value == 1) {
-                    t.isCanInterview = false;
-                    console.log('123',t.isCanInterview);
-                } else if (res.data.content[0].value == 0) {
-                    t.isCanInterview = true;
-                    console.log('1234',t.isCanInterview);
+            return true;
+        },
+        //判断一个月之内是否面试过
+        async getInterviewTime () {
+            const t = this;
+            console.log(t.checkChild(), "123")
+            if (t.$verify.check() && t.checkChild()) {
+                const data = deepCopy(t.form);
+                data._mt = "wxRecruitProcess.getFuShiNo";
+                data.companyId = pubsource.companyId;
+                data.userId = window.localStorage.getItem('uid');
+                data.data = JSON.stringify(t.form);
+                for (const dat in data) {
+                    if (data[dat] === "" || data[dat] === "请选择") {
+                        delete data[dat];
+                    }
                 }
-            }).catch(() => {
-
-            }).finally(() => {
-                t.$store.commit('hideLoading');
-            });
-
+                await getDataLevelUserLoginNew(data).then((res) => {
+                    console.log(res.data.content[0].value, "123")
+                    if (res.data.content[0].value == 1) {
+                        t.isCanInterview = false;
+                        t.pass = true;
+                        t.$dialog.confirm({
+                            title: '',
+                            message: '你的上次面试没通过，且距上一次的面试时间不到一个月，不能为您安排面试。'
+                        }).then(() => {
+                            t.form.relibFirpass = '0';
+                            t.relibFirpassDis = "否";// 初试是否通过
+                            t.form.relibFirstopin += "   你的上次面试没通过，且距上一次的面试时间不到一个月，不能为您安排面试。"
+                            t.isCanInterview = true;
+                        })
+                    } else if (res.data.content[0].value == 0) {
+                        t.isCanInterview = true;
+                    }
+                }).catch(() => {
+                    t.isCanInterview = false
+                    t.$notify({
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
+                }).finally(() => {
+                    t.$store.commit('hideLoading');
+                });
+            } else {
+                t.isCanInterview = false
+                t.$vux.toast.text('请检查填写信息');
+            }
         },
         //判断硬性条件是否符合
         getData () {
@@ -1175,12 +1273,13 @@ export default {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "data");
                     t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
+                    t.currentPostId = !data.relibApplypost ? "" : data.relibApplypost;
                     t.form.relibIdentity = !data.relibIdentity ? "" : data.relibIdentity;
                     t.form.relibName = !data.relibName ? "" : data.relibName;
                     t.form.relibIdno = !data.relibIdno ? "" : data.relibIdno;
                     t.form.relibMobile = !data.relibMobile ? "" : data.relibMobile;
                     t.form.relibGender = !data.relibGender ? "" : data.relibGender;
-                    t.form.relibBirtday = data.relibBirtday ? data.relibBirtday : '请选择';
+                    t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
                     t.form.relibBirtplace = !data.relibBirtplace ? "" : data.relibBirtplace;
                     t.form.relibNatality = !data.relibNatality ? "" : data.relibNatality;
                     t.form.relibPolitical = !data.relibPolitical ? "" : data.relibPolitical;
@@ -1199,7 +1298,7 @@ export default {
                     t.form.relibWithme = !data.relibWithme ? "" : data.relibWithme;
                     t.form.relibSalary = !data.relibSalary ? "" : data.relibSalary;
                     t.form.relibProstatus = !data.relibProstatus ? "" : data.relibProstatus;
-                    t.form.relibAvaitime = data.relibAvaitime ? data.relibAvaitime : '请选择';
+                    t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
                     t.form.relibIsrelatives = !data.relibIsrelatives ? "" : data.relibIsrelatives;
                     t.form.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
                     t.form.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
@@ -1247,22 +1346,66 @@ export default {
                     t.setSelectValue(data.relibIscomDis, 'selectRelibIscom', 'relibIscomIndex');
                     t.setSelectValue(data.relibEnrorageDis, 'selectRelibEnrorage', 'relibEnrorageIndex');
                     t.setSelectValue(data.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
+                    console.log(data.relibWeight)
                     if (!data.relibGenderDis) {
                         t.form.relibFirstopin += "性别信息为空、"
                         t.isRelibFirpass = true;
-                    } else if (!data.relibHeight) {
+                    }
+                    if (!data.relibWeight) {
+                        t.form.relibFirstopin += "体重不详、"
+                        t.isRelibFirpass = true;
+                    }
+                    if (!data.relibHeight) {
                         t.form.relibFirstopin += "身高不详、"
                         t.isRelibFirpass = true;
+                    }
+                    if (!data.relibEnrorage || !data.relibIsgradu || !data.relibEducat) {
+                        t.form.relibFirstopin += "教育信息不详、"
+                        t.isRelibFirpass = true;
                     } else {
+                        if (data.relibIsgradu === 'graduation_140' || data.relibIsgradu === 'graduation_150') {
+                            t.form.relibFirstopin += "教育信息不符合、"
+                            t.isRelibFirpass = true;
+                        }
+                    }
+                    if (data.relibGenderDis !== '' && data.relibHeight !== '') {
                         if (data.relibGenderDis === '男') {
                             if (Number(data.relibHeight) < 165) {
-                                t.form.relibFirstopin += "身高不符合、"
+                                t.form.relibFirstopin += "相貌不端正，形体不合格、"
                                 t.isRelibFirpass = true;
+                            } else {
+                                if (data.relibWeight !== '') {
+                                    let standard = (Number(data.relibHeight) - 80) * 0.7
+                                    if (Number(data.relibWeight) > standard * 1.3) {
+                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.isRelibFirpass = true;
+                                    } else if (Number(data.relibWeight) < standard * 0.7) {
+                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.isRelibFirpass = true;
+                                    }
+                                } else {
+                                    t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                    t.isRelibFirpass = true;
+                                }
                             }
                         } else if (data.relibGenderDis === '女') {
                             if (Number(data.relibHeight) < 155) {
-                                t.form.relibFirstopin += "身高不符合、"
+                                t.form.relibFirstopin += "相貌不端正，形体不合格、"
                                 t.isRelibFirpass = true;
+                            } else {
+                                if (data.relibWeight !== '') {
+                                    let standard = (Number(data.relibHeight) - 70) * 0.6
+                                    if (Number(data.relibWeight) > standard * 1.3) {
+                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.isRelibFirpass = true;
+                                    } else if (Number(data.relibWeight) > standard * 0.7) {
+                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.isRelibFirpass = true;
+                                    }
+                                } else {
+                                    t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                    t.isRelibFirpass = true;
+                                }
                             }
                         }
                     }
@@ -1272,7 +1415,7 @@ export default {
                     } else {
                         let birthYear = Number(data.relibIdno.substring(6, 10));
                         let nowYear = new Date().getFullYear();
-                        if (nowYear - birthYear > 25 || nowYear - birthYear < 19) {
+                        if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
                             t.form.relibFirstopin += "年龄不符、"
                             t.isRelibFirpass = true;
                         }
@@ -1304,32 +1447,77 @@ export default {
         //判断硬性条件是否符合
         condition () {
             this.form.relibFirstopin = "";
-            if (!this.relibGenderDis) {
+            this.isRelibFirpass = false;
+            if (!this.form.relibGender) {
                 this.form.relibFirstopin += "性别信息为空、"
                 this.isRelibFirpass = true;
-            } else if (!this.form.relibHeight) {
+            }
+            if (!this.form.relibHeight) {
                 this.form.relibFirstopin += "身高不详、"
                 this.isRelibFirpass = true;
+            }
+            if (!this.form.relibWeight) {
+                this.form.relibFirstopin += "体重不详、"
+                this.isRelibFirpass = true;
+            }
+            if (!this.form.relibEnrorage || !this.form.relibIsgradu || !this.form.relibEducat) {
+                this.form.relibFirstopin += "教育信息不详、"
+                this.isRelibFirpass = true;
             } else {
+                if (this.form.relibIsgradu === 'graduation_140' || this.form.relibIsgradu === 'graduation_150') {
+                    this.form.relibFirstopin += "教育信息不符合、"
+                    this.isRelibFirpass = true;
+                }
+            }
+            if (this.form.relibGender !== '' && this.form.relibHeight !== '') {
                 if (this.relibGenderDis === '男') {
                     if (Number(this.form.relibHeight) < 165) {
-                        this.form.relibFirstopin += "身高不符合、"
+                        this.form.relibFirstopin += "相貌不端正，形体不合格、"
                         this.isRelibFirpass = true;
+                    } else {
+                        if (this.form.relibWeight !== '') {
+                            let standard = (Number(this.form.relibHeight) - 80) * 0.7
+                            if (Number(this.form.relibWeight) > standard * 1.3) {
+                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                this.isRelibFirpass = true;
+                            } else if (Number(this.form.relibWeight) < standard * 0.7) {
+                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                this.isRelibFirpass = true;
+                            }
+                        } else {
+                            this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                            this.isRelibFirpass = true;
+                        }
                     }
                 } else if (this.relibGenderDis === '女') {
                     if (Number(this.form.relibHeight) < 155) {
-                        this.form.relibFirstopin += "身高不符合、"
+                        this.form.relibFirstopin += "相貌不端正，形体不合格、"
                         this.isRelibFirpass = true;
+                    } else {
+                        if (this.form.relibWeight !== '') {
+                            let standard = (Number(this.form.relibHeight) - 70) * 0.6
+                            if (Number(this.form.relibWeight) > standard * 1.3) {
+                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                this.isRelibFirpass = true;
+                            } else if (Number(this.form.relibWeight) > standard * 0.7) {
+                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                this.isRelibFirpass = true;
+                            }
+                        } else {
+                            this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                            this.isRelibFirpass = true;
+                        }
                     }
                 }
             }
+
             if (!this.form.relibIdno) {
                 this.form.relibFirstopin += "年龄不详、"
                 this.isRelibFirpass = true;
             } else {
                 let birthYear = Number(this.form.relibIdno.substring(6, 10));
                 let nowYear = new Date().getFullYear();
-                if (nowYear - birthYear > 25 || nowYear - birthYear < 19) {
+                if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
                     this.form.relibFirstopin += "年龄不符、"
                     this.isRelibFirpass = true;
                 }
@@ -1337,9 +1525,14 @@ export default {
             console.log(this.isRelibFirpass, '是否通过')
             if (this.isRelibFirpass) {
                 this.relibFirpassDis = '否';
-                this.form.relibFirpass = '0';
                 this.pass = true;
+                this.form.relibFirpass = '0';
                 this.setSelectValue('否', 'selectRelibFirpass', 'relibFirpassIndex');
+            } else {
+                this.relibFirpassDis = '是';
+                this.pass = false;
+                this.form.relibFirpass = '1';
+                this.setSelectValue('是', 'selectRelibFirpass', 'relibFirpassIndex');
             }
         },
         //底部弹出确定事件
@@ -1357,13 +1550,11 @@ export default {
                     this.condition();
                 }
             } else {
-                console.log(this.curDom, "this.curDom")
-
                 this.form[this.curDom] = value.key;
                 let str = this.curDom
                 str += "Dis";
                 this[str] = value.text;
-                if (this.curDom === 'relibGender') {
+                if (this.curDom === 'relibGender' || this.curDom === 'relibEnrorage' || this.curDom === 'relibIsgradu' || this.curDom === 'relibEducat') {
                     this.condition();
                 }
             }
@@ -1430,14 +1621,14 @@ export default {
             }
         },
         //获取工作经历
-        getWorkExp () {
+        async getWorkExp () {
             const t = this;
             const data = {
                 _mt: 'wxRecruitWorkexp.getByRefaPidNoLogin',
                 companyId: pubsource.companyId,
                 refaPid: this.$route.query.id,
             }
-            getDataLevelNone(data).then((res) => {
+            await getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.workExpList = data
@@ -1478,14 +1669,14 @@ export default {
             });
         },
         //获取教育信息
-        getEducation () {
+        async getEducation () {
             const t = this;
             const data = {
                 _mt: 'wxRecruitEduca.getByRefaPidNoLogin',
                 companyId: pubsource.companyId,
                 refaPid: this.$route.query.id,
             }
-            getDataLevelNone(data).then((res) => {
+            await getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.educationList = data
@@ -1543,15 +1734,17 @@ export default {
             }
         },
         //取消添加
-        closeRight (dom) {
+        async closeRight (dom) {
             if (dom === 'educationShow') {
-                this.getEducation();
+                await this.getEducation();
             } else if (dom === 'familyShow') {
                 this.getFamily();
             } else if (dom === 'workExpShow') {
-                this.getWorkExp();
+                await this.getWorkExp();
             }
+            this.checkChild();
             this[dom] = false;
+
         },
         //岗位弹出框选中事件
         inputPost (res) {
@@ -1561,7 +1754,6 @@ export default {
             this.currentPostId = res.id;
             this.relibApplypostDis = res.postFname;
         },
-
     },
 }
 </script>
@@ -1584,6 +1776,9 @@ export default {
             justify-content: space-between;
             .title_left {
                 display: flex;
+                i {
+                    margin-left: 20px;
+                }
             }
             > span {
                 font-size: 30px;
@@ -1599,6 +1794,10 @@ export default {
                 font-size: 30px;
                 font-weight: normal;
                 color: #999999;
+                > span {
+                    display: inline;
+                    color: red;
+                }
             }
             &:after {
                 content: " ";
@@ -1639,20 +1838,20 @@ export default {
             }
         }
     }
-}
-.van-popup--right {
-    top: 50% !important;
-}
-.right_popup {
-    width: 100%;
-    height: 100%;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
-}
-.popup_width {
-    width: 80%;
-    height: 100%;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
+    .van-popup--right {
+        top: 50% !important;
+    }
+    .right_popup {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+    .popup_width {
+        width: 85%;
+        height: 100%;
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 </style>

@@ -4,6 +4,29 @@
             <group label-align="left"
                    gutter="0"
                    class="form">
+                <!-- 应聘岗位 -->
+                <div class="item_box">
+                    <cell title=""
+                          is-link
+                          v-if="!curStep"
+                          value-align="left"
+                          v-model="relibApplypostDis"
+                          v-verify="form.relibApplypost"
+                          @click.native="popupClick('relibApplypostShow')">
+                        <div slot="title">应聘岗位<span>*</span></div>
+                    </cell>
+                    <icon type="warn"
+                          class="error"
+                          v-show="relibApplypostDis==='请选择'"
+                          v-remind="form.relibApplypost"></icon>
+                    <x-input title="应聘岗位<span>*</span>"
+                             v-if="curStep"
+                             v-model="relibApplypostDis"
+                             :show-clear="false"
+                             :disabled="curStep"
+                             placeholder="未填写">
+                    </x-input>
+                </div>
                 <!-- 姓名 -->
                 <div class="item_box">
                     <x-input title="姓名<span>*</span>"
@@ -126,6 +149,15 @@
                         @confirm="confirm"
                         @cancel="cancel" />
         </van-popup>
+        <!-- 岗位 -->
+        <van-popup v-model="relibApplypostShow"
+                   position="right"
+                   class="popup_width">
+            <searchPost @inputPost="inputPost"
+                        :currentId="currentPostId"
+                        v-if="relibApplypostShow"
+                        ref="searchPost"></searchPost>
+        </van-popup>
         <van-popup v-model="relibFilldateShow"
                    position="bottom">
             <van-datetime-picker v-model="relibFilldateDate"
@@ -141,6 +173,7 @@
 import { getDataLevelUserLogin, getDataLevelUserLoginNew } from '@/axios/axios'
 import { isSuccess, deepCopy } from '@/lib/util'
 import { Group, Cell, XInput, XTextarea, Icon, Popup } from 'vux'
+import searchPost from '@/components/search/searchPost'
 export default {
     data () {
         return {
@@ -148,21 +181,25 @@ export default {
             curStepstate: this.$route.query.curStepstate ? this.$route.query.curStepstate : '',
             curDom: "",
             curDomShow: "",
+            currentPostId: "",
             relibFilldateDate: new Date(),
             minRelibFilldate: new Date(),
             maxRelibFilldate: new Date(2099, 12, 31),
             form: {
+                relibApplypost: "",          //应聘岗位
                 relibName: "",              // 姓名
                 relibGender: "",            // 性别
                 relibMobile: "",            // 手机号码
                 relibFilldate: "请选择",     // 面到时间
                 note: ""                    // 备注
             },
+            relibApplypostDis: '请选择',
             relibGenderDis: '请选择',
             selectGender: [],
             relibGenderIndex: 0,
             relibGenderShow: false,
             relibFilldateShow: false,
+            relibApplypostShow: false,
             curStep: this.$route.query.curStep ? true : false,
             saveState: false,
             blackState: false,
@@ -185,7 +222,8 @@ export default {
         XInput,
         Icon,
         XTextarea,
-        Popup
+        Popup,
+        searchPost
     },
     mounted () {
         this.getData();
@@ -219,7 +257,6 @@ export default {
                 }
                 console.log(t.saveState, "t.saveState")
                 if (t.saveState) {
-                    console.log("1212312312")
                     getDataLevelUserLoginNew(data).then(res => {
                         if (isSuccess(res, t)) {
                             console.log(res, "res");
@@ -365,7 +402,9 @@ export default {
                     t.form.relibGender = data.relibGender;
                     t.form.relibMobile = data.relibMobile;
                     t.form.relibFilldate = data.relibFilldate;
+                    t.form.relibApplypost = data.relibApplypost;
                     t.form.note = data.note;
+                    t.relibApplypostDis = data.relibApplypostDis;
                     t.relibGenderDis = data.relibGenderDis;
                     t.relibFilldateDate = new Date(data.relibFilldate.replace(/-/g, '/'));
                     let nowdate = new Date(data.relibFilldate.replace(/-/g, '/'));
@@ -424,6 +463,14 @@ export default {
                 }
             }
         },
+        //岗位弹出框选中事件
+        inputPost (res) {
+            console.log(res, "res")
+            this.relibApplypostShow = false;
+            this.form.relibApplypost = res.id;
+            this.currentPostId = res.id;
+            this.relibApplypostDis = res.postFname;
+        },
     },
 }
 </script>
@@ -446,5 +493,20 @@ export default {
             }
         }
     }
+}
+.van-popup--right {
+    top: 50% !important;
+}
+.right_popup {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+.popup_width {
+    width: 80%;
+    height: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 </style>

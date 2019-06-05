@@ -60,7 +60,7 @@
                              placeholder="未填写">
                     </x-input>
                 </div>
-                <!-- 教育结束时间 -->
+                <!-- 毕业时间 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
@@ -69,7 +69,7 @@
                           v-model="form.reeduEdate"
                           v-verify="form.reeduEdate"
                           @click.native="popupClick('reeduEdateShow','reeduEdate')">
-                        <div slot="title">教育结束时间<span>*</span></div>
+                        <div slot="title">毕业时间<span>*</span></div>
                     </cell>
                     <icon type="warn"
                           class="error"
@@ -250,11 +250,6 @@ export default {
                     data.id = id
                 } else {
                     data.reeduPid = t.reeduPid;
-                }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
                 }
                 console.log(data, "data")
                 getDataLevelNoneNew(data).then(res => {

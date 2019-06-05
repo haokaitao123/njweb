@@ -190,9 +190,9 @@ export default {
                 empnhIdno: JSON.parse(window.localStorage.getItem('empData')).empnhIdno, 			//证件号码
                 deptId: JSON.parse(window.localStorage.getItem('empData')).deptId, 					//部门名称
                 postId: JSON.parse(window.localStorage.getItem('empData')).postId, 					//岗位名称
-                empupdResaddr: "", 				                                                    //居住详细地址
-                empupdSalbank: "", 				                                                    //开户银行
-                empupdSalcount: "",				                                                    //银行账号
+                empupdResaddr: JSON.parse(window.localStorage.getItem('empData')).empnhResiaddr, 				                                                    //居住详细地址
+                empupdSalbank: JSON.parse(window.localStorage.getItem('empData')).empnhSalbank, 				                                                    //开户银行
+                empupdSalcount: JSON.parse(window.localStorage.getItem('empData')).empnhSalaccount,				                                                    //银行账号
                 empupdSalcname: JSON.parse(window.localStorage.getItem('empData')).empnhName ? JSON.parse(window.localStorage.getItem('empData')).empnhName : '',		//户名
                 empupdReason: "",				                                                    //未通过原因
                 note: "",						                                                    //备注
@@ -200,11 +200,11 @@ export default {
             empnhName: JSON.parse(window.localStorage.getItem('empData')).empnhName ? JSON.parse(window.localStorage.getItem('empData')).empnhName : '',
             unitFname: JSON.parse(window.localStorage.getItem('empData')).unitFname,
             postFname: JSON.parse(window.localStorage.getItem('empData')).postFname,
-            empnhSalbankDis: "请选择",
+            empnhSalbankDis: JSON.parse(window.localStorage.getItem('empData')).empnhSalbankDis,
             empShow: false,
             bankShow: false,
             currentEmpId: '',
-            currentBankId: '',
+            currentBankId: JSON.parse(window.localStorage.getItem('empData')).empnhSalbank,
             disabled: false,
             saveStatus: false,
         }

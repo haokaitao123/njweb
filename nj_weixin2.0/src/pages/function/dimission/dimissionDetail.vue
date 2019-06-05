@@ -221,7 +221,7 @@
                              placeholder="">
                     </x-input>
                 </div>
-                <!-- 约定离职日期 -->
+                <!-- 交接日期 -->
                 <div class="item_box">
                     <cell title=""
                           is-link
@@ -230,13 +230,13 @@
                           v-model="form.dimLevday"
                           v-verify="form.dimLevday"
                           @click.native="popupClick('dimLevdayShow','dimLevday')">
-                        <div slot="title">约定离职日期<span>*</span></div>
+                        <div slot="title">交接日期<span>*</span></div>
                     </cell>
                     <icon type="warn"
                           class="error"
                           v-show="form.dimLevday=='请选择'"
                           v-remind="form.dimLevday"></icon>
-                    <x-input title="约定离职日期<span>*</span>"
+                    <x-input title="交接日期<span>*</span>"
                              v-if="disabled"
                              v-model="form.dimLevday"
                              :show-clear="false"
@@ -245,7 +245,7 @@
                     </x-input>
                 </div>
                 <!-- 最后工作日期 -->
-                <div class="item_box">
+                <!-- <div class="item_box">
                     <cell title=""
                           is-link
                           v-if="!disabled"
@@ -266,7 +266,7 @@
                              :disabled="disabled"
                              placeholder="未填写">
                     </x-input>
-                </div>
+                </div> -->
                 <!-- 是否工作交接 -->
                 <div class="item_box">
                     <cell title=""
@@ -286,29 +286,26 @@
                     </x-input>
                 </div>
                 <!-- 交接人 -->
-                <div class="item_box">
+                <!-- <div class="item_box">
                     <cell title=""
                           is-link
-                          v-if="!disabled&&form.dimIsreceive==='1'"
+                          v-show="!disabled&&form.dimIsreceive==='1'"
                           value-align="left"
                           v-model="dimReceiveDis"
-                          v-verify="form.dimReceive"
                           @click.native="popupClick('empShow','dimReceive')">
                         <div slot="title">交接人姓名<span>*</span></div>
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="dimReceiveDis==''"
-                          v-remind="form.dimReceive"></icon>
+                          v-show="dimReceiveError"></icon>
                     <x-input title="交接人姓名<span>*</span>"
-                             v-if="disabled"
+                             v-show="disabled"
                              v-model="dimReceiveDis"
-                             v-verify="form.dimReceive"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'"
                              :disabled="disabled">
                     </x-input>
-                </div>
+                </div> -->
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
@@ -456,32 +453,31 @@ export default {
             minDimLaswkday: new Date(1900, 10, 1),
             maxDimLaswkday: new Date(2099, 12, 31),
             form: {
-                dimApplicant: localStorage.getItem('empId'), //申请人
+                dimApplicant: localStorage.getItem('uid') ? localStorage.getItem('uid') : '', //申请人
                 dimApplydate: new Date().format("yyyy-MM-dd"), //申请日期
-                empId: localStorage.getItem('empId'), //员工id
-                empIdno: JSON.parse(localStorage.getItem('empData')).empnhIdno, //证件号码
-                deptId: JSON.parse(localStorage.getItem('empData')).deptId, //部门
-                postId: JSON.parse(localStorage.getItem('empData')).postId, //岗位
-                dimBuspmp: JSON.parse(localStorage.getItem('empData')).empnhPmp, //上级经理
-                empnhMobile: JSON.parse(localStorage.getItem('empData')).empnhMobile, //手机号码
-                empnhSalaccount: JSON.parse(localStorage.getItem('empData')).empnhSalaccount, //银行卡号
+                empId: localStorage.getItem('empId') ? localStorage.getItem('empId') : "", //员工id
+                empIdno: JSON.parse(localStorage.getItem('empData')).empnhIdno ? JSON.parse(localStorage.getItem('empData')).empnhIdno : '', //证件号码
+                deptId: JSON.parse(localStorage.getItem('empData')).deptId ? JSON.parse(localStorage.getItem('empData')).deptId : '', //部门
+                postId: JSON.parse(localStorage.getItem('empData')).postId ? JSON.parse(localStorage.getItem('empData')).postId : "", //岗位
+                dimBuspmp: JSON.parse(localStorage.getItem('empData')).empnhPmp ? JSON.parse(localStorage.getItem('empData')).empnhPmp : '', //上级经理
+                empnhMobile: JSON.parse(localStorage.getItem('empData')).empnhMobile ? JSON.parse(localStorage.getItem('empData')).empnhMobile : "", //手机号码
+                empnhSalaccount: JSON.parse(localStorage.getItem('empData')).empnhSalaccount ? JSON.parse(localStorage.getItem('empData')).empnhSalaccount : '', //银行卡号
                 dimCertifi: "", //是否需要离职证明
                 dimPersmail: "", //个人邮箱
                 dimType: "02involuntary", //离职类型
                 dimReason: "", //离职原因
-                dimLevsqday: "请选择", //申请离职日期
+                dimLevsqday: new Date().format("yyyy-MM-dd"), //申请离职日期
                 dimLevday: "请选择", //约定离职日期
-                dimLaswkday: "请选择", //最后工作日期
                 dimIsreceive: "0", //是否工作交接
                 dimReceive: "",//交接人
                 note: "" //备注
             },
-            dimApplicantDis: JSON.parse(localStorage.getItem('empData')).empnhName,
+            dimApplicantDis: JSON.parse(localStorage.getItem('empData')).empnhName ? JSON.parse(localStorage.getItem('empData')).empnhName : "",
             surveyName: '请选择',
-            empIdName: JSON.parse(localStorage.getItem('empData')).empnhName,
-            deptIdDis: JSON.parse(localStorage.getItem('empData')).unitFname,
-            postIdDis: JSON.parse(localStorage.getItem('empData')).postFname,
-            dimBuspmpDis: JSON.parse(localStorage.getItem('empData')).empnhPmpDis,
+            empIdName: JSON.parse(localStorage.getItem('empData')).empnhName ? JSON.parse(localStorage.getItem('empData')).empnhName : "",
+            deptIdDis: JSON.parse(localStorage.getItem('empData')).unitFname ? JSON.parse(localStorage.getItem('empData')).unitFname : "",
+            postIdDis: JSON.parse(localStorage.getItem('empData')).postFname ? JSON.parse(localStorage.getItem('empData')).postFname : "",
+            dimBuspmpDis: JSON.parse(localStorage.getItem('empData')).empnhPmpDis ? JSON.parse(localStorage.getItem('empData')).empnhPmpDis : "",
             dimCertifiDis: "请选择",
             dimTypeDis: "正常离职",
             dimReasonDis: "请选择",
@@ -507,7 +503,8 @@ export default {
             saveStatus: false,
             curStepDis: '',
             curStepstate: 'p_flowst_1',
-            disabled: false
+            disabled: false,
+            dimReceiveError: false
         }
     },
     verify: {
@@ -533,14 +530,60 @@ export default {
         searchEmp,
         survey
     },
+    created () {
+        let entryDate = new Date(JSON.parse(localStorage.getItem('empData')).empnhEntrydate);
+        let now = new Date();
+        this.completeDate(entryDate, now, 3)
+    },
     mounted () {
+
         this.getSelect();
         this.getData();
+        // this.completeDate(entryDate, now, 3), "123"
     },
     methods: {
+        //判断两个时间段是否相差 m 个月
+        completeDate (time1, time2, m) {
+            let diffyear = time2.getFullYear() - time1.getFullYear();
+            let diffmonth = diffyear * 12 + time2.getMonth() - time1.getMonth();
+            if (diffmonth < 0) {
+                this.getSevenDayAfter(time2)
+                return
+            }
+            let diffDay = time2.getDate() - time1.getDate();
+
+            if (diffmonth < m || (diffmonth == m && diffDay <= 0)) {
+
+                if (diffmonth == m && diffDay == 0) {
+                    let timeA = time1.getHours() * 3600 + 60 * time1.getMinutes() + time1.getSeconds();
+                    let timeB = time2.getHours() * 3600 + 60 * time2.getMinutes() + time2.getSeconds();
+                    if (timeB - timeA < 0) {
+                        this.getSevenDayAfter(time2)
+                        return
+                    }
+                }
+                this.getSevenDayAfter(time2)
+                return
+            }
+            this.getOneMonthAfter(time2)
+            return
+        },
+        //获取7天后的日期
+        getSevenDayAfter (date) {
+            let day = date.setDate(date.getDate() + 7);
+            day = new Date(day).format("yyyy-MM-dd")
+            this.form.dimLevday = day
+        },
+        //获取一个月后的日期
+        getOneMonthAfter (date) {
+            let Month = date.setMonth(date.getMonth() + 1);
+            Month = new Date(Month).format("yyyy-MM-dd")
+            this.form.dimLevday = Month
+        },
         //保存
         async save (type) {
             const t = this;
+            // this.dimReceiveCheck()
             if (this.$verify.check()) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpdim.addEmpEmpDim";
@@ -585,6 +628,13 @@ export default {
             } else {
                 t.saveStatus = false
                 t.$vux.toast.text('请检查填写信息');
+            }
+        },
+        dimReceiveCheck () {
+            if (this.form.dimReceive === "" && this.form.dimIsreceive === "1") {
+                this.dimReceiveError = true
+            } else {
+                this.dimReceiveError = false
             }
         },
         comfirmSubmit () {
@@ -642,7 +692,12 @@ export default {
             if (this.curDomShow.indexOf("dayShow") != -1) {
                 value = new Date(value).format('yyyy-MM-dd');
                 this.currentDate = new Date();
-                this.form[this.curDom] = value
+                this.form[this.curDom] = value;
+                if (this.curDom === 'dimLevsqday') {
+                    let entryDate = new Date(JSON.parse(localStorage.getItem('empData')).empnhEntrydate);
+                    let now = new Date(value);
+                    this.completeDate(entryDate, now, 3)
+                }
             } else {
                 this.form[this.curDom] = value.key;
                 let str = this.curDom
@@ -662,6 +717,7 @@ export default {
             this.currentId = res.id;
             this.form.dimReceive = res.id;
             this.dimReceiveDis = res.empnhName;
+            this.dimReceiveCheck();
         },
         //问卷调查事件
         inputSurvey (res) {
@@ -708,7 +764,6 @@ export default {
                     t.form.dimReason = data.dimReason;
                     t.form.dimLevsqday = data.dimLevsqday;
                     t.form.dimLevday = data.dimLevday;
-                    t.form.dimLaswkday = data.dimLaswkday;
                     t.form.dimIsreceive = data.dimIsreceive;
                     t.form.dimReceive = data.dimReceive;
                     t.form.note = data.note;
@@ -730,7 +785,6 @@ export default {
                     }
                     t.dimLevsqdayDate = new Date(data.dimLevsqday.replace(/-/g, '/'));
                     t.dimLevdayDate = new Date(data.dimLevday.replace(/-/g, '/'));
-                    t.dimLaswkdayDate = new Date(data.dimLaswkday.replace(/-/g, '/'));
                     t.setSelectValue(data.dimCertifiDis, 'selectDimCertifi', 'dimCertifiIndex');
                     t.setSelectValue(data.dimTypeDis, 'selectDimType', 'dimTypeIndex');
                     t.setSelectValue(data.dimReasonDis, 'selectDimReason', 'dimReasonIndex');
