@@ -727,7 +727,7 @@
 					empnhRegtype: [{
 						required: true,
 						message: "请选择户籍性质",
-						trigger: "biur"
+						trigger: "blur"
 					}],
 					empnhPersmail: [{
 						required: false,
@@ -1278,7 +1278,7 @@
 			right: 20px;
 		}
 	}
-	
+
 	// #empForm:after {
 	//     clear: both;
 	//     content: "";

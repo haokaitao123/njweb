@@ -254,7 +254,7 @@ export default {
             treeid: "",
             treeType: "",
             pklv: "",
-            openPick: "false",
+            openPick: false,
             searchCloumns: [
                 {
                     title: this.$t('lang_employee.searchColumn.postCode'),
