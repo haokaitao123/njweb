@@ -146,7 +146,7 @@ import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin
 } from "../../../axios/axios";
-//import searchTable from '../../../components/searchTable/searchPost';
+import searchTable from '../../../components/searchTable/searchPost';
 
 export default {
     data () {
@@ -254,7 +254,7 @@ export default {
             treeid: "",
             treeType: "",
             pklv: "",
-            openPick: "false",
+            openPick: false,
             searchCloumns: [
                 {
                     title: this.$t('lang_employee.searchColumn.postCode'),
