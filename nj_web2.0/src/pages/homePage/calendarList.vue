@@ -167,6 +167,12 @@ export default {
         openUpdHome (item) {
             const t = this
             if (item.remindNodeCode) {
+                const tag = {
+                    title: '员工试岗提醒',
+                    path: '/empmasterManage',
+                    name: 'empmasterManage',
+                }
+                this.$store.commit('increateTag', tag)
                 this.$router.push({ path: 'empmasterManage' })
             } else {
                 t.id = item.remindMemid

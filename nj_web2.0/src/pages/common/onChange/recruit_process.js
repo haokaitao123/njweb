@@ -85,28 +85,28 @@ const recruit_process = {
   },
   //默认试岗申请时间为当前时间
   relibTrysqtime_set(t) {
-    if (t.valueMap.relibTrysqtime && t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime.length <= 0) {
+    if (t.valueMap.relibTrysqtime && t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime === '') {
       let nowDate = new Date()
       t.$refs[t.valueMap.relibTrysqtime][0].$set(t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit, 'relibTrysqtime', nowDate.format('yyyy-MM-dd'))
     }
   },
   //试岗必须3天后再入职,试岗申请时间与可入职当前时间
   relibApproval_set(t) {
-    if (t.valueMap.relibTrysqtime) {
+    if (t.valueMap.relibTrypspass) {
       let nowDate = new Date() //可入职当前时间
       nowDate = new Date(nowDate).getTime(); //可入职当前时间时间戳
       let day1 = t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime //试岗申请时间
       day1 = new Date(day1).getTime()
       let day2 = 3 * 24 * 60 * 60 * 1000
-      if (t.valueMap.relibTrypspass) {
+      if (t.valueMap.relibTrysqtime) {
         if ((nowDate - day1) > day2) { //可入职时间-试岗申请时间大于3，不可入职
           t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '1');
-          t.$store.commit('recruitProcess/setEntry', 'true')
-          //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
+          t.$store.commit('recruitProcess/setEntry', 'true');
+          t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
         } else {
           t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '0');
           t.$store.commit('recruitProcess/setEntry', 'false')
-          //t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
+          t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
         }
       }
     }
@@ -141,7 +141,7 @@ const recruit_process = {
   relibGuarantee_set(t) {
     const th = this.$parent
     if (t.valueMap.relibGuarantee) {
-      if (t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit.relibGuarantee.length <= 0 || t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit.relibGuarantee === '0') {
+      if (t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit.relibGuarantee === '' || t.$refs[t.valueMap.relibGuarantee][0].formDataSubmit.relibGuarantee === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
           logType: '查询担保人',
@@ -161,7 +161,7 @@ const recruit_process = {
   relibTrysqus_set(t) {
     const th = this.$parent
     if (t.valueMap.relibTrysqus) {
-      if (t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit.relibTrysqus.length <= 0 || t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit.relibTrysqus === '0') {
+      if (t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit.relibTrysqus === '' || t.$refs[t.valueMap.relibTrysqus][0].formDataSubmit.relibTrysqus === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
           logType: '查询试岗申请人',
@@ -181,7 +181,7 @@ const recruit_process = {
   relibTrypsus_set(t) {
     const th = this.$parent
     if (t.valueMap.relibTrypsus) {
-      if (t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit.relibTrypsus.length <= 0 || t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit.relibTrypsus === '0') {
+      if (t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit.relibTrypsus === '' || t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit.relibTrypsus === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
           logType: '查询试岗审批人',
@@ -201,7 +201,7 @@ const recruit_process = {
   relibReexamus_set(t) {
     const th = this.$parent
     if (t.valueMap.relibReexamus) {
-      if (t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus.length <= 0 || t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus === '0') {
+      if (t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus === '' || t.$refs[t.valueMap.relibReexamus][0].formDataSubmit.relibReexamus === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
           logType: '查询复试者',
@@ -220,7 +220,7 @@ const recruit_process = {
       }
     }
     if (t.valueMap.relibReexamtm) {
-      if (t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit.relibReexamtm.length <= 0) {
+      if (t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit.relibReexamtm === '') {
         t.$refs[t.valueMap.relibReexamtm][0].$set(t.$refs[t.valueMap.relibReexamtm][0].formDataSubmit, 'relibReexamtm', new Date().format('yyyy-MM-dd hh:mm:ss'))
       }
     }
@@ -230,7 +230,7 @@ const recruit_process = {
   relibFirstus_set(t) {
     const th = this.$parent
     if (t.valueMap.relibFirstus) {
-      if (t.$refs[t.valueMap.relibFirstus][0].formDataSubmit.relibFirstus.length <= 0 || t.$refs[t.valueMap.relibFirstus][0].formDataSubmit.relibFirstus === '0') {
+      if (t.$refs[t.valueMap.relibFirstus][0].formDataSubmit.relibFirstus === '' || t.$refs[t.valueMap.relibFirstus][0].formDataSubmit.relibFirstus === '0') {
         getDataLevelUserLogin({
           _mt: 'sysUserinfo.getSysUserinfoByUserId',
           logType: '查询初试者',
@@ -249,7 +249,7 @@ const recruit_process = {
       }
     }
     if (t.valueMap.relibFirsttm) {
-      if (t.$refs[t.valueMap.relibFirsttm][0].formDataSubmit.relibFirsttm.length <= 0) {
+      if (t.$refs[t.valueMap.relibFirsttm][0].formDataSubmit.relibFirsttm === '') {
         t.$refs[t.valueMap.relibFirsttm][0].$set(t.$refs[t.valueMap.relibFirsttm][0].formDataSubmit, 'relibFirsttm', new Date().format('yyyy-MM-dd hh:mm:ss'))
       }
     }
