@@ -49,6 +49,7 @@
                   :current="params.page"
                   @on-page-size-change="sizeChange"
                   @on-change="pageChange"
+                  :page-size=params.rows
                   :page-size-opts="[10, 20, 50, 100]"></Page>
             <Button type="ghost"
                     size="small"
@@ -410,7 +411,7 @@ export default {
             const t = this;
             t.edEducationlevel = "";
             t.params.page = 1;
-            t.params.rows = 10;
+            t.params.rows = 20;
         },
         hideMsg () {
             this.showMsg = false;

@@ -127,7 +127,7 @@ export default {
                 _mt: 'orgUnits.getByOrgFramePageList',
                 sort: 'id',
                 order: 'desc',
-                rows: 10,
+                rows: 20,
                 page: 1,
                 funId: '1',
                 logType: '组织架构查询',

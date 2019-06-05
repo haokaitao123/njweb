@@ -9,7 +9,14 @@
           <Row>
             <Col span="18" style="width: 100% !important">
               <Row>
-                <btnList
+                  <DatePicker
+                  type="date"
+                  placeholder="请选择日期"
+                  :editable="false"
+                  v-model="reportDate"
+                  style="width: 200px"
+                  ></DatePicker>
+                  <btnList
                   @buttonExport="expData"
                   @buttonImport="importExcel"
                   @buttonAdd="openUp(NaN,$t('button.add'))"
@@ -154,13 +161,11 @@ export default {
         {
           title: "时间",
           key: "recruitTime",
-          sortable: "custom",
           width: 220
         },
         {
           title: "复试人数",
           key: "reexamineNum",
-          sortable: "custom",
           width: 220
         },
         {
@@ -229,12 +234,13 @@ export default {
       total: 0,
       index: 0,
       sort: "id",
-      order: "desc",
+      order: "asc",
       rows: 20,
       page: 1,
       funId: "1000",
       state: this.modity,
       loading: "",
+      reportDate: ""
     };
   },
   computed: {
@@ -308,7 +314,13 @@ export default {
         order: t.order,
         logType: "招聘统计查询",
         funId: "1000",
+        reportDate:t.reportDate,
       };
+      if (data.reportDate !== undefined && data.reportDate !== '') {
+       				  data.reportDate = new Date(data.reportDate).format('yyyy-MM-dd')
+        } else {
+               data.reportDate = ''
+        }
       for (const dat in data) {
         if (data[dat] === "") {
           delete data[dat];
@@ -437,7 +449,7 @@ export default {
       const t = this;
       // 填装查询条件
       const data = {
-        empnhName: t.empnhName,
+        reportDate:t.reportDate,
         state: t.modity
       };
       // 设置导出mt参数

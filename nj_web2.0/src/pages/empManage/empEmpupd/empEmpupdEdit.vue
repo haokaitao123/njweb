@@ -179,7 +179,7 @@ export default {
             ],
             paramsBank: {
                 _mt: "baseBankinfo.getPage",
-                rows: 10,
+                rows: 20,
                 page: 1,
                 sort: "id",
                 order: "desc",

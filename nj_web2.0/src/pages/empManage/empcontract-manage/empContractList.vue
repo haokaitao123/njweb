@@ -348,7 +348,7 @@ export default {
             ],
             Params: {
                 _mt: "orgUnits.getByOrgFramePageList",
-                rows: 10,
+                rows: 20,
                 page: 1,
                 sort: "id",
                 order: "desc",

@@ -343,7 +343,7 @@
         ],
         paramsaua: {
           _mt: 'platFlow.getPage',
-          rows: '10',
+          rows: 20,
           page: '1',
           sort: 'id',
           order: 'desc',
@@ -351,7 +351,7 @@
         },
         paramsaub: {
           _mt: 'platApproval.getPage',
-          rows: '10',
+          rows: 20,
           page: '1',
           sort: 'id',
           order: 'desc',
@@ -359,7 +359,7 @@
         },
         paramsauc: {
           _mt: 'platAprvstep.getByFlowId',
-          rows: '10',
+          rows: 20,
           page: '1',
           sort: 'id',
           order: 'desc',
@@ -367,7 +367,7 @@
         },
         paramsaud: {
           _mt: 'empEmpnh.getPage',
-          rows: '10',
+          rows: 20,
           page: '1',
           sort: 'id',
           order: 'desc',
@@ -375,7 +375,7 @@
         },
         paramsaue: {
           _mt: 'orgPost.getPage',
-          rows: '10',
+          rows: 20,
           page: '1',
           sort: 'id',
           order: 'desc',

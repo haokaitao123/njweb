@@ -37,6 +37,7 @@
                   placement="top"
                   @on-page-size-change="sizeChange"
                   @on-change="pageChange"
+                  :page-size=rows
                   :page-size-opts="[10, 20, 50, 100]"></Page>
             <Button type="ghost"
                     size="small"
@@ -200,7 +201,7 @@ export default {
             index: 0,
             sort: "id",
             order: "desc",
-            rows: 10,
+            rows: 20,
             page: 1,
             loading: "",
             reeducLevel: '',
@@ -451,7 +452,7 @@ export default {
             t.page = 1;
             t.sort = "id"
             t.order = "desc"
-            t.rows = 10
+            t.rows = 20
         },
     }
 };

@@ -43,6 +43,7 @@
                   placement="top"
                   @on-page-size-change="sizeChange"
                   @on-change="pageChange"
+                  :page-size=params.rows
                   :page-size-opts="[10, 20, 50, 100]"></Page>
         </div>
     </div>
@@ -62,7 +63,7 @@ export default {
                 _mt: 'empEmpnh.getPage',
                 sort: 'id',
                 order: 'desc',
-                rows: 10,
+                rows: 20,
                 page: 1,
                 state: '02empstate',
                 logType: '员工弹出框',

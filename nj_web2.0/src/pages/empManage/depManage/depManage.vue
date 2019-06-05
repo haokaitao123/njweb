@@ -269,7 +269,7 @@ export default {
             ],
             params: {
                 _mt: 'orgPost.getPage',
-                rows: '10',
+                rows: 20,
                 page: '1',
                 sort: 'id',
                 order: 'desc',

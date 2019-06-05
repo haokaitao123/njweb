@@ -354,7 +354,7 @@
         t.page = 1;
         t.sort = "id"
         t.order = "desc"
-        t.rows = 10
+        t.rows = 20
       },
     }
   };

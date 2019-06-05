@@ -41,6 +41,7 @@
                   placement="top"
                   @on-page-size-change="sizeChange"
                   @on-change="pageChange"
+                  :page-size=params.rows
                   :page-size-opts="[10, 20, 50, 100]"></Page>
         </div>
     </div>
@@ -60,7 +61,7 @@ export default {
                 _mt: 'userMgmt.getSearchUserPage',
                 sort: 'id',
                 order: 'asc',
-                rows: 10,
+                rows: 20,
                 page: 1,
                 logType: '用户弹出框',
             },

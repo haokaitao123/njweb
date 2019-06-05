@@ -321,7 +321,7 @@ export default {
             const t = this;
             t.contType = "";
             t.page = 1;
-            t.rows = 10;
+            t.rows = 20;
         },
         hideMsg () {
             this.showMsg = false;

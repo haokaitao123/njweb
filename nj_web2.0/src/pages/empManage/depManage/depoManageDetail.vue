@@ -457,7 +457,7 @@ export default {
     clear(){
       const t = this;
       t.page = 1;
-      t.rows = 10;
+      t.rows = 20;
     },
   }
 };
