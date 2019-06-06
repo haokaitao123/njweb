@@ -1,8 +1,10 @@
 <template>
 	<div class="approve">
+		 <noData v-show="list.length <= 0"></noData>
+		<van-pull-refresh v-model="isLoading"
+                          @refresh="onRefresh">  
 		<van-row>
 			<van-col span="24">
-				<noData v-show="list.length <= 0"></noData>
 				<div class="appItem" v-for="(item,index) in list" @click="goTo(item)">
 					<div class="title">{{item.title}}</div>
 					<div class="actionTimers" v-if="item.dimReasonDis">
@@ -65,7 +67,9 @@
 				</div>
 			</van-col>
 		</van-row>
+		</van-pull-refresh>
 	</div>
+	
 </template>
 
 <script>
@@ -78,6 +82,7 @@
 		data() {
 			return {
 				list: [],
+				isLoading:false,
 			}
 		},
 		components: {
@@ -105,10 +110,12 @@
 				}
 				getDataLevelUserLogin(data).then((res) => {
 					if(isSuccess(res, t)) {
+						console.log(res)
 						if(res.data.content[0].value) {
 							const listRes = JSON.parse(res.data.content[0].value, "123")
 							t.list = listRes
 						}
+						t.isLoading = false
 					}
 				}).catch(() => {
 					t.$notify({
@@ -120,7 +127,13 @@
 					t.$store.commit('hideLoading');
 					console.log('123', this.list)
 				})
-			}
+			},
+			 //下拉刷新
+        onRefresh () {
+            this.page = 1;
+            this.isLoading = true;
+            this.getInfor()
+        },
 		},
 
 	}
@@ -133,8 +146,8 @@
 		 box-sizing: border-box;
 		overflow:-Scroll;
 		overflow-x:hidden;
-		overflow:-Scroll;
-		overflow-y:hidden;
+		overflow-y: scroll;
+		 -webkit-overflow-scrolling: touch;
 		.van-row {
 			margin-top: 5px;
 			height: 200px;
