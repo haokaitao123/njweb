@@ -52,7 +52,8 @@ const router = new Router({
       name: 'approve',
       component: resolve => require(['@/pages/approve/approve'], resolve),
       meta: {
-        title: "审批通过"
+        showTar: true,
+        title: "审批"
       }
     },
     {

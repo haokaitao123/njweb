@@ -57,17 +57,16 @@
                 </div>
                 <!-- 居住详细地址 -->
                 <div class="item_box">
-                    <x-input title="居住详细地址<span>*</span>"
+                    <x-input title="居住详细地址"
                              v-model="form.empupdResaddr"
-                             v-verify="form.empupdResaddr"
                              :show-clear="false"
                              :disabled="disabled"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <icon type="warn"
+                    <!-- <icon type="warn"
                           class="error"
                           v-show="form.empupdResaddr==''"
-                          v-remind="form.empupdResaddr"></icon>
+                          v-remind="form.empupdResaddr"></icon> -->
                 </div>
                 <!-- 开户银行 -->
                 <div class="item_box">
@@ -76,15 +75,14 @@
                           v-if="!disabled"
                           value-align="left"
                           v-model="empnhSalbankDis"
-                          v-verify="form.empupdSalbank"
                           @click.native="popupClick('bankShow')">
-                        <div slot="title">开户银行<span>*</span></div>
+                        <div slot="title">开户银行</div>
                     </cell>
-                    <icon type="warn"
+                    <!-- <icon type="warn"
                           class="error"
                           v-show="empnhSalbankDis=='请选择'"
-                          v-remind="form.empupdSalbank"></icon>
-                    <x-input title="开户银行<span>*</span>"
+                          v-remind="form.empupdSalbank"></icon> -->
+                    <x-input title="开户银行"
                              v-if="disabled"
                              v-model="empnhSalbankDis"
                              :show-clear="false"
@@ -94,31 +92,30 @@
                 </div>
                 <!-- 银行账号 -->
                 <div class="item_box">
-                    <x-input title="银行账号<span>*</span>"
+                    <x-input title="银行账号"
                              v-model="form.empupdSalcount "
-                             v-verify="form.empupdSalcount"
                              :disabled="disabled"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <icon type="warn"
+                    <!-- <icon type="warn"
                           class="error"
                           v-show="form.empupdSalcount==''"
-                          v-remind="form.empupdSalcount"></icon>
+                          v-remind="form.empupdSalcount"></icon> -->
                 </div>
                 <!-- 户名 -->
                 <div class="item_box">
-                    <x-input title="户名<span>*</span>"
+                    <x-input title="户名"
                              v-model="form.empupdSalcname "
                              v-verify="form.empupdSalcname"
                              :disabled="disabled"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <icon type="warn"
+                    <!-- <icon type="warn"
                           class="error"
                           v-show="form.empupdSalcname==''"
-                          v-remind="form.empupdSalcname"></icon>
+                          v-remind="form.empupdSalcname"></icon> -->
                 </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
@@ -212,10 +209,10 @@ export default {
     verify: {
         form: {
             empId: "required",
-            empupdResaddr: "required",
-            empupdSalbank: "required",
-            empupdSalcount: ["required", "number"],
-            empupdSalcname: "required"
+            // empupdResaddr: "required",
+            // empupdSalbank: "required",
+            empupdSalcount: "number",
+            // empupdSalcname: "required"
         }
     },
     components: {
