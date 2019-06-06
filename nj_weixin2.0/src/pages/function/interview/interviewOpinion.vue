@@ -552,7 +552,7 @@
                           v-remind="form.relibFirsttm"></icon>
                 </div>
                 <!-- 初试是否通过 -->
-                <div class="item_box">
+                <!-- <div class="item_box">
                     <cell title="初试是否通过"
                           is-link
                           v-if="!pass"
@@ -573,7 +573,7 @@
                              :show-clear="false"
                              placeholder="未填写">
                     </x-input>
-                </div>
+                </div> -->
                 <!-- 初试意见 -->
                 <x-textarea :max="300"
                             title="初试意见"
@@ -583,10 +583,17 @@
                             :show-counter="true"></x-textarea>
             </group>
             <div class="save_button">
-                <x-button type="primary"
+                <!-- <x-button type="primary"
                           class="x_button"
                           @click.native="comfirmSubmit"
-                          action-type="button">提交</x-button>
+                          action-type="button">提交</x-button> -->
+                <x-button type="default"
+                          class="x_button button_left"
+                          action-type="button"
+                          @click.native="comfirmSubmit('0')">不通过</x-button>
+                <x-button type="primary"
+                          class="x_button"
+                          @click.native="comfirmSubmit('1')">通过</x-button>
             </div>
 
         </div>
@@ -1142,14 +1149,22 @@ export default {
                 });
             }
         },
-        comfirmSubmit () {
+        comfirmSubmit (type) {
+            let tips = ''
+            if (type === "0") {
+                tips = "是否确认不通过";
+                this.relibFirpassDis = '否';
+            } else if (type === "1") {
+                tips = "是否确认通过";
+                this.relibFirpassDis = '是';
+            }
             this.$dialog.confirm({
                 title: '',
-                message: '是否确认提交？'
+                message: tips
             }).then(() => {
+                this.form.relibFirpass = type;
                 this.submit();
             }).catch(() => {
-                // on cancel
             });
         },
         //保存
@@ -1824,18 +1839,26 @@ export default {
             }
         }
         .save_button {
-            padding: 46px 70px;
-            background: #f6f6f6;
+            padding: 125px 54px 50px;
+            display: flex;
+            margin-bottom: 100px;
             .x_button {
                 color: #fff;
                 font-size: 34px;
+                width: 300px;
+                flex: 1;
+                height: 80px;
             }
-        }
-        .save_button {
-            padding: 46px 70px;
-            .x_button {
-                color: #fff;
-                font-size: 34px;
+
+            .button_left {
+                color: #339afe;
+                background: #fff;
+                border: 2px solid #339afe !important;
+                margin-right: 5%;
+            }
+
+            .weui-btn + .weui-btn {
+                margin-top: 0;
             }
         }
     }
