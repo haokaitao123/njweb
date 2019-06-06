@@ -307,14 +307,20 @@
 				margin-top: 30px;
 				.first {
 					display: inline-block;
-					margin-left: 0px;
+					width: 100px;
+					height: 20px;
+					border: 1px solid white;
 				}
 				.data {
 					float: right;
 				}
 				.firsts {
+					width: 150px;
+					height: 20px;
+					border: 1px solid white;
+					text-align: left;
 					display: inline-block;
-					margin-left: 50px;
+					margin-left: 70px;
 					color: green;
 				}
 			}
