@@ -2,7 +2,9 @@
 	<div class="approve">
 		 <noData v-show="list.length <= 0"></noData>
 		<van-pull-refresh v-model="isLoading"
-                          @refresh="onRefresh">  
+                          @refresh="onRefresh"
+                          class="ref"
+                          >  
 		<van-row>
 			<van-col span="24">
 				<div class="appItem" v-for="(item,index) in list" @click="goTo(item)">
@@ -143,11 +145,14 @@
 	.approve {
 		background: #F6F6F6;
 		height: 100%;
-		 box-sizing: border-box;
+		box-sizing: border-box;
 		overflow:-Scroll;
 		overflow-x:hidden;
 		overflow-y: scroll;
 		 -webkit-overflow-scrolling: touch;
+		 .ref{
+		 	height: 100%;
+		 }
 		.van-row {
 			margin-top: 5px;
 			height: 200px;
