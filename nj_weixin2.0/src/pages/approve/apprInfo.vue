@@ -217,10 +217,15 @@
 
 <style lang="less" scoped>
 	.appInfo {
-		width: 98%;
+		width: 100%;
 		height: 100%;
 		padding: 20px;
 		background: white;
+		box-sizing: border-box;
+		overflow:-Scroll;
+		overflow-x:hidden;
+		overflow:-Scroll;
+		overflow-y:hidden;
 		.head {
 			width: 100%;
 			height: 80px;
@@ -240,7 +245,7 @@
 				padding-top: 20px;
 				width: 100%;
 				height: 60px;
-				font-size: 26px;
+				font-size: 30px;
 				.one {
 					color: gray;
 					display: inline-block;
@@ -254,7 +259,7 @@
 				padding-top: 18px;
 				width: 100%;
 				height: 50px;
-				font-size: 26px;
+				font-size: 30px;
 				.one {
 					color: gray;
 					display: inline-block;
@@ -268,7 +273,7 @@
 				padding-top: 18px;
 				width: 100%;
 				height: 50px;
-				font-size: 26px;
+				font-size: 30px;
 				.one {
 					color: gray;
 					display: inline-block;
@@ -282,7 +287,7 @@
 				padding-top: 18px;
 				width: 100%;
 				height: 50px;
-				font-size: 26px;
+				font-size: 30px;
 				.one {
 					color: gray;
 					display: inline-block;
@@ -294,7 +299,7 @@
 			}
 		}
 		.course {
-			font-size: 26px;
+			font-size: 30px;
 			padding: 20px 20px;
 			width: 100%;
 			.start {
@@ -306,7 +311,6 @@
 				}
 				.data {
 					float: right;
-					color: gainsboro;
 				}
 				.firsts {
 					display: inline-block;
@@ -323,7 +327,7 @@
 			}
 		}
 		.textWrite{
-			font-size: 26px;
+			font-size: 30px;
 		}
 		.save_button {
 			padding: 65px 54px 50px;
@@ -332,8 +336,10 @@
 				color: #fff;
 				font-size: 34px;
 				width: 300px;
+				margin-left: 20px;
 			}
 			.button_left {
+				
 				color: #0179fe;
 				background: #fff;
 				border: 2px solid #339afe !important;
