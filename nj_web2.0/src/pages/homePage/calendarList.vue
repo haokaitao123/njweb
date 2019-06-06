@@ -191,7 +191,15 @@ export default {
                         name: 'depRemManage',
                     }
                     this.$store.commit('increateTag', tag)
-                    this.$router.push({ path: 'depRemManage' })
+                    this.$router.push({ path: 'depRemManage'})
+                }else if(item.remindNodeCode==="310200"){
+                     const tag = {
+                        title: '押金退款提醒',
+                        path: '/empRefundManage',
+                        name: 'empRefundManage',
+                    }
+                    this.$store.commit('increateTag', tag)
+                    this.$router.push({ path: 'empRefundManage'})
                 }
             } else {
                 t.id = item.remindMemid
