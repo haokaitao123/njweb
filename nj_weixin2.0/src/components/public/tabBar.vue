@@ -36,16 +36,16 @@ export default {
                     activeImgSrc: "../../../static/footer/kb_04-01.svg"
                 },
                 {
-                    title: "我的",
-                    key: "mine",
-                    imgSrc: "../../../static/footer/kb_05-01.svg",
-                    activeImgSrc: "../../../static/footer/zy_06-01.svg"
-                },
-                {
                     title: "审批",
                     key: "approve",
                     imgSrc: "../../../static/footer/sp_03-01-01.svg",
                     activeImgSrc: "../../../static/footer/sp_04-01-01.svg"
+                },
+                {
+                    title: "我的",
+                    key: "mine",
+                    imgSrc: "../../../static/footer/kb_05-01.svg",
+                    activeImgSrc: "../../../static/footer/zy_06-01.svg"
                 },
             ]
         };
