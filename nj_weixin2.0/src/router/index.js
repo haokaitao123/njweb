@@ -48,6 +48,22 @@ const router = new Router({
       }
     },
     {
+      path: '/approve',
+      name: 'approve',
+      component: resolve => require(['@/pages/approve/approve'], resolve),
+      meta: {
+        title: "审批通过"
+      }
+    },
+    {
+      path: '/apprInfo',
+      name: 'apprInfo',
+      component: resolve => require(['@/pages/approve/apprInfo'], resolve),
+      meta: {
+        title: "审批详情"
+      }
+    },
+    {
       path: '/interview',
       name: 'interview',
       component: resolve => require(['@/pages/function/interview/interview'], resolve),
