@@ -1476,11 +1476,11 @@ export default {
                         this.isRelibFirpass = true;
                     } else {
                         if (this.form.relibWeight !== '') {
-                            let standard = (Number(this.form.relibHeight) - 80) * 0.7
-                            if (Number(this.form.relibWeight) > standard * 1.3) {
+                            let standardM = (Number(this.form.relibHeight) - 80) * 0.7
+                            if (Number(this.form.relibWeight) > standardM * 1.3) {
                                 this.form.relibFirstopin += "相貌不端正，形体不合格、"
                                 this.isRelibFirpass = true;
-                            } else if (Number(this.form.relibWeight) < standard * 0.7) {
+                            } else if (Number(this.form.relibWeight) < standardM * 0.7) {
                                 this.form.relibFirstopin += "相貌不端正，形体不合格、"
                                 this.isRelibFirpass = true;
                             }
@@ -1489,17 +1489,18 @@ export default {
                             this.isRelibFirpass = true;
                         }
                     }
-                } else if (this.relibGenderDis === '女') {
+                }
+                if (this.relibGenderDis === '女') {
                     if (Number(this.form.relibHeight) < 155) {
                         this.form.relibFirstopin += "相貌不端正，形体不合格、"
                         this.isRelibFirpass = true;
                     } else {
                         if (this.form.relibWeight !== '') {
-                            let standard = (Number(this.form.relibHeight) - 70) * 0.6
-                            if (Number(this.form.relibWeight) > standard * 1.3) {
+                            let standardW = (Number(this.form.relibHeight) - 70) * 0.6
+                            if (Number(this.form.relibWeight) > standardW * 1.3) {
                                 this.form.relibFirstopin += "相貌不端正，形体不合格、"
                                 this.isRelibFirpass = true;
-                            } else if (Number(this.form.relibWeight) > standard * 0.7) {
+                            } else if (Number(this.form.relibWeight) < standardW * 0.7) {
                                 this.form.relibFirstopin += "相貌不端正，形体不合格、"
                                 this.isRelibFirpass = true;
                             }
