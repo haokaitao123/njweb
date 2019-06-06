@@ -167,13 +167,24 @@ export default {
         openUpdHome (item) {
             const t = this
             if (item.remindNodeCode) {
-                const tag = {
-                    title: '员工试岗提醒',
-                    path: '/empmasterManage',
-                    name: 'empmasterManage',
+                if(item.remindNodeCode==="310100"){
+
+                    const tag = {
+                        title: '员工试岗提醒',
+                        path: '/empmasterManage',
+                        name: 'empmasterManage',
+                    }
+                    this.$store.commit('increateTag', tag)
+                    this.$router.push({ path: 'empmasterManage' })
+                }else if(item.remindNodeCode==="310170"){
+                     const tag = {
+                        title: '入职未签合同提醒',
+                        path: '/empEntryConManage',
+                        name: 'empEntryConManage',
+                    }
+                    this.$store.commit('increateTag', tag)
+                    this.$router.push({ path: 'empEntryConManage' })
                 }
-                this.$store.commit('increateTag', tag)
-                this.$router.push({ path: 'empmasterManage' })
             } else {
                 t.id = item.remindMemid
                 t.openUpdateHome = true
