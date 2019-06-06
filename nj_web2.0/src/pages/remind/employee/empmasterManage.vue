@@ -274,8 +274,8 @@ export default {
             ],
             params: {
                 _mt: 'orgPost.getPage',
-                rows: '10',
-                page: '1',
+                rows: 10,
+                page: 1,
                 sort: 'id',
                 order: 'desc',
                 logType: '岗位',

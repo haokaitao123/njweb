@@ -45,12 +45,19 @@
     }
   }
 }
-.clearfix{
-	content: ".";  
-	visibility: hidden;  
-	display: block;  
-	clear: both; 
+
+.clearfix {
+  content: ".";
+  visibility: hidden;
+  display: block;
+  clear: both;
 }
+
 .ivu-form .ivu-form-item-label {
   line-height: 1.2
+}
+
+.ivu-input[disabled],
+fieldset[disabled] .ivu-input {
+  color: #333333;
 }

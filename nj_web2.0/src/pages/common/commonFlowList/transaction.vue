@@ -19,15 +19,15 @@
                       :model="formValidate"
                       :rules="ruleValidate"
                       :label-width="120">
-                    <Col span="21" offset="1">
-                        <FormItem label="原因" prop="recReason">
-                        <Input
-                        v-model="formValidate.recReason"
-                        type="textarea"
-                        :autosize="{minRows: 2,maxRows: 5}"
-                        placeholder="请输入原因"
-                        ></Input>
-                        </FormItem>
+                    <Col span="21"
+                         offset="1">
+                    <FormItem label="原因"
+                              prop="recReason">
+                        <Input v-model="formValidate.recReason"
+                               type="textarea"
+                               :autosize="{minRows: 2,maxRows: 5}"
+                               placeholder="请输入原因"></Input>
+                    </FormItem>
                     </Col>
                 </Form>
             </div>
@@ -47,8 +47,8 @@ export default {
             formValidate: {
                 _mt: "recruitProcess.updateById",
                 funId: "1",
-                logType:"",
-                recReason:'',
+                logType: "",
+                recReason: '',
             },
             loadingStatus: false,
             openDeptPick: false,
@@ -94,7 +94,7 @@ export default {
         handleReset () {
             this.$emit('closeTransaction');
             this.$refs.formValidate.resetFields();
-             this.formValidate.recReason = "";
+            this.formValidate.recReason = "";
         },
     },
 }

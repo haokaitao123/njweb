@@ -70,7 +70,7 @@
         </transition>
         <transition name="fade">
             <transaction v-show="openTransaction"
-                         :id="tableselected"
+                         :id="transactionId"
                          :logType="logType"
                          @closeTransaction="closeTransaction"
                          ref="transactionWindow"></transaction>
@@ -106,6 +106,7 @@ export default {
             openTransaction: false,
             updateId: NaN,
             tableselected: [],
+            transactionId: '',
             columns: [],
             tbName: '',
             btns: [],
@@ -344,11 +345,11 @@ export default {
         },
         addBlackUser () {
             const t = this
+            t.transactionId = t.tableselected
             if (this.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
                 this.logType = "加入黑名单";
-                this.tableselected = this.tableselected.toString();
                 this.openTransaction = true;
             }
         },

@@ -166,7 +166,7 @@ export default {
 
            // state: this.modity,
             dataTree: [],
-            loading: true,
+           // loading: true,
             treeheight: document.body.offsetHeight - 200,
             tableheight: document.body.offsetHeight - 280,
             // value: "",
@@ -236,6 +236,7 @@ export default {
                     }
                 }*/
             ],
+            loading: "",
             data: [],
             total: 0,
             index: 0,
@@ -274,8 +275,8 @@ export default {
             ],
             params: {
                 _mt: 'orgPost.getPage',
-                rows: '10',
-                page: '1',
+                rows: 10,
+                page: 1,
                 sort: 'id',
                 order: 'desc',
                 logType: '岗位',
@@ -299,6 +300,7 @@ export default {
         //获取主表数据
         getData (id, page) {
             const t = this;
+            t.loading = true;
             if (id === "$") {
                 id = "";
             }
@@ -358,7 +360,9 @@ export default {
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")
                     });
-                });
+                }).finally(() => {
+         t.loading = false;
+         });
         },
         //关闭
         closeUp () {

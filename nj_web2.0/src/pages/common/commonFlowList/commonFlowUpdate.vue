@@ -16,7 +16,6 @@
                     </Button>
                 </div>
                 <div class="content">
-
                     <row class="table-form"
                          ref="table-form">
                         <Table v-show="thisPkValue!=='0'"
@@ -62,11 +61,11 @@
                                               :tbName="tbName"
                                               :disabled="disabled || item.flsdbOptauth === '01view'"
                                               :ref="'block' + item.flsdbMark"
-                                              :lebWidth="200">
+                                              :lebWidth="item.flsdbName==='复试信息'?100:200">
                             </commonSingleForm>
                             <div v-if="stepAuthLimits === '03submit' && item.flsdbOptauth === '02update' && item.flsdbSubisupd === '1'"
                                  class="marginB_10">
-                                <div v-show="thisStepState !== 'p_flowst_3' && thisStepState !== 'p_flowst_0'">
+                                <div v-show="thisStepState !== 'p_flowst_3' && thisStepState !== 'p_flowst_0'&&thisPkValue !== '0'">
                                     <Button class="btns"
                                             type="primary"
                                             v-if="!item.blockColumn"
@@ -92,8 +91,8 @@
                                            size="small"
                                            :columns="items"
                                            :data="itemTable.table"></Table>
-                                    <span v-if="!item.blockColumn && item.id == itemTable.dataBlockId"
-                                          @click="PageSize(itemTable.dataBlockId)">
+                                    <span v-if="!item.blockColumn && item.id == itemTable.dataBlockId">
+                                        <!-- @click="PageSize(itemTable.dataBlockId)" -->
                                         <Row style="display: flex"
                                              class="marginT_15">
                                             <Page :total="itemTable.records"
@@ -101,14 +100,16 @@
                                                   size="small"
                                                   show-elevator
                                                   placement="top"
-                                                  @on-page-size-change="sizeChange"
-                                                  @on-change="pageChange"
-                                                  :page-size-opts="[10, 20, 50, 100]"></Page><Button type="ghost"
+                                                  @on-page-size-change="sizeChange(size,itemTable.dataBlockId)"
+                                                  @on-change="pageChange(itemTable.dataBlockId)"
+                                                  :page-size-opts="[10, 20, 50, 100]"></Page>
+                                            <Button type="ghost"
                                                     size="small"
                                                     shape="circle"
                                                     icon="refresh"
                                                     style="margin-left: 20px;display: inline-block;"
-                                                    @click="getData(1)"></Button>
+                                                    @click="PageSize(itemTable.dataBlockId)">
+                                            </Button>
                                         </Row>
                                     </span>
                                 </row>
@@ -218,7 +219,6 @@
                          @closePage="closePage"
                          :ChidlTableId="ChidlTableId"
                          :Tabledisabled="Tabledisabled"
-                         @close="closeTest"
                          :flsdbSubfilter="flsdbSubfilter"
                          :thisPkValue="thisPkValue"
                          :flsdbSubform="flsdbSubform"
@@ -226,7 +226,6 @@
                          @getData="getData"
                          :tbName="tbNameTable"
                          :id="formNo"
-                         :pklv="pklv"
                          :formParentfield="formParentfieldTable"></testUpdPage>
         </transition>
     </div>
@@ -356,6 +355,7 @@ export default {
         }
     },
     created () {
+        console.log(this.pkValue, "pkValue")
         this.getColumns()
         this.getDataBlock()
     },
@@ -527,12 +527,15 @@ export default {
                 //          t.dataTable = JSON.parse(res.data.content[0].rows)
                 t.dataTableAll = {}
                 t.dataTableAll['dataBlockId'] = res.data.content[0].dataBlockId
-                t.dataTableAll['page'] = res.data.content[0].page
-                t.page = res.data.content[0].page
+                t.dataTableAll['page'] = res.data.content[0].page === 0 ? res.data.content[0].page + 1 : res.data.content[0].page
+                t.page = res.data.content[0].page === 0 ? res.data.content[0].page + 1 : res.data.content[0].page
                 t.dataTableAll['records'] = res.data.content[0].records
-                t.dataTableAll['table'] = JSON.parse(res.data.content[0].rows)
-                t.dataTableAll['total'] = res.data.content[0].total
-                t.dataTable.push(t.dataTableAll)
+                t.dataTableAll['table'] = JSON.parse(res.data.content[0].rows);
+                t.dataTableAll['total'] = res.data.content[0].total;
+                t.dataTableAll[res.data.content[0].dataBlockId] = JSON.parse(res.data.content[0].rows);
+                console.log(t.dataTableAll[res.data.content[0].dataBlockId], "t.dataTable")
+                t.dataTable.push(t.dataTableAll);
+                console.log(t.dataTable, "t.dataTable")
                 t.totalTable = res.data.content[0].total
             }).catch(err => {
             })
@@ -882,14 +885,24 @@ export default {
         },
         PageSize (id) {
             const t = this
-            this.pageDataBlockId = id
+            console.log(this.pkValue, "pkValue")
+            this.pageDataBlockId = id;
+            console.log(this.dataBlocksFakeId, "this.dataBlocksFakeId");
             for (let i = 0; i < this.dataBlocksFakeId.length; i++) {
                 if (id === this.dataBlocksFakeId[i].id) {
-                    this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, true)
-                } else {
+                    this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, false)
+                }
+                else {
                     this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, false)
                 }
             }
+            // for (let i = 0; i < this.dataBlocksFakeId.length; i++) {
+            //     if (id === this.dataBlocksFakeId[i].id) {
+            //         this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, true)
+            //     } else {
+            //         this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, false)
+            //     }
+            // }
             //        if (this.pageDataBlockId === this.dataBlocksFakeId[0]) {
             //          alert(1)
             //          this.getPageChildTable(this.dataBlocksFakeId[0].id,this.dataBlocksFakeId[0].flsdbOptauth)
@@ -918,7 +931,16 @@ export default {
         },
         sizeChange (size) {
             const t = this
-            t.rows = size
+            console.log(size, "size");
+            t.rows = size;
+            this.pageDataBlockId = id
+            for (let i = 0; i < this.dataBlocksFakeId.length; i++) {
+                if (id === this.dataBlocksFakeId[i].id) {
+                    this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, true)
+                } else {
+                    this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, false)
+                }
+            }
         },
         pageChange (page) {
             const t = this
@@ -1111,7 +1133,6 @@ export default {
                 // console.log(t.formDataSubmit, "t.formDataSubmit");
                 // console.log(t.clmMap, "t.clmMap");
                 // if(t.clmMap.transDeposit&&t.formDataSubmit.transDeposit!==""){
-
                 // }
                 // let data = {
                 //     _mt:'empDeposmin.selectMinMoney',
@@ -1119,7 +1140,6 @@ export default {
                 // }
                 // getDataLevelUserLoginNew2(data).then((res) => {
                 //     if (isSuccess(res, t)) {
-
                 //     }
                 // }).catch(() => {
                 //     t.loading1 = false
@@ -1143,6 +1163,7 @@ export default {
                 getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
                     t.loading1 = false
                     if (isSuccess(res, t)) {
+                        debugger;
                         if (t.thisPkValue === '0') {
                             t.thisPkValue = res.data.content[0].value.split('_')[0]
                             t.thisStepId = res.data.content[0].value.split('_')[1]
@@ -1174,7 +1195,7 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 @import "../../../sass/updateAndAdd.scss";
 .cover .box {
     width: 1200px;
@@ -1229,16 +1250,26 @@ export default {
     }
 }
 .fixed {
+    width: 1500px !important;
     .content {
-        margin-bottom: 262px;
-        height: 254px;
+        margin-right: 365px;
         position: static;
         .approvIdea {
             position: absolute;
-            width: 100%;
-            bottom: 72px;
-            left: 0;
+            width: 27%;
+            right: 0;
+            top: 10%;
             padding: 0 20px;
+            height: 500px;
+            .ivu-col-span-10 {
+                width: 87%;
+            }
+            textarea.ivu-input {
+                height: 240px;
+            }
+            .dataContent {
+                height: 471px;
+            }
         }
     }
 }
