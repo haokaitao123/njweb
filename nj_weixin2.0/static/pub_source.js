@@ -29,7 +29,7 @@ const pubsource = {
   pub_url: "http://hr.333job.com:19001/",
   */
   // 以下为该变量收尾，新增的请放到该变量前面
-  /*
+
   clientId: '1000',
   clientPass: '6cc1c430aed64d3bb8516011195a5b56',
   webSocketURL: 'ws://192.168.11.66:3048/ws',
@@ -40,6 +40,6 @@ const pubsource = {
   corpId: 'wwce608d73697f42d2',
   appSecret: '2qKxvpzR7codeE1sj7lbRh-RtuWpr3E5GW2StdbIewY',
   pub_pubsources_end: '该变量收尾，新增的请放到该变量前面',
-  */
+
 };
 // export default pubsource

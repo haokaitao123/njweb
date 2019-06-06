@@ -2,13 +2,8 @@
 	<div class="approve">
 		<van-row>
 			<van-col span="24">
-				<div class="noContent" v-if="list.length <= 0">
-					没有待审批内容
-				</div>
-				<div class="appItem" 
-					v-for="(item,index) in list"
-					@click="goTo(item)"
-					>
+				<noData v-show="list.length <= 0"></noData>
+				<div class="appItem" v-for="(item,index) in list" @click="goTo(item)">
 					<div class="title">{{item.title}}</div>
 					<div class="actionTimers" v-if="item.dimReasonDis">
 						<span class="one">
@@ -53,7 +48,7 @@
 							{{item.postIdpastDis}}
 						</span>
 					</div>
-					
+
 					<div class="actionTimer" v-if="item.deptIdnewDis">
 						<span class="one">
 							现岗位:
@@ -78,12 +73,15 @@
 		getDataLevelUserLogin
 	} from '@/axios/axios'
 	import { isSuccess } from '@/lib/util'
+	import noData from '@/components/public/noData'
 	export default {
 		data() {
 			return {
 				list: [],
-
 			}
+		},
+		components: {
+			noData
 		},
 		created() {
 			this.getInfor()
@@ -93,7 +91,7 @@
 				this.$router.push({
 					name: 'apprInfo',
 					query: {
-						item:item
+						item: item
 					}
 				})
 			},
@@ -107,9 +105,9 @@
 				}
 				getDataLevelUserLogin(data).then((res) => {
 					if(isSuccess(res, t)) {
-						if(res.data.content[0].value){
-						const listRes = JSON.parse(res.data.content[0].value, "123")
-						t.list = listRes
+						if(res.data.content[0].value) {
+							const listRes = JSON.parse(res.data.content[0].value, "123")
+							t.list = listRes
 						}
 					}
 				}).catch(() => {
@@ -130,24 +128,23 @@
 
 <style lang="less" scoped>
 	.approve {
-		background: gainsboro;
+		background: #F6F6F6;
 		height: 100%;
+		 box-sizing: border-box;
+		overflow:-Scroll;
+		overflow-x:hidden;
+		overflow:-Scroll;
+		overflow-y:hidden;
 		.van-row {
 			margin-top: 5px;
 			height: 200px;
-			background: ghostwhite;
-			.noContent{
-				width: 100%;
-				line-height: 100%;
-				text-align: center;
-				line-height: 100%;
-				font-size: 25px;
-			}
+			
 			.appItem {
 				background: white;
 				padding: 40px 30px;
 				height: 100%;
 				margin-bottom: 20px;
+				overflow: hidden;
 				.title {
 					font-size: 33px;
 				}
@@ -155,7 +152,7 @@
 					width: 49%;
 					display: inline-block;
 					margin-top: 30px;
-					font-size: 26px;
+					font-size: 30px;
 					.one {
 						display: inline-block;
 					}
@@ -163,9 +160,9 @@
 						display: inline-block;
 					}
 				}
-				.actionTimers{
+				.actionTimers {
 					margin-top: 30px;
-					font-size: 28px;
+					font-size: 30px;
 					width: 100%;
 					.one {
 						display: inline-block;
@@ -174,27 +171,26 @@
 						display: inline-block;
 					}
 				}
-				.tranDate{
+				.tranDate {
 					margin-top: -35px;
 					float: right;
-					font-size: 28px;
-					color: gainsboro;
+					font-size: 30px;
 					display: inline-block;
-					.timeOne{
+					.timeOne {
 						font-weight: bold;
 						display: inline-block;
 					}
-					.timeTow{
+					.timeTow {
 						display: inline-block;
 					}
 				}
-				.tranDates{
+				.tranDates {
 					margin-top: -90px;
 					float: right;
-					font-size: 28px;
+					font-size: 30px;
 					color: gainsboro;
 					display: inline-block;
-					.timeTow{
+					.timeTow {
 						display: inline-block;
 					}
 				}
@@ -202,7 +198,7 @@
 					font-size: 20px;
 					margin-top: 30px;
 					.one {
-						font-size: 28px;
+						font-size: 30px;
 						display: inline-block;
 						color: green;
 					}

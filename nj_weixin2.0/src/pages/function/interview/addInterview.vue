@@ -228,7 +228,6 @@ export default {
     mounted () {
         this.getData();
         this.getSelect();
-
     },
     methods: {
         //保存
@@ -244,6 +243,9 @@ export default {
                     data.pkValue = listId
                     t.saveState = true;
                 } else {
+                    if (t.oldName != t.form.relibName || t.oldTele != t.form.relibMobile) {
+                        t.saveState = false
+                    }
                     if (!t.saveState) {
                         await t.haveRecruit();
                     }
@@ -294,6 +296,8 @@ export default {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "data");
                     if (JSON.stringify(data) !== "{}") {
+                        t.oldName = t.form.relibName;
+                        t.oldTele = t.form.relibMobile;
                         if (data.times === '-100') {
                             t.$dialog.alert({
                                 message: '注意此面试人员为黑名单用户！'
