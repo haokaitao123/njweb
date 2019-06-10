@@ -352,6 +352,9 @@ export default {
         },
         entry () {
             return this.$store.state.recruitProcess.entry;
+        },
+        bankCheck(){
+        	return this.$store.state.empdim.bankName;
         }
     },
     created () {
@@ -987,7 +990,8 @@ export default {
         },
         isSubmit () {
             const t = this
-            if (this.entry === 'true') {
+            
+            if (this.entry === 'true' && this.bankCheck) {
                 t.$Modal.confirm({
                     title: this.$t('reminder.remind'),
                     content: '是否确认提交？',
@@ -1113,6 +1117,7 @@ export default {
          * 保存方法
          * */
         async save () {
+        	console.log(this.bankCheck)
             const t = this
             t.loading1 = true
             t.formDataSubmit = {}
@@ -1163,7 +1168,6 @@ export default {
                 getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
                     t.loading1 = false
                     if (isSuccess(res, t)) {
-                        debugger;
                         if (t.thisPkValue === '0') {
                             t.thisPkValue = res.data.content[0].value.split('_')[0]
                             t.thisStepId = res.data.content[0].value.split('_')[1]

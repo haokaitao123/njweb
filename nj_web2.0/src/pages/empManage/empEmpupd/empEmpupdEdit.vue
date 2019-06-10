@@ -129,11 +129,37 @@ import {
   getDataLevelUserLogin
 } from "../../../axios/axios";
 import { isSuccess, deepCopy } from "../../../lib/util";
+import valid from '@/lib/pub_valid';
 import searchEmpMaster from "../../../components/searchTable/searchEmpnhMaster";
 import searchContract from "../../../components/searchTable/searchContract";
 import searchBank from "../../../components/searchTable/searchBank";
 export default {
   data() {
+  	 //银行卡号码的验证
+			//银行类型的验证
+			const backCardCheck = (rule, value, callback) => {
+				console.log(1111)
+				if(value !== '') {
+					if(valid.val_bank(value) == 1) {
+						callback(new Error('银行卡号长度必须在16到19之间'))
+					} else if(valid.val_bank(value) == 2) {
+						callback(new Error('银行卡号码必须全为数字'))
+					} else if(valid.val_bank(value) == 3) {
+						callback(new Error('银行卡号开头6位不符合规范'))
+					}else{
+						let res = valid.bankCardAttribution(value)
+						let bankType = this.empnhSalbankDis
+						console.log('type',bankType)
+						this.empnhSalbankDis = res.bankName
+						console.log(res.bankName)
+						this.form.empupdSalbank = res.bankName
+					}
+				}else if(value == ''){
+					callback(new Error('请输入银行卡号码为空'))
+				}
+				callback()
+			}
+			
     return {
       openPickUser: false, //员工信息默认false 隐藏  
       spinShow:false,
@@ -210,6 +236,17 @@ export default {
         // empupdSalcname: [
         //   { required: true, message: "请输入户名", trigger: "change" }
         // ],
+        empupdSalcount: [{
+							required: true,
+							message: "请输入银行账号",
+							trigger: "blur"
+						},
+						{
+							validator: backCardCheck,
+							message: '',
+							trigger: 'blur'
+						},
+					]
       }
     };
   },
