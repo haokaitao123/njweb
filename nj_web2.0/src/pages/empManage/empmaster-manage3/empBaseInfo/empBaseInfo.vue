@@ -117,7 +117,7 @@
 				</i-col>
 				<i-col span="11">
 					<FormItem label="居住地址" prop="empnhResiaddr">
-						<Input v-model="form.empnhResiaddr" :disabled="disabled" placeholder="请输入居住地址"></Input>
+						<Input v-model="form.empnhResiaddr" :disabled="disabled" placeholder="请输入省.市.区.街道信息"></Input>
 					</FormItem>
 				</i-col>
 				<i-col span="11">
@@ -446,7 +446,7 @@
 					empnhGender: "", // 性别
 					empnhBirthdate: "", // 出生日期
 					empnhMobile: "", // 手机号码
-					empnhResiaddr: "武汉市", // 居住地址
+					empnhResiaddr: "",//"武汉市", // 居住地址
 					empnhRegtype: "", // 户籍性质
 					empnhRegaddr: "", // 户籍地址
 					empnhPersmail: "", // 个人邮箱
@@ -1029,7 +1029,7 @@
 				t.form.empnhNation = "10";
 				t.form.empnhIdtype = "01id";
 				t.form.empnhWklocat = "1410";
-				t.form.empnhResiaddr = "武汉市";
+				t.form.empnhResiaddr = "";//"武汉市";
 				t.empnhRegtypeDis = ""; // 户籍性质显示字段
 				t.empnhSalbankDis = ""; // 开户银行显示字段
 				t.empnhCostcentDis = ""; // 成本中心显示字段 弹框
