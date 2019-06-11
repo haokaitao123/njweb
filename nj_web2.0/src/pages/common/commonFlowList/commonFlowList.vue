@@ -308,6 +308,10 @@
 					if(t.tableselected.length === 0) {
 						this.$Message.warning(this.$t('reminder.leastone'))
 					} else {
+						t.$Modal.confirm({
+							title: this.$t("reminder.remind"),
+							content: this.$t("reminder.confirmOper"),
+						onOk: () => {
 						const data = {
 							_mt: "platAutoLayoutFlowSubmit.transSubmit",
 							roleType: t.$store.state.user.roleType,
@@ -325,6 +329,7 @@
 						getDataLevelUserLogin(data)
 							.then(res => {
 								if(isSuccess(res, t)) {
+									console.log(123)
 									t.$Message.success(this.$t('reminder.operatsuccess'))
 									t.tableselected = []
 									t.getData(1)
@@ -333,6 +338,8 @@
 							.catch(() => {
 								t.$Message.error(this.$t('reminder.errormessage'))
 							});
+						}
+						});
 						console.log('w', t.flowId)
 						console.log('k', t.btns)
 						console.log('1234', t.$route.query.id)
