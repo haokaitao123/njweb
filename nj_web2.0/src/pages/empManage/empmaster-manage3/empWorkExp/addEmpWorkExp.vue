@@ -227,9 +227,9 @@ export default {
                         trigger: "change"
                     }
                 ],
-                weComp: [
+                /*weComp: [
                     { required: true, message: "请输入工作单位", trigger: "blur" }
-                ],
+                ],*/
                 weContact: [
                     { required: true, message: "请输入证明人", trigger: "blur" }
                 ],
