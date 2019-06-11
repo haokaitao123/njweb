@@ -464,10 +464,10 @@
 			deletemsg() {
 				const t = this
 				if(t.tableselected.length === 0) {
-					t.$Modal.error({
-						title: this.$t('reminder.err'),
-						content: '请选择要删除的数据',
-					})
+					 t.$Modal.warning({
+                    title: this.$t("reminder.remind"),
+                    content: this.$t("reminder.leastone")
+                });
 					return
 				}
 				console.log('this.tableselected', this.tableselected)
@@ -476,9 +476,11 @@
 					content: this.$t("reminder.isDelete"),
 					onOk: () => {
 						getDataLevelUserLogin({
-							_mt: '',
-							logType: this.$t('button.del'),
-							ids: t.tableselected,
+                            _mt: 'platAutoLayoutDel.delByIds',
+                            funId:'1',
+                            logType: this.$t('button.del'),
+                            tbName:'recruit_process',
+							delIds: t.tableselected,
 						}).then((res) => {
 							if(isSuccess(res, t)) {
 								t.$Message.success(this.$t('reminder.deletesuccess'))
