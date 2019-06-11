@@ -2,7 +2,7 @@
 import empmasterManage from '@/pages/remind/employee/empmasterManage'
 import empEntryConManage from '@/pages/remind/employee/empEntryConManage'
 import empRefundManage from '@/pages/remind/refund/empRefund'
-//import depRemManage from '@/pages/remind/employee/depRemManage'
+import depRemManage from '@/pages/remind/depRem/depRemManage'
 export default [
     {
         path: 'empmasterManage',
@@ -19,10 +19,10 @@ export default [
         name: 'empRefundManage',
         component: empRefundManage,
     },  
-    // {
-    //     path: 'depRemManage',
-    //     name: 'depRemManage',
-    //     component: depRemManage,
-    // }, 
+    {
+        path: 'depRemManage',
+        name: 'depRemManage',
+        component: depRemManage,
+    }, 
 
 ]

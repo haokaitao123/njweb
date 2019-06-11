@@ -184,9 +184,9 @@ export default {
                     }
                     this.$store.commit('increateTag', tag)
                     this.$router.push({ path: 'empEntryConManage' })
-                }else if(item.remindNodeCode==="3101110"){
+                }else if(item.remindNodeCode==="310220"){
                      const tag = {
-                        title: '押金信息提醒',
+                        title: '押金总金额过低提醒',
                         path: '/depRemManage',
                         name: 'depRemManage',
                     }
