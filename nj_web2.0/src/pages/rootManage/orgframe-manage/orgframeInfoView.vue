@@ -575,7 +575,7 @@ export default {
                     t.empnhName = res.data.content[0].empnhName
                     t.formValidate.state = res.data.content[0].state
                     if (id === res.data.content[0].companyId) {
-                        t.forbidden = 'disabled'
+                      //  t.forbidden = 'disabled'
                         t.distype = true
                     } else {
                         t.forbidden = null
