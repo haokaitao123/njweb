@@ -188,7 +188,7 @@ export default {
           key: "empnhName",
           sortable: "custom",
           fixed: "left",
-          width: 220
+          width: 120
         },
         {
           title: "证件号码",

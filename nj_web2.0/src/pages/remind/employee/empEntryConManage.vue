@@ -157,7 +157,7 @@ export default {
                 { code: "empnhGenderDis", name: "性别" },
                 { code: "unitFname", name: "部门名称" },
                 { code: "postFname", name: "岗位名称" },
-                { code: "createTime", name: "试岗时间" }
+                { code: "empnhEntrydate", name: "入职日期" }
             ],
             openExpDow: false,
             openExp: false,
@@ -202,8 +202,8 @@ export default {
                     title: "岗位名称",
                     key: "postFname"
                 },{
-                    title: "试岗时间",
-                    key: "createTime"
+                    title: "入职日期",
+                    key: "empnhEntrydate"
                 }/*,
                 {
                     title: "操作",
@@ -348,7 +348,7 @@ export default {
                                     empnhGender: res.data.content[0].rows[i].empnhGender,
                                     postId: res.data.content[0].rows[i].postId,
                                   postFname: res.data.content[0].rows[i].postFname,
-                                 createTime : res.data.content[0].rows[i].createTime,
+                                 empnhEntrydate : res.data.content[0].rows[i].empnhEntrydate,
                                 });
                             }
                             t.total = res.data.content[0].records;
