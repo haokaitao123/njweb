@@ -273,7 +273,7 @@ router.beforeEach((to, from, next) => {
       next('/function')
     }
   } else {
-    if (to.name !== 'resumeInfo') {
+    if (to.name !== 'resumeInfo' && to.name !== 'interviewSuccess') {
       if (!isLogin || !empId) {
         router.push({
           name: 'login'

@@ -122,9 +122,9 @@ export default {
             maskShow: false,
             interviewMesList: [],
             curStepstate: {
-                'p_flowst_3': '已结束',
-                'p_flowst_2': '审批中',
-                'p_flowst_1': '待审批',
+                'p_flowst_3': '已完成',
+                'p_flowst_2': '处理中',
+                'p_flowst_1': '待处理',
             },
         }
     },

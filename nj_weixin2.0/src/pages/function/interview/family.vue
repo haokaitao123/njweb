@@ -169,7 +169,6 @@ export default {
     methods: {
         //保存
         save () {
-            console.log(this.$verify.check());
             const t = this;
             if (this.$verify.check()) {
                 const data = deepCopy(t.form);
@@ -186,9 +185,9 @@ export default {
                         delete data[dat];
                     }
                 }
-                console.log(data, "data")
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
+                        localStorage.removeItem('familyForm' + t.id)
                         t.$notify({
                             message: '保存成功',
                             duration: 1500,
@@ -227,6 +226,20 @@ export default {
         getData () {
             const t = this;
             if (t.id === '') {
+                let familyForm = JSON.parse(window.localStorage.getItem('familyForm' + t.id.toString()));
+                if (familyForm) {
+                    let createTime = new Date(familyForm.createTime).getTime();
+                    let nowTime = new Date().getTime();
+                    if (nowTime - createTime < 5 * 60 * 1000) {
+                        t.form = deepCopy(familyForm.form);
+                        t.refaMembersDis = familyForm.refaMembersDis;
+                        setTimeout(() => {
+                            t.setSelectValue(familyForm.form.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
+                        }, 100);
+                    } else {
+                        localStorage.removeItem('familyForm' + t.id)
+                    }
+                }
                 return;
             }
             const data = {
@@ -236,15 +249,28 @@ export default {
             }
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    let data = JSON.parse(res.data.content[0].value);
-                    t.form.refaMembers = data.refaMembers;
-                    t.form.refaName = !data.refaName ? '' : data.refaName;
-                    t.form.refaCompnm = !data.refaCompnm ? '' : data.refaCompnm;
-                    t.form.refaPost = !data.refaPost ? '' : data.refaPost;
-                    t.form.refaContact = !data.refaContact ? '' : data.refaContact;
-                    t.form.note = data.note;
-                    t.refaMembersDis = data.refaMembersDis;
-                    t.setSelectValue(data.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
+                    let familyForm = JSON.parse(window.localStorage.getItem('familyForm' + t.id));
+                    if (!familyForm) {
+                        let data = JSON.parse(res.data.content[0].value);
+                        t.form.refaMembers = data.refaMembers;
+                        t.form.refaName = !data.refaName ? '' : data.refaName;
+                        t.form.refaCompnm = !data.refaCompnm ? '' : data.refaCompnm;
+                        t.form.refaPost = !data.refaPost ? '' : data.refaPost;
+                        t.form.refaContact = !data.refaContact ? '' : data.refaContact;
+                        t.form.note = data.note;
+                        t.refaMembersDis = data.refaMembersDis;
+                        t.setSelectValue(data.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
+                    } else {
+                        let createTime = new Date(familyForm.createTime).getTime();
+                        let nowTime = new Date().getTime();
+                        if (nowTime - createTime < 5 * 60 * 1000) {
+                            t.form = deepCopy(familyForm.form);
+                            t.refaMembersDis = familyForm.refaMembersDis;
+                            t.setSelectValue(familyForm.form.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
+                        } else {
+                            localStorage.removeItem('familyForm' + t.id)
+                        }
+                    }
                 }
             }).catch((err) => {
                 t.$notify({
@@ -266,7 +292,7 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.selectData(data[0].paramList, "selectRefaMembers");
-                    console.log(data, "data")
+
                 }
             }).catch(() => {
                 t.$notify({
@@ -302,6 +328,19 @@ export default {
         //取消
         back () {
             this.$emit('cancel');
+        }
+    },
+    watch: {
+        form: {
+            handler (val, oldvVal) {
+                let tt = {};
+                tt.form = val;
+                tt.refaMembersDis = this.refaMembersDis;
+                tt.createTime = new Date();
+                tt = JSON.stringify(tt);
+                window.localStorage.setItem('familyForm' + this.id, tt)
+            },
+            deep: true
         }
     },
 }

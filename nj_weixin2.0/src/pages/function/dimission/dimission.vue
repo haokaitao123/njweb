@@ -13,7 +13,7 @@
                      @click="goTo(item.id)"
                      v-for="(item,index) in list">
                     <div class="item_left">
-						<span>离职员工：{{item.empIdName}}</span>
+                        <span>离职员工：{{item.empIdName}}</span>
                         <span>
                             公<b>公司</b>司：{{companyName}}
                         </span>
@@ -23,7 +23,7 @@
                         <span>申请日期：{{item.dimApplydate}}</span>
                     </div>
                     <div class="item_right">
-						<span>{{item.curStepDis}}</span>
+                        <span>{{item.curStepDis}}</span>
                         <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
                              @click="deleteItem($event,item.id,index)">
@@ -41,13 +41,14 @@
                 +
             </span>
         </div>
-        <noDimission v-show="noDimission" :btnName='btnName'
+        <noDimission v-show="noDimission"
+                     :btnName='btnName'
                      @addNew="applyDimission"></noDimission>
     </div>
 </template>
 <script>
 import noDimission from '@/components/public/addNew'
-import { getDataLevelUserLogin,getDataLevelUserLoginNew} from '@/axios/axios'
+import { getDataLevelUserLogin, getDataLevelUserLoginNew } from '@/axios/axios'
 import { isSuccess } from '@/lib/util'
 export default {
     data () {
@@ -64,12 +65,12 @@ export default {
             totalPage: 0,
             companyName: pubsource.companyName,
             finishedText: '',
-			btnName:'添加离职',
-			curStepstate:{
-				'p_flowst_1':'待处理',
-				'p_flowst_2':'已处理',
-				'p_flowst_3':'已结束'
-			}
+            btnName: '添加离职',
+            curStepstate: {
+                'p_flowst_1': '待处理',
+                'p_flowst_2': '处理中',
+                'p_flowst_3': '已完成'
+            }
         }
     },
     components: {
@@ -106,38 +107,38 @@ export default {
         deleteItem (e, id, index) {
             e.stopPropagation();
             const t = this;
-			this.$dialog.confirm({
-			  title: '',
-			  message: '是否确认删除？'
-			}).then(() => {
-				const data = {
-					_mt: 'wxEmpEmpdim.delByIds',
-					companyId: pubsource.companyId,
-					userId: window.localStorage.getItem('uid'),
-					ids: id
-				}
-				getDataLevelUserLogin(data).then((res) => {
-					if (isSuccess(res, t)) {
-						t.list.splice(index, 1);
-						t.$notify({
-							message: '删除成功',
-							duration: 1500,
-							background: '#1989fa'
-						});
-						t.onRefresh();
-					}
-				}).catch((err) => {
-					t.$notify({
-						message: '网络错误',
-						duration: 1500,
-						background: '#f44'
-					});
-				}).finally(() => {
-					t.$store.commit('hideLoading');
-				});
-			}).catch(() => {
-			  // on cancel
-			});
+            this.$dialog.confirm({
+                title: '',
+                message: '是否确认删除？'
+            }).then(() => {
+                const data = {
+                    _mt: 'wxEmpEmpdim.delByIds',
+                    companyId: pubsource.companyId,
+                    userId: window.localStorage.getItem('uid'),
+                    ids: id
+                }
+                getDataLevelUserLogin(data).then((res) => {
+                    if (isSuccess(res, t)) {
+                        t.list.splice(index, 1);
+                        t.$notify({
+                            message: '删除成功',
+                            duration: 1500,
+                            background: '#1989fa'
+                        });
+                        t.onRefresh();
+                    }
+                }).catch((err) => {
+                    t.$notify({
+                        message: '网络错误',
+                        duration: 1500,
+                        background: '#f44'
+                    });
+                }).finally(() => {
+                    t.$store.commit('hideLoading');
+                });
+            }).catch(() => {
+                // on cancel
+            });
         },
         async getData () {
             const t = this;
@@ -150,11 +151,11 @@ export default {
                 order: this.order,
                 userId: window.localStorage.getItem('uid'),
             }
-			// data.dimApplicant = window.localStorage.getItem('empId');
+            // data.dimApplicant = window.localStorage.getItem('empId');
             await getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
                     let data = JSON.parse(res.data.content[0].value);
-					
+
                     if (this.list.length > 0) {//当请求前有数据时 第n次请求
                         if (this.loading) {// 上拉加载
                             this.list = this.list.concat(data.rows) //上拉加载新数据添加到数组中
@@ -178,20 +179,20 @@ export default {
                         this.loading = false  //关闭上拉加载中
                     }
                 }
-				if(this.list.length===0){
-					 this.noDimission = true;
-					 return;
-				}
+                if (this.list.length === 0) {
+                    this.noDimission = true;
+                    return;
+                }
             }).catch((err) => {
                 t.$notify({
-					message: '网络错误',
-					duration: 1500,
-					background: '#f44'
-				});          
-			}).finally(() => {
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
                 t.$store.commit('hideLoading');
             });
-			
+
         },
 
     },
@@ -238,18 +239,18 @@ export default {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-end;
-				.p_flowst_1 {
-				    color: #339afe;
-				}
-				.p_flowst_2 {
-				    color: green;
-				}
-				.p_flowst_3 {
-				    color: red;
-				}
-				>span{
-					margin-bottom: 20px;
-				}
+                .p_flowst_1 {
+                    color: #339afe;
+                }
+                .p_flowst_2 {
+                    color: green;
+                }
+                .p_flowst_3 {
+                    color: red;
+                }
+                > span {
+                    margin-bottom: 20px;
+                }
                 .close {
                     height: 36px;
                     width: 36px;

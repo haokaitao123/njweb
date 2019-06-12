@@ -15,6 +15,7 @@ import {
 } from 'vux'
 import verify from "vue-verify-plugin";
 import valid from './lib/pub_valid';
+import closePage from './lib/closePage';
 import {
   Picker,
   Popup,
@@ -31,8 +32,8 @@ import {
   Checkbox,
   CheckboxGroup,
   Icon,
-   Row, 
-   Col
+  Row,
+  Col
 } from 'vant';
 Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).
 use(List).use(Loading).use(search).use(ImagePreview).use(Notify)

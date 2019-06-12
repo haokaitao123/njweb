@@ -222,7 +222,6 @@ export default {
     methods: {
         //保存
         save () {
-            console.log(this.$verify.check());
             const t = this;
             if (this.$verify.check()) {
                 const data = deepCopy(t.form);
@@ -239,9 +238,9 @@ export default {
                         delete data[dat];
                     }
                 }
-                console.log(data, "data")
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
+                        localStorage.removeItem('workExpForm' + t.id)
                         t.$notify({
                             message: '保存成功',
                             duration: 1500,
@@ -265,6 +264,18 @@ export default {
         getData () {
             const t = this;
             if (t.id === '') {
+                let workExpForm = JSON.parse(window.localStorage.getItem('workExpForm' + this.id));
+                if (workExpForm) {
+                    let createTime = new Date(workExpForm.createTime).getTime();
+                    let nowTime = new Date().getTime();
+                    if (nowTime - createTime < 5 * 60 * 1000) {
+                        t.form = deepCopy(workExpForm.form);
+                        t.reweSdateDate = workExpForm.form.reweSdate === "请选择" ? new Date() : new Date(workExpForm.form.reweSdate.replace(/-/g, '/'));
+                        t.reweEdateDate = workExpForm.form.reweEdate === "请选择" ? new Date() : new Date(workExpForm.form.reweEdate.replace(/-/g, '/'));
+                    } else {
+                        localStorage.removeItem('workExpForm' + t.id)
+                    }
+                }
                 return;
             }
             const data = {
@@ -274,17 +285,30 @@ export default {
             }
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    let data = JSON.parse(res.data.content[0].value);
-                    t.form.reweSdate = data.reweSdate ? data.reweSdate : '请选择';
-                    t.form.reweEdate = data.reweEdate ? data.reweEdate : '请选择';
-                    t.form.reweCompnm = !data.reweCompnm ? '' : data.reweCompnm;
-                    t.form.rewePost = !data.rewePost ? '' : data.rewePost;
-                    t.form.reweCertifier = !data.reweCertifier ? '' : data.reweCertifier;
-                    t.form.reweCertnub = !data.reweCertnub ? '' : data.reweCertnub;
-                    t.form.reweLevres = data.reweLevres;
-                    t.form.note = data.note;
-                    t.reweSdateDate = !data.reweSdate ? new Date() : new Date(data.reweSdate.replace(/-/g, '/'));
-                    t.reweEdateDate = !data.reweEdate ? new Date() : new Date(data.reweEdate.replace(/-/g, '/'));
+                    let workExpForm = JSON.parse(window.localStorage.getItem('workExpForm' + t.id));
+                    if (!workExpForm) {
+                        let data = JSON.parse(res.data.content[0].value);
+                        t.form.reweSdate = data.reweSdate ? data.reweSdate : '请选择';
+                        t.form.reweEdate = data.reweEdate ? data.reweEdate : '请选择';
+                        t.form.reweCompnm = !data.reweCompnm ? '' : data.reweCompnm;
+                        t.form.rewePost = !data.rewePost ? '' : data.rewePost;
+                        t.form.reweCertifier = !data.reweCertifier ? '' : data.reweCertifier;
+                        t.form.reweCertnub = !data.reweCertnub ? '' : data.reweCertnub;
+                        t.form.reweLevres = data.reweLevres;
+                        t.form.note = data.note;
+                        t.reweSdateDate = !data.reweSdate ? new Date() : new Date(data.reweSdate.replace(/-/g, '/'));
+                        t.reweEdateDate = !data.reweEdate ? new Date() : new Date(data.reweEdate.replace(/-/g, '/'));
+                    } else {
+                        let createTime = new Date(workExpForm.createTime).getTime();
+                        let nowTime = new Date().getTime();
+                        if (nowTime - createTime < 5 * 60 * 1000) {
+                            t.form = deepCopy(workExpForm.form);
+                            t.reweSdateDate = workExpForm.form.reweSdate === "请选择" ? new Date() : new Date(workExpForm.form.reweSdate.replace(/-/g, '/'));
+                            t.reweEdateDate = workExpForm.form.reweEdate === "请选择" ? new Date() : new Date(workExpForm.form.reweEdate.replace(/-/g, '/'));
+                        } else {
+                            localStorage.removeItem('workExpForm' + t.id)
+                        }
+                    }
                 }
             }).catch((err) => {
                 t.$notify({
@@ -319,6 +343,18 @@ export default {
         back () {
             this.$emit('cancel');
             document.getElementsByClassName('workExpWrap')[0].scrollTop = '0';
+        }
+    },
+    watch: {
+        form: {
+            handler (val, oldvVal) {
+                let tt = {};
+                tt.form = val;
+                tt.createTime = new Date();
+                tt = JSON.stringify(tt);
+                window.localStorage.setItem('workExpForm' + this.id, tt)
+            },
+            deep: true
         }
     },
 }

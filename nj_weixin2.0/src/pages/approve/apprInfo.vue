@@ -109,8 +109,8 @@
 			<x-textarea class="textWrite" :max="300" v-model="value" placeholder="审批意见...." ></x-textarea>
 		</group>
 		<div class="save_button">
-			<x-button class="x_button button_left" @click.native="submit('01approved','同意')" type="primary">不同意</x-button>
-			<x-button class="x_button" @click.native="submit('02noneapproved','不同意')" type="primary">同意</x-button>
+			<x-button class="x_button button_left" @click.native="submit('02noneapproved','不同意')" type="primary">不同意</x-button>
+			<x-button class="x_button" @click.native="submit('01approved','同意')" type="primary">同意</x-button>
 		</div>
 	</div>
 </template>

@@ -98,9 +98,7 @@
                              v-verify="form.empnhSalaccount"
                              :disabled="disabled"
                              :show-clear="false"
-                             :placeholder="disabled?'未填写':'请填写'"
-                             @on-blur="bankCheck"
-                             >
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -288,7 +286,7 @@
                     </x-input>
                 </div>
                 <!-- 交接人 -->
-                <!-- <div class="item_box">
+                <div class="item_box">
                     <cell title=""
                           is-link
                           v-show="!disabled&&form.dimIsreceive==='1'"
@@ -299,7 +297,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="dimReceiveError"></icon>
+                          v-show="dimReceiveError&&form.dimIsreceive==='1'"></icon>
                     <x-input title="交接人姓名<span>*</span>"
                              v-show="disabled"
                              v-model="dimReceiveDis"
@@ -307,7 +305,7 @@
                              :placeholder="disabled?'未填写':'请填写'"
                              :disabled="disabled">
                     </x-input>
-                </div> -->
+                </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
@@ -585,33 +583,31 @@ export default {
             this.form.dimLevday = Month
         },
         //银行账号
-         bankCheck(){
-        	console.log(123)
-        	if(this.form.empnhSalaccount == ''){
-        		this.bankVaild = false;
-        		return
-        	}
-        		if(valid.val_backNumber(this.form.empnhSalaccount) == 1){
-        			this.bankVaild = false;
-        			this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-        			return;
-        		}else if(valid.val_backNumber(this.form.empnhSalaccount) == 2){
-        			this.bankVaild = false;
-        			this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-        			return
-        		}else if(valid.val_backNumber(this.form.empnhSalaccount)== 3){
-        			this.bankVaild = false;
-        			this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-        			return
-        		}
-	        	        this.bankVaild = true;
-        	
+        bankCheck () {
+            // if (this.form.empnhSalaccount == '') {
+            //     this.bankVaild = false;
+            //     return
+            // }
+            // if (valid.val_backNumber(this.form.empnhSalaccount) == 1) {
+            //     this.bankVaild = false;
+            //     this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
+            //     return;
+            // } else if (valid.val_backNumber(this.form.empnhSalaccount) == 2) {
+            //     this.bankVaild = false;
+            //     this.$vux.toast.text('银行卡号码必须全为数字', 'number');
+            //     return
+            // } else if (valid.val_backNumber(this.form.empnhSalaccount) == 3) {
+            //     this.bankVaild = false;
+            //     this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
+            //     return
+            // }
+            // this.bankVaild = true;
         },
         //保存
         async save (type) {
             const t = this;
-            // this.dimReceiveCheck()
-            if (this.$verify.check() && this.bankVaild) {
+            this.dimReceiveCheck();
+            if (this.$verify.check() && this.dimReceiveCheck()) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpdim.addEmpEmpDim";
                 data.companyId = pubsource.companyId;
@@ -659,21 +655,23 @@ export default {
         },
         dimReceiveCheck () {
             if (this.form.dimReceive === "" && this.form.dimIsreceive === "1") {
-                this.dimReceiveError = true
+                this.dimReceiveError = true;
+                return false
             } else {
-                this.dimReceiveError = false
+                this.dimReceiveError = false;
+                return true
             }
         },
         comfirmSubmit () {
-        	if (this.$verify.check() && this.bankVaild) {
-            this.$dialog.confirm({
-                title: '',
-                message: '是否确认提交？'
-            }).then(() => {
-                this.submit();
-            }).catch(() => {
-                // on cancel
-            });
+            if (this.$verify.check() && this.bankVaild) {
+                this.$dialog.confirm({
+                    title: '',
+                    message: '是否确认提交？'
+                }).then(() => {
+                    this.submit();
+                }).catch(() => {
+                    // on cancel
+                });
             }
         },
         //提交
@@ -776,7 +774,6 @@ export default {
                     } else if (t.curStepstate === "p_flowst_3") {
                         t.disabled = true;
                     }
-                    console.log()
                     t.curStepDis = data.curStepDis ? data.curStepDis : '';
                     t.curStepstate = data.curStepstate ? data.curStepstate : '';
                     t.form.dimApplicant = data.dimApplicant;
@@ -794,7 +791,7 @@ export default {
                     t.form.dimLevsqday = data.dimLevsqday;
                     t.form.dimLevday = data.dimLevday;
                     t.form.dimIsreceive = data.dimIsreceive;
-                    t.form.dimReceive = data.dimReceive;
+                    t.form.dimReceive = data.dimReceive ? data.dimReceive : '';
                     t.form.note = data.note;
                     t.curStep = data.curStep;
                     t.empIdName = data.empIdName;
