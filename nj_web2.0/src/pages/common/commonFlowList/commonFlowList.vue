@@ -471,13 +471,13 @@
 			deletemsg() {
 				const t = this
 				if(t.tableselected.length === 0) {
-					 t.$Modal.warning({
-                    title: this.$t("reminder.remind"),
-                    content: this.$t("reminder.leastone")
-                });
+					//  t.$Modal.warning({
+                    // title: this.$t("reminder.remind"),
+                    // content: this.$t("reminder.leastone")
+                //});
+                    this.$Message.warning(this.$t('reminder.leastone'))
 					return
 				}
-				console.log('this.tableselected', this.tableselected)
 				t.$Modal.confirm({
 					title: this.$t("reminder.remind"),
 					content: this.$t("reminder.isDelete"),
@@ -487,6 +487,7 @@
                             funId:'1',
                             logType: this.$t('button.del'),
                             tbName:'recruit_process',
+                            flowId:'1023',
 							delIds: t.tableselected,
 						}).then((res) => {
 							if(isSuccess(res, t)) {
