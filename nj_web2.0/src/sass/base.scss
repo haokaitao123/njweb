@@ -110,3 +110,12 @@ fieldset[disabled] .ivu-input {
 .ivu-message .ivu-icon {
   font-size: 16px;
 }
+
+.ivu-select-disabled .ivu-select-selection {
+  color: #333333 !important;
+}
+
+.ivu-input[disabled],
+fieldset[disabled] .ivu-input {
+  color: #333333 !important;
+}
