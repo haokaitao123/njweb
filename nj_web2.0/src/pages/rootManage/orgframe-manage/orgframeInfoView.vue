@@ -490,16 +490,20 @@ export default {
                     { required: true, validator: validatePartEstablish, trigger: 'change' },
                 ],
                 unitManger: [
-                    { required: true, validator:numberCheck, message: "请输入经理编制", trigger: 'change' },
+                    { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
+                     { required: true,  message: "请输入经理编制", trigger: 'blur' },
                 ],
                 unitDirec: [
-                    { required: true, validator:numberCheck, message: "请输入主管编制", trigger: 'change' },
+                    { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
+                     { required: true,  message: "请输入主管编制", trigger: 'blur' },
                 ],
                 unitStaff: [
-                    { required: true, validator:numberCheck, message: "请输入员工编制", trigger: 'change' },
+                    { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
+                     { required: true,  message: "请输入员工编制", trigger: 'blur' },
                 ],
                 unitPtstaff: [
-                  { required: true, validator:numberCheck, message: "请输入驻厂员工编制", trigger: 'change' },
+                  { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
+                   { required: true,  message: "请输入驻厂员工编制", trigger: 'blur' },
                 ],
                 unitSysalig: [
                     { required: true, message: "请选择系统转正", trigger: 'change' },
