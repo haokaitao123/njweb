@@ -59,7 +59,7 @@
                         <i-col span="11">
                             <FormItem label="证件号码"
                                       prop="empnhIdno">
-                                <Input v-model="empnhIdnowcqweqwcqcqcx`"
+                                <Input v-model="empnhIdno"
                                        disabled="disabled"
                                        placeholder="请输入证件号码" />
                             </FormItem>
