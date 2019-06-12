@@ -182,7 +182,7 @@
                              v-verify="form.relibWeight"
                              :show-clear="false"
                              @on-blur="condition"
-                             placeholder="请填写">
+                             placeholder="请填写千克">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -464,7 +464,7 @@
                 <div class="title_left">
                     <img src="../../../../static/function/work.png"
                          alt="">
-                    <h3>工作经历<span>*</span></h3>
+                    <h3>工作经历</h3>
                     <icon type="warn"
                           class="error"
                           v-show="workExpState"></icon>
@@ -593,6 +593,7 @@
                           @click.native="comfirmSubmit('0')">不通过</x-button>
                 <x-button type="primary"
                           class="x_button"
+                          :disabled="this.isRelibFirpass"
                           @click.native="comfirmSubmit('1')">通过</x-button>
             </div>
 
@@ -931,7 +932,7 @@ export default {
                 relibFirstus: window.localStorage.getItem('empId'),   // 初试人员
                 relibFirsttm: new Date().format('yyyy-MM-dd hh:mm:ss'),      // 初试时间
                 relibFirpass: "",              // 初试是否通过
-                relibFirstopin: "",            // 初试意见
+                relibFirstopin: "基本要求不符（",            // 初试意见
             },
             relibApplypostDis: '请选择',						//岗位
             relibIdentityDis: '请选择',                     //身份
@@ -1206,14 +1207,14 @@ export default {
         checkChild () {
             const t = this;
             if (t.workExpList.length < 1) {
-                t.childCheck = true
-                t.workExpState = true;
+                t.childCheck = false
+                t.workExpState = false;
                 if (t.educationList.length < 1) {
                     t.educationState = true;
                 } else {
                     t.educationState = false;
                 }
-                return false;
+                return true;
             } else {
                 t.workExpState = false;
                 t.childCheck = false
@@ -1363,19 +1364,19 @@ export default {
                     t.setSelectValue(data.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
                     console.log(data.relibWeight)
                     if (!data.relibGenderDis) {
-                        t.form.relibFirstopin += "性别信息为空、"
+                        t.form.relibFirstopin += "性别、"
                         t.isRelibFirpass = true;
                     }
                     if (!data.relibWeight) {
-                        t.form.relibFirstopin += "体重不详、"
+                        t.form.relibFirstopin += "体重、"
                         t.isRelibFirpass = true;
                     }
                     if (!data.relibHeight) {
-                        t.form.relibFirstopin += "身高不详、"
+                        t.form.relibFirstopin += "身高、"
                         t.isRelibFirpass = true;
                     }
                     if (!data.relibEnrorage || !data.relibIsgradu || !data.relibEducat) {
-                        t.form.relibFirstopin += "教育信息不详、"
+                        t.form.relibFirstopin += "教育信息、"
                         t.isRelibFirpass = true;
                     } else {
                         if (data.relibIsgradu === 'graduation_140' || data.relibIsgradu === 'graduation_150') {
@@ -1386,55 +1387,56 @@ export default {
                     if (data.relibGenderDis !== '' && data.relibHeight !== '') {
                         if (data.relibGenderDis === '男') {
                             if (Number(data.relibHeight) < 165) {
-                                t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                t.form.relibFirstopin += "形体不合格、"
                                 t.isRelibFirpass = true;
                             } else {
                                 if (data.relibWeight !== '') {
                                     let standard = (Number(data.relibHeight) - 80) * 0.7
                                     if (Number(data.relibWeight) > standard * 1.3) {
-                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.form.relibFirstopin += "形体不合格、"
                                         t.isRelibFirpass = true;
                                     } else if (Number(data.relibWeight) < standard * 0.7) {
-                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.form.relibFirstopin += "形体不合格、"
                                         t.isRelibFirpass = true;
                                     }
                                 } else {
-                                    t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                    t.form.relibFirstopin += "形体不合格、"
                                     t.isRelibFirpass = true;
                                 }
                             }
                         } else if (data.relibGenderDis === '女') {
                             if (Number(data.relibHeight) < 155) {
-                                t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                t.form.relibFirstopin += "形体不合格、"
                                 t.isRelibFirpass = true;
                             } else {
                                 if (data.relibWeight !== '') {
                                     let standard = (Number(data.relibHeight) - 70) * 0.6
                                     if (Number(data.relibWeight) > standard * 1.3) {
-                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.form.relibFirstopin += "形体不合格、"
                                         t.isRelibFirpass = true;
                                     } else if (Number(data.relibWeight) > standard * 0.7) {
-                                        t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                        t.form.relibFirstopin += "形体不合格、"
                                         t.isRelibFirpass = true;
                                     }
                                 } else {
-                                    t.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                    t.form.relibFirstopin += "形体不合格、"
                                     t.isRelibFirpass = true;
                                 }
                             }
                         }
                     }
                     if (!data.relibIdno) {
-                        t.form.relibFirstopin += "年龄不详、"
+                        t.form.relibFirstopin += "年龄、"
                         t.isRelibFirpass = true;
                     } else {
                         let birthYear = Number(data.relibIdno.substring(6, 10));
                         let nowYear = new Date().getFullYear();
                         if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
-                            t.form.relibFirstopin += "年龄不符、"
+                            t.form.relibFirstopin += "年龄、"
                             t.isRelibFirpass = true;
                         }
                     }
+                    t.form.relibFirstopin += "）"
                     console.log(t.isRelibFirpass, '是否通过')
                     if (t.isRelibFirpass) {
                         t.relibFirpassDis = '否';
@@ -1637,7 +1639,7 @@ export default {
             }
         },
         //获取工作经历
-        async getWorkExp () {
+        async getWorkExp () {	
             const t = this;
             const data = {
                 _mt: 'wxRecruitWorkexp.getByRefaPidNoLogin',

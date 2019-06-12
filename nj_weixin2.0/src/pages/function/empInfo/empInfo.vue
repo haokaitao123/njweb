@@ -212,7 +212,7 @@
                              v-verify="form.empnhResiaddr"
                              :show-clear="false"
                              :readonly="state"
-                             :placeholder="state?'未填写':'请填写'">
+                             :placeholder="state?'请填写省、市、区、街道信息':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -298,11 +298,13 @@
                              v-verify="form.empnhSalaccount"
                              :show-clear="false"
                              :disabled="state"
-                             :placeholder="state?'未填写':'请填写'">
+                             :placeholder="state?'未填写':'请填写'"
+                             @on-blur="bankCheck"
+                             >
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.empnhSalaccount==''"
+                          v-show="!bankVaild"
                           v-remind="form.empnhSalaccount"></icon>
                 </div>
                 <!-- 户名 -->
@@ -785,6 +787,7 @@ export default {
             familyList: [],
             idNumberVaild: false,
             phoneVaild: false,
+            bankVaild: true,
         }
     },
     verify: {
@@ -873,11 +876,34 @@ export default {
                 }
             }
         },
+        //银行卡号校验
+        //银行卡验证
+         bankCheck(){
+        	console.log(123)
+        	if(this.form.empnhSalaccount == ''){
+        		this.bankVaild = false;
+        	}
+        		if(valid.val_backNumber(this.form.empnhSalaccount) == 1){
+        			this.bankVaild = false;
+        			this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
+        			return;
+        		}else if(valid.val_backNumber(this.form.empnhSalaccount) == 2){
+        			this.bankVaild = false;
+        			this.$vux.toast.text('银行卡号码必须全为数字', 'number');
+        			return
+        		}else if(valid.val_backNumber(this.form.empnhSalaccount)== 3){
+        			this.bankVaild = false;
+        			this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
+        			return
+        		}
+	        	 this.bankVaild = true;
+        	
+        },
         //保存
         save () {
             console.log(this.$verify.check());
             const t = this;
-            if (this.$verify.check()) {
+            if (this.$verify.check() && this.bankVaild) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;

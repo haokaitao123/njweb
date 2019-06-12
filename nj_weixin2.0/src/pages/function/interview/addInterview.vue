@@ -305,13 +305,16 @@ export default {
                                 t.saveState = true;
                             });
                         } else {
+                            let name = t.form.relibName;
+                            let reason = t.relibApplypostDis;
                             let num = data.times;
-                            let reason = data.relibCheckopin ? data.relibCheckopin : '无';
                             t.idRecord = data.id;
+                            t.saveState = true;
                             t.$dialog.alert({
                                 message: `<div style="line-height:1.2;text-align:left">
-                                                    <p style="margin-bottom:10px"><b >面试次数：</b>${num}次</span>
-                                                    <p style="line-height:1.5"><b >未通过原因：</b>${reason}</p>
+                                                    <p style="margin-bottom:10px"><b >面试人:</b>${name}</span>
+                                                    <p style="line-height:1.5"><b >面试岗位：</b>${reason}</p>
+                                                    <p style="line-height:1.5"><b >面试次数：</b>${num}</p>
                                             </div>`
                             }).then(() => {
                                 t.saveState = true;

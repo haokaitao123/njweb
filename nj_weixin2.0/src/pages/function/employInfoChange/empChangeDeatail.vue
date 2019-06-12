@@ -57,16 +57,17 @@
                 </div>
                 <!-- 居住详细地址 -->
                 <div class="item_box">
-                    <x-input title="居住详细地址"
+                    <x-input title="居住详细地址<span>*</span>"
                              v-model="form.empupdResaddr"
+                             v-verify="form.empupdResaddr"
                              :show-clear="false"
                              :disabled="disabled"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <!-- <icon type="warn"
+                    <icon type="warn"
                           class="error"
                           v-show="form.empupdResaddr==''"
-                          v-remind="form.empupdResaddr"></icon> -->
+                          v-remind="form.empupdResaddr"></icon>
                 </div>
                 <!-- 开户银行 -->
                 <div class="item_box">
@@ -75,14 +76,15 @@
                           v-if="!disabled"
                           value-align="left"
                           v-model="empnhSalbankDis"
+                          v-verify="form.empupdSalbank"
                           @click.native="popupClick('bankShow')">
-                        <div slot="title">开户银行</div>
+                        <div slot="title">开户银行<span>*</span></div>
                     </cell>
-                    <!-- <icon type="warn"
+                    <icon type="warn"
                           class="error"
                           v-show="empnhSalbankDis=='请选择'"
-                          v-remind="form.empupdSalbank"></icon> -->
-                    <x-input title="开户银行"
+                          v-remind="form.empupdSalbank"></icon>
+                    <x-input title="开户银行<span>*</span>"
                              v-if="disabled"
                              v-model="empnhSalbankDis"
                              :show-clear="false"
@@ -92,30 +94,33 @@
                 </div>
                 <!-- 银行账号 -->
                 <div class="item_box">
-                    <x-input title="银行账号"
+                    <x-input title="银行账号<span>*</span>"
                              v-model="form.empupdSalcount "
+                             v-verify="form.empupdSalcount"
                              :disabled="disabled"
                              :show-clear="false"
-                             :placeholder="disabled?'未填写':'请填写'">
+                             :placeholder="disabled?'未填写':'请填写'"
+                             @on-blur="bankCheck"
+                             >
                     </x-input>
-                    <!-- <icon type="warn"
+                    <icon type="warn"
                           class="error"
-                          v-show="form.empupdSalcount==''"
-                          v-remind="form.empupdSalcount"></icon> -->
+                          v-show="!bankVaild"
+                          v-remind="form.empupdSalcount"></icon>
                 </div>
                 <!-- 户名 -->
                 <div class="item_box">
-                    <x-input title="户名"
+                    <x-input title="户名<span>*</span>"
                              v-model="form.empupdSalcname "
                              v-verify="form.empupdSalcname"
                              :disabled="disabled"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <!-- <icon type="warn"
+                    <icon type="warn"
                           class="error"
                           v-show="form.empupdSalcname==''"
-                          v-remind="form.empupdSalcname"></icon> -->
+                          v-remind="form.empupdSalcname"></icon>
                 </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
@@ -167,6 +172,7 @@ import {
 } from '@/lib/util'
 import searchEmp from '@/components/search/searchEmp'
 import searchBank from '@/components/search/searchBank'
+import valid from '@/lib/pub_valid'
 import {
     Group,
     Cell,
@@ -204,15 +210,16 @@ export default {
             currentBankId: JSON.parse(window.localStorage.getItem('empData')).empnhSalbank,
             disabled: false,
             saveStatus: false,
+            bankVaild: true,
         }
     },
     verify: {
         form: {
             empId: "required",
-            // empupdResaddr: "required",
-            // empupdSalbank: "required",
-            empupdSalcount: "number",
-            // empupdSalcname: "required"
+            empupdResaddr: "required",
+            empupdSalbank: "required",
+            empupdSalcount: ["required", "number"],
+            empupdSalcname: "required"
         }
     },
     components: {
@@ -242,9 +249,39 @@ export default {
         //         this.$vux.toast.text('请检查填写信息', 'middle');
         //     }
         // },
+         //银行卡号校验
+        //银行卡验证
+         bankCheck(){
+        	console.log(123)
+        	if(this.form.empupdSalcount == ''){
+        		this.bankVaild = false;
+        		return
+        	}
+        		if(valid.val_backNumber(this.form.empupdSalcount) == 1){
+        			this.bankVaild = false;
+        			this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
+        			return;
+        		}else if(valid.val_backNumber(this.form.empupdSalcount) == 2){
+        			this.bankVaild = false;
+        			this.$vux.toast.text('银行卡号码必须全为数字', 'number');
+        			return
+        		}else if(valid.val_backNumber(this.form.empupdSalcount)== 3){
+        			this.bankVaild = false;
+        			this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
+        			return
+        		}
+        		        let res = valid.bankCardAttribution(value)
+						let bankType = this.empnhSalbankDis
+						console.log('type',bankType)
+						this.empnhSalbankDis = res.bankName
+						console.log(res.bankName)
+						this.form.empupdSalbank = res.bankName
+	        	        this.bankVaild = true;
+        	
+        },
         async save () {
             const t = this;
-            if (this.$verify.check()) {
+            if (this.$verify.check() && this.bankVaild) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpupd.addAndUpd";
                 data.companyId = pubsource.companyId;
@@ -291,6 +328,7 @@ export default {
             this[domShow] = true;
         },
         comfirmSubmit () {
+        	if(this.$verify.check() && this.bankVaild){
             this.$dialog.confirm({
                 title: '',
                 message: '是否确认提交？'
@@ -299,6 +337,7 @@ export default {
             }).catch(() => {
                 // on cancel
             });
+            }
         },
         //提交
         async submitMes () {
