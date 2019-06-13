@@ -237,23 +237,20 @@ export default {
     methods: {
         //保存
         save () {
-            console.log(this.$verify.check());
             const t = this;
             if (this.$verify.check()) {
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitEduca.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
                 let id = this.id;
-                console.log(this.id, 'this.id');
-                console.log(t.reeduPid, 't.reeduPid');
                 if (id !== '') {
                     data.id = id
                 } else {
                     data.reeduPid = t.reeduPid;
                 }
-                console.log(data, "data")
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
+                        localStorage.removeItem('educationMesForm' + t.id)
                         t.$notify({
                             message: '保存成功',
                             duration: 1500,
@@ -278,7 +275,6 @@ export default {
             this[domShow] = true;
         },
         confirm (value) {
-            console.log(value, "value")
             if (this.curDomShow.indexOf("dateShow") != -1) {
                 if (this.curDom == 'reeduSdate') {
                     this.minReeduEdate = new Date(value);
@@ -302,6 +298,22 @@ export default {
         getData () {
             const t = this;
             if (t.id === '') {
+                let educationMesForm = JSON.parse(window.localStorage.getItem('educationMesForm' + t.id));
+                if (educationMesForm) {
+                    let createTime = new Date(educationMesForm.createTime).getTime();
+                    let nowTime = new Date().getTime();
+                    if (nowTime - createTime < 5 * 60 * 1000) {
+                        t.form = deepCopy(educationMesForm.form);
+                        t.reeduLevelDis = educationMesForm.reeduLevelDis;
+                        setTimeout(() => {
+                            t.setSelectValue(educationMesForm.form.reeduLevel, 'selectReeduLevel', 'reeduLevelIndex');
+                        }, 100);
+                        t.reeduSdateDate = educationMesForm.form.reeduSdate === "请选择" ? new Date() : new Date(educationMesForm.form.reeduSdate.replace(/-/g, '/'));
+                        t.reeduEdateDate = educationMesForm.form.reeduEdate === "请选择" ? new Date() : new Date(educationMesForm.form.reeduEdate.replace(/-/g, '/'));
+                    } else {
+                        localStorage.removeItem('educationMesForm' + t.id)
+                    }
+                }
                 return;
             }
             const data = {
@@ -311,19 +323,34 @@ export default {
             }
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    let data = JSON.parse(res.data.content[0].value);
-                    t.form.reeduLevel = data.reeduLevel;
-                    t.form.reeduDegree = !data.reeduDegree ? '' : data.reeduDegree;
-                    t.form.reeduSdate = data.reeduSdate ? data.reeduSdate : '请选择';
-                    t.form.reeduEdate = data.reeduEdate ? data.reeduEdate : '请选择';
-                    t.form.reeduSchool = !data.reeduSchool ? '' : data.reeduSchool;
-                    t.form.reeduProfession = !data.reeduProfession ? '' : data.reeduProfession;
-                    t.form.reeduAwardcert = data.reeduAwardcert;
-                    t.form.note = data.note;
-                    t.reeduLevelDis = data.reeduLevelDis;
-                    t.reeduSdateDate = !data.reeduSdate ? new Date() : new Date(data.reeduSdate.replace(/-/g, '/'));
-                    t.reeduEdateDate = !data.reeduEdate ? new Date() : new Date(data.reeduEdate.replace(/-/g, '/'));
-                    t.setSelectValue(data.reeduLevel, 'selectReeduLevel', 'reeduLevelIndex');
+                    let educationMesForm = JSON.parse(window.localStorage.getItem('educationMesForm' + t.id));
+                    if (!educationMesForm) {
+                        let data = JSON.parse(res.data.content[0].value);
+                        t.form.reeduLevel = data.reeduLevel;
+                        t.form.reeduDegree = !data.reeduDegree ? '' : data.reeduDegree;
+                        t.form.reeduSdate = data.reeduSdate ? data.reeduSdate : '请选择';
+                        t.form.reeduEdate = data.reeduEdate ? data.reeduEdate : '请选择';
+                        t.form.reeduSchool = !data.reeduSchool ? '' : data.reeduSchool;
+                        t.form.reeduProfession = !data.reeduProfession ? '' : data.reeduProfession;
+                        t.form.reeduAwardcert = data.reeduAwardcert;
+                        t.form.note = data.note;
+                        t.reeduLevelDis = data.reeduLevelDis;
+                        t.reeduSdateDate = !data.reeduSdate ? new Date() : new Date(data.reeduSdate.replace(/-/g, '/'));
+                        t.reeduEdateDate = !data.reeduEdate ? new Date() : new Date(data.reeduEdate.replace(/-/g, '/'));
+                        t.setSelectValue(data.reeduLevel, 'selectReeduLevel', 'reeduLevelIndex');
+                    } else {
+                        let createTime = new Date(educationMesForm.createTime).getTime();
+                        let nowTime = new Date().getTime();
+                        if (nowTime - createTime < 5 * 60 * 1000) {
+                            t.form = deepCopy(educationMesForm.form);
+                            t.reeduLevelDis = educationMesForm.reeduLevelDis;
+                            t.setSelectValue(educationMesForm.form.reeduLevel, 'selectReeduLevel', 'reeduLevelIndex');
+                            t.reeduSdateDate = educationMesForm.form.reeduSdate === "请选择" ? new Date() : new Date(educationMesForm.form.reeduSdate.replace(/-/g, '/'));
+                            t.reeduEdateDate = educationMesForm.form.reeduEdate === "请选择" ? new Date() : new Date(educationMesForm.form.reeduEdate.replace(/-/g, '/'));
+                        } else {
+                            localStorage.removeItem('educationMesForm' + t.id)
+                        }
+                    }
                 }
             }).catch((err) => {
                 t.$notify({
@@ -381,6 +408,19 @@ export default {
         back () {
             this.$emit('cancel');
             document.getElementsByClassName('educationMesWrap')[0].scrollTop = '0';
+        }
+    },
+    watch: {
+        form: {
+            handler (val, oldvVal) {
+                let tt = {};
+                tt.form = val;
+                tt.reeduLevelDis = this.reeduLevelDis;
+                tt.createTime = new Date();
+                tt = JSON.stringify(tt);
+                window.localStorage.setItem('educationMesForm' + this.id, tt)
+            },
+            deep: true
         }
     },
 }

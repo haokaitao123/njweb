@@ -353,8 +353,8 @@ export default {
         entry () {
             return this.$store.state.recruitProcess.entry;
         },
-        bankCheck(){
-        	return this.$store.state.empdim.bankName;
+        bankCheck () {
+            return this.$store.state.empdim.bankName;
         }
     },
     created () {
@@ -990,11 +990,10 @@ export default {
         },
         isSubmit () {
             const t = this
-            
-            if (this.entry === 'true' && this.bankCheck) {
+            if (t.thisStepId === 1421 && this.entry === 'false') {
                 t.$Modal.confirm({
                     title: this.$t('reminder.remind'),
-                    content: '是否确认提交？',
+                    content: '试岗3天后才可以入职,是否确认提交？',
                     onOk: () => {
                         t.submit()
                     },
@@ -1002,7 +1001,7 @@ export default {
             } else {
                 t.$Modal.confirm({
                     title: this.$t('reminder.remind'),
-                    content: '试岗3天后才可以入职,是否确认提交？',
+                    content: '是否确认提交？',
                     onOk: () => {
                         t.submit()
                     },
@@ -1056,7 +1055,10 @@ export default {
                         getDataLevelUserLogin(data).then((res2) => {
                             t.loading2 = false
                             if (isSuccess(res2, t)) {
-                                t.thisStepState = 'p_flowst_3'
+                                t.thisStepState = 'p_flowst_3';
+                                if (this.entry === 'false') {
+                                    t.$store.commit('recruitProcess/setEntry', 'true');
+                                }
                                 t.getColumns()
                                 t.getDataBlock()
                                 t.$emit('getData')
@@ -1117,7 +1119,7 @@ export default {
          * 保存方法
          * */
         async save () {
-        	console.log(this.bankCheck)
+            // console.log(this.bankCheck)
             const t = this
             t.loading1 = true
             t.formDataSubmit = {}
@@ -1244,7 +1246,7 @@ export default {
                 padding: 0 0 20px 100px;
             }
             ul {
-                padding: 0 0 0px 50px;
+                // padding: 0 0 0px 50px;
                 li {
                     font-size: 14px;
                     color: #333333;

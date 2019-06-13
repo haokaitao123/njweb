@@ -182,7 +182,7 @@
                              v-verify="form.relibWeight"
                              :show-clear="false"
                              @on-blur="condition"
-                             placeholder="请填写千克">
+                             placeholder="请填写体重(kg)">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -465,9 +465,9 @@
                     <img src="../../../../static/function/work.png"
                          alt="">
                     <h3>工作经历</h3>
-                    <icon type="warn"
+                    <!-- <icon type="warn"
                           class="error"
-                          v-show="workExpState"></icon>
+                          v-show="workExpState"></icon> -->
                 </div>
                 <span @click="goTo('workExpShow')">添加</span>
             </div>
@@ -593,7 +593,7 @@
                           @click.native="comfirmSubmit('0')">不通过</x-button>
                 <x-button type="primary"
                           class="x_button"
-                          :disabled="this.isRelibFirpass"
+                          :disabled="isRelibFirpass"
                           @click.native="comfirmSubmit('1')">通过</x-button>
             </div>
 
@@ -932,7 +932,7 @@ export default {
                 relibFirstus: window.localStorage.getItem('empId'),   // 初试人员
                 relibFirsttm: new Date().format('yyyy-MM-dd hh:mm:ss'),      // 初试时间
                 relibFirpass: "",              // 初试是否通过
-                relibFirstopin: "基本要求不符（",            // 初试意见
+                relibFirstopin: "",            // 初试意见
             },
             relibApplypostDis: '请选择',						//岗位
             relibIdentityDis: '请选择',                     //身份
@@ -1206,34 +1206,42 @@ export default {
         //校验子表
         checkChild () {
             const t = this;
-            if (t.workExpList.length < 1) {
-                t.childCheck = false
-                t.workExpState = false;
-                if (t.educationList.length < 1) {
-                    t.educationState = true;
-                } else {
-                    t.educationState = false;
-                }
-                return true;
+            // if (t.workExpList.length < 1) {
+            //     t.childCheck = false
+            //     t.workExpState = true;
+            //     if (t.educationList.length < 1) {
+            //         t.educationState = true;
+            //     } else {
+            //         t.educationState = false;
+            //     }
+            //     return false;
+            // } else {
+            //     t.workExpState = false;
+            //     t.childCheck = false
+            //     if (t.educationList.length < 1) {
+            //         t.educationState = true;
+            //         t.childCheck = true;
+            //         return false;
+            //     } else {
+            //         t.educationState = false;
+            //         t.childCheck = false;
+            //     }
+            // }
+            if (t.educationList.length < 1) {
+                t.educationState = true;
+                t.childCheck = true;
+                return false;
             } else {
-                t.workExpState = false;
-                t.childCheck = false
-                if (t.educationList.length < 1) {
-                    t.educationState = true;
-                    t.childCheck = true;
-                    return false;
-                } else {
-                    t.educationState = false;
-                    t.childCheck = false;
-                }
+                t.educationState = false;
+                t.childCheck = false;
             }
             return true;
         },
         //判断一个月之内是否面试过
         async getInterviewTime () {
             const t = this;
-            console.log(t.checkChild(), "123")
-            if (t.$verify.check() && t.checkChild()) {
+            let state = t.checkChild()
+            if (t.$verify.check() && state) {
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitProcess.getFuShiNo";
                 data.companyId = pubsource.companyId;
@@ -1376,50 +1384,44 @@ export default {
                         t.isRelibFirpass = true;
                     }
                     if (!data.relibEnrorage || !data.relibIsgradu || !data.relibEducat) {
-                        t.form.relibFirstopin += "教育信息、"
+                        t.form.relibFirstopin += "教育、"
                         t.isRelibFirpass = true;
                     } else {
                         if (data.relibIsgradu === 'graduation_140' || data.relibIsgradu === 'graduation_150') {
-                            t.form.relibFirstopin += "教育信息不符合、"
+                            t.form.relibFirstopin += "教育、"
                             t.isRelibFirpass = true;
                         }
                     }
                     if (data.relibGenderDis !== '' && data.relibHeight !== '') {
                         if (data.relibGenderDis === '男') {
                             if (Number(data.relibHeight) < 165) {
-                                t.form.relibFirstopin += "形体不合格、"
+                                t.form.relibFirstopin += "身高、"
                                 t.isRelibFirpass = true;
                             } else {
                                 if (data.relibWeight !== '') {
                                     let standard = (Number(data.relibHeight) - 80) * 0.7
                                     if (Number(data.relibWeight) > standard * 1.3) {
-                                        t.form.relibFirstopin += "形体不合格、"
-                                        t.isRelibFirpass = true;
-                                    } else if (Number(data.relibWeight) < standard * 0.7) {
-                                        t.form.relibFirstopin += "形体不合格、"
+                                        t.form.relibFirstopin += "体重、"
                                         t.isRelibFirpass = true;
                                     }
                                 } else {
-                                    t.form.relibFirstopin += "形体不合格、"
+                                    t.form.relibFirstopin += "体重、"
                                     t.isRelibFirpass = true;
                                 }
                             }
                         } else if (data.relibGenderDis === '女') {
                             if (Number(data.relibHeight) < 155) {
-                                t.form.relibFirstopin += "形体不合格、"
+                                t.form.relibFirstopin += "身高、"
                                 t.isRelibFirpass = true;
                             } else {
                                 if (data.relibWeight !== '') {
                                     let standard = (Number(data.relibHeight) - 70) * 0.6
                                     if (Number(data.relibWeight) > standard * 1.3) {
-                                        t.form.relibFirstopin += "形体不合格、"
-                                        t.isRelibFirpass = true;
-                                    } else if (Number(data.relibWeight) > standard * 0.7) {
-                                        t.form.relibFirstopin += "形体不合格、"
+                                        t.form.relibFirstopin += "体重、"
                                         t.isRelibFirpass = true;
                                     }
                                 } else {
-                                    t.form.relibFirstopin += "形体不合格、"
+                                    t.form.relibFirstopin += "体重、"
                                     t.isRelibFirpass = true;
                                 }
                             }
@@ -1436,7 +1438,9 @@ export default {
                             t.isRelibFirpass = true;
                         }
                     }
-                    t.form.relibFirstopin += "）"
+                    if (t.form.relibFirstopin.length > 0) {
+                        t.form.relibFirstopin = "基本要求不符 (" + t.form.relibFirstopin + " )"
+                    }
                     console.log(t.isRelibFirpass, '是否通过')
                     if (t.isRelibFirpass) {
                         t.relibFirpassDis = '否';
@@ -1466,63 +1470,57 @@ export default {
             this.form.relibFirstopin = "";
             this.isRelibFirpass = false;
             if (!this.form.relibGender) {
-                this.form.relibFirstopin += "性别信息为空、"
+                this.form.relibFirstopin += "性别、"
                 this.isRelibFirpass = true;
             }
             if (!this.form.relibHeight) {
-                this.form.relibFirstopin += "身高不详、"
+                this.form.relibFirstopin += "身高、"
                 this.isRelibFirpass = true;
             }
             if (!this.form.relibWeight) {
-                this.form.relibFirstopin += "体重不详、"
+                this.form.relibFirstopin += "体重、"
                 this.isRelibFirpass = true;
             }
             if (!this.form.relibEnrorage || !this.form.relibIsgradu || !this.form.relibEducat) {
-                this.form.relibFirstopin += "教育信息不详、"
+                this.form.relibFirstopin += "教育、"
                 this.isRelibFirpass = true;
             } else {
                 if (this.form.relibIsgradu === 'graduation_140' || this.form.relibIsgradu === 'graduation_150') {
-                    this.form.relibFirstopin += "教育信息不符合、"
+                    this.form.relibFirstopin += "教育、"
                     this.isRelibFirpass = true;
                 }
             }
             if (this.form.relibGender !== '' && this.form.relibHeight !== '') {
                 if (this.relibGenderDis === '男') {
                     if (Number(this.form.relibHeight) < 165) {
-                        this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                        this.form.relibFirstopin += "身高、"
                         this.isRelibFirpass = true;
                     } else {
                         if (this.form.relibWeight !== '') {
                             let standardM = (Number(this.form.relibHeight) - 80) * 0.7
                             if (Number(this.form.relibWeight) > standardM * 1.3) {
-                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
-                                this.isRelibFirpass = true;
-                            } else if (Number(this.form.relibWeight) < standardM * 0.7) {
-                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                this.form.relibFirstopin += "体重、"
                                 this.isRelibFirpass = true;
                             }
                         } else {
-                            this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                            this.form.relibFirstopin += "体重、"
                             this.isRelibFirpass = true;
                         }
                     }
                 }
                 if (this.relibGenderDis === '女') {
                     if (Number(this.form.relibHeight) < 155) {
-                        this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                        this.form.relibFirstopin += "身高、"
                         this.isRelibFirpass = true;
                     } else {
                         if (this.form.relibWeight !== '') {
                             let standardW = (Number(this.form.relibHeight) - 70) * 0.6
                             if (Number(this.form.relibWeight) > standardW * 1.3) {
-                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
-                                this.isRelibFirpass = true;
-                            } else if (Number(this.form.relibWeight) < standardW * 0.7) {
-                                this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                                this.form.relibFirstopin += "体重、"
                                 this.isRelibFirpass = true;
                             }
                         } else {
-                            this.form.relibFirstopin += "相貌不端正，形体不合格、"
+                            this.form.relibFirstopin += "体重、"
                             this.isRelibFirpass = true;
                         }
                     }
@@ -1530,17 +1528,20 @@ export default {
             }
 
             if (!this.form.relibIdno) {
-                this.form.relibFirstopin += "年龄不详、"
+                this.form.relibFirstopin += "年龄、"
                 this.isRelibFirpass = true;
             } else {
                 let birthYear = Number(this.form.relibIdno.substring(6, 10));
                 let nowYear = new Date().getFullYear();
                 if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
-                    this.form.relibFirstopin += "年龄不符、"
+                    this.form.relibFirstopin += "年龄、"
                     this.isRelibFirpass = true;
                 }
             }
-            console.log(this.isRelibFirpass, '是否通过')
+            console.log(this.isRelibFirpass, '是否通过');
+            if (this.form.relibFirstopin.length > 0) {
+                this.form.relibFirstopin = "基本要求不符 (" + this.form.relibFirstopin + " )"
+            }
             if (this.isRelibFirpass) {
                 this.relibFirpassDis = '否';
                 this.pass = true;
@@ -1639,7 +1640,7 @@ export default {
             }
         },
         //获取工作经历
-        async getWorkExp () {	
+        async getWorkExp () {
             const t = this;
             const data = {
                 _mt: 'wxRecruitWorkexp.getByRefaPidNoLogin',
@@ -1719,7 +1720,6 @@ export default {
         idNumber () {
             if (this.form.relibIdno !== '') {
                 if (valid.val_identity(this.form.relibIdno)) {
-
                     //判断性别
                     if (parseInt(this.form.relibIdno.substr(16, 1)) % 2 == 1) {
                         //男
