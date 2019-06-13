@@ -452,6 +452,11 @@ export default {
         reportDate:t.reportDate,
         state: t.modity
       };
+       if (data.reportDate !== undefined && data.reportDate !== '') {
+       				  data.reportDate = new Date(data.reportDate).format('yyyy-MM-dd')
+                } else {
+                    data.reportDate = ''
+            }
       // 设置导出mt参数
       this.$refs.expwindow.getData(
         this.expDataTital,
