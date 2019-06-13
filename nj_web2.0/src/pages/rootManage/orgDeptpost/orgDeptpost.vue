@@ -13,6 +13,8 @@
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
+          <Button type="primary" @click="expData">导出</Button>
+          <Button type="primary" @click="importExcel">导入</Button>
         </Row>
         <row class="table-form" ref="table-form">
           <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
@@ -24,16 +26,64 @@
     <transition name="fade">
       <update v-show="openUpdate" :id="updateId" :logType="logType" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
     </transition>
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="tableselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
+    <transition name="fade">
+      <importExcel
+        v-show="openImport"
+        :impid="updateId"
+        :imp_mt="imp_mt"
+        @getData="getData"
+        @closeImport="closeImport"
+        ref="importExcel"
+      ></importExcel>
+    </transition>
   </div>
 </template>
 <script>
   import update from './addOrgDeptpost'
   import { isSuccess } from '../../../lib/util'
   import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
+  import expwindow from "../../../components/fileOperations/expSms";
+  import expdow from "../../../components/fileOperations/expdow";
+  import importExcel from "../../../components/importModel/importParam";
 
   export default{
     data() {
       return {
+        tableOperate:false,  //加上这个变量
+        // 导入的mt名称
+        imp_mt: "orgDeptpost.importData",
+        // 导出字段设置, code字段名 name列名
+        expDataTital: [
+          { code: "unitFname", name: "部门名称" },
+          { code: "postFname", name: "岗位名称" },
+          { code: "note", name: "备注" }
+        ],
+        // 导入导出默认参数 无需变更
+        openImport: false,
+        openExpDow: false,
+        openExp: false,
+        filekey: "",
+        filename: "",
         loading: "",
         tableheight: document.body.offsetHeight - 280,
         value: '',
@@ -102,6 +152,9 @@
     },
     components: {
       update,
+      expwindow,
+      expdow,
+      importExcel
     },
     mounted() {
       this.getData(1)
@@ -232,6 +285,46 @@
         const t = this
         t.openUpdate = false
 
+      },
+      closeImport() {
+        const t = this;
+        t.openImport = false;
+      },
+      // 导入导出默认方法 无需更改
+      importExcel() {
+        const t = this;
+        t.openImport = true;
+        t.$refs.importExcel.getDowModelFile();
+      },
+      // 导入导出默认方法
+      expData() {
+        const t = this;
+        // 填装查询条件
+        const data = {
+          unitFname: t.unitFname,
+          postFname: t.postFname,
+        };
+        // 设置导出mt参数
+        this.$refs.expwindow.getData(this.expDataTital, "orgDeptpost.export", data);
+        this.openExp = true;
+      },
+      // 导入导出默认方法 无需更改
+      closeExp() {
+        const t = this;
+        t.openExp = false;
+      },
+      // 导入导出默认方法 无需更改
+      closeExpDowMain() {
+        const t = this;
+        t.openExpDow = false;
+      },
+      // 导入导出默认方法 无需更改
+      setFileKey(filekey, filename, openExpDow) {
+        const t = this;
+        t.filekey = filekey;
+        t.filename = filename;
+        t.openExpDow = openExpDow;
+        t.$refs.expdow.getPriToken(t.filekey);
       },
     },
   }
