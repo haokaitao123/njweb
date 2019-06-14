@@ -21,6 +21,9 @@ import orgFrameList from '@/pages/rootManage/orgframe-manage/orgframeManage'
 //成本中心
 import orgCostcenterList from '@/pages/rootManage/orgcostcenter-manage/orgcostcenterManage'
 
+//部门岗位维护
+import orgDeptpostList from '@/pages/rootManage/orgDeptpost/orgDeptpost'
+
 //岗位信息
 import orgPostList from '@/pages/rootManage/orgpost-manage/orgpostManage'
 //公司公告
@@ -57,6 +60,11 @@ export default [
     path: 'orgCostcenterList',
     name: 'orgCostcenterList',
     component: orgCostcenterList,
+  },
+  {
+    path: 'orgDeptpostList',
+    name: 'orgDeptpostList',
+    component: orgDeptpostList,
   },
   {
     path: 'orgPostList',

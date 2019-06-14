@@ -93,6 +93,12 @@ export default {
       postReasonInp: '请输入失效原因...',
       noteInp: '请输入备注...',
     },
+    orgDeptpost:{
+      title: '组织岗位管理',
+      unitFname:'部门名称',
+      postFname:'岗位名称',
+      note:'备注',
+    },
     orgcostcenter: {
       title: '成本中心管理',
       nameDis: '请输入成本中心名称',

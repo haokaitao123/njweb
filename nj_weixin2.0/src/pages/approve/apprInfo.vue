@@ -124,10 +124,10 @@
         </group>
         <div class="save_button">
             <x-button class="x_button button_left"
-                      @click.native="submit('02noneapproved','不同意')"
+                      @click.native="comfirmSubmit('02noneapproved','不同意')"
                       type="primary">不同意</x-button>
             <x-button class="x_button"
-                      @click.native="submit('01approved','同意')"
+                      @click.native="comfirmSubmit('01approved','同意')"
                       type="primary">同意</x-button>
         </div>
     </div>
