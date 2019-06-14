@@ -22,7 +22,7 @@ const emp_empdim = {
     emp_empdim.dimLevsqday_set(this.$parent)
   },
   dimLevday(node) {
-    emp_empdim.dimLevday_set(this.$parent)
+    // emp_empdim.dimLevday_set(this.$parent)
     // emp_empdim.dimLevday_dis(this.$parent)
   },
   empId(node) {
@@ -47,9 +47,9 @@ const emp_empdim = {
       }
     }
     if (t.valueMap.dimLevsqday) {
-        if(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit.dimLevsqday.length<=0){
-          t.$refs[t.valueMap.dimLevsqday][0].$set(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit, 'dimLevsqday',  new Date().format('yyyy-MM-dd'))
-        }
+      if (t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit.dimLevsqday.length <= 0) {
+        t.$refs[t.valueMap.dimLevsqday][0].$set(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit, 'dimLevsqday', new Date().format('yyyy-MM-dd'))
+      }
     }
   },
 
@@ -201,15 +201,15 @@ const emp_empdim = {
       return
     }
   },
-  //最后工作日：离职日期前一天
-  dimLevday_set(t) {
-    let entrydate
-    if (t.valueMap.dimLevday) {
-      entrydate = new Date(t.$refs[t.valueMap.dimLevday][0].formDataSubmit.dimLevday)
-    }
-    entrydate.setDate(entrydate.getDate() - 1)
-    t.$refs[t.valueMap.dimLaswkday][0].$set(t.$refs[t.valueMap.dimLaswkday][0].formDataSubmit, 'dimLaswkday', entrydate.getFullYear() + '-' + (entrydate.getMonth() + 1) + '-' + entrydate.getDate())
-  },
+  //   //最后工作日：离职日期前一天
+  //   dimLevday_set(t) {
+  //     let entrydate
+  //     if (t.valueMap.dimLevday) {
+  //       entrydate = new Date(t.$refs[t.valueMap.dimLevday][0].formDataSubmit.dimLevday)
+  //     }
+  //     entrydate.setDate(entrydate.getDate() - 1)
+  //     t.$refs[t.valueMap.dimLaswkday][0].$set(t.$refs[t.valueMap.dimLaswkday][0].formDataSubmit, 'dimLaswkday', entrydate.getFullYear() + '-' + (entrydate.getMonth() + 1) + '-' + entrydate.getDate())
+  //   },
   dimIsreceive_dis(t) {
     if (t.valueMap.dimIsreceive) {
       if (t.$refs[t.valueMap.dimIsreceive][0].formDataSubmit.dimIsreceive === '0') {
