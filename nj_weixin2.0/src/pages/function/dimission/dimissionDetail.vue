@@ -25,7 +25,7 @@
 
                 <!-- 员工姓名 -->
                 <div class="item_box">
-                    <!-- <cell title=""
+                    <cell title=""
                           is-link
                           v-if="!disabled"
                           value-align="left"
@@ -33,13 +33,14 @@
                           v-verify="form.empId"
                           @click.native="popupClick('empShow','empId')">
                         <div slot="title">员工姓名<span>*</span></div>
-                    </cell> -->
+                    </cell>
                     <icon type="warn"
                           class="error"
                           v-show="empIdName==''"
                           v-remind="form.empId"></icon>
                     <x-input title="员工姓名<span>*</span>"
                              v-model="empIdName"
+                             v-if="disabled"
                              v-verify="form.empId"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'"
@@ -506,7 +507,7 @@ export default {
             curStepstate: 'p_flowst_1',
             disabled: false,
             dimReceiveError: false,
-            bankVaild: true
+            bankVaild: true,
         }
     },
     verify: {

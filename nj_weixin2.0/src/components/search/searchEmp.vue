@@ -86,6 +86,8 @@ export default {
                 funId: 1,
                 companyId: pubsource.companyId,
                 logType: '员工弹出框',
+                selType: 'weixin',
+                id: localStorage.getItem("empId")
             }
             data.empnhName = t.empnhName
             for (const dat in data) {

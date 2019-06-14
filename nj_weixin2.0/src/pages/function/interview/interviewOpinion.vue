@@ -1021,53 +1021,6 @@ export default {
             educationState: false,
             workExpState: false,
             childCheck: false,
-            json: {
-                children: [
-                    {
-                        id: '1370',
-                        unitPid: "1344"
-                    },
-                    {
-                        id: '1371',
-                        unitPid: "1344"
-                    },
-                    {
-                        id: '1372',
-                        children: [
-                            {
-                                id: '1386',
-                                unitPid: "1372"
-                            },
-                        ],
-                        unitPid: "1344"
-                    },
-                    {
-                        id: '1373',
-                        children: [
-                            {
-                                id: '1387',
-                                unitPid: "1373"
-                            },
-                            {
-                                id: '1388',
-                                unitPid: "1373"
-                            },
-                            {
-                                id: '1389',
-                                unitPid: "1373"
-                            },
-                        ],
-                        unitPid: "1344"
-                    },
-                    {
-                        id: '1374',
-                        unitPid: "1344"
-                    },
-                ],
-                id: "1344",
-                unitPid: "1000"
-            },
-            children: []
         }
     },
     verify: {
