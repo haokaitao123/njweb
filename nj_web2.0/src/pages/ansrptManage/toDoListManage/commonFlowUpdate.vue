@@ -788,14 +788,14 @@ export default {
         },
         close () {
             const t = this
-            //      t.$emit('close')
-            t.$Modal.confirm({
-                title: this.$t('reminder.remind'),
-                content: '是否确认关闭？',
-                onOk: () => {
-                    t.$emit('close')
-                },
-            })
+                 t.$emit('close')
+            // t.$Modal.confirm({
+            //     title: this.$t('reminder.remind'),
+            //     content: '是否确认关闭？',
+            //     onOk: () => {
+            //         t.$emit('close')
+            //     },
+            // })
         },
         isSubmit () {
             const t = this
