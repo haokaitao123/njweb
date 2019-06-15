@@ -25,6 +25,8 @@ import talentAssessManage from './talentAssessManage'
 import evaluationManage from './evaluationManage'
 import recruit from './recruit'
 import remind from './remind'
+import atten from './atten'
+
 Vue.use(Router)
 
 export default new Router({
@@ -59,7 +61,8 @@ export default new Router({
         ...talentAssessManage,
         ...evaluationManage,
         ...recruit,
-        ...remind
+        ...remind,
+        ...atten
       ]
     },
     ...emp,
