@@ -166,13 +166,13 @@ export default {
             type: String,
         },
         //是否为子表
-        childTable:{
+        childTable: {
             type: Boolean,
-            default:false
+            default: false
         },
         //表格高度
-        table_height:{
-            type: String,
+        table_height: {
+            type: Number,
         },
     },
     computed: {
@@ -187,24 +187,27 @@ export default {
             return this.$store.state.btnOperate.modity;
         },
         columns () {
-            if(!this.childTable){
+            if (!this.childTable) {
                 return this.$store.state.commonPage.columns;
-                
-            }else{
+
+            } else {
                 return this.$store.state.commonPage.childColumns;
             }
         },
         filterParams () {
-            if(!this.childTable){
+            if (!this.childTable) {
                 return this.$store.state.commonPage.params;
-               
-            }else{
+
+            } else {
                 return this.$store.state.commonPage.childParams;
             }
-            
+
         },
     },
     mounted () {
+        if (!this.childTable) {
+            this.getData();
+        }
         // this.getData();
     },
     watch: {
@@ -218,8 +221,8 @@ export default {
             }
         },
         columns (val) {
-            console.log(this.childTable,"this.childTable")
-            if (this.pageShow !== "" && this.tableOperate === false&&!this.childTable) {
+            console.log(this.childTable, "this.childTable")
+            if (this.pageShow !== "" && this.tableOperate === false && !this.childTable) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
             }
@@ -289,7 +292,7 @@ export default {
                 _mt: t.page_mt,
                 rows: t.rows,
                 page: t.page,
-                roleType:localStorage.roleType,//角色类型
+                roleType: localStorage.roleType,//角色类型
                 sort: t.sort,
                 order: t.order,
                 logType: '查询',
