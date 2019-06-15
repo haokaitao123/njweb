@@ -4,7 +4,7 @@
              ref="table-form">
             <Table @on-selection-change="selectedtable"
                    @on-sort-change="sortable"
-                   :height="tableheight"
+                   :height="table_height"
                    size="small"
                    border
                    ref="selection"
@@ -74,7 +74,6 @@ export default {
     },
     data () {
         return {
-
             tableOperate: false, //加上这个变量
             // 导入导出默认参数 无需变更
             openImport: false,
@@ -83,7 +82,7 @@ export default {
             filekey: "",
             filename: "",
             //子页面所需参数，无需变更
-            tableheight: document.body.offsetHeight - 280,
+            // tableheight: document.body.offsetHeight - 280,
             logType: "",
             updateId: NaN,
             tableselected: [],
@@ -165,7 +164,16 @@ export default {
         //导出的mt名称
         exp_mt: {
             type: String,
-        }
+        },
+        //是否为子表
+        childTable:{
+            type: Boolean,
+            default:false
+        },
+        //表格高度
+        table_height:{
+            type: String,
+        },
     },
     computed: {
         pageShow () {
@@ -179,14 +187,25 @@ export default {
             return this.$store.state.btnOperate.modity;
         },
         columns () {
-            return this.$store.state.commonPage.columns;
+            if(!this.childTable){
+                return this.$store.state.commonPage.columns;
+                
+            }else{
+                return this.$store.state.commonPage.childColumns;
+            }
         },
         filterParams () {
-            return this.$store.state.commonPage.params;
-        }
+            if(!this.childTable){
+                return this.$store.state.commonPage.params;
+               
+            }else{
+                return this.$store.state.commonPage.childParams;
+            }
+            
+        },
     },
     mounted () {
-        this.getData();
+        // this.getData();
     },
     watch: {
         pageShow (val) {
@@ -199,7 +218,8 @@ export default {
             }
         },
         columns (val) {
-            if (this.pageShow !== "" && this.tableOperate === false) {
+            console.log(this.childTable,"this.childTable")
+            if (this.pageShow !== "" && this.tableOperate === false&&!this.childTable) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
             }
@@ -265,7 +285,6 @@ export default {
             if (typeof page == "undefined") {
                 this.page = 1;
             };
-
             let data = {
                 _mt: t.page_mt,
                 rows: t.rows,
@@ -299,7 +318,8 @@ export default {
                     this.$Message.error(this.$t("reminder.errormessage"));
                 })
                 .finally(() => {
-                    this.$store.commit('btnOperate/setSearchLoading', false)
+                    this.$store.commit('btnOperate/setSearchLoading', false);
+                    this.loading = false;
                 });
         },
         //排序

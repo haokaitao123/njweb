@@ -49,6 +49,7 @@
                                 :dele_mt="dele_mt"
                                 :state_mt="state_mt"
                                 :expDataTital="expDataTital"
+                                :table_height="table_height"
                                 @tableBtn="tableBtn"
                                 ref="commonPage">
                     </commonPage>
@@ -132,6 +133,7 @@ export default {
                 empnhIdno: "",
                 deptId: "",
             },
+            table_height:document.body.offsetHeight - 280,
             typeCode: "",
             //弹出选择框
 

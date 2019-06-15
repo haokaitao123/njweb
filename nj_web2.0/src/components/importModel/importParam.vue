@@ -182,7 +182,7 @@ export default {
                     t.importData(res.data[key])
                 }
             }).catch(() => {
-                t.loadingStatus = false
+                 t.loadingStatus = false
                 t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
@@ -202,6 +202,7 @@ export default {
                     t.imp = window.setInterval(t.getImportState, 1000)
                 }
             }).catch(() => {
+                 t.loadingStatus = false
                 t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
@@ -213,13 +214,14 @@ export default {
                 jobueueId: t.jobQueueId,
             }).then((res) => {
                 if (isSuccess(res, t)) {
+                    console.log(res.data.content[0],"liyan")
                     if (res.data.content[0].imp_status !== 100) {
                         t.imp_status = res.data.content[0].imp_status
                         t.activeState = 'active'
                         console.log(res.data.content[0].imp_status, "2")
                     } else {
                         clearInterval(t.imp)
-                        t.activeState = ''
+                        // t.activeState = 'normal'
                         if (res.data.content[0].imp_errfile !== '') {
                             t.openImportFail = true
                             t.$refs.importFail.importFailDowFile(res.data.content[0].imp_errfile)
@@ -229,18 +231,15 @@ export default {
                             t.$refs.importFail.setFailMessage(res.data.content[0].imp_rows_nomatch)
                         }
                         if (!t.openImportFail) {
-                            t.$emit('getData');
                             console.log(res.data.content[0].imp_status, "3")
-                            t.imp_status = res.data.content[0].imp_status
-                            // t.$Modal.success({
-                            //     title: this.$t('reminder.suc'),
-                            //     content: this.$t('lang_fileOperation.import.uploadSuc'),
-                            // })
+                            t.imp_status = res.data.content[0].imp_status;
+                            t.$emit('getData');
                             t.$Message.success(this.$t("lang_fileOperation.import.uploadSuc"));
                         } else {
                             t.imp_status = 99
                             t.activeState = 'wrong'
                         }
+                        console.log(t.activeState,"activeState")
                         t.loadingStatus = false
                     }
                 } else {
@@ -249,6 +248,9 @@ export default {
             }).catch(() => {
                 clearInterval(t.imp)
                 t.$Message.error(this.$t("reminder.errormessage"));
+            }).finally(() => {
+              
+                clearInterval(t.imp)
             })
         },
         getDowModelFile () {

@@ -40,8 +40,10 @@ import empBorrow from '../pages/empManage/empBorrow/empBorrow'
 import commonPage from '../components/commonPage/comPage'
 import empMaster from '../pages/empManage/empmaster-manage3/empmaster'
 import recruitProcess from '../pages/common/commonFlowList/recruitProcess'
-import autoSearch from '@/pages/common/searchTable/autoSearch'
-import empdim from '@/pages/common/onBlur/empdim_store'
+import attenQuotainfo from '../pages/attenManage/attenQuotainfo/attenQuotainfo'
+import autoSearch from '../pages/common/searchTable/autoSearch'
+import empdim from '../pages/common/onBlur/empdim_store'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -93,8 +95,9 @@ const store = new Vuex.Store({
     empMaster,
     recruitProcess,
     autoSearch,
-    empdim
-  }
+    empdim,
+    attenQuotainfo,
+  },
 });
 
 export default store;
