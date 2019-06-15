@@ -455,7 +455,7 @@ export default {
        if (data.reportDate !== undefined && data.reportDate !== '') {
        				  data.reportDate = new Date(data.reportDate).format('yyyy-MM-dd')
                 } else {
-                    data.reportDate = ''
+                    data.reportDate = new Date().format('yyyy-MM-dd')
             }
       // 设置导出mt参数
       this.$refs.expwindow.getData(
