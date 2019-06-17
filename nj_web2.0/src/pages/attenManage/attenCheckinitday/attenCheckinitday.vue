@@ -11,9 +11,14 @@
                     <Row>
                     	    <Input v-model="searchParams.empnhName"
     placeholder="请输入员工姓名"
-style="width: 200px"/>    <Input v-model="searchParams.checkWktm"
-    placeholder="请输入工作日期"
 style="width: 200px"/>
+                          <DatePicker type="date"
+                                      v-model="searchParams.checkWktm"
+                                      placeholder="请选择工作日期"
+                                      style="width: 200px"></DatePicker>
+
+
+
                         <!-- 页面按钮 -->
                             <btnList @buttonExport="expData"
     @buttonAdd="openUp"
@@ -33,6 +38,7 @@ style="width: 200px"/>
                                 :dele_mt="dele_mt"
                                 :state_mt="state_mt"
                                 :expDataTital="expDataTital"
+                                :table_height="table_height"
                                 @tableBtn="tableBtn"
                                 ref="commonPage">
                     </commonPage>
@@ -62,7 +68,7 @@ style="width: 200px"/>
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-import update from "./addNewAttenCheckinitday";                    //新增修改组件
+import update from "./addNewAttenCheckinitday1";                    //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 
 export default {
@@ -81,11 +87,10 @@ export default {
     { code: "postFname", name: "岗位名称" },
     { code: "checkUpwoke", name: "上班基准时间" },
     { code: "checkUpckin", name: "上班打卡时间" },
-    { code: "checkUpresult", name: "上班考勤结果" },
+    { code: "checkUpresultDis", name: "上班考勤结果" },
     { code: "checkDwktm", name: "下班基准时间" },
     { code: "checkDckout", name: "下班打卡时间" },
-    { code: "checkDresult", name: "下班考勤结果" },
-    { code: "userId", name: "user_id" },
+    { code: "checkDresultDis", name: "下班考勤结果" },
             ],
             // 表格列字段
             columns: [
@@ -97,11 +102,10 @@ export default {
     { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
     { key: "checkUpwoke", title: "上班基准时间", sortable: "custom" , width : 220},
     { key: "checkUpckin", title: "上班打卡时间", sortable: "custom" , width : 220},
-    { key: "checkUpresult", title: "上班考勤结果", sortable: "custom" , width : 220},
+    { key: "checkUpresultDis", title: "上班考勤结果", sortable: "custom" , width : 220},
     { key: "checkDwktm", title: "下班基准时间", sortable: "custom" , width : 220},
     { key: "checkDckout", title: "下班打卡时间", sortable: "custom" , width : 220},
-    { key: "checkDresult", title: "下班考勤结果", sortable: "custom" , width : 220},
-    { key: "userId", title: "user_id", sortable: "custom" , width : 220},
+    { key: "checkDresultDis", title: "下班考勤结果", sortable: "custom" , width : 220},
 
             ],
             // 表格获取数据mt名称
@@ -124,6 +128,7 @@ export default {
 checkWktm: "",
 
             },
+            table_height:document.body.offsetHeight - 280,
             typeCode: "",
             //弹出选择框
             
@@ -165,6 +170,7 @@ checkWktm: "",
         },
         //页面查询
         search () {
+          this.searchParams.checkWktm = this.searchParams.checkWktm.format("yyyy-MM-dd")
             this.$store.commit('commonPage/setParams', this.searchParams)
             this.$refs.commonPage.search();
         },

@@ -24,90 +24,107 @@
                 :rules="ruleValidate"
                 :label-width="100">
             <i-col span="11">
-              <FormItem label="员工姓名"  prop="empnhName"  >
-                <!--绑定双击清除方法-->
-                <span @dblclick="forbidden?'':dbclean()">
+              <FormItem label="工作日期"
+                        prop="checkWktm">
+                <Input v-model="formValidate.checkWktm"
+                       disabled="disabled"
+                       placeholder="请选择工作日期"></Input>
+              </FormItem>
+            </i-col>
+              <i-col span="11">
+                <FormItem label="员工姓名"  prop="empnhName"  >
+                  <!--绑定双击清除方法-->
+                  <span @dblclick="forbidden?'':dbclean()">
                           <!--v-model绑定显示字段-->
                               <Input v-model="formValidate.empnhName" icon="search" readonly="readonly" :disabled="forbidden" placeholder="请选择员工"  @on-click="forbidden?'':pickEmpData()" />
                             </span>
-              </FormItem>
-            </i-col>
+                </FormItem>
+              </i-col>
 
-            <i-col span="11">
-              <FormItem label="证件号码"
-                        prop="empnhIdno">
-                <Input v-model="formValidate.empnhIdno"
-                       disabled="disabled"
-                       placeholder="请输入证件号码"></Input>
-              </FormItem>
-            </i-col>
-            <i-col span="11">
-              <FormItem label="部门"
-                        prop="unitFname">
-                <Input v-model="formValidate.unitFname"
-                       disabled="disabled"
-                       placeholder="请输入部门名称"></Input>
-              </FormItem>
-            </i-col>
-            <i-col span="11">
-              <FormItem label="岗位"
-                        prop="postFname">
-                <Input v-model="formValidate.postFname"
-                       disabled="disabled"
-                       placeholder="请输入岗位名称"></Input>
-              </FormItem>
-            </i-col>
-            <i-col span="22">
-              <FormItem label="试用期评价"
-                        prop="empoffResult">
-                <Input v-model="formValidate.empoffResult"
-                       type="textarea"
-                       :disabled="forbidden"
-                       :autosize="{minRows: 2,maxRows: 5}"
-                       placeholder="请输入试用期评价..."></Input>
-              </FormItem>
-            </i-col>
-            <!--上传下载-->
-            <i-col span="23">
-              <FormItem label="试用期评估表" prop="fileKey">
-                <Row>
-                  <i-col span="3" v-show="!forbidden">
-                    <Upload :before-upload="handleUpload"  action=" ">
-                      <Button  type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
-                    </Upload>
+              <i-col span="11">
+                <FormItem label="证件号码"
+                          prop="empnhIdno">
+                  <Input v-model="formValidate.empnhIdno"
+                         disabled="disabled"
+                         placeholder="请输入证件号码"></Input>
+                </FormItem>
+              </i-col>
+              <i-col span="11">
+                <FormItem label="部门"
+                          prop="unitFname">
+                  <Input v-model="formValidate.unitFname"
+                         disabled="disabled"
+                         placeholder="请输入部门名称"></Input>
+                </FormItem>
+              </i-col>
+              <i-col span="11">
+                <FormItem label="岗位"
+                          prop="postFname">
+                  <Input v-model="formValidate.postFname"
+                         disabled="disabled"
+                         placeholder="请输入岗位名称"></Input>
+                </FormItem>
+              </i-col>
+
+              <i-col span="11">
+                <FormItem label="上班基准时间"
+                          prop="checkUpwoke">
+                  <Input v-model="formValidate.checkUpwoke"
+                         disabled="disabled"
+                  ></Input>
+                </FormItem>
+              </i-col>
+                <i-col span="11">
+                  <FormItem label="上班打卡时间"
+                            prop="checkUpckin">
+                    <Input v-model="formValidate.checkUpckin"
+                           disabled="disabled"
+                    ></Input>
+                  </FormItem>
+                </i-col>
+                <i-col span="11">
+                    <FormItem label="上班考勤结果"
+                              prop="checkUpresultDis">
+                      <Input v-model="formValidate.checkUpresultDis"
+                             disabled="disabled"
+                             placeholder="请选择上班考勤结果"></Input>
+                    </FormItem>
                   </i-col>
-                  <i-col span="20" >
-                             <span v-if="file !== '' " >
-                                <i-col span="22"  @dblclick.native="forbidden?'':fileclean()">
-                                <Input v-model="file.name" >
-                                  <span slot="prepend">
-                                    <Icon type="folder" size="16" ></Icon>
-                                  </span>
-                                </Input>
-                                </i-col>
-                              <i-col span="2">
-                                <Button type="text" v-show="!forbidden" @click="uploadLocalFile" v-if="loadingStatus">
-                                  上传
-                                </Button>
-                                <Button type="text"  @click="downloadFile" v-if="!loadingStatus">
-                                  下载
-                                </Button>
-                             </i-col>
-                             </span>
-                  </i-col>
-                </Row>
-              </FormItem>
-            </i-col>
-            <i-col span="22">
-              <FormItem label="备注"
-                        prop="note">
-                <Input v-model="formValidate.note"
-                       type="textarea"
-                       :disabled="forbidden"
-                       :autosize="{minRows: 2,maxRows: 5}"
-                       placeholder="请输入备注..."></Input>
-              </FormItem>
-            </i-col>
+
+                    <i-col span="11">
+                      <FormItem label="下班基准时间"
+                                prop="checkDwktm">
+                        <Input v-model="formValidate.checkDwktm"
+                               disabled="disabled"
+                        ></Input>
+                      </FormItem>
+                    </i-col>
+                      <i-col span="11">
+                        <FormItem label="下班打卡时间"
+                                  prop="checkDckout">
+                          <Input v-model="formValidate.checkDckout"
+                                 disabled="disabled"
+                          ></Input>
+                        </FormItem>
+                      </i-col>
+                        <i-col span="11">
+                          <FormItem label="下班考勤结果"
+                                    prop="checkDresultDis">
+                            <Input v-model="formValidate.checkDresultDis"
+                                   disabled="disabled"
+                            ></Input>
+                          </FormItem>
+                        </i-col>
+                          <i-col span="22">
+                            <FormItem label="备注"
+                                      prop="note">
+                              <Input v-model="formValidate.note"
+                                     type="textarea"
+                                     :disabled="forbidden"
+                                     :autosize="{minRows: 2,maxRows: 5}"
+                                     placeholder="请输入备注..."></Input>
+                            </FormItem>
+                          </i-col>
           </Form>
         </Row>
       </div>
@@ -155,17 +172,20 @@
           unitFname : '',
           deptId : '',
           postFname : '',
-          postId : ''
+          postId : '',
+          checkUpwoke : '',
+          checkUpckin : '',
+          checkUpresultDis : '',
+          checkDwktm : '',
+          checkDckout : '',
+          checkDresultDis : '',
         },
         openEmpMaster:false,
         /*必填验证*/
         ruleValidate: {
-          empnhName: [
+          /*empnhName: [
             { required: true, message: "请选择员工姓名", trigger: "change" },
-          ],
-          empoffResult: [
-            { required: true, message: "请填写试用期评价结论", trigger: "change" },
-          ]
+          ]*/
         },
       }
     },
@@ -213,10 +233,10 @@
         const t = this
         t.spinShow = true; //开启loading效果
         getDataLevelUserLogin({
-          _mt: 'empEmpofficial.getById',
+          _mt: 'attenCheckinitday.getById',
           id: id,
           funId: '1',
-          logType: '员工转正id查询',
+          logType: '日原始考勤id查询',
         }).then((res) => {
           if (isSuccess(res, t)) {
             console.log(res.data.content[0])
