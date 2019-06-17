@@ -4,28 +4,35 @@
             <Col span="24">
             <card>
             	<p slot="title">
-                    <Icon type="mouse"></Icon>&nbsp;配额信息
+                    <Icon type="mouse"></Icon>&nbsp;月修订考勤管理
                 </p>
                 <Row>
                     <Col span="24">
                     <Row>
                     	    <Input v-model="searchParams.empnhName"
-                                placeholder="请输入员工姓名"
-                            style="width: 200px"/>    <Input v-model="searchParams.quoYear"
-                                placeholder="请输入年份"
+                            placeholder="请输入员工姓名"
                             style="width: 200px"/>
+
+                            <DatePicker
+                            type="month"
+                            placeholder="请选择考勤期间"
+                            :editable="false"
+                            v-model="searchParams.atmorPeriod"
+                            style="width: 200px"
+                            ></DatePicker>
                         <!-- 页面按钮 -->
                             <btnList @buttonExport="expData"
-                            @buttonAdd="openUp('','新增')"
+                            @buttonAdd="openUp(NaN,$t('button.add'))"
                             @buttonDel="deletemsg"
                             @buttonSearch="search"
                             @buttonImport="importExcel"
                             @moditySelect="modityChange"
+                            @buttonConfirm="modifystatus('02State','确认')"
                             :btnData="btnData"
                             :FlowNode="FlowNode">
                             </btnList>
 
-                    </Row>
+                        </Row>
                     <!-- 表格 分页 -->
                     <commonPage :imp_mt="imp_mt"
                                 :page_mt="page_mt"
@@ -63,47 +70,60 @@
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-import update from "./attenBase";                    //新增修改组件
+import update from "./addNewAttenMonthrevi";                    //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 
 export default {
     data () {
         return {
             // 导入的mt名称
-            imp_mt: "attenQuotainfo.importData",
+            imp_mt: "attenMonthrevi.importData",
             // 导出的mt名称
-            exp_mt: "attenQuotainfo.export",
+            exp_mt: "attenMonthrevi.export",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                { code: "empnhName", name: "员工姓名" },
-                { code: "empnhIdno", name: "身份证号码" },
-                { code: "unitFname", name: "部门名称" },
-                { code: "postFname", name: "岗位名称" },
-                { code: "quoLeady", name: "年假天数" },
-                { code: "quoLearesdy", name: "年假剩余天数" },
-                { code: "quoShdy", name: "调班天数" },
-                { code: "quoShrestdy", name: "调班剩余天数" },
-                { code: "quoYear", name: "年份" },
+                    { code: "atmorPeriod", name: "考勤期间" },
+                    { code: "atmorSdate", name: "开始日期" },
+                    { code: "atmorEdate", name: "结束日期" },
+                    { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhIdno", name: "身份证号码" },
+                    { code: "unitFname", name: "部门名称" },
+                    { code: "postFname", name: "岗位名称" },
+                    { code: "atmorAttdays", name: "出勤天数" },
+                    { code: "atmorOffdays", name: "休息天数" },
+                    { code: "atmorLatenums", name: "迟到次数" },
+                    { code: "atmorEarlynums", name: "早退次数" },
+                    { code: "atmorMissnums", name: "缺卡次数" },
+                    { code: "atmorComnums", name: "旷工次数" },
+                    { code: "atmorFieldnums", name: "外勤次数" },
+                    { code: "atmorOverdays", name: "加班天数" },
+                    { code: "atmorConfirm", name: "考勤确认" },
             ],
             // 表格列字段
             columns: [
-                { type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                { key: "empnhName", title: "员工姓名", sortable: "custom" ,fixed: "left", width : 120},
-                { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
-                { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
-                { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
-                { key: "quoLeady", title: "年假天数", sortable: "custom" , width : 220},
-                { key: "quoLearesdy", title: "年假剩余天数", sortable: "custom" , width : 220},
-                { key: "quoShdy", title: "调班天数", sortable: "custom" , width : 220},
-                { key: "quoShrestdy", title: "调班剩余天数", sortable: "custom" , width : 220},
-                { key: "quoYear", title: "年份", sortable: "custom" , width : 220},
+            	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
+                    { key: "atmorPeriod", title: "考勤期间", sortable: "custom" , width : 220},
+                    { key: "atmorSdate", title: "开始日期", sortable: "custom" , width : 220},
+                    { key: "atmorEdate", title: "结束日期", sortable: "custom" , width : 220},
+                    { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
+                    { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
+                    { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
+                    { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
+                    { key: "atmorAttdays", title: "出勤天数", sortable: "custom" , width : 220},
+                    { key: "atmorOffdays", title: "休息天数", sortable: "custom" , width : 220},
+                    { key: "atmorLatenums", title: "迟到次数", sortable: "custom" , width : 220},
+                    { key: "atmorEarlynums", title: "早退次数", sortable: "custom" , width : 220},
+                    { key: "atmorMissnums", title: "缺卡次数", sortable: "custom" , width : 220},
+                    { key: "atmorComnums", title: "旷工次数", sortable: "custom" , width : 220},
+                    { key: "atmorFieldnums", title: "外勤次数", sortable: "custom" , width : 220},
+                    { key: "atmorOverdays", title: "加班天数", sortable: "custom" , width : 220},
             ],
             // 表格获取数据mt名称
-            page_mt: "attenQuotainfo.getPage",
+            page_mt: "attenMonthrevi.getPage",
             // 删除数据mt名称
-            dele_mt: "attenQuotainfo.delByIds",
+            dele_mt: "attenMonthrevi.delByIds",
             // 修改流程状态mt名称
-            state_mt: "attenQuotainfo.setStateByIds",
+            state_mt: "attenMonthrevi.setStateByIds",
             //表格 id
             updateId: NaN,
             //操作类型
@@ -115,7 +135,7 @@ export default {
             //搜索参数
             searchParams: {
             	empnhName: "",
-                quoYear: "",
+                atmorPeriod: "",
             },
             typeCode: "",
             table_height:document.body.offsetHeight - 280,
@@ -123,7 +143,7 @@ export default {
             
         };
     },
-    components: { 	
+    components: {
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -145,7 +165,7 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-        this.search();
+        
     },
     methods: {
         //获取列表项字段
@@ -158,6 +178,9 @@ export default {
         },
         //页面查询
         search () {
+            if (this.searchParams.atmorPeriod !== '') {
+       			this.searchParams.atmorPeriod = new Date(this.searchParams.atmorPeriod).format('yyyy-MM')
+            } 
             this.$store.commit('commonPage/setParams', this.searchParams)
             this.$refs.commonPage.search();
         },
@@ -168,12 +191,12 @@ export default {
             t.logType = logType;
             t.openUpdate = true;
             t.index = index;
-            //主子表的主表
-            t.$store.commit('attenQuotainfo/setMainId', id);
-            t.$store.commit('attenQuotainfo/setLogType', logType);
-            console.log(logType,"logType")
-            if (logType != '新增') {
-                t.$refs.update.getOption(id, logType);
+            t.$refs.update.disabled = false;
+            if (logType === '修改' || logType === "查看") {
+                t.$refs.update.getData(id);
+            }
+            if (logType === "查看") {
+                t.$refs.update.disabled = true;
             }
         },
         //点击表格查看或修改事件

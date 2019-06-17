@@ -25,6 +25,8 @@ const depManage = resolve => require(['@/pages/empManage/depManage/depManage'], 
 
 const attenManage = resolve => require(['@/pages/attenManage/attenQuotainfo/attenQuotainfoList'], resolve)
 
+const attenMonthManage = resolve => require(['@/pages/attenManage/attenMonthorigi/attenMonthorigiList'], resolve)
+
 const protocolManage = resolve => require(['@/pages/protocolManage/protocolManage'], resolve)
 
 const recruitResumeManage = resolve => require(['@/pages/empManage/RecruitResume-manage/recruitResumeManage'], resolve)
@@ -129,5 +131,10 @@ export default [{
     path: 'attenManage',
     name: 'attenManage',
     component: attenManage,
+  },
+  {
+    path: 'attenMonthManage',
+    name: 'attenMonthManage',
+    component: attenMonthManage,
   },
 ]

@@ -131,7 +131,7 @@ export default {
         { code: "relibFruit", name: "面试结果" },
         { code: "relibApplypostDis", name: "应聘岗位" },
         { code: "relibHiredeptDis", name: "部门" },
-        { code: "relibFirstus", name: "初试人" },
+        { code: "relibFirstusDis", name: "初试人" },
         { code: "relibEducatDis", name: "学历" },
         { code: "relibReexamusDis", name: "复试人" },
         { code: "reason", name: "备注" }
