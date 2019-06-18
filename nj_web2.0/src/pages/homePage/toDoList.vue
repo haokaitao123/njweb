@@ -6,7 +6,9 @@
                class="title">
                 <Icon type="ios-compose"></Icon>
                 <span style="margin-left: 5px;">{{$t('lang_homePage.toDoList.title')}}</span>
+                <a href="#" style="margin-left: 65%;" class="btns" @click="linkToMessage" type="primary" >批量审批</a>
             </p>
+            
             <a href="#"
                slot="extra"
                @click="lookAllToDoList">
@@ -229,6 +231,18 @@ export default {
             this.$store.commit('increateTag', tag)
             this.$router.push('/ansrptToDoList')
         },
+        linkToMessage() {
+      	const tag = {
+	        title: '批量审批',
+	        path: '/applicitions',
+	        name: 'applicitions',
+	      }
+      	//创建标签
+      	this.$store.commit('increateTag', tag)
+      	//路由中打开
+      	this.$router.push('/applicitions')
+      	console.log(123)
+      },
         doAnsrpt (item) {
             const t = this;
             if (item.todo_title) {
@@ -295,6 +309,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title{
+	color: black;
+}
 .block {
     font-size: 12px;
     height: 280px;

@@ -5,7 +5,10 @@ import {
   Submenu,
   MenuItem,
   MenuItemGroup,
-  Dialog
+  Dialog,
+  Button,
+  Checkbox,
+  CheckboxGroup
 } from 'element-ui'
 import iView from 'iview'
 import jsp from 'jsplumb'
@@ -43,6 +46,9 @@ Vue.use(Submenu)
 Vue.use(MenuItem)
 Vue.use(Dialog)
 Vue.use(MenuItemGroup)
+Vue.use(Button)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
 Vue.prototype.$jsplumb = jsp.jsPlumb
 Vue.prototype.$util = jsp.jsPlumbUtil
 Vue.prototype.$echarts = echarts
@@ -98,7 +104,7 @@ router.beforeEach((to, from, next) => {
     store.commit('setFunId', to.query.id)
   }
   if (to.path.indexOf('loginmain') == -1 && to.path != "/" && to.path != "/home" && to.path != "/ansrptToDoList" && to.path != "/empmasterManage"
-  && to.path != "/empEntryConManage" && to.path != "/depRemManage" && to.path != "/empRefundManage") {
+  && to.path != "/empEntryConManage" && to.path != "/depRemManage" && to.path != "/empRefundManage" && to.path != "/applicitions") {
     const t = this
     let data = {
       _mt: 'sysFunctions.getStatusBtnByAuth',
