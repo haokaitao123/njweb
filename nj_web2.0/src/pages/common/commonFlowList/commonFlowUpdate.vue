@@ -1117,22 +1117,33 @@
 <style lang="scss">
 	@import "../../../sass/updateAndAdd.scss";
 	.cover .box {
-		width: 1200px;
+		width: 1200px !important;
 		left: 100px;
 		@media screen and(max-height: 800px) {
-			top:40px;
-			height: 500px;
-			padding:52px 20px 32px 21px;
+			position: fixed;
+			top: 70px;
+			left: 50px;
+			width: 90% !important;
+		}
+		.ivu-col-offset-1{
+			@media screen and(max-height: 800px) {
+				margin-left: 36px !important;
+			}
+		.ivu-form-item {
+			@media screen and(max-height: 800px) {
+				margin-left: -32px !important;
+			}
+		}
 		}
 	}
 	
 	.content {
-		@media screen and (min-height:750px) and (max-height:920px){
-			width: 835px;
+		@media screen and (min-height: 750px) and (max-height:920px) {
+			width: 750px;
 		}
 		@media screen and(max-height: 750px) {
 			height: 400px;
-			width: 700px;
+			width: 672px;
 		}
 		height: 500px;
 		position: relative;
@@ -1196,9 +1207,10 @@
 			.approvIdea {
 				@media screen and(max-height: 800px) {
 					height: 400px;
+					width: 248px;
 				}
 				position: absolute;
-				width: 27%;
+				width: 33%;
 				right: 0;
 				top: 10%;
 				padding: 0 20px;
@@ -1215,6 +1227,8 @@
 				.dataContent {
 					@media screen and(max-height: 800px) {
 						height: 380px;
+						width: 200px;
+						padding-right: 20px;
 					}
 					height: 471px;
 				}
