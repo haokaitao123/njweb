@@ -1117,9 +1117,9 @@
 <style lang="scss">
 	@import "../../../sass/updateAndAdd.scss";
 	.cover .box {
-		width: 1200px !important;
+		width: 75% !important;
 		left: 100px;
-		@media screen and(max-width:1050px) {
+		@media screen and(max-width:1024px) {
 			position: fixed;
 			top: 70px;
 			left: 50px;
@@ -1136,11 +1136,10 @@
 		}
 		}
 	}
-	
 	.content {
-		@media screen and(max-height: 750px) {
+		@media screen and(max-width: 1024px) {
 			height: 400px;
-			width: 672px;
+			width: 75%;
 		}
 		height: 500px;
 		position: relative;
