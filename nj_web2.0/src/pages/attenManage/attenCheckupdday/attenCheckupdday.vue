@@ -92,6 +92,7 @@ export default {
                     { code: "checkDwktm", name: "下班基准时间" },
                     { code: "checkDckout", name: "下班打卡时间" },
                     { code: "checkDresultDis", name: "下班考勤结果" },
+                    { code: "checkTypeDis", name: "请假类型" },
             ],
             // 表格列字段
             columns: [
@@ -107,6 +108,7 @@ export default {
               { key: "checkDwktm", title: "下班基准时间", sortable: "custom" , width : 220},
               { key: "checkDckout", title: "下班打卡时间", sortable: "custom" , width : 220},
               { key: "checkDresultDis", title: "下班考勤结果", sortable: "custom" , width : 220},
+              { key: "checkTypeDis", title: "请假类型", sortable: "custom" , width : 220},
             ],
             // 表格获取数据mt名称
             page_mt: "attenCheckupdday.getPage",

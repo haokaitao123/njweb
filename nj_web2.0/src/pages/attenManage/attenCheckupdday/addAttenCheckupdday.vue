@@ -161,6 +161,20 @@
               </Select>
             </FormItem>
           </i-col>
+            <i-col span="11">
+              <FormItem label="请假类型" prop="checkType">
+                <Select v-model="formValidate.checkType"
+                        :clearable="!disabled"
+                        :disabled="disabled"
+                        placeholder="请选择请假类型">
+                  <Option :value="item.paramCode"
+                          v-for="(item,index) in selectcheckType"
+                          :key="index"
+                  >{{item.paramInfoCn}}
+                  </Option>
+                </Select>
+              </FormItem>
+            </i-col>
             <i-col span="22">
               <FormItem label="备注"
                         prop="note">
@@ -215,6 +229,7 @@
           checkDwktm : '',
           checkDckout : '',
           checkDresult:'',
+          checkType:'',
         },
         empnhName : '',
         unitFname : '',
@@ -224,6 +239,7 @@
         openEmpMaster:false,
         selectUpresult: [],
         selectDresult: [],
+        selectcheckType: [],
         /*必填验证*/
         ruleValidate: {
           empId: [
@@ -340,11 +356,12 @@
         getDataLevelUserLogin({
           _mt: "baseParmInfo.getSelectValue",
           logType: '查询下拉数据',
-          typeCode:"attendtype,attendtype",
+          typeCode:"attendtype,attendtype,leaveType",
         }).then(res => {
           if (isSuccess(res, t)) {
             t.selectUpresult = res.data.content[0].value[0].paramList;
             t.selectDresult = res.data.content[0].value[1].paramList;
+            t.selectcheckType = res.data.content[0].value[2].paramList;
           }
         }).catch(() => {
           this.$Message.error(this.$t("reminder.errormessage"));
@@ -424,6 +441,7 @@
         this.postFname = '';
         this.checkUpresultDis = '';
         this.checkDresultDis = '';
+        this.checkTypeDis = '';
         this.$emit('closeUp')
       },
       //部门
