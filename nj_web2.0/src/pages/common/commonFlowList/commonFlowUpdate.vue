@@ -1119,7 +1119,7 @@
 	.cover .box {
 		width: 1200px !important;
 		left: 100px;
-		@media screen and(max-height: 800px) {
+		@media screen and(max-width:1050px) {
 			position: fixed;
 			top: 70px;
 			left: 50px;
@@ -1138,9 +1138,6 @@
 	}
 	
 	.content {
-		@media screen and (min-height: 750px) and (max-height:920px) {
-			width: 750px;
-		}
 		@media screen and(max-height: 750px) {
 			height: 400px;
 			width: 672px;
