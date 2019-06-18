@@ -128,6 +128,7 @@ export default {
        expDataTital: [
         { code: "relibFilldate", name: "面试日期" },
         { code: "relibName", name: "姓名" },
+        { code: "relibMobile", name: "电话号码" },
         { code: "relibFruit", name: "面试结果" },
         { code: "relibApplypostDis", name: "应聘岗位" },
         { code: "relibHiredeptDis", name: "部门" },
