@@ -143,7 +143,7 @@
 						console.log('aa1', res.data.content[0].columns)
 						aa = res.data.content[0].columns
 						//固定公共页面的第一列
-						if(aa.length > 6) {
+						if(aa.length > 10) {
 							for(let j = 0; j < aa.length; j++) {
 								if(aa[j].title == '姓名') {
 									aa[j].width = 80

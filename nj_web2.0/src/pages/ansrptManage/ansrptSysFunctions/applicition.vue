@@ -7,7 +7,7 @@
 					<Icon type="mouse"></Icon>
 					&nbsp;待审批项
 				</p>
-				<Row :style="{height: rowHeight + 'px'}" class="divContent">
+				<Row :style="{height: rowHeight-119 + 'px'}" class="divContent">
 					<div>
 						<Spin fix size="large" v-if="isSpin">
 							<!--<div>数据加载中...</div>-->
@@ -22,7 +22,10 @@
 							</el-checkbox-group>
 							<span class="item-list">{{item.apblTitlecn}} </span>
 						</div>
-						<div class="topBtn">
+						
+					</div>
+				</Row>
+				<div class="topBtn">
 							<div class="chooseAll">
 								<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"></el-checkbox>&nbsp;&nbsp; 全选
 							</div>
@@ -36,8 +39,6 @@
 								</div>
 							</div>
 						</div>
-					</div>
-				</Row>
 			</card>
 			</Col>
 		</Row>
@@ -86,7 +87,8 @@
 				this.isIndeterminate = false;
 			},
 			handleCheckedCitiesChange(value) {
-				console.log(value)
+				console.log(this.toDoAllData)
+				console.log(value,'aaa')
 				let checkedCount = value.length;
 				this.checkAll = checkedCount === this.toDoAllData.length;
 				console.log('c', this.checkAll)
@@ -224,12 +226,13 @@
 					params.push(dataList)
 					console.log('params', params)
 				});
+				let aprovers = that.checkedCities[0].aprvrelaApproverid
 				const t = this;
 				const data = {
 					_mt: 'platAutoApprovalSubmitAgwService.approvalSubmitAll',
 					logType: logType,
 					result: type,
-					aprover: '3925',
+					aprover: aprovers,
 					data: JSON.stringify(params),
 				}
 				console.log('参数', data)
@@ -237,9 +240,12 @@
 					if(isSuccess(res, t)) {
 						t.$Modal.success({
 							title: this.$t('reminder.suc'),
-							content: this.$t('reminder.addsuccess'),
+							content: this.$t('审批成功'),
 						})
+						t.toDoAllData = []
+						t.checkedCities = []
 						this.getAllData()
+						t.isIndeterminate = false;
 					}
 				}).catch(() => {}).finally(() => {
 					t.$store.commit('hideLoading');

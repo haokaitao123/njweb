@@ -162,7 +162,6 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-        this.search();
     },
     methods: {
         //获取列表项字段

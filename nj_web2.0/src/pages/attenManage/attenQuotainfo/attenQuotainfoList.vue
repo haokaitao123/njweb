@@ -90,13 +90,13 @@ export default {
                 { type : "selection" , width: 54 , fixed : "left" , align : "center" },
                 { key: "empnhName", title: "员工姓名", sortable: "custom" ,fixed: "left", width : 120},
                 { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
+                { key: "quoYear", title: "年份", sortable: "custom" , width : 220},
                 { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
                 { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
                 { key: "quoLeady", title: "年假天数", sortable: "custom" , width : 220},
                 { key: "quoLearesdy", title: "年假剩余天数", sortable: "custom" , width : 220},
                 { key: "quoShdy", title: "调班天数", sortable: "custom" , width : 220},
                 { key: "quoShrestdy", title: "调班剩余天数", sortable: "custom" , width : 220},
-                { key: "quoYear", title: "年份", sortable: "custom" , width : 220},
             ],
             // 表格获取数据mt名称
             page_mt: "attenQuotainfo.getPage",
@@ -145,7 +145,6 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-        this.search();
     },
     methods: {
         //获取列表项字段

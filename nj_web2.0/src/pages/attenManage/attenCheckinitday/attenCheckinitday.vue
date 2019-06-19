@@ -170,9 +170,12 @@ checkWktm: "",
         },
         //页面查询
         search () {
-          this.searchParams.checkWktm = this.searchParams.checkWktm.format("yyyy-MM-dd")
-            this.$store.commit('commonPage/setParams', this.searchParams)
-            this.$refs.commonPage.search();
+          debugger
+          if(this.searchParams.checkWktm != ''){
+            this.searchParams.checkWktm = this.searchParams.checkWktm.format("yyyy-MM-dd")
+          }
+          this.$store.commit('commonPage/setParams', this.searchParams)
+          this.$refs.commonPage.search();
         },
         //打开新增或修改弹窗
         openUp (id, logType, index) {
