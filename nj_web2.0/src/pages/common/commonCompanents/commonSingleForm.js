@@ -62,6 +62,8 @@ export default {
     this.getFormDataSubmit()
   },
   mounted() {
+    console.log(this.formData1, "formData1");
+    console.log(this.formlist, "formlist");
     /*
      * 解决富文本编辑器zindex问题
      * */
@@ -137,6 +139,7 @@ export default {
       formData.form = form
       formData.ruler = ruler
       formData.clmmap = clmmap
+      console.log(formData, "formData")
       return formData
     },
 
@@ -349,7 +352,8 @@ export default {
             },
             on: {
               'on-change': (value) => {
-                this.formDataSubmit[this.formData.columns[i].clmName] = value
+                this.formDataSubmit[this.formData.columns[i].clmName] = value;
+                this.$store.state.flowClmkMap.popForm[this.formData.columns[i].clmName] = value
               },
               change: (value) => {
                 this.change(value)
@@ -588,7 +592,7 @@ export default {
             on: {
               'on-change': (value) => {
                 this.oldValue = this.formDataSubmit[this.formData.columns[i].clmName]
-                this.formDataSubmit[this.formData.columns[i].clmName] = value
+                // this.formDataSubmit[this.formData.columns[i].clmName] = value
                 this.$store.state.flowClmkMap.popForm[this.formData.columns[i].clmName] = value
               },
               change: (value) => {
