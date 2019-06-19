@@ -154,7 +154,6 @@ export default {
     //
     //    },
     mounted () {
-
         this.getColumns()
     },
     methods: {
@@ -540,14 +539,16 @@ export default {
                             let data = res.data.content[0].value;
                             if (data === 0) {
                                 t.$Message.success(t.$t('reminder.deletesuccess'));
+                                t.tableselected = []
+                                t.getData()
                             } else if (data === 1) {
                                 t.$Message.warning('当前所选数据只能部分删除');
+                                t.tableselected = []
+                                t.getData()
                             } else if (data === 2) {
                                 t.$Message.warning('当前所选数据无法进行删除');
                             }
                             // t.$Message.success(t.$t('reminder.deletesuccess'));
-                            t.tableselected = []
-                            t.getData()
                         }
                     }).catch(() => {
                         t.$Modal.error({
