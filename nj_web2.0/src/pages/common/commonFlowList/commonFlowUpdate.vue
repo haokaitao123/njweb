@@ -1119,27 +1119,38 @@
 	.cover .box {
 		width: 75% !important;
 		left: 100px;
-		@media screen and(max-width:1024px) {
+		@media screen and(max-width: 1024px) {
 			position: fixed;
 			top: 70px;
 			left: 50px;
 			width: 90% !important;
 		}
-		.ivu-col-offset-1{
-			@media screen and(max-height: 800px) {
+		@media screen and (max-width:1366px) and (min-width:1024px) {
+			position: fixed;
+			top: 70px;
+			left: 50px;
+			width: 95% !important;
+		}
+		.ivu-col-offset-1 {
+			@media screen and(max-width: 1024px) {
 				margin-left: 36px !important;
 			}
-		.ivu-form-item {
-			@media screen and(max-height: 800px) {
-				margin-left: -32px !important;
+			.ivu-form-item {
+				@media screen and(max-width: 1024px) {
+					margin-left: -32px !important;
+				}
 			}
 		}
-		}
 	}
+	
 	.content {
 		@media screen and(max-width: 1024px) {
 			height: 400px;
 			width: 75%;
+		}
+		@media screen and (max-width:1366px) and (min-width:1024px) {
+			height: 400px;
+			width: 100%;
 		}
 		height: 500px;
 		position: relative;
@@ -1190,23 +1201,26 @@
 	}
 	
 	.fixed {
-		@media screen and(max-height: 800px) {
+		@media screen and(max-width: 1024px) {
 			height: 550px;
 		}
 		width: 77% !important;
 		.content {
-			@media screen and(max-height: 800px) {
+			@media screen and(max-width: 1024px) {
 				height: 400px;
 			}
+			@media screen and (max-width:1566px) and (min-width:1024px) {
+			     width: 75%;
+		    }
 			margin-right: 365px;
 			position: static;
 			.approvIdea {
-				@media screen and(max-height: 800px) {
+				@media screen and(max-width: 1024px) {
 					height: 400px;
 					width: 248px;
 				}
 				position: absolute;
-				width: 33%;
+				width: 27%;
 				right: 0;
 				top: 10%;
 				padding: 0 20px;
@@ -1215,15 +1229,23 @@
 					width: 87%;
 				}
 				textarea.ivu-input {
-					@media screen and(max-height: 800px) {
-						height: 150px;
+					@media screen and(max-width: 1100px) {
+						height: 120px;
+					}
+					@media screen and (max-width:1366px) and (min-width:1100px) {
+						height: 120px;
 					}
 					height: 240px;
 				}
 				.dataContent {
-					@media screen and(max-height: 800px) {
+					@media screen and(max-width: 1100px) {
 						height: 380px;
-						width: 200px;
+						width: 228px;
+						padding-right: 20px;
+					}
+					@media screen and (max-width:1366px) and (min-width:1100px) {
+						height: 380px;
+						width: 100%;
 						padding-right: 20px;
 					}
 					height: 471px;

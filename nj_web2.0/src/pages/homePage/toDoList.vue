@@ -6,7 +6,7 @@
                class="title">
                 <Icon type="ios-compose"></Icon>
                 <span style="margin-left: 5px;">{{$t('lang_homePage.toDoList.title')}}</span>
-                <a href="#" style="margin-left: 65%;" class="btns" @click="linkToMessage" type="primary" >批量审批</a>
+                <a href="#" style="float: right; padding-right: 25px;" class="btns" @click="linkToMessage" type="primary" >批量审批</a>	
             </p>
             
             <a href="#"
