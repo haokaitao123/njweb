@@ -595,13 +595,35 @@
 					} else {
 						dis[columns[i].clmName] = false
 					}
-				}
-				// 弹出选择
+                }
+                // 弹出选择
+                let arr = []
 				for(let i = 0; i < columns.length; i++) {
 					if(columns[i].clmLayout == 13) {
-						this.popForm[columns[i].clmName] = columns[i].clmValue
+                        this.popForm[columns[i].clmName] = columns[i].clmValue;
+                        if(columns[i].clmfilter!==''){
+                            let a = columns[i].clmfilter;
+                                a = a.split(';')
+                            for (let i = 0; i < a.length; i++) {
+                                let b = a[i].split('=')
+                                let obj = {}
+                                for (let j = 0; j < b.length; j++) {
+                                    if (b[j].substring(0, 1) !== '$' && b[j].substring(0, 1) !== '#') {
+                                        obj['key'] = b[j]
+                                    } 
+                                }
+                                    arr.push(obj)
+                            }
+                        }
 					}
-				}
+                }
+                for(let k of columns) {
+                    for(let v of arr){
+                        if(v.key === k.clmName){
+                           this.popForm[k.clmName] = k.clmValue;
+                        }
+                    } 
+                }
 				form._mt = 'platAutoLayoutSave.addOrUpd'
 				form.logType = '保存'
 				formData.form = form
@@ -773,15 +795,38 @@
 							if(t.dataBlocks[j].flsdbType !== '02subtable') {
 								t.dataBlocksDad.push(t.dataBlocks[j])
 							}
-						}
+                        }
+                        
 						/**
 						 * 收集弹出选择的 (key:value)(字段物理名, 字段值)
 						 */
+                        let arr = []
 						for(let m = 0; m < res.data.content[0].columns.length; m++) {
 							if(res.data.content[0].columns[m].clmLayout === 13) {
-								t.clmkvMap[res.data.content[0].columns[m].clmName] = res.data.content[0].columns[m].clmDname
+                                t.clmkvMap[res.data.content[0].columns[m].clmName] = res.data.content[0].columns[m].clmDname
+                                if(res.data.content[0].columns[m].clmfilter!==''){
+                                    let a = res.data.content[0].columns[m].clmfilter;
+                                     a = a.split(';')
+                                    for (let i = 0; i < a.length; i++) {
+                                        let b = a[i].split('=')
+                                        let obj = {}
+                                        for (let j = 0; j < b.length; j++) {
+                                            if (b[j].substring(0, 1) !== '$' && b[j].substring(0, 1) !== '#') {
+                                                obj['key'] = b[j]
+                                            } 
+                                        }
+                                         arr.push(obj)
+                                    }
+                                }
 							}
-						}
+                        }
+                        for(let k of res.data.content[0].columns) {
+                            for(let v of arr){
+                                if(v.key === k.clmName){
+                                    t.clmkvMap[k.clmName] = k.clmDname;
+                                }
+                            } 
+                        }
 						if(t.finishCount + t.ChildDataBloks.length === t.requirCount) {
 							this.$store.commit('flowClmkMap/setClmkvMap', t.clmkvMap)
 							t.clmkvMap = {} // 清空
@@ -878,7 +923,7 @@
 			},
 			getValueMap(dataBlocks) {
 				const t = this
-				t.valueMap = {}
+                t.valueMap = {}
 				for(let i = 0; i < dataBlocks.length; i++) {
 					let item = dataBlocks[i].blockColumn.columns
 					for(let j = 0; j < item.length; j++) {
