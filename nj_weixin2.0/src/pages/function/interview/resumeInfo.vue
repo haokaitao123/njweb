@@ -1321,6 +1321,10 @@ export default {
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
+                    if (resumeInfoForm !== null && resumeInfoForm.id !== t.$route.query.id) {
+                        localStorage.removeItem('resumeInfoForm');
+                        resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
+                    }
                     if (!resumeInfoForm) {
                         let data = JSON.parse(res.data.content[0].value);
                         t.curStep = !data.curStepDis ? "" : data.curStepDis;
@@ -1630,6 +1634,7 @@ export default {
                 tt.relibEnrorageDis = this.relibEnrorageDis;
                 tt.relibIsgraduDis = this.relibIsgraduDis;
                 tt.createTime = new Date();
+                tt.id = this.$route.query.id;
                 tt = JSON.stringify(tt);
                 window.localStorage.setItem('resumeInfoForm', tt)
             },

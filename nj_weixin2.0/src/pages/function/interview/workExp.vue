@@ -266,12 +266,16 @@ export default {
             if (t.id === '') {
                 let workExpForm = JSON.parse(window.localStorage.getItem('workExpForm' + this.id));
                 if (workExpForm) {
-                    let createTime = new Date(workExpForm.createTime).getTime();
-                    let nowTime = new Date().getTime();
-                    if (nowTime - createTime < 5 * 60 * 1000) {
-                        t.form = deepCopy(workExpForm.form);
-                        t.reweSdateDate = workExpForm.form.reweSdate === "请选择" ? new Date() : new Date(workExpForm.form.reweSdate.replace(/-/g, '/'));
-                        t.reweEdateDate = workExpForm.form.reweEdate === "请选择" ? new Date() : new Date(workExpForm.form.reweEdate.replace(/-/g, '/'));
+                    if (workExpForm.id === t.$route.query.id) {
+                        let createTime = new Date(workExpForm.createTime).getTime();
+                        let nowTime = new Date().getTime();
+                        if (nowTime - createTime < 5 * 60 * 1000) {
+                            t.form = deepCopy(workExpForm.form);
+                            t.reweSdateDate = workExpForm.form.reweSdate === "请选择" ? new Date() : new Date(workExpForm.form.reweSdate.replace(/-/g, '/'));
+                            t.reweEdateDate = workExpForm.form.reweEdate === "请选择" ? new Date() : new Date(workExpForm.form.reweEdate.replace(/-/g, '/'));
+                        } else {
+                            localStorage.removeItem('workExpForm' + t.id)
+                        }
                     } else {
                         localStorage.removeItem('workExpForm' + t.id)
                     }
@@ -286,6 +290,10 @@ export default {
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let workExpForm = JSON.parse(window.localStorage.getItem('workExpForm' + t.id));
+                    if (workExpForm !== null && workExpForm.id !== t.$route.query.id) {
+                        localStorage.removeItem('workExpForm');
+                        workExpForm = JSON.parse(window.localStorage.getItem('workExpForm'));
+                    }
                     if (!workExpForm) {
                         let data = JSON.parse(res.data.content[0].value);
                         t.form.reweSdate = data.reweSdate ? data.reweSdate : '请选择';
@@ -351,6 +359,7 @@ export default {
                 let tt = {};
                 tt.form = val;
                 tt.createTime = new Date();
+                tt.id = this.$route.query.id;
                 tt = JSON.stringify(tt);
                 window.localStorage.setItem('workExpForm' + this.id, tt)
             },

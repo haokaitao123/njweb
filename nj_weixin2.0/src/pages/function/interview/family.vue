@@ -228,14 +228,18 @@ export default {
             if (t.id === '') {
                 let familyForm = JSON.parse(window.localStorage.getItem('familyForm' + t.id.toString()));
                 if (familyForm) {
-                    let createTime = new Date(familyForm.createTime).getTime();
-                    let nowTime = new Date().getTime();
-                    if (nowTime - createTime < 5 * 60 * 1000) {
-                        t.form = deepCopy(familyForm.form);
-                        t.refaMembersDis = familyForm.refaMembersDis;
-                        setTimeout(() => {
-                            t.setSelectValue(familyForm.form.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
-                        }, 100);
+                    if (familyForm.id === t.$route.query.id) {
+                        let createTime = new Date(familyForm.createTime).getTime();
+                        let nowTime = new Date().getTime();
+                        if (nowTime - createTime < 5 * 60 * 1000) {
+                            t.form = deepCopy(familyForm.form);
+                            t.refaMembersDis = familyForm.refaMembersDis;
+                            setTimeout(() => {
+                                t.setSelectValue(familyForm.form.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
+                            }, 100);
+                        } else {
+                            localStorage.removeItem('familyForm' + t.id)
+                        }
                     } else {
                         localStorage.removeItem('familyForm' + t.id)
                     }
@@ -250,6 +254,10 @@ export default {
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let familyForm = JSON.parse(window.localStorage.getItem('familyForm' + t.id));
+                    if (familyForm !== null && familyForm.id !== t.$route.query.id) {
+                        localStorage.removeItem('familyForm');
+                        familyForm = JSON.parse(window.localStorage.getItem('familyForm'));
+                    }
                     if (!familyForm) {
                         let data = JSON.parse(res.data.content[0].value);
                         t.form.refaMembers = data.refaMembers;
@@ -337,6 +345,7 @@ export default {
                 tt.form = val;
                 tt.refaMembersDis = this.refaMembersDis;
                 tt.createTime = new Date();
+                tt.id = this.$route.query.id;
                 tt = JSON.stringify(tt);
                 window.localStorage.setItem('familyForm' + this.id, tt)
             },
