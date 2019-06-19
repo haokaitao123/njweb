@@ -234,7 +234,6 @@ export default {
       const t = this
       t.$refs.formList.validate().then(v => {
         if (v) {
-          console.log(t.formDataSubmit, 't.formDataSubmit')
           t.formDataSubmit.tbName = t.tbName
           t.formDataSubmit.clmMap = JSON.stringify(t.clmMap)
           if (t.pklv) {
@@ -349,7 +348,8 @@ export default {
             },
             on: {
               'on-change': (value) => {
-                this.formDataSubmit[this.formData.columns[i].clmName] = value
+                this.formDataSubmit[this.formData.columns[i].clmName] = value;
+                this.$store.state.flowClmkMap.popForm[this.formData.columns[i].clmName] = value
               },
               change: (value) => {
                 this.change(value)

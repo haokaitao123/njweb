@@ -125,15 +125,15 @@ const recruit_process = {
       }
     }
   },
-  //筛选是否通过  只有为否时才带出否
+  //筛选是否通过  与复试意见相同
   relibReexampass_set(t) {
     if (t.valueMap.relibReexampass && t.valueMap.relibScreeyn) {
       if (t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '0') {
         t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '0');
         t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 0;
       } else if (t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '1') {
-        //t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '1');
-        //t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 1;
+          t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '1');
+          t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 1;
       }
     }
   },

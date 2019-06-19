@@ -7,6 +7,8 @@ import ansrptSysFunctions from '@/pages/ansrptManage/ansrptSysFunctions/ansrptSy
 import functionStatistic from '@/pages/ansrptManage/functionStatistic/functionStatistic'
 // 用户工单统计及满意度
 import userWrderSatisfaction from '@/pages/ansrptManage/worderSatifacStatistic/userWrderSatisfaction'
+//批量审批
+import applicitions from '@/pages/ansrptManage/ansrptSysFunctions/applicition'
 export default [
   {
     path: 'ansrptSysFunctions',
@@ -27,5 +29,10 @@ export default [
   	path: 'userWrderSatisfaction',
     name: 'userWrderSatisfaction',
     component: userWrderSatisfaction,
+  },
+  {
+  	path: 'applicitions',
+  	name: 'applicitions',
+  	component: applicitions,
   }
 ]

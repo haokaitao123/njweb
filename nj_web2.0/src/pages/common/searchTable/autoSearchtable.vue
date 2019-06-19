@@ -150,18 +150,22 @@ export default {
             this.$emit('closeUp')
         },
         dbCkick (row) {
-            const t = this
-            let aa = t.formData(t.thisSffCascadeget)
-            let jldata = {}
+            const t = this;
+            let aa = t.formData(t.thisSffCascadeget);
+            let jldata = {};
             for (let i = 0; i < aa.length; i++) {
                 jldata[aa[i].key] = row[aa[i].value]
-            }
+            };
             t.$emit('setJLData', jldata);
-            t.$store.commit('autoSearch/setRow', row)
+            t.$store.commit('autoSearch/setRow', row);
             if (searchTable[this.modiaContent].code) {
                 this.$emit('changeinput', row[t.valueText], row[searchTable[this.modiaContent].code])
             } else {
-                this.$emit('changeinput', row[t.valueText], row.id)
+                if (this.modiaContent === 'attenupdday-base-std') {
+                    this.$emit('changeinput', row[t.valueText], row.empId)
+                } else {
+                    this.$emit('changeinput', row[t.valueText], row.id)
+                }
             }
             this.$emit('closeUp')
         },

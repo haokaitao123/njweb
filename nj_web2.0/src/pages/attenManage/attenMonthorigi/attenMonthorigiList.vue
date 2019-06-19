@@ -4,31 +4,32 @@
             <Col span="24">
             <card>
             	<p slot="title">
-                    <Icon type="mouse"></Icon>&nbsp;日原始考勤管理
+                    <Icon type="mouse"></Icon>&nbsp;月原始考勤管理
                 </p>
                 <Row>
                     <Col span="24">
                     <Row>
-                    	    <Input v-model="searchParams.empnhName"
-    placeholder="请输入员工姓名"
-style="width: 200px"/>
-                          <DatePicker type="date"
-                                      v-model="searchParams.checkWktm"
-                                      placeholder="请选择工作日期"
-                                      style="width: 200px"></DatePicker>
+                    	<Input v-model="searchParams.empnhName"
+                            placeholder="请输入员工姓名"
+                            style="width: 200px"/> 
 
-
-
+                        <DatePicker
+                        type="month"
+                        placeholder="请选择考勤期间"
+                        :editable="false"
+                        v-model="searchParams.atmorPeriod"
+                        style="width: 200px"
+                    ></DatePicker>
                         <!-- 页面按钮 -->
                             <btnList @buttonExport="expData"
-    @buttonAdd="openUp"
-    @buttonDel="deletemsg"
-    @buttonSearch="search"
-    @buttonImport="importExcel"
-    @moditySelect="modityChange"
-    :btnData="btnData"
-    :FlowNode="FlowNode">
-    </btnList>
+                            @buttonAdd="openUp(NaN,$t('button.add'))"
+                            @buttonDel="deletemsg"
+                            @buttonSearch="search"
+                            @buttonImport="importExcel"
+                            @moditySelect="modityChange"
+                            :btnData="btnData"
+                            :FlowNode="FlowNode">
+                            </btnList>
 
                     </Row>
                     <!-- 表格 分页 -->
@@ -68,52 +69,59 @@ style="width: 200px"/>
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-import update from "./addNewAttenCheckinitday1";                    //新增修改组件
+import update from "./addNewAttenMonthorigi";                    //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 
 export default {
     data () {
         return {
             // 导入的mt名称
-            imp_mt: "attenCheckinitday.importData",
+            imp_mt: "attenMonthorigi.importData",
             // 导出的mt名称
-            exp_mt: "attenCheckinitday.export",
+            exp_mt: "attenMonthorigi.export",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                    { code: "checkWktm", name: "工作日期" },
-    { code: "empnhName", name: "员工姓名" },
-    { code: "empnhIdno", name: "身份证号码" },
-    { code: "unitFname", name: "部门名称" },
-    { code: "postFname", name: "岗位名称" },
-    { code: "checkUpwoke", name: "上班基准时间" },
-    { code: "checkUpckin", name: "上班打卡时间" },
-    { code: "checkUpresultDis", name: "上班考勤结果" },
-    { code: "checkDwktm", name: "下班基准时间" },
-    { code: "checkDckout", name: "下班打卡时间" },
-    { code: "checkDresultDis", name: "下班考勤结果" },
-            ],
+                    { code: "atmorPeriod", name: "考勤期间" },
+                    { code: "atmorSdate", name: "开始日期" },
+                    { code: "atmorEdate", name: "结束日期" },
+                    { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhIdno", name: "身份证号码" },
+                    { code: "unitFname", name: "部门名称" },
+                    { code: "postFname", name: "岗位名称" },
+                    { code: "atmorAttdays", name: "出勤天数" },
+                    { code: "atmorOffdays", name: "休息天数" },
+                    { code: "atmorLatenums", name: "迟到次数" },
+                    { code: "atmorEarlynums", name: "早退次数" },
+                    { code: "atmorMissnums", name: "缺卡次数" },
+                    { code: "atmorComnums", name: "旷工次数" },
+                    { code: "atmorFieldnums", name: "外勤次数" },
+                    { code: "atmorOverdays", name: "加班天数" },
+                ],
             // 表格列字段
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                    { key: "checkWktm", title: "工作日期", sortable: "custom" , width : 220},
-    { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
-    { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
-    { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
-    { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
-    { key: "checkUpwoke", title: "上班基准时间", sortable: "custom" , width : 220},
-    { key: "checkUpckin", title: "上班打卡时间", sortable: "custom" , width : 220},
-    { key: "checkUpresultDis", title: "上班考勤结果", sortable: "custom" , width : 220},
-    { key: "checkDwktm", title: "下班基准时间", sortable: "custom" , width : 220},
-    { key: "checkDckout", title: "下班打卡时间", sortable: "custom" , width : 220},
-    { key: "checkDresultDis", title: "下班考勤结果", sortable: "custom" , width : 220},
-
+                { key: "empnhName", title: "员工姓名", fixed: "left", sortable: "custom" , width : 120},
+                { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
+                { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
+                { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
+                { key: "atmorPeriod", title: "考勤期间", sortable: "custom" , width : 220},
+                { key: "atmorSdate", title: "开始日期", sortable: "custom" , width : 220},
+                { key: "atmorEdate", title: "结束日期", sortable: "custom" , width : 220},
+                { key: "atmorAttdays", title: "出勤天数", sortable: "custom" , width : 220},
+                { key: "atmorOffdays", title: "休息天数", sortable: "custom" , width : 220},
+                { key: "atmorLatenums", title: "迟到次数", sortable: "custom" , width : 220},
+                { key: "atmorEarlynums", title: "早退次数", sortable: "custom" , width : 220},
+                { key: "atmorMissnums", title: "缺卡次数", sortable: "custom" , width : 220},
+                { key: "atmorComnums", title: "旷工次数", sortable: "custom" , width : 220},
+                { key: "atmorFieldnums", title: "外勤次数", sortable: "custom" , width : 220},
+                { key: "atmorOverdays", title: "加班天数", sortable: "custom" , width : 220},
             ],
             // 表格获取数据mt名称
-            page_mt: "attenCheckinitday.getPage",
+            page_mt: "attenMonthorigi.getPage",
             // 删除数据mt名称
-            dele_mt: "attenCheckinitday.delByIds",
+            dele_mt: "attenMonthorigi.delByIds",
             // 修改流程状态mt名称
-            state_mt: "attenCheckinitday.setStateByIds",
+            state_mt: "attenMonthorigi.setStateByIds",
             //表格 id
             updateId: NaN,
             //操作类型
@@ -125,17 +133,14 @@ export default {
             //搜索参数
             searchParams: {
             	empnhName: "",
-checkWktm: "",
-
+                atmorPeriod: "",
             },
-            table_height:document.body.offsetHeight - 280,
             typeCode: "",
-            //弹出选择框
-            
+            table_height:document.body.offsetHeight - 280,
+            //弹出选择框           
         };
     },
     components: {
-    	
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -157,7 +162,6 @@ checkWktm: "",
     mounted () {
         //列表字段存储
         this.getColumns();
-        
     },
     methods: {
         //获取列表项字段
@@ -170,21 +174,22 @@ checkWktm: "",
         },
         //页面查询
         search () {
-          debugger
-          if(this.searchParams.checkWktm != ''){
-            this.searchParams.checkWktm = this.searchParams.checkWktm.format("yyyy-MM-dd")
-          }
-          this.$store.commit('commonPage/setParams', this.searchParams)
-          this.$refs.commonPage.search();
+            if (this.searchParams.atmorPeriod !== '') {
+       			this.searchParams.atmorPeriod = new Date(this.searchParams.atmorPeriod).format('yyyy-MM')
+            } 
+            this.$store.commit('commonPage/setParams', this.searchParams)
+            this.$refs.commonPage.search();
         },
         //打开新增或修改弹窗
         openUp (id, logType, index) {
             const t = this;
             t.updateId = parseInt(id, 10);
+            console.log(logType,"ssss")
             t.logType = logType;
             t.openUpdate = true;
             t.index = index;
             t.$refs.update.disabled = false;
+            
             if (logType === '修改' || logType === "查看") {
                 t.$refs.update.getData(id);
             }

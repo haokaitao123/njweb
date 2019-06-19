@@ -4,39 +4,39 @@
             <Col span="24">
             <card>
             	<p slot="title">
-                    <Icon type="mouse"></Icon>&nbsp;日原始考勤管理
+                    <Icon type="mouse"></Icon>&nbsp;日修订考勤管理
                 </p>
                 <Row>
                     <Col span="24">
                     <Row>
                     	    <Input v-model="searchParams.empnhName"
-    placeholder="请输入员工姓名"
-style="width: 200px"/>
-                          <DatePicker type="date"
-                                      v-model="searchParams.checkWktm"
-                                      placeholder="请选择工作日期"
-                                      style="width: 200px"></DatePicker>
+                              placeholder="请输入员工姓名" style="width: 200px"/>
+                          <Input v-model="searchParams.unitFname"
+                             placeholder="请输入组织名称" style="width: 200px"/>
+<!--                          <DatePicker type="date"
+                              v-model="searchParams.checkWktm"
+                              placeholder="请选择工作日期"
+                              style="width: 200px">
+                          </DatePicker>-->
 
 
 
-                        <!-- 页面按钮 -->
-                            <btnList @buttonExport="expData"
-    @buttonAdd="openUp"
-    @buttonDel="deletemsg"
-    @buttonSearch="search"
-    @buttonImport="importExcel"
-    @moditySelect="modityChange"
-    :btnData="btnData"
-    :FlowNode="FlowNode">
-    </btnList>
-
+                          <!-- 页面按钮 -->
+                          <btnList @buttonExport="expData"
+                            @buttonAdd="openUp('','新增')"
+                            @buttonDel="deletemsg"
+                            @buttonSearch="search"
+                            @buttonImport="importExcel"
+                            @moditySelect="modityChange"
+                            :btnData="btnData"
+                            :FlowNode="FlowNode">
+                          </btnList>
                     </Row>
                     <!-- 表格 分页 -->
                     <commonPage :imp_mt="imp_mt"
                                 :page_mt="page_mt"
                                 :exp_mt="exp_mt"
                                 :dele_mt="dele_mt"
-                                :state_mt="state_mt"
                                 :expDataTital="expDataTital"
                                 :table_height="table_height"
                                 @tableBtn="tableBtn"
@@ -56,11 +56,12 @@ style="width: 200px"/>
                     @closeUp="closeUp"
                     @newData="addNewArray"
                     @update="updateArray"
-                    ref="update"></update>
+                    ref="update">
+            </update>
         </transition>
         <!--搜索 弹出选择框  -->
         <transition name="fade">
-        	
+
         </transition>
     </div>
 </template>
@@ -68,52 +69,51 @@ style="width: 200px"/>
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-import update from "./addNewAttenCheckinitday1";                    //新增修改组件
+import update from "./addAttenCheckupdday";                    //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 
 export default {
     data () {
         return {
             // 导入的mt名称
-            imp_mt: "attenCheckinitday.importData",
+            imp_mt: "attenCheckupdday.importData",
             // 导出的mt名称
-            exp_mt: "attenCheckinitday.export",
+            exp_mt: "attenCheckupdday.export",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
                     { code: "checkWktm", name: "工作日期" },
-    { code: "empnhName", name: "员工姓名" },
-    { code: "empnhIdno", name: "身份证号码" },
-    { code: "unitFname", name: "部门名称" },
-    { code: "postFname", name: "岗位名称" },
-    { code: "checkUpwoke", name: "上班基准时间" },
-    { code: "checkUpckin", name: "上班打卡时间" },
-    { code: "checkUpresultDis", name: "上班考勤结果" },
-    { code: "checkDwktm", name: "下班基准时间" },
-    { code: "checkDckout", name: "下班打卡时间" },
-    { code: "checkDresultDis", name: "下班考勤结果" },
+                    { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhIdno", name: "身份证号码" },
+                    { code: "unitFname", name: "部门名称" },
+                    { code: "postFname", name: "岗位名称" },
+                    { code: "checkUpwoke", name: "上班基准时间" },
+                    { code: "checkUpckin", name: "上班打卡时间" },
+                    { code: "checkUpresultDis", name: "上班考勤结果" },
+                    { code: "checkDwktm", name: "下班基准时间" },
+                    { code: "checkDckout", name: "下班打卡时间" },
+                    { code: "checkDresultDis", name: "下班考勤结果" },
+                    { code: "checkTypeDis", name: "请假类型" },
             ],
             // 表格列字段
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                    { key: "checkWktm", title: "工作日期", sortable: "custom" , width : 220},
-    { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
-    { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
-    { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
-    { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
-    { key: "checkUpwoke", title: "上班基准时间", sortable: "custom" , width : 220},
-    { key: "checkUpckin", title: "上班打卡时间", sortable: "custom" , width : 220},
-    { key: "checkUpresultDis", title: "上班考勤结果", sortable: "custom" , width : 220},
-    { key: "checkDwktm", title: "下班基准时间", sortable: "custom" , width : 220},
-    { key: "checkDckout", title: "下班打卡时间", sortable: "custom" , width : 220},
-    { key: "checkDresultDis", title: "下班考勤结果", sortable: "custom" , width : 220},
-
+              { key: "checkWktm", title: "工作日期", sortable: "custom" , width : 220},
+              { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
+              { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
+              { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
+              { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
+              { key: "checkUpwoke", title: "上班基准时间", sortable: "custom" , width : 220},
+              { key: "checkUpckin", title: "上班打卡时间", sortable: "custom" , width : 220},
+              { key: "checkUpresultDis", title: "上班考勤结果", sortable: "custom" , width : 220},
+              { key: "checkDwktm", title: "下班基准时间", sortable: "custom" , width : 220},
+              { key: "checkDckout", title: "下班打卡时间", sortable: "custom" , width : 220},
+              { key: "checkDresultDis", title: "下班考勤结果", sortable: "custom" , width : 220},
+              { key: "checkTypeDis", title: "请假类型", sortable: "custom" , width : 220},
             ],
             // 表格获取数据mt名称
-            page_mt: "attenCheckinitday.getPage",
+            page_mt: "attenCheckupdday.getPage",
             // 删除数据mt名称
-            dele_mt: "attenCheckinitday.delByIds",
-            // 修改流程状态mt名称
-            state_mt: "attenCheckinitday.setStateByIds",
+            dele_mt: "attenCheckupdday.delByIds",
             //表格 id
             updateId: NaN,
             //操作类型
@@ -125,17 +125,15 @@ export default {
             //搜索参数
             searchParams: {
             	empnhName: "",
-checkWktm: "",
-
+              unitFname: "",
             },
             table_height:document.body.offsetHeight - 280,
             typeCode: "",
             //弹出选择框
-            
+
         };
     },
     components: {
-    	
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -157,7 +155,7 @@ checkWktm: "",
     mounted () {
         //列表字段存储
         this.getColumns();
-        
+        this.getSelect();
     },
     methods: {
         //获取列表项字段
@@ -170,10 +168,7 @@ checkWktm: "",
         },
         //页面查询
         search () {
-          debugger
-          if(this.searchParams.checkWktm != ''){
-            this.searchParams.checkWktm = this.searchParams.checkWktm.format("yyyy-MM-dd")
-          }
+          //this.searchParams.checkWktm = this.searchParams.checkWktm.format("yyyy-MM-dd")
           this.$store.commit('commonPage/setParams', this.searchParams)
           this.$refs.commonPage.search();
         },
@@ -233,17 +228,17 @@ checkWktm: "",
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
                 logType: '查询下拉数据',
-                typeCode: t.typeCode
+                typeCode:"attendtype,attendtype",
             }).then(res => {
                 if (isSuccess(res, t)) {
-                	
+                  t.checkUpresult = res.data.content[0].value[0].paramList;
+                  t.checkDresult = res.data.content[0].value[1].paramList;
                 }
-            })
-                .catch(() => {
-                    this.$Message.error(this.$t("reminder.errormessage"));
-                });
+            }).catch(() => {
+                this.$Message.error(this.$t("reminder.errormessage"));
+            });
         },
-        
+
     }
 };
 </script>

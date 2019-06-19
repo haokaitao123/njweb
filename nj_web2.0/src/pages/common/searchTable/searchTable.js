@@ -768,5 +768,39 @@ const searchTable = {
         selType:'rec',
       },
     },
+     /*
+  *   考勤申诉流程选择日修订
+  * */
+ 'attenupdday-base-std': {
+    title: '选择员工日修订',
+    searchText: '请输入员工姓名',
+    valueText: 'empnhName',
+    searchCloumns: [
+      {
+        title: '员工姓名',
+        key: 'empnhName',
+      },
+      {
+        title: '证件号码',
+        key: 'empnhIdno',
+      },
+      {
+        title: '工作日期',
+        key: 'checkWktm',
+      }
+    ],
+    param: {
+      _mt: 'attenCheckupdday.getPage',
+      sort: 'id',
+      order: 'desc',
+      rows: 10,
+      page: 1,
+      //checkWktm:
+      //state:'02empstate',
+      logType: '员工日修订弹出框',
+      roleType:localStorage.roleType,
+      //selType:'rec',
+    },
+  },
 }
 export default searchTable

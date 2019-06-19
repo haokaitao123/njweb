@@ -131,10 +131,12 @@ export default {
         { code: "relibFruit", name: "面试结果" },
         { code: "relibApplypostDis", name: "应聘岗位" },
         { code: "relibHiredeptDis", name: "部门" },
-        { code: "relibFirstus", name: "初试人" },
+        { code: "groupDis", name: "组别" },
+        { code: "relibFirstusDis", name: "初试人" },
         { code: "relibEducatDis", name: "学历" },
         { code: "relibReexamusDis", name: "复试人" },
-        { code: "reason", name: "备注" }
+        { code: "reason", name: "复试备注" },
+        { code: "relibMobile", name: "电话号码" },
 			],
         // 导入导出默认参数 无需变更
         openImport: false,
@@ -184,6 +186,11 @@ export default {
           width: 220
         },
         {
+          title: "组别",
+          key: "groupDis",
+          width: 220
+        },
+        {
           title: "初试人",
           key: "relibFirstusDis",
           width: 220
@@ -199,8 +206,13 @@ export default {
           width: 220
         },
         {
-          title: "备注",
+          title: "复试备注",
           key: "reason",
+          width: 220
+        },
+        {
+          title: "电话号码",
+          key: "relibMobile",
           width: 220
         },
       ],
