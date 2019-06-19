@@ -610,9 +610,11 @@ export default {
             this.dimReceiveCheck();
             if (this.$verify.check() && this.dimReceiveCheck()) {
                 const data = deepCopy(t.form);
-                data._mt = "wxEmpEmpdim.addEmpEmpDim";
+                data._mt = "wxPublicProcess.addProcess";
                 data.companyId = pubsource.companyId;
                 data.userId = window.localStorage.getItem('uid');
+                data.flowId = '1024';
+                data.tbName = 'emp_empdim';
                 let listId = this.$route.query.id;
                 if (listId !== undefined) {
                     data.pkValue = listId
@@ -681,10 +683,11 @@ export default {
             const t = this;
             if (this.saveStatus) {
                 const data = {
-                    _mt: 'wxEmpEmpdim.submitEmpEmpDim',
+                    _mt: 'wxPublicProcess.submitProcess',
                     companyId: pubsource.companyId,
                     userId: localStorage.getItem('uid'),
                     pkValue: this.$route.query.id ? this.$route.query.id : t.id,
+                    tbName: 'emp_empdim'
                 }
                 getDataLevelUserLogin(data).then((res) => {
                     if (isSuccess(res, t)) {
@@ -762,9 +765,10 @@ export default {
                 return;
             }
             const data = {
-                _mt: 'wxEmpEmpdim.getById',
+                _mt: 'wxPublicProcess.getById',
                 companyId: pubsource.companyId,
                 id: this.$route.query.id,
+                tbName: 'emp_empdim'
             }
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {

@@ -256,6 +256,86 @@ const router = new Router({
         title: '选择国家'
       }
     },
+    {
+      path: '/attenVacation',
+      name: 'attenVacation',
+      component: resolve => require(['@/pages/function/attenVacation/attenVacation'], resolve),
+      meta: {
+        title: '员工请假申请'
+      }
+    },
+    {
+      path: '/attenVacationDetail',
+      name: 'attenVacationDetail',
+      component: resolve => require(['@/pages/function/attenVacation/attenVacationDetail'], resolve),
+      meta: {
+        title: '员工请假详情'
+      }
+    },
+    {
+      path: '/attenCkappeal',
+      name: 'attenCkappeal',
+      component: resolve => require(['@/pages/function/attenCkappeal/attenCkappeal'], resolve),
+      meta: {
+        title: '员工考勤申诉'
+      }
+    },
+    {
+      path: '/attenCkappealDetail',
+      name: 'attenCkappealDetail',
+      component: resolve => require(['@/pages/function/attenCkappeal/attenCkappealDetail'], resolve),
+      meta: {
+        title: '考勤申诉详情'
+      }
+    },
+    {
+      path: '/attenMonthrevi',
+      name: 'attenMonthrevi',
+      component: resolve => require(['@/pages/function/attenMonthrevi/attenMonthrevi'], resolve),
+      meta: {
+        title: '月考勤确认'
+      }
+    },
+    {
+      path: '/attenMonthreviDetail',
+      name: 'attenMonthreviDetail',
+      component: resolve => require(['@/pages/function/attenMonthrevi/attenMonthreviDetail'], resolve),
+      meta: {
+        title: '月考勤确认详情'
+      }
+    },
+    {
+      path: '/attenGooutproc',
+      name: 'attenGooutproc',
+      component: resolve => require(['@/pages/function/attenGooutproc/attenGooutproc'], resolve),
+      meta: {
+        title: '员工外出申请'
+      }
+    },
+    {
+      path: '/attenGooutprocDetail',
+      name: 'attenGooutprocDetail',
+      component: resolve => require(['@/pages/function/attenGooutproc/attenGooutprocDetail'], resolve),
+      meta: {
+        title: '外出申请详情'
+      }
+    },
+    {
+      path: '/attenShift',
+      name: 'attenShift',
+      component: resolve => require(['@/pages/function/attenShift/attenShift'], resolve),
+      meta: {
+        title: '员工调班申请'
+      }
+    },
+    {
+      path: '/attenShiftDetail',
+      name: 'attenShiftDetail',
+      component: resolve => require(['@/pages/function/attenShift/attenShiftDetail'], resolve),
+      meta: {
+        title: '调班申请详情'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {

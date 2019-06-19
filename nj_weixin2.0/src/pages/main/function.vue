@@ -50,6 +50,46 @@
                     </div>
                     <span class="functionItem_Name">合同续签确认</span>
                 </div>
+                <div class="functionItem"
+                     @click="goTo('attenVacation')">
+                    <div class="functionItem_img">
+                        <img src="../../../static/main/function7.png"
+                             alt="">
+                    </div>
+                    <span class="functionItem_Name">员工请假申请</span>
+                </div>
+                <div class="functionItem"
+                     @click="goTo('attenShift')">
+                    <div class="functionItem_img">
+                        <img src="../../../static/main/function8.png"
+                             alt="">
+                    </div>
+                    <span class="functionItem_Name">员工调班申请</span>
+                </div>
+                <div class="functionItem"
+                     @click="goTo('attenGooutproc')">
+                    <div class="functionItem_img">
+                        <img src="../../../static/main/function9.png"
+                             alt="">
+                    </div>
+                    <span class="functionItem_Name">员工外出申请</span>
+                </div>
+                <div class="functionItem"
+                     @click="goTo('attenCkappeal')">
+                    <div class="functionItem_img">
+                        <img src="../../../static/main/function10.png"
+                             alt="">
+                    </div>
+                    <span class="functionItem_Name">员工考勤申诉</span>
+                </div>
+                <div class="functionItem"
+                     @click="goTo('attenMonthrevi')">
+                    <div class="functionItem_img">
+                        <img src="../../../static/main/function11.png"
+                             alt="">
+                    </div>
+                    <span class="functionItem_Name">月考勤确认</span>
+                </div>
             </div>
         </div>
     </div>

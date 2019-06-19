@@ -1,32 +1,32 @@
 <template>
-    <div class="dimission">
+    <div class="attenShift">
         <van-pull-refresh v-model="isLoading"
                           @refresh="onRefresh"
-                          v-show="!noDimission"
-                          class="dimissionWrap">
+                          v-show="!noAttenShift"
+                          class="attenShiftWrap">
             <van-list v-model="loading"
                       :finished="finished"
                       :finished-text="finishedText"
                       @load="onLoad"
                       :offset="10">
-                <div class="dimissionItem"
+                <div class="attenShiftItem"
                      @click="goTo(item.id)"
                      v-for="(item,index) in list">
                     <div class="item_left">
-                        <span>离职员工：{{item.empIdName}}</span>
+                        <span>员工姓名：{{item.empnhName}}</span>
                         <span>
                             公<b>公司</b>司：{{companyName}}
                         </span>
-                        <span>部<b>公司</b>门：{{item.deptIdDis}}</span>
-                        <span>岗<b>公司</b>位：{{item.postIdDis}}</span>
-                        <span>离职类型：{{item.dimTypeDis}}</span>
-                        <span>申请日期：{{item.dimApplydate}}</span>
+                        <span>部<b>公司</b>门：{{item.unitFname}}</span>
+                        <span>岗<b>公司</b>位：{{item.postFname}}</span>
+                        <span>调班天数：{{item.shiftDays}}</span>
+                        <span>申请日期：{{item.createTime}}</span>
                     </div>
                     <div class="item_right">
                         <span>{{item.curStepDis}}</span>
                         <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
-                             v-show="item.curStep==1344"
+                             v-show="item.curStep==1441"
                              @click="deleteItem($event,item.id,index)">
                             <img src="../../../../static/function/close.png"
                                  alt="">
@@ -36,19 +36,19 @@
             </van-list>
         </van-pull-refresh>
         <div class="addNew"
-             v-show="!noDimission">
+             v-show="!noAttenShift">
             <span class="add"
                   @click="goTo()">
                 +
             </span>
         </div>
-        <noDimission v-show="noDimission"
-                     :btnName='btnName'
-                     @addNew="applyDimission"></noDimission>
+        <noAttenShift v-show="noAttenShift"
+                      :btnName='btnName'
+                      @addNew="applyAttenShift"></noAttenShift>
     </div>
 </template>
 <script>
-import noDimission from '@/components/public/addNew'
+import noAttenShift from '@/components/public/addNew'
 import { getDataLevelUserLogin, getDataLevelUserLoginNew } from '@/axios/axios'
 import { isSuccess } from '@/lib/util'
 export default {
@@ -58,7 +58,7 @@ export default {
             loading: false,   //是否处于加载状态
             finished: false,  //是否已加载完所有数据
             isLoading: false,   //是否处于下拉刷新状态
-            noDimission: false,
+            noAttenShift: false,
             rows: 10,
             page: 1,
             sort: "id",
@@ -66,7 +66,7 @@ export default {
             totalPage: 0,
             companyName: pubsource.companyName,
             finishedText: '',
-            btnName: '添加离职',
+            btnName: '添加调班申请',
             curStepstate: {
                 'p_flowst_1': '待处理',
                 'p_flowst_2': '处理中',
@@ -75,14 +75,14 @@ export default {
         }
     },
     components: {
-        noDimission
+        noAttenShift
     },
     mounted () {
         // this.getData();
     },
     methods: {
         goTo (id) {
-            this.$router.push({ name: 'dimissionDetail', query: { id: id } })
+            this.$router.push({ name: 'attenShiftDetail', query: { id: id } })
         },
         //上拉加载
         onLoad () {
@@ -99,9 +99,9 @@ export default {
             this.getData();
         },
         //申请离职
-        applyDimission () {
+        applyAttenShift () {
             this.$router.push({
-                name: 'dimissionDetail'
+                name: 'attenShiftDetail'
             })
         },
         //取消离职申请
@@ -116,8 +116,8 @@ export default {
                     _mt: 'wxPublicProcess.delByIds',
                     companyId: pubsource.companyId,
                     userId: window.localStorage.getItem('uid'),
+                    tbName: 'atten_shift',
                     ids: id,
-                    tbName: 'emp_empdim'
                 }
                 getDataLevelUserLogin(data).then((res) => {
                     if (isSuccess(res, t)) {
@@ -152,13 +152,13 @@ export default {
                 sort: this.sort,
                 order: this.order,
                 userId: window.localStorage.getItem('uid'),
-                tbName: 'emp_empdim'
+                tbName: 'atten_shift',
             }
             // data.dimApplicant = window.localStorage.getItem('empId');
             await getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
                     let data = JSON.parse(res.data.content[0].value);
-                    console.log(data, "123")
+
                     if (this.list.length > 0) {//当请求前有数据时 第n次请求
                         if (this.loading) {// 上拉加载
                             this.list = this.list.concat(data.rows) //上拉加载新数据添加到数组中
@@ -183,7 +183,7 @@ export default {
                     }
                 }
                 if (this.list.length === 0) {
-                    this.noDimission = true;
+                    this.noAttenShift = true;
                     return;
                 }
             }).catch((err) => {
@@ -197,15 +197,14 @@ export default {
             });
 
         },
-
     },
 }
 </script>
 <style lang="less" scoped>
-.dimission {
+.attenShift {
     height: 100%;
     background: #f6f6f6;
-    .dimissionWrap {
+    .attenShiftWrap {
         height: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
@@ -213,7 +212,7 @@ export default {
         display: flex;
         background: #f6f6f6;
         flex-direction: column;
-        .dimissionItem {
+        .attenShiftItem {
             background: #fff;
             padding: 44px 30px;
             display: flex;
