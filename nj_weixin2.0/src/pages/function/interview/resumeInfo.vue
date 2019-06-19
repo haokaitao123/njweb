@@ -1,6 +1,8 @@
 <template>
     <div class="resumeInfo">
-        <div class="resumeInfoWrap">
+        <div class="resumeInfoWrap"
+             id="searchBar"
+             :style="activeClass">
             <div class="title title_f">
                 <div class="title_left">
                     <img src="../../../../static/function/resumeTitle.png"
@@ -73,7 +75,9 @@
                              :disabled="state"
                              :show-clear="false"
                              v-verify="form.relibIdno"
+                             ref="relibIdno"
                              @on-blur="idNumber"
+                             @on-focus="enter($event)"
                              :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
@@ -405,6 +409,7 @@
                 <div class="item_box">
                     <x-input title="紧急联系人电话<span>*</span>"
                              v-model="form.relibEmphone"
+                             @on-focus="enter($event)"
                              v-verify="form.relibEmphone"
                              :disabled="state"
                              :show-clear="false"
@@ -1105,7 +1110,9 @@ export default {
             popupShow: false,
             educationState: false,
             workExpState: false,
-            childCheck: false
+            childCheck: false,
+            activeClass: "",
+            Top: ""
         }
     },
     verify: {
@@ -1148,6 +1155,32 @@ export default {
         this.getFamily();
         this.getEducation();
         window.localStorage.setItem('reeduPid', this.$route.query.id);
+
+    },
+    mounted () {
+        var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        const t = this;
+        // window.addEventListener('scroll', this.handleScroll);
+
+        // window.onresize = function () {
+        //     //键盘弹起与隐藏都会引起窗口的高度发生变化
+        //     var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        //     console.log(t.Top, "Top");
+        //     // debugger;
+        //     if (resizeHeight - 0 <= originalHeight - 0) {
+        //         t.activeClass = {
+        //             position: "fixed",
+        //             top: t.Top
+        //         };
+        //         //当软键盘弹起，在此处操作
+        //     } else {
+        //         //当软键盘收起，在此处操作
+        //         setTimeout(() => {
+        //             t.activeClass = "";
+        //         }, 200);
+
+        //     }
+        // }
 
     },
     methods: {
@@ -1606,6 +1639,24 @@ export default {
             this.currentPostId = res.id;
             this.relibApplypostDis = res.postFname;
         },
+        //点击确认
+        enter (e) {
+            // alert(event.currentTarget.scrollTop)
+        },
+        handleScroll () { //改变元素#searchBar的top值
+            const t = this
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            var offsetTop = document.querySelector('#searchBar').offsetTop;
+            console.log(scrollTop, "scrollTop")
+            document.querySelector('#searchBar').style.top = Number(scrollTop) + 'px';
+            t.Top = scrollTop;
+            // if (scrollTop <= 200) {
+            //     // offsetTop = 300 - Number(scrollTop);
+
+            // } else {
+            //     document.querySelector('#searchBar').style.top = '100px';
+            // }
+        },
     },
     watch: {
         form: {
@@ -1630,6 +1681,7 @@ export default {
                 tt.relibEnrorageDis = this.relibEnrorageDis;
                 tt.relibIsgraduDis = this.relibIsgraduDis;
                 tt.createTime = new Date();
+                tt.id = this.$route.query.id
                 tt = JSON.stringify(tt);
                 window.localStorage.setItem('resumeInfoForm', tt)
             },
@@ -1710,6 +1762,9 @@ export default {
                 font-size: 34px;
             }
         }
+    }
+    .fixed {
+        position: fixed;
     }
 }
 .van-popup--right {

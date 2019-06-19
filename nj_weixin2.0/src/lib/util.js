@@ -293,6 +293,14 @@ export const encryptEmpId = (level, params) => {
     param.userId = params.userId
     delete params.userId;
   }
+  if (params.flowId != undefined) {
+    param.flowId = params.flowId
+    delete params.flowId;
+  }
+  if (params.tbName != undefined) {
+    param.tbName = params.tbName
+    delete params.tbName;
+  }
   param.companyId = params.companyId
   delete params.companyId;
   param._aid = params._aid
