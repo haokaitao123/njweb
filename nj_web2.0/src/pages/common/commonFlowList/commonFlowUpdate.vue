@@ -274,7 +274,6 @@
 			}
 		},
 		created() {
-			console.log(this.pkValue, "pkValue")
 			this.getColumns()
 			this.getDataBlock()
 		},
@@ -453,9 +452,7 @@
 					t.dataTableAll['table'] = JSON.parse(res.data.content[0].rows);
 					t.dataTableAll['total'] = res.data.content[0].total;
 					t.dataTableAll[res.data.content[0].dataBlockId] = JSON.parse(res.data.content[0].rows);
-					console.log(t.dataTableAll[res.data.content[0].dataBlockId], "t.dataTable")
 					t.dataTable.push(t.dataTableAll);
-					console.log(t.dataTable, "t.dataTable")
 					t.totalTable = res.data.content[0].total
 				}).catch(err => {})
 			},
@@ -848,9 +845,7 @@
 			},
 			PageSize(id) {
 				const t = this
-				console.log(this.pkValue, "pkValue")
 				this.pageDataBlockId = id;
-				console.log(this.dataBlocksFakeId, "this.dataBlocksFakeId");
 				for(let i = 0; i < this.dataBlocksFakeId.length; i++) {
 					if(id === this.dataBlocksFakeId[i].id) {
 						this.getPageChildTable(this.dataBlocksFakeId[i].id, this.dataBlocksFakeId[i].flsdbOptauth, false)
@@ -893,7 +888,6 @@
 			},
 			sizeChange(size) {
 				const t = this
-				console.log(size, "size");
 				t.rows = size;
 				this.pageDataBlockId = id
 				for(let i = 0; i < this.dataBlocksFakeId.length; i++) {
@@ -1078,7 +1072,6 @@
 			 * 保存方法
 			 * */
 			async save() {
-				// console.log(this.bankCheck)
 				const t = this
 				t.loading1 = true
 				t.formDataSubmit = {}

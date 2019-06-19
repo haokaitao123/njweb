@@ -161,7 +161,11 @@ export default {
             if (searchTable[this.modiaContent].code) {
                 this.$emit('changeinput', row[t.valueText], row[searchTable[this.modiaContent].code])
             } else {
-                this.$emit('changeinput', row[t.valueText], row.id)
+                if (this.modiaContent === 'attenupdday-base-std') {
+                    this.$emit('changeinput', row[t.valueText], row.empId)
+                } else {
+                    this.$emit('changeinput', row[t.valueText], row.id)
+                }
             }
             this.$emit('closeUp')
         },

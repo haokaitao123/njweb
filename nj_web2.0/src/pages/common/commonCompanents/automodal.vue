@@ -102,7 +102,6 @@ export default {
                 let rule = this.formData(this.sffFilter)
                 if (rule) {
                     for (let i = 0; i < rule.length; i++) {
-
                         if (!this.$store.state.flowClmkMap.popForm[rule[i].value]) {
                             let dis = this.$store.state.flowClmkMap.clmkvMap[rule[i].value];
                             this.$Modal.warning({
