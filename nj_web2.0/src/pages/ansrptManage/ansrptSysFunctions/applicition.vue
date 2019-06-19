@@ -7,8 +7,8 @@
 					<Icon type="mouse"></Icon>
 					&nbsp;待审批项
 				</p>
-				<Row :style="{height: rowHeight-119 + 'px'}" class="divContent">
-					<div>
+				<Row :style="{height: rowHeight + 'px'}" class="divContent">
+					<div style="height: 524px;">
 						<Spin fix size="large" v-if="isSpin">
 							<!--<div>数据加载中...</div>-->
 						</Spin>
@@ -22,23 +22,22 @@
 							</el-checkbox-group>
 							<span class="item-list">{{item.apblTitlecn}} </span>
 						</div>
-						
 					</div>
-				</Row>
-				<div class="topBtn">
-							<div class="chooseAll">
-								<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"></el-checkbox>&nbsp;&nbsp; 全选
+					<div class="topBtn">
+						<div class="chooseAll">
+							<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"></el-checkbox>&nbsp;&nbsp; 全选
+						</div>
+						<div class="btns">
+							<div class="leftBtn">
+								<el-button size="mini" @click.native="isSubmit('02noneapproved','不同意')">不同意</el-button>
+								<el-button type="primary" size="mini" @click.native="isSubmit('01approved','同意')">同意</el-button>
 							</div>
-							<div class="btns">
-								<div class="leftBtn">
-									<el-button size="mini" @click.native="isSubmit('02noneapproved','不同意')">不同意</el-button>
-									<el-button type="primary" size="mini" @click.native="isSubmit('01approved','同意')">同意</el-button>
-								</div>
-								<div class="rightBtn">
-
-								</div>
+							<div class="rightBtn">
 							</div>
 						</div>
+					</div>
+				</Row>
+
 			</card>
 			</Col>
 		</Row>
@@ -88,7 +87,7 @@
 			},
 			handleCheckedCitiesChange(value) {
 				console.log(this.toDoAllData)
-				console.log(value,'aaa')
+				console.log(value, 'aaa')
 				let checkedCount = value.length;
 				this.checkAll = checkedCount === this.toDoAllData.length;
 				console.log('c', this.checkAll)
@@ -202,14 +201,14 @@
 						title: this.$t('reminder.remind'),
 						content: '是否确认提交？',
 						onOk: () => {
-							console.log(t.type,t.logType)
+							console.log(t.type, t.logType)
 							t.submit(t.type, t.logType)
 						},
 					})
-				}else{
+				} else {
 					t.$Modal.error({
-							title: this.$t('请至少选择一条数据')
-						})
+						title: this.$t('请至少选择一条数据')
+					})
 				}
 			},
 			submit(type, logType) {
