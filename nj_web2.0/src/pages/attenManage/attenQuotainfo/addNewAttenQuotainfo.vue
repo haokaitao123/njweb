@@ -37,28 +37,28 @@
         <i-col span="11">
           <FormItem label="年假天数" prop="quoLeady">
             <Input v-model="formValidate.quoLeady"
-                   :disabled="disabled"
+                   disabled="disabled"
                    placeholder="请输入年假天数"></Input>
           </FormItem>
         </i-col>
         <i-col span="11">
           <FormItem label="年假剩余天数" prop="quoLearesdy">
             <Input v-model="formValidate.quoLearesdy"
-                   :disabled="disabled"
+                   disabled="disabled"
                    placeholder="请输入年假剩余天数"></Input>
           </FormItem>
         </i-col>
         <i-col span="11">
           <FormItem label="调班天数" prop="quoShdy">
             <Input v-model="formValidate.quoShdy"
-                   :disabled="disabled"
+                   disabled="disabled"
                    placeholder="请输入调班天数"></Input>
           </FormItem>
         </i-col>
         <i-col span="11">
           <FormItem label="调班剩余天数" prop="quoShrestdy">
             <Input v-model="formValidate.quoShrestdy"
-                   :disabled="disabled"
+                   disabled="disabled"
                    placeholder="请输入调班剩余天数"></Input>
           </FormItem>
         </i-col>
@@ -148,54 +148,54 @@
               trigger: 'change' 
             }
           ],
-          quoLeady: [
-            {
-              required: true,
-              message: "请输入年假天数",
-              trigger: "blur"
-            },
-            {
-              validator: numberCheck,
-              message: "请输入正确的数字格式",
-              trigger: "blur"
-            }
-          ],
-          quoLearesdy: [
-            {
-              required: true,
-              message: "请输入年假剩余天数",
-              trigger: "blur"
-            },
-            {
-              validator: numberCheck,
-              message: "请输入正确的数字格式",
-              trigger: "blur"
-            }
-          ],
-          quoShdy: [
-            {
-              required: true,
-              message: "请输入调班天数",
-              trigger: "blur"
-            },
-            {
-              validator: numberCheck,
-              message: "请输入正确的数字格式",
-              trigger: "blur"
-            }
-          ],
-          quoShrestdy: [
-            {
-              required: true,
-              message: "请输入调班剩余天数",
-              trigger: "blur"
-            },
-            {
-              validator: numberCheck,
-              message: "请输入正确的数字格式",
-              trigger: "blur"
-            }
-          ],
+          // quoLeady: [
+          //   {
+          //     required: true,
+          //     message: "请输入年假天数",
+          //     trigger: "blur"
+          //   },
+          //   {
+          //     validator: numberCheck,
+          //     message: "请输入正确的数字格式",
+          //     trigger: "blur"
+          //   }
+          // ],
+          // quoLearesdy: [
+          //   {
+          //     required: true,
+          //     message: "请输入年假剩余天数",
+          //     trigger: "blur"
+          //   },
+          //   {
+          //     validator: numberCheck,
+          //     message: "请输入正确的数字格式",
+          //     trigger: "blur"
+          //   }
+          // ],
+          // quoShdy: [
+          //   {
+          //     required: true,
+          //     message: "请输入调班天数",
+          //     trigger: "blur"
+          //   },
+          //   {
+          //     validator: numberCheck,
+          //     message: "请输入正确的数字格式",
+          //     trigger: "blur"
+          //   }
+          // ],
+          // quoShrestdy: [
+          //   {
+          //     required: true,
+          //     message: "请输入调班剩余天数",
+          //     trigger: "blur"
+          //   },
+          //   {
+          //     validator: numberCheck,
+          //     message: "请输入正确的数字格式",
+          //     trigger: "blur"
+          //   }
+          // ],
           quoYear: [
             {
               required: true,
