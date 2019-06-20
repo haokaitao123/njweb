@@ -11,6 +11,7 @@ import visa_return from './visa_return'
 import emp_empdim from './emp_empdim'
 import emp_transtion from './emp_transtion'
 import recruit_process from './recruit_process'
+import atten_vacation from './atten_vacation'
 
 export const onChange = {
   emp_flow_dimission: emp_flow_dimission,
@@ -23,5 +24,6 @@ export const onChange = {
   emp_empdim: emp_empdim,
   emp_transtion: emp_transtion,
   recruit_process: recruit_process,
+  atten_vacation: atten_vacation,
 }
 

@@ -95,7 +95,7 @@ export default {
                 { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
                 { key: "quoLeady", title: "年假天数", sortable: "custom" , width : 220},
                 { key: "quoLearesdy", title: "年假剩余天数", sortable: "custom" , width : 220},
-                { key: "quoShdy", title: "调班天数", sortable: "custom" , width : 220},
+                //{ key: "quoShdy", title: "调班天数", sortable: "custom" , width : 220},
                 { key: "quoShrestdy", title: "调班剩余天数", sortable: "custom" , width : 220},
             ],
             // 表格获取数据mt名称
