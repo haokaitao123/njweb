@@ -16,7 +16,7 @@
                         <Button type="primary" icon="primary" @click="openUp('', '新增')">新增</Button>
                         <Button type="primary" icon="primary" @click="expData">导出</Button>
                         <!-- <Button type="primary" icon="primary" @click="importExcel">导入</Button> -->
-                        <Button type="error" icon="primary" @click="deletemsg">删除</Button>
+                        <!-- <Button type="error" icon="primary" @click="deletemsg">删除</Button> -->
                     </Row>
                     <!-- 表格 分页 -->
                     <commonPage :imp_mt="imp_mt"

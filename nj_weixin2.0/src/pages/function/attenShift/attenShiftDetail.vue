@@ -46,49 +46,7 @@
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
-                <!-- 调班原因 -->
-                <div class="item_box">
-                    <x-textarea :max="300"
-                                title="调班原因<span>*</span>"
-                                :height="95"
-                                v-model="form.shiftReason"
-                                :disabled="disabled"
-                                v-verify="form.shiftReason"
-                                :placeholder="disabled?'未填写':'请填写'"
-                                :show-counter="true"></x-textarea>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.shiftReason==''"
-                          v-remind="form.shiftReason"></icon>
-                </div>
-                <!-- 相关证明 -->
-                <div class="item_box file">
-                    <label>相关证明</label>
-                    <div class="file_box "
-                         v-if="!disabled"
-                         :class="file==''?'':'justify'">
-                        <p class="fileName"
-                           v-if="file!=''"
-                           :disabled="disabled"
-                           @click="downLoadFile">
-                            {{file.name}}
-                        </p>
-                        <div class="upload"
-                             v-else>
-                            <input type="file"
-                                   @change="upLoadFile($event)">
-                            +
-                        </div>
-                    </div>
-                    <div class="file_box justify"
-                         v-if="disabled">
-                        <p class="fileName"
-                           :disabled="disabled"
-                           @click="file.name==='未上传'?'':downLoadFile()">
-                            {{file.name}}
-                        </p>
-                    </div>
-                </div>
+
                 <!-- 调班天数 -->
                 <div class="item_box">
                     <x-input title="调班天数<span>*</span>"
@@ -150,7 +108,49 @@
                              placeholder="">
                     </x-input>
                 </div>
-
+                <!-- 调班原因 -->
+                <div class="item_box">
+                    <x-textarea :max="300"
+                                title="调班原因<span>*</span>"
+                                :height="95"
+                                v-model="form.shiftReason"
+                                :disabled="disabled"
+                                v-verify="form.shiftReason"
+                                :placeholder="disabled?'未填写':'请填写'"
+                                :show-counter="true"></x-textarea>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.shiftReason==''"
+                          v-remind="form.shiftReason"></icon>
+                </div>
+                <!-- 相关证明 -->
+                <div class="item_box file">
+                    <label>相关证明</label>
+                    <div class="file_box "
+                         v-if="!disabled"
+                         :class="file==''?'':'justify'">
+                        <p class="fileName"
+                           v-if="file!=''"
+                           :disabled="disabled"
+                           @click="downLoadFile">
+                            {{file.name}}
+                        </p>
+                        <div class="upload"
+                             v-else>
+                            <input type="file"
+                                   @change="upLoadFile($event)">
+                            +
+                        </div>
+                    </div>
+                    <div class="file_box justify"
+                         v-if="disabled">
+                        <p class="fileName"
+                           :disabled="disabled"
+                           @click="file.name==='未上传'?'':downLoadFile()">
+                            {{file.name}}
+                        </p>
+                    </div>
+                </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
@@ -547,7 +547,7 @@ export default {
             this.empnhName = res.empnhName;
             this.form.postId = res.postId;
             this.form.deptId = res.deptId;
-            this.unitFname = res.deptId;
+            this.unitFname = res.unitFname;
             this.postFname = res.postFname;
         },
         //设置调班结束日期
