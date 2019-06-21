@@ -35,6 +35,13 @@
           </FormItem>
         </i-col>
         <i-col span="11">
+          <FormItem label="年份" prop="quoYear">
+            <Input v-model="formValidate.quoYear"
+                   :disabled="disabled"
+                   placeholder="请输入年份"></Input>
+          </FormItem>
+        </i-col>
+        <i-col span="11">
           <FormItem label="年假天数" prop="quoLeady">
             <Input v-model="formValidate.quoLeady"
                    disabled="disabled"
@@ -60,13 +67,6 @@
             <Input v-model="formValidate.quoShrestdy"
                    disabled="disabled"
                    placeholder="请输入调班剩余天数"></Input>
-          </FormItem>
-        </i-col>
-        <i-col span="11">
-          <FormItem label="年份" prop="quoYear">
-            <Input v-model="formValidate.quoYear"
-                   :disabled="disabled"
-                   placeholder="请输入年份"></Input>
           </FormItem>
         </i-col>
         <i-col span="22">
@@ -291,7 +291,7 @@
           if (valid) {
             getDataLevelUserLoginSenior(data).then((res) => {
               if (isSuccess(res, t)) {
-              t.$emit("closeUp");
+              t.handleReset();
               if (t.logType === '新增') {
                 t.$Message.success(this.$t('reminder.addsuccess'))
                 this.$store.commit('attenQuotainfo/setMainId', res.data.content[0].id)
