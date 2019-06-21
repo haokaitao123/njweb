@@ -1248,17 +1248,17 @@
 				height: 400px;
 			}
 			@media screen and (max-width:1566px) and (min-width:1024px) {
-			     width: 75%;
+			     width: 69%;
 		    }
 			margin-right: 365px;
 			position: static;
 			.approvIdea {
 				@media screen and(max-width: 1024px) {
 					height: 400px;
-					width: 248px;
+					// width: 248px;
 				}
 				position: absolute;
-				width: 27%;
+				width: 34%;
 				right: 0;
 				top: 10%;
 				padding: 0 20px;
@@ -1278,7 +1278,7 @@
 				.dataContent {
 					@media screen and(max-width: 1100px) {
 						height: 380px;
-						width: 228px;
+						// width: 228px;
 						padding-right: 20px;
 					}
 					@media screen and (max-width:1366px) and (min-width:1100px) {
@@ -1287,7 +1287,13 @@
 						padding-right: 20px;
 					}
 					height: 471px;
+                    
 				}
+                .ivu-form .ivu-form-item-label{
+                    // @media screen and(max-width: 1100px) {
+						width: 110px!important;
+					// }
+                }
 			}
 		}
 	}
@@ -1298,4 +1304,14 @@
 		display: flex;
 		justify-content: flex-end;
 	}
+    .ivu-form .ivu-form-item-label{
+        @media screen and(max-width: 1100px) {
+            width: 110px!important;
+        }
+    }
+    .ivu-form-item-content{
+        @media screen and(max-width: 1100px) {
+           margin-left:110px!important;
+        }
+    }
 </style>

@@ -801,7 +801,6 @@
            * 收集弹出选择的 (key:value)(字段物理名, 字段值)
            */
           // for (let j = 0; j < res.data.content[0].columns.length; j++) {
-          //   alert(55)
           //   if (res.data.content[0].columns[j].clmLayout == 13) {
           //     t.clmkvMap[res.data.content[0].columns[j].clmName] = res.data.content[0].columns[j].clmDname
           //   }
@@ -907,13 +906,13 @@
       close () {
         const t = this
         //      t.$emit('close')
-        t.$Modal.confirm({
-          title: this.$t('reminder.remind'),
-          content: '是否确认关闭？',
-          onOk: () => {
+        // t.$Modal.confirm({
+        //   title: this.$t('reminder.remind'),
+        //   content: '是否确认关闭？',
+        //   onOk: () => {
           t.$emit('close')
-      },
-      })
+    //   },
+    //   })
       },
       isSubmit () {
         const t = this
