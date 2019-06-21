@@ -1061,16 +1061,16 @@
       if (t.formDataSubmit.hasOwnProperty('empbcContent')) { // 用来判断提交时是否有多选框  有的话需要把值转为字符串传到后台
         t.formDataSubmit.empbcContent = t.formDataSubmit.empbcContent.join(',')
       }
-      //   getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
-      //     t.loading1 = false
-      //   if (isSuccess(res, t)) {
-      //   }
-      //   }).catch(() => {
-      //       t.loading1 = false
-      //     t.$Message.error(this.$t("reminder.errormessage"));
-      //   })
+         getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
+           t.loading1 = false
+         if (isSuccess(res, t)) {
+         }
+         }).catch(() => {
+             t.loading1 = false
+           t.$Message.error(this.$t("reminder.errormessage"));
+         })
     }
-    // t.submit2();
+     t.submit2();
   }
 
 
