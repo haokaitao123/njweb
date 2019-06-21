@@ -240,7 +240,8 @@
 				})
 			},
 			comfirmSubmit(type, logType) {
-				if(this.checkedCode.lenght > 0) {
+				console.log(this.checkedCode,'code')
+				if(this.checkedCode.length > 0) {
 					this.$dialog.confirm({
 						title: '',
 						message: '是否确认提交？'
