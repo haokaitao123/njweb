@@ -42,16 +42,68 @@
 								</div>
 								<div class="actionTimer" v-if="item.postIdpastDis">
 									<span class="one">
-                                        原岗位：{{item.postIdpastDis}}
+                                       	 原岗位：{{item.postIdpastDis}}
                                     </span>
 									<span class="one">
-                                        现岗位：{{item.postIdnewDis}}
+                                                                                                                          现岗位：{{item.postIdnewDis}}
                                     </span>
+								</div>
+								<!--考勤申诉-->
+								<div v-if="item.tbname == 'atten_ckappeal'">
+									<div class="actionTimer">
+										<span class="one">
+										申诉原因：{{item.chkReason}}
+									</span>
+									</div>
+								</div>
+								<!--调班-->
+								<div v-if="item.tbname == 'atten_shift'">
+									<!--<div class="actionTimer">
+										<span class="one">
+										加班人：{{}}
+									</span>
+									</div>-->
+									<div class="actionTimer">
+										<span class="ones">
+										开始时间：{{item.shiftBgdate}}
+									</span>
+										<span class="ones">
+									           结束时间：{{item.shiftEddate}}
+									</span>
+									</div>
+								</div>
+								<!--请假-->
+								<div v-if="item.tbname == 'atten_vacation'">
+
+									<div class="actionTimer">
+										<span class="ones">
+										开始时间：{{item.vacEdate}}
+									</span>
+										<span class="ones">
+									          结束时间：{{item.vacSdate}}
+									</span>
+									</div>
+									<div class="actionTimer">
+										<span class="ones">
+										请假类型：{{item.vacTypeDis}}
+									</span>
+									</div>
+								</div>
+								<!--外出-->
+								<div v-if="item.tbname == 'atten_gooutproc'">
+									<div class="actionTimer">
+										<span class="ones">
+										开始时间：{{item.goutBgdate}}
+									</span>
+										<span class="ones">
+									           结束时间：{{item.goutEddate}}
+									</span>
+									</div>
 								</div>
 							</div>
 							<div class="endTimer">
 								<span class="one">
-                                    待审批
+                                   		 待审批
                                 </span>
 							</div>
 						</div>
@@ -222,7 +274,11 @@
 					dataList.stepId = list.aprvrelaStepid
 					dataList.billId = list.aprdBillid
 					dataList.tbname = list.tbname
-					params.push(dataList)
+//					if(list.tbname != 'atten_vacation' || list.tbname != 'emp_empdim') {
+						if(list.aprvrelaStepid != 'empdim_10' && list.aprvrelaStepid != 'vacation_3') {
+							params.push(dataList)
+						}
+//					}
 					console.log('params', params)
 				});
 				const t = this;
@@ -352,6 +408,15 @@
 								width: 340px;
 								white-space: nowrap;
 								margin-top: 20px;
+							}
+							.ones {
+								display: inline-block;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								width: 305px;
+								white-space: nowrap;
+								margin-top: 20px;
+								margin-right: 15px;
 							}
 						}
 					}
