@@ -1100,10 +1100,15 @@
 				t.postFname = "";
 			},
 			selectPost() {
-				const t = this;
-				const paramsPost = deepCopy(t.paramsPost);
-				t.$refs.searchPost.getData(paramsPost);
-				t.openPost = true;
+        const t = this;
+        if(t.unitFname === "") {
+          this.$Message.warning('请选择部门');
+        }else{
+          const paramsPost = deepCopy(t.paramsPost);
+          paramsPost.deptId =  t.form.deptId;
+          t.$refs.searchPost.getData(paramsPost);
+          t.openPost = true;
+        }
 			},
 			closePost() {
 				const t = this;

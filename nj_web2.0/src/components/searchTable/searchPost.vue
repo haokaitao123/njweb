@@ -70,12 +70,12 @@ export default {
         getData (params, id, page) {
             const t = this
             if (page) {
-                t.params.page = page
+                params.page = page
             }
             if (id) {
-                t.params.postUnit = id
+                params.postUnit = id
             }
-            const data = deepCopy(t.params)
+            const data = deepCopy(params);
             data.postFname = t.name
             for (const dat in data) {
                 if (data[dat] === '') {
