@@ -83,13 +83,13 @@ export default {
         { code: "empnhIdno", name: "身份证号码" },
         { code: "unitFname", name: "扣款部门" },
         { code: "postFname", name: "扣款岗位" },
-        { code: "asesPerfa", name: "扣款指标" },
-        { code: "asesPerfb", name: "扣款类型" },
-        { code: "asesPerfc", name: "扣款项" },
+        { code: "asesPerfaDis", name: "扣款指标" },
+        { code: "asesPerfbDis", name: "扣款类型" },
+        { code: "asesPerfcDis", name: "扣款项" },
         { code: "asesAmount", name: "扣款金额" },
         { code: "asesDate", name: "扣款日期" },
-        { code: "asesUser", name: "收款人" },
-        { code: "asesIspay", name: "是否工资扣除" },
+        { code: "asesUserDis", name: "收款人" },
+        { code: "asesIspayDis", name: "是否工资扣除" },
         { code: "asesPamount", name: "1.5R扣款金额" }
       ],
       // 表格列字段
@@ -101,12 +101,12 @@ export default {
           sortable: "custom",
           width: 220
         },
-        //{ key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
+
         { key: "unitFname", title: "扣款部门", sortable: "custom", width: 220 },
         { key: "postFname", title: "扣款岗位", sortable: "custom", width: 220 },
-        { key: "asesPerfa", title: "扣款指标", sortable: "custom", width: 220 },
-        { key: "asesPerfb", title: "扣款类型", sortable: "custom", width: 220 },
-        { key: "asesPerfc", title: "扣款项", sortable: "custom", width: 220 },
+        { key: "asesPerfaDis", title: "扣款指标", sortable: "custom", width: 220 },
+        { key: "asesPerfbDis", title: "扣款类型", sortable: "custom", width: 220 },
+        { key: "asesPerfcDis", title: "扣款项", sortable: "custom", width: 220 },
         {
           key: "asesAmount",
           title: "扣款金额",
@@ -114,7 +114,7 @@ export default {
           width: 220
         },
         { key: "asesDate", title: "扣款日期", sortable: "custom", width: 220 },
-        { key: "asesUser", title: "收款人", sortable: "custom", width: 220 }
+        { key: "asesUserDis", title: "收款人", sortable: "custom", width: 220 }
         //{ key: "asesIspay", title: "是否工资扣除", sortable: "custom" , width : 220},
         //{ key: "asesPamount", title: "1.5R扣款金额", sortable: "custom" , width : 220},
       ],
@@ -176,6 +176,9 @@ export default {
     },
     //页面查询
     search() {
+
+        this.searchParams.asesDate = this.searchParams.asesDate!="" ? new Date(this.searchParams.asesDate).format("yyyy-MM-dd") : "";
+        console.log("asfd",this.searchParams)
       this.$store.commit("commonPage/setParams", this.searchParams);
       this.$refs.commonPage.search();
     },

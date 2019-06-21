@@ -15,7 +15,7 @@
         <Row style="max-height: 420px;overflow-y: auto;" ref="scrollBox">
           <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
             <i-col span="11">
-              <FormItem label="扣款人姓名" prop="empnhName">
+              <FormItem label="扣款人姓名" prop="empId">
                 <!--绑定双击清除方法-->
                 <span @dblclick="forbidden?'':dbclean()">
                   <!--v-model绑定显示字段-->
@@ -43,38 +43,44 @@
 
             <i-col span="11">
               <FormItem label="扣款指标" prop="asesPerfaDis">
-                <Input
-                  v-model="asesPerfaDis"
-                  icon="search"
-                  readonly="readonly"
-                  :disabled="forbidden"
-                  placeholder="选择考核指标"
-                  @on-click="forbidden?'':pickPerfData('a')"
-                />
+                <span @dblclick="forbidden?'':dbPerfclean()">
+                  <Input
+                    v-model="asesPerfaDis"
+                    icon="search"
+                    readonly="readonly"
+                    :disabled="forbidden"
+                    placeholder="选择考核指标"
+                    @on-click="forbidden?'':pickPerfData('a')"
+                  />
+                </span>
               </FormItem>
             </i-col>
             <i-col span="11">
               <FormItem label="扣款类型" prop="asesPerfbDis">
-                <Input
-                  v-model="asesPerfbDis"
-                  icon="search"
-                  readonly="readonly"
-                  :disabled="forbidden"
-                  placeholder="选择扣款类型"
-                  @on-click="forbidden?'':pickPerfData('b')"
-                />
+                
+                  <Input
+                    v-model="asesPerfbDis"
+                    icon="search"
+                    readonly="readonly"
+                    :disabled="forbidden"
+                    placeholder="选择扣款类型"
+                    @on-click="forbidden?'':pickPerfData('b')"
+                  />
+             
               </FormItem>
             </i-col>
             <i-col span="11">
               <FormItem label="扣款项" prop="asesPerfcDis">
-                <Input
-                  v-model="asesPerfcDis"
-                  icon="search"
-                  readonly="readonly"
-                  :disabled="forbidden"
-                  placeholder="请选择扣款项"
-                  @on-click="forbidden?'':pickPerfData('c')"
-                />
+               
+                  <Input
+                    v-model="asesPerfcDis"
+                    icon="search"
+                    readonly="readonly"
+                    :disabled="forbidden"
+                    placeholder="请选择扣款项"
+                    @on-click="forbidden?'':pickPerfData('c')"
+                  />
+               
               </FormItem>
             </i-col>
 
@@ -100,7 +106,7 @@
             </i-col>
             <i-col span="11">
               <FormItem label="收款人" prop="asesUser">
-                <Input v-model="asesUser" :disabled="true"></Input>
+                <Input v-model="asesUserDis" :disabled="true"></Input>
               </FormItem>
             </i-col>
             <i-col span="11">
@@ -214,13 +220,13 @@ export default {
       asesPerfaDis: "",
       asesPerfbDis: "",
       asesPerfcDis: "",
-      asesUser: localStorage.getItem("name"),
+      asesUserDis: localStorage.getItem("name"),
       selectAttendy: [],
       openPick: false,
       openEmpMaster: false,
       /*必填验证*/
       ruleValidate: {
-        empnhName: [
+        empId: [
           { required: true, message: "请选择员工姓名", trigger: "change" }
         ],
         asesPamount: [
@@ -280,6 +286,15 @@ export default {
       t.postFname = "";
       t.formValidate.postId = "";
     },
+    dbPerfclean() {
+      const t = this;
+      t.asesPerfaDis = "";
+      t.formValidate.asesPerfa = "";
+      t.formValidate.asesPerfb = "";
+      t.asesPerfbDis = "";
+      t.formValidate.asesPerfc = "";
+      t.asesPerfcDis = "";
+    },
     getData(id) {
       const t = this;
       t.spinShow = true; //开启loading效果
@@ -292,19 +307,30 @@ export default {
         .then(res => {
           if (isSuccess(res, t)) {
             console.log(res.data.content[0]);
-            t.formValidate = res.data.content[0];
-            if (res.data.content[0].fileKey) {
-              t.formValidate.fileKey = res.data.content[0].fileKey;
-              t.file = { name: res.data.content[0].fileKey.split(":")[0] };
-              t.filekey = res.data.content[0].fileKey.split(":")[1];
-            }
+            t.formValidate.empnhIdno = res.data.content[0].empnhIdno;
+            t.empnhName = res.data.content[0].empnhName;
+            t.formValidate.empId = res.data.content[0].empId;
+            t.unitFname = res.data.content[0].unitFname;
+            t.formValidate.deptId = res.data.content[0].deptId;
+            t.postFname = res.data.content[0].postFname;
+            t.formValidate.postId = res.data.content[0].postId;
+            t.asesPerfaDis = res.data.content[0].asesPerfaDis;
+            t.asesPerfbDis = res.data.content[0].asesPerfbDis;
+            t.asesPerfcDis = res.data.content[0].asesPerfcDis;
+            t.formValidate.asesPerfa = res.data.content[0].asesPerfa;
+            t.formValidate.asesPerfb = res.data.content[0].asesPerfb;
+            t.formValidate.asesPerfc = res.data.content[0].asesPerfc;
+            t.formValidate.asesAmount = res.data.content[0].asesAmount;
+            t.formValidate.asesDate = res.data.content[0].asesDate;
+            t.formValidate.asesUser = res.data.content[0].asesUser;
+            t.asesUserDis = res.data.content[0].asesUserDis;
+            t.formValidate.asesIspay = res.data.content[0].asesIspay;
+            t.formValidate.asesPamount = res.data.content[0].asesPamount;
             t.formValidate.note = res.data.content[0].note;
             if (t.logType === "查看") {
               t.forbidden = true;
-              t.distype = true;
             } else {
               t.forbidden = false;
-              t.distype = false;
             }
           }
         })
@@ -349,6 +375,7 @@ export default {
       if (t.logType === "修改") {
         data.id = t.id;
       }
+      console.log(data, "data");
       this.$refs.formValidate.validate(valid => {
         if (valid) {
           getDataLevelUserLoginSenior(data)
@@ -381,15 +408,15 @@ export default {
         t.$refs.searchPerfIndicators.params.perfPid = "0";
         t.perftype = "a";
       } else if (type == "b") {
-        if (t.formValidate.asesPerfaDis == "") {
-          this.$Message.warning("请先选择扣款指标");
+        if (t.asesPerfaDis == "") {
+          t.$Message.warning("请先选择扣款指标");
           return (t.openPick = false);
         }
         t.$refs.searchPerfIndicators.params.perfPid = t.formValidate.asesPerfa;
         t.perftype = "b";
       } else if (type == "c") {
-        if (this.formValidate.asesPerfbDis == "") {
-          this.$Message.warning("请先选择扣款类型");
+        if (t.asesPerfbDis == "") {
+          t.$Message.warning("请先选择扣款类型");
           return (t.openPick = false);
         }
         t.$refs.searchPerfIndicators.params.perfPid = t.formValidate.asesPerfb;
@@ -426,6 +453,7 @@ export default {
       t.openEmpMaster = false;
     },
     inputEmp(row) {
+      console.log("afgd", row);
       const t = this;
       t.empnhName = row.empnhName;
       t.formValidate.empnhIdno = row.empnhIdno;
@@ -436,27 +464,33 @@ export default {
       t.formValidate.postId = row.postId;
     },
     handleReset() {
-      this.$refs.formValidate.resetFields();
-      this.$refs.scrollBox.$el.scrollTop = "0";
-      this.$emit("closeUp");
+      const t = this;
+      t.$refs.formValidate.resetFields();
+      t.$refs.scrollBox.$el.scrollTop = "0";
+      t.formValidate.empnhIdno = "";
+      t.empnhName = "";
+      t.formValidate.empId = "";
+      t.unitFname = "";
+      t.formValidate.deptId = "";
+      t.postFname = "";
+      t.formValidate.postId = "";
+      t.asesPerfaDis = "";
+      t.asesPerfbDis = "";
+      t.asesPerfcDis = "";
+      t.formValidate.asesPerfa = "";
+      t.formValidate.asesPerfb = "";
+      t.formValidate.asesPerfc = "";
+      t.formValidate.asesAmount = "";
+      t.formValidate.asesDate = "";
+      t.formValidate.asesIspay = "";
+      t.formValidate.asesPamount = "";
+      t.formValidate.note = "";
+      t.$emit("closeUp");
     },
     handleUpload(file) {
       this.file = file;
       this.loadingStatus = true;
       return false;
-    },
-
-    //选择考核指标事件
-    selectPerfChange(value) {
-      if (value === undefined && value === "") {
-        this.$Message.warning("请先选择扣款指标");
-      } else {
-        if (this.formValidate.asesPerfaDis == "") {
-          this.$Message.warning("请先选择扣款指标");
-        } else if (this.formValidate.asesPerfaDis == "") {
-          this.$Message.warning("请先选择扣款类型");
-        }
-      }
     }
   }
 };
