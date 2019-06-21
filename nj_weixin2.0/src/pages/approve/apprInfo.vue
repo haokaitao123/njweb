@@ -694,7 +694,7 @@
 					display: inline-block;
 				}
 				.tow {
-					margin-left: 50px;
+					margin-left: 20px;
 					display: inline-block;
 				}
 			}
@@ -775,8 +775,8 @@
 			margin-top: -160px;
 		}
 		.weui-cell_access /deep/.weui-cell__ft:after{
-			width: 12px;
-			height: 12px;
+			width: 24px;
+			height: 24px;
 		}
 		.popup_width {
 			width: 80%;
