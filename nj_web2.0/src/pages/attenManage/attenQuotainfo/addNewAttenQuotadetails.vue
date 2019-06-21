@@ -256,7 +256,7 @@ export default {
           getDataLevelUserLoginSenior(data)
             .then(res => {
               if (isSuccess(res, t)) {
-                t.$emit("closeUp");
+                 t.handleReset();
                 if (t.childLogType === "新增") {
                   t.$Message.success("新增成功");
                   t.$emit("newData", res.data.content[0]);

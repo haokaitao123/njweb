@@ -101,14 +101,14 @@ export default {
             ],
             // 表格列字段
             columns: [
-            	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                    { key: "atmorPeriod", title: "考勤期间", sortable: "custom" , width : 220},
-                    { key: "atmorSdate", title: "开始日期", sortable: "custom" , width : 220},
-                    { key: "atmorEdate", title: "结束日期", sortable: "custom" , width : 220},
+                { type : "selection" , width: 54 , fixed : "left" , align : "center" },
                     { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 220},
                     { key: "empnhIdno", title: "身份证号码", sortable: "custom" , width : 220},
                     { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
                     { key: "postFname", title: "岗位名称", sortable: "custom" , width : 220},
+                    { key: "atmorPeriod", title: "考勤期间", sortable: "custom" , width : 220},
+                    { key: "atmorSdate", title: "开始日期", sortable: "custom" , width : 220},
+                    { key: "atmorEdate", title: "结束日期", sortable: "custom" , width : 220},
                     { key: "atmorAttdays", title: "出勤天数", sortable: "custom" , width : 220},
                     { key: "atmorOffdays", title: "休息天数", sortable: "custom" , width : 220},
                     { key: "atmorLatenums", title: "迟到次数", sortable: "custom" , width : 220},
