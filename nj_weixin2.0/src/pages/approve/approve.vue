@@ -326,7 +326,6 @@
 			.chooseAll {
 				display: inline-block;
 				padding: 10px 30px;
-				border: 1px solid #ccc;
 				border-radius: 5px;
 				cursor: pointer;
 				margin-top: 30px;
@@ -410,9 +409,6 @@
 								margin-top: 20px;
 							}
 							.ones {
-								display: inline-block;
-								overflow: hidden;
-								text-overflow: ellipsis;
 								width: 305px;
 								white-space: nowrap;
 								margin-top: 20px;

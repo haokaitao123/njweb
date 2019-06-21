@@ -366,7 +366,7 @@
 			</div>
 		</div>
 		<div class="course">
-			<div v-for="(item,index) in list.ansList">	
+			<div v-for="(item,index) in list.ansList">
 				<div class="start">
 					<div class="first">
 						{{item.name}}
@@ -382,28 +382,25 @@
 		</div>
 		<!--交接人-->
 		<div v-if="this.$route.query.item.tbname == 'emp_empdim'">
-		<div class="item_box" v-if="this.$route.query.item.aprdStepcode == 'empdim_10'">
-			<cell title="" is-link v-if="!disabled" value-align="left" v-model="empIdName" v-verify="form.relibInviteman" @click.native="popupClick('empShow','relibInviteman')">
-				<div slot="title">交接人<span>*</span></div>
-			</cell>
-			<icon type="warn"
-                          class="error"
-                          v-show="empIdName=='请选择'?true:false"
-                          v-remind="form.relibInviteman"></icon>
-			<x-input title="人姓交接名" v-model="empIdName" v-if="disabled" v-verify="form.relibInviteman" :show-clear="false" :placeholder="disabled?'未填写':'请填写'">
-			</x-input>
-		</div>
+			<div class="item_box" v-if="this.$route.query.item.aprdStepcode == 'empdim_10'">
+				<cell title="" is-link v-if="!disabled" value-align="left" v-model="empIdName" v-verify="form.relibInviteman" @click.native="popupClick('empShow','relibInviteman')">
+					<div slot="title">交接人<span>*</span></div>
+				</cell>
+				<icon type="warn" class="error" v-show="empIdName=='请选择'?true:false" v-remind="form.relibInviteman"></icon>
+				<x-input title="人姓交接名" v-model="empIdName" v-if="disabled" v-verify="form.relibInviteman" :show-clear="false" :placeholder="disabled?'未填写':'请填写'">
+				</x-input>
+			</div>
 		</div>
 		<!-- 归来日期 -->
-		<div v-if="this.$route.query.item.tbname == 'atten_vacation'" >
-		<div v-if="this.$route.query.item.aprdStepcode == 'vacation_3'" class="item_box">
-			<cell title="" is-link value-align="left" v-model="form.relibFilldate" v-if='!curStep' v-verify="form.relibFilldate" @click.native="popupClick('relibFilldateShow','relibFilldate')">
-				<div slot="title">归来日期<span>*</span></div>
-			</cell>
-			<icon type="warn" class="error" v-show="form.relibFilldate=='请选择'?true:false" v-remind="form.relibFilldate"></icon>
-			<x-input title="归来日期<span>*</span>" v-if='curStep' v-model="form.relibFilldate" :show-clear="false" :disabled="curStep" placeholder="未填写">
-			</x-input>
-		</div>
+		<div v-if="this.$route.query.item.tbname == 'atten_vacation'">
+			<div v-if="this.$route.query.item.aprdStepcode == 'vacation_3'" class="item_box">
+				<cell title="" is-link value-align="left" v-model="form.relibFilldate" v-if='!curStep' v-verify="form.relibFilldate" @click.native="popupClick('relibFilldateShow','relibFilldate')">
+					<div slot="title">归来日期<span>*</span></div>
+				</cell>
+				<icon type="warn" class="error" v-show="form.relibFilldate=='请选择'?true:false" v-remind="form.relibFilldate"></icon>
+				<x-input title="归来日期<span>*</span>" v-if='curStep' v-model="form.relibFilldate" :show-clear="false" :disabled="curStep" placeholder="未填写">
+				</x-input>
+			</div>
 		</div>
 		<group>
 			<x-textarea class="textWrite" :max="300" v-model="value" placeholder="请填写审批意见"></x-textarea>
@@ -413,8 +410,8 @@
 			<x-button class="x_button" @click.native="comfirmSubmit('01approved','同意')" type="primary">同意</x-button>
 		</div>
 		<!--归来日期-->
-		<van-popup v-model="relibFilldateShow" position="bottom">
-			<van-datetime-picker v-model="relibFilldateDate" type="datetime" :min-date="minRelibFilldate" :max-date="maxRelibFilldate" @confirm="confirm" @cancel="cancel" />
+		<van-popup v-model="relibFilldateShow" position="bottom" >
+			<van-datetime-picker v-model="relibFilldateDate" type="date" :min-date="minRelibFilldate" :max-date="maxRelibFilldate" @confirm="confirm" @cancel="cancel" />
 		</van-popup>
 		<!--交接人-->
 		<van-popup v-model="empShow" position="right" class="popup_width">
@@ -453,9 +450,9 @@
 				empShow: false,
 				empIdName: "请选择",
 				disabled: false,
-				 minRelibFilldate: new Date(),
-				 maxRelibFilldate: new Date(2099, 12, 31),
-				 relibFilldateDate: new Date(),
+				minRelibFilldate: new Date(),
+				maxRelibFilldate: new Date(2099, 12, 31),
+				relibFilldateDate: new Date(),
 				form: {
 					relibInviteman: '', //交接人id
 					relibFilldate: "请选择", // 面到时间 
@@ -463,14 +460,14 @@
 			}
 		},
 		verify: {
-        form: {
-        	relibInviteman: "required",
-            relibName: "required",
-            relibGender: "required",
-            relibMobile: ["required", "mobile"],
-            relibFilldate: "required",
-        }
-    },
+			form: {
+				relibInviteman: "required",
+				relibName: "required",
+				relibGender: "required",
+				relibMobile: ["required", "mobile"],
+				relibFilldate: "required",
+			}
+		},
 		components: {
 			XButton,
 			XTextarea,
@@ -521,20 +518,20 @@
 			},
 			comfirmSubmit(type, logType) {
 				const t = this;
-				if (t.$verify.check()) {
-				this.$dialog.confirm({
-					title: '',
-					message: '是否确认提交？'
-				}).then(() => {
-					this.submit(type, logType)
-				}).catch(() => {
-					// on cancel
-				});
+				if(t.$verify.check()) {
+					this.$dialog.confirm({
+						title: '',
+						message: '是否确认提交？'
+					}).then(() => {
+						this.submit(type, logType)
+					}).catch(() => {
+						// on cancel
+					});
 				}
 			},
 			submit(type, logType) {
 				const t = this
-				
+
 				let params = {
 					aprdApprover: localStorage.getItem('empId'),
 					aprdAprvtime: new Date().format('yyyy-MM-dd hh:mm:ss'),
@@ -542,11 +539,11 @@
 					aprdAprvopinion: this.value
 				}
 				let dates = {}
-				if(this.$route.query.item.tbname == 'atten_vacation'){
+				if(this.$route.query.item.tbname == 'atten_vacation') {
 					dates.vacActdate = this.form.relibFilldate
 				}
-					
-				if(this.$route.query.item.tbname == 'emp_empdim'){
+
+				if(this.$route.query.item.tbname == 'emp_empdim') {
 					dates.dimReceive = this.empIdName
 				}
 				const data = {
@@ -558,8 +555,8 @@
 					aprFlowId: this.$route.query.item.aprFlowId,
 					data: JSON.stringify(params),
 					tbname: this.$route.query.item.tbname,
-					pkValue:this.list.id,
-					pkData:JSON.stringify(dates),
+					pkValue: this.list.id,
+					pkData: JSON.stringify(dates),
 				}
 				console.log('参数', data)
 				getDataLevelUserLogin(data).then((res) => {
@@ -766,16 +763,26 @@
 			line-height: 95px;
 		}
 		.weui-cell /deep/ .vux-cell-align-left {
-			margin-left: 40px !important;
+			margin-left: 50px !important;
 			margin-top: -90px !important;
 		}
 		.weui-cell /deep/ span {
 			display: inline-block;
 			color: red;
 		}
-		.item_box /deep/.weui-icon-warn{
+		.item_box /deep/.weui-icon-warn {
 			float: right;
 			margin-top: -160px;
+		}
+		.weui-cell_access /deep/.weui-cell__ft:after{
+			width: 12px;
+			height: 12px;
+		}
+		.popup_width {
+			width: 80%;
+			height: 100%;
+			overflow: scroll;
+			-webkit-overflow-scrolling: touch;
 		}
 	}
 </style>
