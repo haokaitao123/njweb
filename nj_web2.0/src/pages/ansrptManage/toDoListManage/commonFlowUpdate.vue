@@ -757,7 +757,6 @@ export default {
             return formData
         },
         getColumn (dataBlockId, dataBlockType) {
-            //debugger;
             const t = this
             const params = {
                 _mt: 'platAutoApprovalEditAgwService.getDataBlockColumn',

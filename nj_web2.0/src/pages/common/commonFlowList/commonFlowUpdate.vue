@@ -1247,7 +1247,7 @@
             width:90%;
 		}
 		@media screen and (min-width: 1025px) and (max-width: 1366px) {
-            width: 80%;
+            width: 80%!important;
         }
 		.content {
 			@media screen and(max-width: 1024px) {
