@@ -378,6 +378,7 @@
     height: 15%;
 		width: 88.5%;
     align-items: center;
+
 	}
 	
 	.chooseAll {
