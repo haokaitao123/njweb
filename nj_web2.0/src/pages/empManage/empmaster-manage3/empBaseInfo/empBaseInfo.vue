@@ -530,7 +530,7 @@
 					},
 				],
 				paramsPost: {
-					_mt: "orgPost.getPage",
+					_mt: "orgPost.getDeptPage",
 					rows: 10,
 					page: 1,
 					sort: "id",
