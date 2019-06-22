@@ -309,6 +309,30 @@ const searchTable = {
       logType: '查询',
     },
   },
+
+  'org-deptpost-std': {
+    title: '选择岗位',
+    searchText: '请输入岗位名称',
+    valueText: 'postFname',
+    searchCloumns: [
+      {
+        title: '岗位编码',
+        key: 'postCode',
+      },
+      {
+        title: '岗位名称',
+        key: 'postFname',
+      },
+    ],
+    param: {
+      _mt: 'orgPost.getDeptPage',
+      sort: 'id',
+      order: 'asc',
+      rows: 10,
+      page: 1,
+      logType: '查询',
+    },
+  },
   /*
    * 选择成本中心
    * */
