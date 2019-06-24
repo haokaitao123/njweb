@@ -833,7 +833,7 @@ export default {
             const t = this
             const params = {
                 _mt: 'platAutoApprovalEditAgwService.getDataFlowBlockColumn',
-                flowId: t.flowId, // 流程ID
+                flowId: t.aprvrelaStepidAll,// 步骤ID
                 //          stepId: t.thisStepId, // 流程步骤ID
                 dataBlockId: '0',
                 logType: 'getBlockColumn', // 主键值
