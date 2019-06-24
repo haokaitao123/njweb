@@ -4,11 +4,11 @@
             <group label-align="left"
                    gutter="0"
                    class="form">
-                    <!--申请人-->
-                 <div class="item_box">
+                <!--申请人-->
+                <div class="item_box">
                     <cell title=""
                           is-link
-                          v-if="!disabled"
+                          v-if="!curStep"
                           value-align="left"
                           v-model="applyMan"
                           v-verify="form.relibFirstus"
@@ -21,11 +21,11 @@
                           v-remind="form.empId"></icon>-->
                     <x-input title="申请人姓名"
                              v-model="applyMan"
-                             v-if="disabled"
+                             v-if="curStep"
                              v-verify="form.relibFirstus"
                              :show-clear="false"
-                             :placeholder = "disabled?'未填写':'请填写'"
-                             >
+                             :disabled="curStep"
+                             :placeholder="curStep?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 应聘岗位 -->
@@ -126,12 +126,12 @@
                              placeholder="未填写">
                     </x-input>
                 </div>
-               
+
                 <!--招聘人-->
                 <div class="item_box">
                     <cell title=""
                           is-link
-                          v-if="!disabled"
+                          v-if="!curStep"
                           value-align="left"
                           v-model="empIdName"
                           v-verify="form.relibInviteman"
@@ -142,13 +142,13 @@
                           class="error"
                           v-show="empIdName=='请选择'?true:false"
                           v-remind="form.empId"></icon>-->
-                    <x-input title="招聘人姓名"
+                    <x-input title="招聘人"
                              v-model="empIdName"
-                             v-if="disabled"
+                             v-if="curStep"
                              v-verify="form.relibInviteman"
                              :show-clear="false"
-                             :placeholder = "disabled?'未填写':'请填写'"
-                             >
+                             :disabled="curStep"
+                             :placeholder="curStep?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 初试意见 -->
@@ -212,18 +212,18 @@
                    position="right"
                    class="popup_width">
             <searchEmp @inputEmp="applyEmp"
-                        :currentId="form.relibFirstus"
-                        v-if="disShow"
-                        ref="searchEmp"></searchEmp>
+                       :currentId="form.relibFirstus"
+                       v-if="disShow"
+                       ref="searchEmp"></searchEmp>
         </van-popup>
         <!--招聘人-->
         <van-popup v-model="empShow"
                    position="right"
                    class="popup_width">
             <searchEmp @inputEmp="inputEmp"
-                        :currentId="form.relibInviteman"
-                        v-if="empShow"
-                        ref="searchEmp"></searchEmp>
+                       :currentId="form.relibInviteman"
+                       v-if="empShow"
+                       ref="searchEmp"></searchEmp>
         </van-popup>
         <van-popup v-model="relibFilldateShow"
                    position="bottom">
@@ -241,7 +241,7 @@ import { getDataLevelUserLogin, getDataLevelUserLoginNew } from '@/axios/axios'
 import { isSuccess, deepCopy } from '@/lib/util'
 import { Group, Cell, XInput, XTextarea, Icon, Popup } from 'vux'
 import searchPost from '@/components/search/searchPost'
-import searchEmp from '@/components/search/searchEmp'
+import searchEmp from '@/components/search/searchAllEmp'
 export default {
     data () {
         return {
@@ -249,7 +249,7 @@ export default {
             curStepstate: this.$route.query.curStepstate ? this.$route.query.curStepstate : '',
             curDom: "",
             curDomShow: "",
-            disShow:false,
+            disShow: false,
             empShow: false,
             currentPostId: "",
             currentId: "",
@@ -264,7 +264,7 @@ export default {
                 relibGender: "",            // 性别
                 relibMobile: "",            // 手机号码
                 relibFilldate: "请选择",     // 面到时间 
-                relibInviteman: "" ,       // 招聘者id
+                relibInviteman: "",       // 招聘者id
                 relibFirstus: window.localStorage.getItem('empId'),  //申请人id
                 //empId: "",							
                 note: ""                    // 备注
@@ -338,7 +338,7 @@ export default {
                 }
                 console.log(t.saveState, "t.saveState")
                 if (t.saveState) {
-                	console.log(data,'datatt')
+                    console.log(data, 'datatt')
                     getDataLevelUserLoginNew(data).then(res => {
                         if (isSuccess(res, t)) {
                             console.log(res, "res");
@@ -446,33 +446,21 @@ export default {
         // },
         //申请人弹出框事件
         applyEmp (res) {
-            console.log(res, "res11")
             this.disShow = false;
             this.form.relibFirstus = res.id;
-            console.log(this.form.relibFirstus,'id')
-            this.applyMan = res.empnhSalaccname;
-//            this.form.dimReceive = res.id;
-//            this.dimReceiveDis = res.empnhName;
-//            this.dimReceiveCheck();
+            this.applyMan = res.empnhName;
         },
         //员工弹出框事件
         inputEmp (res) {
-            console.log(res, "res11")
             this.empShow = false;
             this.form.relibInviteman = res.id;
-            console.log(this.form.relibInviteman,'id')
-            this.empIdName = res.empnhSalaccname;
-//            this.form.dimReceive = res.id;
-//            this.dimReceiveDis = res.empnhName;
-//            this.dimReceiveCheck();
+            this.empIdName = res.empnhName;
         },
         //底部弹出
         popupClick (domShow, dom) {
-        	console.log(domShow, dom)
             this.curDom = dom;
             this.curDomShow = domShow;
             this[domShow] = true;
-            //console.log('123',this[domShow])
         },
         //底部弹出确定事件
         confirm (value) {
@@ -506,16 +494,22 @@ export default {
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
-                    console.log(data, "data123");
                     t.relibFirstopin = data.relibFirstopin ? data.relibFirstopin : '';
                     t.relibCheckopin = data.relibCheckopin ? data.relibCheckopin : '';
+                    t.form.relibFirstus = data.relibFirstus ? data.relibFirstus : '';
                     t.form.relibName = data.relibName;
                     t.form.relibGender = data.relibGender;
                     t.form.relibMobile = data.relibMobile;
                     t.form.relibFilldate = data.relibFilldate;
                     t.form.relibApplypost = data.relibApplypost;
+                    t.form.relibInviteman = data.relibInviteman;
                     t.form.note = data.note;
-                    t.empIdName = data.relibInvitemanDis;
+                    if (t.curStep) {
+                        t.empIdName = data.relibInvitemanDis ? data.relibInvitemanDis : "未选择";
+                    } else {
+                        t.empIdName = data.relibInvitemanDis ? data.relibInvitemanDis : "请选择";
+                    }
+                    t.applyMan = data.relibFirstusDis ? data.relibFirstusDis : '';
                     t.relibApplypostDis = data.relibApplypostDis;
                     t.relibGenderDis = data.relibGenderDis;
                     t.relibFilldateDate = new Date(data.relibFilldate.replace(/-/g, '/'));

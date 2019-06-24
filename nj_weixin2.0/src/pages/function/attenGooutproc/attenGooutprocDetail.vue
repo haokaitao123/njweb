@@ -266,7 +266,7 @@ export default {
                     data.pkValue = t.id
                 }
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
@@ -399,9 +399,9 @@ export default {
                     t.empnhName = data.empnhName;
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
-                    t.goutDateDate = !data.goutDateDate ? new Date() : new Date(data.goutDateDate.replace(/-/g, '/'));
-                    t.goutBgdateDate = !data.goutBgdateDate ? new Date() : new Date(data.goutBgdateDate.replace(/-/g, '/'));
-                    t.goutEddateDate = !data.goutEddateDate ? new Date() : new Date(data.goutEddateDate.replace(/-/g, '/'));
+                    t.goutDateDate = !data.goutDate ? new Date() : new Date(data.goutDate.replace(/-/g, '/'));
+                    t.goutBgdateDate = !data.goutBgdate ? new Date() : new Date(data.goutBgdate.replace(/-/g, '/'));
+                    t.goutEddateDate = !data.goutEddate ? new Date() : new Date(data.goutEddate.replace(/-/g, '/'));
                 }
             }).catch((err) => {
                 t.$notify({

@@ -542,7 +542,6 @@ export default {
 
         this.getSelect();
         this.getData();
-        // this.completeDate(entryDate, now, 3), "123"
     },
     methods: {
         //判断两个时间段是否相差 m 个月
@@ -622,7 +621,7 @@ export default {
                     data.pkValue = t.id
                 }
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
@@ -743,11 +742,10 @@ export default {
         },
         //员工弹出框事件
         inputEmp (res) {
-            console.log(res, "res")
             this.empShow = false;
             this.currentId = res.id;
-            this.form.dimReceive = res.id;
-            this.dimReceiveDis = res.empnhName;
+            this.form.empId = res.id;
+            this.empIdName = res.empnhName;
             this.dimReceiveCheck();
         },
         //问卷调查事件

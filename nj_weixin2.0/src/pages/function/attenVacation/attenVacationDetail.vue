@@ -351,7 +351,7 @@ export default {
                     data.pkValue = t.id
                 }
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
@@ -555,8 +555,8 @@ export default {
                             name: '未上传'
                         }
                     }
-                    t.vacSdateDate = !data.vacSdateDate ? new Date() : new Date(data.vacSdateDate.replace(/-/g, '/'));
-                    t.vacEdateDate = !data.vacEdateDate ? new Date() : new Date(data.vacEdateDate.replace(/-/g, '/'));
+                    t.vacSdateDate = !data.vacSdate ? new Date() : new Date(data.vacSdate.replace(/-/g, '/'));
+                    t.vacEdateDate = !data.vacEdate ? new Date() : new Date(data.vacEdate.replace(/-/g, '/'));
                     t.setSelectValue(data.vacIsreapplyDis, 'selectVacIsreapply', 'vacIsreapplyIndex');
                     t.setSelectValue(data.vacTypeDis, 'selectVacType', 'vacTypeIndex');
                 }

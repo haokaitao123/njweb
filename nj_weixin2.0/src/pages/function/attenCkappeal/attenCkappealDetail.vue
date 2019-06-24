@@ -415,23 +415,23 @@ export default {
             filekey: '',
             fileName: '',
             form: {
-                checkWktm: "请选择",                                                                   //考勤日期
-                empId: "",                                                                      //员工id
-                deptId: "",                                                                     //部门
-                postId: "",                                                                     //岗位
-                chkIndtod: "选择考勤日期自动带出",                                                                  //原上班打卡时间
-                chkUpresod: "",                                                                 //原上班考勤结果
-                chkOutod: "选择考勤日期自动带出",                                                                   //原下班打卡时间
-                chkDresod: "",                                                                  //原下班考勤结果
-                chkLevpod: "",                                                                  //原请假类型
-                chkIndtnw: "请选择",                                                                   //现上班打卡时间
+                checkWktm: "请选择",                                                              //考勤日期
+                empId: "",                                                                       //员工id
+                deptId: "",                                                                      //部门
+                postId: "",                                                                      //岗位
+                chkIndtod: "选择考勤日期自动带出",                                                 //原上班打卡时间
+                chkUpresod: "",                                                                  //原上班考勤结果
+                chkOutod: "选择考勤日期自动带出",                                                  //原下班打卡时间
+                chkDresod: "",                                                                   //原下班考勤结果
+                chkLevpod: "",                                                                   //原请假类型
+                chkIndtnw: "请选择",                                                              //现上班打卡时间
                 chkUpresnw: "",                                                                  //现上班考勤结果
-                chkOutnw: "请选择",                                                                    //现下班打卡时间
+                chkOutnw: "请选择",                                                               //现下班打卡时间
                 chkDresnw: "",                                                                   //现下班考勤结果
                 chkLevpnw: "",                                                                   //现请假类型
                 chkReason: "",                                                                   //申诉原因
-                fileKey: "",                                                                    //申诉材料
-                note: "",                                                                       //备注
+                fileKey: "",                                                                     //申诉材料
+                note: "",                                                                        //备注
             },
             empnhName: "",
             unitFname: "",
@@ -507,7 +507,7 @@ export default {
                     data.pkValue = t.id
                 }
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
@@ -573,7 +573,7 @@ export default {
                             background: '#1989fa'
                         });
                         this.$router.push({
-                            name: 'attenCkappealDetail'
+                            name: 'attenCkappeal'
                         })
                     }
                 }).catch((err) => {
@@ -630,16 +630,26 @@ export default {
                             t.form.deptId = data.deptId ? data.deptId : "";
                             t.form.postId = data.postId ? data.postId : "";
                             t.form.chkIndtod = data.checkUpckin ? data.checkUpckin : "";
+                            t.form.chkIndtnw = data.checkUpckin ? data.checkUpckin : "请选择";
                             t.form.chkUpresod = data.checkUpresult ? data.checkUpresult : "";
+                            t.form.chkUpresnw = data.checkUpresult ? data.checkUpresult : "";
                             t.form.chkOutod = data.checkDckout ? data.checkDckout : "";
+                            t.form.chkOutnw = data.checkDckout ? data.checkDckout : "请选择";
                             t.form.chkDresod = data.checkDresult ? data.checkDresult : "";
+                            t.form.chkDresnw = data.checkDresult ? data.checkDresult : "";
                             t.form.chkLevpod = data.checkType ? data.checkType : "";
                             t.empnhName = data.empnhName ? data.empnhName : "";
                             t.unitFname = data.unitFname ? data.unitFname : "";
                             t.postFname = data.postFname ? data.postFname : "";
                             t.chkUpresodDis = data.checkUpresultDis ? data.checkUpresultDis : "";
                             t.chkDresodDis = data.checkDresultDis ? data.checkDresultDis : "";
+                            t.chkUpresnwDis = data.checkUpresultDis ? data.checkUpresultDis : "请选择";
+                            t.chkDresnwDis = data.checkDresultDis ? data.checkDresultDis : "请选择";
                             t.chkLevpodDis = data.checkTypeDis ? data.checkTypeDis : "";
+                            t.chkIndtnwDate = !data.checkUpckin ? new Date() : new Date(data.checkUpckin.replace(/-/g, '/'));
+                            t.chkOutnwDate = !data.checkDckout ? new Date() : new Date(data.checkDckout.replace(/-/g, '/'));
+                            t.setSelectValue(data.checkUpresultDis, 'selectChkUpresnw', 'chkUpresnwIndex');
+                            t.setSelectValue(data.checkDresultDis, 'selectChkDresnw', 'chkDresnwIndex');
                         }
                     }).catch((err) => {
                         t.$notify({
@@ -701,7 +711,6 @@ export default {
                     t.form.chkLevpnw = data.chkLevpnw;
                     t.form.chkReason = data.chkReason;
                     t.form.note = data.note;
-
                     t.form.vacIsreapply = data.vacIsreapply ? data.vacIsreapply : '';
                     t.form.vacType = data.vacType ? data.vacType : '';
                     t.form.vacDay = data.vacDay ? data.vacDay : '';

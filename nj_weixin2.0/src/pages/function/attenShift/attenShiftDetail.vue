@@ -300,7 +300,7 @@ export default {
                     data.pkValue = t.id
                 }
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
