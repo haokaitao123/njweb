@@ -166,31 +166,37 @@
                             <FormItem label="经理编制"
                                       prop="unitManger">
                                 <Input v-model="formValidate.unitManger"
-                                             :disabled="disabled"
-                                             size="default"
-                                             style="width: 290px"
-                                             placeholder="请输入经理编制"></Input>
+                                       :disabled="disabled"
+                                       size="default"
+                                       style="width: 290px"
+
+                                       placeholder="请输入经理编制"></Input>
+                              <!--@on-blur="cop()"-->
                             </FormItem>
                         </i-col>
                         <i-col span="11">
                             <FormItem label="主管编制"
                                       prop="unitDirec">
                                 <Input v-model="formValidate.unitDirec"
-                                             :disabled="disabled"
-                                             size="default"
-                                             style="width: 290px"
-                                             placeholder="请输入主管编制"></Input>
+                                       :disabled="disabled"
+                                       size="default"
+                                       style="width: 290px"
+
+                                       placeholder="请输入主管编制"></Input>
                             </FormItem>
+                          <!--@on-blur="cop1()"-->
                         </i-col>
                         <i-col span="11">
                             <FormItem label="员工编制"
                                       prop="unitStaff">
                                 <Input v-model="formValidate.unitStaff"
-                                             :disabled="disabled"
-                                             size="default"
-                                             style="width: 290px"
-                                             placeholder="请输入员工编制"></Input>
+                                       :disabled="disabled"
+                                       size="default"
+                                       style="width: 290px"
+
+                                       placeholder="请输入员工编制"></Input>
                             </FormItem>
+                          <!--@on-blur="cop2()"-->
                         </i-col>
                         <i-col span="11">
                           <FormItem label="驻厂员工编制"
@@ -199,8 +205,10 @@
                                    :disabled="disabled"
                                    size="default"
                                    style="width: 290px"
+
                                    placeholder="请输入驻厂员工编制"></Input>
                           </FormItem>
+                          <!--@on-blur="cop3()"-->
                         </i-col>
                         <i-col span="11">
                             <FormItem label="系统转正"
@@ -618,6 +626,30 @@ export default {
                 })
             })
         },
+//        cop() {
+//        let peo=this.formValidate.unitManger;
+//          if(Number(peo)!=0){
+//            this.formValidate.partEstablish=Number(peo);
+//          }
+//        },
+//        cop1() {
+//        let peo1=this.formValidate.unitDirec;
+//          if(Number(peo1)!=0){
+//            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo1);
+//          }
+//        },
+//        cop2() {
+//          let peo2=this.formValidate.unitStaff;
+//          if(Number(peo2)!=0){
+//            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo2);
+//          }
+//        },
+//        cop3() {
+//          let peo3=this.formValidate.unitManger;
+//          if(Number(peo3)!=0){
+//            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo3);
+//          }
+//        },
         handleSubmit () {
             const t = this
             console.log(t.formValidate._mt, "empnhNation1234");
@@ -769,7 +801,41 @@ export default {
         },
     },
     watch: {
-
+//      "formValidate.unitManger":function unitManger(val){
+//          this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitDirec)+Number(this.formValidate.unitStaff)+Number(this.formValidate.unitPtstaff)
+//      },//经理编制
+//      unitDirec(val,oldval){
+//         this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitManger)+Number(this.formValidate.unitStaff)+Number(this.formValidate.unitPtstaff)
+//      },//主管编制
+//      unitStaff(val,oldval){
+//        this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitManger)+Number(this.formValidate.unitDirec)+Number(this.formValidate.unitPtstaff)
+//      },//员工编制
+//      unitPtstaff(val,oldval){
+//        this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitManger)+Number(this.formValidate.unitDirec)+Number(this.formValidate.unitStaff)
+//      },//驻厂员工编制
+      formValidate: {
+        handler(newValue, oldValue) {
+          console.log(newValue,"newValue");
+          console.log(oldValue,"oldValue");
+          console.log(newValue.unitManger,"newValue.unitManger");
+          console.log(oldValue.unitManger,"oldValue.unitManger");
+          if(newValue.unitManger !== oldValue.unitManger){
+            alert(1)
+            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
+          }
+          if(newValue.unitPtstaff !== oldValue.unitPtstaff){
+            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
+          }
+          if(newValue.unitDirec !== oldValue.unitDirec){
+            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
+          }
+          if(newValue.unitStaff !== oldValue.unitStaff){
+            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
+          }
+        },
+//        immediate: true,
+        deep: true
+      }
     },
 }
 </script>
