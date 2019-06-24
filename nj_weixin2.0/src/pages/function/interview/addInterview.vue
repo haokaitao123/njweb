@@ -265,8 +265,7 @@ export default {
                 relibMobile: "",            // 手机号码
                 relibFilldate: "请选择",     // 面到时间 
                 relibInviteman: "",       // 招聘者id
-                relibFirstus: window.localStorage.getItem('empId'),  //申请人id
-                //empId: "",							
+                relibFirstus: window.localStorage.getItem('empId'),  //申请人id				
                 note: ""                    // 备注
             },
             recruiterDis: '请选择',
@@ -288,6 +287,7 @@ export default {
     },
     verify: {
         form: {
+            relibApplypost: "required",
             relibName: "required",
             relibGender: "required",
             relibMobile: ["required", "mobile"],
