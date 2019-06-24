@@ -8,6 +8,9 @@
 					&nbsp;{{titleName}}
 				</p>
 				<Row>
+          <Input placeholder="请输入员工姓名"
+            style="width: 200px"
+            v-model="empnhName" />
 					<Button class="btns" v-for="(item, index) in btns" :key="index" :type="item.btn_id === 'button_del'||item.btn_id === 'button_blacklist' ? 'error':'primary'" @click="btnFunction(item.btn_id)">{{item.btn_title}}</Button>
 					<div class="moditySelect">
 						<Dropdown>
@@ -87,6 +90,7 @@
 				titleName: '',
 				loading: "",
 				curStep: '',
+        empnhName: '',
 				flowStep: {
 					width: 65,
 					title: '步骤',
@@ -265,6 +269,10 @@
 			},
 			btnFunction(btnId) {
 				console.log(1)
+        if(btnId === 'button_opt_view') {
+          const t = this;
+          t.getData(1);
+        }
 				if(btnId === 'button_add') {
 					this.stepId = '0'
 					this.stepState = ''
@@ -402,14 +410,19 @@
 				t.loading = true;
 				const rcdata = {
 					curStep: t.curStep,
-					flowId: t.flowId
+					flowId: t.flowId,
+          empnhName :t.empnhName
 				};
 				var rcvdata = "";
 				if(rcdata.curStep === "") {
-					rcvdata = ""
+				  let empName = {
+				     empnhName :t.empnhName
+          }
+          rcvdata = JSON.stringify(empName)
 				} else {
 					rcvdata = JSON.stringify(rcdata)
 				}
+
 				getDataLevelUserLogin({
 					_mt: 'platAutoLayoutGetFlowList.getFlowSta',
 					sort: t.sort,
@@ -554,25 +567,25 @@
 	.table-form {
 		margin: 10px 0;
 	}
-	
+
 	.margin-right-10 {
 		margin-right: 10px;
 	}
-	
+
 	.fade-enter-active,
 	.fade-leave-active {
 		transition: opacity 0.2s;
 	}
-	
+
 	.fade-enter,
 	.fade-leave-to {
 		opacity: 0;
 	}
-	
+
 	.btns {
 		margin-right: 5px;
 	}
-	
+
 	.table-form {
 		margin-top: 10px;
 		.ivu-table {
@@ -623,7 +636,7 @@
 			}
 		}
 	}
-	
+
 	.moditySelect {
 		display: inline-block;
 	}
