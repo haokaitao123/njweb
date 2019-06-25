@@ -10,6 +10,7 @@
                 <Row>
                     <Input placeholder="请输入员工姓名"
                            style="width: 200px"
+                           @on-enter="enterEvent"
                            v-model.trim="empnhName" />
                     <Button class="btns"
                             v-for="(item, index) in btns"
@@ -314,6 +315,12 @@ export default {
                 if (data[i].className !== '') {
                     this.step.push(data[i].key)
                 }
+            }
+        },
+        //enter事件
+        enterEvent (e) {
+            if (e.target.value != '') {
+                this.getData(1)
             }
         },
         btnFunction (btnId) {
