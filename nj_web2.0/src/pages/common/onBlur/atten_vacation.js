@@ -4,7 +4,6 @@ const atten_vacation = {
   },
   vacDay_set(t) {
     //如没勾选假后补办,开始日期不得小于[当天日期+请假天数]
-    debugger;
     if (t.valueMap.vacDay && t.$refs[t.valueMap.vacDay][0].formDataSubmit.vacDay > 0) {
       if (t.$refs[t.valueMap.vacIsreapply][0].formDataSubmit.vacIsreapply === '0') {
         var nowDate = new Date() //当前时间
