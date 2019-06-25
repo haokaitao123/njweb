@@ -9,10 +9,10 @@
         </p>
         <Row>
            <span @dblclick="dbHCompany">
-               <Input v-model="plsimnpCompanyDis" style="width: 190px" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payMonPeriod.plsimnpCompanyDis')"  @on-click="selectHCompany"/>
+               <Input v-model="plsimnpCompanyDis" style="width: 190px" @on-enter="getData(1)" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payMonPeriod.plsimnpCompanyDis')"  @on-click="selectHCompany"/>
           </span>
           <span @dblclick="clearFyperiod">
-               <Input v-model="plsimnpPeriodDis" style="width: 190px" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payMonPeriod.plsimnpPeriodDis')"  @on-click="pickFyperiod"/>
+               <Input v-model="plsimnpPeriodDis" style="width: 190px" @on-enter="getData(1)" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payMonPeriod.plsimnpPeriodDis')"  @on-click="pickFyperiod"/>
           </span>
           <Select v-model="plsimnpSalaryset" @on-change="getData(1)" style="width: 190px" :placeholder="$t('lang_payroll.payMonPeriod.plsimnpSalarysetDis')">
             <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index" >{{item.payss}}</Option>

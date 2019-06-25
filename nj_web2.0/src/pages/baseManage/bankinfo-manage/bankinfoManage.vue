@@ -8,9 +8,9 @@
           &nbsp;{{$t('lang_baseManage.baseBankinfo.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_baseManage.baseBankinfo.bankCodeDis')" style="width: 200px" v-model="bankCode"/>
-          <Input :placeholder="$t('lang_baseManage.baseBankinfo.banknameDis')" style="width: 200px" v-model="bankCname"/>
-          <Input :placeholder="$t('lang_baseManage.baseBankinfo.bankSwiftcodeDis')" style="width: 200px" v-model="bankSwiftcode"/>
+          <Input :placeholder="$t('lang_baseManage.baseBankinfo.bankCodeDis')" style="width: 200px"  @on-enter="enterEvent"  v-model="bankCode"/>
+          <Input :placeholder="$t('lang_baseManage.baseBankinfo.banknameDis')" style="width: 200px"  @on-enter="enterEvent"  v-model="bankCname"/>
+          <Input :placeholder="$t('lang_baseManage.baseBankinfo.bankSwiftcodeDis')" style="width: 200px"  @on-enter="enterEvent" v-model="bankSwiftcode"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -78,7 +78,7 @@
             key: 'bankCode',
             sortable: 'custom',
             width: 220,
-           
+
           },
           {
             title: this.$t('lang_baseManage.baseBankinfo.bankCityName'),
@@ -165,6 +165,12 @@
       this.getData(1)
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
       getData(page) {
         const t = this
         if (page) {

@@ -20,7 +20,7 @@
           <Select v-model="pltpIskey" clearable  style="width: 130px;" :placeholder="$t('lang_payroll.payPlantemplate.pltpIskeyDis')">
             <Option :value="item.paramCode" v-for="(item,index) in YesOrNoType" :key="index">{{item.paramInfoCn}}</Option>
           </Select>
-          <Input v-model="pltpTaskshort" clearable  style="width: 130px;" :placeholder="$t('lang_payroll.payPlantemplate.pltpTaskshortDis')"></Input>
+          <Input v-model="pltpTaskshort" clearable  @on-enter="getData(1)" style="width: 130px;" :placeholder="$t('lang_payroll.payPlantemplate.pltpTaskshortDis')"></Input>
           <span style="margin: 5px;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>

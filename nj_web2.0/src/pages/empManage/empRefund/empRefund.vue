@@ -13,13 +13,14 @@
               <Row>
                 <Input placeholder="请输入员工姓名"
                        style="width: 200px"
+                       @on-enter="enterEvent"
                        v-model="empnhName"/>
                 <span @dblclick="cleardeptId()">
               <Input
                 v-model="unitFname"
                 style="width: 200px"
                 icon="search"
-
+                @on-enter="enterEvent"
                 :readonly="true"
                 placeholder="请选择部门"
                 @on-click="pickDeptData"
@@ -178,7 +179,7 @@
             type: 'selection',
             width: 54,
             align: 'center',
-           
+
           },
           {
             title: "员工姓名",
@@ -370,6 +371,12 @@
       this.search();
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
       changemodity(res){
         this.tableselected = [];
         this.page = 1

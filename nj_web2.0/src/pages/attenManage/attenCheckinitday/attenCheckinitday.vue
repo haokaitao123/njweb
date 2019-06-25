@@ -11,8 +11,10 @@
                     <Row>
                     	    <Input v-model="searchParams.empnhName"
                               placeholder="请输入员工姓名"
+                                 @on-enter="enterEvent"
                           style="width: 200px"/>
                           <Input v-model="searchParams.unitFname"
+                                 @on-enter="enterEvent"
                              placeholder="请输入组织名称" style="width: 200px"/>
                           <DatePicker type="date"
                                       v-model="searchParams.checkWktm"
@@ -62,7 +64,7 @@
         </transition>
         <!--搜索 弹出选择框  -->
         <transition name="fade">
-        	
+
         </transition>
     </div>
 </template>
@@ -134,11 +136,11 @@ checkWktm: "",
             table_height:document.body.offsetHeight - 280,
             typeCode: "",
             //弹出选择框
-            
+
         };
     },
     components: {
-    	
+
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -160,9 +162,15 @@ checkWktm: "",
     mounted () {
         //列表字段存储
         this.getColumns();
-        
+
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         //获取列表项字段
         getColumns () {
             this.$store.commit('commonPage/setColumns', this.columns)
@@ -239,14 +247,14 @@ checkWktm: "",
                 typeCode: t.typeCode
             }).then(res => {
                 if (isSuccess(res, t)) {
-                	
+
                 }
             })
                 .catch(() => {
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
-        
+
     }
 };
 </script>

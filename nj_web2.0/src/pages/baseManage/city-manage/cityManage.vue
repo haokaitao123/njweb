@@ -15,8 +15,8 @@
           </Col>
           <Col span="20" style="width:83.33333333% !important;">
           <Row>
-            <Input :placeholder="$t('lang_baseManage.baseCity.cityNameDis')" style="width: 200px" v-model="cityName"/>
-            <Input :placeholder="$t('lang_baseManage.baseCity.cityCode1Dis')" style="width: 200px" v-model="cityCode1"/>
+            <Input :placeholder="$t('lang_baseManage.baseCity.cityNameDis')"  @on-enter="enterEvent" style="width: 200px" v-model="cityName"/>
+            <Input :placeholder="$t('lang_baseManage.baseCity.cityCode1Dis')"  @on-enter="enterEvent" style="width: 200px" v-model="cityCode1"/>
             <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
             <Dropdown>
               <Button type="primary">
@@ -220,6 +220,12 @@
       this.getTree()
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
       getData(id, page) {
         const t = this
         if (page) {

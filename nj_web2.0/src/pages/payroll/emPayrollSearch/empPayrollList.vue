@@ -9,16 +9,16 @@
         </p>
         <Row>
            <span @dblclick="dbPeriod">
-               <Input v-model="period" style="width: 160px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAccount.paccPeriodDis')"
+               <Input v-model="period" style="width: 160px" icon="search" @on-enter="getData(1)" :readonly="true" :placeholder="$t('lang_payroll.payAccount.paccPeriodDis')"
                       @on-click="pickFyperiod"/>
           </span>
           <Select v-model="paccSalaryset" clearable style="width: 160px"  :placeholder="$t('lang_payroll.payAccount.paccSalarysetDis')">
             <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index" >{{item.payss}}</Option>
           </Select>
           <span @dblclick="dbHCompany">
-               <Input v-model="pacemCompanyDis" style="width: 160px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAdd.pladCompanyDis')"  @on-click="selectHCompany"/>
+               <Input v-model="pacemCompanyDis" style="width: 160px" icon="search" @on-enter="getData(1)" :readonly="true" :placeholder="$t('lang_payroll.payAdd.pladCompanyDis')"  @on-click="selectHCompany"/>
           </span>
-          <Input v-model="pacemCname" style="width: 160px" :placeholder="$t('lang_payroll.payAccEmp.pacemCnameOrNum')" />
+          <Input v-model="pacemCname" style="width: 160px" @on-enter="getData(1)" :placeholder="$t('lang_payroll.payAccEmp.pacemCnameOrNum')" />
           <span style="margin: 0;">
             <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
           </span>

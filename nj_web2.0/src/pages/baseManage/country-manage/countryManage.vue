@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_baseManage.baseCountry.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_baseManage.baseCountry.countryCnameDis')" style="width: 200px" v-model="countryCname"/>
-          <Input :placeholder="$t('lang_baseManage.baseCountry.countryEnameDis')" style="width: 200px" v-model="countryEname"/>
+          <Input :placeholder="$t('lang_baseManage.baseCountry.countryCnameDis')"  style="width: 200px"  @on-enter="enterEvent" v-model="countryCname"/>
+          <Input :placeholder="$t('lang_baseManage.baseCountry.countryEnameDis')" style="width: 200px"  @on-enter="enterEvent" v-model="countryEname"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -147,6 +147,12 @@
       this.getData(1)
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
       refresh() {
         this.getData(1)
       },

@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_organization.orgcostcenter.title')}}
         </p>
         <Row>
-          <Input placeholder="请输入成本中心编码" style="width: 200px" v-model="costCode"/>
-          <Input placeholder="请输入成本中心名称" style="width: 200px" v-model="costName"/>
+          <Input placeholder="请输入成本中心编码" style="width: 200px" @on-enter="enterEvent" v-model="costCode"/>
+          <Input placeholder="请输入成本中心名称" style="width: 200px" @on-enter="enterEvent" v-model="costName"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
@@ -112,6 +112,12 @@
       this.getData(1)
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
       getData(page) {
         const t = this
         if (page) {

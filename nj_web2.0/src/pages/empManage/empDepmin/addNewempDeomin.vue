@@ -176,11 +176,11 @@
           note: '',
         },
         ruleValidate: {
-            deptId: [ 
+            deptId: [
                  { required: true, message: '请选择部门', trigger: 'change' }
              ],
           depPost: [
-              
+
             {
               required: true,
               message: "请选择岗位",

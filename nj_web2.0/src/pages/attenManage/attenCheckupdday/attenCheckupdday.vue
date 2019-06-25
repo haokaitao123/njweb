@@ -10,9 +10,9 @@
                     <Col span="24">
                     <Row>
                     	    <Input v-model="searchParams.empnhName"
-                              placeholder="请输入员工姓名" style="width: 200px"/>
+                              placeholder="请输入员工姓名" @on-enter="enterEvent" style="width: 200px"/>
                           <Input v-model="searchParams.unitFname"
-                             placeholder="请输入组织名称" style="width: 200px"/>
+                             placeholder="请输入组织名称" @on-enter="enterEvent" style="width: 200px"/>
 <!--                          <DatePicker type="date"
                               v-model="searchParams.checkWktm"
                               placeholder="请选择工作日期"
@@ -158,6 +158,12 @@ export default {
         this.getSelect();
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         //获取列表项字段
         getColumns () {
             this.$store.commit('commonPage/setColumns', this.columns)
