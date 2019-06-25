@@ -11,7 +11,7 @@
             <template>
               <div class="table">
                 <span @dblclick="clearproType('1')">
-                 <Input v-model="procTypeDis" style="width: 200px" icon="search" :readonly="true"  placeholder="请选择流程类型"  @on-click="pickproType()"/>
+                 <Input v-model="procTypeDis" style="width: 200px" icon="search" :readonly="true"  @on-enter="enterEvent"  placeholder="请选择流程类型"  @on-click="pickproType()"/>
                 </span>
                 <!-- 页面中调用公共按钮组件标签<btnList> -->
                 <!-- 调用公共按钮组件方法 -->
@@ -121,7 +121,7 @@
             key: 'procTypeDis',
             sortable: 'custom',
             width: 220,
-           
+
           },
           {
             title: '审批步骤',
@@ -242,6 +242,12 @@
       }
   },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
       getSelect() {
         const t = this;
         getDataLevelUserLogin2({

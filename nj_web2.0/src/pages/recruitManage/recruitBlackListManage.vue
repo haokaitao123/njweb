@@ -10,8 +10,8 @@
           </p>
           <Row>
             <!--查询项 v-model中放查询变量-->
-            <Input placeholder="请输入求职者姓名" style="width: 200px" v-model="recName"/>
-            <Input placeholder="请输入证件号码" style="width: 200px" v-model="recIdenno"/>
+            <Input placeholder="请输入求职者姓名" style="width: 200px" @on-enter="enterEvent" v-model="recName"/>
+            <Input placeholder="请输入证件号码" style="width: 200px" @on-enter="enterEvent" v-model="recIdenno"/>
 
             <!--按钮 @click中放方法() 无需变更-->
             <btnList
@@ -181,7 +181,7 @@ export default {
 
           width: 220
         }
-        
+
       ],
       tableBtn: {
         title: "操作",
@@ -297,6 +297,12 @@ export default {
     t.openPick = true;
   },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.search()
+      }
+    },
     // 查询方法
     getData(page) {
       const t = this;

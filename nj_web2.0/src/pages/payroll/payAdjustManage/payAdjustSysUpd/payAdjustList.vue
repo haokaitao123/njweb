@@ -9,13 +9,13 @@
         </p>
         <Row>
         <span @dblclick="dbHCompany">
-               <Input v-model="plajCompanyDis" style="width: 160px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAdjust.plajCompanyDis')"  @on-click="selectHCompany"/>
+               <Input v-model="plajCompanyDis" style="width: 160px" @on-enter="getData(1)" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAdjust.plajCompanyDis')"  @on-click="selectHCompany"/>
           </span>
           <span @dblclick="clearDepart">
-               <Input v-model="plajDeptDis" style="width: 160px" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payAdjust.plajDeptDis')"  @on-click="pickDepart"/>
+               <Input v-model="plajDeptDis" style="width: 160px" @on-enter="getData(1)" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payAdjust.plajDeptDis')"  @on-click="pickDepart"/>
           </span>
-          <Input v-model="plajEmpworkno" style="width: 160px;" :placeholder="$t('lang_payroll.payAdjust.plajEmpworknoDis')"></Input>
-          <Input v-model="plajCname" style="width: 160px;" :placeholder="$t('lang_payroll.payAdjust.plajCnameDis')"></Input>
+          <Input v-model="plajEmpworkno" style="width: 160px;" @on-enter="getData(1)" :placeholder="$t('lang_payroll.payAdjust.plajEmpworknoDis')"></Input>
+          <Input v-model="plajCname" style="width: 160px;" @on-enter="getData(1)" :placeholder="$t('lang_payroll.payAdjust.plajCnameDis')"></Input>
           <Dropdown>
             <Button type="primary">
               {{select}}

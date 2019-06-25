@@ -192,7 +192,7 @@ export default {
         }
 
         return {
-            openPickUser: false, //员工信息默认false 隐藏  
+            openPickUser: false, //员工信息默认false 隐藏
             spinShow: false,
             type: "",
             distype: false,
@@ -290,6 +290,7 @@ export default {
         console.log(this.logType, 'logType')
     },
     methods: {
+
         getData (id) {
             const t = this;
             t.spinShow = true

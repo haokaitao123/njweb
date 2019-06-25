@@ -12,13 +12,13 @@
             <!--<Option :value="item.paramCode" v-for="(item,index) in bussourceType" :key="index">{{item.paramInfoCn}}</Option>-->
           <!--</Select>-->
           <span @dblclick="dbHCompany">
-               <Input v-model="pledCompanyDis" style="width: 190px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payEnd.pledCompanyDis')"  @on-click="selectHCompany"/>
+               <Input v-model="pledCompanyDis" style="width: 190px" @on-enter="getData(1)" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payEnd.pledCompanyDis')"  @on-click="selectHCompany"/>
           </span>
           <span @dblclick="clearDepart">
-               <Input v-model="pledDeptDis" style="width: 190px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payEnd.pledDeptDis')"  @on-click="pickDepart"/>
+               <Input v-model="pledDeptDis" style="width: 190px" icon="search" @on-enter="getData(1)" :readonly="true" :placeholder="$t('lang_payroll.payEnd.pledDeptDis')"  @on-click="pickDepart"/>
           </span>
-          <Input v-model="pledEmpworkno"   style="width: 190px;" :placeholder="$t('lang_payroll.payEnd.pledEmpworknoDis')"></Input>
-          <Input v-model="pledCname"   style="width: 190px;" :placeholder="$t('lang_payroll.payEnd.pledCnameDis')"></Input>
+          <Input v-model="pledEmpworkno"   style="width: 190px;" @on-enter="getData(1)" :placeholder="$t('lang_payroll.payEnd.pledEmpworknoDis')"></Input>
+          <Input v-model="pledCname"   style="width: 190px;" @on-enter="getData(1)" :placeholder="$t('lang_payroll.payEnd.pledCnameDis')"></Input>
           <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
           <Button type="primary" @click="handSubmit">{{$t('button.subm')}}</Button>
         </Row>

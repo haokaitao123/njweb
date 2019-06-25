@@ -28,6 +28,7 @@
                                 <span @dblclick="cleardepPost('1')">
                                     <Input v-model="depMoney"
                                            placeholder="请输入最低押金"
+                                           @on-enter="enterEvent"
                                            style="width: 200px"></Input>
                                 </span>
                                 <!-- 页面中调用公共按钮组件标签<btnList> -->
@@ -291,6 +292,12 @@ export default {
         }
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         // 查询方法
         getData (id, page) {
             const t = this

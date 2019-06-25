@@ -9,7 +9,7 @@
         </p>
         <Row>
           <span @dblclick="dbHCompany">
-               <Input v-model="pcgCompanyName" style="width: 160px" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payCompConfig.pcgCompanyDis')"  @on-click="selectHCompany"/>
+               <Input v-model="pcgCompanyName" style="width: 160px" @on-enter="getData(1)" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payCompConfig.pcgCompanyDis')"  @on-click="selectHCompany"/>
           </span>
           <Select v-model="pcgEmptype" clearable style="width: 160px" :placeholder="$t('lang_payroll.payCompConfig.pcgEmptypeDis')" >
             <Option :value="item.paramCode" v-for="(item,index) in selectEmptype" :key="index">{{item.paramInfoCn}}</Option>

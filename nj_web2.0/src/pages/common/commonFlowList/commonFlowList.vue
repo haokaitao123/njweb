@@ -10,6 +10,7 @@
 				<Row>
           <Input placeholder="请输入员工姓名"
             style="width: 200px"
+                 @on-enter="enterEvent"
             v-model="empnhName" />
 					<Button class="btns" v-for="(item, index) in btns" :key="index" :type="item.btn_id === 'button_del'||item.btn_id === 'button_blacklist' ? 'error':'primary'" @click="btnFunction(item.btn_id)">{{item.btn_title}}</Button>
 					<div class="moditySelect">
@@ -267,6 +268,12 @@
 					}
 				}
 			},
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
 			btnFunction(btnId) {
 				console.log(1)
         if(btnId === 'button_opt_view') {

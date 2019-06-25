@@ -13,9 +13,11 @@
               <Row>
                 <Input placeholder="请输入员工姓名"
                        style="width: 200px"
+                       @on-enter="enterEvent"
                        v-model="empnhName"/>
                 <Input placeholder="请输入证件号码"
                        style="width: 200px"
+                       @on-enter="enterEvent"
                        v-model="empnhIdno"/>
                 <!--状态选择框-->
                 <btnList :btnData="btnData"   :FlowNode="FlowNode" @buttonExport="expData"
@@ -155,7 +157,7 @@
             type: 'selection',
             width: 54,
             align: 'center',
-            
+
           },
           {
             title: "员工姓名",
@@ -290,6 +292,11 @@
         this.page = 1
         this.state = res.funStatecode
         this.getData()
+      },
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData()
+        }
       },
       // 勾选数据方法 无需更改
       selectedtable(selection) {

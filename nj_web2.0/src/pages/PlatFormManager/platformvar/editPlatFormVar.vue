@@ -13,7 +13,7 @@
         <Row>
           <Col span="10" offset="1">
             <FormItem :label="$t('lang_root.sysVar.platVarCode')"  prop="platVarCode">
-            <Input v-model="formValidate.platVarCode" :placeholder="$t('lang_root.sysVar.p_platVarCode')"></Input>
+            <Input v-model="formValidate.platVarCode" :placeholder="$t('lang_root.sysVar.p_platVarCode')" ></Input>
           </FormItem>
           </Col>
           <Col span="10" offset="1">

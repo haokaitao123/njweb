@@ -9,7 +9,7 @@
           &nbsp;{{$t('lang_user.rootuser.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_user.rootuser.placeholdername')" style="width: 200px" v-model="name"/>
+          <Input :placeholder="$t('lang_user.rootuser.placeholdername')" style="width: 200px" @on-enter="enterEvent"  v-model="name"/>
           <Dropdown>
             <Button type="primary">
               {{statusDis}}
@@ -192,6 +192,12 @@
       this.getSelect()
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
       getData(page) {
         const t = this
         if (page) {

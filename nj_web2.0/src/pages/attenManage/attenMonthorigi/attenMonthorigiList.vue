@@ -11,7 +11,8 @@
                     <Row>
                     	<Input v-model="searchParams.empnhName"
                             placeholder="请输入员工姓名"
-                            style="width: 200px"/> 
+                             @on-enter="enterEvent"
+                            style="width: 200px"/>
 
                         <DatePicker
                         type="month"
@@ -61,7 +62,7 @@
         </transition>
         <!--搜索 弹出选择框  -->
         <transition name="fade">
-        	
+
         </transition>
     </div>
 </template>
@@ -137,7 +138,7 @@ export default {
             },
             typeCode: "",
             table_height:document.body.offsetHeight - 280,
-            //弹出选择框           
+            //弹出选择框
         };
     },
     components: {
@@ -164,6 +165,12 @@ export default {
         this.getColumns();
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         //获取列表项字段
         getColumns () {
             this.$store.commit('commonPage/setColumns', this.columns)
@@ -176,7 +183,7 @@ export default {
         search () {
             if (this.searchParams.atmorPeriod !== '') {
        			this.searchParams.atmorPeriod = new Date(this.searchParams.atmorPeriod).format('yyyy-MM')
-            } 
+            }
             this.$store.commit('commonPage/setParams', this.searchParams)
             this.$refs.commonPage.search();
         },
@@ -189,7 +196,7 @@ export default {
             t.openUpdate = true;
             t.index = index;
             t.$refs.update.disabled = false;
-            
+
             if (logType === '修改' || logType === "查看") {
                 t.$refs.update.getData(id);
             }
@@ -241,14 +248,14 @@ export default {
                 typeCode: t.typeCode
             }).then(res => {
                 if (isSuccess(res, t)) {
-                	
+
                 }
             })
                 .catch(() => {
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
-        
+
     }
 };
 </script>

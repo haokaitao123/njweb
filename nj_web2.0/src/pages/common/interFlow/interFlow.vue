@@ -10,16 +10,16 @@
         </p>
       <Row>
         <i-col span="24">
-          {{$t('lang_communication.workorderSearch.cmwdCode')}}：<Input :placeholder="$t('lang_communication.workorderSearch.cmwdCodeDis')" v-model="cmwdCode" style="width: 80px;"  />
-          {{$t('lang_communication.myWorkOrderNew.cmwdkeyWord')}}：<Input :placeholder="$t('lang_communication.myWorkOrderNew.cmwdkeyWordDis')"   v-model="cmwdkeyWord" style="width: 80px;"  />
-          {{$t('lang_communication.interFlow.flowWorkno')}}：<Input :placeholder="$t('lang_communication.interFlow.flowWorknoDis')"   v-model="flowWorkno" style="width: 80px;"  />
+          {{$t('lang_communication.workorderSearch.cmwdCode')}}：<Input :placeholder="$t('lang_communication.workorderSearch.cmwdCodeDis')" @on-enter="enterEvent" v-model="cmwdCode" style="width: 80px;"  />
+          {{$t('lang_communication.myWorkOrderNew.cmwdkeyWord')}}：<Input :placeholder="$t('lang_communication.myWorkOrderNew.cmwdkeyWordDis')"   v-model="cmwdkeyWord" @on-enter="enterEvent" style="width: 80px;"  />
+          {{$t('lang_communication.interFlow.flowWorkno')}}：<Input :placeholder="$t('lang_communication.interFlow.flowWorknoDis')"  @on-enter="enterEvent"  v-model="flowWorkno" style="width: 80px;"  />
           <span @dblclick="dbHCompany">
-               {{$t('lang_communication.interFlow.pladCompany')}}<Input v-model="pladCompanyDis" :placeholder="$t('lang_communication.interFlow.pladCompanyDis')" style="width: 80px" icon="search" :readonly="true"   @on-click="selectHCompany"/>
+               {{$t('lang_communication.interFlow.pladCompany')}}<Input v-model="pladCompanyDis" :placeholder="$t('lang_communication.interFlow.pladCompanyDis')" style="width: 80px" icon="search" :readonly="true" @on-enter="enterEvent"   @on-click="selectHCompany"/>
           </span>
           <span @dblclick="clearDepart">
-              {{$t('lang_communication.interFlow.pladDept')}}<Input v-model="pladDeptDis" style="width: 80px" icon="search" :readonly="true"  :placeholder="$t('lang_communication.interFlow.pladDeptDis')"  @on-click="pickDepart"/>
+              {{$t('lang_communication.interFlow.pladDept')}}<Input v-model="pladDeptDis" style="width: 80px" icon="search" :readonly="true"  :placeholder="$t('lang_communication.interFlow.pladDeptDis')" @on-enter="enterEvent"  @on-click="pickDepart"/>
           </span>
-          {{$t('lang_communication.interFlow.flowCName')}}：<Input :placeholder="$t('lang_communication.interFlow.flowCNameDis')"   v-model="flowCName" style="width: 80px;"  />
+          {{$t('lang_communication.interFlow.flowCName')}}：<Input :placeholder="$t('lang_communication.interFlow.flowCNameDis')" @on-enter="enterEvent"  v-model="flowCName" style="width: 80px;"  />
           <Button type="primary" @click="search">{{$t('button.ser')}}</Button>
         </i-col>
       </Row>
@@ -313,6 +313,12 @@
       searchDept,
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
       closeTest() {
         this.openTestUpd = false
       },

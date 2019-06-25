@@ -13,6 +13,7 @@
                 <Input
                   :placeholder="$t('lang_organization.orgpost.postFCOrENameInp')"
                   style="width: 200px"
+                  @on-enter="enterEvent"
                   v-model="postFname"
                 />
                 <Select
@@ -361,13 +362,13 @@ FlowNode() {
     t.$refs.searchOrgframe.getData(this.params);
     t.openPick = true;
   },
-  created () { 
+  created () {
        if (this.pageShow !== "") {
             this.columns.push(this.tableBtn);
             this.tableOperate = true
         }
     },
-  watch:{ 
+  watch:{
        pageShow (val) {
             if (val ==="" && this.tableOperate === true) {
                 this.columns.pop();
@@ -385,6 +386,12 @@ FlowNode() {
     this.postDfpslevelSelect();
   },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.search()
+      }
+    },
     //状态
     modityChange(res) {
       this.tableselected = [];

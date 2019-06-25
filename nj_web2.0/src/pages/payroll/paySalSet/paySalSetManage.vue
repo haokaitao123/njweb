@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_payroll.paySalSet.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_payroll.paySalSet.payssCodeDis')" style="width: 200px" v-model="payssCode"/>
-          <Input :placeholder="$t('lang_payroll.paySalSet.payssCNDis')" style="width: 200px" v-model="payssCN"/>
+          <Input :placeholder="$t('lang_payroll.paySalSet.payssCodeDis')" @on-enter="getData(1)" style="width: 200px" v-model="payssCode"/>
+          <Input :placeholder="$t('lang_payroll.paySalSet.payssCNDis')" @on-enter="getData(1)" style="width: 200px" v-model="payssCN"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp('',$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
