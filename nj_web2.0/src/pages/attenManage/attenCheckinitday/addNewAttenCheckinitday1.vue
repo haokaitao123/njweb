@@ -137,7 +137,7 @@
     </div>
     <!--一个弹出框一个transition-->
     <transition name="fade">
-      <searchEmpMaster v-show="openEmpMaster" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
+      <searchEmpMaster v-show="openEmpMaster" @closeModal="closeEmp" @inputModal="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
     </transition>
     <!--<transition name="fade">
         <searchCity v-show="openPick"
