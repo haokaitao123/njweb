@@ -8,7 +8,7 @@
 					&nbsp;待审批项
 				</p>
 				<Row :style="{height: rowHeight + 'px'}" class="divContent">
-					<div style="height: 524px;">
+					<div style="height: 85%;overflow:auto;">
 						<Spin fix size="large" v-if="isSpin">
 							<!--<div>数据加载中...</div>-->
 						</Spin>
@@ -374,11 +374,10 @@
 	}
 	
 	.topBtn {
-		position: fixed;
-		bottom: 10px;
-		left: 241px;
+    display: flex;
+    height: 15%;
 		width: 88.5%;
-		height: 100px;
+    align-items: center;
 	}
 	
 	.chooseAll {
