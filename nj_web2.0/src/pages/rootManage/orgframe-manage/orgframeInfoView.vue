@@ -15,8 +15,8 @@
             </div>
             <div class="option-main">
                 <Spin size="large"
-              fix
-              v-if="spinShow"></Spin>
+                      fix
+                      v-if="spinShow"></Spin>
                 <Row style="max-height: 420px;overflow-y: auto;"
                      ref="scrollBox">
                     <Form ref="formValidate"
@@ -156,10 +156,10 @@
                             <FormItem label="部门编制"
                                       prop="partEstablish">
                                 <Input v-model="formValidate.partEstablish"
-                                             :disabled="disabled"
-                                             size="default"
-                                             style="width: 290px"
-                                             placeholder="请输入部门编制"></Input>
+                                       :disabled="disabled"
+                                       size="default"
+                                       style="width: 290px"
+                                       placeholder="请输入部门编制"></Input>
                             </FormItem>
                         </i-col>
                         <i-col span="11">
@@ -169,9 +169,8 @@
                                        :disabled="disabled"
                                        size="default"
                                        style="width: 290px"
-
                                        placeholder="请输入经理编制"></Input>
-                              <!--@on-blur="cop()"-->
+                                <!--@on-blur="cop()"-->
                             </FormItem>
                         </i-col>
                         <i-col span="11">
@@ -181,10 +180,9 @@
                                        :disabled="disabled"
                                        size="default"
                                        style="width: 290px"
-
                                        placeholder="请输入主管编制"></Input>
                             </FormItem>
-                          <!--@on-blur="cop1()"-->
+                            <!--@on-blur="cop1()"-->
                         </i-col>
                         <i-col span="11">
                             <FormItem label="员工编制"
@@ -193,22 +191,20 @@
                                        :disabled="disabled"
                                        size="default"
                                        style="width: 290px"
-
                                        placeholder="请输入员工编制"></Input>
                             </FormItem>
-                          <!--@on-blur="cop2()"-->
+                            <!--@on-blur="cop2()"-->
                         </i-col>
                         <i-col span="11">
-                          <FormItem label="驻厂员工编制"
-                                    prop="unitPtstaff">
-                            <Input v-model="formValidate.unitPtstaff"
-                                   :disabled="disabled"
-                                   size="default"
-                                   style="width: 290px"
-
-                                   placeholder="请输入驻厂员工编制"></Input>
-                          </FormItem>
-                          <!--@on-blur="cop3()"-->
+                            <FormItem label="驻厂员工编制"
+                                      prop="unitPtstaff">
+                                <Input v-model="formValidate.unitPtstaff"
+                                       :disabled="disabled"
+                                       size="default"
+                                       style="width: 290px"
+                                       placeholder="请输入驻厂员工编制"></Input>
+                            </FormItem>
+                            <!--@on-blur="cop3()"-->
                         </i-col>
                         <i-col span="11">
                             <FormItem label="系统转正"
@@ -221,7 +217,7 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                     <i-col span="11">
+                        <i-col span="11">
                             <FormItem label="负责人"
                                       prop="empId">
                                 <!--绑定双击清除方法-->
@@ -302,23 +298,23 @@ export default {
 
     data () {
         const numberCheck = (rule, value, numberValCheck) => {
-            	if (value !== '' && value !== undefined) {
-                	if (valid.val_number103(value)) {
-                    		return numberValCheck()
-                	}
-                	return numberValCheck(new Error(rule.message))
-            	}
-           	 numberValCheck()
-            };
+            if (value !== '' && value !== undefined) {
+                if (valid.val_number103(value)) {
+                    return numberValCheck()
+                }
+                return numberValCheck(new Error(rule.message))
+            }
+            numberValCheck()
+        };
         const validatePartEstablish = (rule, value, callback) => {
             if (value === "" || !value) {
                 callback(new Error("请输入部门编制"));
             } else {
-                console.log(value,"value")
-                if (valid.val_number103(value)==false) {
+                console.log(value, "value")
+                if (valid.val_number103(value) == false) {
                     return callback(new Error('请输入正确的数字格式'));
-                }else{
-                    let num = Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff)+ Number(this.formValidate.unitPtstaff)
+                } else {
+                    let num = Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff) + Number(this.formValidate.unitPtstaff)
                     value = Number(value)
                     if (value < num) {
                         callback(new Error("部门已超编,请重新检查部门编制数量"));
@@ -328,20 +324,20 @@ export default {
             }
         };
         const compareTime = (rule, value, callback) => {
-            	if (value === "" || !value) {
-                	callback(new Error("请选择生效日期"));
-            	} else {
-               		 //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
-                	let startTimeNum = (new Date(this.formValidate.unitValdate)).getTime();
-                	let endTimeNum = (new Date(this.formValidate.unitInvdate)).getTime();
-                	if (startTimeNum > endTimeNum) {
-                    		callback(new Error('生效日期不能大于失效日期'))
-                	}
-                	callback()
-           	 }
-            };
+            if (value === "" || !value) {
+                callback(new Error("请选择生效日期"));
+            } else {
+                //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
+                let startTimeNum = (new Date(this.formValidate.unitValdate)).getTime();
+                let endTimeNum = (new Date(this.formValidate.unitInvdate)).getTime();
+                if (startTimeNum > endTimeNum) {
+                    callback(new Error('生效日期不能大于失效日期'))
+                }
+                callback()
+            }
+        };
         return {
-            spinShow:false,
+            spinShow: false,
             type: '',
             distype: false,
             disabled: false,
@@ -364,7 +360,7 @@ export default {
             formValidate: {
                 _mt: 'orgUnits.addOrModifyOrgUnits', //新增接口url
                 unitCode: 'XXXXXX',            //组织编码
-                empId:'',            //负责人
+                empId: '',            //负责人
                 unitType: '',            //组织类型
                 unitFname: '',           //组织名称
                 unitPid: '',             //上级部门
@@ -394,7 +390,7 @@ export default {
             unitPname: '',
             unitCenterName: '',
             unitCityName: '',
-            empnhName:'',
+            empnhName: '',
             params: {
                 _mt: 'baseCity.getPage',
                 sort: 'id',
@@ -404,8 +400,8 @@ export default {
                 funId: '1',
                 logType: '搜索',
                 data: {
-                    "cityIsvalid" : "1",
-                    "cityType":"02city"
+                    "cityIsvalid": "1",
+                    "cityType": "02city"
                 },
             },
             searchCloumns: [
@@ -492,26 +488,26 @@ export default {
                     { required: true, message: "请选择行业", trigger: 'blur' },
                 ],
                 unitValdate: [
-                    { required: true, type: 'date',validator: compareTime, message: "请选择生效日期", trigger: 'change' },
+                    { required: true, type: 'date', validator: compareTime, message: "请选择生效日期", trigger: 'change' },
                 ],
                 partEstablish: [
-                    { required: true, validator: validatePartEstablish, trigger: 'change' },
+                    { required: true, validator: validatePartEstablish, trigger: 'blur' },
                 ],
                 unitManger: [
-                    { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
-                     { required: true,  message: "请输入经理编制", trigger: 'blur' },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: 'blur' },
+                    { required: true, message: "请输入经理编制", trigger: 'blur' },
                 ],
                 unitDirec: [
-                    { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
-                     { required: true,  message: "请输入主管编制", trigger: 'blur' },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: 'blur' },
+                    { required: true, message: "请输入主管编制", trigger: 'blur' },
                 ],
                 unitStaff: [
-                    { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
-                     { required: true,  message: "请输入员工编制", trigger: 'blur' },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: 'blur' },
+                    { required: true, message: "请输入员工编制", trigger: 'blur' },
                 ],
                 unitPtstaff: [
-                  { required: true, validator:numberCheck, message: "请输入正确的格式", trigger: 'change' },
-                   { required: true,  message: "请输入驻厂员工编制", trigger: 'blur' },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: 'blur' },
+                    { required: true, message: "请输入驻厂员工编制", trigger: 'blur' },
                 ],
                 unitSysalig: [
                     { required: true, message: "请选择系统转正", trigger: 'change' },
@@ -540,7 +536,7 @@ export default {
 
     },
     methods: {
-         //上级清除员工选择
+        //上级清除员工选择
         dbclean () {
             const t = this;
             t.empnhName = "";
@@ -583,7 +579,7 @@ export default {
                     t.empnhName = res.data.content[0].empnhName
                     t.formValidate.state = res.data.content[0].state
                     if (id === res.data.content[0].companyId) {
-                      //  t.forbidden = 'disabled'
+                        //  t.forbidden = 'disabled'
                         t.distype = true
                     } else {
                         t.forbidden = null
@@ -593,9 +589,9 @@ export default {
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
             })
-            .finally(() => {
+                .finally(() => {
                     t.spinShow = false
-            });
+                });
         },
         getSelect (type) { //获取下拉列表数据
             const t = this
@@ -626,30 +622,30 @@ export default {
                 })
             })
         },
-//        cop() {
-//        let peo=this.formValidate.unitManger;
-//          if(Number(peo)!=0){
-//            this.formValidate.partEstablish=Number(peo);
-//          }
-//        },
-//        cop1() {
-//        let peo1=this.formValidate.unitDirec;
-//          if(Number(peo1)!=0){
-//            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo1);
-//          }
-//        },
-//        cop2() {
-//          let peo2=this.formValidate.unitStaff;
-//          if(Number(peo2)!=0){
-//            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo2);
-//          }
-//        },
-//        cop3() {
-//          let peo3=this.formValidate.unitManger;
-//          if(Number(peo3)!=0){
-//            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo3);
-//          }
-//        },
+        //        cop() {
+        //        let peo=this.formValidate.unitManger;
+        //          if(Number(peo)!=0){
+        //            this.formValidate.partEstablish=Number(peo);
+        //          }
+        //        },
+        //        cop1() {
+        //        let peo1=this.formValidate.unitDirec;
+        //          if(Number(peo1)!=0){
+        //            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo1);
+        //          }
+        //        },
+        //        cop2() {
+        //          let peo2=this.formValidate.unitStaff;
+        //          if(Number(peo2)!=0){
+        //            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo2);
+        //          }
+        //        },
+        //        cop3() {
+        //          let peo3=this.formValidate.unitManger;
+        //          if(Number(peo3)!=0){
+        //            this.formValidate.partEstablish=Number(this.formValidate.partEstablish)+Number(peo3);
+        //          }
+        //        },
         handleSubmit () {
             const t = this
             console.log(t.formValidate._mt, "empnhNation1234");
@@ -681,7 +677,7 @@ export default {
                                 //     title: this.$t('reminder.suc'),
                                 //     content: this.$t('reminder.addsuccess'),
                                 // })
-                                 this.$Message.success(this.$t("reminder.addsuccess"));
+                                this.$Message.success(this.$t("reminder.addsuccess"));
                                 t.$refs.formValidate.resetFields()
                                 t.$emit('getData', res.data.content[0])
                             } else {
@@ -690,7 +686,7 @@ export default {
                                 //     content: this.$t('reminder.updsuccess'),
                                 // })
                                 t.$refs.formValidate.resetFields()
-                                 this.$Message.success(this.$t("reminder.updsuccess"));
+                                this.$Message.success(this.$t("reminder.updsuccess"));
                                 t.$emit('update', res.data.content[0])
                             }
                         }
@@ -779,9 +775,9 @@ export default {
         /*选择员工*/
         pickEmpData () {
             if (this.forbidden === null && !this.disabled) {
-            const t = this;
-            t.$refs.searchEmpMaster.getData();
-            t.openEmpMaster = true;
+                const t = this;
+                t.$refs.searchEmpMaster.getData();
+                t.openEmpMaster = true;
             }
         },
         closeEmp () {
@@ -801,42 +797,31 @@ export default {
         },
     },
     watch: {
-//      "formValidate.unitManger":function unitManger(val){
-//          this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitDirec)+Number(this.formValidate.unitStaff)+Number(this.formValidate.unitPtstaff)
-//      },//经理编制
-//      unitDirec(val,oldval){
-//         this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitManger)+Number(this.formValidate.unitStaff)+Number(this.formValidate.unitPtstaff)
-//      },//主管编制
-//      unitStaff(val,oldval){
-//        this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitManger)+Number(this.formValidate.unitDirec)+Number(this.formValidate.unitPtstaff)
-//      },//员工编制
-//      unitPtstaff(val,oldval){
-//        this.formValidate.partEstablish = Number(val)+Number(this.formValidate.unitManger)+Number(this.formValidate.unitDirec)+Number(this.formValidate.unitStaff)
-//      },//驻厂员工编制
-      formValidate: {
-        handler(newValue, oldValue) {
-          console.log(newValue,"newValue");
-          console.log(oldValue,"oldValue");
-          console.log(newValue.unitManger,"newValue.unitManger");
-          console.log(oldValue.unitManger,"oldValue.unitManger");
-          if(newValue.unitManger !== oldValue.unitManger){
-            alert(1)
-            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
-          }
-          if(newValue.unitPtstaff !== oldValue.unitPtstaff){
-            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
-          }
-          if(newValue.unitDirec !== oldValue.unitDirec){
-            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
-          }
-          if(newValue.unitStaff !== oldValue.unitStaff){
-            this.formValidate.partEstablish = Number(newValue.unitManger)+Number(newValue.unitPtstaff)+Number(newValue.unitDirec)+Number(newValue.unitStaff)
-          }
+        //经理编制
+        "formValidate.unitManger": function unitManger (val) {
+            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitDirec) && valid.val_number99(this.formValidate.unitStaff) && valid.val_number99(this.formValidate.unitPtstaff)) {
+                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff) + Number(this.formValidate.unitPtstaff)
+            }
         },
-//        immediate: true,
-        deep: true
-      }
-    },
+        //主管编制
+        "formValidate.unitDirec": function unitDirec (val) {
+            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitManger) && valid.val_number99(this.formValidate.unitStaff) && valid.val_number99(this.formValidate.unitPtstaff)) {
+                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitManger) + Number(this.formValidate.unitStaff) + Number(this.formValidate.unitPtstaff)
+            }
+        },
+        //员工编制
+        "formValidate.unitStaff": function unitStaff (val) {
+            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitManger) && valid.val_number99(this.formValidate.unitDirec) && valid.val_number99(this.formValidate.unitPtstaff)) {
+                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitPtstaff)
+            }
+        },
+        //驻厂员工编制
+        "formValidate.unitPtstaff": function unitPtstaff (val) {
+            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitManger) && valid.val_number99(this.formValidate.unitDirec) && valid.val_number99(this.formValidate.unitStaff)) {
+                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff)
+            }
+        },
+    }
 }
 </script>
 <style lang="scss">

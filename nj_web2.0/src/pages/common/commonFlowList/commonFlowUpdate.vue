@@ -1161,16 +1161,10 @@
             position: fixed;
             top: 70px;
             left: 50px;
-            width: 90% ;
-        }
-        @media screen and (max-width: 1024px) {
-            position: fixed;
-            top: 70px;
-            left: 50px;
-            width: 90% ;
+            width: 90% !important;
         }
         @media screen and (min-width: 1025px) and (max-width: 1366px) {
-            width: 900px;
+            width: 900px!important;
         }
 		.ivu-col-offset-1 {
 			@media screen and(max-width: 1024px) {
@@ -1193,7 +1187,7 @@
         }
 		height: 500px;
 		position: relative;
-		overflow-y: auto;
+		overflow-y: scroll;
 		.marginB_10 {
 			margin-bottom: 10px;
 		}
@@ -1244,7 +1238,7 @@
 		@media screen and(max-width: 1024px) {
 			height: 550px;
             top:40px;
-            width:90%;
+            width:90%!important;
 		}
 		@media screen and (min-width: 1025px) and (max-width: 1366px) {
             width: 80%!important;
@@ -1261,7 +1255,7 @@
             @media screen and (min-width: 1367px) and (max-width: 1680px) {
                 width:74.5%;
             }
-			margin-right: 373px;
+			margin-right: 372px;
 			position: static;
 			.approvIdea {
 				@media screen and(max-width: 1024px) {
