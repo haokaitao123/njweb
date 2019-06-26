@@ -40,8 +40,14 @@ import empPayrollList from '@/pages/payroll/emPayrollSearch/empPayrollList'
 import payPromotedList from '@/pages/payroll/payPromotedManage/payPromotedList'
 //项目异动提成
 import payProjchangeList from '@/pages/payroll/payProjchangeManage/payProjchangeList'
-
-
+//项目提成配置
+import payPercentageManage from '@/pages/payroll/payPercentage/payPercentageList'
+//项目成本管理
+import payCostManage from '@/pages/payroll/payCost/payCostList'
+//项目分摊管理
+import payShareManage from '@/pages/payroll/payShare/payShareList'
+// //项目业绩基础信息
+// import payProjbaseManage from '@/pages/payroll/payProjbase/payProjbaseList'
 export default [
     {
         path: 'payProjchangeList',
@@ -183,5 +189,24 @@ export default [
     name: 'SpecialSurtax',
     component: SpecialSurtax,
   },
-
+  {
+    path: 'payPercentageManage',
+    name: 'payPercentageManage',
+    component: payPercentageManage,
+  },
+  {
+    path: 'payCostManage',
+    name: 'payCostManage',
+    component: payCostManage,
+  },
+  {
+    path: 'payShareManage',
+    name: 'payShareManage',
+    component: payShareManage,
+  },
+  // {
+  //   path: 'payProjbaseManage',
+  //   name: 'payProjbaseManage',
+  //   component: payProjbaseManage,
+  // },
 ]
