@@ -9,17 +9,19 @@
         </p>
         <Row>
            <span @dblclick="clearFyperiod">
-               <Input v-model="paccPeriodDis" style="width: 190px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAccount.paccPeriodDis')" @on-click="pickFyperiod"/>
+               <Input v-model="paccPeriodDis" style="width: 190px" icon="search" :readonly="true"
+                      :placeholder="$t('lang_payroll.payAccount.paccPeriodDis')" @on-click="pickFyperiod"/>
           </span>
-          <Select v-model="paccSalaryset" @on-change="getData(1)" style="width: 190px"  :placeholder="$t('lang_payroll.payAccount.paccSalarysetDis')">
-            <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index" >{{item.payss}}</Option>
+          <Select v-model="paccSalaryset" @on-change="getData(1)" style="width: 190px"
+                  :placeholder="$t('lang_payroll.payAccount.paccSalarysetDis')">
+            <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index">{{item.payss}}</Option>
           </Select>
           <Dropdown>
             <Button type="primary">
               {{select}}
               <Icon type="arrow-down-b"></Icon>
             </Button>
-            <DropdownMenu slot="list" >
+            <DropdownMenu slot="list">
               <span @click="selected('',$t('button.all'))">
                   <DropdownItem name="">{{$t('button.all')}}</DropdownItem>
                 </span>
@@ -31,35 +33,59 @@
           <span style="margin: 0;">
             <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
           </span>
-          <Button type="primary" v-show="paccStatus==='01all' || paccStatus==='02accounting' ? true:false" @click="openUp(NaN, $t('button.add'))">{{$t('button.add')}}</Button>
+          <Button type="primary" v-show="paccStatus==='01all' || paccStatus==='02accounting' ? true:false"
+                  @click="openUp(NaN, $t('button.add'))">{{$t('button.add')}}
+          </Button>
           <Button type="error" v-show="paccStatus ==='02accounting' ? true:false" @click="deletemsg">{{$t('button.del')}}</Button>
-          <Button type="primary" v-show="paccStatus==='02accounting' ? true:false" @click="submit('03ToBeConfirmed')" >{{$t('button.submConfirm')}}</Button>
-          <Button type="primary" v-show="paccStatus==='03ToBeConfirmed' ? true:false" @click="submit('04confirmed')" >{{$t('button.confirm')}}</Button>
-          <Button type="primary" v-show="paccStatus==='03ToBeConfirmed' ? true:false" @click="submit('02accounting')" >{{$t('button.back')}}</Button>
-          <Button type="primary" v-show="paccStatus==='04confirmed' && paccRound==='90final' ? true:false" @click="submit('05alreadySealed')" >{{$t('button.seal')}}</Button>
+          <Button type="primary" v-show="paccStatus==='02accounting' ? true:false" @click="submit('03ToBeConfirmed')">
+            {{$t('button.submConfirm')}}
+          </Button>
+          <Button type="primary" v-show="paccStatus==='03ToBeConfirmed' ? true:false" @click="submit('04confirmed')">
+            {{$t('button.confirm')}}
+          </Button>
+          <Button type="primary" v-show="paccStatus==='03ToBeConfirmed' ? true:false" @click="submit('02accounting')">
+            {{$t('button.back')}}
+          </Button>
+          <Button type="primary" v-show="paccStatus==='04confirmed' && paccRound==='90final' ? true:false"
+                  @click="submit('05alreadySealed')">{{$t('button.seal')}}
+          </Button>
         </Row>
         <Row>
-          <RadioGroup v-model="paccStatus" v-for="(item,index) in Calstatus" :key="index" style="margin-top: 5px"  @on-change="getPageByState">
+          <RadioGroup v-model="paccStatus" v-for="(item,index) in Calstatus" :key="index" style="margin-top: 5px"
+                      @on-change="getPageByState">
             <Radio :label="item.paramCode">{{item.paramInfoCn}}</Radio>
           </RadioGroup>
         </Row>
         <row class="table-form" ref="table-form">
-          <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
+          <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable"
+                 @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns"
+                 :data="data"></Table>
         </row>
-        <Row style="display: flex">          <Page :total="total" size="small" :current="page" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=[rows] :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
+        <Row style="display: flex">
+          <Page :total="total" size="small" :current="page" show-elevator show-sizer placement="top"
+                @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=[rows]
+                :page-size-opts="[10, 20, 50, 100]"></Page>
+          <Button type="ghost" size="small" shape="circle" icon="refresh"
+                  style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button>
+        </Row>
       </card>
       </Col>
     </Row>
     <transition name="fade">
-      <searchFyperiod v-show="openFyperiod"  @closeUp="closeFyperiod" @changeinput="inputFyperiod" ref="searchFyperiod"></searchFyperiod>
+      <searchFyperiod v-show="openFyperiod" @closeUp="closeFyperiod" @changeinput="inputFyperiod"
+                      ref="searchFyperiod"></searchFyperiod>
     </transition>
     <transition name="fade">
-      <update v-show="openUpdate" :id="updateId" :logType="logType" :RoundType="RoundType" :Salaryset="Salaryset" :Calstatus="Calstatus"
-              :currencyObj="currencyObj" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray" ref="update"></update>
+      <update v-show="openUpdate" :id="updateId" :logType="logType" :RoundType="RoundType" :Salaryset="Salaryset"
+              :Calstatus="Calstatus"
+              :currencyObj="currencyObj" :index="index" @closeUp="closeUp" @getData="addNewArray" @update="updateArray"
+              ref="update"></update>
     </transition>
     <transition name="fade">
-      <empList v-show="openEmpList" :id="updateId" :logType="logType" :RoundType="RoundType" :Salaryset="Salaryset" :Calstatus="Calstatus"
-               :currencyObj="currencyObj" :index="index" @closeEmp="closeEmp" @getData="addNewArray" @update="updateArray" ref="empList"></empList>
+      <empList v-show="openEmpList" :id="updateId" :logType="logType" :RoundType="RoundType" :Salaryset="Salaryset"
+               :Calstatus="Calstatus"
+               :currencyObj="currencyObj" :index="index" @closeEmp="closeEmp" @getData="addNewArray"
+               @update="updateArray" ref="empList"></empList>
     </transition>
   </div>
 </template>
@@ -67,10 +93,10 @@
   import update from './payDayAccountView'
   import empList from './accountEmpList'
   import searchFyperiod from '../../../components/searchTable/searchFyperiod'
-  import { isSuccess } from '../../../lib/util'
-  import { getDataLevelUserLoginNew, getDataLevelUserLogin } from '../../../axios/axios'
+  import {isSuccess} from '../../../lib/util'
+  import {getDataLevelUserLoginNew, getDataLevelUserLogin} from '../../../axios/axios'
 
-  export default{
+  export default {
     data() {
       return {
         tableheight: document.body.offsetHeight - 300,
@@ -200,8 +226,7 @@
         isSend: false,
       }
     },
-    computed: {
-    },
+    computed: {},
     components: {
       update,
       empList,
@@ -214,42 +239,42 @@
     },
     methods: {
       getData(page) {
-/*        const t = this
-        if (page) {
-          t.page = page
-        }
-        const data = {
-          _mt: 'payAccount.getPage',
-          rows: t.rows,
-          page: t.page,
-          sort: t.sort,
-          order: t.order,
-          logType: this.$t('button.ser'),
-          paccPeriod: t.paccPeriod,
-          paccSalaryset: t.paccSalaryset,
-          paccRound: t.paccRound,
-          paccStatus: t.paccStatus,
-        }
-        // 全部的状态，不需要卡条件
-        if (data.paccStatus === '01all') {
-          data.paccStatus = ''
-        }
-        for (const dat in data) {
-          if (data[dat] === '') {
-            delete data[dat]
-          }
-        }
-        getDataLevelUserLoginNew(data).then((res) => {
-          if (isSuccess(res, t)) {
-            t.data = res.data.content[0].rows
-            t.total = res.data.content[0].records
-          }
-        }).catch(() => {
-          t.$Modal.error({
-            title: this.$t('reminder.err'),
-            content: this.$t('reminder.errormessage'),
-          })
-        })*/
+        /*        const t = this
+                if (page) {
+                  t.page = page
+                }
+                const data = {
+                  _mt: 'payAccount.getPage',
+                  rows: t.rows,
+                  page: t.page,
+                  sort: t.sort,
+                  order: t.order,
+                  logType: this.$t('button.ser'),
+                  paccPeriod: t.paccPeriod,
+                  paccSalaryset: t.paccSalaryset,
+                  paccRound: t.paccRound,
+                  paccStatus: t.paccStatus,
+                }
+                // 全部的状态，不需要卡条件
+                if (data.paccStatus === '01all') {
+                  data.paccStatus = ''
+                }
+                for (const dat in data) {
+                  if (data[dat] === '') {
+                    delete data[dat]
+                  }
+                }
+                getDataLevelUserLoginNew(data).then((res) => {
+                  if (isSuccess(res, t)) {
+                    t.data = res.data.content[0].rows
+                    t.total = res.data.content[0].records
+                  }
+                }).catch(() => {
+                  t.$Modal.error({
+                    title: this.$t('reminder.err'),
+                    content: this.$t('reminder.errormessage'),
+                  })
+                })*/
       },
       accounting(row, logType, index) {
         const t = this
@@ -484,7 +509,8 @@
                 })
               })
             },
-            onCancel: () => {},
+            onCancel: () => {
+            },
           })
         }
       },
@@ -517,15 +543,18 @@
   }
 </script>
 <style lang="scss" scoped>
-  .table-form{
+  .table-form {
     margin: 10px 0;
   }
-  .margin-right-10{
+
+  .margin-right-10 {
     margin-right: 10px;
   }
+
   .fade-enter-active, .fade-leave-active {
     transition: opacity .2s
   }
+
   .fade-enter, .fade-leave-to {
     opacity: 0
   }

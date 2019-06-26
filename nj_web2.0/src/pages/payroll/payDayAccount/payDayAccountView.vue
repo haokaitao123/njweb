@@ -15,62 +15,78 @@
             <i-col span="10">
               <FormItem :label="$t('lang_payroll.payAccount.paccPeriod')" prop="paccPeriod">
                <span @dblclick="clearFyperiod">
-                   <Input v-model="paccPeriodDis" v-show="logType === $t('button.add')?true:false" style="width: 100%" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payAccount.paccPeriod')"  @on-click="pickFyperiod"/>
+                   <Input v-model="paccPeriodDis" v-show="logType === $t('button.add')?true:false" style="width: 100%"
+                          icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAccount.paccPeriod')"
+                          @on-click="pickFyperiod"/>
               </span>
-                <Input v-model="paccPeriodDis" disabled v-show="logType === $t('button.view')?true:false" :placeholder="$t('lang_payroll.payAccount.paccPeriod')"/>
+                <Input v-model="paccPeriodDis" disabled v-show="logType === $t('button.view')?true:false"
+                       :placeholder="$t('lang_payroll.payAccount.paccPeriod')"/>
               </FormItem>
             </i-col>
             <i-col span="10" offset="1">
               <FormItem :label="$t('lang_payroll.payAccount.paccRound')" prop="paccRound">
                 <Select v-model="form.paccRound" :disabled="logType === $t('button.view')?true:false">
-                  <Option :value="item.paramCode" v-for="(item,index) in RoundType" :key="index">{{item.paramInfoCn}}</Option>
+                  <Option :value="item.paramCode" v-for="(item,index) in RoundType" :key="index">{{item.paramInfoCn}}
+                  </Option>
                 </Select>
               </FormItem>
             </i-col>
             <i-col span="10">
               <FormItem :label="$t('lang_payroll.payAccount.paccSalaryset')" prop="paccSalaryset">
-                <Select v-model="form.paccSalaryset" :disabled="logType === $t('button.view')?true:false" @on-change="changeCurrency">
+                <Select v-model="form.paccSalaryset" :disabled="logType === $t('button.view')?true:false"
+                        @on-change="changeCurrency">
                   <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index">{{item.payss}}</Option>
                 </Select>
               </FormItem>
             </i-col>
             <i-col span="10" offset="1">
               <FormItem :label="$t('lang_payroll.payAccount.paccLocalcurrency')" prop="paccLocalcurrency">
-                <Input v-model="form.paccLocalcurrencyDis" disabled :placeholder="$t('lang_payroll.payAccount.paccLocalcurrencyDis')"/>
+                <Input v-model="form.paccLocalcurrencyDis" disabled
+                       :placeholder="$t('lang_payroll.payAccount.paccLocalcurrencyDis')"/>
               </FormItem>
             </i-col>
             <i-col span="10">
               <FormItem :label="$t('lang_payroll.payAccount.paccStatus')" prop="paccStatus">
-                <Select v-model="form.paccStatus" disabled >
-                  <Option :value="item.paramCode" v-for="(item,index) in Calstatus" :key="index">{{item.paramInfoCn}}</Option>
+                <Select v-model="form.paccStatus" disabled>
+                  <Option :value="item.paramCode" v-for="(item,index) in Calstatus" :key="index">{{item.paramInfoCn}}
+                  </Option>
                 </Select>
               </FormItem>
             </i-col>
             <i-col span="21" v-show="id ? true : false">
               <FormItem :label="$t('lang_payroll.payAccount.paccOptrecord')" prop="paccOptrecord">
-                <Input v-model="form.paccOptrecord" :disabled="logType === $t('button.view')?true:false" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccount.paccOptrecordDis')"></Input>
+                <Input v-model="form.paccOptrecord" :disabled="logType === $t('button.view')?true:false" type="textarea"
+                       :autosize="{minRows: 2,maxRows: 5}"
+                       :placeholder="$t('lang_payroll.payAccount.paccOptrecordDis')"></Input>
               </FormItem>
             </i-col>
             <i-col span="21">
               <FormItem :label="$t('lang_payroll.payAccount.paccComment')" prop="paccComment">
-                <Input v-model="form.paccComment" :disabled="logType === $t('button.view')?true:false" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
+                <Input v-model="form.paccComment" :disabled="logType === $t('button.view')?true:false" type="textarea"
+                       :autosize="{minRows: 2,maxRows: 5}"
+                       :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
               </FormItem>
             </i-col>
           </Form>
-         </Row>
-        <Button class="btn1" v-show="logType === $t('button.add')?true:false" type="ghost" @click="handleReset">{{$t('button.cal')}}</Button>
-        <Button class="btn"  v-show="logType === $t('button.add')?true:false" type="primary" @click="handleSubmit">{{$t('button.sav')}}</Button>
+        </Row>
+        <Button class="btn1" v-show="logType === $t('button.add')?true:false" type="ghost" @click="handleReset">
+          {{$t('button.cal')}}
+        </Button>
+        <Button class="btn" v-show="logType === $t('button.add')?true:false" type="primary" @click="handleSubmit">
+          {{$t('button.sav')}}
+        </Button>
       </div>
     </div>
     <transition name="fade">
-      <searchFyperiod v-show="openFyperiod"  @closeUp="closeFyperiod" @changeinput="inputFyperiod" ref="searchFyperiod"></searchFyperiod>
+      <searchFyperiod v-show="openFyperiod" @closeUp="closeFyperiod" @changeinput="inputFyperiod"
+                      ref="searchFyperiod"></searchFyperiod>
     </transition>
   </div>
 </template>
 <script>
   import searchFyperiod from '../../../components/searchTable/searchFyperiod'
-  import { getDataLevelUserLoginSenior, getDataLevelUserLogin } from '../../../axios/axios'
-  import { isSuccess, deepCopy } from '../../../lib/util'
+  import {getDataLevelUserLoginSenior, getDataLevelUserLogin} from '../../../axios/axios'
+  import {isSuccess, deepCopy} from '../../../lib/util'
 
   export default {
     data() {
@@ -82,13 +98,13 @@
         paccPeriodDis: '',
         ruleValidate: {
           paccPeriod: [
-            { required: true, message: this.$t('lang_payroll.payAccount.paccPeriodDis'), trigger: 'blur' },
+            {required: true, message: this.$t('lang_payroll.payAccount.paccPeriodDis'), trigger: 'blur'},
           ],
           paccSalaryset: [
-            { required: true, message: this.$t('lang_payroll.payAccount.paccSalarysetDis'), trigger: 'blur' },
+            {required: true, message: this.$t('lang_payroll.payAccount.paccSalarysetDis'), trigger: 'blur'},
           ],
           paccRound: [
-            { required: true, message: this.$t('lang_payroll.payAccount.paccRoundDis'), trigger: 'blur' },
+            {required: true, message: this.$t('lang_payroll.payAccount.paccRoundDis'), trigger: 'blur'},
           ],
         },
       }
@@ -196,7 +212,7 @@
   }
 </script>
 <style lang="scss" scoped>
-  .cover{
+  .cover {
     position: fixed;
     overflow: auto;
     top: 0;
@@ -207,20 +223,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0, 0, 0, .5);
     -webkit-overflow-scrolling: touch;
     outline: 0;
-    .box{
-      position:relative;
+    .box {
+      position: relative;
       width: 900px;
       background-color: #fff;
       padding: 60px 0px 30px 20px;
       border-radius: 10px;
-      .form{
+      .form {
         max-height: 800px;
         overflow-y: auto;
       }
-      .title{
+      .title {
         display: flex;
         position: absolute;
         height: 40px;
@@ -232,22 +248,23 @@
         top: 0;
         border-bottom: 1px solid #efefef;
         left: 0;
-        .title-text{
+        .title-text {
           font-weight: bold;
           font-size: 14px;
         }
       }
     }
   }
-  .option-main{
+
+  .option-main {
     position: relative;
     height: 380px;
-    .btn{
+    .btn {
       position: absolute;
       bottom: 20px;
       right: 105px;
     }
-    .btn1{
+    .btn1 {
       position: absolute;
       bottom: 20px;
       right: 170px;
