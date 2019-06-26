@@ -64,7 +64,7 @@
   </div>
 </template>
 <script>
-  import update from './payAccountView'
+  import update from './payDayAccountView'
   import empList from './accountEmpList'
   import searchFyperiod from '../../../components/searchTable/searchFyperiod'
   import { isSuccess } from '../../../lib/util'
