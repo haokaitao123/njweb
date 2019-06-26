@@ -125,22 +125,12 @@
                              v-model="form.chkIndtnw"
                              :show-clear="false"
                              :disabled="disabled"
-                             placeholder="">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 现上班考勤结果 -->
                 <div class="item_box">
-                    <!-- <x-input title="现上班考勤结果<span>*</span>"
-                             v-model.trim="form.chkUpresnw"
-                             :disabled="disabled"
-                             v-verify="form.chkUpresnw"
-                             :show-clear="false"
-                             :placeholder="disabled?'未填写':'请填写'">
-                    </x-input>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.chkUpresnw==''"
-                          v-remind="form.chkUpresnw"></icon> -->
+
                     <cell title=""
                           is-link
                           v-if="!disabled"
@@ -183,22 +173,11 @@
                              v-model="form.chkOutnw"
                              :show-clear="false"
                              :disabled="disabled"
-                             placeholder="">
+                             :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                 </div>
                 <!-- 现下班考勤结果 -->
                 <div class="item_box">
-                    <!-- <x-input title="现下班考勤结果"
-                             v-model.trim="form.chkDresnw"
-                             :disabled="disabled"
-                             v-verify="form.chkDresnw"
-                             :show-clear="false"
-                             :placeholder="disabled?'未填写':'请填写'">
-                    </x-input>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.chkDresnw==''"
-                          v-remind="form.chkDresnw"></icon> -->
                     <cell title=""
                           is-link
                           v-if="!disabled"
@@ -212,7 +191,7 @@
                           class="error"
                           v-show="chkDresnwDis==''"
                           v-remind="form.chkDresnw"></icon>
-                    <x-input title="现下班考勤结果<span>*</span>"
+                    <x-input title="现下班考勤结果"
                              v-model="chkDresnwDis"
                              v-if="disabled"
                              v-verify="form.chkDresnw"
@@ -237,9 +216,10 @@
                           class="error"
                           v-show="chkLevpnwDis==''"
                           v-remind="form.chkLevpnw"></icon>
-                    <x-input title="请假类型<span>*</span>"
+                    <x-input title="请假类型"
                              v-model="chkLevpnwDis"
                              v-if="disabled"
+                             v-show="chkUpresnwDis==='请假'||chkDresnwDis==='请假'"
                              v-verify="form.chkLevpnw"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'"
@@ -305,7 +285,7 @@
 
             </group>
             <div class="save_button"
-                 v-if="curStepstate!=='p_flowst_3'&&curStep==='1426'">
+                 v-if="!disabled">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -399,7 +379,6 @@ export default {
     data () {
         return {
             id: 0,
-            curStep: "1426",
             curDom: "",
             curDomShow: "",
             checkWktmDate: new Date(),
@@ -464,8 +443,6 @@ export default {
             chkIndtnwDateShow: false,
             chkOutnwDateShow: false,
             saveStatus: false,
-            curStepDis: '',
-            curStepstate: 'p_flowst_1',
             disabled: false,
         }
     },
@@ -524,6 +501,9 @@ export default {
                                 background: '#1989fa'
                             });
                         }
+                        this.$router.push({
+                            name: 'attenCkappeal'
+                        })
                     }
                 }).catch(() => {
                     t.saveStatus = false
@@ -689,19 +669,17 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "t.content ");
-                    if (t.curStep !== '1426') {
+                    if (data.curStepCode !== 'flow_attenckappeal_1000') {
                         t.disabled = true;
-                    } else if (t.curStepstate === "p_flowst_3") {
+                    } else if (data.curStepstate === "p_flowst_3") {
                         t.disabled = true;
                     }
-                    t.curStepDis = data.curStepDis ? data.curStepDis : '';
-                    t.curStepstate = data.curStepstate ? data.curStepstate : '';
                     t.form.dimApplicant = data.dimApplicant;
                     t.form.dimApplydate = data.dimApplydate;
                     t.form.checkWktm = data.checkWktm ? data.checkWktm : "请选择";
-                    t.form.chkIndtod = data.chkIndtod ? data.chkIndtod : "请选择";
+                    t.form.chkIndtod = data.chkIndtod ? data.chkIndtod : "";
                     t.form.chkUpresod = data.chkUpresod;
-                    t.form.chkOutod = data.chkOutod ? data.chkIndtod : "请选择";
+                    t.form.chkOutod = data.chkOutod ? data.chkOutod : "";
                     t.form.chkDresod = data.chkDresod;
                     t.form.chkLevpod = data.chkLevpod;
                     t.form.chkIndtnw = data.chkIndtnw ? data.chkIndtnw : "请选择";
@@ -716,12 +694,11 @@ export default {
                     t.form.vacDay = data.vacDay ? data.vacDay : '';
                     t.form.vacSdate = data.vacSdate ? data.vacSdate : '请选择';
                     t.form.vacEdate = data.vacEdate ? data.vacEdate : '请选择';
-                    t.curStep = data.curStep;
-                    t.empnhName = data.empnhName;
-                    t.unitFname = data.unitFname;
-                    t.postFname = data.postFname;
-                    t.chkUpresodDis = data.chkUpresodDis ? data.chkUpresodDis : '请选择';
-                    t.chkDresodDis = data.chkDresodDis ? data.chkDresodDis : '请选择';
+                    t.empnhName = data.empnhName ? data.empnhName : '';
+                    t.unitFname = data.unitFname ? data.unitFname : '';
+                    t.postFname = data.postFname ? data.postFname : '';
+                    t.chkUpresodDis = data.chkUpresodDis ? data.chkUpresodDis : '';
+                    t.chkDresodDis = data.chkDresodDis ? data.chkDresodDis : '';
                     t.chkLevpodDis = data.chkLevpodDis ? data.chkLevpodDis : '请选择';
                     t.chkUpresnwDis = data.chkUpresnwDis ? data.chkUpresnwDis : '请选择';
                     t.chkDresnwDis = data.chkDresnwDis ? data.chkDresnwDis : '请选择';
@@ -730,10 +707,15 @@ export default {
                         t.fileName = data.fileKey.split(':')[0];
                         t.file = { name: data.fileKey.split(':')[0] }
                         t.filekey = data.fileKey.split(':')[1]
+                    } else if (t.disabled) {
+                        t.file = { name: '未上传' }
+                    }
+                    if (t.disabled) {
+                        t.chkDresnwDis = data.chkDresnwDis ? data.chkDresnwDis : '未选择';
+                        t.form.chkOutnw = data.chkOutnw ? data.chkOutnw : "未选择";
                     } else {
-                        t.file = {
-                            name: '未上传'
-                        }
+                        t.chkDresnwDis = data.chkDresnwDis ? data.chkDresnwDis : '请选择';
+                        t.form.chkOutnw = data.chkOutnw ? data.chkOutnw : "请选择";
                     }
                     t.chkIndtnwDate = !data.chkIndtnw ? new Date() : new Date(data.chkIndtnw.replace(/-/g, '/'));
                     t.chkOutnwDate = !data.chkOutnw ? new Date() : new Date(data.chkOutnw.replace(/-/g, '/'));

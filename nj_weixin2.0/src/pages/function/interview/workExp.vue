@@ -260,6 +260,19 @@ export default {
                 });
             }
         },
+        valuation (data) {
+            const t = this;
+            t.form.reweSdate = data.reweSdate ? data.reweSdate : '请选择';
+            t.form.reweEdate = data.reweEdate ? data.reweEdate : '请选择';
+            t.form.reweCompnm = !data.reweCompnm ? '' : data.reweCompnm;
+            t.form.rewePost = !data.rewePost ? '' : data.rewePost;
+            t.form.reweCertifier = !data.reweCertifier ? '' : data.reweCertifier;
+            t.form.reweCertnub = !data.reweCertnub ? '' : data.reweCertnub;
+            t.form.reweLevres = data.reweLevres;
+            t.form.note = data.note;
+            t.reweSdateDate = !data.reweSdate ? new Date() : new Date(data.reweSdate.replace(/-/g, '/'));
+            t.reweEdateDate = !data.reweEdate ? new Date() : new Date(data.reweEdate.replace(/-/g, '/'));
+        },
         //根据id获取数据
         getData () {
             const t = this;
@@ -296,16 +309,7 @@ export default {
                     }
                     if (!workExpForm) {
                         let data = JSON.parse(res.data.content[0].value);
-                        t.form.reweSdate = data.reweSdate ? data.reweSdate : '请选择';
-                        t.form.reweEdate = data.reweEdate ? data.reweEdate : '请选择';
-                        t.form.reweCompnm = !data.reweCompnm ? '' : data.reweCompnm;
-                        t.form.rewePost = !data.rewePost ? '' : data.rewePost;
-                        t.form.reweCertifier = !data.reweCertifier ? '' : data.reweCertifier;
-                        t.form.reweCertnub = !data.reweCertnub ? '' : data.reweCertnub;
-                        t.form.reweLevres = data.reweLevres;
-                        t.form.note = data.note;
-                        t.reweSdateDate = !data.reweSdate ? new Date() : new Date(data.reweSdate.replace(/-/g, '/'));
-                        t.reweEdateDate = !data.reweEdate ? new Date() : new Date(data.reweEdate.replace(/-/g, '/'));
+                        t.valuation(data)
                     } else {
                         let createTime = new Date(workExpForm.createTime).getTime();
                         let nowTime = new Date().getTime();
@@ -314,6 +318,8 @@ export default {
                             t.reweSdateDate = workExpForm.form.reweSdate === "请选择" ? new Date() : new Date(workExpForm.form.reweSdate.replace(/-/g, '/'));
                             t.reweEdateDate = workExpForm.form.reweEdate === "请选择" ? new Date() : new Date(workExpForm.form.reweEdate.replace(/-/g, '/'));
                         } else {
+                            let data = JSON.parse(res.data.content[0].value);
+                            t.valuation(data)
                             localStorage.removeItem('workExpForm' + t.id)
                         }
                     }

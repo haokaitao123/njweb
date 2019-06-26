@@ -1,6 +1,5 @@
 const pubsource = {
   // 以下为开发环境变量配置
-
   pub_getlink: "http://najie.hrocloud.com:8099/api/v1",
   pub_getCaptcha: "http://najie.hrocloud.com:8099/api/v1",
   pub_pubf_uploadlink: "http://najie.hrocloud.com:9709/upload?groupId=0",
@@ -17,7 +16,8 @@ const pubsource = {
   pub_prvf_uploadlink: "http://njtest.hrocloud.com:9709/upload?groupId=1",
   pub_pubf_downlink: "http://njtest.hrocloud.com:8088/",
   pub_prvf_downlink: "http://njtest.hrocloud.com:9709/file?",
-    */
+  pub_url: "http://njtest.hrocloud.com/njgzh/",
+      */
   // 以下为生产环境变量配置，新变量请同开发增加
   /*
   pub_getlink: "http://hr.333job.com:19102/api/v1",

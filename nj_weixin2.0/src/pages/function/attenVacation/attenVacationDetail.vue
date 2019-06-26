@@ -4,24 +4,6 @@
             <group label-align="left"
                    gutter="0"
                    class="form">
-                <!-- 申请人-->
-                <!-- <div class="item_box">
-                    <x-input title="申请人"
-                             v-model="dimApplicant"
-                             :disabled="true"
-                             :show-clear="false"
-                             :placeholder="disabled?'未填写':'请填写'">
-                    </x-input>
-                </div> -->
-                <!-- 申请时间 -->
-                <!-- <div class="item_box">
-                    <x-input title="申请时间"
-                             v-model="form.dimApplydate"
-                             :show-clear="false"
-                             :disabled="true"
-                             :placeholder="disabled?'未填写':'请填写'">
-                    </x-input>
-                </div> -->
                 <!-- 姓名 -->
                 <div class="item_box">
                     <icon type="warn"
@@ -197,7 +179,7 @@
             </group>
             <!-- 	 -->
             <div class="save_button"
-                 v-if="curStepstate!=='p_flowst_3'&&curStep==='1436'">
+                 v-if="!disabled">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -272,7 +254,6 @@ export default {
     data () {
         return {
             id: 0,
-            curStep: "1436",
             curDom: "",
             curDomShow: "",
             vacSdateDate: new Date(),
@@ -310,8 +291,6 @@ export default {
             vacSdateShow: false,
             vacEdateShow: false,
             saveStatus: false,
-            curStepDis: '',
-            curStepstate: 'p_flowst_1',
             disabled: false,
         }
     },
@@ -368,6 +347,9 @@ export default {
                                 background: '#1989fa'
                             });
                         }
+                        t.$router.push({
+                            name: 'attenVacation'
+                        })
                     }
                 }).catch(() => {
                     t.saveStatus = false
@@ -522,13 +504,11 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "t.content ");
-                    if (t.curStep !== '1436') {
+                    if (data.curStepCode !== 'flow_leaveproc _1000') {
                         t.disabled = true;
-                    } else if (t.curStepstate === "p_flowst_3") {
+                    } else if (data.curStepstate === "p_flowst_3") {
                         t.disabled = true;
                     }
-                    t.curStepDis = data.curStepDis ? data.curStepDis : '';
-                    t.curStepstate = data.curStepstate ? data.curStepstate : '';
                     t.form.createBy = data.createBy;
                     t.form.createTime = data.createTime;
                     t.form.empId = data.empId;
@@ -540,7 +520,6 @@ export default {
                     t.form.vacSdate = data.vacSdate ? data.vacSdate : '请选择';
                     t.form.vacEdate = data.vacEdate ? data.vacEdate : '请选择';
                     t.form.note = data.note;
-                    t.curStep = data.curStep;
                     t.empnhName = data.empnhName;
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
@@ -550,10 +529,8 @@ export default {
                         t.fileName = data.fileKey.split(':')[0];
                         t.file = { name: data.fileKey.split(':')[0] }
                         t.filekey = data.fileKey.split(':')[1]
-                    } else {
-                        t.file = {
-                            name: '未上传'
-                        }
+                    } else if (t.disabled) {
+                        t.file = { name: '未上传' }
                     }
                     t.vacSdateDate = !data.vacSdate ? new Date() : new Date(data.vacSdate.replace(/-/g, '/'));
                     t.vacEdateDate = !data.vacEdate ? new Date() : new Date(data.vacEdate.replace(/-/g, '/'));
