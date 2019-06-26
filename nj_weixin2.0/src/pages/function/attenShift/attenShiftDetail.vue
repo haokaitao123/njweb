@@ -163,7 +163,7 @@
             </group>
             <!-- 	 -->
             <div class="save_button"
-                 v-if="curStepstate!=='p_flowst_3'&&curStep==='1441'">
+                 v-if="!disabled">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -300,7 +300,7 @@ export default {
                     data.pkValue = t.id
                 }
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
@@ -317,6 +317,9 @@ export default {
                                 background: '#1989fa'
                             });
                         }
+                        t.$router.push({
+                            name: 'attenShift'
+                        })
                     }
                 }).catch(() => {
                     t.saveStatus = false
@@ -429,14 +432,11 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "t.content ");
-                    t.curStep = data.curStep;
-                    if (t.curStep !== '1441') {
+                    if (data.curStepCode !== 'flow_attenshift_1000') {
                         t.disabled = true;
-                    } else if (t.curStepstate === "p_flowst_3") {
+                    } else if (data.curStepstate === "p_flowst_3") {
                         t.disabled = true;
                     }
-                    t.curStepDis = data.curStepDis ? data.curStepDis : '';
-                    t.curStepstate = data.curStepstate ? data.curStepstate : '';
                     t.form.dimApplicant = data.dimApplicant;
                     t.form.empId = data.empId;
                     t.form.deptId = data.deptId;
@@ -447,7 +447,6 @@ export default {
                     t.form.shiftEddate = data.shiftEddate ? data.shiftEddate : '请选择';
                     t.form.shiftProof = data.shiftProof ? data.shiftProof : '';
                     t.form.note = data.note;
-
                     t.empnhName = data.empnhName ? data.empnhName : '请选择';
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
@@ -455,10 +454,8 @@ export default {
                         t.fileName = data.fileKey.split(':')[0];
                         t.file = { name: data.fileKey.split(':')[0] }
                         t.filekey = data.fileKey.split(':')[1]
-                    } else {
-                        t.file = {
-                            name: '未上传'
-                        }
+                    } else if (t.disabled) {
+                        t.file = { name: '未上传' }
                     }
                     t.shiftBgdateDate = !data.shiftBgdate ? new Date() : new Date(data.shiftBgdate.replace(/-/g, '/'));
                     t.shiftEddateDate = !data.shiftEddate ? new Date() : new Date(data.shiftEddate.replace(/-/g, '/'));

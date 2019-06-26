@@ -319,7 +319,7 @@
             </group>
             <!-- 	 -->
             <div class="save_button"
-                 v-if="curStepstate!=='p_flowst_3'&&curStep==='1344'">
+                 v-if="!disabled">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -441,7 +441,6 @@ export default {
     data () {
         return {
             id: 0,
-            curStep: "1344",
             curDom: "",
             curDomShow: "",
             currentId: '',
@@ -503,8 +502,6 @@ export default {
             dimLaswkdayShow: false,
             surveyShow: false,
             saveStatus: false,
-            curStepDis: '',
-            curStepstate: 'p_flowst_1',
             disabled: false,
             dimReceiveError: false,
             bankVaild: true,
@@ -542,7 +539,6 @@ export default {
 
         this.getSelect();
         this.getData();
-        // this.completeDate(entryDate, now, 3), "123"
     },
     methods: {
         //判断两个时间段是否相差 m 个月
@@ -622,7 +618,7 @@ export default {
                     data.pkValue = t.id
                 }
                 for (const dat in data) {
-                    if (data[dat] === "") {
+                    if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
@@ -743,11 +739,10 @@ export default {
         },
         //员工弹出框事件
         inputEmp (res) {
-            console.log(res, "res")
             this.empShow = false;
             this.currentId = res.id;
-            this.form.dimReceive = res.id;
-            this.dimReceiveDis = res.empnhName;
+            this.form.empId = res.id;
+            this.empIdName = res.empnhName;
             this.dimReceiveCheck();
         },
         //问卷调查事件
@@ -774,13 +769,13 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "t.content ");
-                    if (t.curStep !== '1344') {
+                    if (data.curStepCode !== 'flow_empdim_1000') {
                         t.disabled = true;
-                    } else if (t.curStepstate === "p_flowst_3") {
+                    } else if (data.curStepstate === "p_flowst_3") {
                         t.disabled = true;
                     }
-                    t.curStepDis = data.curStepDis ? data.curStepDis : '';
-                    t.curStepstate = data.curStepstate ? data.curStepstate : '';
+                    // t.curStepDis = data.curStepDis ? data.curStepDis : '';
+                    // t.curStepstate = data.curStepstate ? data.curStepstate : '';
                     t.form.dimApplicant = data.dimApplicant;
                     t.form.empId = data.empId;
                     t.form.empIdno = data.empIdno;
@@ -798,7 +793,7 @@ export default {
                     t.form.dimIsreceive = data.dimIsreceive;
                     t.form.dimReceive = data.dimReceive ? data.dimReceive : '';
                     t.form.note = data.note;
-                    t.curStep = data.curStep;
+                    // t.curStep = data.curStep;
                     t.empIdName = data.empIdName;
                     t.deptIdDis = data.deptIdDis;
                     t.postIdDis = data.postIdDis;
@@ -811,8 +806,13 @@ export default {
                     t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '请选择';
                     t.currentId = data.dimReceive;
                     if (t.disabled) {
-                        t.dimCertifiDis = "未填写";
-                        t.dimIsreceiveDis = "未填写"
+                        t.dimCertifiDis = data.dimCertifiDis ? data.dimCertifiDis : '未选择';
+                        t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '未选择';
+                        t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '未选择';
+                    } else {
+                        t.dimCertifiDis = data.dimCertifiDis ? data.dimCertifiDis : '请选择';
+                        t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '请选择';
+                        t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '请选择';
                     }
                     t.dimLevsqdayDate = new Date(data.dimLevsqday.replace(/-/g, '/'));
                     t.dimLevdayDate = new Date(data.dimLevday.replace(/-/g, '/'));

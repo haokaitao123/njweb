@@ -26,7 +26,7 @@
                         <span>{{item.curStepDis}}</span>
                         <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
-                             v-show="item.curStep==1426"
+                             v-show="item.curStepCode==='flow_attenckappeal_1000'"
                              @click="deleteItem($event,item.id,index)">
                             <img src="../../../../static/function/close.png"
                                  alt="">

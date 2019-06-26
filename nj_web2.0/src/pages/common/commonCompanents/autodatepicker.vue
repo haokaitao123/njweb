@@ -49,9 +49,10 @@ export default {
         },
     },
     watch: {
-        value: function (val) {
-            this.thisValue = val
-        },
+        // value: function (val) {
+        //     console.log(val, "321val")
+        //     this.thisValue = val
+        // },
         thisValue (val) {
             this.change111()
         },

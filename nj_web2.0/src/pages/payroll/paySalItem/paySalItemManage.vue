@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_payroll.paySalItem.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_payroll.paySalItem.paysiCodeDis')" style="width: 200px" v-model="paysiCode"/>
-          <Input :placeholder="$t('lang_payroll.paySalItem.paysiSearchDis')" style="width: 200px" v-model="paysiCN"/>
+          <Input :placeholder="$t('lang_payroll.paySalItem.paysiCodeDis')" @on-enter="getData(1)" style="width: 200px" v-model="paysiCode"/>
+          <Input :placeholder="$t('lang_payroll.paySalItem.paysiSearchDis')" @on-enter="getData(1)" style="width: 200px" v-model="paysiCN"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <!--<Button type="primary" @click="importExcel">{{$t('button.imp')}}</Button>-->

@@ -71,7 +71,7 @@
     <!--一个弹出框一个transition-->
     <transition name="fade">
       <!--  员工信息的弹出框 v-show="openPickUser"绑定了一个判断员工信息弹窗是否显示隐藏的数据   @closeEmp="closeEmp" 关闭员工信息弹窗事件  @inputEmp="inputEmp" 员工信息弹出框input选中事件  -->
-      <searchEmpMaster v-show="openEmpMaster" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
+      <searchEmpMaster v-show="openEmpMaster" @closeModal="closeEmp" @inputModal="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
     </transition>
   </div>
 </template>

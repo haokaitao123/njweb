@@ -28,9 +28,11 @@
                     <Row>
                         <Input v-model="profitBigDis"
                                placeholder="请输入最大封顶金额"
+                               @on-enter="enterEvent"
                                style="width: 200px"></Input>
                         <Input v-model="profitSmallDis"
                                placeholder="请输入最小封顶金额"
+                               @on-enter="enterEvent"
                                style="width: 200px"></Input>
                         <!-- 查询按钮 @click后绑定的是一个点击事件 -->
                         <btnList @buttonExport="expData"
@@ -293,6 +295,12 @@ export default {
     },
     // 页面所有方法
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         //获取当前列表数据
         getData (id, page) {
             const t = this;

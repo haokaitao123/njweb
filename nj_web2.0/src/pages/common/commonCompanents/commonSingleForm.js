@@ -154,6 +154,7 @@ export default {
      * change事件
      */
     change(node) {
+
       if (onChange.hasOwnProperty(this.formData.tbName)) {
         if (onChange[this.formData.tbName].hasOwnProperty(node.ruleText)) {
           onChange[this.formData.tbName][node.ruleText].call(this, node)
@@ -327,6 +328,9 @@ export default {
               change: (value) => {
                 this.change(value)
               },
+              blur: (value) => {
+                this.blur(value)
+              }
             },
             ref: this.formData.columns[i].clmName,
           }, ))
@@ -352,6 +356,7 @@ export default {
                 this.$store.state.flowClmkMap.popForm[this.formData.columns[i].clmName] = value
               },
               change: (value) => {
+
                 this.change(value)
               },
             },

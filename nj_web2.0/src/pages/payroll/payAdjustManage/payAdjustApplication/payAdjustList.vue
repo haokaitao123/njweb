@@ -9,13 +9,13 @@
         </p>
         <Row>
           <span @dblclick="dbHCompany">
-               <Input v-model="plajCompanyDis" style="width: 160px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAdjust.plajCompanyDis')"  @on-click="selectHCompany"/>
+               <Input v-model="plajCompanyDis" @on-enter="getData(1)" style="width: 160px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAdjust.plajCompanyDis')"  @on-click="selectHCompany"/>
           </span>
           <span @dblclick="clearDepart">
-               <Input v-model="plajDeptDis" style="width: 160px" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payAdjust.plajDeptDis')"  @on-click="pickDepart"/>
+               <Input v-model="plajDeptDis" @on-enter="getData(1)" style="width: 160px" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payAdjust.plajDeptDis')"  @on-click="pickDepart"/>
           </span>
-          <Input v-model="plajEmpworkno" style="width: 160px;" :placeholder="$t('lang_payroll.payAdjust.plajEmpworknoDis')"></Input>
-          <Input v-model="plajCname" style="width: 160px;" :placeholder="$t('lang_payroll.payAdjust.plajCnameDis')"></Input>
+          <Input v-model="plajEmpworkno" @on-enter="getData(1)" style="width: 160px;" :placeholder="$t('lang_payroll.payAdjust.plajEmpworknoDis')"></Input>
+          <Input v-model="plajCname" @on-enter="getData(1)" style="width: 160px;" :placeholder="$t('lang_payroll.payAdjust.plajCnameDis')"></Input>
           <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
           <Button type="primary" icon="primary" @click="openUp(NaN, $t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="primary" @click="handSubmit">{{$t('button.subm')}}</Button>

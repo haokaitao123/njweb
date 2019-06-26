@@ -28,9 +28,11 @@
                     <Row>
                         <Input v-model="salCapBigDis"
                                placeholder="请输入比例最大值"
+                               @on-enter="enterEvent"
                                style="width: 200px"></Input>
                         <Input v-model="salCapSmallDis"
                                placeholder="请输入比例最小值"
+                               @on-enter="enterEvent"
                                style="width: 200px"></Input>
                         <!-- 查询按钮 @click后绑定的是一个点击事件 -->
                         <btnList @buttonExport="expData"
@@ -299,6 +301,12 @@ export default {
     },
     // 页面所有方法
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         //获取当前列表数据
         getData (id, page) {
             const t = this;

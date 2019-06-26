@@ -144,18 +144,18 @@ export default {
         close () {
             this.empnhName = ''
             this.params.page = 1
-            this.$emit('closeEmp')
+            this.$emit('closeModal')
         },
         dbCkick (row) {
             const t = this
             this.close()
-            t.$emit('inputEmp', row)
-            t.$emit('closeEmp')
+            t.$emit('inputModal', row)
+            t.$emit('closeModal')
         },
         clear () {
             this.empnhName = ''
             this.$emit('clear')
-            this.$emit('closeEmp')
+            this.$emit('closeModal')
         },
         sizeChange (size) {
             const t = this

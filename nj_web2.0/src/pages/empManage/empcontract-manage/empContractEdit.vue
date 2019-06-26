@@ -300,8 +300,8 @@
         <!--直接上級-->
         <transition name="fade">
             <searchEmpMaster v-show="openEmpMaster"
-                             @closeEmp="closeEmp"
-                             @inputEmp="inputEmp"
+                             @closeModal="closeEmp"
+                             @inputModal="inputEmp"
                              ref="searchEmpMaster"></searchEmpMaster>
         </transition>
     </div>

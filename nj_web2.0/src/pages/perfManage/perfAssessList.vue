@@ -10,7 +10,8 @@
             <Col span="24">
               <Row>
                   <Input v-model="searchParams.empnhName"
-    placeholder="请输入员工姓名"
+                          placeholder="请输入员工姓名"
+                         @on-enter="enterEvent"
 style="width: 200px"/>
                           <DatePicker type="date"
                                       v-model="searchParams.asesDate"
@@ -166,6 +167,12 @@ export default {
     this.getColumns();
   },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.search()
+      }
+    },
     //获取列表项字段
     getColumns() {
       this.$store.commit("commonPage/setColumns", this.columns);

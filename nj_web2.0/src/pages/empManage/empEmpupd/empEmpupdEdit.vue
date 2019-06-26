@@ -141,8 +141,8 @@
         <transition name="fade">
             <!--  员工信息的弹出框 v-show="openPickUser"绑定了一个判断员工信息弹窗是否显示隐藏的数据   @closeEmp="closeEmp" 关闭员工信息弹窗事件  @inputEmp="inputEmp" 员工信息弹出框input选中事件  -->
             <searchEmpMaster v-show="openPickUser"
-                             @closeEmp="closeEmp"
-                             @inputEmp="inputEmp"
+                             @closeModal="closeEmp"
+                             @inputModal="inputEmp"
                              ref="searchEmpMaster"></searchEmpMaster>
         </transition>
         <!--银行-->
@@ -192,7 +192,7 @@ export default {
         }
 
         return {
-            openPickUser: false, //员工信息默认false 隐藏  
+            openPickUser: false, //员工信息默认false 隐藏
             spinShow: false,
             type: "",
             distype: false,
@@ -290,6 +290,7 @@ export default {
         console.log(this.logType, 'logType')
     },
     methods: {
+
         getData (id) {
             const t = this;
             t.spinShow = true

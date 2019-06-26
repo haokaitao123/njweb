@@ -119,3 +119,7 @@ fieldset[disabled] .ivu-input {
 fieldset[disabled] .ivu-input {
   color: #333333 !important;
 }
+
+.ivu-menu-vertical.ivu-menu-light:after {
+  background-color: transparent;
+}

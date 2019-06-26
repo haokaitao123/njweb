@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_baseManage.baseTaxrate.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxYearDis')" style="width: 200px" v-model="taxYear"/>
-          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxCodeDis')" style="width: 200px" v-model="taxCode"/>
+          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxYearDis')"  @on-enter="enterEvent"  style="width: 200px" v-model="taxYear"/>
+          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxCodeDis')"  @on-enter="enterEvent" style="width: 200px" v-model="taxCode"/>
           <!--<DatePicker type="date" :placeholder="$t('lang_baseManage.baseTaxrate.taxSdateDis')" :editable="false" v-model="taxSdate" style="width: 200px"></DatePicker>-->
           <!--<DatePicker type="date" :placeholder="$t('lang_baseManage.baseTaxrate.taxEdateDis')" :editable="false" v-model="taxEdate" style="width: 200px"></DatePicker>-->
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
@@ -193,6 +193,12 @@
       this.getData(1)
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
       getData(page) {
         const t = this
         if (page) {

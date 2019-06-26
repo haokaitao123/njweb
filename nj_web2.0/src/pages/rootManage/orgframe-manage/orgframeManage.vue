@@ -25,6 +25,7 @@
                     <Row>
                         <Input placeholder="请输入组织名称"
                                style="width: 200px"
+                               @on-enter="enterEvent"
                                v-model="unitFname" />
                         <Select v-model="unitType"
                                 style="width: 200px"
@@ -433,6 +434,12 @@ export default {
         }
     },
     methods: {
+  //enter事件
+        enterEvent(e){
+          if(e.target.value != ''){
+            this.search()
+          }
+        },
         modityChange (res) {
             this.tableselected = [];
             this.getData();

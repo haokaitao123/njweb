@@ -24,14 +24,17 @@
                     <Row>
                         <Input placeholder="请输入员工姓名"
                                style="width: 160px"
+                               @on-enter="enterEvent"
                                v-model="empnhName" />
                         <Input placeholder="请输入员工证件号"
+                               @on-enter="enterEvent"
                                style="width: 160px"
                                v-model="empnhIdno" />
                         <span @dblclick="clearPost()">
                             <Input v-model="postName"
                                    style="width: 200px"
                                    icon="search"
+                                   @on-enter="enterEvent"
                                    :readonly="true"
                                    placeholder="请选择岗位名称"
                                    @on-click="pickData" />
@@ -496,6 +499,13 @@ export default {
         this.getSelect();
     },
     methods: {
+        //enter事件
+      enterEvent(e){
+          console.log('1',e.target.value)
+       if(e.target.value != ""){
+          this.search()
+       }
+      },
         // 查询
         search () {
             this.page = 1;

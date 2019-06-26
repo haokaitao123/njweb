@@ -298,7 +298,7 @@
 			</transition>
 			<!--直接上級-->
 			<transition name="fade">
-				<searchEmpMaster v-show="openEmpMaster" :deptId="deptId" @closeEmp="closeEmp" @inputEmp="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
+				<searchEmpMaster v-show="openEmpMaster" :deptId="deptId" @closeModal="closeEmp" @inputModal="inputEmp" ref="searchEmpMaster"></searchEmpMaster>
 			</transition>
 			<!--银行-->
 			<transition name="fade">
