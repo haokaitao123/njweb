@@ -1054,7 +1054,7 @@ export default {
             if (t.flowup != undefined && t.flowup != "") {
                 t.formDataSubmit._mt = 'platAutoApprovalSubmitAgwService.upField'
                 t.formDataSubmit.tbName = t.tbName
-                t.formDataSubmit.stepId = t.thisStepId
+                t.formDataSubmit.stepId = t.aprvrelaStepidAll
                 t.formDataSubmit.roleType = t.$store.state.user.roleType // 角色类型
                 t.formDataSubmit.flowId = t.flowId
                 t.formDataSubmit.pkValue = t.thisPkValue

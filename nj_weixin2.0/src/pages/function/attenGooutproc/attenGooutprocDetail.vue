@@ -132,7 +132,7 @@
             </group>
             <!-- 	 -->
             <div class="save_button"
-                 v-if="curStepstate!=='p_flowst_3'&&curStep==='1433'">
+                 v-if="!disabled">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -157,7 +157,7 @@
         <van-popup v-model="goutBgdateShow"
                    position="bottom">
             <van-datetime-picker v-model="goutBgdateDate"
-                                 type="date"
+                                 type="datetime"
                                  :min-date="minGoutBgdate"
                                  :max-date="maxGoutBgdate"
                                  @confirm="confirm"
@@ -167,7 +167,7 @@
         <van-popup v-model="goutEddateShow"
                    position="bottom">
             <van-datetime-picker v-model="goutEddateDate"
-                                 type="date"
+                                 type="datetime"
                                  :min-date="minGoutEddate"
                                  :max-date="maxGoutEddate"
                                  @confirm="confirm"
@@ -197,7 +197,6 @@ export default {
     data () {
         return {
             id: 0,
-            curStep: "1433",
             curDom: "",
             curDomShow: "",
             goutDateDate: new Date(),
@@ -226,8 +225,6 @@ export default {
             goutBgdateShow: false,
             goutEddateShow: false,
             saveStatus: false,
-            curStepDis: '',
-            curStepstate: 'p_flowst_1',
             disabled: false,
         }
     },
@@ -283,6 +280,9 @@ export default {
                                 background: '#1989fa'
                             });
                         }
+                        t.$router.push({
+                            name: 'attenGooutproc'
+                        })
                     }
                 }).catch(() => {
                     t.saveStatus = false
@@ -355,7 +355,11 @@ export default {
         },
         //底部弹窗确定
         confirm (value) {
-            value = new Date(value).format('yyyy-MM-dd');
+            if (this.curDom === 'goutDate') {
+                value = new Date(value).format('yyyy-MM-dd');
+            } else {
+                value = new Date(value).format('yyyy-MM-dd hh:mm:ss');
+            }
             this.currentDate = new Date();
             this.form[this.curDom] = value;
             this[this.curDomShow] = false;
@@ -380,13 +384,11 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     console.log(data, "t.content ");
-                    if (t.curStep !== '1433') {
+                    if (data.curStepCode !== 'flow_gooutproc _1000') {
                         t.disabled = true;
-                    } else if (t.curStepstate === "p_flowst_3") {
+                    } else if (data.curStepstate === "p_flowst_3") {
                         t.disabled = true;
                     }
-                    t.curStepDis = data.curStepDis ? data.curStepDis : '';
-                    t.curStepstate = data.curStepstate ? data.curStepstate : '';
                     t.form.empId = data.empId;
                     t.form.deptId = data.deptId;
                     t.form.postId = data.postId;
@@ -395,7 +397,6 @@ export default {
                     t.form.goutBgdate = data.goutBgdate ? data.goutBgdate : '请选择';
                     t.form.goutEddate = data.goutEddate ? data.goutEddate : '请选择';
                     t.form.note = data.note;
-                    t.curStep = data.curStep;
                     t.empnhName = data.empnhName;
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;

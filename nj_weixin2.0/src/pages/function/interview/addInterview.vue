@@ -159,7 +159,7 @@
                             :disabled='curStep'
                             placeholder="未填写"
                             :show-counter="true"
-                            v-if="curStepDis==='初试'&&curStepstate==='p_flowst_3'"></x-textarea>
+                            v-if="curStepCode==='flow_recruitprocess_1000'&&curStepstate==='p_flowst_3'"></x-textarea>
                 <!-- 复试意见 -->
                 <x-textarea :max="300"
                             title="复试意见"
@@ -168,7 +168,7 @@
                             :disabled='curStep'
                             placeholder="未填写"
                             :show-counter="true"
-                            v-if="curStepDis!=='复试'&&curStepDis!=='初试'&&curStepDis!==''"></x-textarea>
+                            v-if="curStepCode!=='flow_recruitprocess_1010'&&curStepCode!=='flow_recruitprocess_1000'&&curStepCode!==''"></x-textarea>
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
@@ -245,7 +245,7 @@ import searchEmp from '@/components/search/searchAllEmp'
 export default {
     data () {
         return {
-            curStepDis: this.$route.query.curStepDis ? this.$route.query.curStepDis : '',
+            curStepCode: this.$route.query.curStepCode ? this.$route.query.curStepCode : '',
             curStepstate: this.$route.query.curStepstate ? this.$route.query.curStepstate : '',
             curDom: "",
             curDomShow: "",
