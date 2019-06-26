@@ -58,8 +58,22 @@ import payProfitList from '@/pages/payroll/payProfit/payProfitList'
 
 //员工薪资发放
 import payEmpgrantList from '@/pages/payroll/payEmpgrant/payEmpgrantList'
+//项目离职率
+import payLeavepropList from '@/pages/payroll/payLeavepropManage/payLeavepropList'
+//项目入职管理
+import payEntrybaseList from '@/pages/payroll/payEntrybaseManage/payEntrybaseList'
 
 export default [
+    {
+        path: 'payLeavepropList',
+        name: 'payLeavepropList',
+        component: payLeavepropList,
+      },
+	  {
+        path: 'payEntrybaseList',
+        name: 'payEntrybaseList',
+        component: payEntrybaseList,
+      },
     {
       path: 'payProjchangeList',
       name: 'payProjchangeList',
