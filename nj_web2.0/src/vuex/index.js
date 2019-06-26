@@ -43,6 +43,8 @@ import recruitProcess from '../pages/common/commonFlowList/recruitProcess'
 import attenQuotainfo from '../pages/attenManage/attenQuotainfo/attenQuotainfo'
 import autoSearch from '../pages/common/searchTable/autoSearch'
 import empdim from '../pages/common/onBlur/empdim_store'
+import payEntrybase from '../pages/payroll/payEntrybaseManage/payEntrybase'
+import payLeaveprop from '../pages/payroll/payLeavepropManage/payLeaveprop'
 
 Vue.use(Vuex)
 
@@ -57,6 +59,8 @@ const store = new Vuex.Store({
 
   },
   modules: {
+    payEntrybase,
+    payLeaveprop,
     app,
     user,
     sysData,
