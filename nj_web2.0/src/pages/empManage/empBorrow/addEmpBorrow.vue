@@ -82,8 +82,8 @@
         <!--一个弹出框一个transition-->
         <transition name="fade">
             <searchEmpMaster v-show="openEmpMaster"
-                             @closeModal="closeEmp"
-                             @inputModal="inputEmp"
+                             @closeEmp="closeEmp"
+                             @inputEmp="inputEmp"
                              ref="searchEmpMaster"></searchEmpMaster>
         </transition>
     </div>
@@ -280,11 +280,6 @@ export default {
             this.$refs.formValidate.resetFields()
             this.$emit('closeUp')
         },
-        // handleUpload (file) {
-        //     this.file = file
-        //     this.loadingStatus = true
-        //     return false
-        // },
         //清除
         clear () {
             const t = this

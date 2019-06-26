@@ -36,10 +36,23 @@ import payrollReportManage from '@/pages/payroll/payrollReport/payrollReportMana
 import SpecialSurtax from '@/pages/payroll/SpecialSurtax/SpecialSurtax'
 // 员工薪资查询
 import empPayrollList from '@/pages/payroll/emPayrollSearch/empPayrollList'
-
+//项目提拔提成
+import payPromotedList from '@/pages/payroll/payPromotedManage/payPromotedList'
+//项目异动提成
+import payProjchangeList from '@/pages/payroll/payProjchangeManage/payProjchangeList'
 
 
 export default [
+    {
+        path: 'payProjchangeList',
+        name: 'payProjchangeList',
+        component: payProjchangeList,
+      },
+      {
+        path: 'payPromotedList',
+        name: 'payPromotedList',
+        component: payPromotedList,
+      },
   {
     path: 'empPayrollList',
     name: 'empPayrollList',
