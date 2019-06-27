@@ -89,6 +89,9 @@ export default {
                 { code: "enbaPersonDis", name: "项目主管" },
                 { code: "enbaManagerDis", name: "项目经理" },
                 { code: "unitFname", name: "项目名称" },
+                  { code: "enbaReferDis", name: "推荐人" },
+                { code: "enbaMoney", name: "金额" },
+                
                 { code: "enbaDeptDis", name: "内招项目名称" },
                 { code: "enbaNatureDis", name: "入职性质" },
                 { code: "enbaEtdate", name: "入职日期" },
@@ -153,6 +156,18 @@ export default {
                     width: 220
                 },
                 { key: "unitFname", title: "项目名称", sortable: "custom", width: 220 },
+                  {
+                    key: "enbaReferDis",
+                    title: "推荐人",
+                    sortable: "custom",
+                    width: 220
+                },
+                {
+                    key: "enbaMoney",
+                    title: "金额",
+                    sortable: "custom",
+                    width: 220
+                },
                 {
                     key: "enbaDeptDis",
                     title: "内招项目名称",
@@ -395,6 +410,8 @@ export default {
                 enbaPersonDis: '穆宇',
                 enbaManagerDis: '李延',
                 unitFname: '东风项目',
+                enbaReferDis:'陈沄' ,
+                 enbaMoney:"200.00",
                 enbaDeptDis: "联想电子厂",
                 enbaNatureDis: "内招",
                 enbaEtdate: '2019-06-11',
@@ -468,6 +485,7 @@ export default {
             enbaPersonDis: "",
             enbaManagerDis: "",
             unitFname: "",
+            enbaReferDis:"",
             openEnbaDeptDis: false,
             enbaDeptDis: "",
             enbaNatureDis: "",
