@@ -32,6 +32,7 @@
                             :expDataTital="expDataTital"
                             :table_height="table_height"
                             :childTable="childTable"
+                            :mockData="mockData"
                             @tableBtn="tableBtn"
                             ref="commonPage">
                 </commonPage>
@@ -140,6 +141,14 @@ export default {
                     }
                 },
             ],
+            mockData: [
+                {
+                    ladePid: '2000',
+                    ladeUpper: "15",
+                    ladeLower: "50",
+                    ladeAmount: '3000'
+                }
+            ],
             // 表格获取数据mt名称
             page_mt: "payLadder.getPage",
             // 删除数据mt名称
@@ -209,7 +218,7 @@ export default {
         search () {
             this.searchParams.ladePid = this.mainId;
             this.$store.commit('commonPage/setChildParams', this.searchParams);
-            this.$refs.commonPage.search();
+            // this.$refs.commonPage.search();
         },
         //清除
         clear () {

@@ -33,6 +33,7 @@
                             :expDataTital="expDataTital"
                             :table_height="table_height"
                             :childTable="childTable"
+                            :mockData="mockData"
                             @tableBtn="tableBtn"
                             ref="commonPage">
                 </commonPage>
@@ -142,6 +143,15 @@ export default {
                     }
                 },
             ],
+            mockData: [
+                {
+                    bystPid: '2000',
+                    bystStageDis: "1",
+                    bystIntervalDis: "1",
+                    bystDay: '3',
+                    bystAmount: "3000"
+                }
+            ],
             // 表格获取数据mt名称
             page_mt: "payBystages.getPage",
             // 删除数据mt名称
@@ -213,7 +223,7 @@ export default {
         search () {
             this.searchParams.bystPid = this.mainId;
             this.$store.commit('commonPage/setChildParams', this.searchParams);
-            this.$refs.commonPage.search();
+            // this.$refs.commonPage.search();
         },
         //清除
         clear () {

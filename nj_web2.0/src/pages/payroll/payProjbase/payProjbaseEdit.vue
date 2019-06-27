@@ -4,7 +4,7 @@
               fix
               v-if="spinShow"></Spin>
         <Row style="overflow-y: auto;"
-             :style="{ maxHeight: disabled?'500px':'420px' }"
+             :style="{ height: disabled?'500px':'420px' }"
              ref="scrollBox">
             <Form :model="formValidate"
                   label-position="right"
@@ -182,29 +182,49 @@ export default {
         //获取列表详情
         getData (id) {
             const t = this
-            t.spinShow = true
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                    t.formValidate.deptId = data.deptId;
-                    t.unitFname = data.unitFname;
-                    t.formValidate.pbsStart = data.pbsStart;
-                    t.formValidate.pbsEnd = data.pbsEnd;
-                    t.formValidate.pbsCount = data.pbsCount;
-                    t.formValidate.pbsRange = data.pbsRange;
-                    t.pbsRangeDis = data.pbsRangeDis;
-                    t.formValidate.note = data.note;
-                    t.formValidate.state = data.state;
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
-            });
+            let data = {
+                deptId: '1000',
+                unitFname: "武汉分公司",
+                pbsStart: "2019-03-13",
+                pbsEnd: "2019-06-14",
+                pbsCount: "15",
+                pbsRange: "1",
+                pbsRangeDis: "某某",
+                note: '请查看备注',
+                state: "02valid"
+            }
+            t.formValidate.deptId = data.deptId;
+            t.unitFname = data.unitFname;
+            t.formValidate.pbsStart = data.pbsStart;
+            t.formValidate.pbsEnd = data.pbsEnd;
+            t.formValidate.pbsCount = data.pbsCount;
+            t.formValidate.pbsRange = data.pbsRange;
+            t.pbsRangeDis = data.pbsRangeDis;
+            t.formValidate.note = data.note;
+            t.formValidate.state = data.state;
+            // t.spinShow = true
+            // getDataLevelUserLogin({
+            //     _mt: t.getById_mt,
+            //     id: id,
+            //     logType: 'Id查询',
+            // }).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         let data = res.data.content[0]
+            //         t.formValidate.deptId = data.deptId;
+            //         t.unitFname = data.unitFname;
+            //         t.formValidate.pbsStart = data.pbsStart;
+            //         t.formValidate.pbsEnd = data.pbsEnd;
+            //         t.formValidate.pbsCount = data.pbsCount;
+            //         t.formValidate.pbsRange = data.pbsRange;
+            //         t.pbsRangeDis = data.pbsRangeDis;
+            //         t.formValidate.note = data.note;
+            //         t.formValidate.state = data.state;
+            //     }
+            // }).catch(() => {
+            //     this.$Message.error(this.$t("reminder.errormessage"));
+            // }).finally(() => {
+            //     t.spinShow = false
+            // });
         },
         //获取下拉列表数据
         getSelect () {
