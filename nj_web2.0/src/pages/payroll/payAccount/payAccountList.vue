@@ -250,7 +250,7 @@
         })
       },
       accounting(row, logType, index) {
-        const t = this
+/*        const t = this
         getDataLevelUserLogin({
           _mt: 'payAccount.cacl',
           logType: logType,
@@ -278,7 +278,7 @@
             title: this.$t('reminder.err'),
             content: this.$t('reminder.errormessage'),
           })
-        })
+        })*/
       },
       countPaySalaryState() {
         const t = this
