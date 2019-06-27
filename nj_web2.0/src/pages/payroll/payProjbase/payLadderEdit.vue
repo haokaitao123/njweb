@@ -100,8 +100,6 @@ export default {
             spinShow: false,
             //禁选 
             disabled: false,
-
-
             typeCode: "",
             //提交mt名称
             addOrUpd_mt: 'payLadder.addOrUpd',
@@ -130,10 +128,11 @@ export default {
                 ],
 
             },
+            //列表id
+            id: ""
         }
     },
     props: {
-        id: Number,
         index: Number,
     },
     computed: {
@@ -147,28 +146,43 @@ export default {
     methods: {
         //获取列表详情
         getData (id, logType) {
-            const t = this
+            const t = this;
             if (logType == "新增") {
                 return;
             }
             t.id = id;
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                    t.formValidate.ladePid = data.ladePid;
-                    t.formValidate.ladeUpper = data.ladeUpper;
-                    t.formValidate.ladeLower = data.ladeLower;
-                    t.formValidate.ladeAmount = data.ladeAmount;
-                    t.formValidate.note = data.note;
+            console.log("t.id", t.id)
+            let data = {
+                id: '1000',
+                ladePid: '2000',
+                ladeUpper: "15",
+                ladeLower: "50",
+                ladeAmount: '3000',
+                note: "备注暂无"
+            };
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            })
+            t.formValidate.ladePid = data.ladePid;
+            t.formValidate.ladeUpper = data.ladeUpper;
+            t.formValidate.ladeLower = data.ladeLower;
+            t.formValidate.ladeAmount = data.ladeAmount;
+            t.formValidate.note = data.note;
+            // getDataLevelUserLogin({
+            //     _mt: t.getById_mt,
+            //     id: id,
+            //     logType: 'Id查询',
+            // }).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         let data = res.data.content[0]
+            //         t.formValidate.ladePid = data.ladePid;
+            //         t.formValidate.ladeUpper = data.ladeUpper;
+            //         t.formValidate.ladeLower = data.ladeLower;
+            //         t.formValidate.ladeAmount = data.ladeAmount;
+            //         t.formValidate.note = data.note;
+
+            //     }
+            // }).catch(() => {
+            //     this.$Message.error(this.$t("reminder.errormessage"));
+            // })
         },
         //获取下拉列表数据
         getSelect () {
@@ -200,20 +214,20 @@ export default {
 
             t.$refs.formValidate.validate((valid) => {
                 if (valid) {
-                    getDataLevelUserLoginNew(data).then((res) => {
-                        if (isSuccess(res, t)) {
-                            if (t.logType === t.$t('button.add')) {
-                                t.$Message.success(t.$t("reminder.addsuccess"));
-                                t.$emit('newData', res.data.content[0])
-                            } else {
-                                t.$Message.success(t.$t("reminder.updsuccess"));
-                                t.$emit('update', res.data.content[0])
-                            }
-                            t.handleReset();
-                        }
-                    }).catch(() => {
-                        t.$Message.error(t.$t("reminder.errormessage"));
-                    })
+                    // getDataLevelUserLoginNew(data).then((res) => {
+                    //     if (isSuccess(res, t)) {
+                    //         if (t.logType === t.$t('button.add')) {
+                    //             t.$Message.success(t.$t("reminder.addsuccess"));
+                    //             t.$emit('newData', res.data.content[0])
+                    //         } else {
+                    //             t.$Message.success(t.$t("reminder.updsuccess"));
+                    //             t.$emit('update', res.data.content[0])
+                    //         }
+                    //         t.handleReset();
+                    //     }
+                    // }).catch(() => {
+                    //     t.$Message.error(t.$t("reminder.errormessage"));
+                    // })
                 }
             })
         },

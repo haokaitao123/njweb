@@ -23,7 +23,7 @@
                         <Col span="11">
                         <FormItem label="阶段期数"
                                   prop="bystStageDis">
-                            <Select v-model="formValidate.bystStageDis"
+                            <Select v-model="formValidate.bystStage"
                                     :clearable="!disabled"
                                     :disabled=disabled
                                     placeholder="请选择阶段期数">
@@ -37,7 +37,7 @@
                              offset="1">
                         <FormItem label="阶段间隔"
                                   prop="bystIntervalDis">
-                            <Select v-model="formValidate.bystIntervalDis"
+                            <Select v-model="formValidate.bystInterval"
                                     :clearable="!disabled"
                                     :disabled=disabled
                                     placeholder="请选择阶段间隔">
@@ -124,7 +124,7 @@ export default {
             bystIntervalDis: "",
 
 
-            typeCode: "bystStage,bystInterval",
+            typeCode: "space,period",
             bystStageData: [],
             bystIntervalData: [],
 
@@ -160,10 +160,11 @@ export default {
                 ],
 
             },
+            id: ""
         }
     },
     props: {
-        id: Number,
+        // id: Number,
         index: Number,
     },
     computed: {
@@ -176,10 +177,9 @@ export default {
     },
     components: {
 
-
     },
     mounted () {
-
+        this.getSelect()
     },
     methods: {
         //获取列表详情
@@ -189,26 +189,47 @@ export default {
                 return;
             }
             t.id = id;
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                    t.formValidate.bystPid = data.bystPid;
-                    t.formValidate.bystStage = data.bystStage;
-                    t.bystStageDis = data.bystStageDis;
-                    t.formValidate.bystInterval = data.bystInterval;
-                    t.bystIntervalDis = data.bystIntervalDis;
-                    t.formValidate.bystDay = data.bystDay;
-                    t.formValidate.bystAmount = data.bystAmount;
-                    t.formValidate.note = data.note;
+            console.log(123, "123")
+            let data = {
+                id: "1000",
+                bystPid: '2000',
+                bystStage: "01space",
+                bystStageDis: "1",
+                bystInterval: "01period",
+                bystIntervalDis: "1",
+                bystDay: '3',
+                bystAmount: "3000",
+                note: "分期业绩"
+            };
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            })
+            t.formValidate.bystPid = data.bystPid;
+            t.formValidate.bystStage = data.bystStage;
+            t.bystStageDis = data.bystStageDis;
+            t.formValidate.bystInterval = data.bystInterval;
+            t.bystIntervalDis = data.bystIntervalDis;
+            t.formValidate.bystDay = data.bystDay;
+            t.formValidate.bystAmount = data.bystAmount;
+            t.formValidate.note = data.note;
+            // getDataLevelUserLogin({
+            //     _mt: t.getById_mt,
+            //     id: id,
+            //     logType: 'Id查询',
+            // }).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         let data = res.data.content[0]
+            //         t.formValidate.bystPid = data.bystPid;
+            //         t.formValidate.bystStage = data.bystStage;
+            //         t.bystStageDis = data.bystStageDis;
+            //         t.formValidate.bystInterval = data.bystInterval;
+            //         t.bystIntervalDis = data.bystIntervalDis;
+            //         t.formValidate.bystDay = data.bystDay;
+            //         t.formValidate.bystAmount = data.bystAmount;
+            //         t.formValidate.note = data.note;
+
+            //     }
+            // }).catch(() => {
+            //     this.$Message.error(this.$t("reminder.errormessage"));
+            // })
         },
         //获取下拉列表数据
         getSelect () {
@@ -219,7 +240,8 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
-                    t.bystIntervalData = data.value[0].paramList;
+                    t.bystStageData = data.value[0].paramList;
+                    t.bystIntervalData = data.value[1].paramList;
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -240,20 +262,20 @@ export default {
 
             t.$refs.formValidate.validate((valid) => {
                 if (valid) {
-                    getDataLevelUserLoginNew(data).then((res) => {
-                        if (isSuccess(res, t)) {
-                            if (t.logType === t.$t('button.add')) {
-                                t.$Message.success(t.$t("reminder.addsuccess"));
-                                t.$emit('newData', res.data.content[0])
-                            } else {
-                                t.$Message.success(t.$t("reminder.updsuccess"));
-                                t.$emit('update', res.data.content[0])
-                            }
-                            t.handleReset();
-                        }
-                    }).catch(() => {
-                        t.$Message.error(t.$t("reminder.errormessage"));
-                    })
+                    // getDataLevelUserLoginNew(data).then((res) => {
+                    //     if (isSuccess(res, t)) {
+                    //         if (t.logType === t.$t('button.add')) {
+                    //             t.$Message.success(t.$t("reminder.addsuccess"));
+                    //             t.$emit('newData', res.data.content[0])
+                    //         } else {
+                    //             t.$Message.success(t.$t("reminder.updsuccess"));
+                    //             t.$emit('update', res.data.content[0])
+                    //         }
+                    //         t.handleReset();
+                    //     }
+                    // }).catch(() => {
+                    //     t.$Message.error(t.$t("reminder.errormessage"));
+                    // })
                 }
             })
         },

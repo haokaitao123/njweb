@@ -29,7 +29,7 @@
                          offset="1">
                     <FormItem label="可见范围"
                               prop="pbsRangeDis">
-                        <Select v-model="formValidate.pbsRangeDis"
+                        <Select v-model="formValidate.pbsRange"
                                 :clearable="!disabled"
                                 :disabled=disabled
                                 placeholder="请选择可见范围">
@@ -122,7 +122,7 @@ export default {
             openUnitFname: false,
             unitFname: "",
             pbsRangeDis: "",
-            typeCode: "pbsRange",
+            typeCode: "scope",
             pbsRangeData: [],
             //提交mt名称
             addOrUpd_mt: 'payProjbase.addOrUpd',
@@ -148,10 +148,10 @@ export default {
                     { required: true, message: "请输入可见范围", trigger: "change" },
                 ],
                 pbsStart: [
-                    { required: true, message: "请输入生效时间", trigger: "change" },
+                    { required: true, message: "请输入生效时间", trigger: "change", type: 'date' },
                 ],
                 pbsEnd: [
-                    { required: true, message: "请输入失效时间", trigger: "change" },
+                    { required: true, message: "请输入失效时间", trigger: "change", type: 'date' },
                 ],
 
             },
@@ -176,7 +176,7 @@ export default {
 
     },
     mounted () {
-
+        this.getSelect();
     },
     methods: {
         //获取列表详情
@@ -188,7 +188,7 @@ export default {
                 pbsStart: "2019-03-13",
                 pbsEnd: "2019-06-14",
                 pbsCount: "15",
-                pbsRange: "1",
+                pbsRange: "01scope",
                 pbsRangeDis: "某某",
                 note: '请查看备注',
                 state: "02valid"
@@ -255,22 +255,22 @@ export default {
             }
             t.$refs.formValidate.validate((valid) => {
                 if (valid) {
-                    getDataLevelUserLoginNew(data).then((res) => {
-                        if (isSuccess(res, t)) {
-                            if (t.logType === t.$t('button.add')) {
-                                t.$Message.success(t.$t("reminder.addsuccess"));
-                                t.$store.commit('payProjbase/setMainId', res.data.content[0].id);
-                                t.$store.commit('payProjbase/setLogType', "修改");
-                                t.$emit('newData', res.data.content[0])
-                            } else {
-                                t.$Message.success(t.$t("reminder.updsuccess"));
-                                t.$emit('update', res.data.content[0])
-                            }
-                            t.handleReset();
-                        }
-                    }).catch(() => {
-                        t.$Message.error(t.$t("reminder.errormessage"));
-                    })
+                    // getDataLevelUserLoginNew(data).then((res) => {
+                    //     if (isSuccess(res, t)) {
+                    //         if (t.logType === t.$t('button.add')) {
+                    //             t.$Message.success(t.$t("reminder.addsuccess"));
+                    //             t.$store.commit('payProjbase/setMainId', res.data.content[0].id);
+                    //             t.$store.commit('payProjbase/setLogType', "修改");
+                    //             t.$emit('newData', res.data.content[0])
+                    //         } else {
+                    //             t.$Message.success(t.$t("reminder.updsuccess"));
+                    //             t.$emit('update', res.data.content[0])
+                    //         }
+                    //         t.handleReset();
+                    //     }
+                    // }).catch(() => {
+                    //     t.$Message.error(t.$t("reminder.errormessage"));
+                    // })
                 }
             })
         },
@@ -282,7 +282,6 @@ export default {
             this.formValidate = {};
             this.unitFname = "";
             this.pbsRangeDis = "";
-
             this.$emit('closeUp');
             this.disabled = false
         },

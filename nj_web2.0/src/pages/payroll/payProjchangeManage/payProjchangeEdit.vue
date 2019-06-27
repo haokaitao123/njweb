@@ -189,10 +189,10 @@ export default {
                     { required: true, message: "请输入岗位名称", trigger: "blur" }
                 ],
                 pojcStart: [
-                    { required: true, message: "请输入开始月份", trigger: "change" }
+                    { required: true, message: "请输入开始月份", trigger: "change", type: "date" }
                 ],
                 pojcEnd: [
-                    { required: true, message: "请输入结束月份", trigger: "change" }
+                    { required: true, message: "请输入结束月份", trigger: "change", type: "date" }
                 ],
                 poicPorp: [
                     { required: true, message: "请输入提成比例", trigger: "blur" },
@@ -228,8 +228,8 @@ export default {
                 deptId: '1000',
                 postFname: '招聘专员',
                 postId: '1000',
-                pojcStart: '2019-03',
-                pojcEnd: '2019-06',
+                pojcStart: '2019-04-01',
+                pojcEnd: '2019-06-01',
                 poicPorp: '20%',
                 note: '注意分成比例'
             }
@@ -240,8 +240,8 @@ export default {
             t.unitFname = data.unitFname;
             t.formValidate.postId = data.postId;
             t.postFname = data.postFname;
-            t.formValidate.pojcStart = new Date(data.pojcStart).format("yyyy-MM-dd");
-            t.formValidate.pojcEnd = new Date(data.pojcEnd).format("yyyy-MM-dd");
+            t.formValidate.pojcStart = data.pojcStart;
+            t.formValidate.pojcEnd = data.pojcEnd;
             t.formValidate.poicPorp = data.poicPorp;
             t.formValidate.note = data.note;
         },
@@ -309,22 +309,22 @@ export default {
 
             t.$refs.formValidate.validate(valid => {
                 if (valid) {
-                    getDataLevelUserLoginNew(data)
-                        .then(res => {
-                            if (isSuccess(res, t)) {
-                                if (t.logType === t.$t("button.add")) {
-                                    t.$Message.success(t.$t("reminder.addsuccess"));
-                                    t.$emit("newData", res.data.content[0]);
-                                } else {
-                                    t.$Message.success(t.$t("reminder.updsuccess"));
-                                    t.$emit("update", res.data.content[0]);
-                                }
-                                t.handleReset();
-                            }
-                        })
-                        .catch(() => {
-                            t.$Message.error(t.$t("reminder.errormessage"));
-                        });
+                    // getDataLevelUserLoginNew(data)
+                    //     .then(res => {
+                    //         if (isSuccess(res, t)) {
+                    //             if (t.logType === t.$t("button.add")) {
+                    //                 t.$Message.success(t.$t("reminder.addsuccess"));
+                    //                 t.$emit("newData", res.data.content[0]);
+                    //             } else {
+                    //                 t.$Message.success(t.$t("reminder.updsuccess"));
+                    //                 t.$emit("update", res.data.content[0]);
+                    //             }
+                    //             t.handleReset();
+                    //         }
+                    //     })
+                    //     .catch(() => {
+                    //         t.$Message.error(t.$t("reminder.errormessage"));
+                    //     });
                 }
             });
         },

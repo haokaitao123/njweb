@@ -44,8 +44,6 @@
         <!-- 新增修改弹窗页面  v-show控制是否显示 :**是传递到子页面的值  @**是传递到子页面的方法 无需变更-->
         <transition name="fade">
             <update v-show="openUpdate"
-                    :id="updateId"
-                    :logType="logType"
                     :index="index"
                     @closeUp="closeUp"
                     @newData="addNewArray"
@@ -149,7 +147,7 @@ export default {
                     bystStageDis: "1",
                     bystIntervalDis: "1",
                     bystDay: '3',
-                    bystAmount: "3000"
+                    bystAmount: "3000",
                 }
             ],
             // 表格获取数据mt名称
@@ -208,7 +206,6 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-
     },
     methods: {
         //获取列表项字段
@@ -235,17 +232,17 @@ export default {
         //打开新增或修改弹窗
         openUp (id, logType, index) {
             const t = this;
-            t.updateId = parseInt(id, 10);
+            // t.updateId = parseInt(id, 10);
             t.openUpdate = true;
             t.index = index;
             //主子表的子表
-            // t.$store.commit('payProjbase/setChildLogType', logType);
-            // t.$refs.update.getData(id, logType);
-            // if (t.logType === '查看') {
-            //     t.$refs.update.disabled = true
-            // } else {
-            //     t.$refs.update.disabled = false
-            // }
+            t.$store.commit('payProjbase/setChildLogType', logType);
+            t.$refs.update.getData(id, logType);
+            if (t.logType === '查看') {
+                t.$refs.update.disabled = true
+            } else {
+                t.$refs.update.disabled = false
+            }
         },
         //点击表格查看或修改事件
         tableBtn (res) {

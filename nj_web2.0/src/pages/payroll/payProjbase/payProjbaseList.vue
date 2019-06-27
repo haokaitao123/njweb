@@ -24,7 +24,7 @@
                                style="width: 200px" />
                         <!-- 页面按钮 -->
                         <btnList @buttonExport="expData"
-                                 @buttonAdd="openUp"
+                                 @buttonAdd="openUp('','新增')"
                                  @buttonDel="deletemsg"
                                  @buttonSearch="search"
                                  @buttonImport="importExcel"
@@ -54,8 +54,6 @@
         <!-- 新增修改弹窗页面  v-show控制是否显示 :**是传递到子页面的值  @**是传递到子页面的方法 无需变更-->
         <transition name="fade">
             <update v-show="openUpdate"
-                    :id="updateId"
-                    :logType="logType"
                     :index="index"
                     @closeUp="closeUp"
                     @newData="addNewArray"
@@ -69,7 +67,6 @@
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-//import update from "./payProjbaseEdit";                   //新增修改组件
 import update from "./payProjbaseBase";                   //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 import searchOrgframe from "@/components/searchTable/searchOrgframe";
@@ -129,10 +126,6 @@ export default {
             dele_mt: "payProjbase.delByIds",
             // 修改流程状态mt名称
             state_mt: "payProjbase.setStateByIds",
-            //表格 id
-            updateId: NaN,
-            //操作类型
-            logType: "",
             //对应列表index
             index: 0,
             //显示隐藏新增修改弹窗的变量
@@ -191,13 +184,11 @@ export default {
         //页面查询
         search () {
             this.$store.commit('commonPage/setParams', this.searchParams)
-            this.$refs.commonPage.search();
+            // this.$refs.commonPage.search();
         },
         //打开新增或修改弹窗
         openUp (id, logType, index) {
             const t = this;
-            t.updateId = parseInt(id, 10);
-            t.logType = logType;
             t.openUpdate = true;
             t.index = index;
             //主子表的主表
@@ -251,7 +242,6 @@ export default {
                 typeCode: t.typeCode
             }).then(res => {
                 if (isSuccess(res, t)) {
-
                 }
             })
                 .catch(() => {

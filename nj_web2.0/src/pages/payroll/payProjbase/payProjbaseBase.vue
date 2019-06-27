@@ -124,6 +124,7 @@ export default {
             this[name] = true;
             if (name !== "option") {
                 //this.getChildFunId(name)
+                this.$refs[name].getColumns();
                 this.$refs[name].search();
             } else {
                 this.$store.commit('setChildFunId', "");

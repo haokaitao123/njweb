@@ -43,7 +43,6 @@
         <!-- 新增修改弹窗页面  v-show控制是否显示 :**是传递到子页面的值  @**是传递到子页面的方法 无需变更-->
         <transition name="fade">
             <update v-show="openUpdate"
-                    :id="updateId"
                     :logType="logType"
                     :index="index"
                     @closeUp="closeUp"
@@ -83,7 +82,6 @@ export default {
                 { key: "ladeUpper", title: "人数下限", sortable: "custom", width: 220 },
                 { key: "ladeLower", title: "人数上限", sortable: "custom", width: 220 },
                 { key: "ladeAmount", title: "业绩 金额", sortable: "custom", width: 220 },
-
                 {
                     title: "操作",
                     key: "action",
@@ -143,11 +141,12 @@ export default {
             ],
             mockData: [
                 {
+                    id: '1000',
                     ladePid: '2000',
                     ladeUpper: "15",
                     ladeLower: "50",
-                    ladeAmount: '3000'
-                }
+                    ladeAmount: '3000',
+                },
             ],
             // 表格获取数据mt名称
             page_mt: "payLadder.getPage",
@@ -203,7 +202,6 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-
     },
     methods: {
         //获取列表项字段
@@ -230,7 +228,6 @@ export default {
         //打开新增或修改弹窗
         openUp (id, logType, index) {
             const t = this;
-            t.updateId = parseInt(id, 10);
             t.openUpdate = true;
             t.index = index;
             //主子表的子表
@@ -288,10 +285,9 @@ export default {
                 if (isSuccess(res, t)) {
 
                 }
-            })
-                .catch(() => {
-                    this.$Message.error(this.$t("reminder.errormessage"));
-                });
+            }).catch(() => {
+                this.$Message.error(this.$t("reminder.errormessage"));
+            });
         },
 
     }
