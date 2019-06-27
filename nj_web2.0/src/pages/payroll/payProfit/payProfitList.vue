@@ -166,8 +166,8 @@
       },
       //页面查询
       search() {
-        this.$store.commit('commonPage/setParams', this.searchParams)
-        this.$refs.commonPage.search();
+        /*this.$store.commit('commonPage/setParams', this.searchParams)
+        this.$refs.commonPage.search();*/
       },
       //打开新增或修改弹窗
       openUp(id, logType, index) {
