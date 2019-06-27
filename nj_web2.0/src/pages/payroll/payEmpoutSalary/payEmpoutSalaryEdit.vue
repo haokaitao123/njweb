@@ -46,34 +46,34 @@
               </FormItem>
               </Col>
               <Col span="11" offset="1">
-              <FormItem label="工资支出" prop="profPayout">
+              <FormItem label="工资金额" prop="profPayout">
                 <Input v-model="formValidate.profPayout"
                        :disabled=disabled
-                       placeholder="请输入工资支出"></Input>
+                       placeholder="请输入工资金额"></Input>
               </FormItem>
               </Col>
               <Col span="11">
-              <FormItem label="社保支出" prop="profSsesout">
+              <FormItem label="社保金额" prop="profSsesout">
                 <Input v-model="formValidate.profSsesout"
                        :disabled=disabled
-                       placeholder="请输入社保支出"></Input>
+                       placeholder="请输入社保金额"></Input>
               </FormItem>
               </Col>
               <Col span="11" offset="1">
-              <FormItem label="公积金支出" prop="profAcfunout">
+              <FormItem label="公积金金额" prop="profAcfunout">
                 <Input v-model="formValidate.profAcfunout"
                        :disabled=disabled
-                       placeholder="请输入公积金支出"></Input>
+                       placeholder="请输入公积金金额"></Input>
               </FormItem>
               </Col>
               <Col span="11">
-              <FormItem label="税金支出" prop="profTaxout">
-                <Input v-model="formValidate.profTaxout" :disabled=disabled placeholder="请输入税金支出"></Input>
+              <FormItem label="税金金额" prop="profTaxout">
+                <Input v-model="formValidate.profTaxout" :disabled=disabled placeholder="请输入税金金额"></Input>
               </FormItem>
               </Col>
               <Col span="11" offset="1">
-              <FormItem label="其他" prop="profOther">
-                <Input v-model="formValidate.profOther" :disabled=disabled placeholder="请输入其他"></Input>
+              <FormItem label="其他金额" prop="profOther">
+                <Input v-model="formValidate.profOther" :disabled=disabled placeholder="请输入其他金额"></Input>
               </FormItem>
               </Col>
               <Col span="23">

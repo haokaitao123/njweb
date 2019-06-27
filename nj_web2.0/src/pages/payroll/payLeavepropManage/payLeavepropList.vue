@@ -180,7 +180,7 @@
 				t.$store.commit("payLeaveprop/setMainId", id);
 				t.$store.commit("payLeaveprop/setLogType", logType);
 				if(logType != "新增") {
-					//t.$refs.update.getOption(id, logType);
+					t.$refs.update.getOption(id, logType);
 				}
 			},
 			//点击表格查看或修改事件
