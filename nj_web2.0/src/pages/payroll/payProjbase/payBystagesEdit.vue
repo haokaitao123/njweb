@@ -220,6 +220,7 @@ export default {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
                     t.bystIntervalData = data.value[0].paramList;
+                    t.bystStageData = data.value[0].paramList;
                 }
             }).catch(() => {
                 this.$Modal.error({
