@@ -238,7 +238,7 @@ export default {
         //状态修改
         modityChange (res) {
             this.tableselected = [];
-            this.getData();
+            // this.getData();
         },
         // 导入导出默认方法 无需更改
         closeImport () {
@@ -286,7 +286,7 @@ export default {
             t.filekey = filekey;
             t.filename = filename;
             t.openExpDow = openExpDow;
-            t.$refs.expdow.getPriToken(t.filekey);
+            // t.$refs.expdow.getPriToken(t.filekey);
         },
         //获取列表数据
         getData (page, params) {
@@ -336,7 +336,7 @@ export default {
             this.sort = column.key;
             this.order = column.order;
             if (this.order !== "normal") {
-                this.getData();
+                // this.getData();
             } else {
                 this.order = "desc";
             }
@@ -345,13 +345,13 @@ export default {
         sizeChange (size) {
             const t = this;
             t.rows = size;
-            t.getData();
+            // t.getData();
         },
         //改变页码
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData(t.page);
+            // t.getData(t.page);
         },
         //列表中选中对应列
         selectedtable (selection) {
@@ -397,7 +397,7 @@ export default {
             this.$store.commit('btnOperate/setSearchLoading', true);
             this.tableselected = [];
             this.page = 1;
-            this.getData(this.page, data);
+            // this.getData(this.page, data);
         },
         //修改状态 
         modifystatus (state, tipName) {

@@ -1,39 +1,49 @@
 <template>
-    <div class="table" :class="childTable?'content-main':''">
+    <div class="table"
+         :class="childTable?'content-main':''">
         <Row>
+            <Row>
+                <Col span="24">
                 <Row>
-                    <Col span="24">
-                    <Row>
-                    	
-                        <!-- 页面按钮 -->
-                            <Button type="primary" icon="search" @click="search()">查询</Button>
-    <Button type="primary" icon="primary" @click="openUp('', '新增')">新增</Button>
-    <Button type="primary" icon="primary" @click="expData">导出</Button>
-    <Button type="primary" icon="primary" @click="importExcel">导入</Button>
-    <Button type="error" icon="primary" @click="deletemsg">删除</Button>
 
-                    </Row>
-                    <!-- 表格 分页 -->
-                     <commonPage :imp_mt="imp_mt"
-                                :page_mt="page_mt"
-                                :exp_mt="exp_mt"
-                                :dele_mt="dele_mt"
-                                :state_mt="state_mt"
-                                :expDataTital="expDataTital"
-                                :table_height="table_height"
-                                :childTable="childTable"
-                                @tableBtn="tableBtn"
-                                ref="commonPage">
-                    </commonPage>
-                    </Col>
+                    <!-- 页面按钮 -->
+                    <Button type="primary"
+                            icon="search"
+                            @click="search()">查询</Button>
+                    <Button type="primary"
+                            icon="primary"
+                            @click="openUp('', '新增')">新增</Button>
+                    <Button type="primary"
+                            icon="primary"
+                            @click="expData">导出</Button>
+                    <Button type="primary"
+                            icon="primary"
+                            @click="importExcel">导入</Button>
+                    <Button type="error"
+                            icon="primary"
+                            @click="deletemsg">删除</Button>
+
                 </Row>
+                <!-- 表格 分页 -->
+                <commonPage :imp_mt="imp_mt"
+                            :page_mt="page_mt"
+                            :exp_mt="exp_mt"
+                            :dele_mt="dele_mt"
+                            :state_mt="state_mt"
+                            :expDataTital="expDataTital"
+                            :table_height="table_height"
+                            :childTable="childTable"
+                            :mockData="mockData"
+                            @tableBtn="tableBtn"
+                            ref="commonPage">
+                </commonPage>
+                </Col>
+            </Row>
             </Col>
         </Row>
         <!-- 新增修改弹窗页面  v-show控制是否显示 :**是传递到子页面的值  @**是传递到子页面的方法 无需变更-->
         <transition name="fade">
             <update v-show="openUpdate"
-                    :id="updateId"
-                    :logType="logType"
                     :index="index"
                     @closeUp="closeUp"
                     @newData="addNewArray"
@@ -41,7 +51,7 @@
                     ref="update"></update>
         </transition>
         <!--搜索 弹出选择框  -->
-        
+
     </div>
 </template>
 <script>
@@ -60,18 +70,18 @@ export default {
             exp_mt: "payPerfmance.export",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                    { code: "drawPid", name: "外键" },
-    { code: "pmceDate", name: "阶段日期" },
-    { code: "pmceRperDis", name: "阶段属期" },
-    { code: "pmceAmount", name: "业绩金额" },
+                { code: "drawPid", name: "外键" },
+                { code: "pmceDate", name: "阶段日期" },
+                { code: "pmceRperDis", name: "阶段属期" },
+                { code: "pmceAmount", name: "业绩金额" },
             ],
             // 表格列字段
             columns: [
-            	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                    { key: "drawPid", title: "外键", sortable: "custom" , width : 220},
-    { key: "pmceDate", title: "阶段日期", sortable: "custom" , width : 220},
-    { key: "pmceRperDis", title: "阶段属期", sortable: "custom" , width : 220},
-    { key: "pmceAmount", title: "业绩金额", sortable: "custom" , width : 220},
+                { type: "selection", width: 54, fixed: "left", align: "center" },
+                // { key: "drawPid", title: "外键", sortable: "custom", width: 220 },
+                { key: "pmceDate", title: "阶段日期", sortable: "custom", width: 220 },
+                { key: "pmceRperDis", title: "阶段属期", sortable: "custom", width: 220 },
+                { key: "pmceAmount", title: "业绩金额", sortable: "custom", width: 220 },
 
                 {
                     title: "操作",
@@ -93,7 +103,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                              this.openUp(
+                                            this.openUp(
                                                 params.row.id,
                                                 '修改',
                                                 params.index
@@ -115,7 +125,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                              this.openUp(
+                                            this.openUp(
                                                 params.row.id,
                                                 '查看',
                                                 params.index
@@ -130,6 +140,11 @@ export default {
                     }
                 },
             ],
+            mockData: [{
+                pmceDate: "2019-06-01",
+                pmceRperDis: "第三阶段",
+                pmceAmount: "20000"
+            }],
             // 表格获取数据mt名称
             page_mt: "payPerfmance.getPage",
             // 删除数据mt名称
@@ -144,19 +159,18 @@ export default {
             openUpdate: false,
             //搜索参数
             searchParams: {
-            	
+
             },
             //是否为子表
-            childTable:true,
+            childTable: true,
             typeCode: "",
             //弹出选择框
             pmceRperDis: "",
-
-            table_height:document.body.offsetHeight - 350,
+            table_height: document.body.offsetHeight - 350,
         };
     },
     components: {
-    	
+
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -170,7 +184,7 @@ export default {
         FlowNode () {
             return this.$store.state.btnOperate.isFlowNode;
         },
-         //主键id
+        //主键id
         mainId () {
             return this.$store.state.payEntrybase.mainId;
         },
@@ -185,7 +199,7 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-        
+
     },
     methods: {
         //获取列表项字段
@@ -198,9 +212,9 @@ export default {
         },
         //页面查询
         search () {
-        	this.searchParams.drawPid = this.mainId;
+            this.searchParams.drawPid = this.mainId;
             this.$store.commit('commonPage/setChildParams', this.searchParams);
-            this.$refs.commonPage.search();
+            // this.$refs.commonPage.search();
         },
         //打开新增或修改弹窗
         openUp (id, logType, index) {
@@ -253,11 +267,11 @@ export default {
         },
         //状态操作按钮
         modifystatus (type, name) {
-            this.$refs.commonPage.modifystatus(type, name)
+            // this.$refs.commonPage.modifystatus(type, name)
         },
         //修改流程状态
         modityChange () {
-            this.$refs.commonPage.modityChange()
+            // this.$refs.commonPage.modityChange()
         },
         //获取下拉列表数据
         getSelectValue () {
@@ -268,14 +282,14 @@ export default {
                 typeCode: t.typeCode
             }).then(res => {
                 if (isSuccess(res, t)) {
-                	
+
                 }
             })
                 .catch(() => {
                     this.$Message.error(this.$t("reminder.errormessage"));
                 });
         },
-        
+
     }
 };
 </script>

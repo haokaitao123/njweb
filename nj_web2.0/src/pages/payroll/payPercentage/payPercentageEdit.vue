@@ -218,32 +218,52 @@ pectManager: [
         //获取列表详情
         getData (id) {
             const t = this
-            t.spinShow = true
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                       t.formValidate.deptId = data.deptId;
-    t.unitFname = data.unitFname;
-    t.formValidate.pectType = data.pectType;
-    t.pectTypeDis = data.pectTypeDis;
-    t.formValidate.pectStart = data.pectStart;
-    t.formValidate.pectEnd = data.pectEnd;
-    t.formValidate.pectStaff = data.pectStaff;
-    t.formValidate.pectPerson = data.pectPerson;
-    t.formValidate.pectManager = data.pectManager;
-    t.formValidate.note = data.note;
-    t.formValidate.state = data.state;
+            let data = {
+                id: "1000",
+                unitFname: '武汉分公司',
+                deptId:"1230",
+				pectTypeDis: "ziti",
+				pectStart: "2019-06-15",
+				pectEnd: "2019-06-15",
+				pectStaff: "1:4",
+				pectPerson: "1:2",
+                note: '请输入备注'
+            }
+            t.formValidate.deptId = data.deptId;
+            t.unitFname = data.unitFname;
+            t.pectTypeDis = data.pectTypeDis;
+            t.formValidate.pectStart = data.pectStart;
+            t.formValidate.pectEnd = data.pectEnd;
+            t.formValidate.pectStaff = data.pectStaff;
+            t.formValidate.pectPerson = data.pectPerson;
+            t.formValidate.note = data.note;
+            t.pectTypeDis = data.pectTypeDis;
+    //         t.spinShow = true
+    //         getDataLevelUserLogin({
+    //             _mt: t.getById_mt,
+    //             id: id,
+    //             logType: 'Id查询',
+    //         }).then((res) => {
+    //             if (isSuccess(res, t)) {
+    //                 let data = res.data.content[0]
+    //                    t.formValidate.deptId = data.deptId;
+    // t.unitFname = data.unitFname;
+    // t.formValidate.pectType = data.pectType;
+    // t.pectTypeDis = data.pectTypeDis;
+    // t.formValidate.pectStart = data.pectStart;
+    // t.formValidate.pectEnd = data.pectEnd;
+    // t.formValidate.pectStaff = data.pectStaff;
+    // t.formValidate.pectPerson = data.pectPerson;
+    // t.formValidate.pectManager = data.pectManager;
+    // t.formValidate.note = data.note;
+    // t.formValidate.state = data.state;
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
-            });
+    //             }
+    //         }).catch(() => {
+    //             this.$Message.error(this.$t("reminder.errormessage"));
+    //         }).finally(() => {
+    //             t.spinShow = false
+    //         });
         },
         //获取下拉列表数据
         getSelect () {

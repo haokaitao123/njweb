@@ -38,6 +38,7 @@
                                 :state_mt="state_mt"
                                 :expDataTital="expDataTital"
                                 :table_height="table_height"
+                                :mockData="mockData"
                                 @tableBtn="tableBtn"
                                 ref="commonPage">
                     </commonPage>
@@ -150,6 +151,11 @@ export default {
             openUnitFname: false,
             unitFname: "",
             table_height:document.body.offsetHeight - 280,
+             mockData: [{
+             	  unitFname:"项目名称2", 
+                  sharPer: "2019-05",
+                  sharAmount: "2000"
+             }]
         };
     },
     components: {

@@ -22,6 +22,7 @@
                                 :expDataTital="expDataTital"
                                 :table_height="table_height"
                                 :childTable="childTable"
+                                :mockData="mockData"
                                 @tableBtn="tableBtn"
                                 ref="commonPage">
                     </commonPage>
@@ -150,6 +151,13 @@ export default {
             //弹出选择框
             
             table_height:document.body.offsetHeight - 350,
+             mockData:[{
+             	drawPid:"nj",
+             	drawPer:'2019-6-7',
+             	drawAmount:"3000",
+             	
+             	
+             }]
         };
     },
     components: {	
@@ -206,7 +214,7 @@ export default {
             t.index = index;
             //主子表的子表
             t.$store.commit('payLeaveprop/setChildLogType', logType);
-            t.$refs.update.getData(id, logType);
+            //t.$refs.update.getData(id, logType);
             if (t.logType === '查看') {
                 t.$refs.update.disabled = true
             } else {
