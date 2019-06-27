@@ -23,7 +23,7 @@
                 <!-- 页面按钮 -->
                 <btnList
                   @buttonExport="expData"
-                  @buttonAdd="openUp('', '新增')"
+                  @buttonAdd="openUp('','新增')"
                   @buttonDel="deletemsg"
                   @buttonSearch="search"
                   @buttonImport="importExcel"
@@ -63,13 +63,19 @@
       ></update>
     </transition>
     <!--搜索 弹出选择框  -->
+    <!-- <transition name="fade">
+    <searchDept v-show="openUnitFname"
+    @closeModal="closeUnitFname"
+    @inputModal ="inputUnitFname"
+    ref="unitFnameSearch"></searchDept>
+    </transition>-->
   </div>
 </template>
 <script>
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from "@/components/commonPage/commonPage"; //公共页面组件
-import update from "./payLeavepropEdit"; //新增修改组件
+import update from "./payLeavepropBase"; //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js"; //按钮组件
 import searchDept from "@/components/searchTable/searchDept";
 

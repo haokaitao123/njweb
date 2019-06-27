@@ -21,6 +21,7 @@
                                 :state_mt="state_mt"
                                 :expDataTital="expDataTital"
                                 :table_height="table_height"
+                                :childTable="childTable"
                                 @tableBtn="tableBtn"
                                 ref="commonPage">
                     </commonPage>
@@ -151,8 +152,7 @@ export default {
             table_height:document.body.offsetHeight - 350,
         };
     },
-    components: {
-    	
+    components: {	
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -206,7 +206,7 @@ export default {
             t.index = index;
             //主子表的子表
             t.$store.commit('payLeaveprop/setChildLogType', logType);
-            t.$refs.update.setRowId(id, logType);
+            t.$refs.update.getData(id, logType);
             if (t.logType === '查看') {
                 t.$refs.update.disabled = true
             } else {
@@ -223,6 +223,13 @@ export default {
         //关闭新增修改弹窗
         closeUp () {
             this.openUpdate = false;
+        },
+        //清除
+        clear () {
+            this.searchParams = {};
+            this.$refs.commonPage.page = 1;
+            this.$refs.commonPage.rows = 20;
+            this.$store.commit('commonPage/setChildParams', this.searchParams);
         },
         //新增后表格数据添加
         addNewArray (res) {
@@ -275,9 +282,6 @@ export default {
 }
 .margin-right-10 {
     margin-right: 10px;
-}
-.content-main {
-    height: 500px;
 }
 .btn_row {
     .ivu-btn-primary {

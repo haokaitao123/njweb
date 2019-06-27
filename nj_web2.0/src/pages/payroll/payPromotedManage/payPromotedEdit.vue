@@ -22,7 +22,7 @@
                       v-model="empnhName"
                       icon="search"
                       :disabled="disabled"
-                      :readonly="true"
+                      :readonly="disabled"
                       placeholder="请选择提拔人"
                       @on-click="disabled?'':empnhNamePick()"
                     />
@@ -41,7 +41,7 @@
                       v-model="promUserName"
                       icon="search"
                       :disabled="disabled"
-                      :readonly="true"
+                      :readonly="disabled"
                       placeholder="请选择被提拔人"
                       @on-click="disabled?'':promUserNamePick()"
                     />
@@ -70,7 +70,7 @@
                       v-model="promPostFname"
                       icon="search"
                       :disabled="disabled"
-                      :readonly="true"
+                      :readonly="disabled"
                       placeholder="请选择提拔岗位"
                       @on-click="disabled?'':promPostFnamePick()"
                     />
@@ -84,7 +84,7 @@
                       v-model="promDeptFname"
                       icon="search"
                       :disabled="disabled"
-                      :readonly="true"
+                      :readonly="disabled"
                       placeholder="请选择提拔部门"
                       @on-click="disabled?'':promDeptFnamePick()"
                     />
@@ -278,7 +278,6 @@ export default {
     index: Number
   },
   components: {
-    searchEmpMaster,
     searchEmpMaster,
     searchPost,
     searchOrgframe
