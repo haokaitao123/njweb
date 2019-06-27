@@ -9,8 +9,8 @@
                    border
                    ref="selection"
                    :columns="columns"
-                   :data="data"
-                   :loading="loading"></Table>
+                   :data="mockData"
+                   :loading="mockLoading"></Table>
         </row>
         <Row style="display: flex">
             <Page :total="total"
@@ -135,6 +135,7 @@ export default {
             page: 1,
             state: this.modity,
             loading: "",
+            mockLoading: false
         };
     },
     props: {
@@ -174,6 +175,10 @@ export default {
         table_height: {
             type: Number,
         },
+        //模拟数据
+        mockData: {
+            type: Array,
+        }
     },
     computed: {
         pageShow () {
@@ -205,9 +210,9 @@ export default {
         },
     },
     mounted () {
-        if (!this.childTable) {
-            this.getData();
-        }
+        // if (!this.childTable) {
+        //     this.getData();
+        // }
         // this.getData();
     },
     watch: {

@@ -182,7 +182,7 @@ export default {
                     t.importData(res.data[key])
                 }
             }).catch(() => {
-                 t.loadingStatus = false
+                t.loadingStatus = false
                 t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
@@ -202,7 +202,7 @@ export default {
                     t.imp = window.setInterval(t.getImportState, 1000)
                 }
             }).catch(() => {
-                 t.loadingStatus = false
+                t.loadingStatus = false
                 t.$Message.error(this.$t("reminder.errormessage"));
             })
         },
@@ -214,14 +214,20 @@ export default {
                 jobueueId: t.jobQueueId,
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    console.log(res.data.content[0],"liyan")
+                    console.log(res.data.content[0], "liyan")
                     if (res.data.content[0].imp_status !== 100) {
                         t.imp_status = res.data.content[0].imp_status
                         t.activeState = 'active'
-                        console.log(res.data.content[0].imp_status, "2")
+                        console.log(res.data.content[0].imp_status, "2");
+                        if (res.data.content[0].imp_status == -1) {
+                            t.imp_status = 99
+                            t.activeState = 'wrong'
+                            t.loadingStatus = false
+                            clearInterval(t.imp)
+                        }
                     } else {
                         clearInterval(t.imp)
-                        // t.activeState = 'normal'
+                        t.activeState = ''
                         if (res.data.content[0].imp_errfile !== '') {
                             t.openImportFail = true
                             t.$refs.importFail.importFailDowFile(res.data.content[0].imp_errfile)
@@ -239,18 +245,17 @@ export default {
                             t.imp_status = 99
                             t.activeState = 'wrong'
                         }
-                        console.log(t.activeState,"activeState")
+                        console.log(t.activeState, "activeState")
                         t.loadingStatus = false
                     }
                 } else {
+                    t.loadingStatus = false
                     clearInterval(t.imp)
                 }
             }).catch(() => {
+                t.loadingStatus = false
                 clearInterval(t.imp)
                 t.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-              
-                clearInterval(t.imp)
             })
         },
         getDowModelFile () {
