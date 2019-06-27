@@ -56,6 +56,9 @@ import payDayAccountList from '@/pages/payroll/payDayAccount/payDayAccountList'
 //项目收益管理
 import payProfitList from '@/pages/payroll/payProfit/payProfitList'
 
+//外包员工薪资
+import payEmpoutSalaryList from '@/pages/payroll/payEmpoutSalary/payEmpoutSalaryList'
+
 //员工薪资发放
 import payEmpgrantList from '@/pages/payroll/payEmpgrant/payEmpgrantList'
 //项目离职率
@@ -238,6 +241,11 @@ export default [
       path: 'payProfitList',
       name: 'payProfitList',
       component: payProfitList,
+    },
+    {
+      path: 'payEmpoutSalaryList',
+      name: 'payEmpoutSalaryList',
+      component: payEmpoutSalaryList,
     },
     {
       path: 'payEmpgrantList',

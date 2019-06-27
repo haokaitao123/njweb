@@ -25,62 +25,27 @@
                 :rules="ruleValidate"
                 :label-width="100">
             <Row>
-              <Col span="11">
-              <FormItem label="项目名称" prop="deptId">
+              <Col span="11" offset="1">
+              <FormItem label="员工姓名" prop="deptId">
                     <span @dblclick="disabled?'':clearUnitFname()">
                       <Input v-model="unitFname"
                              icon="search"
                              :disabled="disabled"
                              :readonly="true"
-                             placeholder="请选择项目名称"
+                             placeholder="请选择员工"
                              @on-click="disabled?''
                         :unitFnamePick()"/>
                     </span>
               </FormItem>
               </Col>
-              <Col span="11" offset="1">
+              <Col span="11" >
               <FormItem label="所属期间" prop="profPer">
                 <Input v-model="formValidate.profPer"
                        :disabled=disabled
                        placeholder="请输入所属期间"></Input>
               </FormItem>
               </Col>
-              <Col span="11">
-              <FormItem label="工资回款" prop="profPays">
-                <Input v-model="formValidate.profPays"
-                       :disabled=disabled
-                       placeholder="请输入工资回款"></Input>
-              </FormItem>
-              </Col>
               <Col span="11" offset="1">
-              <FormItem label="社保回款" prop="profSses">
-                <Input v-model="formValidate.profSses"
-                       :disabled=disabled
-                       placeholder="请输入社保回款"></Input>
-              </FormItem>
-              </Col>
-              <Col span="11">
-              <FormItem label="公积金回款" prop="profAcfun">
-                <Input v-model="formValidate.profAcfun"
-                       :disabled=disabled
-                       placeholder="请输入公积金回款"></Input>
-              </FormItem>
-              </Col>
-              <Col span="11" offset="1">
-              <FormItem label="服务费回款" prop="profServer">
-                <Input v-model="formValidate.profServer"
-                       :disabled=disabled
-                       placeholder="请输入服务费回款"></Input>
-              </FormItem>
-              </Col>
-              <Col span="11">
-              <FormItem label="税金回款" prop="profTax">
-                <Input v-model="formValidate.profTax"
-                       :disabled=disabled
-                       placeholder="请输入税金回款"></Input>
-              </FormItem>
-              </Col>
-<!--              <Col span="11" offset="1">
               <FormItem label="工资支出" prop="profPayout">
                 <Input v-model="formValidate.profPayout"
                        :disabled=disabled
@@ -110,7 +75,7 @@
               <FormItem label="其他" prop="profOther">
                 <Input v-model="formValidate.profOther" :disabled=disabled placeholder="请输入其他"></Input>
               </FormItem>
-              </Col>-->
+              </Col>
               <Col span="23">
               <FormItem label="备注" prop="note">
                 <Input v-model="formValidate.note"
@@ -196,32 +161,12 @@
         //表单验证规则
         ruleValidate: {
           deptId: [
-            {required: true, message: "请输入项目名称", trigger: "change"},
+            {required: true, message: "请输入员工姓名", trigger: "change"},
           ],
           profPer: [
             {required: true, message: "请输入所属期间", trigger: "blur"},
           ],
-          profPays: [
-            {required: true, message: "请输入工资回款", trigger: "blur"},
-            {required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"},
-          ],
-          profSses: [
-            {required: true, message: "请输入社保回款", trigger: "blur"},
-            {required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"},
-          ],
-          profAcfun: [
-            {required: true, message: "请输入公积金回款", trigger: "blur"},
-            {required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"},
-          ],
-          profServer: [
-            {required: true, message: "请输入服务费回款", trigger: "blur"},
-            {required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"},
-          ],
-          profTax: [
-            {required: true, message: "请输入税金回款", trigger: "blur"},
-            {required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"},
-          ],
-          /*profPayout: [
+          profPayout: [
             {required: true, message: "请输入工资支出", trigger: "blur"},
             {required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"},
           ],
@@ -239,7 +184,7 @@
           ],
           profOther: [
             {required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"},
-          ],*/
+          ],
 
         },
       }
@@ -367,4 +312,5 @@
 <style lang="scss">
   @import "../../../sass/updateAndAdd";
   @import "../../../sass/singleUpdateAdd";
+
 </style>
