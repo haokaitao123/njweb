@@ -277,38 +277,68 @@ costAmountf: [
         //获取列表详情
         getData (id) {
             const t = this
-            t.spinShow = true
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                       t.formValidate.costPer = data.costPer;
-    t.formValidate.deptId = data.deptId;
-    t.unitFname = data.unitFname;
-    t.formValidate.costType = data.costType;
-    t.costTypeDis = data.costTypeDis;
-    t.formValidate.costPays = data.costPays;
-    t.formValidate.costWater = data.costWater;
-    t.formValidate.costWorkstat = data.costWorkstat;
-    t.formValidate.costBusiness = data.costBusiness;
-    t.formValidate.costAmounta = data.costAmounta;
-    t.formValidate.costAmountb = data.costAmountb;
-    t.formValidate.costAmountc = data.costAmountc;
-    t.formValidate.costAmountd = data.costAmountd;
-    t.formValidate.costAmounte = data.costAmounte;
-    t.formValidate.costAmountf = data.costAmountf;
-    t.formValidate.note = data.note;
-    t.formValidate.state = data.state;
+            let data = {
+                id: "1000",
+               	costPer: "2013-2019",
+				unitFname: "项目1",
+				costTypeDis: "成本",
+				costPays: "3000",
+				costWater: "130",
+				costWorkstat: '120',
+				costBusiness: "400",
+				costAmounta: "30",
+				costAmountb: "40",
+				costAmountc: "50",
+				costAmountd: "60",
+				costAmounte: "70",
+				costAmountf: "80",
+            }
+            console.log(data,"5345");
+            t.formValidate.costPer = data.costPer;
+            t.unitFname = data.unitFname;
+            t.costTypeDis = data.costTypeDis;
+            t.formValidate.costPays = data.costPays;
+            t.formValidate.costWater = data.costWater;
+            t.formValidate.costWorkstat = data.costWorkstat;
+            t.formValidate.costBusiness = data.costBusiness;
+            t.formValidate.costAmounta = data.costAmounta;
+            t.formValidate.costAmountb = data.costAmountb;
+            t.formValidate.costAmountc = data.costAmountc;
+            t.formValidate.costAmountd = data.costAmountd;
+            t.formValidate.costAmounte = data.costAmounte;
+            t.formValidate.costAmountf = data.costAmountf;
+            //t.spinShow = true
+            // getDataLevelUserLogin({
+            //     _mt: t.getById_mt,
+            //     id: id,
+            //     logType: 'Id查询',
+            // }).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         let data = res.data.content[0]
+            //            t.formValidate.costPer = data.costPer;
+            //             t.formValidate.deptId = data.deptId;
+            //             t.unitFname = data.unitFname;
+            //             t.formValidate.costType = data.costType;
+            //             t.costTypeDis = data.costTypeDis;
+            //             t.formValidate.costPays = data.costPays;
+            //             t.formValidate.costWater = data.costWater;
+            //             t.formValidate.costWorkstat = data.costWorkstat;
+            //             t.formValidate.costBusiness = data.costBusiness;
+            //             t.formValidate.costAmounta = data.costAmounta;
+            //             t.formValidate.costAmountb = data.costAmountb;
+            //             t.formValidate.costAmountc = data.costAmountc;
+            //             t.formValidate.costAmountd = data.costAmountd;
+            //             t.formValidate.costAmounte = data.costAmounte;
+            //             t.formValidate.costAmountf = data.costAmountf;
+            //             t.formValidate.note = data.note;
+            //             t.formValidate.state = data.state;
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
-            });
+            //     }
+            // }).catch(() => {
+            //     this.$Message.error(this.$t("reminder.errormessage"));
+            // }).finally(() => {
+            //     t.spinShow = false
+            // });
         },
         //获取下拉列表数据
         getSelect () {

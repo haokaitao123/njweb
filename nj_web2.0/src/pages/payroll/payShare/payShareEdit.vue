@@ -174,26 +174,37 @@ sharPer: [
         //获取列表详情
         getData (id) {
             const t = this
-            t.spinShow = true
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                       t.formValidate.deptId = data.deptId;
-    t.unitFname = data.unitFname;
-    t.formValidate.sharPer = data.sharPer;
-    t.formValidate.sharAmount = data.sharAmount;
-    t.formValidate.note = data.note;
+            let data = {
+                unitFname:"项目名称2",
+                deptId:"1000",
+                sharPer: "2019-05",
+                sharAmount: "2000",
+                note: '请输入备注'
+            }
+            t.formValidate.sharPer = data.sharPer;
+            t.formValidate.sharAmount = data.sharAmount;
+            t.formValidate.note = data.note;
+            t.unitFname = data.unitFname;
+    //         t.spinShow = true
+    //         getDataLevelUserLogin({
+    //             _mt: t.getById_mt,
+    //             id: id,
+    //             logType: 'Id查询',
+    //         }).then((res) => {
+    //             if (isSuccess(res, t)) {
+    //                 let data = res.data.content[0]
+    //                    t.formValidate.deptId = data.deptId;
+    // t.unitFname = data.unitFname;
+    // t.formValidate.sharPer = data.sharPer;
+    // t.formValidate.sharAmount = data.sharAmount;
+    // t.formValidate.note = data.note;
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
-            });
+    //             }
+    //         }).catch(() => {
+    //             this.$Message.error(this.$t("reminder.errormessage"));
+    //         }).finally(() => {
+    //             t.spinShow = false
+    //         });
         },
         //获取下拉列表数据
         getSelect () {

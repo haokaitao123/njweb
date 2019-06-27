@@ -18,7 +18,7 @@
 						<Input v-model="searchParams.pectStart" placeholder="请输入生效时间" style="width: 200px" />
 						<Input v-model="searchParams.pectEnd" placeholder="请输入失效时间" style="width: 200px" />
 						<!-- 页面按钮 -->
-						<btnList @buttonExport="expData" @buttonAdd="openUp" @buttonDel="deletemsg" @buttonSearch="search" @buttonImport="importExcel" @moditySelect="modityChange" :btnData="btnData" :FlowNode="FlowNode">
+						<btnList @buttonExport="expData" @buttonAdd="openUp('','新增')" @buttonDel="deletemsg" @buttonSearch="search" @buttonImport="importExcel" @moditySelect="modityChange" :btnData="btnData" :FlowNode="FlowNode">
 						</btnList>
 
 					</Row>
@@ -250,7 +250,7 @@
 				t.index = index;
 				t.$refs.update.disabled = false;
 				if(logType === '修改' || logType === "查看") {
-					//t.$refs.update.getData(id);
+					t.$refs.update.getData(id);
 				}
 				if(logType === "查看") {
 					t.$refs.update.disabled = true;
