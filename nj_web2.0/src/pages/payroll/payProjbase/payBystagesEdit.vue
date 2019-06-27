@@ -13,60 +13,88 @@
                           size="16"></Icon>
                 </Button>
             </div>
-            <Row class="main-height">
+            <Row class="main-height"
+                 ref="scrollBox">
                 <Form ref="formValidate"
                       :model="formValidate"
                       :rules="ruleValidate"
                       :label-width="100">
-                        <Row>
-                           <Col span="11">
-<FormItem label="阶段期数" prop="bystStageDis">
-<Select v-model="formValidate.bystStageDis" :clearable="!disabled" :disabled=disabled placeholder="请选择阶段期数">
-<Option :value="item.paramCode" v-for="(item,index) in bystStageData" :key="index">{{item.paramInfoCn}}</Option>
-</Select>
-</FormItem>
-</Col>
-<Col span="11" offset="1">
-<FormItem label="阶段间隔" prop="bystIntervalDis">
-<Select v-model="formValidate.bystIntervalDis" :clearable="!disabled" :disabled=disabled placeholder="请选择阶段间隔">
-<Option :value="item.paramCode" v-for="(item,index) in bystIntervalData" :key="index">{{item.paramInfoCn}}</Option>
-</Select>
-</FormItem>
-</Col>
-<Col span="11">
-<FormItem label="阶段天数" prop="bystDay">
-<Input v-model="formValidate.bystDay" :disabled=disabled placeholder="请输入阶段天数"></Input>
-</FormItem>
-</Col>
-<Col span="11" offset="1">
-<FormItem label="阶段金额" prop="bystAmount">
-<Input v-model="formValidate.bystAmount" :disabled=disabled placeholder="请输入阶段金额"></Input>
-</FormItem>
-</Col>
-<Col span="23">
-<FormItem label="备注" prop="note">
-<Input v-model="formValidate.note"
-:disabled="disabled" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注..."></Input>
-</FormItem>
-</Col>
-
+                    <Row>
+                        <Col span="11">
+                        <FormItem label="阶段期数"
+                                  prop="bystStageDis">
+                            <Select v-model="formValidate.bystStageDis"
+                                    :clearable="!disabled"
+                                    :disabled=disabled
+                                    placeholder="请选择阶段期数">
+                                <Option :value="item.paramCode"
+                                        v-for="(item,index) in bystStageData"
+                                        :key="index">{{item.paramInfoCn}}</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="11"
+                             offset="1">
+                        <FormItem label="阶段间隔"
+                                  prop="bystIntervalDis">
+                            <Select v-model="formValidate.bystIntervalDis"
+                                    :clearable="!disabled"
+                                    :disabled=disabled
+                                    placeholder="请选择阶段间隔">
+                                <Option :value="item.paramCode"
+                                        v-for="(item,index) in bystIntervalData"
+                                        :key="index">{{item.paramInfoCn}}</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="11">
+                        <FormItem label="阶段天数"
+                                  prop="bystDay">
+                            <Input v-model="formValidate.bystDay"
+                                   :disabled=disabled
+                                   placeholder="请输入阶段天数"></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="11"
+                             offset="1">
+                        <FormItem label="阶段金额"
+                                  prop="bystAmount">
+                            <Input v-model="formValidate.bystAmount"
+                                   :disabled=disabled
+                                   placeholder="请输入阶段金额"></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="23">
+                        <FormItem label="备注"
+                                  prop="note">
+                            <Input v-model="formValidate.note"
+                                   :disabled="disabled"
+                                   type="textarea"
+                                   :autosize="{minRows: 2,maxRows: 5}"
+                                   placeholder="请输入备注..."></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="22"
+                             offset="1">
+                        <Row type="flex"
+                             justify="end">
+                            <FormItem>
+                                <Button type="ghost"
+                                        @click="handleReset"
+                                        style="margin-left: 8px">取消</Button>
+                                <Button type="primary"
+                                        @click="handleSubmit"
+                                        v-show="!disabled">保存</Button>
+                            </FormItem>
                         </Row>
-                    </Form>
-                </Row>
-            </div>
-            <div class="button_box">
-                <Button type="ghost"
-                        @click="handleReset"
-                        class="btn1">取消</Button>
-                <Button type="primary"
-                        @click="handleSubmit"
-                        v-show="!disabled"
-                        class="btn">保存</Button>
-            </div>
-
+                        </Col>
+                    </Row>
+                </Form>
+            </Row>
         </div>
-        <!--  弹出选择框  -->
-        
+    </div>
+    <!--  弹出选择框  -->
+
     </div>
 </template>
 <script>
@@ -93,12 +121,12 @@ export default {
             //禁选 
             disabled: false,
             bystStageDis: "",
-bystIntervalDis: "",
+            bystIntervalDis: "",
 
-            
+
             typeCode: "bystStage,bystInterval",
             bystStageData: [],
-bystIntervalData: [],
+            bystIntervalData: [],
 
             //提交mt名称
             addOrUpd_mt: 'payBystages.addOrUpd',
@@ -106,30 +134,30 @@ bystIntervalData: [],
             getById_mt: 'payBystages.getById',
             //form表单提交数据
             formValidate: {
-            	    bystPid: '', 
-    bystStage: '', 
-    bystInterval: '', 
-    bystDay: '', 
-    bystAmount: '', 
-    note: '', 
+                bystPid: '',
+                bystStage: '',
+                bystInterval: '',
+                bystDay: '',
+                bystAmount: '',
+                note: '',
 
             },
             //表单验证规则
             ruleValidate: {
                 bystStage: [
-{ required: true, message: "请输入阶段期数", trigger: "change" },
-],
-bystInterval: [
-{ required: true, message: "请输入阶段间隔", trigger: "change" },
-],
-bystDay: [
-{ required: true, message: "请输入阶段天数", trigger: "blur" },
-{ required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
-],
-bystAmount: [
-{ required: true, message: "请输入阶段金额", trigger: "blur" },
-{ required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
-],
+                    { required: true, message: "请输入阶段期数", trigger: "change" },
+                ],
+                bystInterval: [
+                    { required: true, message: "请输入阶段间隔", trigger: "change" },
+                ],
+                bystDay: [
+                    { required: true, message: "请输入阶段天数", trigger: "blur" },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
+                ],
+                bystAmount: [
+                    { required: true, message: "请输入阶段金额", trigger: "blur" },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
+                ],
 
             },
         }
@@ -147,17 +175,20 @@ bystAmount: [
         }
     },
     components: {
-    	
-        
+
+
     },
     mounted () {
-        
+
     },
     methods: {
         //获取列表详情
-        getData (id) {
+        getData (id, logType) {
             const t = this
-            t.spinShow = true
+            if (logType == "新增") {
+                return;
+            }
+            t.id = id;
             getDataLevelUserLogin({
                 _mt: t.getById_mt,
                 id: id,
@@ -165,21 +196,19 @@ bystAmount: [
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0]
-                       t.formValidate.bystPid = data.bystPid;
-    t.formValidate.bystStage = data.bystStage;
-    t.bystStageDis = data.bystStageDis;
-    t.formValidate.bystInterval = data.bystInterval;
-    t.bystIntervalDis = data.bystIntervalDis;
-    t.formValidate.bystDay = data.bystDay;
-    t.formValidate.bystAmount = data.bystAmount;
-    t.formValidate.note = data.note;
+                    t.formValidate.bystPid = data.bystPid;
+                    t.formValidate.bystStage = data.bystStage;
+                    t.bystStageDis = data.bystStageDis;
+                    t.formValidate.bystInterval = data.bystInterval;
+                    t.bystIntervalDis = data.bystIntervalDis;
+                    t.formValidate.bystDay = data.bystDay;
+                    t.formValidate.bystAmount = data.bystAmount;
+                    t.formValidate.note = data.note;
 
                 }
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
-            });
+            })
         },
         //获取下拉列表数据
         getSelect () {
@@ -208,7 +237,7 @@ bystAmount: [
             if (t.logType === t.$t('button.upd')) {
                 data.id = t.id
             }
-            
+
             t.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginNew(data).then((res) => {
@@ -237,7 +266,7 @@ bystAmount: [
             this.bystStageDis = "";
             this.bystIntervalDis = "";
         },
-        handleReset(){
+        handleReset () {
             this.$emit("closeUp");
             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
             this.clear()
@@ -246,5 +275,6 @@ bystAmount: [
 }
 </script>
 <style lang="scss">
+@import "../../../sass/updateAndAdd";
 @import "../../../sass/singleUpdateAdd";
 </style>

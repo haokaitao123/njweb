@@ -11,39 +11,73 @@
                   ref="formValidate"
                   :label-width="100"
                   :rules="ruleValidate">
-                        <Row>
-                           <Col span="11">
-<FormItem label="部门名称" prop="deptId">
-<span @dblclick="disabled?'':clearUnitFname()">
- <Input v-model="unitFname" icon="search" :disabled="disabled" :readonly="true" placeholder="请选择部门名称" @on-click="disabled?'':unitFnamePick()" />
-</span>
-</FormItem>
-</Col>
-<Col span="11" offset="1">
-<FormItem label="可见范围" prop="pbsRangeDis">
-<Select v-model="formValidate.pbsRangeDis" :clearable="!disabled" :disabled=disabled placeholder="请选择可见范围">
-<Option :value="item.paramCode" v-for="(item,index) in pbsRangeDisData" :key="index">{{item.paramInfoCn}}</Option>
-</Select>
-</FormItem>
-</Col>
-<Col span="11">
-<FormItem label="生效时间" prop="pbsStart">
-<DatePicker type="date" placeholder="请选择生效时间" :editable="false" :disabled="disabled" :readonly="disabled" v-model="formValidate.pbsStart" format="yyyy-MM-dd" style="width: 100%"></DatePicker>
-</FormItem>
-</Col>
-<Col span="11" offset="1">
-<FormItem label="失效时间" prop="pbsEnd">
-<DatePicker type="date" placeholder="请选择失效时间" :editable="false" :disabled="disabled" :readonly="disabled" v-model="formValidate.pbsEnd" format="yyyy-MM-dd" style="width: 100%"></DatePicker>
-</FormItem>
-</Col>
-<Col span="23">
-<FormItem label="备注" prop="note">
-<Input v-model="formValidate.note"
-:disabled="disabled" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注..."></Input>
-</FormItem>
-</Col>
+                <Row>
+                    <Col span="11">
+                    <FormItem label="部门名称"
+                              prop="deptId">
+                        <span @dblclick="disabled?'':clearUnitFname()">
+                            <Input v-model="unitFname"
+                                   icon="search"
+                                   :disabled="disabled"
+                                   :readonly="true"
+                                   placeholder="请选择部门名称"
+                                   @on-click="disabled?'':unitFnamePick()" />
+                        </span>
+                    </FormItem>
+                    </Col>
+                    <Col span="11"
+                         offset="1">
+                    <FormItem label="可见范围"
+                              prop="pbsRangeDis">
+                        <Select v-model="formValidate.pbsRangeDis"
+                                :clearable="!disabled"
+                                :disabled=disabled
+                                placeholder="请选择可见范围">
+                            <Option :value="item.paramCode"
+                                    v-for="(item,index) in pbsRangeDisData"
+                                    :key="index">{{item.paramInfoCn}}</Option>
+                        </Select>
+                    </FormItem>
+                    </Col>
+                    <Col span="11">
+                    <FormItem label="生效时间"
+                              prop="pbsStart">
+                        <DatePicker type="date"
+                                    placeholder="请选择生效时间"
+                                    :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
+                                    v-model="formValidate.pbsStart"
+                                    format="yyyy-MM-dd"
+                                    style="width: 100%"></DatePicker>
+                    </FormItem>
+                    </Col>
+                    <Col span="11"
+                         offset="1">
+                    <FormItem label="失效时间"
+                              prop="pbsEnd">
+                        <DatePicker type="date"
+                                    placeholder="请选择失效时间"
+                                    :editable="false"
+                                    :disabled="disabled"
+                                    :readonly="disabled"
+                                    v-model="formValidate.pbsEnd"
+                                    format="yyyy-MM-dd"
+                                    style="width: 100%"></DatePicker>
+                    </FormItem>
+                    </Col>
+                    <Col span="23">
+                    <FormItem label="备注"
+                              prop="note">
+                        <Input v-model="formValidate.note"
+                               :disabled="disabled"
+                               type="textarea"
+                               :autosize="{minRows: 2,maxRows: 5}"
+                               placeholder="请输入备注..."></Input>
+                    </FormItem>
+                    </Col>
 
-                        </Row>
+                </Row>
             </Form>
         </Row>
         <Button class="btn"
@@ -53,7 +87,7 @@
             {{$t('button.sav')}}
         </Button>
         <!--  弹出选择框  -->
-            <!-- <transition name="fade">
+        <!-- <transition name="fade">
     <searchOrgframe v-show="openUnitFname"
     @closeModal="closeUnitFname"
     @inputModal ="inputUnitFname"
@@ -87,7 +121,7 @@ export default {
             disabled: false,
             openUnitFname: false,
             unitFname: "",
-            pbsRangeDis: "",  
+            pbsRangeDis: "",
             typeCode: "pbsRange",
             pbsRangeData: [],
             //提交mt名称
@@ -96,13 +130,13 @@ export default {
             getById_mt: 'payProjbase.getById',
             //form表单提交数据
             formValidate: {
-            	    deptId: '', 
-                pbsStart: '', 
-                pbsEnd: '', 
-                pbsCount: '', 
-                pbsRange: '', 
-                note: '', 
-                state: '', 
+                deptId: '',
+                pbsStart: '',
+                pbsEnd: '',
+                pbsCount: '',
+                pbsRange: '',
+                note: '',
+                state: '',
 
             },
             //表单验证规则
@@ -111,20 +145,20 @@ export default {
                     { required: true, message: "请输入部门名称", trigger: "change" },
                 ],
                 pbsRange: [
-                { required: true, message: "请输入可见范围", trigger: "change" },
+                    { required: true, message: "请输入可见范围", trigger: "change" },
                 ],
                 pbsStart: [
-                { required: true, message: "请输入生效时间", trigger: "change" },
+                    { required: true, message: "请输入生效时间", trigger: "change" },
                 ],
                 pbsEnd: [
-                { required: true, message: "请输入失效时间", trigger: "change" },
+                    { required: true, message: "请输入失效时间", trigger: "change" },
                 ],
 
             },
-            pbsRangeDisData:[]
+            pbsRangeDisData: []
         }
     },
-     props: {
+    props: {
         modity: String,
         index: Number,
     },
@@ -137,12 +171,12 @@ export default {
         }
     },
     components: {
-    	searchOrgframe,
+        searchOrgframe,
 
-        
+
     },
     mounted () {
-        
+
     },
     methods: {
         //获取列表详情
@@ -227,26 +261,26 @@ export default {
             this.$refs.formValidate.resetFields();
             this.formValidate = {};
             this.unitFname = "";
-this.pbsRangeDis = "";
+            this.pbsRangeDis = "";
 
             this.$emit('closeUp');
             this.disabled = false
         },
-       clearUnitFname () {
-this.unitFname = "";
-this.formValidate.deptId = "";
-},
-unitFnamePick () {
-this.$refs.unitFnameSearch.getData();
-this.openUnitFname = true;
- },
-closeUnitFname () {
-this.openUnitFname = false;
-},
-inputUnitFname (row) {
-this.formValidate.deptId = row.deptId;
-this.unitFname = row.unitFname;
-},
+        clearUnitFname () {
+            this.unitFname = "";
+            this.formValidate.deptId = "";
+        },
+        unitFnamePick () {
+            this.$refs.unitFnameSearch.getData();
+            this.openUnitFname = true;
+        },
+        closeUnitFname () {
+            this.openUnitFname = false;
+        },
+        inputUnitFname (row) {
+            this.formValidate.deptId = row.deptId;
+            this.unitFname = row.unitFname;
+        },
 
     },
 }
