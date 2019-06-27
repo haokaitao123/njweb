@@ -99,7 +99,7 @@
           {key: "grantDate", title: "发放日期", sortable: "custom", width: 220},
           {key: "empnhName", title: "员工姓名", sortable: "custom", width: 220},
           {key: "empnhIdno", title: "证件号码", sortable: "custom", width: 220},
-          {key: "empIdno", title: "证件号码", sortable: "custom", width: 220},
+          /*{key: "empIdno", title: "证件号码", sortable: "custom", width: 220},*/
           {key: "bankCname", title: "开户银行", sortable: "custom", width: 220},
           {key: "grantBkno", title: "银行账号", sortable: "custom", width: 220},
           {key: "grantAmount", title: "发放金额", sortable: "custom", width: 220},
@@ -170,8 +170,8 @@
       },
       //页面查询
       search() {
-        this.$store.commit('commonPage/setParams', this.searchParams)
-        this.$refs.commonPage.search();
+        /*this.$store.commit('commonPage/setParams', this.searchParams)
+        this.$refs.commonPage.search();*/
       },
       //打开新增或修改弹窗
       openUp(id, logType, index) {
