@@ -9,9 +9,12 @@
                           @on-select="pageTo">
                         <!--主子表左侧页面布局-->
                         <MenuItem name="option">基础信息管理</MenuItem>
-                        <MenuItem name="payLadder,payBystages"
+                        <MenuItem name="payLadder"
                                   :disabled="logType==='新增'"
                                   @click.native="logType==='新增'?tips():''">阶梯项目管理</MenuItem>
+                        <MenuItem name="payBystages"
+                                  :disabled="logType==='新增'"
+                                  @click.native="logType==='新增'?tips():''">分期业绩管理</MenuItem>         
                     </Menu>
                 </i-col>
                 <i-col class="meau-right"
@@ -38,8 +41,10 @@
                                  @update="update"
                                  @newData="newData"></mOption>
                          <!--子表分页页面 mainid为主表id-->
-                        <payLadder,payBystages v-show="payLadder,payBystages"
-                                      ref="payLadder,payBystages"></payLadder,payBystages>
+                        <payLadder v-show="payLadder "
+                                      ref="payLadder"></payLadder>
+                        <payBystages v-show="payBystages"
+                                      ref="payBystages"></payBystages>
                     </div>
                 </i-col>
             </row>
@@ -53,21 +58,24 @@ import {
 } from "@/axios/axios";
 import { isSuccess, deepCopy, getUrlKey, GetQueryString } from "@/lib/util";
 import mOption from "./payProjbaseEdit";
-import payLadder,payBystages from "./payLadder,payBystages/payLadder,payBystages";
+import payBystages from "./payBystagesList";
+import payLadder  from "./payLadderList";
 export default {
     data () {
         return {
             //初试默认选中
             active: "option",
             option: true,
-            payLadder,payBystages: false,
+            payLadder:false,
+            payBystages: false,
             //获取子表funid mt名称
             funId_mt: 'sysFunctions.getIdByCode'
         };
     },
     components: {
         mOption,
-        payLadder,payBystages,
+        payLadder,
+        payBystages,
     },
     props: {
         index: Number,
@@ -107,9 +115,11 @@ export default {
                 return;
             }
             this.option = false;
-            this.payLadder,payBystages = false;
+            this.payLadder = false;
+            this.payBystages = false;
             this.$refs.option.clear();
-            this.$refs.payLadder,payBystages.clear();
+            this.$refs.payBystages.clear();
+            this.$refs.payLadder.clear();
             this.active = name;
             this[name] = true;
             if (name !== "option") {
@@ -146,10 +156,12 @@ export default {
         // 清空方法 初始化本页面参数 
         clear () {
             this.option = true;
-            this.payLadder,payBystages = false;
+            this.payLadder = false;
+            this.payBystages = false;
             this.active = "option";
             this.$refs.option.clear();
-            this.$refs.payLadder,payBystages.clear();
+            this.$refs.payLadder.clear();
+            this.$refs.payBystages.clear();
             this.$store.commit('setChildFunId', "");
             let funcode = getUrlKey('code');
             this.$store.commit('setFunCode', funcode);

@@ -47,8 +47,8 @@ import payPercentageManage from '@/pages/payroll/payPercentage/payPercentageList
 import payCostManage from '@/pages/payroll/payCost/payCostList'
 //项目分摊管理
 import payShareManage from '@/pages/payroll/payShare/payShareList'
-// //项目业绩基础信息
-// import payProjbaseManage from '@/pages/payroll/payProjbase/payProjbaseList'
+//项目业绩基础信息
+import payProjbaseManage from '@/pages/payroll/payProjbase/payProjbaseList'
 
 //日薪资核算处理
 import payDayAccountList from '@/pages/payroll/payDayAccount/payDayAccountList'
@@ -58,22 +58,8 @@ import payProfitList from '@/pages/payroll/payProfit/payProfitList'
 
 //员工薪资发放
 import payEmpgrantList from '@/pages/payroll/payEmpgrant/payEmpgrantList'
-//项目离职率
-import payLeavepropList from '@/pages/payroll/payLeavepropManage/payLeavepropList'
-//项目入职管理
-import payEntrybaseList from '@/pages/payroll/payEntrybaseManage/payEntrybaseList'
 
 export default [
-    {
-        path: 'payLeavepropList',
-        name: 'payLeavepropList',
-        component: payLeavepropList,
-      },
-	  {
-        path: 'payEntrybaseList',
-        name: 'payEntrybaseList',
-        component: payEntrybaseList,
-      },
     {
       path: 'payProjchangeList',
       name: 'payProjchangeList',
@@ -244,9 +230,9 @@ export default [
       name: 'payEmpgrantList',
       component: payEmpgrantList,
     },
-  // {
-  //   path: 'payProjbaseManage',
-  //   name: 'payProjbaseManage',
-  //   component: payProjbaseManage,
-  // },
+  {
+    path: 'payProjbaseManage',
+    name: 'payProjbaseManage',
+    component: payProjbaseManage,
+  },
 ]

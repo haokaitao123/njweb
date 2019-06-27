@@ -120,7 +120,6 @@ unitFname: "",
     },
     components: {
     	searchOrgframe,
-
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件

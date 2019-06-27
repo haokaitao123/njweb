@@ -10,11 +10,11 @@
                     <Col span="24">
                     <Row>
                     	    <span @dblclick="clearUnitFname">
-    <Input v-model="unitFname"style="width: 200px"
-    icon="search" :readonly="true"
-    placeholder="请选择部门名称"
-    @on-click="unitFnamePick" />
-</span>
+                                <Input v-model="unitFname" style="width: 200px"
+                                icon="search" :readonly="true"
+                                placeholder="请选择部门名称"
+                                @on-click="unitFnamePick" />
+                            </span>
     <Input v-model="searchParams.pbsStart"
     placeholder="请输入生效时间"
 style="width: 200px"/>    <Input v-model="searchParams.pbsEnd"
@@ -67,7 +67,8 @@ style="width: 200px"/>
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-//import update from "./payProjbaseEdit";                    //新增修改组件
+//import update from "./payProjbaseEdit";                   //新增修改组件
+import update from "./payProjbaseBase";                   //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 import searchOrgframe from "@/components/searchTable/searchOrgframe";
 
