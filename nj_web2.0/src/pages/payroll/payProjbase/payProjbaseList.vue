@@ -60,7 +60,16 @@
                     @update="updateArray"
                     ref="update"></update>
         </transition>
-        <!--搜索 弹出选择框  -->
+         <!--搜索 弹出选择框  -->
+    <transition name="fade">
+        <searchOrgframe v-show="openUnitFname"
+            :searchCloumns="searchCloumns2"
+            @closeUp="closeUnitFname"
+            :params="params2"
+            @changeinput ="inputUnitFname"
+            ref="searchOrgframe">
+        </searchOrgframe>
+    </transition>
     </div>
 </template>
 <script>
@@ -95,6 +104,33 @@ export default {
                 { key: "pbsCount", title: "招聘人数", sortable: "custom", width: 220 },
                 { key: "pbsRangeDis", title: "可见范围", sortable: "custom", width: 220 },
 
+            ],
+                       params2: {
+                _mt: 'orgUnits.getByOrgFramePageList',
+                sort: 'id',
+                order: 'desc',
+                rows: 20,
+                page: 1,
+                funId: '1',
+                logType: '组织架构查询',
+                data: '{}',
+                state:'02valid',
+                unitType:'02dept',
+            },
+             searchCloumns2:[
+                {
+                    title: "组织编码",
+                    key: 'unitCode',
+                    sortable: 'custom',
+                },
+                {
+                    title: "组织名称",
+                    key: 'unitFname',
+                },
+                {
+                    title: "组织类型",
+                    key: 'unitTypeName',
+                },
             ],
             mockData: [
                 {
@@ -148,7 +184,6 @@ export default {
     },
     components: {
         searchOrgframe,
-
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -253,7 +288,7 @@ export default {
             this.searchParams.deptId = "";
         },
         unitFnamePick () {
-            this.$refs.unitFnameSearch.getData();
+            this.$refs.searchOrgframe.getData(this.params2);
             this.openUnitFname = true;
         },
         closeUnitFname () {

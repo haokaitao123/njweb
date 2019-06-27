@@ -4,8 +4,9 @@
       <div class="title">
         <div class="title-text">
           <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>
-          &nbsp;{{row.paccPeriodDis + ' ' + row.paccSalarysetDis + ' ' + row.paccRoundDis + $t('lang_payroll.payAccEmp.title') + ' (' + row.paccStatusDis + ')'}}
+          &nbsp;{{$t('lang_payroll.payAccEmp.title') }}
         </div>
+        <!--row.paccPeriodDis + ' ' + row.paccSalarysetDis + ' ' + row.paccRoundDis +  + ' (' + row.paccStatusDis + ')'--> 
         <Button type="text" @click="handleReset">
           <Icon type="close-round" size="16"></Icon>
         </Button>

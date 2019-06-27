@@ -1,7 +1,7 @@
 <template>
   <div class="option-main">
     <Spin size="large" fix v-if="spinShow"></Spin>
-    <Row style="overflow-y: auto;" :style="{ maxHeight: disabled?'500px':'420px' }" ref="scrollBox">
+    <Row style="overflow-y: auto;" :style="{ height: disabled?'500px':'420px' }" ref="scrollBox">
       <Form
         :model="formValidate"
         label-position="right"
@@ -59,14 +59,12 @@
     </Row>
     <Button class="btn" type="primary" @click="handleSubmit" v-show="!disabled">{{$t('button.sav')}}</Button>
     <!--  弹出选择框  -->
-    <transition name="fade">
-      <searchDept
-        v-show="openUnitFname"
-        @closeModal="closeUnitFname"
-        @inputModal="inputUnitFname"
-        ref="unitFnameSearch"
-      ></searchDept>
-    </transition>
+    <!-- <transition name="fade">
+    <searchDept v-show="openUnitFname"
+    @closeModal="closeUnitFname"
+    @inputModal ="inputUnitFname"
+    ref="unitFnameSearch"></searchDept>
+    </transition>-->
   </div>
 </template>
 <script>
@@ -113,7 +111,14 @@ export default {
         deptId: [
           { required: true, message: "请输入项目名称", trigger: "change" }
         ],
-        levpPer: [{ required: true, message: "请输入期间", trigger: "change" }],
+        levpPer: [
+          {
+            required: true,
+            message: "请输入期间",
+            trigger: "change",
+            type: "date"
+          }
+        ],
         levpProp: [
           {
             required: true,

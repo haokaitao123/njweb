@@ -106,7 +106,7 @@ export default {
       this[name] = true;
       if (name !== "option") {
         //this.getChildFunId(name)
-        this.$refs[name].search("获取");
+        this.$refs[name].search();
       } else {
         this.$store.commit("setChildFunId", "");
         this.getOption(this.id, this.logType);
