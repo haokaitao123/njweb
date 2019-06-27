@@ -89,11 +89,11 @@
           {type: "selection", width: 54, fixed: "left", align: "center"},
           {key: "unitFname", title: "员工姓名", sortable: "custom", width: 220},
           {key: "profPer", title: "所属期间", sortable: "custom", width: 220},
-          {key: "profPayout", title: "工资支出", sortable: "custom", width: 220},
-          {key: "profSsesout", title: "社保支出", sortable: "custom", width: 220},
-          {key: "profAcfunout", title: "公积金支出", sortable: "custom", width: 220},
-          {key: "profTaxout", title: "税金支出", sortable: "custom", width: 220},
-          {key: "profOther", title: "其他", sortable: "custom", width: 220},
+          {key: "profPayout", title: "工资金额", sortable: "custom", width: 220},
+          {key: "profSsesout", title: "社保金额", sortable: "custom", width: 220},
+          {key: "profAcfunout", title: "公积金金额", sortable: "custom", width: 220},
+          {key: "profTaxout", title: "税金金额", sortable: "custom", width: 220},
+          {key: "profOther", title: "其他金额", sortable: "custom", width: 220},
 
         ],
         // 表格获取数据mt名称
