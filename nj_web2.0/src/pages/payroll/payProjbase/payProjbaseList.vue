@@ -3,43 +3,46 @@
         <Row>
             <Col span="24">
             <card>
-            	<p slot="title">
+                <p slot="title">
                     <Icon type="mouse"></Icon>&nbsp;项目业绩基础信息
                 </p>
                 <Row>
                     <Col span="24">
                     <Row>
-                    	    <span @dblclick="clearUnitFname">
-                                <Input v-model="unitFname" style="width: 200px"
-                                icon="search" :readonly="true"
-                                placeholder="请选择部门名称"
-                                @on-click="unitFnamePick" />
-                            </span>
-    <Input v-model="searchParams.pbsStart"
-    placeholder="请输入生效时间"
-style="width: 200px"/>    <Input v-model="searchParams.pbsEnd"
-    placeholder="请输入失效时间"
-style="width: 200px"/>
+                        <span @dblclick="clearUnitFname">
+                            <Input v-model="unitFname"
+                                   style="width: 200px"
+                                   icon="search"
+                                   :readonly="true"
+                                   placeholder="请选择部门名称"
+                                   @on-click="unitFnamePick" />
+                        </span>
+                        <Input v-model="searchParams.pbsStart"
+                               placeholder="请输入生效时间"
+                               style="width: 200px" /> <Input v-model="searchParams.pbsEnd"
+                               placeholder="请输入失效时间"
+                               style="width: 200px" />
                         <!-- 页面按钮 -->
-                            <btnList @buttonExport="expData"
-    @buttonAdd="openUp"
-    @buttonDel="deletemsg"
-    @buttonSearch="search"
-    @buttonImport="importExcel"
-    @moditySelect="modityChange"
-    :btnData="btnData"
-    :FlowNode="FlowNode">
-    </btnList>
+                        <btnList @buttonExport="expData"
+                                 @buttonAdd="openUp"
+                                 @buttonDel="deletemsg"
+                                 @buttonSearch="search"
+                                 @buttonImport="importExcel"
+                                 @moditySelect="modityChange"
+                                 :btnData="btnData"
+                                 :FlowNode="FlowNode">
+                        </btnList>
 
                     </Row>
                     <!-- 表格 分页 -->
-                     <commonPage :imp_mt="imp_mt"
+                    <commonPage :imp_mt="imp_mt"
                                 :page_mt="page_mt"
                                 :exp_mt="exp_mt"
                                 :dele_mt="dele_mt"
                                 :state_mt="state_mt"
                                 :expDataTital="expDataTital"
                                 :table_height="table_height"
+                                :mockData="mockData"
                                 @tableBtn="tableBtn"
                                 ref="commonPage">
                     </commonPage>
@@ -60,7 +63,6 @@ style="width: 200px"/>
                     ref="update"></update>
         </transition>
         <!--搜索 弹出选择框  -->
-        
     </div>
 </template>
 <script>
@@ -81,20 +83,44 @@ export default {
             exp_mt: "payProjbase.export",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                    { code: "unitFname", name: "部门名称" },
-    { code: "pbsStart", name: "生效时间" },
-    { code: "pbsEnd", name: "失效时间" },
-    { code: "pbsCount", name: "招聘人数" },
-    { code: "pbsRangeDis", name: "可见范围" },
+                { code: "unitFname", name: "部门名称" },
+                { code: "pbsStart", name: "生效时间" },
+                { code: "pbsEnd", name: "失效时间" },
+                { code: "pbsCount", name: "招聘人数" },
+                { code: "pbsRangeDis", name: "可见范围" },
             ],
             // 表格列字段
             columns: [
-            	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                    { key: "unitFname", title: "部门名称", sortable: "custom" , width : 220},
-    { key: "pbsStart", title: "生效时间", sortable: "custom" , width : 220},
-    { key: "pbsEnd", title: "失效时间", sortable: "custom" , width : 220},
-    { key: "pbsCount", title: "招聘人数", sortable: "custom" , width : 220},
-    { key: "pbsRangeDis", title: "可见范围", sortable: "custom" , width : 220},
+                { type: "selection", width: 54, fixed: "left", align: "center" },
+                { key: "unitFname", title: "部门名称", sortable: "custom", width: 220 },
+                { key: "pbsStart", title: "生效时间", sortable: "custom", width: 220 },
+                { key: "pbsEnd", title: "失效时间", sortable: "custom", width: 220 },
+                { key: "pbsCount", title: "招聘人数", sortable: "custom", width: 220 },
+                { key: "pbsRangeDis", title: "可见范围", sortable: "custom", width: 220 },
+
+            ],
+            mockData: [
+                {
+                    unitFname: '武汉分公司',
+                    pbsStart: "2019-06-03",
+                    pbsEnd: "2019-06-15",
+                    pbsCount: "15",
+                    pbsRangeDis: "某某"
+                },
+                {
+                    unitFname: '武汉分公司',
+                    pbsStart: "2019-06-03",
+                    pbsEnd: "2019-06-15",
+                    pbsCount: "15",
+                    pbsRangeDis: "某某"
+                },
+                {
+                    unitFname: '武汉分公司',
+                    pbsStart: "2019-06-03",
+                    pbsEnd: "2019-06-15",
+                    pbsCount: "15",
+                    pbsRangeDis: "某某"
+                },
 
             ],
             // 表格获取数据mt名称
@@ -113,22 +139,22 @@ export default {
             openUpdate: false,
             //搜索参数
             searchParams: {
-            	deptId: "",
-null: "",
-null: "",
+                deptId: "",
+                null: "",
+                null: "",
 
             },
             typeCode: "",
             //弹出选择框
             openUnitFname: false,
-unitFname: "",
-pbsRangeDis: "",
+            unitFname: "",
+            pbsRangeDis: "",
 
-            table_height:document.body.offsetHeight - 280,
+            table_height: document.body.offsetHeight - 280,
         };
     },
     components: {
-    	searchOrgframe,
+        searchOrgframe,
 
         commonPage, //页面公共组件
         btnList,    //按钮组件
@@ -151,7 +177,7 @@ pbsRangeDis: "",
     mounted () {
         //列表字段存储
         this.getColumns();
-        
+
     },
     methods: {
         //获取列表项字段
@@ -225,7 +251,7 @@ pbsRangeDis: "",
                 typeCode: t.typeCode
             }).then(res => {
                 if (isSuccess(res, t)) {
-                	
+
                 }
             })
                 .catch(() => {
@@ -233,20 +259,20 @@ pbsRangeDis: "",
                 });
         },
         clearUnitFname () {
-this.unitFname = "";
-this.searchParams.deptId = "";
-},
-unitFnamePick () {
-this.$refs.unitFnameSearch.getData();
-this.openUnitFname = true;
- },
-closeUnitFname () {
-this.openUnitFname = false;
-},
-inputUnitFname (row) {
-this.searchParams.deptId = row.deptId;
-this.unitFname = row.unitFname;
-},
+            this.unitFname = "";
+            this.searchParams.deptId = "";
+        },
+        unitFnamePick () {
+            this.$refs.unitFnameSearch.getData();
+            this.openUnitFname = true;
+        },
+        closeUnitFname () {
+            this.openUnitFname = false;
+        },
+        inputUnitFname (row) {
+            this.searchParams.deptId = row.deptId;
+            this.unitFname = row.unitFname;
+        },
 
     }
 };
