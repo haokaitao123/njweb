@@ -47,7 +47,7 @@
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-import update from "./addNewPayLadder";                    //新增修改组件
+import update from "./payLadderEdit";                    //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 
 export default {
@@ -199,6 +199,12 @@ export default {
         	this.searchParams.ladePid = this.mainId;
             this.$store.commit('commonPage/setChildParams', this.searchParams);
             this.$refs.commonPage.search();
+        },
+        //清除
+        clear(){
+            this.searchParams= {};
+            this.$refs.commonPage.
+            this.$store.commit('commonPage/setChildParams', this.searchParams);
         },
         //打开新增或修改弹窗
         openUp (id, logType, index) {

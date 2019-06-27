@@ -121,10 +121,10 @@ ladeAmount: [
     },
     computed: {
         mainId () {
-            return this.$store.state.payLadder.mainId;
+            return this.$store.state.payProjbase.mainId;
         },
         childLogType () {
-            return this.$store.state.payLadder.childLogType;
+            return this.$store.state.payProjbase.childLogType;
         }
     },
     components: {
@@ -211,10 +211,13 @@ ladeAmount: [
             //重置表单
             this.$refs.scrollBox.$el.scrollTop = "0";
             this.$refs.formValidate.resetFields();
-            this.formValidate = {};
-            
+            this.formValidate = {}; 
         },
-       
+        handleReset(){
+            this.$emit("closeUp");
+            //对整个表单进行重置，将所有字段值重置为空并移除校验结果
+            this.clear()
+        }
     },
 }
 </script>

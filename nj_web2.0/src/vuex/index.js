@@ -45,6 +45,7 @@ import autoSearch from '../pages/common/searchTable/autoSearch'
 import empdim from '../pages/common/onBlur/empdim_store'
 import payEntrybase from '../pages/payroll/payEntrybaseManage/payEntrybase'
 import payLeaveprop from '../pages/payroll/payLeavepropManage/payLeaveprop'
+import payProjbase from '@/pages/payroll/payProjbase/payProjbase'
 
 Vue.use(Vuex)
 
@@ -101,6 +102,7 @@ const store = new Vuex.Store({
     autoSearch,
     empdim,
     attenQuotainfo,
+    payProjbase,
   },
 });
 

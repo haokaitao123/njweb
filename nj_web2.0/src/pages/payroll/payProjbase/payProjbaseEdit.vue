@@ -53,13 +53,12 @@
             {{$t('button.sav')}}
         </Button>
         <!--  弹出选择框  -->
-            <transition name="fade">
+            <!-- <transition name="fade">
     <searchOrgframe v-show="openUnitFname"
     @closeModal="closeUnitFname"
     @inputModal ="inputUnitFname"
     ref="unitFnameSearch"></searchOrgframe>
-    </transition>
-
+    </transition> -->
     </div>
 </template>
 <script>
@@ -87,12 +86,10 @@ export default {
             //禁选 
             disabled: false,
             openUnitFname: false,
-unitFname: "",
-pbsRangeDis: "",
-
-            
-            typeCode: "pbsRange",pbsRangeData: [],
-
+            unitFname: "",
+            pbsRangeDis: "",  
+            typeCode: "pbsRange",
+            pbsRangeData: [],
             //提交mt名称
             addOrUpd_mt: 'payProjbase.addOrUpd',
             //获取数据详情mt名称
@@ -100,30 +97,31 @@ pbsRangeDis: "",
             //form表单提交数据
             formValidate: {
             	    deptId: '', 
-    pbsStart: '', 
-    pbsEnd: '', 
-    pbsCount: '', 
-    pbsRange: '', 
-    note: '', 
-    state: '', 
+                pbsStart: '', 
+                pbsEnd: '', 
+                pbsCount: '', 
+                pbsRange: '', 
+                note: '', 
+                state: '', 
 
             },
             //表单验证规则
             ruleValidate: {
                 deptId: [
-{ required: true, message: "请输入部门名称", trigger: "change" },
-],
-pbsRange: [
-{ required: true, message: "请输入可见范围", trigger: "change" },
-],
-pbsStart: [
-{ required: true, message: "请输入生效时间", trigger: "change" },
-],
-pbsEnd: [
-{ required: true, message: "请输入失效时间", trigger: "change" },
-],
+                    { required: true, message: "请输入部门名称", trigger: "change" },
+                ],
+                pbsRange: [
+                { required: true, message: "请输入可见范围", trigger: "change" },
+                ],
+                pbsStart: [
+                { required: true, message: "请输入生效时间", trigger: "change" },
+                ],
+                pbsEnd: [
+                { required: true, message: "请输入失效时间", trigger: "change" },
+                ],
 
             },
+            pbsRangeDisData:[]
         }
     },
      props: {
@@ -158,16 +156,15 @@ pbsEnd: [
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0]
-                       t.formValidate.deptId = data.deptId;
-    t.unitFname = data.unitFname;
-    t.formValidate.pbsStart = data.pbsStart;
-    t.formValidate.pbsEnd = data.pbsEnd;
-    t.formValidate.pbsCount = data.pbsCount;
-    t.formValidate.pbsRange = data.pbsRange;
-    t.pbsRangeDis = data.pbsRangeDis;
-    t.formValidate.note = data.note;
-    t.formValidate.state = data.state;
-
+                    t.formValidate.deptId = data.deptId;
+                    t.unitFname = data.unitFname;
+                    t.formValidate.pbsStart = data.pbsStart;
+                    t.formValidate.pbsEnd = data.pbsEnd;
+                    t.formValidate.pbsCount = data.pbsCount;
+                    t.formValidate.pbsRange = data.pbsRange;
+                    t.pbsRangeDis = data.pbsRangeDis;
+                    t.formValidate.note = data.note;
+                    t.formValidate.state = data.state;
                 }
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
@@ -184,7 +181,7 @@ pbsEnd: [
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
-                    
+                    t.pbsRangeDisData = data.value[0].paramList;
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -202,7 +199,6 @@ pbsEnd: [
             if (t.logType === t.$t('button.upd')) {
                 data.id = t.id
             }
-            
             t.$refs.formValidate.validate((valid) => {
                 if (valid) {
                     getDataLevelUserLoginNew(data).then((res) => {
@@ -256,5 +252,5 @@ this.unitFname = row.unitFname;
 }
 </script>
 <style lang="scss">
-@import "../../../../sass/updatemain";
+@import "../../../sass/updatemain";
 </style>

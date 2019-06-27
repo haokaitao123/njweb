@@ -22,14 +22,14 @@
                            <Col span="11">
 <FormItem label="阶段期数" prop="bystStageDis">
 <Select v-model="formValidate.bystStageDis" :clearable="!disabled" :disabled=disabled placeholder="请选择阶段期数">
-<Option :value="item.paramCode" v-for="(item,index) in bystStageDisData" :key="index">{{item.paramInfoCn}}</Option>
+<Option :value="item.paramCode" v-for="(item,index) in bystStageData" :key="index">{{item.paramInfoCn}}</Option>
 </Select>
 </FormItem>
 </Col>
 <Col span="11" offset="1">
 <FormItem label="阶段间隔" prop="bystIntervalDis">
 <Select v-model="formValidate.bystIntervalDis" :clearable="!disabled" :disabled=disabled placeholder="请选择阶段间隔">
-<Option :value="item.paramCode" v-for="(item,index) in bystIntervalDisData" :key="index">{{item.paramInfoCn}}</Option>
+<Option :value="item.paramCode" v-for="(item,index) in bystIntervalData" :key="index">{{item.paramInfoCn}}</Option>
 </Select>
 </FormItem>
 </Col>
@@ -96,7 +96,8 @@ export default {
 bystIntervalDis: "",
 
             
-            typeCode: "bystStage,bystInterval",bystStageData: [],
+            typeCode: "bystStage,bystInterval",
+            bystStageData: [],
 bystIntervalData: [],
 
             //提交mt名称
@@ -139,10 +140,10 @@ bystAmount: [
     },
     computed: {
         mainId () {
-            return this.$store.state.payBystages.mainId;
+            return this.$store.state.payProjbase.mainId;
         },
         childLogType () {
-            return this.$store.state.payBystages.childLogType;
+            return this.$store.state.payProjbase.childLogType;
         }
     },
     components: {
@@ -189,7 +190,7 @@ bystAmount: [
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
-                    
+                    t.bystIntervalData = data.value[0].paramList;
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -234,10 +235,13 @@ bystAmount: [
             this.$refs.formValidate.resetFields();
             this.formValidate = {};
             this.bystStageDis = "";
-this.bystIntervalDis = "";
-
+            this.bystIntervalDis = "";
         },
-       
+        handleReset(){
+            this.$emit("closeUp");
+            //对整个表单进行重置，将所有字段值重置为空并移除校验结果
+            this.clear()
+        }
     },
 }
 </script>
