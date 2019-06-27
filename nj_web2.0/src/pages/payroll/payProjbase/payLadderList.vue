@@ -1,37 +1,47 @@
 <template>
-    <div class="table" :class="childTable?'content-main':''">
+    <div class="table"
+         :class="childTable?'content-main':''">
         <Row>
+            <Row>
+                <Col span="24">
                 <Row>
-                    <Col span="24">
-                    <Row>
-                    	
-                        <!-- 页面按钮 -->
-                            <Button type="primary" icon="search" @click="search()">查询</Button>
-    <Button type="primary" icon="primary" @click="openUp('', '新增')">新增</Button>
-    <Button type="primary" icon="primary" @click="expData">导出</Button>
-    <Button type="primary" icon="primary" @click="importExcel">导入</Button>
-    <Button type="error" icon="primary" @click="deletemsg">删除</Button>
-
-                    </Row>
-                    <!-- 表格 分页 -->
-                     <commonPage :imp_mt="imp_mt"
-                                :page_mt="page_mt"
-                                :exp_mt="exp_mt"
-                                :dele_mt="dele_mt"
-                                :state_mt="state_mt"
-                                :expDataTital="expDataTital"
-                                :table_height="table_height"
-                                @tableBtn="tableBtn"
-                                ref="commonPage">
-                    </commonPage>
-                    </Col>
+                    <!-- 页面按钮 -->
+                    <!-- <Button type="primary"
+                            icon="search"
+                            @click="search()">查询</Button> -->
+                    <Button type="primary"
+                            icon="primary"
+                            @click="openUp('', '新增')">新增</Button>
+                    <Button type="primary"
+                            icon="primary"
+                            @click="expData">导出</Button>
+                    <!-- <Button type="primary"
+                            icon="primary"
+                            @click="importExcel">导入</Button> -->
+                    <Button type="error"
+                            icon="primary"
+                            @click="deletemsg">删除</Button>
                 </Row>
+                <!-- 表格 分页 -->
+                <commonPage :imp_mt="imp_mt"
+                            :page_mt="page_mt"
+                            :exp_mt="exp_mt"
+                            :dele_mt="dele_mt"
+                            :state_mt="state_mt"
+                            :expDataTital="expDataTital"
+                            :table_height="table_height"
+                            :childTable="childTable"
+                            :mockData="mockData"
+                            @tableBtn="tableBtn"
+                            ref="commonPage">
+                </commonPage>
+                </Col>
+            </Row>
             </Col>
         </Row>
         <!-- 新增修改弹窗页面  v-show控制是否显示 :**是传递到子页面的值  @**是传递到子页面的方法 无需变更-->
         <transition name="fade">
             <update v-show="openUpdate"
-                    :id="updateId"
                     :logType="logType"
                     :index="index"
                     @closeUp="closeUp"
@@ -40,7 +50,7 @@
                     ref="update"></update>
         </transition>
         <!--搜索 弹出选择框  -->
-        
+
     </div>
 </template>
 <script>
@@ -59,19 +69,18 @@ export default {
             exp_mt: "payLadder.export",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                    { code: "ladePid", name: "项目业绩" },
-    { code: "ladeUpper", name: "人数下限" },
-    { code: "ladeLower", name: "人数上限" },
-    { code: "ladeAmount", name: "业绩 金额" },
+                { code: "ladePid", name: "项目业绩" },
+                { code: "ladeUpper", name: "人数下限" },
+                { code: "ladeLower", name: "人数上限" },
+                { code: "ladeAmount", name: "业绩 金额" },
             ],
             // 表格列字段
             columns: [
-            	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
-                    { key: "ladePid", title: "项目业绩", sortable: "custom" , width : 220},
-    { key: "ladeUpper", title: "人数下限", sortable: "custom" , width : 220},
-    { key: "ladeLower", title: "人数上限", sortable: "custom" , width : 220},
-    { key: "ladeAmount", title: "业绩 金额", sortable: "custom" , width : 220},
-
+                { type: "selection", width: 54, fixed: "left", align: "center" },
+                { key: "ladePid", title: "项目业绩", sortable: "custom", width: 220 },
+                { key: "ladeUpper", title: "人数下限", sortable: "custom", width: 220 },
+                { key: "ladeLower", title: "人数上限", sortable: "custom", width: 220 },
+                { key: "ladeAmount", title: "业绩 金额", sortable: "custom", width: 220 },
                 {
                     title: "操作",
                     key: "action",
@@ -92,7 +101,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                              this.openUp(
+                                            this.openUp(
                                                 params.row.id,
                                                 '修改',
                                                 params.index
@@ -114,7 +123,7 @@ export default {
                                     },
                                     on: {
                                         click: () => {
-                                              this.openUp(
+                                            this.openUp(
                                                 params.row.id,
                                                 '查看',
                                                 params.index
@@ -127,6 +136,15 @@ export default {
                             )
                         ]);
                     }
+                },
+            ],
+            mockData: [
+                {
+                    id: '1000',
+                    ladePid: '2000',
+                    ladeUpper: "15",
+                    ladeLower: "50",
+                    ladeAmount: '3000',
                 },
             ],
             // 表格获取数据mt名称
@@ -143,18 +161,18 @@ export default {
             openUpdate: false,
             //搜索参数
             searchParams: {
-            	
+
             },
             //是否为子表
-            childTable:true,
+            childTable: true,
             typeCode: "",
             //弹出选择框
-            
-            table_height:document.body.offsetHeight - 350,
+
+            table_height: document.body.offsetHeight - 350,
         };
     },
     components: {
-    	
+
         commonPage, //页面公共组件
         btnList,    //按钮组件
         update     //新增修改组件
@@ -168,7 +186,7 @@ export default {
         FlowNode () {
             return this.$store.state.btnOperate.isFlowNode;
         },
-         //主键id
+        //主键id
         mainId () {
             return this.$store.state.payProjbase.mainId;
         },
@@ -183,7 +201,6 @@ export default {
     mounted () {
         //列表字段存储
         this.getColumns();
-        
     },
     methods: {
         //获取列表项字段
@@ -196,25 +213,25 @@ export default {
         },
         //页面查询
         search () {
-        	this.searchParams.ladePid = this.mainId;
+            this.searchParams.ladePid = this.mainId;
             this.$store.commit('commonPage/setChildParams', this.searchParams);
-            this.$refs.commonPage.search();
+            // this.$refs.commonPage.search();
         },
         //清除
-        clear(){
-            this.searchParams= {};
-            this.$refs.commonPage.
+        clear () {
+            this.searchParams = {};
+            this.$refs.commonPage.page = 1;
+            this.$refs.commonPage.rows = 20;
             this.$store.commit('commonPage/setChildParams', this.searchParams);
         },
         //打开新增或修改弹窗
         openUp (id, logType, index) {
             const t = this;
-            t.updateId = parseInt(id, 10);
             t.openUpdate = true;
             t.index = index;
             //主子表的子表
             t.$store.commit('payProjbase/setChildLogType', logType);
-            t.$refs.update.setRowId(id, logType);
+            t.$refs.update.getData(id, logType);
             if (t.logType === '查看') {
                 t.$refs.update.disabled = true
             } else {
@@ -265,14 +282,13 @@ export default {
                 typeCode: t.typeCode
             }).then(res => {
                 if (isSuccess(res, t)) {
-                	
+
                 }
-            })
-                .catch(() => {
-                    this.$Message.error(this.$t("reminder.errormessage"));
-                });
+            }).catch(() => {
+                this.$Message.error(this.$t("reminder.errormessage"));
+            });
         },
-        
+
     }
 };
 </script>
@@ -284,9 +300,9 @@ export default {
 .margin-right-10 {
     margin-right: 10px;
 }
-.content-main {
-    height: 500px;
-}
+// .content-main {
+//     height: 500px;
+// }
 .btn_row {
     .ivu-btn-primary {
         margin: 2px 0;

@@ -1,7 +1,7 @@
 <template>
   <div class="option-main">
     <Spin size="large" fix v-if="spinShow"></Spin>
-    <Row style="overflow-y: auto;" :style="{ maxHeight: disabled?'500px':'420px' }" ref="scrollBox">
+    <Row style="overflow-y: auto;" :style="{ height: disabled?'500px':'420px' }" ref="scrollBox">
       <Form
         :model="formValidate"
         label-position="right"
@@ -438,7 +438,16 @@
               </Select>
             </FormItem>
           </Col>
-          <Col span="11">
+          <Col span="11" >
+            <FormItem label="通过何种方式应聘" prop="enbaApplytype">
+              <Input
+                v-model="formValidate.enbaApplytype"
+                :disabled="disabled"
+                placeholder="请输入通过何种方式应聘"
+              ></Input>
+            </FormItem>
+          </Col>
+          <Col span="11" offset="1">
             <FormItem label="是否有纹身" prop="enbaIstattooDis">
               <Select
                 v-model="formValidate.enbaIstattooDis"
@@ -454,15 +463,7 @@
               </Select>
             </FormItem>
           </Col>
-          <Col span="11" offset="1">
-            <FormItem label="通过何种方式应聘" prop="enbaApplytype">
-              <Input
-                v-model="formValidate.enbaApplytype"
-                :disabled="disabled"
-                placeholder="请输入通过何种方式应聘"
-              ></Input>
-            </FormItem>
-          </Col>
+          
           <Col span="11">
             <FormItem label="介绍人姓名" prop="enbaIntrname">
               <Input
@@ -508,7 +509,7 @@
               >
                 <Option
                   :value="item.paramCode"
-                  v-for="(item,index) in enba_isgraduDisData"
+                  v-for="(item,index) in enbaIsgraduDisData"
                   :key="index"
                 >{{item.paramInfoCn}}</Option>
               </Select>
@@ -580,7 +581,7 @@
         ref="empnhNameSearch"
       ></searchEmpnhMaster>
     </transition>
-    <transition name="fade">
+    <!-- <transition name="fade">
       <searchDept
         v-show="openEnbaDeptDis"
         @closeModal="closeEnbaDeptDis"
@@ -595,7 +596,7 @@
         @inputModal="inputPostFname"
         ref="postFnameSearch"
       ></searchPost>
-    </transition>
+    </transition> -->
   </div>
 </template>
 <script>
@@ -647,26 +648,25 @@ export default {
       enbaIscriminalDis: "",
       enbaIstattooDis: "",
       enbaIscomDis: "",
-      enba_isgraduDis: "",
+      enbaIsgraduDis: "",
 
       typeCode:
         "enbaNature,Identitytype,gender,nationtype,marrystatus,marrystatus,marrystatus,education,relationship,empstatus,yesno,yesno,yesno,yesno,yesno",
-      enbaNatureData: [],
-      IdentitytypeData: [],
-      genderData: [],
-      nationtypeData: [],
-      marrystatusData: [],
-      marrystatusData: [],
-      marrystatusData: [],
-      educationData: [],
-      relationshipData: [],
-      empstatusData: [],
-      yesnoData: [],
-      yesnoData: [],
-      yesnoData: [],
-      yesnoData: [],
-      yesnoData: [],
-
+      enbaNatureDisData: [],
+      enbaIdentityDisData: [],
+      enbaGenderDisData: [],
+      enbaNatalityDisData: [],
+      enbaPoliticalDisData: [],
+      enbaPoliticalDisData: [],
+      enbaPoliticalDisData: [],
+      enbaEducatDisData: [],
+      enbaWithmeDisData: [],
+      enbaProstatusDisData: [],
+      enbaIsrelativesDisData: [],
+      enbaIscriminalDisData: [],
+      enbaIstattooDisData: [],
+      enbaIscomDisData: [],
+      enbaIsgraduDisData: [],
       //提交mt名称
       addOrUpd_mt: "payEntrybase.addOrUpd",
       //获取数据详情mt名称
@@ -875,7 +875,7 @@ export default {
             t.formValidate.enbaSelfeval = data.enbaSelfeval;
             t.formValidate.enbaEnrorage = data.enbaEnrorage;
             t.formValidate.enbaIsgradu = data.enbaIsgradu;
-            t.enba_isgraduDis = data.enba_isgraduDis;
+            t.enbaIsgraduDis = data.enba_isgraduDis;
             t.formValidate.enbaFinalapptm = data.enbaFinalapptm;
             t.formValidate.note = data.note;
             t.formValidate.state = data.state;
@@ -973,7 +973,7 @@ export default {
       this.enbaIscriminalDis = "";
       this.enbaIstattooDis = "";
       this.enbaIscomDis = "";
-      this.enba_isgraduDis = "";
+      this.enbaIsgraduDis = "";
 
       this.$emit("closeUp");
       this.disabled = false;

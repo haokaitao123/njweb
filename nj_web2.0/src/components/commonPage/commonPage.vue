@@ -226,7 +226,8 @@ export default {
             }
         },
         columns (val) {
-            console.log(this.childTable, "this.childTable")
+            console.log(this.childTable, "this.childTable");
+            console.log(this.columns, "this.columns")
             if (this.pageShow !== "" && this.tableOperate === false && !this.childTable) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
@@ -248,7 +249,7 @@ export default {
         importExcel () {
             const t = this;
             t.openImport = true;
-            t.$refs.importExcel.getDowModelFile();
+            // t.$refs.importExcel.getDowModelFile();
         },
         // 导入导出默认方法
         expData () {
@@ -370,22 +371,22 @@ export default {
                     title: this.$t("reminder.remind"),
                     content: this.$t("reminder.confirmdelete"),
                     onOk: () => {
-                        getDataLevelUserLogin({
-                            _mt: t.dele_mt,
-                            logType: this.$t("button.del"),
-                            ids: t.tableselected.toString()
-                        })
-                            .then(res => {
-                                if (isSuccess(res, t)) {
-                                    t.tableselected = [];
-                                    t.getData();
+                        // getDataLevelUserLogin({
+                        //     _mt: t.dele_mt,
+                        //     logType: this.$t("button.del"),
+                        //     ids: t.tableselected.toString()
+                        // })
+                        //     .then(res => {
+                        //         if (isSuccess(res, t)) {
+                        //             t.tableselected = [];
+                        //             t.getData();
 
-                                    this.$Message.success(this.$t("reminder.deletesuccess"));
-                                }
-                            })
-                            .catch(() => {
-                                this.$Message.error(this.$t("reminder.errormessage"));
-                            });
+                        //             this.$Message.success(this.$t("reminder.deletesuccess"));
+                        //         }
+                        //     })
+                        //     .catch(() => {
+                        //         this.$Message.error(this.$t("reminder.errormessage"));
+                        //     });
                     },
                     onCancel: () => { }
                 });
@@ -411,23 +412,23 @@ export default {
                 title: this.$t("reminder.remind"),
                 content: tipContent,
                 onOk: () => {
-                    getDataLevelUserLogin({
-                        _mt: t.state_mt,
-                        logType: logType,
-                        state: state,
-                        ids: t.tableselected.toString()
-                    })
-                        .then(res => {
-                            if (isSuccess(res, t)) {
-                                t.getData();
-                                t.tableselected = [];
-                                this.$Message.success(this.$t("reminder.operatsuccess"));
-                            }
-                        })
-                        .catch(() => {
-                            t.tableselected = [];
-                            this.$Message.error(this.$t("reminder.errormessage"));
-                        });
+                    // getDataLevelUserLogin({
+                    //     _mt: t.state_mt,
+                    //     logType: logType,
+                    //     state: state,
+                    //     ids: t.tableselected.toString()
+                    // })
+                    //     .then(res => {
+                    //         if (isSuccess(res, t)) {
+                    //             t.getData();
+                    //             t.tableselected = [];
+                    //             this.$Message.success(this.$t("reminder.operatsuccess"));
+                    //         }
+                    //     })
+                    //     .catch(() => {
+                    //         t.tableselected = [];
+                    //         this.$Message.error(this.$t("reminder.errormessage"));
+                    //     });
                 },
                 onCancel: () => { }
             });

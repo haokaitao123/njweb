@@ -13,13 +13,14 @@
                           size="16"></Icon>
                 </Button>
             </div>
-            <Row class="main-height">
+            <Row class="main-height"
+                 ref="scrollBox">
                 <Form ref="formValidate"
                       :model="formValidate"
                       :rules="ruleValidate"
                       :label-width="100">
-                        <Row>
-                           <Col span="11">
+                    <Row>
+                         <Col span="11">
 <FormItem label="计提期间" prop="drawPer">
 <DatePicker type="date" placeholder="请选择计提期间" :editable="false" :disabled="disabled" :readonly="disabled" v-model="formValidate.drawPer" format="yyyy-MM-dd" style="width: 100%"></DatePicker>
 </FormItem>
@@ -36,23 +37,27 @@
 </FormItem>
 </Col>
 
+                        <Col span="22"
+                             offset="1">
+                        <Row type="flex"
+                             justify="end">
+                            <FormItem>
+                                <Button type="ghost"
+                                        @click="handleReset"
+                                        style="margin-left: 8px">取消</Button>
+                                <Button type="primary"
+                                        @click="handleSubmit"
+                                        v-show="!disabled">保存</Button>
+                            </FormItem>
                         </Row>
-                    </Form>
-                </Row>
-            </div>
-            <div class="button_box">
-                <Button type="ghost"
-                        @click="handleReset"
-                        class="btn1">取消</Button>
-                <Button type="primary"
-                        @click="handleSubmit"
-                        v-show="!disabled"
-                        class="btn">保存</Button>
-            </div>
-
+                        </Col>
+                    </Row>
+                </Form>
+            </Row>
         </div>
-        <!--  弹出选择框  -->
-        
+    </div>
+    <!--  弹出选择框  -->
+	
     </div>
 </template>
 <script>
@@ -96,10 +101,10 @@ export default {
             //表单验证规则
             ruleValidate: {
                 drawPer: [
-{ required: true, message: "请输入计提期间", trigger: "change" },
+{ required: true, message: "请输入计提期间", trigger: "change",  type:"date"  },
 ],
 drawAmount: [
-{ required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
+{ required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur"  },
 ],
 
             },
@@ -111,10 +116,10 @@ drawAmount: [
     },
     computed: {
         mainId () {
-            return this.$store.state.payDrawdetail.mainId;
+            return this.$store.state.payLeaveprop.mainId;
         },
         childLogType () {
-            return this.$store.state.payDrawdetail.childLogType;
+            return this.$store.state.payLeaveprop.childLogType;
         }
     },
     components: {
@@ -126,9 +131,12 @@ drawAmount: [
     },
     methods: {
         //获取列表详情
-        getData (id) {
+        getData (id, logType) {
             const t = this
-            t.spinShow = true
+            if (logType == "新增") {
+                return;
+            }
+            t.id = id;
             getDataLevelUserLogin({
                 _mt: t.getById_mt,
                 id: id,
@@ -144,8 +152,6 @@ drawAmount: [
                 }
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
             });
         },
         //获取下拉列表数据
@@ -203,10 +209,17 @@ drawAmount: [
             this.formValidate = {};
             
         },
+        //取消
+        handleReset () {
+            this.$emit("closeUp");
+            //对整个表单进行重置，将所有字段值重置为空并移除校验结果
+            this.clear()
+        },
        
     },
 }
 </script>
 <style lang="scss">
-@import "../../../sass/singleUpdateAdd";
+@import "../../../../sass/updateAndAdd";
+@import "../../../../sass/singleUpdateAdd";
 </style>

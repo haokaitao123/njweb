@@ -13,51 +13,68 @@
                           size="16"></Icon>
                 </Button>
             </div>
-            <Row class="main-height">
+            <Row class="main-height"
+                 ref="scrollBox">
                 <Form ref="formValidate"
                       :model="formValidate"
                       :rules="ruleValidate"
                       :label-width="100">
-                        <Row>
-                           <Col span="11">
-<FormItem label="人数下限" prop="ladeUpper">
-<Input v-model="formValidate.ladeUpper" :disabled=disabled placeholder="请输入人数下限"></Input>
-</FormItem>
-</Col>
-<Col span="11" offset="1">
-<FormItem label="人数上限" prop="ladeLower">
-<Input v-model="formValidate.ladeLower" :disabled=disabled placeholder="请输入人数上限"></Input>
-</FormItem>
-</Col>
-<Col span="11">
-<FormItem label="业绩 金额" prop="ladeAmount">
-<Input v-model="formValidate.ladeAmount" :disabled=disabled placeholder="请输入业绩 金额"></Input>
-</FormItem>
-</Col>
-<Col span="23">
-<FormItem label="备注" prop="note">
-<Input v-model="formValidate.note"
-:disabled="disabled" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注..."></Input>
-</FormItem>
-</Col>
-
+                    <Row>
+                        <Col span="11">
+                        <FormItem label="人数下限"
+                                  prop="ladeUpper">
+                            <Input v-model="formValidate.ladeUpper"
+                                   :disabled=disabled
+                                   placeholder="请输入人数下限"></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="11"
+                             offset="1">
+                        <FormItem label="人数上限"
+                                  prop="ladeLower">
+                            <Input v-model="formValidate.ladeLower"
+                                   :disabled=disabled
+                                   placeholder="请输入人数上限"></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="11">
+                        <FormItem label="业绩 金额"
+                                  prop="ladeAmount">
+                            <Input v-model="formValidate.ladeAmount"
+                                   :disabled=disabled
+                                   placeholder="请输入业绩 金额"></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="23">
+                        <FormItem label="备注"
+                                  prop="note">
+                            <Input v-model="formValidate.note"
+                                   :disabled="disabled"
+                                   type="textarea"
+                                   :autosize="{minRows: 2,maxRows: 5}"
+                                   placeholder="请输入备注..."></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="22"
+                             offset="1">
+                        <Row type="flex"
+                             justify="end">
+                            <FormItem>
+                                <Button type="ghost"
+                                        @click="handleReset"
+                                        style="margin-left: 8px">取消</Button>
+                                <Button type="primary"
+                                        @click="handleSubmit"
+                                        v-show="!disabled">保存</Button>
+                            </FormItem>
                         </Row>
-                    </Form>
-                </Row>
-            </div>
-            <div class="button_box">
-                <Button type="ghost"
-                        @click="handleReset"
-                        class="btn1">取消</Button>
-                <Button type="primary"
-                        @click="handleSubmit"
-                        v-show="!disabled"
-                        class="btn">保存</Button>
-            </div>
-
+                        </Col>
+                    </Row>
+                </Form>
+            </Row>
         </div>
-        <!--  弹出选择框  -->
-        
+    </div>
+    <!--  弹出选择框  -->
     </div>
 </template>
 <script>
@@ -83,8 +100,6 @@ export default {
             spinShow: false,
             //禁选 
             disabled: false,
-            
-            
             typeCode: "",
             //提交mt名称
             addOrUpd_mt: 'payLadder.addOrUpd',
@@ -92,31 +107,32 @@ export default {
             getById_mt: 'payLadder.getById',
             //form表单提交数据
             formValidate: {
-            	    ladePid: '', 
-    ladeUpper: '', 
-    ladeLower: '', 
-    ladeAmount: '', 
-    note: '', 
+                ladePid: '',
+                ladeUpper: '',
+                ladeLower: '',
+                ladeAmount: '',
+                note: '',
 
             },
             //表单验证规则
             ruleValidate: {
                 ladeUpper: [
-{ required: true, message: "请输入人数下限", trigger: "blur" },
-],
-ladeLower: [
-{ required: true, message: "请输入人数上限", trigger: "blur" },
-],
-ladeAmount: [
-{ required: true, message: "请输入业绩 金额", trigger: "blur" },
-{ required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
-],
+                    { required: true, message: "请输入人数下限", trigger: "blur" },
+                ],
+                ladeLower: [
+                    { required: true, message: "请输入人数上限", trigger: "blur" },
+                ],
+                ladeAmount: [
+                    { required: true, message: "请输入业绩 金额", trigger: "blur" },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
+                ],
 
             },
+            //列表id
+            id: ""
         }
     },
     props: {
-        id: Number,
         index: Number,
     },
     computed: {
@@ -127,37 +143,46 @@ ladeAmount: [
             return this.$store.state.payProjbase.childLogType;
         }
     },
-    components: {
-    	
-        
-    },
-    mounted () {
-        
-    },
     methods: {
         //获取列表详情
-        getData (id) {
-            const t = this
-            t.spinShow = true
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                       t.formValidate.ladePid = data.ladePid;
-    t.formValidate.ladeUpper = data.ladeUpper;
-    t.formValidate.ladeLower = data.ladeLower;
-    t.formValidate.ladeAmount = data.ladeAmount;
-    t.formValidate.note = data.note;
+        getData (id, logType) {
+            const t = this;
+            if (logType == "新增") {
+                return;
+            }
+            t.id = id;
+            console.log("t.id", t.id)
+            let data = {
+                id: '1000',
+                ladePid: '2000',
+                ladeUpper: "15",
+                ladeLower: "50",
+                ladeAmount: '3000',
+                note: "备注暂无"
+            };
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
-            });
+            t.formValidate.ladePid = data.ladePid;
+            t.formValidate.ladeUpper = data.ladeUpper;
+            t.formValidate.ladeLower = data.ladeLower;
+            t.formValidate.ladeAmount = data.ladeAmount;
+            t.formValidate.note = data.note;
+            // getDataLevelUserLogin({
+            //     _mt: t.getById_mt,
+            //     id: id,
+            //     logType: 'Id查询',
+            // }).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         let data = res.data.content[0]
+            //         t.formValidate.ladePid = data.ladePid;
+            //         t.formValidate.ladeUpper = data.ladeUpper;
+            //         t.formValidate.ladeLower = data.ladeLower;
+            //         t.formValidate.ladeAmount = data.ladeAmount;
+            //         t.formValidate.note = data.note;
+
+            //     }
+            // }).catch(() => {
+            //     this.$Message.error(this.$t("reminder.errormessage"));
+            // })
         },
         //获取下拉列表数据
         getSelect () {
@@ -168,7 +193,7 @@ ladeAmount: [
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
-                    
+
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -186,23 +211,23 @@ ladeAmount: [
             if (t.logType === t.$t('button.upd')) {
                 data.id = t.id
             }
-            
+
             t.$refs.formValidate.validate((valid) => {
                 if (valid) {
-                    getDataLevelUserLoginNew(data).then((res) => {
-                        if (isSuccess(res, t)) {
-                            if (t.logType === t.$t('button.add')) {
-                                t.$Message.success(t.$t("reminder.addsuccess"));
-                                t.$emit('newData', res.data.content[0])
-                            } else {
-                                t.$Message.success(t.$t("reminder.updsuccess"));
-                                t.$emit('update', res.data.content[0])
-                            }
-                            t.handleReset();
-                        }
-                    }).catch(() => {
-                        t.$Message.error(t.$t("reminder.errormessage"));
-                    })
+                    // getDataLevelUserLoginNew(data).then((res) => {
+                    //     if (isSuccess(res, t)) {
+                    //         if (t.logType === t.$t('button.add')) {
+                    //             t.$Message.success(t.$t("reminder.addsuccess"));
+                    //             t.$emit('newData', res.data.content[0])
+                    //         } else {
+                    //             t.$Message.success(t.$t("reminder.updsuccess"));
+                    //             t.$emit('update', res.data.content[0])
+                    //         }
+                    //         t.handleReset();
+                    //     }
+                    // }).catch(() => {
+                    //     t.$Message.error(t.$t("reminder.errormessage"));
+                    // })
                 }
             })
         },
@@ -211,9 +236,9 @@ ladeAmount: [
             //重置表单
             this.$refs.scrollBox.$el.scrollTop = "0";
             this.$refs.formValidate.resetFields();
-            this.formValidate = {}; 
+            this.formValidate = {};
         },
-        handleReset(){
+        handleReset () {
             this.$emit("closeUp");
             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
             this.clear()
@@ -222,5 +247,6 @@ ladeAmount: [
 }
 </script>
 <style lang="scss">
+@import "../../../sass/updateAndAdd";
 @import "../../../sass/singleUpdateAdd";
 </style>

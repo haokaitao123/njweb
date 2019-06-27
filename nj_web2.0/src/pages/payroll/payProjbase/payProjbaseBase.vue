@@ -14,7 +14,7 @@
                                   @click.native="logType==='新增'?tips():''">阶梯项目管理</MenuItem>
                         <MenuItem name="payBystages"
                                   :disabled="logType==='新增'"
-                                  @click.native="logType==='新增'?tips():''">分期业绩管理</MenuItem>         
+                                  @click.native="logType==='新增'?tips():''">分期业绩管理</MenuItem>
                     </Menu>
                 </i-col>
                 <i-col class="meau-right"
@@ -40,11 +40,11 @@
                                  :modity="modity"
                                  @update="update"
                                  @newData="newData"></mOption>
-                         <!--子表分页页面 mainid为主表id-->
+                        <!--子表分页页面 mainid为主表id-->
                         <payLadder v-show="payLadder "
-                                      ref="payLadder"></payLadder>
+                                   ref="payLadder"></payLadder>
                         <payBystages v-show="payBystages"
-                                      ref="payBystages"></payBystages>
+                                     ref="payBystages"></payBystages>
                     </div>
                 </i-col>
             </row>
@@ -59,14 +59,14 @@ import {
 import { isSuccess, deepCopy, getUrlKey, GetQueryString } from "@/lib/util";
 import mOption from "./payProjbaseEdit";
 import payBystages from "./payBystagesList";
-import payLadder  from "./payLadderList";
+import payLadder from "./payLadderList";
 export default {
     data () {
         return {
             //初试默认选中
             active: "option",
             option: true,
-            payLadder:false,
+            payLadder: false,
             payBystages: false,
             //获取子表funid mt名称
             funId_mt: 'sysFunctions.getIdByCode'
@@ -124,7 +124,8 @@ export default {
             this[name] = true;
             if (name !== "option") {
                 //this.getChildFunId(name)
-                this.$refs[name].search('获取');
+                this.$refs[name].getColumns();
+                this.$refs[name].search();
             } else {
                 this.$store.commit('setChildFunId', "");
                 this.getOption(this.id, this.logType);
@@ -136,7 +137,7 @@ export default {
             let code = "";
             if (name == "payLadder,payBystages") {
                 code = '350200'
-            } 
+            }
             this.$store.commit('setFunCode', code);
             const data = {
                 _mt: this.funId_mt,

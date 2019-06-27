@@ -23,7 +23,7 @@
                 <!-- 页面按钮 -->
                 <btnList
                   @buttonExport="expData"
-                  @buttonAdd="openUp('', '新增')"
+                  @buttonAdd="openUp"
                   @buttonDel="deletemsg"
                   @buttonSearch="search"
                   @buttonImport="importExcel"
@@ -63,14 +63,23 @@
       ></update>
     </transition>
     <!--搜索 弹出选择框  -->
+    <!-- <transition name="fade">
+      <searchOrgframe
+        v-show="openEnbaDeptDis"
+        @closeModal="closeEnbaDeptDis"
+        @inputModal="inputEnbaDeptDis"
+        ref="enbaDeptDisSearch"
+      ></searchOrgframe>
+    </transition> -->
   </div>
 </template>
 <script>
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from "@/components/commonPage/commonPage"; //公共页面组件
-import update from "./payEntrybaseEdit"; //新增修改组件
+import update from "./PayEntrybaseBase"; //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js"; //按钮组件
+import searchOrgframe from "@/components/searchTable/searchOrgframe";
 
 export default {
   data() {
@@ -431,12 +440,14 @@ export default {
       enbaIscriminalDis: "",
       enbaIstattooDis: "",
       enbaIscomDis: "",
-      enba_isgraduDis: "",
+      enbaIsgraduDis: "",
 
       table_height: document.body.offsetHeight - 280
     };
   },
   components: {
+    searchOrgframe,
+
     commonPage, //页面公共组件
     btnList, //按钮组件
     update //新增修改组件

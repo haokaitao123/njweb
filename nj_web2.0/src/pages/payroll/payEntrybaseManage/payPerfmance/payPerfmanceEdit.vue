@@ -13,13 +13,14 @@
                           size="16"></Icon>
                 </Button>
             </div>
-            <Row class="main-height">
+            <Row class="main-height"
+                 ref="scrollBox">
                 <Form ref="formValidate"
                       :model="formValidate"
                       :rules="ruleValidate"
                       :label-width="100">
-                        <Row>
-                           <Col span="11">
+                    <Row>
+                         <Col span="11">
 <FormItem label="阶段日期" prop="pmceDate">
 <DatePicker type="date" placeholder="请选择阶段日期" :editable="false" :disabled="disabled" :readonly="disabled" v-model="formValidate.pmceDate" format="yyyy-MM-dd" style="width: 100%"></DatePicker>
 </FormItem>
@@ -37,23 +38,27 @@
 </FormItem>
 </Col>
 
+                        <Col span="22"
+                             offset="1">
+                        <Row type="flex"
+                             justify="end">
+                            <FormItem>
+                                <Button type="ghost"
+                                        @click="handleReset"
+                                        style="margin-left: 8px">取消</Button>
+                                <Button type="primary"
+                                        @click="handleSubmit"
+                                        v-show="!disabled">保存</Button>
+                            </FormItem>
                         </Row>
-                    </Form>
-                </Row>
-            </div>
-            <div class="button_box">
-                <Button type="ghost"
-                        @click="handleReset"
-                        class="btn1">取消</Button>
-                <Button type="primary"
-                        @click="handleSubmit"
-                        v-show="!disabled"
-                        class="btn">保存</Button>
-            </div>
-
+                        </Col>
+                    </Row>
+                </Form>
+            </Row>
         </div>
-        <!--  弹出选择框  -->
-        
+    </div>
+    <!--  弹出选择框  -->
+	
     </div>
 </template>
 <script>
@@ -82,7 +87,7 @@ export default {
             pmceRperDis: "",
 
             
-            typeCode: "pmceRper",pmceRperData: [],
+            typeCode: "pmceRper",pmceRperDisData: [],
 
             //提交mt名称
             addOrUpd_mt: 'payPerfmance.addOrUpd',
@@ -116,10 +121,10 @@ pmceAmount: [
     },
     computed: {
         mainId () {
-            return this.$store.state.payPerfmance.mainId;
+            return this.$store.state.payEntrybase.mainId;
         },
         childLogType () {
-            return this.$store.state.payPerfmance.childLogType;
+            return this.$store.state.payEntrybase.childLogType;
         }
     },
     components: {
@@ -131,9 +136,12 @@ pmceAmount: [
     },
     methods: {
         //获取列表详情
-        getData (id) {
+        getData (id, logType) {
             const t = this
-            t.spinShow = true
+            if (logType == "新增") {
+                return;
+            }
+            t.id = id;
             getDataLevelUserLogin({
                 _mt: t.getById_mt,
                 id: id,
@@ -151,8 +159,6 @@ pmceAmount: [
                 }
             }).catch(() => {
                 this.$Message.error(this.$t("reminder.errormessage"));
-            }).finally(() => {
-                t.spinShow = false
             });
         },
         //获取下拉列表数据
@@ -211,10 +217,17 @@ pmceAmount: [
             this.pmceRperDis = "";
 
         },
+        //取消
+        handleReset () {
+            this.$emit("closeUp");
+            //对整个表单进行重置，将所有字段值重置为空并移除校验结果
+            this.clear()
+        },
        
     },
 }
 </script>
 <style lang="scss">
-@import "../../../sass/singleUpdateAdd";
+@import "../../../../sass/updateAndAdd";
+@import "../../../../sass/singleUpdateAdd";
 </style>

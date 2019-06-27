@@ -58,7 +58,15 @@ style="width: 200px"/>
                     ref="update"></update>
         </transition>
         <!--搜索 弹出选择框  -->
-        
+    <transition name="fade">
+        <searchOrgframe v-show="openUnitFname"
+            :searchCloumns="searchCloumns2"
+            @closeUp="closeUnitFname"
+            :params="params2"
+            @changeinput ="inputUnitFname"
+            ref="searchOrgframe">
+        </searchOrgframe>
+    </transition>
     </div>
 </template>
 <script>
@@ -109,6 +117,33 @@ export default {
     { key: "costAmounte", title: "费用E", sortable: "custom" , width : 220},
     { key: "costAmountf", title: "费用F", sortable: "custom" , width : 220},
 
+            ],
+            params2: {
+                _mt: 'orgUnits.getByOrgFramePageList',
+                sort: 'id',
+                order: 'desc',
+                rows: 20,
+                page: 1,
+                funId: '1',
+                logType: '组织架构查询',
+                data: '{}',
+                state:'02valid',
+                unitType:'02dept',
+            },
+             searchCloumns2:[
+                {
+                    title: "组织编码",
+                    key: 'unitCode',
+                    sortable: 'custom',
+                },
+                {
+                    title: "组织名称",
+                    key: 'unitFname',
+                },
+                {
+                    title: "组织类型",
+                    key: 'unitTypeName',
+                },
             ],
             // 表格获取数据mt名称
             page_mt: "payCost.getPage",
@@ -250,15 +285,15 @@ this.unitFname = "";
 this.searchParams.deptId = "";
 },
 unitFnamePick () {
-this.$refs.unitFnameSearch.getData();
+this.$refs.searchOrgframe.getData(this.params2);
 this.openUnitFname = true;
  },
 closeUnitFname () {
 this.openUnitFname = false;
 },
-inputUnitFname (row) {
-this.searchParams.deptId = row.deptId;
-this.unitFname = row.unitFname;
+inputUnitFname (name, id, type) {
+this.searchParams.deptId = id;
+this.unitFname = name;
 },
 
     }
