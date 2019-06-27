@@ -220,14 +220,14 @@ export default {
             if (val === "" && this.tableOperate === true) {
                 this.columns.pop();
                 this.tableOperate = false;
-            } else if (this.tableOperate === false) {
+            } else if (this.tableOperate === false && !this.childTable) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
             }
         },
         columns (val) {
-            console.log(this.childTable, "this.childTable");
-            console.log(this.columns, "this.columns")
+            // console.log(this.childTable, "this.childTable");
+            // console.log(this.columns, "this.columns")
             if (this.pageShow !== "" && this.tableOperate === false && !this.childTable) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
@@ -394,7 +394,8 @@ export default {
         },
         //查询
         search (data) {
-            this.$store.commit('btnOperate/setSearchLoading', true);
+            // this.$store.commit('btnOperate/setSearchLoading', true);
+            this.$store.commit('btnOperate/setSearchLoading', false);
             this.tableselected = [];
             this.page = 1;
             // this.getData(this.page, data);

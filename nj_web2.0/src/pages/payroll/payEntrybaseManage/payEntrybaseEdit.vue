@@ -424,7 +424,7 @@
             </FormItem>
           </Col>
           <Col span="11">
-            <FormItem label="本公司任职亲朋所在部门" prop="enbaRelatdept">
+            <FormItem label="本公司任职亲朋所在部门" prop="enbaRelatdept" class="label_padding">
               <Input
                 v-model="formValidate.enbaRelatdept"
                 :disabled="disabled"
@@ -449,7 +449,7 @@
             </FormItem>
           </Col>
           <Col span="11" >
-            <FormItem label="通过何种方式应聘" prop="enbaApplytype">
+            <FormItem label="通过何种方式应聘" prop="enbaApplytype" class="label_padding">
               <Input
                 v-model="formValidate.enbaApplytype"
                 :disabled="disabled"
@@ -1172,4 +1172,11 @@ export default {
 </script>
 <style lang="scss">
 @import "../../../sass/updatemain";
+.ivu-form {
+    .label_padding{
+        .ivu-form-item-label{
+            padding: 4px 12px 0 0 !important
+        }
+    }
+}
 </style>

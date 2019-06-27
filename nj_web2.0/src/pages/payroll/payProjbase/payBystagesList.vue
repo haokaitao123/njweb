@@ -173,7 +173,7 @@ export default {
             bystStageDis: "",
             bystIntervalDis: "",
 
-            table_height: document.body.offsetHeight - 350,
+            table_height: document.body.offsetHeight - 513,
         };
     },
     components: {

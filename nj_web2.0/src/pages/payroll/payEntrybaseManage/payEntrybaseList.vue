@@ -538,6 +538,7 @@ export default {
         //获取列表项字段
         getColumns () {
             this.$store.commit("commonPage/setColumns", this.columns);
+
         },
         //删除
         deletemsg () {
@@ -546,6 +547,7 @@ export default {
         //页面查询
         search () {
             this.$store.commit("commonPage/setParams", this.searchParams);
+            this.$store.commit('btnOperate/setSearchLoading', false);
             // this.$refs.commonPage.search();
         },
         //打开新增或修改弹窗
