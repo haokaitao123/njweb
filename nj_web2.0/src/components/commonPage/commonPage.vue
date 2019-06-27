@@ -394,7 +394,8 @@ export default {
         },
         //查询
         search (data) {
-            this.$store.commit('btnOperate/setSearchLoading', true);
+            // this.$store.commit('btnOperate/setSearchLoading', true);
+            this.$store.commit('btnOperate/setSearchLoading', false);
             this.tableselected = [];
             this.page = 1;
             // this.getData(this.page, data);

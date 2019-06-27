@@ -166,7 +166,7 @@ export default {
             typeCode: "",
             //弹出选择框
             pmceRperDis: "",
-            table_height: document.body.offsetHeight - 350,
+            table_height: document.body.offsetHeight - 513,
         };
     },
     components: {
