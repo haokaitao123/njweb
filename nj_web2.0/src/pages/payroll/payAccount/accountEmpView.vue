@@ -13,34 +13,8 @@
         <Row style="max-height: 400px;overflow-y: auto;">
           <Form ref="form" :model="form" :label-width="135">
             <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccEmp.pacemCompany')" prop="pacemCompany">
-                <Input v-model="form.pacemCompanyDis" disabled :placeholder="$t('lang_payroll.payAccEmp.pacemCompanyDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10" offset="1">
-              <FormItem :label="$t('lang_payroll.payAccEmp.pacemDept')" prop="pacemDept">
-                <Input v-model="form.pacemDeptDis" disabled :placeholder="$t('lang_payroll.payAccEmp.pacemDeptDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccEmp.pacemEmpworkno')" prop="pacemEmpworkno">
-                <Input v-model="form.pacemEmpworkno" disabled :placeholder="$t('lang_payroll.payAccEmp.pacemEmpworknoDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10" offset="1">
-              <FormItem :label="$t('lang_payroll.payAccEmp.pacemEmpgid')" prop="pacemEmpgid">
-                <Input v-model="form.pacemEmpgid" disabled :placeholder="$t('lang_payroll.payAccEmp.pacemEmpgidDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10">
               <FormItem :label="$t('lang_payroll.payAccEmp.pacemCname')" prop="pacemCname">
-                <Input v-model="form.pacemCname" disabled :placeholder="$t('lang_payroll.payAccEmp.pacemCnameDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="15"></i-col>
-            <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccEmp.pacemIdtype')" prop="pacemIdtype">
-                <Input v-model="form.pacemIdtypeDis" disabled :placeholder="$t('lang_payroll.payAccEmp.pacemIdtypeDis')"/>
+                <Input v-model="form.pacemComment" disabled :placeholder="$t('lang_payroll.payAccEmp.pacemCnameDis')"/>
               </FormItem>
             </i-col>
             <i-col span="10" offset="1">
@@ -80,7 +54,7 @@
             </i-col>
             <i-col span="21">
               <FormItem :label="$t('lang_payroll.payAccEmp.pacemComment')" prop="pacemComment">
-                <Input v-model="form.pacemComment" disabled type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccEmp.pacemCommentDis')"></Input>
+                <Input v-model="form.pacemBankDis" disabled type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccEmp.pacemCommentDis')"></Input>
               </FormItem>
             </i-col>
           </Form>

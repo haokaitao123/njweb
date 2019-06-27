@@ -4,7 +4,7 @@
       <div class="title">
         <div class="title-text">
           <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>
-          &nbsp;{{row.paccPeriodDis + ' ' + row.paccSalarysetDis + ' ' + row.paccRoundDis + $t('lang_payroll.payAccItem.title') + ' (' + row.paccStatusDis + ')'}}
+          &nbsp;{{$t('lang_payroll.payAccItem.title')}}
         </div>
         <Button type="text" @click="handleReset">
           <Icon type="close-round" size="16"></Icon>
@@ -39,26 +39,17 @@
             width: 54,
             align: 'center',
           },
+
           {
-            title: this.$t('lang_payroll.payAccItem.pacemEmpworkno'),
-            key: 'pacemEmpworkno',
-          },
-          {
-            title: this.$t('lang_payroll.payAccItem.pacemCname'),
-            key: 'pacemCname',
-          },
-          {
-            title: this.$t('lang_payroll.payAccItem.pacemimItem'),
-            key: 'pacemimItemDis',
-          },
-          {
-            title: this.$t('lang_payroll.payAccItem.pacemimValue'),
+            title: this.$t('项目'),
             key: 'pacemimValueDis',
           },
           {
-            title: this.$t('lang_payroll.payAccItem.pacemimCurrency'),
-            key: 'pacemimCurrencyDis',
+            title: this.$t('项目值'),
+            key: 'pacemimValue',
           },
+
+
           {
             title: this.$t('button.opr'),
             key: 'action',
