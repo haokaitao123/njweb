@@ -29,8 +29,9 @@ import empPayrollSalary from '@/pages/payroll/empPayrollSalary/salaryBaseManage'
 import payMonPeriodSubmit from '@/pages/payroll/PayMonPeriodManage/payMonSubmit/payMonPeriodManage'
 import payMonPeriodConfirm from '@/pages/payroll/PayMonPeriodManage/payMonConfirm/payMonPeriodManage'
 import payMonPeriodSysUpd from '@/pages/payroll/PayMonPeriodManage/payMonSysUpd/payMonPeriodManage'
-// 薪资核算
+// 月薪资核算处理
 import payAccountList from '@/pages/payroll/payAccount/payAccountList'
+
 import payrollReportManage from '@/pages/payroll/payrollReport/payrollReportManage'
 // 专项附加税
 import SpecialSurtax from '@/pages/payroll/SpecialSurtax/SpecialSurtax'
@@ -40,148 +41,198 @@ import empPayrollList from '@/pages/payroll/emPayrollSearch/empPayrollList'
 import payPromotedList from '@/pages/payroll/payPromotedManage/payPromotedList'
 //项目异动提成
 import payProjchangeList from '@/pages/payroll/payProjchangeManage/payProjchangeList'
+//项目提成配置
+import payPercentageManage from '@/pages/payroll/payPercentage/payPercentageList'
+//项目成本管理
+import payCostManage from '@/pages/payroll/payCost/payCostList'
+//项目分摊管理
+import payShareManage from '@/pages/payroll/payShare/payShareList'
+//项目业绩基础信息
+import payProjbaseManage from '@/pages/payroll/payProjbase/payProjbaseList'
 
+//日薪资核算处理
+import payDayAccountList from '@/pages/payroll/payDayAccount/payDayAccountList'
+
+//项目收益管理
+import payProfitList from '@/pages/payroll/payProfit/payProfitList'
+
+//员工薪资发放
+import payEmpgrantList from '@/pages/payroll/payEmpgrant/payEmpgrantList'
 
 export default [
     {
-        path: 'payProjchangeList',
-        name: 'payProjchangeList',
-        component: payProjchangeList,
-      },
-      {
-        path: 'payPromotedList',
-        name: 'payPromotedList',
-        component: payPromotedList,
-      },
+      path: 'payProjchangeList',
+      name: 'payProjchangeList',
+      component: payProjchangeList,
+    },
+    {
+      path: 'payPromotedList',
+      name: 'payPromotedList',
+      component: payPromotedList,
+    },
+    {
+      path: 'empPayrollList',
+      name: 'empPayrollList',
+      component: empPayrollList,
+    },
+    {
+      path: 'paySalItemManage',
+      name: 'paySalItemManage',
+      component: paySalItemManage,
+    },
+    {
+      path: 'paySalSetManage',
+      name: 'paySalSetManage',
+      component: paySalSetManage,
+    },
+    {
+      path: 'paySalplanManage',
+      name: 'paySalplanManage',
+      component: paySalplanManage,
+    },
+    {
+      path: 'paySalplanConfirmManage',
+      name: 'paySalplanConfirmManage',
+      component: paySalplanConfirmManage,
+    },
+    {
+      path: 'paySalplanCheckManage',
+      name: 'paySalplanCheckManage',
+      component: paySalplanCheckManage,
+    },
+    {
+      path: 'paySalplanPostManage',
+      name: 'paySalplanPostManage',
+      component: paySalplanPostManage,
+    },
+    {
+      path: 'payPlantemplateList',
+      name: 'payPlantemplateList',
+      component: payPlantemplateList,
+    },
+    {
+      path: 'payCompList',
+      name: 'payCompList',
+      component: payCompList,
+    },
+    {
+      path: 'payProcess',
+      name: 'payProcess',
+      component: payProcess,
+    },
+    {
+      path: 'payAddCheck',
+      name: 'payAddCheck',
+      component: payAddCheck,
+    },
+    {
+      path: 'payAddConfirm',
+      name: 'payAddConfirm',
+      component: payAddConfirm,
+    },
+    {
+      path: 'payAddSysUpd',
+      name: 'payAddSysUpd',
+      component: payAddSysUpd,
+    },
+    {
+      path: 'payEndCheck',
+      name: 'payEndCheck',
+      component: payEndCheck,
+    },
+    {
+      path: 'payEndConfirm',
+      name: 'payEndConfirm',
+      component: payEndConfirm,
+    },
+    {
+      path: 'payEndSysUpd',
+      name: 'payEndSysUpd',
+      component: payEndSysUpd,
+    },
+    {
+      path: 'payAdjustApplication',
+      name: 'payAdjustApplication',
+      component: payAdjustApplication,
+    },
+    {
+      path: 'payAdjustConfirm',
+      name: 'payAdjustConfirm',
+      component: payAdjustConfirm,
+    },
+    {
+      path: 'payAdjustSysUpd',
+      name: 'payAdjustSysUpd',
+      component: payAdjustSysUpd,
+    },
+    {
+      path: 'empPayrollSalary',
+      name: 'empPayrollSalary',
+      component: empPayrollSalary,
+    },
+    {
+      path: 'payMonPeriodSubmit',
+      name: 'payMonPeriodSubmit',
+      component: payMonPeriodSubmit,
+    },
+    {
+      path: 'payMonPeriodConfirm',
+      name: 'payMonPeriodConfirm',
+      component: payMonPeriodConfirm,
+    },
+    {
+      path: 'payMonPeriodSysUpd',
+      name: 'payMonPeriodSysUpd',
+      component: payMonPeriodSysUpd,
+    },
+    {
+      path: 'payAccountList',
+      name: 'payAccountList',
+      component: payAccountList,
+    },
+    {
+      path: 'payrollReportManage',
+      name: 'payrollReportManage',
+      component: payrollReportManage,
+    },
+    {
+      path: 'SpecialSurtax',
+      name: 'SpecialSurtax',
+      component: SpecialSurtax,
+    },
+    {
+      path: 'payPercentageManage',
+      name: 'payPercentageManage',
+      component: payPercentageManage,
+    },
+    {
+      path: 'payCostManage',
+      name: 'payCostManage',
+      component: payCostManage,
+    },
+    {
+      path: 'payShareManage',
+      name: 'payShareManage',
+      component: payShareManage,
+    },
+    {
+      path: 'payDayAccountList',
+      name: 'payDayAccountList',
+      component: payDayAccountList,
+    },
+    {
+      path: 'payProfitList',
+      name: 'payProfitList',
+      component: payProfitList,
+    },
+    {
+      path: 'payEmpgrantList',
+      name: 'payEmpgrantList',
+      component: payEmpgrantList,
+    },
   {
-    path: 'empPayrollList',
-    name: 'empPayrollList',
-    component: empPayrollList,
+    path: 'payProjbaseManage',
+    name: 'payProjbaseManage',
+    component: payProjbaseManage,
   },
-  {
-    path: 'paySalItemManage',
-    name: 'paySalItemManage',
-    component: paySalItemManage,
-  },
-  {
-    path: 'paySalSetManage',
-    name: 'paySalSetManage',
-    component: paySalSetManage,
-  },
-  {
-    path: 'paySalplanManage',
-    name: 'paySalplanManage',
-    component: paySalplanManage,
-  },
-  {
-    path: 'paySalplanConfirmManage',
-    name: 'paySalplanConfirmManage',
-    component: paySalplanConfirmManage,
-  },
-  {
-    path: 'paySalplanCheckManage',
-    name: 'paySalplanCheckManage',
-    component: paySalplanCheckManage,
-  },
-  {
-    path: 'paySalplanPostManage',
-    name: 'paySalplanPostManage',
-    component: paySalplanPostManage,
-  },
-  {
-    path: 'payPlantemplateList',
-    name: 'payPlantemplateList',
-    component: payPlantemplateList,
-  },
-  {
-    path: 'payCompList',
-    name: 'payCompList',
-    component: payCompList,
-  },
-  {
-    path: 'payProcess',
-    name: 'payProcess',
-    component: payProcess,
-  },
-  {
-    path: 'payAddCheck',
-    name: 'payAddCheck',
-    component: payAddCheck,
-  },
-  {
-    path: 'payAddConfirm',
-    name: 'payAddConfirm',
-    component: payAddConfirm,
-  },
-  {
-    path: 'payAddSysUpd',
-    name: 'payAddSysUpd',
-    component: payAddSysUpd,
-  },
-  {
-    path: 'payEndCheck',
-    name: 'payEndCheck',
-    component: payEndCheck,
-  },
-  {
-    path: 'payEndConfirm',
-    name: 'payEndConfirm',
-    component: payEndConfirm,
-  },
-  {
-    path: 'payEndSysUpd',
-    name: 'payEndSysUpd',
-    component: payEndSysUpd,
-  },
-  {
-    path: 'payAdjustApplication',
-    name: 'payAdjustApplication',
-    component: payAdjustApplication,
-  },
-  {
-    path: 'payAdjustConfirm',
-    name: 'payAdjustConfirm',
-    component: payAdjustConfirm,
-  },
-  {
-    path: 'payAdjustSysUpd',
-    name: 'payAdjustSysUpd',
-    component: payAdjustSysUpd,
-  },
-  {
-    path: 'empPayrollSalary',
-    name: 'empPayrollSalary',
-    component: empPayrollSalary,
-  },
-  {
-    path: 'payMonPeriodSubmit',
-    name: 'payMonPeriodSubmit',
-    component: payMonPeriodSubmit,
-  },
-  {
-    path: 'payMonPeriodConfirm',
-    name: 'payMonPeriodConfirm',
-    component: payMonPeriodConfirm,
-  },
-  {
-    path: 'payMonPeriodSysUpd',
-    name: 'payMonPeriodSysUpd',
-    component: payMonPeriodSysUpd,
-  },
-  {
-    path: 'payAccountList',
-    name: 'payAccountList',
-    component: payAccountList,
-  },
-  {
-    path: 'payrollReportManage',
-    name: 'payrollReportManage',
-    component: payrollReportManage,
-  },
-  {
-    path: 'SpecialSurtax',
-    name: 'SpecialSurtax',
-    component: SpecialSurtax,
-  },
-
 ]
