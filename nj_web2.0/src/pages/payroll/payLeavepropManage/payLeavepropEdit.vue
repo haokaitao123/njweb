@@ -108,9 +108,9 @@ export default {
       },
       //表单验证规则
       ruleValidate: {
-        deptId: [
-          { required: true, message: "请输入项目名称", trigger: "change" }
-        ],
+        // deptId: [
+        //   { required: true, message: "请输入项目名称", trigger: "change" }
+        // ],
         levpPer: [
           {
             required: true,

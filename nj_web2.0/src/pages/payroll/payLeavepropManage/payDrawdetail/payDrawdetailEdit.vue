@@ -136,23 +136,34 @@ drawAmount: [
             if (logType == "新增") {
                 return;
             }
-            t.id = id;
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                       t.formValidate.drawPid = data.drawPid;
-    t.formValidate.drawPer = data.drawPer;
+            let data = {
+             	drawPid:"天马项目",
+             	drawPer:'2019-6-7',
+             	drawAmount:"3000",
+             	
+             	
+            }
+t.formValidate.drawPer = data.drawPer;
     t.formValidate.drawAmount = data.drawAmount;
     t.formValidate.note = data.note;
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            });
+    //         t.id = id;
+    //         getDataLevelUserLogin({
+    //             _mt: t.getById_mt,
+    //             id: id,
+    //             logType: 'Id查询',
+    //         }).then((res) => {
+    //             if (isSuccess(res, t)) {
+    //                 let data = res.data.content[0]
+    //                    t.formValidate.drawPid = data.drawPid;
+    // t.formValidate.drawPer = data.drawPer;
+    // t.formValidate.drawAmount = data.drawAmount;
+    // t.formValidate.note = data.note;
+
+    //             }
+    //         }).catch(() => {
+    //             this.$Message.error(this.$t("reminder.errormessage"));
+    //         });
         },
         //获取下拉列表数据
         getSelect () {
