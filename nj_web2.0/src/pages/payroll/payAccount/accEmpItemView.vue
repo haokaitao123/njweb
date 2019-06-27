@@ -12,40 +12,16 @@
       <div>
         <Row>
           <Form ref="form" :model="form" :label-width="130">
-            <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccItem.pacemEmpworkno')" prop="pacemEmpworkno">
-                <Input v-model="pacemEmpworkno" disabled :placeholder="$t('lang_payroll.payAccItem.pacemEmpworknoDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10" offset="1">
-              <FormItem :label="$t('lang_payroll.payAccItem.pacemCname')" prop="pacemCname">
-                <Input v-model="pacemCname" disabled :placeholder="$t('lang_payroll.payAccItem.pacemCnameDis')"/>
-              </FormItem>
-            </i-col>
+
+
             <i-col span="10">
               <FormItem :label="$t('lang_payroll.payAccItem.pacemimItem')" prop="pacemimItem">
-                <Input v-model="form.pacemimItemDis" disabled :placeholder="$t('lang_payroll.payAccItem.pacemimItemDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10"  offset="1">
-              <FormItem :label="$t('lang_payroll.payAccItem.pacemimCurrency')" prop="pacemimCurrency">
-                <Input v-model="form.pacemimCurrencyDis" disabled :placeholder="$t('lang_payroll.payAccItem.pacemimCurrencyDis')"/>
+                <Input v-model="form.pacemimValueDis" disabled :placeholder="$t('lang_payroll.payAccItem.pacemimItemDis')"/>
               </FormItem>
             </i-col>
             <i-col span="10">
               <FormItem :label="$t('lang_payroll.payAccItem.pacemimValue')" prop="pacemimValue">
                 <Input v-model="form.pacemimValue" disabled :placeholder="$t('lang_payroll.payAccItem.pacemimValueDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="23"></i-col>
-            <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccItem.pacemimAmount')" prop="pacemimAmount">
-                <Input v-model="form.pacemimAmount" disabled :placeholder="$t('lang_payroll.payAccItem.pacemimAmountDis')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10" offset="1">
-              <FormItem :label="$t('lang_payroll.payAccItem.pacemimLcamount')" prop="pacemimLcamount">
-                <Input v-model="form.pacemimLcamount" disabled :placeholder="$t('lang_payroll.payAccItem.pacemimLcamountDis')"/>
               </FormItem>
             </i-col>
             <i-col span="21">
