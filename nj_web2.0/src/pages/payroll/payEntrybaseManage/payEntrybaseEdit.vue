@@ -27,7 +27,7 @@
           <Col span="11" offset="1">
             <FormItem label="项目主管" prop="enbaPersonDis">
               <Input
-                v-model="formValidate.enbaPersonDis"
+                v-model="enbaPersonDis"
                 :disabled="disabled"
                 placeholder="请输入项目主管"
               ></Input>
@@ -36,7 +36,7 @@
           <Col span="11">
             <FormItem label="项目经理" prop="enbaManagerDis">
               <Input
-                v-model="formValidate.enbaManagerDis"
+                v-model="enbaManagerDis"
                 :disabled="disabled"
                 placeholder="请输入项目经理"
               ></Input>
@@ -44,7 +44,7 @@
           </Col>
           <Col span="11" offset="1">
             <FormItem label="项目名称" prop="unitFname">
-              <Input v-model="formValidate.unitFname" :disabled="disabled" placeholder="请输入项目名称"></Input>
+              <Input v-model="unitFname" :disabled="disabled" placeholder="请输入项目名称"></Input>
             </FormItem>
           </Col>
           <Col span="11">
@@ -728,50 +728,50 @@ export default {
       },
       //表单验证规则
       ruleValidate: {
-        enbaStaff: [
-          { required: true, message: "请输入招聘专员", trigger: "change" }
-        ],
-        enbaDept: [
-          { required: true, message: "请输入内招项目名称", trigger: "change" }
-        ],
-        enbaNature: [
-          { required: true, message: "请输入入职性质", trigger: "change" }
-        ],
-        enbaEtdate: [
-          { required: true, message: "请输入入职日期", trigger: "change" }
-        ],
-        enbaLevdate: [
-          { required: true, message: "请输入离职日期", trigger: "change" }
-        ],
-        enbaPerfor: [
-          {
-            required: true,
-            validator: numberCheck,
-            message: "请输入正确的格式",
-            trigger: "blur"
-          }
-        ],
-        enbaCusm: [
-          { required: true, message: "请输入入职客户名称", trigger: "blur" }
-        ],
-        enbaPost: [
-          { required: true, message: "请输入岗位名称", trigger: "change" }
-        ],
-        enbaName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        enbaSalary: [
-          {
-            required: true,
-            validator: numberCheck,
-            message: "请输入正确的格式",
-            trigger: "blur"
-          }
-        ],
-        enbaDrawback: [
-          { required: true, message: "请输入划回时间", trigger: "change" }
-        ],
-        enbaDrwaout: [
-          { required: true, message: "请输入划出时间", trigger: "change" }
-        ]
+        // enbaStaff: [
+        //   { required: true, message: "请输入招聘专员", trigger: "change" }
+        // ],
+        // enbaDept: [
+        //   { required: true, message: "请输入内招项目名称", trigger: "change" }
+        // ],
+        // enbaNature: [
+        //   { required: true, message: "请输入入职性质", trigger: "change" }
+        // ],
+        // enbaEtdate: [
+        //   { required: true, message: "请输入入职日期", trigger: "change" }
+        // ],
+        // enbaLevdate: [
+        //   { required: true, message: "请输入离职日期", trigger: "change" }
+        // ],
+        // enbaPerfor: [
+        //   {
+        //     required: true,
+        //     validator: numberCheck,
+        //     message: "请输入正确的格式",
+        //     trigger: "blur"
+        //   }
+        // ],
+        // enbaCusm: [
+        //   { required: true, message: "请输入入职客户名称", trigger: "blur" }
+        // ],
+        // enbaPost: [
+        //   { required: true, message: "请输入岗位名称", trigger: "change" }
+        // ],
+        // enbaName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        // enbaSalary: [
+        //   {
+        //     required: true,
+        //     validator: numberCheck,
+        //     message: "请输入正确的格式",
+        //     trigger: "blur"
+        //   }
+        // ],
+        // enbaDrawback: [
+        //   { required: true, message: "请输入划回时间", trigger: "change" }
+        // ],
+        // enbaDrwaout: [
+        //   { required: true, message: "请输入划出时间", trigger: "change" }
+        // ]
       }
     };
   },
@@ -797,16 +797,59 @@ export default {
     //获取列表详情
     getData(id) {
       const t = this;
-      t.spinShow = true;
-      getDataLevelUserLogin({
-        _mt: t.getById_mt,
-        id: id,
-        logType: "Id查询"
-      })
-        .then(res => {
-          if (isSuccess(res, t)) {
-            let data = res.data.content[0];
-            t.formValidate.enbaStaff = data.enbaStaff;
+      let data = {
+                empnhName: "李莎莎",
+                empId:"123",
+                enbaPerson:"123",
+                enbaPersonDis: '穆宇',
+                enbaManagerDis: '李延',
+                unitFname: '东风项目',
+                enbaDeptDis: "联想电子厂",
+                enbaNatureDis: "内招",
+                enbaEtdate: '2019-06-11',
+                enbaLevdate: '2019-06-27',
+                enbaPerfor: '200',
+                enbaCusm: '李',
+                enbaDrawback: '2019-06-15',
+                enbaDrwaout: '2019-06-30',
+                postFname: '招聘专员',
+                enbaIdentityDis: '无',
+                enbaFilldate: '2019-06-10',
+                enbaName: '郝凯涛',
+                enbaIdno: '610101199409101613',
+                enbaMobile: '18298787123',
+                enbaGenderDis: '男',
+                enbaBirtday: '1992-09-10',
+                enbaBirtplace: '武汉',
+                enbaNatalityDis: '汉族',
+                enbaPoliticalDis: '',
+                enbaPoliticalDis: '党员',
+                enbaPoliticalDis: '未婚',
+                enbaHeight: '180',
+                enbaWeight: '70',
+                enbaEducatDis: "武汉大学",
+                enbaProfes: '化学',
+                enbaLiving: '武汉',
+                enbaFamadds: '武汉',
+                enbaEmernm: '穆宇',
+                enbaEmphone: '1363232222323',
+                enbaWithmeDis: '朋友',
+                enbaSalary: '8000',
+                enbaProstatusDis: '离职',
+                enbaAvaitime: "2019-06-23",
+                enbaIsrelativesDis: "是",
+                enbaRelatname: "李延",
+                enbaRelatdept: "招聘部",
+                enbaIscriminalDis: "否",
+                enbaIstattooDis: "否",
+                enbaApplytype: "网络",
+                enbaIntrname: "王帅",
+                enbaIscomDis: "是",
+                enbaSelfeval: "很不错",
+                enbaEnrorage: "自招",
+                enbaIsgraduDis: "是",
+                enbaFinalapptm: "2019-06-17"
+            };
             t.empnhName = data.empnhName;
             t.formValidate.enbaPerson = data.enbaPerson;
             t.enbaPersonDis = data.enbaPersonDis;
@@ -879,14 +922,96 @@ export default {
             t.formValidate.enbaFinalapptm = data.enbaFinalapptm;
             t.formValidate.note = data.note;
             t.formValidate.state = data.state;
-          }
-        })
-        .catch(() => {
-          this.$Message.error(this.$t("reminder.errormessage"));
-        })
-        .finally(() => {
-          t.spinShow = false;
-        });
+    //   t.spinShow = true;
+    //   getDataLevelUserLogin({
+    //     _mt: t.getById_mt,
+    //     id: id,
+    //     logType: "Id查询"
+    //   })
+    //     .then(res => {
+    //       if (isSuccess(res, t)) {
+    //         let data = res.data.content[0];
+    //         t.formValidate.enbaStaff = data.enbaStaff;
+    //         t.empnhName = data.empnhName;
+    //         t.formValidate.enbaPerson = data.enbaPerson;
+    //         t.enbaPersonDis = data.enbaPersonDis;
+    //         t.formValidate.enbaManager = data.enbaManager;
+    //         t.enbaManagerDis = data.enbaManagerDis;
+    //         t.formValidate.deptId = data.deptId;
+    //         t.unitFname = data.unitFname;
+    //         t.formValidate.enbaDept = data.enbaDept;
+    //         t.enbaDeptDis = data.enbaDeptDis;
+    //         t.formValidate.enbaNature = data.enbaNature;
+    //         t.enbaNatureDis = data.enbaNatureDis;
+    //         t.formValidate.enbaEtdate = data.enbaEtdate;
+    //         t.formValidate.enbaLevdate = data.enbaLevdate;
+    //         t.formValidate.enbaPerfor = data.enbaPerfor;
+    //         t.formValidate.enbaCusm = data.enbaCusm;
+    //         t.formValidate.enbaDrawback = data.enbaDrawback;
+    //         t.formValidate.enbaDrwaout = data.enbaDrwaout;
+    //         t.formValidate.enbaPost = data.enbaPost;
+    //         t.postFname = data.postFname;
+    //         t.formValidate.enbaIdentity = data.enbaIdentity;
+    //         t.enbaIdentityDis = data.enbaIdentityDis;
+    //         t.formValidate.enbaFilldate = data.enbaFilldate;
+    //         t.formValidate.enbaName = data.enbaName;
+    //         t.formValidate.enbaIdno = data.enbaIdno;
+    //         t.formValidate.enbaMobile = data.enbaMobile;
+    //         t.formValidate.enbaGender = data.enbaGender;
+    //         t.enbaGenderDis = data.enbaGenderDis;
+    //         t.formValidate.enbaBirtday = data.enbaBirtday;
+    //         t.formValidate.enbaBirtplace = data.enbaBirtplace;
+    //         t.formValidate.enbaNatality = data.enbaNatality;
+    //         t.enbaNatalityDis = data.enbaNatalityDis;
+    //         t.formValidate.enbaPolitical = data.enbaPolitical;
+    //         t.enbaPoliticalDis = data.enbaPoliticalDis;
+    //         t.formValidate.enbaHealthsta = data.enbaHealthsta;
+    //         t.enbaPoliticalDis = data.enbaPoliticalDis;
+    //         t.formValidate.enbaMaritlsta = data.enbaMaritlsta;
+    //         t.enbaPoliticalDis = data.enbaPoliticalDis;
+    //         t.formValidate.enbaHeight = data.enbaHeight;
+    //         t.formValidate.enbaWeight = data.enbaWeight;
+    //         t.formValidate.enbaEducat = data.enbaEducat;
+    //         t.enbaEducatDis = data.enbaEducatDis;
+    //         t.formValidate.enbaSchool = data.enbaSchool;
+    //         t.formValidate.enbaProfes = data.enbaProfes;
+    //         t.formValidate.enbaLiving = data.enbaLiving;
+    //         t.formValidate.enbaFamadds = data.enbaFamadds;
+    //         t.formValidate.enbaEmernm = data.enbaEmernm;
+    //         t.formValidate.enbaEmphone = data.enbaEmphone;
+    //         t.formValidate.enbaWithme = data.enbaWithme;
+    //         t.enbaWithmeDis = data.enbaWithmeDis;
+    //         t.formValidate.enbaSalary = data.enbaSalary;
+    //         t.formValidate.enbaProstatus = data.enbaProstatus;
+    //         t.enbaProstatusDis = data.enbaProstatusDis;
+    //         t.formValidate.enbaAvaitime = data.enbaAvaitime;
+    //         t.formValidate.enbaIsrelatives = data.enbaIsrelatives;
+    //         t.enbaIsrelativesDis = data.enbaIsrelativesDis;
+    //         t.formValidate.enbaRelatname = data.enbaRelatname;
+    //         t.formValidate.enbaRelatdept = data.enbaRelatdept;
+    //         t.formValidate.enbaIscriminal = data.enbaIscriminal;
+    //         t.enbaIscriminalDis = data.enbaIscriminalDis;
+    //         t.formValidate.enbaIstattoo = data.enbaIstattoo;
+    //         t.enbaIstattooDis = data.enbaIstattooDis;
+    //         t.formValidate.enbaApplytype = data.enbaApplytype;
+    //         t.formValidate.enbaIntrname = data.enbaIntrname;
+    //         t.formValidate.enbaIscom = data.enbaIscom;
+    //         t.enbaIscomDis = data.enbaIscomDis;
+    //         t.formValidate.enbaSelfeval = data.enbaSelfeval;
+    //         t.formValidate.enbaEnrorage = data.enbaEnrorage;
+    //         t.formValidate.enbaIsgradu = data.enbaIsgradu;
+    //         t.enbaIsgraduDis = data.enba_isgraduDis;
+    //         t.formValidate.enbaFinalapptm = data.enbaFinalapptm;
+    //         t.formValidate.note = data.note;
+    //         t.formValidate.state = data.state;
+    //       }
+    //     })
+    //     .catch(() => {
+    //       this.$Message.error(this.$t("reminder.errormessage"));
+    //     })
+    //     .finally(() => {
+    //       t.spinShow = false;
+    //     });
     },
     //获取下拉列表数据
     getSelect() {

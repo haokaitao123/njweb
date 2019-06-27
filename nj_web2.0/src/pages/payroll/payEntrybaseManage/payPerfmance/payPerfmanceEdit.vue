@@ -14,29 +14,48 @@
                 </Button>
             </div>
             <Row class="main-height"
+                 style="overflow-y: visible"
                  ref="scrollBox">
                 <Form ref="formValidate"
                       :model="formValidate"
                       :rules="ruleValidate"
                       :label-width="100">
                     <Row>
-                         <Col span="11">
-<FormItem label="阶段日期" prop="pmceDate">
-<DatePicker type="date" placeholder="请选择阶段日期" :editable="false" :disabled="disabled" :readonly="disabled" v-model="formValidate.pmceDate" format="yyyy-MM-dd" style="width: 100%"></DatePicker>
-</FormItem>
-</Col>
-<Col span="11" offset="1">
-<FormItem label="阶段属期" prop="pmceRperDis">
-<Select v-model="formValidate.pmceRperDis" :clearable="!disabled" :disabled=disabled placeholder="请选择阶段属期">
-<Option :value="item.paramCode" v-for="(item,index) in pmceRperDisData" :key="index">{{item.paramInfoCn}}</Option>
-</Select>
-</FormItem>
-</Col>
-<Col span="11">
-<FormItem label="业绩金额" prop="pmceAmount">
-<Input v-model="formValidate.pmceAmount" :disabled=disabled placeholder="请输入业绩金额"></Input>
-</FormItem>
-</Col>
+                        <Col span="11">
+                        <FormItem label="阶段日期"
+                                  prop="pmceDate">
+                            <DatePicker type="date"
+                                        placeholder="请选择阶段日期"
+                                        :editable="false"
+                                        :disabled="disabled"
+                                        :readonly="disabled"
+                                        v-model="formValidate.pmceDate"
+                                        format="yyyy-MM-dd"
+                                        style="width: 100%"></DatePicker>
+                        </FormItem>
+                        </Col>
+                        <Col span="11"
+                             offset="1">
+                        <FormItem label="阶段属期"
+                                  prop="pmceRperDis">
+                            <Select v-model="formValidate.pmceRperDis"
+                                    :clearable="!disabled"
+                                    :disabled=disabled
+                                    placeholder="请选择阶段属期">
+                                <Option :value="item.paramCode"
+                                        v-for="(item,index) in pmceRperDisData"
+                                        :key="index">{{item.paramInfoCn}}</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="11">
+                        <FormItem label="业绩金额"
+                                  prop="pmceAmount">
+                            <Input v-model="formValidate.pmceAmount"
+                                   :disabled=disabled
+                                   placeholder="请输入业绩金额"></Input>
+                        </FormItem>
+                        </Col>
 
                         <Col span="22"
                              offset="1">
@@ -58,7 +77,7 @@
         </div>
     </div>
     <!--  弹出选择框  -->
-	
+
     </div>
 </template>
 <script>
@@ -86,8 +105,8 @@ export default {
             disabled: false,
             pmceRperDis: "",
 
-            
-            typeCode: "pmceRper",pmceRperDisData: [],
+
+            typeCode: "pmceRper", pmceRperDisData: [],
 
             //提交mt名称
             addOrUpd_mt: 'payPerfmance.addOrUpd',
@@ -95,28 +114,28 @@ export default {
             getById_mt: 'payPerfmance.getById',
             //form表单提交数据
             formValidate: {
-            	    drawPid: '', 
-    note: '', 
-    pmceDate: '', 
-    pmceRper: '', 
-    pmceAmount: '', 
+                drawPid: '',
+                note: '',
+                pmceDate: '',
+                pmceRper: '',
+                pmceAmount: '',
 
             },
             //表单验证规则
             ruleValidate: {
                 pmceDate: [
-{ required: true, message: "请输入阶段日期", trigger: "change" },
-],
-pmceAmount: [
-{ required: true, message: "请输入业绩金额", trigger: "blur" },
-{ required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
-],
+                    { required: true, message: "请输入阶段日期", trigger: "change", type: "date" },
+                ],
+                pmceAmount: [
+                    { required: true, message: "请输入业绩金额", trigger: "blur" },
+                    { required: true, validator: numberCheck, message: "请输入正确的格式", trigger: "blur" },
+                ],
 
             },
+            id: ""
         }
     },
     props: {
-        id: Number,
         index: Number,
     },
     computed: {
@@ -128,11 +147,11 @@ pmceAmount: [
         }
     },
     components: {
-    	
-        
+
+
     },
     mounted () {
-        
+
     },
     methods: {
         //获取列表详情
@@ -142,24 +161,33 @@ pmceAmount: [
                 return;
             }
             t.id = id;
-            getDataLevelUserLogin({
-                _mt: t.getById_mt,
-                id: id,
-                logType: 'Id查询',
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    let data = res.data.content[0]
-                       t.formValidate.drawPid = data.drawPid;
-    t.formValidate.note = data.note;
-    t.formValidate.pmceDate = data.pmceDate;
-    t.formValidate.pmceRper = data.pmceRper;
-    t.pmceRperDis = data.pmceRperDis;
-    t.formValidate.pmceAmount = data.pmceAmount;
+            let data = {
+                pmceDate: "2019-06-01",
+                pmceRperDis: "第三阶段",
+                pmceAmount: "20000"
+            };
+            t.formValidate.pmceDate = data.pmceDate;
+            t.formValidate.pmceRper = data.pmceRper;
+            t.pmceRperDis = data.pmceRperDis;
+            t.formValidate.pmceAmount = data.pmceAmount;
+            // getDataLevelUserLogin({
+            //     _mt: t.getById_mt,
+            //     id: id,
+            //     logType: 'Id查询',
+            // }).then((res) => {
+            //     if (isSuccess(res, t)) {
+            //         let data = res.data.content[0]
+            //         t.formValidate.drawPid = data.drawPid;
+            //         t.formValidate.note = data.note;
+            //         t.formValidate.pmceDate = data.pmceDate;
+            //         t.formValidate.pmceRper = data.pmceRper;
+            //         t.pmceRperDis = data.pmceRperDis;
+            //         t.formValidate.pmceAmount = data.pmceAmount;
 
-                }
-            }).catch(() => {
-                this.$Message.error(this.$t("reminder.errormessage"));
-            });
+            //     }
+            // }).catch(() => {
+            //     this.$Message.error(this.$t("reminder.errormessage"));
+            // });
         },
         //获取下拉列表数据
         getSelect () {
@@ -170,7 +198,7 @@ pmceAmount: [
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
-                    
+
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -188,23 +216,23 @@ pmceAmount: [
             if (t.logType === t.$t('button.upd')) {
                 data.id = t.id
             }
-            
+
             t.$refs.formValidate.validate((valid) => {
                 if (valid) {
-                    getDataLevelUserLoginNew(data).then((res) => {
-                        if (isSuccess(res, t)) {
-                            if (t.logType === t.$t('button.add')) {
-                                t.$Message.success(t.$t("reminder.addsuccess"));
-                                t.$emit('newData', res.data.content[0])
-                            } else {
-                                t.$Message.success(t.$t("reminder.updsuccess"));
-                                t.$emit('update', res.data.content[0])
-                            }
-                            t.handleReset();
-                        }
-                    }).catch(() => {
-                        t.$Message.error(t.$t("reminder.errormessage"));
-                    })
+                    // getDataLevelUserLoginNew(data).then((res) => {
+                    //     if (isSuccess(res, t)) {
+                    //         if (t.logType === t.$t('button.add')) {
+                    //             t.$Message.success(t.$t("reminder.addsuccess"));
+                    //             t.$emit('newData', res.data.content[0])
+                    //         } else {
+                    //             t.$Message.success(t.$t("reminder.updsuccess"));
+                    //             t.$emit('update', res.data.content[0])
+                    //         }
+                    //         t.handleReset();
+                    //     }
+                    // }).catch(() => {
+                    //     t.$Message.error(t.$t("reminder.errormessage"));
+                    // })
                 }
             })
         },
@@ -223,7 +251,7 @@ pmceAmount: [
             //对整个表单进行重置，将所有字段值重置为空并移除校验结果
             this.clear()
         },
-       
+
     },
 }
 </script>
