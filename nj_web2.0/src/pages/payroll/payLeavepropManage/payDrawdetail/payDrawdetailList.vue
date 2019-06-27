@@ -152,7 +152,7 @@ export default {
             
             table_height:document.body.offsetHeight - 350,
              mockData:[{
-             	drawPid:"nj",
+             	drawPid:"天马项目",
              	drawPer:'2019-6-7',
              	drawAmount:"3000",
              	
@@ -214,7 +214,7 @@ export default {
             t.index = index;
             //主子表的子表
             t.$store.commit('payLeaveprop/setChildLogType', logType);
-            //t.$refs.update.getData(id, logType);
+                t.$refs.update.getData(id, logType);
             if (t.logType === '查看') {
                 t.$refs.update.disabled = true
             } else {

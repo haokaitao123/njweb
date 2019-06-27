@@ -4,7 +4,7 @@
       <Col span="24">
       <card>
         <p slot="title">
-          <Icon type="mouse"></Icon>&nbsp;项目收益管理
+          <Icon type="mouse"></Icon>&nbsp;外包员工薪资
         </p>
         <Row>
           <Col span="24">
@@ -12,7 +12,7 @@
                     	    <span @dblclick="clearUnitFname">
     <Input v-model="unitFname" style="width: 200px"
            icon="search" :readonly="true"
-           placeholder="请选择项目名称"
+           placeholder="请选择员工姓名"
            @on-click="unitFnamePick"/>
 </span>
 
@@ -63,7 +63,7 @@
   import {isSuccess} from "@/lib/util";
   import {getDataLevelUserLoginNew, getDataLevelUserLogin} from "@/axios/axios";
   import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-  import update from "./PayProfitEdit";                    //新增修改组件
+  import update from "./PayEmpoutSalaryEdit";                    //新增修改组件
   import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
   import searchDept from "@/components/searchTable/searchDept";
 
@@ -76,34 +76,24 @@
         exp_mt: "payProfit.export",
         // 导出字段设置, code字段名 name列名
         expDataTital: [
-          {code: "unitFname", name: "项目名称"},
+          {code: "unitFname", name: "员工姓名"},
           {code: "profPer", name: "所属期间"},
-          {code: "profPays", name: "工资回款"},
-          {code: "profSses", name: "社保回款"},
-          {code: "profAcfun", name: "公积金回款"},
-          {code: "profServer", name: "服务费回款"},
-          {code: "profTax", name: "税金回款"},
-/*          {code: "profPayout", name: "工资支出"},
+          {code: "profPayout", name: "工资支出"},
           {code: "profSsesout", name: "社保支出"},
           {code: "profAcfunout", name: "公积金支出"},
           {code: "profTaxout", name: "税金支出"},
-          {code: "profOther", name: "其他"},*/
+          {code: "profOther", name: "其他"},
         ],
         // 表格列字段
         columns: [
           {type: "selection", width: 54, fixed: "left", align: "center"},
-          {key: "unitFname", title: "项目名称", sortable: "custom", width: 220},
+          {key: "unitFname", title: "员工姓名", sortable: "custom", width: 220},
           {key: "profPer", title: "所属期间", sortable: "custom", width: 220},
-          {key: "profPays", title: "工资回款", sortable: "custom", width: 220},
-          {key: "profSses", title: "社保回款", sortable: "custom", width: 220},
-          {key: "profAcfun", title: "公积金回款", sortable: "custom", width: 220},
-          {key: "profServer", title: "服务费回款", sortable: "custom", width: 220},
-          {key: "profTax", title: "税金回款", sortable: "custom", width: 220},
-/*          {key: "profPayout", title: "工资支出", sortable: "custom", width: 220},
-          {key: "profSsesout", title: "社保支出", sortable: "custom", width: 220},
-          {key: "profAcfunout", title: "公积金支出", sortable: "custom", width: 220},
-          {key: "profTaxout", title: "税金支出", sortable: "custom", width: 220},
-          {key: "profOther", title: "其他", sortable: "custom", width: 220},*/
+          {key: "profPayout", title: "工资金额", sortable: "custom", width: 220},
+          {key: "profSsesout", title: "社保金额", sortable: "custom", width: 220},
+          {key: "profAcfunout", title: "公积金金额", sortable: "custom", width: 220},
+          {key: "profTaxout", title: "税金金额", sortable: "custom", width: 220},
+          {key: "profOther", title: "其他金额", sortable: "custom", width: 220},
 
         ],
         // 表格获取数据mt名称

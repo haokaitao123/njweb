@@ -108,9 +108,9 @@ export default {
       },
       //表单验证规则
       ruleValidate: {
-        deptId: [
-          { required: true, message: "请输入项目名称", trigger: "change" }
-        ],
+        // deptId: [
+        //   { required: true, message: "请输入项目名称", trigger: "change" }
+        // ],
         levpPer: [
           {
             required: true,
@@ -150,28 +150,39 @@ export default {
     //获取列表详情
     getData(id) {
       const t = this;
-      t.spinShow = true;
-      getDataLevelUserLogin({
-        _mt: t.getById_mt,
-        id: id,
-        logType: "Id查询"
-      })
-        .then(res => {
-          if (isSuccess(res, t)) {
-            let data = res.data.content[0];
+       let data = { levpPer: "2017-2018",
+					unitFname: "天马项目",
+                    levpProp: "1%",
+                    note: "第一次"
+            }
             t.formValidate.levpPer = data.levpPer;
             t.formValidate.deptId = data.deptId;
             t.unitFname = data.unitFname;
             t.formValidate.levpProp = data.levpProp;
             t.formValidate.note = data.note;
-          }
-        })
-        .catch(() => {
-          this.$Message.error(this.$t("reminder.errormessage"));
-        })
-        .finally(() => {
-          t.spinShow = false;
-        });
+    //   t.spinShow = true;
+    //   getDataLevelUserLogin({
+    //     _mt: t.getById_mt,
+    //     id: id,
+    //     logType: "Id查询"
+    //   })
+    //     .then(res => {
+    //       if (isSuccess(res, t)) {
+    //         //let data = res.data.content[0];
+           
+    //         t.formValidate.levpPer = data.levpPer;
+    //         t.formValidate.deptId = data.deptId;
+    //         t.unitFname = data.unitFname;
+    //         t.formValidate.levpProp = data.levpProp;
+    //         t.formValidate.note = data.note;
+    //       }
+    //     })
+    //     .catch(() => {
+    //       this.$Message.error(this.$t("reminder.errormessage"));
+    //     })
+    //     .finally(() => {
+    //       t.spinShow = false;
+    //     });
     },
     //获取下拉列表数据
     getSelect() {
