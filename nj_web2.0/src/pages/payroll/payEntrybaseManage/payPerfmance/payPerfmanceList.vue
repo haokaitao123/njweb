@@ -21,6 +21,7 @@
                                 :state_mt="state_mt"
                                 :expDataTital="expDataTital"
                                 :table_height="table_height"
+                                :childTable="childTable"
                                 @tableBtn="tableBtn"
                                 ref="commonPage">
                     </commonPage>
@@ -47,7 +48,7 @@
 import { isSuccess } from "@/lib/util";
 import { getDataLevelUserLoginNew, getDataLevelUserLogin } from "@/axios/axios";
 import commonPage from '@/components/commonPage/commonPage';    //公共页面组件
-import update from "./addNewPayPerfmance";                    //新增修改组件
+import update from "./PayPerfmanceEdit";                    //新增修改组件
 import btnList from "@/components/btnAuth/btnAuth.js";          //按钮组件
 
 export default {
@@ -61,7 +62,7 @@ export default {
             expDataTital: [
                     { code: "drawPid", name: "外键" },
     { code: "pmceDate", name: "阶段日期" },
-    { code: "pmceRper", name: "阶段属期" },
+    { code: "pmceRperDis", name: "阶段属期" },
     { code: "pmceAmount", name: "业绩金额" },
             ],
             // 表格列字段
@@ -69,7 +70,7 @@ export default {
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
                     { key: "drawPid", title: "外键", sortable: "custom" , width : 220},
     { key: "pmceDate", title: "阶段日期", sortable: "custom" , width : 220},
-    { key: "pmceRper", title: "阶段属期", sortable: "custom" , width : 220},
+    { key: "pmceRperDis", title: "阶段属期", sortable: "custom" , width : 220},
     { key: "pmceAmount", title: "业绩金额", sortable: "custom" , width : 220},
 
                 {
@@ -149,7 +150,8 @@ export default {
             childTable:true,
             typeCode: "",
             //弹出选择框
-            
+            pmceRperDis: "",
+
             table_height:document.body.offsetHeight - 350,
         };
     },
@@ -208,7 +210,7 @@ export default {
             t.index = index;
             //主子表的子表
             t.$store.commit('payEntrybase/setChildLogType', logType);
-            t.$refs.update.setRowId(id, logType);
+            t.$refs.update.getData(id, logType);
             if (t.logType === '查看') {
                 t.$refs.update.disabled = true
             } else {
@@ -225,6 +227,13 @@ export default {
         //关闭新增修改弹窗
         closeUp () {
             this.openUpdate = false;
+        },
+        //清除
+        clear () {
+            this.searchParams = {};
+            this.$refs.commonPage.page = 1;
+            this.$refs.commonPage.rows = 20;
+            this.$store.commit('commonPage/setChildParams', this.searchParams);
         },
         //新增后表格数据添加
         addNewArray (res) {
@@ -277,9 +286,6 @@ export default {
 }
 .margin-right-10 {
     margin-right: 10px;
-}
-.content-main {
-    height: 500px;
 }
 .btn_row {
     .ivu-btn-primary {
