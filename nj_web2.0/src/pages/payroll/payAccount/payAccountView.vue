@@ -15,22 +15,22 @@
             <i-col span="10">
               <FormItem :label="$t('薪资期间')" prop="paccPeriod">
 
-                <Input v-model="form.paccPeriod" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
+                <Input v-model="form.paccPeriod" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('请输入薪资期间')"></Input>
               </FormItem>
             </i-col>
             <i-col span="10">
               <FormItem :label="$t('账套名称')" prop="paccComment">
-                <Input v-model="form.paccComment" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
+                <Input v-model="form.paccComment" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('请输入薪资账套名称')"></Input>
               </FormItem>
             </i-col>
             <i-col span="10">
               <FormItem :label="$t('账套类型')" prop="paccOptrecord">
-                <Input v-model="form.paccOptrecord" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
+                <Input v-model="form.paccOptrecord" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('请输入薪资账套类型')"></Input>
               </FormItem>
             </i-col>
             <i-col span="10">
               <FormItem :label="$t('账套状态')" prop="stateDis">
-                <Input v-model="form.stateDis" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
+                <Input v-model="form.stateDis" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('薪资账套状态')"></Input>
               </FormItem>
             </i-col>
             <i-col span="21" v-show="id ? true : false">

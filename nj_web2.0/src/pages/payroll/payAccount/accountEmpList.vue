@@ -6,7 +6,7 @@
           <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>
           &nbsp;{{$t('lang_payroll.payAccEmp.title') }}
         </div>
-        <!--row.paccPeriodDis + ' ' + row.paccSalarysetDis + ' ' + row.paccRoundDis +  + ' (' + row.paccStatusDis + ')'--> 
+        <!--row.paccPeriodDis + ' ' + row.paccSalarysetDis + ' ' + row.paccRoundDis +  + ' (' + row.paccStatusDis + ')'-->
         <Button type="text" @click="handleReset">
           <Icon type="close-round" size="16"></Icon>
         </Button>
@@ -58,18 +58,8 @@
             align: 'center',
           },
           {
-            title: this.$t('lang_payroll.payAccEmp.pacemCompany'),
-            key: 'pacemCompanyDis',
-            width: 100,
-          },
-          {
-            title: this.$t('lang_payroll.payAccEmp.pacemEmpworkno'),
-            key: 'pacemEmpworkno',
-            width: 100,
-          },
-          {
             title: this.$t('lang_payroll.payAccEmp.pacemCname'),
-            key: 'pacemCname',
+            key: 'pacemComment',
             width: 100,
           },
           {
