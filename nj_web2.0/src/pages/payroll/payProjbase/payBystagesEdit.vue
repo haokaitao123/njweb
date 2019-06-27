@@ -215,12 +215,12 @@ export default {
             const t = this
             getDataLevelUserLogin({
                 _mt: 'baseParmInfo.getSelectValue',
-                typeCode: t.typeCode,
+                typeCode: "period,space",
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
                     t.bystIntervalData = data.value[0].paramList;
-                    t.bystStageData = data.value[0].paramList;
+                    t.bystStageData = data.value[1].paramList;
                 }
             }).catch(() => {
                 this.$Modal.error({

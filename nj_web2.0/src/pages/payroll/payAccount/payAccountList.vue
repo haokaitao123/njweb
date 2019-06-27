@@ -11,11 +11,11 @@
            <span @dblclick="clearFyperiod">
                <Input v-model="paccPeriodDis" style="width: 190px" icon="search" :readonly="true" :placeholder="$t('lang_payroll.payAccount.paccPeriodDis')" @on-click="pickFyperiod"/>
           </span>
-          <Select v-model="paccSalaryset" @on-change="getData(1)" style="width: 190px"  :placeholder="$t('lang_payroll.payAccount.paccSalarysetDis')">
+<!--          <Select v-model="paccSalaryset" @on-change="getData(1)" style="width: 190px"  :placeholder="$t('lang_payroll.payAccount.paccSalarysetDis')">
             <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index" >{{item.payss}}</Option>
-          </Select>
+          </Select>-->
           <Dropdown>
-            <Button type="primary">
+<!--            <Button type="primary">
               {{select}}
               <Icon type="arrow-down-b"></Icon>
             </Button>
@@ -26,20 +26,20 @@
               <span v-for="(item,index) in RoundType" :key="index" @click="selected(item.paramCode,item.paramInfoCn)">
                <DropdownItem>{{item.paramInfoCn}}</DropdownItem>
             </span>
-            </DropdownMenu>
+            </DropdownMenu>-->
           </Dropdown>
           <span style="margin: 0;">
             <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
           </span>
-          <Button type="primary" v-show="paccStatus==='01all' || paccStatus==='02accounting' ? true:false" @click="openUp(NaN, $t('button.add'))">{{$t('button.add')}}</Button>
-          <Button type="error" v-show="paccStatus ==='02accounting' ? true:false" @click="deletemsg">{{$t('button.del')}}</Button>
-          <Button type="primary" v-show="paccStatus==='02accounting' ? true:false" @click="submit('03ToBeConfirmed')" >{{$t('button.submConfirm')}}</Button>
-          <Button type="primary" v-show="paccStatus==='03ToBeConfirmed' ? true:false" @click="submit('04confirmed')" >{{$t('button.confirm')}}</Button>
-          <Button type="primary" v-show="paccStatus==='03ToBeConfirmed' ? true:false" @click="submit('02accounting')" >{{$t('button.back')}}</Button>
-          <Button type="primary" v-show="paccStatus==='04confirmed' && paccRound==='90final' ? true:false" @click="submit('05alreadySealed')" >{{$t('button.seal')}}</Button>
+          <Button type="primary" v-show="state==='01all' || state==='02accounting' ? true:false" @click="openUp(NaN, $t('button.add'))">{{$t('button.add')}}</Button>
+          <Button type="error" v-show="state ==='02accounting' ? true:false" @click="deletemsg">{{$t('button.del')}}</Button>
+          <Button type="primary" v-show="state==='02accounting' ? true:false" @click="submit('03ToBeConfirmed')" >{{$t('button.submConfirm')}}</Button>
+          <Button type="primary" v-show="state==='03ToBeConfirmed' ? true:false" @click="submit('04confirmed')" >{{$t('button.confirm')}}</Button>
+          <Button type="primary" v-show="state==='03ToBeConfirmed' ? true:false" @click="submit('02accounting')" >{{$t('button.back')}}</Button>
+          <Button type="primary" v-show="state==='04confirmed' ? true:false" @click="submit('05alreadySealed')" >{{$t('button.seal')}}</Button>
         </Row>
         <Row>
-          <RadioGroup v-model="paccStatus" v-for="(item,index) in Calstatus" :key="index" style="margin-top: 5px"  @on-change="getPageByState">
+          <RadioGroup v-model="state" v-for="(item,index) in Calstatus" :key="index" style="margin-top: 5px"  @on-change="getPageByState">
             <Radio :label="item.paramCode">{{item.paramInfoCn}}</Radio>
           </RadioGroup>
         </Row>
@@ -94,23 +94,23 @@
             fixed: 'left'
           },
           {
-            title: this.$t('lang_payroll.payAccount.paccPeriod'),
-            key: 'paccPeriodDis',
+            title: this.$t('薪资期间'),
+            key: 'paccPeriod',
             sortable: 'custom',
           },
           {
-            title: this.$t('lang_payroll.payAccount.paccSalaryset'),
-            key: 'paccSalarysetDis',
+            title: this.$t('账套名称'),
+            key: 'paccComment',
           },
           {
-            title: this.$t('lang_payroll.payAccount.paccLocalcurrency'),
-            key: 'paccLocalcurrencyDis',
+            title: this.$t('账套类型'),
+            key: 'paccOptrecord',
           },
-          {
+/*          {
             title: this.$t('lang_payroll.payAccount.paccRound'),
             key: 'paccRoundDis',
-          },
-          {
+          },*/
+/*          {
             title: this.$t('lang_payroll.payAccount.totalAmount'),
             key: 'totalAmount',
           },
@@ -122,13 +122,13 @@
             title: this.$t('lang_payroll.payAccount.updateTime'),
             key: 'updateTime',
             width: 160,
-          },
+          },*/
           {
-            title: this.$t('lang_payroll.payAccount.paccStatus'),
-            key: 'paccStatusDis',
+            title: this.$t('账套状态'),
+            key: 'stateDis',
             fixed: 'right',
             align: 'center',
-            width: 100,
+            width: 160,
           },
           {
             title: this.$t('button.opr'),
@@ -159,7 +159,7 @@
                   },
                   style: {
                     marginRight: '5px',
-                    display: this.paccStatus === '02accounting' ? 'inline' : 'none',
+                    display: this.state === '02accounting' ? 'inline' : 'none',
                   },
                   on: {
                     click: () => {
@@ -190,11 +190,10 @@
         rows: 20,
         page: 1,
         funId: '1000',
-        paccStatus: '01all',
+        state: '01all',
         paccPeriod: '',
         paccPeriodDis: '',
         paccSalaryset: '',
-        paccRound: '',
         jobueueId: '',
         comp: '',
         isSend: false,
@@ -210,11 +209,11 @@
     mounted() {
       this.getSelect()
       //this.getSelectSalSet()
-      //this.getData(1)
+      this.getData(1)
     },
     methods: {
       getData(page) {
-/*        const t = this
+        const t = this
         if (page) {
           t.page = page
         }
@@ -227,12 +226,11 @@
           logType: this.$t('button.ser'),
           paccPeriod: t.paccPeriod,
           paccSalaryset: t.paccSalaryset,
-          paccRound: t.paccRound,
-          paccStatus: t.paccStatus,
+          state: t.state,
         }
         // 全部的状态，不需要卡条件
-        if (data.paccStatus === '01all') {
-          data.paccStatus = ''
+        if (data.state === '01all') {
+          data.state = ''
         }
         for (const dat in data) {
           if (data[dat] === '') {
@@ -249,7 +247,7 @@
             title: this.$t('reminder.err'),
             content: this.$t('reminder.errormessage'),
           })
-        })*/
+        })
       },
       accounting(row, logType, index) {
         const t = this
@@ -333,7 +331,7 @@
                 _mt: 'payAccount.updStatusByIds',
                 logType: '改变状态',
                 id: t.tableselected.toString(),
-                paccStatus: status,
+                state: status,
               }
               getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {
@@ -391,8 +389,8 @@
         })
       },
       getPageByState(value) {
-        this.paccStatus = value
-        //this.getData(1)
+        this.state = value
+        this.getData(1)
       },
       // 选项按钮，重新设置值
       selected(key, name) {

@@ -17,7 +17,7 @@
             <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index">{{item.payss}}</Option>
           </Select>
           <Dropdown>
-            <Button type="primary">
+<!--            <Button type="primary">
               {{select}}
               <Icon type="arrow-down-b"></Icon>
             </Button>
@@ -28,7 +28,7 @@
               <span v-for="(item,index) in RoundType" :key="index" @click="selected(item.paramCode,item.paramInfoCn)">
                <DropdownItem>{{item.paramInfoCn}}</DropdownItem>
             </span>
-            </DropdownMenu>
+            </DropdownMenu>-->
           </Dropdown>
           <span style="margin: 0;">
             <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
