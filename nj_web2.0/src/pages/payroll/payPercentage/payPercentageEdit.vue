@@ -250,7 +250,7 @@ pectManager: [
             const t = this
             getDataLevelUserLogin({
                 _mt: 'baseParmInfo.getSelectValue',
-                typeCode: t.typeCode,
+                typeCode: "royalty",
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = res.data.content[0];
