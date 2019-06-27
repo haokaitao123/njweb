@@ -123,19 +123,16 @@
         //搜索参数
         searchParams: {
           deptId: "",
-
         },
         typeCode: "",
         //弹出选择框
         openUnitFname: false,
         unitFname: "",
-
         table_height: document.body.offsetHeight - 280,
       };
     },
     components: {
       searchDept,
-
       commonPage, //页面公共组件
       btnList,    //按钮组件
       update     //新增修改组件
@@ -157,7 +154,6 @@
     mounted() {
       //列表字段存储
       this.getColumns();
-
     },
     methods: {
       //获取列表项字段
