@@ -104,13 +104,7 @@ export default {
   data() {
     return {
       payssLocalcurrencyDis: "",
-      form: {
-        payssCode: "",
-        payssName: "",
-        payssContact: "",
-        payssEmail: "",
-        payssPhone: ""
-      },
+      form: {},
       ruleValidate: {
         payssCode: [
           {
@@ -237,7 +231,7 @@ export default {
 
             this.form = res.content[0];
             this.payssLocalcurrencyDis =
-              res.content[0].payssLocalcurrencyDis;
+            res.content[0].payssLocalcurrencyDis;
           //}
         })
         .catch(() => {
