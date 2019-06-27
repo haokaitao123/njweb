@@ -154,6 +154,7 @@ export default {
             openUnitFname: false,
             unitFname: "",
             costTypeDis: "",
+            costTypeDisData:"",
             typeCode: "costType",costTypeData: [],
             //提交mt名称
             addOrUpd_mt: 'payCost.addOrUpd',
