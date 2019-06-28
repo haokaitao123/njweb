@@ -33,11 +33,12 @@ import {
   CheckboxGroup,
   Icon,
   Row,
-  Col
+  Col,
+  Progress
 } from 'vant';
 Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).
 use(List).use(Loading).use(search).use(ImagePreview).use(Notify)
-  .use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Icon).use(Row).use(Col);
+  .use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Icon).use(Row).use(Col).use(Progress);
 Notify.setDefaultOptions.duration = '1000'
 var myRules = {
   required: {

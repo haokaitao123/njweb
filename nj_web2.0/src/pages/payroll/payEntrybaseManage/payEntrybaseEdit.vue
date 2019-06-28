@@ -47,6 +47,16 @@
               <Input v-model="unitFname" :disabled="disabled" placeholder="请输入项目名称"></Input>
             </FormItem>
           </Col>
+          <Col span="11" >
+            <FormItem label="推荐人" prop="enbaReferDis">
+              <Input v-model="enbaReferDis" :disabled="disabled" placeholder="请输入推荐人"></Input>
+            </FormItem>
+          </Col>
+          <Col span="11" offset="1">
+            <FormItem label="金额" prop="enbaMoney">
+              <Input v-model="enbaMoney" :disabled="disabled" placeholder="请输入金额"></Input>
+            </FormItem>
+          </Col>
           <Col span="11">
             <FormItem label="内招项目名称" prop="enbaDept">
               <span @dblclick="disabled?'':clearEnbaDeptDis()">
@@ -414,7 +424,7 @@
             </FormItem>
           </Col>
           <Col span="11">
-            <FormItem label="本公司任职亲朋所在部门" prop="enbaRelatdept">
+            <FormItem label="本公司任职亲朋所在部门" prop="enbaRelatdept" class="label_padding">
               <Input
                 v-model="formValidate.enbaRelatdept"
                 :disabled="disabled"
@@ -439,7 +449,7 @@
             </FormItem>
           </Col>
           <Col span="11" >
-            <FormItem label="通过何种方式应聘" prop="enbaApplytype">
+            <FormItem label="通过何种方式应聘" prop="enbaApplytype" class="label_padding">
               <Input
                 v-model="formValidate.enbaApplytype"
                 :disabled="disabled"
@@ -629,6 +639,7 @@ export default {
       empnhName: "",
       enbaPersonDis: "",
       enbaManagerDis: "",
+      enbaReferDis:"",
       unitFname: "",
       openEnbaDeptDis: false,
       enbaDeptDis: "",
@@ -673,6 +684,8 @@ export default {
       getById_mt: "payEntrybase.getById",
       //form表单提交数据
       formValidate: {
+          enbaRefer:"",
+            enbaMoney:"",
         enbaStaff: "",
         enbaPerson: "",
         enbaManager: "",
@@ -804,6 +817,8 @@ export default {
                 enbaPersonDis: '穆宇',
                 enbaManagerDis: '李延',
                 unitFname: '东风项目',
+                enbaReferDis:'陈沄' ,
+                 enbaMoney:"200.00",
                 enbaDeptDis: "联想电子厂",
                 enbaNatureDis: "内招",
                 enbaEtdate: '2019-06-11',
@@ -857,6 +872,9 @@ export default {
             t.enbaManagerDis = data.enbaManagerDis;
             t.formValidate.deptId = data.deptId;
             t.unitFname = data.unitFname;
+                 t.formValidate.enbaRefer = data.enbaRefer;
+            t.enbaReferDis = data.enbaReferDis;
+            t.formValidate.enbaMoney = data.enbaMoney;
             t.formValidate.enbaDept = data.enbaDept;
             t.enbaDeptDis = data.enbaDeptDis;
             t.formValidate.enbaNature = data.enbaNature;
@@ -1082,6 +1100,7 @@ export default {
       this.enbaPersonDis = "";
       this.enbaManagerDis = "";
       this.unitFname = "";
+       this.enbaReferDis = "";
       this.enbaDeptDis = "";
       this.enbaNatureDis = "";
       this.postFname = "";
@@ -1153,4 +1172,11 @@ export default {
 </script>
 <style lang="scss">
 @import "../../../sass/updatemain";
+.ivu-form {
+    .label_padding{
+        .ivu-form-item-label{
+            padding: 4px 12px 0 0 !important
+        }
+    }
+}
 </style>
