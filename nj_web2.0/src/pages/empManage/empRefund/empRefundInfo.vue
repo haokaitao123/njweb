@@ -25,6 +25,7 @@
           <Row style="display: flex">
             <Page
               :total="total"
+              showTotal
               :current="page"
               size="small"
               show-elevator

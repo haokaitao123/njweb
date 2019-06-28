@@ -50,6 +50,7 @@
           <Row style="display: flex">
             <Page
               :total="total"
+              :showTotal="showTotal"
               size="small"
               :current="page"
               show-elevator
@@ -246,6 +247,7 @@ export default {
       },
       data: [], //table初始化数据
       total: 0, //table总页数
+      showTotal: true,
       index: 0, //表格数据中的选中的index
       sort: "id", //排序字段
       order: "desc", //排序类型

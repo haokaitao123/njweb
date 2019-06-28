@@ -8,10 +8,15 @@
                     &nbsp;{{titleName}}
                 </p>
                 <Row>
-                    <Input placeholder="请输入员工姓名"
+                    <Input :placeholder= "tbName=='recruit_process' ? '请输入求职者姓名' : '请输入员工姓名'"
                            style="width: 200px"
                            @on-enter="enterEvent"
                            v-model.trim="empnhName" />
+                    <DatePicker type="date"
+                                      v-model="relibFilldate"
+                                      placeholder="请输入面试时间"
+                                      style="width: 200px"
+                                      v-if="tbName=='recruit_process'"></DatePicker>       
                     <Button class="btns"
                             v-for="(item, index) in btns"
                             :key="index"
@@ -46,6 +51,7 @@
                 </row>
                 <Row style="display: flex">
                     <Page :total="total"
+                          :showTotal="showTotal"
                           size="small"
                           :current="page"
                           show-elevator
@@ -120,6 +126,7 @@ export default {
             dropdownMenuList: [],
             flstepName: '全部',
             total: 0,
+            showTotal: true,
             index: 0,
             sort: 'id',
             order: 'desc',
@@ -140,6 +147,7 @@ export default {
             loading: "",
             curStep: '',
             empnhName: '',
+            relibFilldate:'',
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -180,8 +188,8 @@ export default {
                 if (isSuccess(res, t)) {
                     let aa = []
                     t.dropdownMenuList = res.data.content[0].rwls;
+                    t.total = res.data.content[0].records;
                     if (res.data.content[0].rwls.length > 0) {
-                        t.dropdownMenuList = res.data.content[0].rwls;
                         let obj = {
                             id: '',
                             flstepName: '全部'
@@ -325,7 +333,7 @@ export default {
         },
         btnFunction (btnId) {
             console.log(1)
-            if (btnId === 'button_opt_view') {
+            if (btnId === 'button_search') {
                 const t = this;
                 if (valid.val_check(this.empnhName)) {
                     t.getData(1);
@@ -463,17 +471,31 @@ export default {
                 this.page = 1;
             }
             t.loading = true;
+            t.relibFilldate = t.relibFilldate!="" ? new Date(t.relibFilldate).format("yyyy-MM-dd") : "";
             const rcdata = {
                 curStep: t.curStep,
                 flowId: t.flowId,
-                empnhName: t.empnhName
+                empnhName: t.empnhName,
+                relibFilldate: t.relibFilldate
             };
             t.rcvdata = "";
             if (rcdata.curStep === "") {
-                let empName = {
-                    empnhName: t.empnhName
+                // let empName = { 
+                //     empnhName: t.empnhName
+                // }
+                // let relibFilldate = {
+                //     relibFilldate: t.relibFilldate
+                // }
+                let tt ={
+                    empnhName: t.empnhName,
+                    relibFilldate: t.relibFilldate
+                };
+                for (const dat in tt) {
+                    if (tt[dat] === "") {
+                        delete tt[dat];
+                    }
                 }
-                t.rcvdata = JSON.stringify(empName);
+                t.rcvdata = JSON.stringify(tt);
             } else {
                 t.rcvdata = JSON.stringify(rcdata);
             }

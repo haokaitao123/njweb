@@ -307,6 +307,9 @@ export default {
                             duration: 1500,
                             background: '#1989fa'
                         });
+                        t.$router.push({
+                            name: 'employInfoChange'
+                        })
                     }
                 }).catch(() => {
                     t.saveStatus = false

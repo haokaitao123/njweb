@@ -20,6 +20,7 @@
     <Row style="display: flex">
       <Page
         :total="total"
+        :showTotal="showTotal"
         size="small"
         show-elevator
         show-sizer
@@ -53,6 +54,7 @@ export default {
     return {
       logType: "",
       total: NaN,
+      showTotal: true,
       sort: "id",
       order: "asc",
       rows: "10",

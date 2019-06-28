@@ -25,7 +25,7 @@
             <Table :loading="loading" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
           </row>
           <Row style="display: flex">
-            <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page>
+            <Page :total="total" :showTotal="showTotal" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page>
             <Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button>
           </Row>
         </card>
@@ -193,6 +193,7 @@
       // 页面参数 无需更改
       data: [],
       total: 0,
+      showTotal: true,
       index: 0,
       sort: 'id', // 默认排序字段
       order: 'desc', // 默认排序方式

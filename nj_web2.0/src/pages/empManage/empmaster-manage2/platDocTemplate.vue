@@ -60,6 +60,7 @@
               <Row style="display: flex">
                 <Page
                   :total="total"
+                  :showTotal="showTotal"
                   size="small"
                   :current="page"
                   show-elevator
@@ -162,6 +163,7 @@ export default {
       ],
       total: 0,
       // sort: "platDctpCode",
+      showTotal: true,
       sort: "id",
       // order: "desc",
       order: "asc",

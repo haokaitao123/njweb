@@ -121,11 +121,11 @@
                 </RadioGroup>
               </FormItem>
             </i-col>
-            <i-col span="11">
+            <!-- <i-col span="11">
               <FormItem label="1.5R扣款金额" prop="asesPamount">
                 <Input v-model="formValidate.asesPamount" :disabled="forbidden"></Input>
               </FormItem>
-            </i-col>
+            </i-col> -->
             <i-col span="22">
               <FormItem label="备注" prop="note">
                 <Input
@@ -212,7 +212,7 @@ export default {
         asesDate: "",
         asesUser: localStorage.getItem("userId"),
         asesIspay: "",
-        asesPamount: ""
+       // asesPamount: ""
       },
       empnhName: "",
       unitFname: "",
@@ -229,18 +229,18 @@ export default {
         empId: [
           { required: true, message: "请选择员工姓名", trigger: "change" }
         ],
-        asesPamount: [
-          {
-            required: true,
-            message: "请输入1.5R扣款金额",
-            trigger: "blur"
-          },
-          {
-            validator: numberCheck,
-            message: "请输入正确的数字格式",
-            trigger: "blur"
-          }
-        ],
+        // asesPamount: [
+        //   {
+        //     required: true,
+        //     message: "请输入1.5R扣款金额",
+        //     trigger: "blur"
+        //   },
+        //   {
+        //     validator: numberCheck,
+        //     message: "请输入正确的数字格式",
+        //     trigger: "blur"
+        //   }
+        // ],
         asesAmount: [
           {
             required: true,
@@ -325,7 +325,7 @@ export default {
             t.formValidate.asesUser = res.data.content[0].asesUser;
             t.asesUserDis = res.data.content[0].asesUserDis;
             t.formValidate.asesIspay = res.data.content[0].asesIspay;
-            t.formValidate.asesPamount = res.data.content[0].asesPamount;
+           // t.formValidate.asesPamount = res.data.content[0].asesPamount;
             t.formValidate.note = res.data.content[0].note;
             if (t.logType === "查看") {
               t.forbidden = true;
@@ -483,7 +483,7 @@ export default {
       t.formValidate.asesAmount = "";
       t.formValidate.asesDate = "";
       t.formValidate.asesIspay = "";
-      t.formValidate.asesPamount = "";
+      //t.formValidate.asesPamount = "";
       t.formValidate.note = "";
       t.$emit("closeUp");
     },

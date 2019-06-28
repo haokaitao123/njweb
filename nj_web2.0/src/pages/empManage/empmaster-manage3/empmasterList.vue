@@ -89,6 +89,7 @@
                     <Row style="display: flex">
                         <Page :total="total"
                               size="small"
+                              showTotal
                               show-elevator
                               show-sizer
                               placement="top"

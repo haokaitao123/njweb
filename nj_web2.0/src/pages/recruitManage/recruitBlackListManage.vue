@@ -41,6 +41,7 @@
           <Row style="display: flex">
             <Page
               :total="total"
+              :showTotal="showTotal"
               size="small"
               :current="page"
               show-elevator
@@ -222,6 +223,7 @@ export default {
       // 页面参数 无需更改
       data: [],
       total: 0,
+      showTotal: true,
       index: 0,
       sort: "id", // 默认排序字段
       order: "desc", // 默认排序方式
