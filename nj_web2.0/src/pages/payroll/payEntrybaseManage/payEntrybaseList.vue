@@ -102,7 +102,7 @@ export default {
                 { code: "enbaDrwaout", name: "划出时间" },
                 { code: "postFname", name: "岗位名称" },
                 { code: "enbaIdentityDis", name: "身份" },
-                { code: "enbaFilldate", name: "面试日期" },
+                { code: "enbaFilldate", name: "面试时间" },
                 { code: "enbaName", name: "姓名" },
                 { code: "enbaIdno", name: "证件号码" },
                 { code: "enbaMobile", name: "手机号" },
@@ -225,7 +225,7 @@ export default {
                 },
                 {
                     key: "enbaFilldate",
-                    title: "面试日期",
+                    title: "面试时间",
                     sortable: "custom",
                     width: 220
                 },

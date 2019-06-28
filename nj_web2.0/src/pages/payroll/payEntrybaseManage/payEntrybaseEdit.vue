@@ -156,10 +156,10 @@
             </FormItem>
           </Col>
           <Col span="11">
-            <FormItem label="面试日期" prop="enbaFilldate">
+            <FormItem label="面试时间" prop="enbaFilldate">
               <DatePicker
                 type="date"
-                placeholder="请选择面试日期"
+                placeholder="请选择面试时间"
                 :editable="false"
                 :disabled="disabled"
                 :readonly="disabled"

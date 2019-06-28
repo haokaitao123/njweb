@@ -79,6 +79,7 @@
             <Page
               :current="page"
               :total="total"
+              :showTotal="showTotal"
               size="small"
               show-elevator
               show-sizer
@@ -138,6 +139,7 @@ export default {
       dropdownMenuList: [],
       comInfo: [],
       total: NaN, // 总页数
+      showTotal: true,
       companyId: 1,
       sort: "id",
       order: "asc",

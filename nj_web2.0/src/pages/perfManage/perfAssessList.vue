@@ -91,7 +91,7 @@ export default {
         { code: "asesDate", name: "扣款日期" },
         { code: "asesUserDis", name: "收款人" },
         { code: "asesIspayDis", name: "是否工资扣除" },
-        { code: "asesPamount", name: "1.5R扣款金额" }
+       // { code: "asesPamount", name: "1.5R扣款金额" }
       ],
       // 表格列字段
       columns: [
