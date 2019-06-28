@@ -46,6 +46,7 @@
               <!--page-->
               <Row style="display: flex">
                 <Page :total="total"
+                      :showTotal="showTotal"
                       size="small"
                       :current="page"
                       show-elevator
@@ -215,6 +216,7 @@
         },
         data: [],
         total: 0,
+        showTotal:true,
         index: 0,
         sort: 'id',
         order: 'desc',
