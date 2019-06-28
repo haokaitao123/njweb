@@ -30,7 +30,7 @@
               </div>
             </i-col>
           </row>
-          <!--<Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>-->
+          <!--<Row style="display: flex">          <Page :total="total" showTotal size="small" show-elevator show-sizer placement="top" :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>-->
         </TabPane>
         <TabPane :label="$t('lang_role.adminuser.assignorg')"  name="name2">
           <Row>

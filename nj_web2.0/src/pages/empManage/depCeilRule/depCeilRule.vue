@@ -61,6 +61,7 @@
                     <!-- :total="total" total=>总页数  @on-page-size-change="sizeChange" 切换每页条数时的回调，返回切换后的每页条数 @on-change="pageChange" 页码改变的回调，返回改变后的页码  :page-size-opts 每页条数切换的配置-->
                     <Row style="display: flex">
                         <Page :total="total"
+                        :showTotal="showTotal"
                               size="small"
                               :current="page"
                               show-elevator
@@ -234,6 +235,7 @@ export default {
             },
             data: [], //table初始化数据
             total: 0, //table总页数
+            showTotal: true,
             index: 0, //表格数据中的选中的index
             sort: "id", //排序字段
             order: "desc", //排序类型

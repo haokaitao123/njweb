@@ -57,6 +57,7 @@
                                           @click="PageSize(itemTable.dataBlockId)">
                                         <Row style="display: flex">
                                             <Page :total="totalTable"
+                                            showTotal
                                                   :current="itemTable.page"
                                                   size="small"
                                                   show-elevator
