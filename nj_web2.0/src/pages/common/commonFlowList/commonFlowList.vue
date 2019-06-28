@@ -8,7 +8,7 @@
                     &nbsp;{{titleName}}
                 </p>
                 <Row>
-                    <Input placeholder="请输入员工姓名"
+                    <Input :placeholder= "tbName=='recruit_process' ? '请输入求职者姓名' : '请输入员工姓名'"
                            style="width: 200px"
                            @on-enter="enterEvent"
                            v-model.trim="empnhName" />
