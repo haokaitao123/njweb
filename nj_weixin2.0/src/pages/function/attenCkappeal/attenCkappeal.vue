@@ -266,7 +266,7 @@ export default {
 }
 .addNew {
     position: fixed;
-    bottom: 2%;
+    bottom: 10%;
     right: 10%;
     .add {
         font-size: 76px;

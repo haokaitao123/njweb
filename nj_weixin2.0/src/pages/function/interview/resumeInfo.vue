@@ -479,8 +479,8 @@
 		data() {
 			return {
 				curStepCode: "",
-				wzd: 16,
-				percent:16,
+				wzd: 0,
+				percent:0,
 				cent: '',
 				curStep: "",
 				curStepstate: "",
@@ -669,7 +669,7 @@
 		},
 		created() {
 			this.getSelect();
-			//this.getData();
+			this.getData();
 			this.getWorkExp();
 			this.getFamily();
 			this.getEducation();
@@ -1264,6 +1264,8 @@
 								t.valuation(data)
 							}
 						}
+								t.wzd = 16;
+								t.percent = 16;
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1476,7 +1478,6 @@
 			display: flex;
 			flex-direction: column;
 			width: 100%;
-			margin-bottom: 100px;
 			.title {
 				background: #fff;
 				padding: 30px 0 25px 40px;

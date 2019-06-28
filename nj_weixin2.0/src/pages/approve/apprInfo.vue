@@ -608,12 +608,12 @@
 <style lang="less" scoped>
 	.appInfo {
 		width: 100%;
+		height: calc(~"100% - 110px");
 		padding: 20px;
 		background: white;
 		box-sizing: border-box;
 		overflow: -Scroll;
 		overflow-x: hidden;
-		overflow: -Scroll;
 		overflow-y: hidden;
 		.head {
 			width: 100%;
@@ -629,7 +629,6 @@
 			padding: 20px 20px;
 			padding-bottom: 40px;
 			width: 100%;
-			margin-bottom: 100px;
 			border-bottom: 1px solid gainsboro;
 			.appNumber {
 				padding-top: 20px;
