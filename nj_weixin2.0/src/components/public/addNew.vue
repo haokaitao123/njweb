@@ -31,7 +31,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .noData {
-    height: 100%;
+    height: calc(~"100% - 100px");
     width: 100%;
     background: #fff;
     display: flex;

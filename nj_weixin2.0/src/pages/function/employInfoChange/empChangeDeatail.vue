@@ -459,6 +459,7 @@ export default {
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
+        margin-bottom: 110px;
     }
     .van-popup--right {
         top: 50% !important;

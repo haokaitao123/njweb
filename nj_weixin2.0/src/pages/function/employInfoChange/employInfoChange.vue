@@ -203,7 +203,7 @@ export default {
     height: 100%;
     background: #f6f6f6;
     .employInfoChangeWrap {
-        height: 100%;
+       height: calc(~"100% - 100px");
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
@@ -254,7 +254,7 @@ export default {
 }
 .addNew {
     position: fixed;
-    bottom: 2%;
+    bottom: 10%;
     right: 10%;
     .add {
         font-size: 76px;

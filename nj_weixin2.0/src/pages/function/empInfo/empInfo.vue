@@ -1198,6 +1198,7 @@ export default {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
+        margin-bottom: 100px;
         .title {
             background: #fff;
             padding: 30px 0 25px 40px;

@@ -301,7 +301,7 @@ export default {
     background: #f6f6f6;
 
     .interviewWrap {
-        height: 100%;
+        height: calc(~"100% - 110px");
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
@@ -476,7 +476,7 @@ export default {
 
 .addNew {
     position: fixed;
-    bottom: 2%;
+    bottom: 10%;
     right: 10%;
 
     .add {

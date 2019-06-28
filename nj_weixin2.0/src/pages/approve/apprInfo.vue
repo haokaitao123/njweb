@@ -629,6 +629,7 @@
 			padding: 20px 20px;
 			padding-bottom: 40px;
 			width: 100%;
+			margin-bottom: 100px;
 			border-bottom: 1px solid gainsboro;
 			.appNumber {
 				padding-top: 20px;

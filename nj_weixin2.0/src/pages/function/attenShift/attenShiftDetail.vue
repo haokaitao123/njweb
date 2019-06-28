@@ -574,6 +574,7 @@ export default {
         display: flex;
         background: #f6f6f6;
         flex-direction: column;
+       	margin-bottom:100px;
         .item_box .weui-icon-warn {
             position: absolute;
             right: 0;

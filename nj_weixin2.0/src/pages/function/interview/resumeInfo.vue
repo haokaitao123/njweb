@@ -27,11 +27,11 @@
 					<div class="inf">
 						信息完整度
 					</div>
-					<van-progress :percentage="wzd" />
+					<van-progress :percentage="percent" />
 				</div>
 				<div class="items" v-if="topDisor < 20">
 					<span class="informs">信息完整度</span>
-					<div class="prss">{{wzd+'%'}}</div>
+					<div class="prss">{{percent+'%'}}</div>
 				</div>
 				<!-- 身份 -->
 				<div class="item_box">
@@ -49,7 +49,7 @@
 				</div>
 				<!-- 证件号码 -->
 				<div class="item_box">
-					<x-input title="证件号码<span>*</span>" v-model="form.relibIdno" @on-blur="blurEvent(2,form.relibIdno,'idcard')" @on-focus="focusEvent" :disabled="state" :show-clear="false" v-verify="form.relibIdno" :placeholder="state?'未填写':'请填写'">
+					<x-input title="证件号码<span>*</span>" v-model="form.relibIdno" @on-blur="blurEvent(2,form.relibIdno,'idcard')" @on-focus="focusEvent(form.relibIdno,'idNumber')" :disabled="state" :show-clear="false" v-verify="form.relibIdno" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibIdno==''" v-remind="form.relibIdno"></icon>
 				</div>
@@ -80,12 +80,12 @@
 						<div slot="title">出生日期<span>*</span></div>
 					</cell>
 					<icon type="warn" class="error" v-show="form.relibBirtday=='请选择'" v-remind="form.relibBirtday"></icon>
-					<x-input title="出生日期<span>*</span>" v-if="state" v-model="form.relibBirtday" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="出生日期<span>*</span>" v-if="state" v-model="form.relibBirtday" @on-blur="blurEvent(2,form.relibBirtday)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 籍贯 -->
 				<div class="item_box">
-					<x-input title="籍贯" v-model="form.relibBirtplace" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="籍贯" v-model="form.relibBirtplace" :disabled="state" @on-blur="blurEvent(1,form.relibBirtplace)" @on-focus="focusEvent" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 				</div>
 				<!-- 民族 -->
@@ -280,7 +280,7 @@
 				</div>
 				<!-- 介绍人姓名 -->
 				<div class="item_box">
-					<x-input title="介绍人姓名" v-model="form.relibIntrname" @on-blur="blurEvent(1,form.relibIntrname)" @on-focus="focusEvent" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'">
+					<x-input title="介绍人姓名" v-model="form.relibIntrname" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 				</div>
 				<!-- 是否服从分配 -->
@@ -292,7 +292,7 @@
 				</div>
 
 				<!-- 自我评价 -->
-				<x-textarea :max="300" title="自我评价" :height="95" v-model="form.relibSelfeval" @on-blur="blurEvent(1,form.relibSelfeval,'text')" @on-focus="focusEvent" :disabled="state" :placeholder="state?'未填写':'请填写'" :show-counter="false"></x-textarea>
+				<x-textarea :max="300" title="自我评价" :height="95" v-model="form.relibSelfeval" @on-blur="blurEvent(1,form.relibSelfeval)" @on-focus="focusEvent(form.relibSelfeval)" :disabled="state" :placeholder="state?'未填写':'请填写'" :show-counter="false"></x-textarea>
 			</group>
 			<div class="title">
 				<div class="title_left">
@@ -479,7 +479,8 @@
 		data() {
 			return {
 				curStepCode: "",
-				wzd: 15,
+				wzd: 16,
+				percent:16,
 				cent: '',
 				curStep: "",
 				curStepstate: "",
@@ -501,7 +502,7 @@
 				minRelibFilldate: new Date(1900, 10, 1),
 				maxRelibFilldate: new Date(2099, 12, 31),
 				h: document.body.scrollHeight,
-				topDisor: '',
+				topDisor: 0,
 				test: '',
 				clientHeight: "",
 				onekg: true,
@@ -512,6 +513,8 @@
 				textNull: true,
 				ifValue: '',
 				first: '',
+				Birtplace:true,
+				Birtday:true,
 				form: {
 					relibApplypost: "", //应聘岗位
 					relibIdentity: "", //身份
@@ -666,28 +669,27 @@
 		},
 		created() {
 			this.getSelect();
-			this.getData();
+			//this.getData();
 			this.getWorkExp();
 			this.getFamily();
 			this.getEducation();
 			window.localStorage.setItem('reeduPid', this.$route.query.id);
-
 		},
 		mounted() {
 			var __this = this;
-            const u = navigator.userAgent;
+			const u = navigator.userAgent;
 			const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-			if (isiOS) {
-				return ;
+			if(isiOS) {
+				return;
 			} else {
-                this.getClientHeight();
+				this.getClientHeight();
 				window.addEventListener("resize", this.windowResizeEvent);
-                window.addEventListener("scroll", function(e) {
-                    //变量t就是滚动条滚动时，到顶部的距离
-                    var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
-                    __this.topDisor = topDis;
-                });
 			}
+			window.addEventListener("scroll", function(e) {
+				//变量t就是滚动条滚动时，到顶部的距离
+				var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
+				__this.topDisor = topDis;
+			});
 		},
 		beforeMount() {
 			var th = this
@@ -697,6 +699,7 @@
 			changefy() {
 				if(this.onefy && !this.onewk) {
 					this.wzd += 10
+					this.percent = parseInt(this.wzd)
 					this.onefy = false
 				}
 				if(this.onefy) {
@@ -707,54 +710,77 @@
 			changeed() {
 				if(this.oneed) {
 					this.wzd += 5
+					this.percent = parseInt(this.wzd)
 					this.oneed = false
 				}
 			},
 			changewk() {
-				//console.log(123)
 				if(!this.onefy && this.onewk) {
 					this.wzd += 10
+					this.percent = parseInt(this.wzd)
 					this.onewk = false
 				}
 				if(this.onewk) {
 					this.wzd += 5
+					this.percent = parseInt(this.wzd)
 					this.onewk = false
 				}
 			},
-			focusEvent(value) {
-				console.log('focus', value)
+			focusEvent(value,types) {
+				console.log('focus', value,types)
+				if(types == 'idNumber'){
+					console.log('1',this.form.relibBirtplace)
+				if(this.form.relibBirtplace == ""){
+					console.log('123678',this.form.relibBirtplace)
+					this.Birtplace = false
+				}
+				if(this.form.relibBirtday == "请选择"){
+					this.Birtday = false
+				}
+				}
 				this.ifValue = value
 			},
 			blurEvent(a, x, y) {
-				//console.log(this)
-				//this.oneTime += 1
 				console.log(a, 'a', x, 'x', y, 'y')
-				this.idNumber()
 				if(y == 'idcard') {
-					//console.log('g',this.ifValue)
+						this.idNumber()
 					if(this.ifValue == "") {
+						console.log('id', this.ifValue)
 						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
 						if(idcardReg.test(parseInt(x))) {
-							this.wzd += 9.5
+							this.wzd += 3.75
+							console.log('huji',this.Birtplace)
+							if(!this.Birtplace) {
+								console.log('huji')
+								this.wzd += 2
+								this.Birtplace = true
+							}
+							console.log('sr',this.Birtday)
+							if(!this.Birtday) {
+								console.log('sr')
+								this.wzd += 3.75
+								this.Birtday = true
+							}
 						}
 					}
 					if(x == "") {
-						if(this.ifValue != "") {
-							this.wzd -= 9.5
+						//console.log('er',this.ifValue)
+						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+						if(idcardReg.test(parseInt(this.ifValue))){
+							if(this.ifValue != "") {
+							this.wzd -= 3.75
+						}
 						}
 					}
 				}
 				if(this.onekg && y == 'kg') {
 					if(x != "") {
-						console.log(123)
-						var num = isNaN(x);
-						if(!num) {
-							//console.log(num)
+						var isValue = isNaN(x);
+						if(!isValue) {
 							this.wzd += 3.75
 							this.onekg = false
 						}
 					}
-
 				}
 				if(y == 'kg') {
 					if(x == "") {
@@ -763,43 +789,30 @@
 						if(this.ifValue != "") {
 							//console.log(num)
 							this.wzd -= 3.75
-							this.onekg = false
+							this.onekg = true
 						}
 					}
 				}
 				if(this.onecm && y == 'cm') {
-					var num = isNaN(x);
+					var isValue = isNaN(x);
 					if(x != "") {
-						if(!num) {
+						if(!isValue) {
 							//console.log(num)
 							this.wzd += 3.75
 							this.onecm = false
 						}
 					}
-					if(x == "") {
-						if(this.ifValue != "") {
-
-							//console.log(num)
-							this.wzd -= 3.75
-							this.onecm = false
-
-						}
-					}
 				}
 				if(y == 'cm') {
 					if(x == "") {
-						console.log(123)
-						var num = isNaN(x);
 						if(this.ifValue != "") {
-							//console.log(num)
 							this.wzd -= 3.75
-							this.onekg = false
+							this.onecm = true
 						}
 					}
 				}
 				if(x != "" && y == undefined) {
 					if(this.ifValue == "") {
-						//console.log(123)
 						if(a == '1') {
 							this.wzd += 1
 						}
@@ -809,7 +822,7 @@
 
 					}
 
-					if(y != 'text' && this.ifValue == undefined) {
+					if(this.ifValue == undefined) {
 						if(a == '1') {
 							this.wzd += 1
 						}
@@ -829,15 +842,7 @@
 						}
 					}
 				}
-
-				//console.log(this.textNull)
-				if(this.textNull) {
-					console.log(12)
-					if(x != "" && y == 'text') {
-						this.wzd += 1
-						this.textNull = false
-					}
-				}
+				this.percent = parseInt(this.wzd)
 			},
 			//页面变化
 			windowResizeEvent() {
@@ -1002,6 +1007,9 @@
 					if(this.first == undefined) {
 						this.wzd += 3.75
 					}
+					if(this.first == '请选择') {
+						this.wzd += 3.75
+					}
 				}
 				if(this.curDomShow.indexOf("dateShow") != -1) {
 					if(this.curDomShow === 'relibBirtdaydateShow' || this.curDomShow === 'relibAvaitimedateShow') {
@@ -1017,7 +1025,7 @@
 					this[str] = value.text;
 				}
 				this[this.curDomShow] = false;
-
+				this.percent = parseInt(this.wzd)
 			},
 			cancel(value) {
 				if(this.curDomShow == "dateShow") {
@@ -1084,113 +1092,113 @@
 					}
 				}
 			},
-			valuation(data){
-                const t =this;
-                t.curStepCode = data.curStepCode ? "" : data.curStepCode;
-                t.curStepstate = !data.curStepstate ? "" : data.curStepstate;
-                if(t.curStepCode === 'flow_recruitprocess_1000' && t.curStepstate !== 'p_flowst_3') {
-                    t.state = false;
-                }
-                t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
-                t.form.relibIdentity = data.relibIdentity;
-                t.form.relibName = !data.relibName ? "" : data.relibName;
-                t.form.relibIdno = !data.relibIdno ? "" : data.relibIdno;
-                t.form.relibMobile = !data.relibMobile ? "" : data.relibMobile;
-                t.form.relibGender = data.relibGender;
-                t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
-                t.form.relibBirtplace = !data.relibBirtplace ? "" : data.relibBirtplace;
-                t.form.relibNatality = data.relibNatality ? data.relibNatality : '10';
-                t.form.relibPolitical = data.relibPolitical;
-                t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '请选择';
-                t.form.relibHealthsta = data.relibHealthsta;
-                t.form.relibMaritlsta = data.relibMaritlsta;
-                t.form.relibHeight = !data.relibHeight ? "" : data.relibHeight;
-                t.form.relibWeight = !data.relibWeight ? "" : data.relibWeight;
-                t.form.relibEducat = data.relibEducat ? data.relibEducat : '';;
-                t.form.relibSchool = !data.relibSchool ? "" : data.relibSchool;
-                t.form.relibProfes = !data.relibProfes ? "" : data.relibProfes;
-                t.form.relibLiving = !data.relibLiving ? "" : data.relibLiving;
-                t.form.relibFamadds = !data.relibFamadds ? "" : data.relibFamadds;
-                t.form.relibEmernm = !data.relibEmernm ? "" : data.relibEmernm;
-                t.form.relibEmphone = !data.relibEmphone ? "" : data.relibEmphone;
-                t.form.relibWithme = data.relibWithme;
-                t.form.relibSalary = !data.relibSalary ? "" : data.relibSalary;
-                t.form.relibProstatus = data.relibProstatus;
-                t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
-                t.form.relibIsrelatives = data.relibIsrelatives;
-                t.form.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
-                t.form.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
-                t.form.relibIscriminal = data.relibIscriminal ? data.relibIscriminal : '';
-                t.form.relibIstattoo = data.relibIstattoo;
-                t.form.relibApplytype = data.relibApplytype;
-                t.form.relibIntrname = !data.relibIntrname ? "" : data.relibIntrname;
-                t.form.relibIscom = data.relibIscom;
-                t.form.relibSelfeval = data.relibSelfeval;
-                t.form.relibEnrorage = data.relibEnrorage ? data.relibEnrorage : '';
-                t.form.relibIsgradu = data.relibIsgradu ? data.relibIsgradu : '';
-                t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
-                t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '请选择';
-                t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '请选择';
-                t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '汉族';
-                t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '请选择';
-                t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '请选择';
-                t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '请选择';
-                t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '请选择';
-                t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '请选择';
-                t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '请选择';
-                t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '请选择';
-                t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '请选择';
-                t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '请选择';
-                t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '请选择';
-                t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '请选择';
-                t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '请选择';
-                t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '请选择';
-                if(t.state) {
-                    t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '未选择';
-                    t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '未选择';
-                    t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '未选择';
-                    t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '未选择';
-                    t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '未选择';
-                    t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '未选择';
-                    t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '未选择';
-                    t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '未选择';
-                    t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '未选择';
-                    t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '未选择';
-                    t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '未选择';
-                    t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '未选择';
-                    t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '未选择';
-                    t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '未选择';
-                    t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '未选择';
-                    t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '未选择';
-                    t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '未选择';
-                    t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
-                    t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '未选择';
-                    t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
-                }
-                t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday.replace(/-/g, '/'));
-                t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime.replace(/-/g, '/'));
-                t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate.replace(/-/g, '/'));
-                if(!data.relibNatalityDis) {
-                    t.setSelectValue('汉族', 'selectRelibNatality', 'relibNatalityIndex');
-                } else {
-                    t.setSelectValue(data.relibNatalityDis, 'selectRelibNatality', 'relibNatalityIndex');
-                }
-                t.setSelectValue(data.relibIdentityDis, 'selectRelibIdentity', 'relibIdentityIndex');
-                t.setSelectValue(data.relibGenderDis, 'selectRelibGender', 'relibGenderIndex');
-                t.setSelectValue(data.relibPoliticalDis, 'selectRelibPolitica', 'relibPoliticaIndex');
-                t.setSelectValue(data.relibHealthstaDis, 'selectRelibHealthsta', 'relibHealthstaIndex');
-                t.setSelectValue(data.relibMaritlstaDis, 'selectRelibMaritlsta', 'relibMaritlstaIndex');
-                t.setSelectValue(data.relibEducatDis, 'selectRelibEducat', 'relibEducatIndex');
-                t.setSelectValue(data.relibWithmeDis, 'selectRelibWithme', 'relibWithmeIndex');
-                t.setSelectValue(data.relibProstatusDis, 'selectRelibProstatus', 'relibProstatusIndex');
-                t.setSelectValue(data.relibIsrelativesDis, 'selectRelibIsrelatives', 'relibIsrelativesIndex');
-                t.setSelectValue(data.relibIscriminalDis, 'selectRelibIscriminal', 'relibIscriminalIndex');
-                t.setSelectValue(data.relibIstattooDis, 'selectRelibIstattoo', 'relibIstattooIndex');
-                t.setSelectValue(data.relibApplytypeDis, 'selectRelibApplytype', 'relibApplytypeIndex');
-                t.setSelectValue(data.relibIscomDis, 'selectRelibIscom', 'relibIscomIndex');
-                t.setSelectValue(data.relibEnrorageDis, 'selectRelibEnrorage', 'relibEnrorageIndex');
-                t.setSelectValue(data.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
-            },
+			valuation(data) {
+				const t = this;
+				t.curStepCode = data.curStepCode ? "" : data.curStepCode;
+				t.curStepstate = !data.curStepstate ? "" : data.curStepstate;
+				if(t.curStepCode === 'flow_recruitprocess_1000' && t.curStepstate !== 'p_flowst_3') {
+					t.state = false;
+				}
+				t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
+				t.form.relibIdentity = data.relibIdentity;
+				t.form.relibName = !data.relibName ? "" : data.relibName;
+				t.form.relibIdno = !data.relibIdno ? "" : data.relibIdno;
+				t.form.relibMobile = !data.relibMobile ? "" : data.relibMobile;
+				t.form.relibGender = data.relibGender;
+				t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
+				t.form.relibBirtplace = !data.relibBirtplace ? "" : data.relibBirtplace;
+				t.form.relibNatality = data.relibNatality ? data.relibNatality : '10';
+				t.form.relibPolitical = data.relibPolitical;
+				t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '请选择';
+				t.form.relibHealthsta = data.relibHealthsta;
+				t.form.relibMaritlsta = data.relibMaritlsta;
+				t.form.relibHeight = !data.relibHeight ? "" : data.relibHeight;
+				t.form.relibWeight = !data.relibWeight ? "" : data.relibWeight;
+				t.form.relibEducat = data.relibEducat ? data.relibEducat : '';;
+				t.form.relibSchool = !data.relibSchool ? "" : data.relibSchool;
+				t.form.relibProfes = !data.relibProfes ? "" : data.relibProfes;
+				t.form.relibLiving = !data.relibLiving ? "" : data.relibLiving;
+				t.form.relibFamadds = !data.relibFamadds ? "" : data.relibFamadds;
+				t.form.relibEmernm = !data.relibEmernm ? "" : data.relibEmernm;
+				t.form.relibEmphone = !data.relibEmphone ? "" : data.relibEmphone;
+				t.form.relibWithme = data.relibWithme;
+				t.form.relibSalary = !data.relibSalary ? "" : data.relibSalary;
+				t.form.relibProstatus = data.relibProstatus;
+				t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
+				t.form.relibIsrelatives = data.relibIsrelatives;
+				t.form.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
+				t.form.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
+				t.form.relibIscriminal = data.relibIscriminal ? data.relibIscriminal : '';
+				t.form.relibIstattoo = data.relibIstattoo;
+				t.form.relibApplytype = data.relibApplytype;
+				t.form.relibIntrname = !data.relibIntrname ? "" : data.relibIntrname;
+				t.form.relibIscom = data.relibIscom;
+				t.form.relibSelfeval = data.relibSelfeval;
+				t.form.relibEnrorage = data.relibEnrorage ? data.relibEnrorage : '';
+				t.form.relibIsgradu = data.relibIsgradu ? data.relibIsgradu : '';
+				t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
+				t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '请选择';
+				t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '请选择';
+				t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '汉族';
+				t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '请选择';
+				t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '请选择';
+				t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '请选择';
+				t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '请选择';
+				t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '请选择';
+				t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '请选择';
+				t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '请选择';
+				t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '请选择';
+				t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '请选择';
+				t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '请选择';
+				t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '请选择';
+				t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '请选择';
+				t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '请选择';
+				if(t.state) {
+					t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '未选择';
+					t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '未选择';
+					t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '未选择';
+					t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '未选择';
+					t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '未选择';
+					t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '未选择';
+					t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '未选择';
+					t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '未选择';
+					t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '未选择';
+					t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '未选择';
+					t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '未选择';
+					t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '未选择';
+					t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '未选择';
+					t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '未选择';
+					t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '未选择';
+					t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '未选择';
+					t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '未选择';
+					t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
+					t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '未选择';
+					t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
+				}
+				t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday.replace(/-/g, '/'));
+				t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime.replace(/-/g, '/'));
+				t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate.replace(/-/g, '/'));
+				if(!data.relibNatalityDis) {
+					t.setSelectValue('汉族', 'selectRelibNatality', 'relibNatalityIndex');
+				} else {
+					t.setSelectValue(data.relibNatalityDis, 'selectRelibNatality', 'relibNatalityIndex');
+				}
+				t.setSelectValue(data.relibIdentityDis, 'selectRelibIdentity', 'relibIdentityIndex');
+				t.setSelectValue(data.relibGenderDis, 'selectRelibGender', 'relibGenderIndex');
+				t.setSelectValue(data.relibPoliticalDis, 'selectRelibPolitica', 'relibPoliticaIndex');
+				t.setSelectValue(data.relibHealthstaDis, 'selectRelibHealthsta', 'relibHealthstaIndex');
+				t.setSelectValue(data.relibMaritlstaDis, 'selectRelibMaritlsta', 'relibMaritlstaIndex');
+				t.setSelectValue(data.relibEducatDis, 'selectRelibEducat', 'relibEducatIndex');
+				t.setSelectValue(data.relibWithmeDis, 'selectRelibWithme', 'relibWithmeIndex');
+				t.setSelectValue(data.relibProstatusDis, 'selectRelibProstatus', 'relibProstatusIndex');
+				t.setSelectValue(data.relibIsrelativesDis, 'selectRelibIsrelatives', 'relibIsrelativesIndex');
+				t.setSelectValue(data.relibIscriminalDis, 'selectRelibIscriminal', 'relibIscriminalIndex');
+				t.setSelectValue(data.relibIstattooDis, 'selectRelibIstattoo', 'relibIstattooIndex');
+				t.setSelectValue(data.relibApplytypeDis, 'selectRelibApplytype', 'relibApplytypeIndex');
+				t.setSelectValue(data.relibIscomDis, 'selectRelibIscom', 'relibIscomIndex');
+				t.setSelectValue(data.relibEnrorageDis, 'selectRelibEnrorage', 'relibEnrorageIndex');
+				t.setSelectValue(data.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
+			},
 			//获取面试员工数据
 			getData() {
 				const t = this;
@@ -1202,10 +1210,10 @@
 				getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
 						let resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
-						if (resumeInfoForm !== null && resumeInfoForm.id !== t.$route.query.id) {
-                            localStorage.removeItem('resumeInfoForm');
-                            resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
-                        }
+						if(resumeInfoForm !== null && resumeInfoForm.id !== t.$route.query.id) {
+							localStorage.removeItem('resumeInfoForm');
+							resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
+						}
 						if(!resumeInfoForm) {
 							let data = JSON.parse(res.data.content[0].value);
 							t.valuation(data)
@@ -1252,8 +1260,8 @@
 								t.setSelectValue(resumeInfoForm.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
 							} else {
 								localStorage.removeItem('resumeInfoForm')
-								 let data = JSON.parse(res.data.content[0].value);
-                                t.valuation(data)
+								let data = JSON.parse(res.data.content[0].value);
+								t.valuation(data)
 							}
 						}
 					}
@@ -1283,10 +1291,12 @@
 						if(t.onewk) {
 							if(t.workExpList.length > 0) {
 								this.wzd += 5
+								this.percent = parseInt(this.wzd)
 								t.onewk = false
 							}
 							if(t.workExpList.length > 0 && t.familyList.length > 0) {
 								this.wzd += 5
+								this.percent = parseInt(this.wzd)
 								t.onewk = false
 							}
 						}
@@ -1317,10 +1327,12 @@
 						if(t.onefy) {
 							if(t.familyList.length > 0) {
 								this.wzd += 5
+								this.percent = parseInt(this.wzd)
 								t.onefy = false
 							}
 							if(t.workExpList.length > 0 && t.familyList.length > 0) {
 								this.wzd += 5
+								this.percent = parseInt(this.wzd)
 								t.onefy = false
 							}
 						}
@@ -1351,6 +1363,7 @@
 						if(t.oneed) {
 							if(t.educationList.length >= 1) {
 								this.wzd += 5
+								this.percent = parseInt(this.wzd)
 								t.oneed = false
 							}
 						}
@@ -1442,7 +1455,7 @@
 					tt.relibEnrorageDis = this.relibEnrorageDis;
 					tt.relibIsgraduDis = this.relibIsgraduDis;
 					tt.createTime = new Date();
-					  tt.id = this.$route.query.id;
+					tt.id = this.$route.query.id;
 					tt = JSON.stringify(tt);
 					window.localStorage.setItem('resumeInfoForm', tt)
 				},
@@ -1454,7 +1467,7 @@
 <style lang="less">
 	.resumeInfo {
 		height: 100%;
-		 width:100%;
+		width: 100%;
 		background: #f6f6f6;
 		.resumeInfoWrap {
 			overflow: scroll;
@@ -1462,7 +1475,8 @@
 			box-sizing: border-box;
 			display: flex;
 			flex-direction: column;
-			  width:100%;
+			width: 100%;
+			margin-bottom: 100px;
 			.title {
 				background: #fff;
 				padding: 30px 0 25px 40px;
@@ -1546,8 +1560,8 @@
 	}
 	
 	.addClass {
-        position: fixed;
-        right:0;
+		position: fixed;
+		right: 0;
 	}
 	
 	.items {
@@ -1573,7 +1587,8 @@
 		color: #1989fa;
 		height: 100px;
 		background-color: white;
-		padding: 30px 0;
+		padding-bottom: 25px;
+		padding-right: 10px;
 		position: fixed;
 		top: 0px;
 		width: 100%;
