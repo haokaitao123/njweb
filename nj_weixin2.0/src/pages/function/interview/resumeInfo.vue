@@ -1264,8 +1264,8 @@
 								t.valuation(data)
 							}
 						}
-								t.wzd = 16;
-								t.percent = 16;
+								t.wzd += 16;
+								t.percent += 16;
 					}
 				}).catch((err) => {
 					t.$notify({
