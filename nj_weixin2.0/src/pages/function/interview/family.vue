@@ -171,6 +171,7 @@ export default {
         save () {
             const t = this;
             if (this.$verify.check()) {
+            	t.$emit('change', 'fm')
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitFamily.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
