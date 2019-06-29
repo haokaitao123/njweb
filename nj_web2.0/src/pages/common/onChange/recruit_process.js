@@ -16,7 +16,7 @@ const recruit_process = {
     recruit_process.relibIsrelatives_dis(this)
     recruit_process.relibIsguaran_dis(this)
     recruit_process.relibReexamus_set(this)
-    recruit_process.relibReexampass_set(this)
+    // recruit_process.relibReexampass_set(this)
     recruit_process.relibGuarantee_set(this);
     recruit_process.relibTrysqus_set(this);
     recruit_process.relibTrypsus_set(this);
@@ -132,8 +132,8 @@ const recruit_process = {
         t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '0');
         t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 0;
       } else if (t.$refs[t.valueMap.relibReexampass][0].formDataSubmit.relibReexampass === '1') {
-          t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '1');
-          t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 1;
+        t.$refs[t.valueMap.relibScreeyn][0].$set(t.$refs[t.valueMap.relibScreeyn][0].formDataSubmit, 'relibScreeyn', '1');
+        t.$refs[t.valueMap.relibScreeyn][0].$refs.relibScreeyn.thisValue = 1;
       }
     }
   },

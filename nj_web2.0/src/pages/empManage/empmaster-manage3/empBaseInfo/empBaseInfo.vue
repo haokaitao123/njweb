@@ -3,7 +3,7 @@
 		<Spin size="large" fix v-if="spinShow"></Spin>
 		<Row style="overflow-y: auto;" :style="{ maxHeight: disabled?'500px':'420px' }" ref="scrollBox">
 			<Form :model="form" label-position="right" ref="form" :label-width="100" id="empForm" :rules="ruleValidate">
-
+               
 				<i-col span="11">
 					<FormItem label="唯一编号" prop="numberCode">
 						<Input v-model="form.numberCode" :disabled="true"></Input>
@@ -1017,7 +1017,14 @@
 							.catch(() => {
 								this.$Message.error('网络错误');
 							});
-					}
+					}else{
+                        this.$nextTick(function(){
+                            let tt = document.querySelectorAll('.ivu-form-item-error');
+                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
+                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                            }
+                        }) 
+                    }
 				});
 			},
 			clear() {
@@ -1100,15 +1107,15 @@
 				t.postFname = "";
 			},
 			selectPost() {
-        const t = this;
-        if(t.unitFname === "") {
-          this.$Message.warning('请选择部门');
-        }else{
-          const paramsPost = deepCopy(t.paramsPost);
-          paramsPost.deptId =  t.form.deptId;
-          t.$refs.searchPost.getData(paramsPost);
-          t.openPost = true;
-        }
+                const t = this;
+                if(t.unitFname === "") {
+                this.$Message.warning('请选择部门');
+                }else{
+                const paramsPost = deepCopy(t.paramsPost);
+                paramsPost.deptId =  t.form.deptId;
+                t.$refs.searchPost.getData(paramsPost);
+                t.openPost = true;
+                }
 			},
 			closePost() {
 				const t = this;
