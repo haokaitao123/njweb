@@ -123,3 +123,47 @@ fieldset[disabled] .ivu-input {
 .ivu-menu-vertical.ivu-menu-light:after {
   background-color: transparent;
 }
+
+.cover {
+  .fixed {
+    .ivu-col-span-10 {
+      width: 87%;
+    }
+
+    textarea.ivu-input {
+      @media screen and(max-width: 1100px) {
+        height: 120px;
+      }
+
+      @media screen and (max-width: 1366px) and (min-width: 1100px) {
+        height: 120px;
+      }
+
+      height: 240px;
+    }
+
+    .ivu-form .ivu-form-item-label {
+      width: 110px !important;
+
+      @media screen and(max-width: 1100px) {
+        width: 110px !important;
+      }
+
+      @media screen and (max-width: 1566px) and (min-width: 1024px) {
+        width: 110px !important;
+      }
+    }
+
+    .ivu-form-item-content {
+      width: 110px !important;
+
+      @media screen and(max-width: 1100px) {
+        margin-left: 110px !important;
+      }
+
+      @media screen and (max-width: 1566px) and (min-width: 1024px) {
+        margin-left: 110px !important;
+      }
+    }
+  }
+}
