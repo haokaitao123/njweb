@@ -268,6 +268,9 @@ export default {
         case "异动":
           name = 'buttonTrans'
           break
+        case "离职":
+          name = 'buttonQuits'
+          break
         case "黑名单":
           name = 'buttonBlacklist'
           break  
@@ -365,6 +368,10 @@ export default {
           break
         case "button_trans":
           btnName = '异动';
+          bType = 'success';
+          break
+        case "button_quits":
+          btnName = '离职';
           bType = 'success';
           break
         case "button_blacklist":
