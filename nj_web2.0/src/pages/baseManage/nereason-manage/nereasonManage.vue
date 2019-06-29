@@ -8,7 +8,7 @@
           &nbsp;{{$t('lang_baseManage.baseNereason.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_baseManage.baseNereason.nerCodeDis')" style="width: 200px" v-model="nerCode"/>
+          <Input :placeholder="$t('lang_baseManage.baseNereason.nerCodeDis')"  @on-enter="enterEvent" style="width: 200px" v-model="nerCode"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -18,7 +18,7 @@
         <row class="table-form" ref="table-form">
           <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
         </row>
-                <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
+                <Row style="display: flex">          <Page :total="total" :showTotal="showTotal" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
       </card>
       </Col>
     </Row>
@@ -105,6 +105,7 @@
         ],
         data: [],
         total: 0,
+        showTotal: true,
         index: 0,
         sort: 'id',
         order: 'desc',
@@ -127,6 +128,12 @@
       this.getData(1)
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
       getData(page) {
         const t = this
         if (page) {

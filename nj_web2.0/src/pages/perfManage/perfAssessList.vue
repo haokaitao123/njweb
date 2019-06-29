@@ -10,7 +10,8 @@
             <Col span="24">
               <Row>
                   <Input v-model="searchParams.empnhName"
-    placeholder="请输入员工姓名"
+                          placeholder="请输入员工姓名"
+                         @on-enter="enterEvent"
 style="width: 200px"/>
                           <DatePicker type="date"
                                       v-model="searchParams.asesDate"
@@ -90,7 +91,7 @@ export default {
         { code: "asesDate", name: "扣款日期" },
         { code: "asesUserDis", name: "收款人" },
         { code: "asesIspayDis", name: "是否工资扣除" },
-        { code: "asesPamount", name: "1.5R扣款金额" }
+       // { code: "asesPamount", name: "1.5R扣款金额" }
       ],
       // 表格列字段
       columns: [
@@ -166,6 +167,12 @@ export default {
     this.getColumns();
   },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.search()
+      }
+    },
     //获取列表项字段
     getColumns() {
       this.$store.commit("commonPage/setColumns", this.columns);

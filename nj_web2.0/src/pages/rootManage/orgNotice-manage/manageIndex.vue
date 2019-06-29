@@ -11,10 +11,10 @@
           <Row>
           <template>
             <div class="table">
-              <Input placeholder="请输入主题" style="width: 200px" v-model="noticeTitle"/>
+              <Input placeholder="请输入主题" style="width: 200px"  @on-enter="enterEvent"  v-model="noticeTitle"/>
 
               <span @dblclick="clearPeople('1')">
-               <Input v-model="noticePeopleDis" style="width: 200px" icon="search" :readonly="true"  placeholder="请选择发布人"  @on-click="pickData()"/>
+               <Input v-model="noticePeopleDis" style="width: 200px" icon="search" :readonly="true"  @on-enter="enterEvent" placeholder="请选择发布人"  @on-click="pickData()"/>
               </span>
               <!-- 页面中调用公共按钮组件标签<btnList> -->
               <!-- 调用公共按钮组件方法 -->
@@ -42,6 +42,7 @@
             <Page
               :current="page"
               :total="total"
+              :showTotal="showTotal"
               size="small"
               show-elevator
               show-sizer
@@ -134,6 +135,7 @@ export default {
       dropdownMenuList: [],
       comInfo: [],
       total: NaN, // 总页数
+      showTotal: true,
       companyId: 1,
       sort: "id",
       order: "asc",
@@ -239,6 +241,12 @@ export default {
     }
 },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.getData(1)
+      }
+    },
     btnEvent (res) {
       console.log(res, "res12345")
     },

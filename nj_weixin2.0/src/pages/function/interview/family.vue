@@ -171,6 +171,7 @@ export default {
         save () {
             const t = this;
             if (this.$verify.check()) {
+            	t.$emit('change', 'fm')
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitFamily.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
@@ -222,6 +223,17 @@ export default {
         cancel (value) {
             this[this.curDomShow] = false;
         },
+        valuation (data) {
+            const t = this;
+            t.form.refaMembers = data.refaMembers;
+            t.form.refaName = !data.refaName ? '' : data.refaName;
+            t.form.refaCompnm = !data.refaCompnm ? '' : data.refaCompnm;
+            t.form.refaPost = !data.refaPost ? '' : data.refaPost;
+            t.form.refaContact = !data.refaContact ? '' : data.refaContact;
+            t.form.note = data.note;
+            t.refaMembersDis = data.refaMembersDis;
+            t.setSelectValue(data.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
+        },
         //获取当前id信息
         getData () {
             const t = this;
@@ -260,14 +272,7 @@ export default {
                     }
                     if (!familyForm) {
                         let data = JSON.parse(res.data.content[0].value);
-                        t.form.refaMembers = data.refaMembers;
-                        t.form.refaName = !data.refaName ? '' : data.refaName;
-                        t.form.refaCompnm = !data.refaCompnm ? '' : data.refaCompnm;
-                        t.form.refaPost = !data.refaPost ? '' : data.refaPost;
-                        t.form.refaContact = !data.refaContact ? '' : data.refaContact;
-                        t.form.note = data.note;
-                        t.refaMembersDis = data.refaMembersDis;
-                        t.setSelectValue(data.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
+                        t.valuation(data)
                     } else {
                         let createTime = new Date(familyForm.createTime).getTime();
                         let nowTime = new Date().getTime();
@@ -276,6 +281,8 @@ export default {
                             t.refaMembersDis = familyForm.refaMembersDis;
                             t.setSelectValue(familyForm.form.refaMembers, 'selectRefaMembers', 'refaMembersIndex');
                         } else {
+                            let data = JSON.parse(res.data.content[0].value);
+                            t.valuation(data)
                             localStorage.removeItem('familyForm' + t.id)
                         }
                     }

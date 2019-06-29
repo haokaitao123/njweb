@@ -9,7 +9,7 @@
           <Row>
             <Col span="18" style="width: 100% !important">
               <Row>
-                <Input v-model="empnhName" placeholder="请输入员工姓名" style="width: 200px"></Input>
+                <Input v-model="empnhName" placeholder="请输入员工姓名" @on-enter="enterEvent" style="width: 200px"></Input>
                 <btnList
                   @buttonExport="expData"
                   @buttonImport="importExcel"
@@ -40,6 +40,7 @@
               <Row style="display: flex">
                 <Page
                   :total="total"
+                  showTotal
                   :current="page"
                   size="small"
                   show-elevator
@@ -402,6 +403,12 @@ export default {
     this.getData();
   },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.search()
+      }
+    },
     //状态
     modityChange(res) {
       this.tableselected = [];

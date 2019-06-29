@@ -11,7 +11,7 @@
                       :offset="10">
                 <div class="interviewItem"
                      v-for="(item,index) in list"
-                     @click="goTo(item.id,item.curStepDis,item.curStepstate)">
+                     @click="goTo(item.id,item.curStepCode,item.curStepstate)">
                     <div class="interview_item item_first">
                         <h3>{{item.relibName}}</h3>
                         <span>{{item.curStepDis}}</span>
@@ -33,24 +33,24 @@
                               :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                     </div>
                     <div class="interview_item"
-                         v-if="item.curStepDis==='初试'&&item.curStepstate==='p_flowst_3'">
+                         v-if="item.curStepCode==='flow_recruitprocess_1000'&&item.curStepstate==='p_flowst_3'">
                         <label for="">初试结果：</label>
                         <span class="option">{{item.relibFirstopin}}</span>
                     </div>
                     <div class="interview_item"
-                         v-if="item.curStepDis!=='初试'&&item.curStepDis!=='复试'">
+                         v-if="item.curStepCode!=='flow_recruitprocess_1000'&&item.curStepCode!=='flow_recruitprocess_1010'">
                         <label for="">复试结果：</label>
                         <span class="option">{{item.relibCheckopin&&item.relibCheckopin!==''?item.relibCheckopin:'无'}}</span>
                     </div>
                     <div class="button_box">
                         <button type="button"
                                 @click="getQrCode($event,item.id)"
-                                v-if="item.curStepDis==='初试'&&item.curStepstate!=='p_flowst_3'">预约二维码</button>
+                                v-if="item.curStepCode==='flow_recruitprocess_1000'&&item.curStepstate!=='p_flowst_3'">预约二维码</button>
                         <button type="button"
-                                v-if="item.curStepstate!=='p_flowst_3'&&item.curStepDis==='初试'"
+                                v-if="item.curStepstate!=='p_flowst_3'&&item.curStepCode==='flow_recruitprocess_1000'"
                                 @click="submit($event,item.id)">查看</button>
                         <button type="button"
-                                v-else-if="item.curStepDis==='复试'&&item.curStepstate!=='p_flowst_3'"
+                                v-else-if="item.curStepCode==='flow_recruitprocess_1010'&&item.curStepstate!=='p_flowst_3'"
                                 @click="interviewMes($event,item.id)">预约信息</button>
                     </div>
                 </div>
@@ -133,10 +133,10 @@ export default {
         addNewInterview
     },
     methods: {
-        goTo (id, curStepDis, curStepstate) {
+        goTo (id, curStepCode, curStepstate) {
             let curStep = false;
-            if (curStepDis && curStepstate) {
-                if (curStepDis === '初试' && curStepstate !== 'p_flowst_3') {
+            if (curStepCode && curStepstate) {
+                if (curStepCode === 'flow_recruitprocess_1000' && curStepstate !== 'p_flowst_3') {
                     curStep = false;
                 } else {
                     curStep = true;
@@ -147,7 +147,7 @@ export default {
                 query: {
                     id: id,
                     curStep: curStep,
-                    curStepDis: curStepDis,
+                    curStepCode: curStepCode,
                     curStepstate: curStepstate
                 }
             })
@@ -301,7 +301,7 @@ export default {
     background: #f6f6f6;
 
     .interviewWrap {
-        height: 100%;
+        height: calc(~"100% - 110px");
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
@@ -476,7 +476,7 @@ export default {
 
 .addNew {
     position: fixed;
-    bottom: 2%;
+    bottom: 10%;
     right: 10%;
 
     .add {

@@ -19,7 +19,7 @@ export default {
 <style scoped lang="less" type="text/less">
 .noData {
     width: 100%;
-    height: 100%;
+    height: calc(~"100% - 100px");
     position: absolute;
     top: 0;
     left: 0;

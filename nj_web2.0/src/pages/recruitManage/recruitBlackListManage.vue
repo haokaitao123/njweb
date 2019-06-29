@@ -10,8 +10,8 @@
           </p>
           <Row>
             <!--查询项 v-model中放查询变量-->
-            <Input placeholder="请输入求职者姓名" style="width: 200px" v-model="recName"/>
-            <Input placeholder="请输入证件号码" style="width: 200px" v-model="recIdenno"/>
+            <Input placeholder="请输入求职者姓名" style="width: 200px" @on-enter="enterEvent" v-model="recName"/>
+            <Input placeholder="请输入证件号码" style="width: 200px" @on-enter="enterEvent" v-model="recIdenno"/>
 
             <!--按钮 @click中放方法() 无需变更-->
             <btnList
@@ -41,6 +41,7 @@
           <Row style="display: flex">
             <Page
               :total="total"
+              :showTotal="showTotal"
               size="small"
               :current="page"
               show-elevator
@@ -181,7 +182,7 @@ export default {
 
           width: 220
         }
-        
+
       ],
       tableBtn: {
         title: "操作",
@@ -222,6 +223,7 @@ export default {
       // 页面参数 无需更改
       data: [],
       total: 0,
+      showTotal: true,
       index: 0,
       sort: "id", // 默认排序字段
       order: "desc", // 默认排序方式
@@ -297,6 +299,12 @@ export default {
     t.openPick = true;
   },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.search()
+      }
+    },
     // 查询方法
     getData(page) {
       const t = this;

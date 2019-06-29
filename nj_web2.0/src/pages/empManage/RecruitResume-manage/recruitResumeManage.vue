@@ -13,9 +13,11 @@
                     <Row>
                         <Input placeholder="请输入姓名"
                                style="width: 200px"
+                               @on-enter="enterEvent"
                                v-model="resuName" />
                         <Input placeholder="请输入证件号码"
                                style="width: 200px"
+                               @on-enter="enterEvent"
                                v-model="resuIdno" />
                         <btnList @buttonExport="expData"
                                  @buttonSearch="search"
@@ -39,6 +41,7 @@
                     <Row style="display: flex">
                         <Page :total="total"
                               :current="page"
+                              showTotal
                               size="small"
                               show-elevator
                               show-sizer
@@ -319,6 +322,12 @@ export default {
         this.getSelect();
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         //状态
         modityChange (res) {
             this.getData();

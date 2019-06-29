@@ -9,8 +9,9 @@
                 <div class="personalInfo">
                     <div class="userName">
                         <h3>{{userInfo.empnhName}}</h3>
-                        <b v-if="userInfo.state==='04empstate'">离职</b>
+                        <!-- <b v-if="userInfo.state==='04empstate'">离职</b> -->
                         <b v-if="userInfo.state==='02empstate'">在职</b>
+                        <b v-if="userInfo.state!=='02empstate'">入职中</b>
                     </div>
                     <div class="number info_item">
                         <label>工<span>工号</span>号:

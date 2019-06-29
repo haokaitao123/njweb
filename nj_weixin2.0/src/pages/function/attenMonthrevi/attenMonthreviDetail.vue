@@ -203,7 +203,6 @@ export default {
             });
         },
         save () {
-            debugger;
             const t = this
             const data = {
                 _mt: 'wxAttenMonthrevi.setStateById',

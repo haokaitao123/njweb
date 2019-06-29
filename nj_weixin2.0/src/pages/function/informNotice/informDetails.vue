@@ -126,7 +126,7 @@ export default {
 	background: #fff;
     .informDetailsWrap {
         width: 100%;
-        height: 100%;
+        height: calc(~"100% - 110px");
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;

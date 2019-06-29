@@ -15,8 +15,8 @@
           </Col>
           <Col span="20" style="width:83.33333333% !important;">
           <Row>
-            <Input :placeholder="$t('lang_baseManage.baseCity.cityNameDis')" style="width: 200px" v-model="cityName"/>
-            <Input :placeholder="$t('lang_baseManage.baseCity.cityCode1Dis')" style="width: 200px" v-model="cityCode1"/>
+            <Input :placeholder="$t('lang_baseManage.baseCity.cityNameDis')"  @on-enter="enterEvent" style="width: 200px" v-model="cityName"/>
+            <Input :placeholder="$t('lang_baseManage.baseCity.cityCode1Dis')"  @on-enter="enterEvent" style="width: 200px" v-model="cityCode1"/>
             <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
             <Dropdown>
               <Button type="primary">
@@ -40,7 +40,7 @@
           <row class="table-form" ref="table-form">
             <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
           </row>
-                  <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
+                  <Row style="display: flex">          <Page :total="total" :showTotal="showTotal" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
           </Col>
         </Row>
 
@@ -193,6 +193,7 @@
         ],
         data: [],
         total: 0,
+        showTotal: true,
         index: 0,
         sort: 'id',
         order: 'desc',
@@ -220,6 +221,12 @@
       this.getTree()
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
       getData(id, page) {
         const t = this
         if (page) {

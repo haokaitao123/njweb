@@ -38,6 +38,7 @@
         </row>
         <Row style="display: flex">
             <Page :total="total"
+                showTotal
                   size="small"
                   show-elevator
                   show-sizer

@@ -13,47 +13,34 @@
         <Row style="max-height: 420px;overflow-y: auto;">
           <Form ref="form" :model="form" :rules="ruleValidate" :label-width="110">
             <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccount.paccPeriod')" prop="paccPeriod">
-               <span @dblclick="clearFyperiod">
-                   <Input v-model="paccPeriodDis" v-show="logType === $t('button.add')?true:false" style="width: 100%" icon="search" :readonly="true"  :placeholder="$t('lang_payroll.payAccount.paccPeriod')"  @on-click="pickFyperiod"/>
-              </span>
-                <Input v-model="paccPeriodDis" disabled v-show="logType === $t('button.view')?true:false" :placeholder="$t('lang_payroll.payAccount.paccPeriod')"/>
-              </FormItem>
-            </i-col>
-            <i-col span="10" offset="1">
-              <FormItem :label="$t('lang_payroll.payAccount.paccRound')" prop="paccRound">
-                <Select v-model="form.paccRound" :disabled="logType === $t('button.view')?true:false">
-                  <Option :value="item.paramCode" v-for="(item,index) in RoundType" :key="index">{{item.paramInfoCn}}</Option>
-                </Select>
+              <FormItem :label="$t('薪资期间')" prop="paccPeriod">
+
+                <Input v-model="form.paccPeriod" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('请输入薪资期间')"></Input>
               </FormItem>
             </i-col>
             <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccount.paccSalaryset')" prop="paccSalaryset">
-                <Select v-model="form.paccSalaryset" :disabled="logType === $t('button.view')?true:false" @on-change="changeCurrency">
-                  <Option :value="item.id" v-for="(item,index) in Salaryset" :key="index">{{item.payss}}</Option>
-                </Select>
-              </FormItem>
-            </i-col>
-            <i-col span="10" offset="1">
-              <FormItem :label="$t('lang_payroll.payAccount.paccLocalcurrency')" prop="paccLocalcurrency">
-                <Input v-model="form.paccLocalcurrencyDis" disabled :placeholder="$t('lang_payroll.payAccount.paccLocalcurrencyDis')"/>
+              <FormItem :label="$t('账套名称')" prop="paccComment">
+                <Input v-model="form.paccComment" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('请输入薪资账套名称')"></Input>
               </FormItem>
             </i-col>
             <i-col span="10">
-              <FormItem :label="$t('lang_payroll.payAccount.paccStatus')" prop="paccStatus">
-                <Select v-model="form.paccStatus" disabled >
-                  <Option :value="item.paramCode" v-for="(item,index) in Calstatus" :key="index">{{item.paramInfoCn}}</Option>
-                </Select>
+              <FormItem :label="$t('账套类型')" prop="paccOptrecord">
+                <Input v-model="form.paccOptrecord" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('请输入薪资账套类型')"></Input>
+              </FormItem>
+            </i-col>
+            <i-col span="10">
+              <FormItem :label="$t('账套状态')" prop="stateDis">
+                <Input v-model="form.stateDis" :disabled="logType === $t('button.view')?true:false"  :placeholder="$t('薪资账套状态')"></Input>
               </FormItem>
             </i-col>
             <i-col span="21" v-show="id ? true : false">
               <FormItem :label="$t('lang_payroll.payAccount.paccOptrecord')" prop="paccOptrecord">
-                <Input v-model="form.paccOptrecord" :disabled="logType === $t('button.view')?true:false" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccount.paccOptrecordDis')"></Input>
+                <Input v-model="form.paccType" :disabled="logType === $t('button.view')?true:false" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccount.paccOptrecordDis')"></Input>
               </FormItem>
             </i-col>
             <i-col span="21">
               <FormItem :label="$t('lang_payroll.payAccount.paccComment')" prop="paccComment">
-                <Input v-model="form.paccComment" :disabled="logType === $t('button.view')?true:false" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
+                <Input v-model="form.paccType" :disabled="logType === $t('button.view')?true:false" type="textarea" :autosize="{minRows: 2,maxRows: 5}" :placeholder="$t('lang_payroll.payAccount.paccCommentDis')"></Input>
               </FormItem>
             </i-col>
           </Form>

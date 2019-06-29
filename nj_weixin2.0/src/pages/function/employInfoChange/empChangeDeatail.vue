@@ -307,6 +307,9 @@ export default {
                             duration: 1500,
                             background: '#1989fa'
                         });
+                        t.$router.push({
+                            name: 'employInfoChange'
+                        })
                     }
                 }).catch(() => {
                     t.saveStatus = false
@@ -459,6 +462,7 @@ export default {
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
+        margin-bottom: 110px;
     }
     .van-popup--right {
         top: 50% !important;

@@ -274,12 +274,15 @@
 					dataList.flowId = list.aprFlowId
 					dataList.stepId = list.aprvrelaStepid
 					dataList.billId = list.aprdBillid
-					dataList.tbname = list.tbname
-//					if(list.tbname != 'atten_vacation' || list.tbname != 'emp_empdim') {
-						if(list.aprvrelaStepid != 'empdim_10' && list.aprvrelaStepid != 'vacation_3') {
-							params.push(dataList)
-						}
-//					}
+                    dataList.tbname = list.tbname
+                    if(list.aprvrelaStepid != 'empdim_10'&&list.tbname!='emp_empdim'){
+                        if(list.aprvrelaStepid != 'vacation_3'&&list.tbname!='atten_vacation'){
+                            params.push(dataList)
+                        }
+                    }
+                    // if(list.aprvrelaStepid != 'empdim_10' && list.aprvrelaStepid != 'vacation_3') {
+                    //     params.push(dataList)
+                    // }
 					console.log('params', params)
 				});
 				const t = this;

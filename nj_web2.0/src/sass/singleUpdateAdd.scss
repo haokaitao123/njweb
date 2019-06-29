@@ -1,0 +1,23 @@
+.option-main {
+  position: relative;
+  max-height: 500px;
+}
+
+.main-height {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.button_box {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+
+  .btn1 {
+    margin-right: 20px;
+  }
+
+  .btn {
+    margin-right: 40px;
+  }
+}

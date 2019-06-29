@@ -9,8 +9,8 @@
                    border
                    ref="selection"
                    :columns="columns"
-                   :data="data"
-                   :loading="loading"></Table>
+                   :data="mockData"
+                   :loading="mockLoading"></Table>
         </row>
         <Row style="display: flex">
             <Page :total="total"
@@ -135,6 +135,7 @@ export default {
             page: 1,
             state: this.modity,
             loading: "",
+            mockLoading: false
         };
     },
     props: {
@@ -174,6 +175,10 @@ export default {
         table_height: {
             type: Number,
         },
+        //模拟数据
+        mockData: {
+            type: Array,
+        }
     },
     computed: {
         pageShow () {
@@ -205,9 +210,9 @@ export default {
         },
     },
     mounted () {
-        if (!this.childTable) {
-            this.getData();
-        }
+        // if (!this.childTable) {
+        //     this.getData();
+        // }
         // this.getData();
     },
     watch: {
@@ -215,13 +220,14 @@ export default {
             if (val === "" && this.tableOperate === true) {
                 this.columns.pop();
                 this.tableOperate = false;
-            } else if (this.tableOperate === false) {
+            } else if (this.tableOperate === false && !this.childTable) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
             }
         },
         columns (val) {
-            console.log(this.childTable, "this.childTable")
+            // console.log(this.childTable, "this.childTable");
+            // console.log(this.columns, "this.columns")
             if (this.pageShow !== "" && this.tableOperate === false && !this.childTable) {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
@@ -232,7 +238,7 @@ export default {
         //状态修改
         modityChange (res) {
             this.tableselected = [];
-            this.getData();
+            // this.getData();
         },
         // 导入导出默认方法 无需更改
         closeImport () {
@@ -243,7 +249,7 @@ export default {
         importExcel () {
             const t = this;
             t.openImport = true;
-            t.$refs.importExcel.getDowModelFile();
+            // t.$refs.importExcel.getDowModelFile();
         },
         // 导入导出默认方法
         expData () {
@@ -280,7 +286,7 @@ export default {
             t.filekey = filekey;
             t.filename = filename;
             t.openExpDow = openExpDow;
-            t.$refs.expdow.getPriToken(t.filekey);
+            // t.$refs.expdow.getPriToken(t.filekey);
         },
         //获取列表数据
         getData (page, params) {
@@ -330,7 +336,7 @@ export default {
             this.sort = column.key;
             this.order = column.order;
             if (this.order !== "normal") {
-                this.getData();
+                // this.getData();
             } else {
                 this.order = "desc";
             }
@@ -339,13 +345,13 @@ export default {
         sizeChange (size) {
             const t = this;
             t.rows = size;
-            t.getData();
+            // t.getData();
         },
         //改变页码
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData(t.page);
+            // t.getData(t.page);
         },
         //列表中选中对应列
         selectedtable (selection) {
@@ -365,22 +371,22 @@ export default {
                     title: this.$t("reminder.remind"),
                     content: this.$t("reminder.confirmdelete"),
                     onOk: () => {
-                        getDataLevelUserLogin({
-                            _mt: t.dele_mt,
-                            logType: this.$t("button.del"),
-                            ids: t.tableselected.toString()
-                        })
-                            .then(res => {
-                                if (isSuccess(res, t)) {
-                                    t.tableselected = [];
-                                    t.getData();
+                        // getDataLevelUserLogin({
+                        //     _mt: t.dele_mt,
+                        //     logType: this.$t("button.del"),
+                        //     ids: t.tableselected.toString()
+                        // })
+                        //     .then(res => {
+                        //         if (isSuccess(res, t)) {
+                        //             t.tableselected = [];
+                        //             t.getData();
 
-                                    this.$Message.success(this.$t("reminder.deletesuccess"));
-                                }
-                            })
-                            .catch(() => {
-                                this.$Message.error(this.$t("reminder.errormessage"));
-                            });
+                        //             this.$Message.success(this.$t("reminder.deletesuccess"));
+                        //         }
+                        //     })
+                        //     .catch(() => {
+                        //         this.$Message.error(this.$t("reminder.errormessage"));
+                        //     });
                     },
                     onCancel: () => { }
                 });
@@ -388,10 +394,11 @@ export default {
         },
         //查询
         search (data) {
-            this.$store.commit('btnOperate/setSearchLoading', true);
+            // this.$store.commit('btnOperate/setSearchLoading', true);
+            this.$store.commit('btnOperate/setSearchLoading', false);
             this.tableselected = [];
             this.page = 1;
-            this.getData(this.page, data);
+            // this.getData(this.page, data);
         },
         //修改状态 
         modifystatus (state, tipName) {
@@ -406,23 +413,23 @@ export default {
                 title: this.$t("reminder.remind"),
                 content: tipContent,
                 onOk: () => {
-                    getDataLevelUserLogin({
-                        _mt: t.state_mt,
-                        logType: logType,
-                        state: state,
-                        ids: t.tableselected.toString()
-                    })
-                        .then(res => {
-                            if (isSuccess(res, t)) {
-                                t.getData();
-                                t.tableselected = [];
-                                this.$Message.success(this.$t("reminder.operatsuccess"));
-                            }
-                        })
-                        .catch(() => {
-                            t.tableselected = [];
-                            this.$Message.error(this.$t("reminder.errormessage"));
-                        });
+                    // getDataLevelUserLogin({
+                    //     _mt: t.state_mt,
+                    //     logType: logType,
+                    //     state: state,
+                    //     ids: t.tableselected.toString()
+                    // })
+                    //     .then(res => {
+                    //         if (isSuccess(res, t)) {
+                    //             t.getData();
+                    //             t.tableselected = [];
+                    //             this.$Message.success(this.$t("reminder.operatsuccess"));
+                    //         }
+                    //     })
+                    //     .catch(() => {
+                    //         t.tableselected = [];
+                    //         this.$Message.error(this.$t("reminder.errormessage"));
+                    //     });
                 },
                 onCancel: () => { }
             });

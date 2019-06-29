@@ -383,23 +383,19 @@
 		<!--交接人-->
 		<div v-if="this.$route.query.item.tbname == 'emp_empdim'">
 			<div class="item_box" v-if="this.$route.query.item.aprdStepcode == 'empdim_10'">
-				<cell title="" is-link v-if="!disabled" value-align="left" v-model="empIdName" v-verify="form.relibInviteman" @click.native="popupClick('empShow','relibInviteman')">
+				<cell title="" is-link value-align="left" v-model="empIdName" v-verify="form.relibInviteman" @click.native="popupClick('empShow','relibInviteman')">
 					<div slot="title">交接人<span>*</span></div>
 				</cell>
-				<icon type="warn" class="error" v-show="empIdName=='请选择'?true:false" v-remind="form.relibInviteman"></icon>
-				<x-input title="人姓交接名" v-model="empIdName" v-if="disabled" v-verify="form.relibInviteman" :show-clear="false" :placeholder="disabled?'未填写':'请填写'">
-				</x-input>
+				<icon type="warn" class="error" v-show="empIdName=='请选择'" v-remind="form.relibInviteman"></icon>
 			</div>
 		</div>
 		<!-- 归来日期 -->
 		<div v-if="this.$route.query.item.tbname == 'atten_vacation'">
 			<div v-if="this.$route.query.item.aprdStepcode == 'vacation_3'" class="item_box">
-				<cell title="" is-link value-align="left" v-model="form.relibFilldate" v-if='!curStep' v-verify="form.relibFilldate" @click.native="popupClick('relibFilldateShow','relibFilldate')">
+				<cell title="" is-link value-align="left" v-model="form.relibFilldate"  v-verify="form.relibFilldate" @click.native="popupClick('relibFilldateShow','relibFilldate')">
 					<div slot="title">归来日期<span>*</span></div>
 				</cell>
-				<icon type="warn" class="error" v-show="form.relibFilldate=='请选择'?true:false" v-remind="form.relibFilldate"></icon>
-				<x-input title="归来日期<span>*</span>" v-if='curStep' v-model="form.relibFilldate" :show-clear="false" :disabled="curStep" placeholder="未填写">
-				</x-input>
+				<icon type="warn" class="error" v-show="form.relibFilldate=='请选择'" v-remind="form.relibFilldate"></icon>
 			</div>
 		</div>
 		<group>
@@ -435,7 +431,7 @@
 		getDataLevelUserLogin
 	} from '@/axios/axios'
 	import { isSuccess } from '@/lib/util'
-	import searchEmp from '@/components/search/searchEmp'
+	import searchEmp from '@/components/search/searchAllEmp'
 	//import { Group, ,  XTextarea, } from 'vux'
 	export default {
 		data() {
@@ -443,7 +439,6 @@
 				list: [],
 				value: '',
 				time: '',
-				curStep: '',
 				curDom: "",
 				curDomShow: "",
 				relibFilldateShow: false,
@@ -454,8 +449,8 @@
 				maxRelibFilldate: new Date(2099, 12, 31),
 				relibFilldateDate: new Date(),
 				form: {
-					relibInviteman: '', //交接人id
-					relibFilldate: "请选择", // 面到时间 
+					relibInviteman: '',             //交接人id
+					relibFilldate: "请选择",        //归来日期 
 				}
 			}
 		},
@@ -487,7 +482,6 @@
 			//获取详情
 			getData() {
 				const t = this;
-				console.log(this.$route.query.item)
 				if(this.$route.query.item === undefined) {
 					console.log('123www')
 					return;
@@ -499,11 +493,11 @@
 					billId: this.$route.query.item.aprdBillid,
 					tbname: this.$route.query.item.tbname
 				}
-				console.log('参数', data)
 				getDataLevelUserLogin(data).then((res) => {
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
-						t.list = data;
+                        t.list = data;
+                        
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -582,7 +576,6 @@
 				this.curDom = dom;
 				this.curDomShow = domShow;
 				this[domShow] = true;
-				//console.log('123',this[domShow])
 			},
 			//底部弹出确定事件
 			confirm(value) {
@@ -604,14 +597,9 @@
 			},
 			//员工弹出框事件
 			inputEmp(res) {
-				console.log(res, "res11")
 				this.empShow = false;
 				this.form.relibInviteman = res.id;
-				console.log(this.form.relibInviteman, 'id')
-				this.empIdName = res.empnhSalaccname;
-				//            this.form.dimReceive = res.id;
-				//            this.dimReceiveDis = res.empnhName;
-				//            this.dimReceiveCheck();
+				this.empIdName = res.empnhName;
 			},
 		}
 	}
@@ -620,12 +608,12 @@
 <style lang="less" scoped>
 	.appInfo {
 		width: 100%;
+		height: calc(~"100% - 110px");
 		padding: 20px;
 		background: white;
 		box-sizing: border-box;
 		overflow: -Scroll;
 		overflow-x: hidden;
-		overflow: -Scroll;
 		overflow-y: hidden;
 		.head {
 			width: 100%;

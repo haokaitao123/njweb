@@ -15,6 +15,26 @@ const valid = {
     if (str1.match(reg))
       rtn = false;
     return rtn;
+    },
+    //是否有特殊字符
+    val_check: (str) => {
+        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+        regCn = /[·！#￥（——）：；“”‘’、，|《。》？、【】[\]]/im;
+        if(regEn.test(str) || regCn.test(str)) {
+            return false;
+        }
+        return true;
+    },
+    //非空的数字格式_非负浮点数
+    val_number99: (str) => {
+    if (str === "") {
+        return true
+    } 
+      let rtn = false,
+    reg = /^(((\d)|([1-9]\d+))(\.\d+)?)$/;
+    if (str.match(reg))
+      rtn = true;
+    return rtn;
   },
   //数字格式_非负整数
   val_number100: (str) => {

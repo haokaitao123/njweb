@@ -29,6 +29,7 @@
         </row>
         <Row style="display: flex">
             <Page :total="total"
+            :showTotal="showTotal"
                   size="small"
                   show-elevator
                   show-sizer
@@ -105,6 +106,7 @@ export default {
             filekey: "",
             filename: "",
             total: NaN,
+            showTotal: true,
             showMsg: false,
             rows: 10,
             page: 1,

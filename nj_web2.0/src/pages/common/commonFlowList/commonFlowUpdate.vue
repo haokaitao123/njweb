@@ -1152,23 +1152,20 @@
 		},
 	}
 </script>
-<style lang="scss">
+<style lang="scss" >
 	@import "../../../sass/updateAndAdd.scss";
 	.cover .box {
-		width: 75% !important;
+		width: 1200px ;
 		left: 100px;
-		@media screen and(max-width: 1024px) {
-			position: fixed;
-			top: 70px;
-			left: 50px;
-			width: 90% !important;
-		}
-		@media screen and (max-width:1366px) and (min-width:1024px) {
-			position: fixed;
-			top: 70px;
-			left: 50px;
-			width: 95% !important;
-		}
+        @media screen and (max-width: 1024px) {
+            position: fixed;
+            top: 70px;
+            left: 50px;
+            width: 90% !important;
+        }
+        @media screen and (min-width: 1025px) and (max-width: 1366px) {
+            width: 900px!important;
+        }
 		.ivu-col-offset-1 {
 			@media screen and(max-width: 1024px) {
 				margin-left: 36px !important;
@@ -1182,17 +1179,15 @@
 	}
 	
 	.content {
-		@media screen and(max-width: 1024px) {
-			height: 400px;
-			width: 75%;
-		}
-		@media screen and (max-width:1366px) and (min-width:1024px) {
-			height: 400px;
-			width: 100%;
-		}
+		@media screen and(min-width: 1024px) and (max-width: 1366px) {
+            height: 400px;
+        }
+        @media screen and(max-width: 1023px) {
+            height: 280px;
+        }
 		height: 500px;
 		position: relative;
-		overflow-y: auto;
+		overflow-y: scroll;
 		.marginB_10 {
 			margin-bottom: 10px;
 		}
@@ -1238,27 +1233,43 @@
 		}
 	}
 	
-	.fixed {
+	.cover .fixed {
+        width: 77%;
 		@media screen and(max-width: 1024px) {
 			height: 550px;
+            top:40px;
+            width:90%!important;
 		}
-		width: 77% !important;
+		@media screen and (min-width: 1025px) and (max-width: 1366px) {
+            width: 80%!important;
+        }
 		.content {
 			@media screen and(max-width: 1024px) {
-				height: 400px;
-			}
-			@media screen and (max-width:1566px) and (min-width:1024px) {
-			     width: 69%;
-		    }
-			margin-right: 365px;
+                height: 400px;
+                width:67%;
+            }
+            @media screen and (min-width: 1025px) and (max-width: 1366px) {
+                height: 400px;
+                width:65.6%;
+            }
+            @media screen and (min-width: 1367px) and (max-width: 1680px) {
+                width:74.5%;
+            }
+			margin-right: 372px;
 			position: static;
 			.approvIdea {
 				@media screen and(max-width: 1024px) {
 					height: 400px;
-					// width: 248px;
-				}
+                    width: 36%;
+                    top: 11%;
+                }
+                @media screen and (min-width: 1025px) and (max-width: 1366px) {
+                    height: 400px;
+                    width: 37%;
+                    top: 11%;
+                }
 				position: absolute;
-				width: 34%;
+				width: 28%;
 				right: 0;
 				top: 10%;
 				padding: 0 20px;
@@ -1289,29 +1300,30 @@
 					height: 471px;
                     
 				}
-                .ivu-form .ivu-form-item-label{
-                    // @media screen and(max-width: 1100px) {
-						width: 110px!important;
-					// }
-                }
 			}
 		}
+        .ivu-form .ivu-form-item-label{
+            @media screen and(max-width: 1100px) {
+                width: 110px!important;
+            }
+            @media screen and (max-width:1566px) and (min-width:1024px) {
+                width: 110px!important;
+            }
+        }
+        .ivu-form-item-content{
+            @media screen and(max-width: 1100px) {
+                margin-left:110px!important;
+            }
+            @media screen and (max-width:1566px) and (min-width:1024px) {
+                margin-left:110px!important;
+            }
+        }
 	}
-	
 	.footer {
 		margin-top: 10px;
 		padding: 0 30px;
 		display: flex;
 		justify-content: flex-end;
 	}
-    .ivu-form .ivu-form-item-label{
-        @media screen and(max-width: 1100px) {
-            width: 110px!important;
-        }
-    }
-    .ivu-form-item-content{
-        @media screen and(max-width: 1100px) {
-           margin-left:110px!important;
-        }
-    }
+    
 </style>

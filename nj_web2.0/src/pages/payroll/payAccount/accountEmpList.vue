@@ -4,8 +4,9 @@
       <div class="title">
         <div class="title-text">
           <Icon type="mouse" size="16" style="margin-right: 10px;"></Icon>
-          &nbsp;{{row.paccPeriodDis + ' ' + row.paccSalarysetDis + ' ' + row.paccRoundDis + $t('lang_payroll.payAccEmp.title') + ' (' + row.paccStatusDis + ')'}}
+          &nbsp;{{$t('lang_payroll.payAccEmp.title') }}
         </div>
+        <!--row.paccPeriodDis + ' ' + row.paccSalarysetDis + ' ' + row.paccRoundDis +  + ' (' + row.paccStatusDis + ')'-->
         <Button type="text" @click="handleReset">
           <Icon type="close-round" size="16"></Icon>
         </Button>
@@ -57,18 +58,8 @@
             align: 'center',
           },
           {
-            title: this.$t('lang_payroll.payAccEmp.pacemCompany'),
-            key: 'pacemCompanyDis',
-            width: 100,
-          },
-          {
-            title: this.$t('lang_payroll.payAccEmp.pacemEmpworkno'),
-            key: 'pacemEmpworkno',
-            width: 100,
-          },
-          {
             title: this.$t('lang_payroll.payAccEmp.pacemCname'),
-            key: 'pacemCname',
+            key: 'pacemComment',
             width: 100,
           },
           {
@@ -190,7 +181,7 @@
         const t = this
         t.row = row
         t.pacemPacid = row.id
-        t.getData()
+        //t.getData()
       },
       getData(page) {
         const t = this
@@ -258,7 +249,7 @@
         this.sort = column.key
         this.order = column.order
         if (this.order !== 'normal') {
-          this.getData()
+          //this.getData()
         } else {
           this.order = 'desc'
         }
@@ -266,12 +257,12 @@
       sizeChange(size) {
         const t = this
         t.rows = size
-        t.getData()
+        //t.getData()
       },
       pageChange(page) {
         const t = this
         t.page = page
-        t.getData()
+        //t.getData()
       },
       selectedtable(selection) {
         const newArr = []

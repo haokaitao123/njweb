@@ -280,11 +280,6 @@ export default {
             this.$refs.formValidate.resetFields()
             this.$emit('closeUp')
         },
-        // handleUpload (file) {
-        //     this.file = file
-        //     this.loadingStatus = true
-        //     return false
-        // },
         //清除
         clear () {
             const t = this

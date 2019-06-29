@@ -270,6 +270,7 @@ span {
 textarea[disabled] {
     -webkit-text-fill-color: #888;
     opacity: 1;
+    background-color: #fff !important;
 }
 input[readonly] {
     -webkit-text-fill-color: #888;

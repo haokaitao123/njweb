@@ -28,9 +28,11 @@
                     <Row>
                         <Input v-model="profitBigDis"
                                placeholder="请输入最大封顶金额"
+                               @on-enter="enterEvent"
                                style="width: 200px"></Input>
                         <Input v-model="profitSmallDis"
                                placeholder="请输入最小封顶金额"
+                               @on-enter="enterEvent"
                                style="width: 200px"></Input>
                         <!-- 查询按钮 @click后绑定的是一个点击事件 -->
                         <btnList @buttonExport="expData"
@@ -59,6 +61,7 @@
                     <!-- :total="total" total=>总页数  @on-page-size-change="sizeChange" 切换每页条数时的回调，返回切换后的每页条数 @on-change="pageChange" 页码改变的回调，返回改变后的页码  :page-size-opts 每页条数切换的配置-->
                     <Row style="display: flex">
                         <Page :total="total"
+                        :showTotal="showTotal"
                               size="small"
                               :current="page"
                               show-elevator
@@ -232,6 +235,7 @@ export default {
             },
             data: [], //table初始化数据
             total: 0, //table总页数
+            showTotal: true,
             index: 0, //表格数据中的选中的index
             sort: "id", //排序字段
             order: "desc", //排序类型
@@ -293,6 +297,12 @@ export default {
     },
     // 页面所有方法
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.search()
+        }
+      },
         //获取当前列表数据
         getData (id, page) {
             const t = this;

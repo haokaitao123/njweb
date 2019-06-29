@@ -26,7 +26,7 @@
                         <span>{{item.curStepDis}}</span>
                         <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
-                             v-show="item.curStep==1441"
+                             v-show="item.curStepCode=='flow_attenshift_1000'"
                              @click="deleteItem($event,item.id,index)">
                             <img src="../../../../static/function/close.png"
                                  alt="">
@@ -158,7 +158,7 @@ export default {
             await getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {//请求成功
                     let data = JSON.parse(res.data.content[0].value);
-
+                    console.log(data, "t.content")
                     if (this.list.length > 0) {//当请求前有数据时 第n次请求
                         if (this.loading) {// 上拉加载
                             this.list = this.list.concat(data.rows) //上拉加载新数据添加到数组中
@@ -267,7 +267,7 @@ export default {
 }
 .addNew {
     position: fixed;
-    bottom: 2%;
+    bottom: 10%;
     right: 10%;
     .add {
         font-size: 76px;

@@ -26,7 +26,7 @@
           </div>
         </i-col>
       </row>
-      <!--<Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer @on-page-size-change="sizeChange" @on-change="pageChange" placement="top" :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>-->
+      <!--<Row style="display: flex">          <Page :total="total" showTotal size="small" show-elevator show-sizer @on-page-size-change="sizeChange" @on-change="pageChange" placement="top" :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>-->
     </div>
     <transition name="fade">
       <editQuickMoveImg v-show="openUpdateImg" @close="closeImg"  @getImgId="getImgId"   ref="editQuickMoveImg"></editQuickMoveImg>

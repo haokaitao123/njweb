@@ -26,7 +26,7 @@
                         <span>{{item.curStepDis}}</span>
                         <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
-                             v-show="item.curStep==1436"
+                             v-show="item.curStepCode==='flow_leaveproc _1000'"
                              @click="deleteItem($event,item.id,index)">
                             <img src="../../../../static/function/close.png"
                                  alt="">
@@ -205,7 +205,7 @@ export default {
     height: 100%;
     background: #f6f6f6;
     .attenVacationWrap {
-        height: 100%;
+        height: calc(~"100% - 110px");
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
@@ -267,7 +267,7 @@ export default {
 }
 .addNew {
     position: fixed;
-    bottom: 2%;
+    bottom: 10%;
     right: 10%;
     .add {
         font-size: 76px;

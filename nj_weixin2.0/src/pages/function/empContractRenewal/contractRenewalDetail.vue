@@ -226,6 +226,7 @@ export default {
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
+        margin-bottom: 100px;
         .save_button {
             padding: 46px 70px;
             .x_button {

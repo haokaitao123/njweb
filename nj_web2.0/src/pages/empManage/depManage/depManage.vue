@@ -10,7 +10,7 @@
           <!-- 操作按钮和查询输入框 -->
             <!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
 					<Row>
-							<Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
+							<Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px" @on-enter="enterEvent" ></Input>
               <span @dblclick="clearPost()">
                     <Input v-model="postName"
                       style="width: 200px"
@@ -50,6 +50,7 @@
           <Row style="display: flex">
             <Page
               :total="total"
+              :showTotal="showTotal"
               size="small"
               :current="page"
               show-elevator
@@ -246,6 +247,7 @@ export default {
       },
       data: [], //table初始化数据
       total: 0, //table总页数
+      showTotal: true,
       index: 0, //表格数据中的选中的index
       sort: "id", //排序字段
       order: "desc", //排序类型
@@ -329,6 +331,12 @@ export default {
   },
   // 页面所有方法
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.getData(1)
+      }
+    },
     //获取当前列表数据
     getData(page) {
       const t = this;

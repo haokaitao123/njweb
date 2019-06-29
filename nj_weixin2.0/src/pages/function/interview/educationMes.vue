@@ -239,6 +239,7 @@ export default {
         save () {
             const t = this;
             if (this.$verify.check()) {
+            	t.$emit('change', 'fm')
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitEduca.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
@@ -295,6 +296,21 @@ export default {
         cancel (value) {
             this[this.curDomShow] = false;
         },
+        valuation (data) {
+            const t = this;
+            t.form.reeduLevel = data.reeduLevel;
+            t.form.reeduDegree = !data.reeduDegree ? '' : data.reeduDegree;
+            t.form.reeduSdate = data.reeduSdate ? data.reeduSdate : '请选择';
+            t.form.reeduEdate = data.reeduEdate ? data.reeduEdate : '请选择';
+            t.form.reeduSchool = !data.reeduSchool ? '' : data.reeduSchool;
+            t.form.reeduProfession = !data.reeduProfession ? '' : data.reeduProfession;
+            t.form.reeduAwardcert = data.reeduAwardcert;
+            t.form.note = data.note;
+            t.reeduLevelDis = data.reeduLevelDis;
+            t.reeduSdateDate = !data.reeduSdate ? new Date() : new Date(data.reeduSdate.replace(/-/g, '/'));
+            t.reeduEdateDate = !data.reeduEdate ? new Date() : new Date(data.reeduEdate.replace(/-/g, '/'));
+            t.setSelectValue(data.reeduLevel, 'selectReeduLevel', 'reeduLevelIndex');
+        },
         getData () {
             const t = this;
             if (t.id === '') {
@@ -334,18 +350,7 @@ export default {
                     }
                     if (!educationMesForm) {
                         let data = JSON.parse(res.data.content[0].value);
-                        t.form.reeduLevel = data.reeduLevel;
-                        t.form.reeduDegree = !data.reeduDegree ? '' : data.reeduDegree;
-                        t.form.reeduSdate = data.reeduSdate ? data.reeduSdate : '请选择';
-                        t.form.reeduEdate = data.reeduEdate ? data.reeduEdate : '请选择';
-                        t.form.reeduSchool = !data.reeduSchool ? '' : data.reeduSchool;
-                        t.form.reeduProfession = !data.reeduProfession ? '' : data.reeduProfession;
-                        t.form.reeduAwardcert = data.reeduAwardcert;
-                        t.form.note = data.note;
-                        t.reeduLevelDis = data.reeduLevelDis;
-                        t.reeduSdateDate = !data.reeduSdate ? new Date() : new Date(data.reeduSdate.replace(/-/g, '/'));
-                        t.reeduEdateDate = !data.reeduEdate ? new Date() : new Date(data.reeduEdate.replace(/-/g, '/'));
-                        t.setSelectValue(data.reeduLevel, 'selectReeduLevel', 'reeduLevelIndex');
+                        t.valuation(data)
                     } else {
                         let createTime = new Date(educationMesForm.createTime).getTime();
                         let nowTime = new Date().getTime();
@@ -356,7 +361,9 @@ export default {
                             t.reeduSdateDate = educationMesForm.form.reeduSdate === "请选择" ? new Date() : new Date(educationMesForm.form.reeduSdate.replace(/-/g, '/'));
                             t.reeduEdateDate = educationMesForm.form.reeduEdate === "请选择" ? new Date() : new Date(educationMesForm.form.reeduEdate.replace(/-/g, '/'));
                         } else {
-                            localStorage.removeItem('educationMesForm' + t.id)
+                            localStorage.removeItem('educationMesForm' + t.id);
+                            let data = JSON.parse(res.data.content[0].value);
+                            t.valuation(data)
                         }
                     }
                 }

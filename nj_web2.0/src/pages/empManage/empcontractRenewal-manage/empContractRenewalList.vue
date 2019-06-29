@@ -7,13 +7,13 @@
             <Icon type="mouse"></Icon>&nbsp;合同续签管理
           </p>
           <Row>
-            <Input placeholder="请输入员工姓名" style="width: 200px" v-model="empnhName"/>
+            <Input placeholder="请输入员工姓名" style="width: 200px"  @on-enter="enterEvent"  v-model="empnhName"/>
             <span @dblclick="cleardeptId()">
               <Input
                 v-model="unitFname"
                 style="width: 200px"
                 icon="search"
-
+                @on-enter="enterEvent"
                 :readonly="true"
                 placeholder="请选择部门"
                 @on-click="pickDeptData"
@@ -48,6 +48,7 @@
           <Row style="display: flex">
             <Page
               :total="total"
+              :showTotal="showTotal"
               size="small"
               show-elevator
               show-sizer
@@ -304,6 +305,7 @@ export default {
       },
       data: [],
       total: 0,
+      showTotal: true,
       index: 0,
       sort: "id",
       order: "asc",
@@ -399,6 +401,12 @@ export default {
     //this.getSelect();
   },
   methods: {
+    //enter事件
+    enterEvent(e){
+      if(e.target.value != ''){
+        this.search()
+      }
+    },
     //状态
     modityChange(res) {
       this.tableselected = [];

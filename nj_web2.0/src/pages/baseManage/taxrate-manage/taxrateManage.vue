@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_baseManage.baseTaxrate.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxYearDis')" style="width: 200px" v-model="taxYear"/>
-          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxCodeDis')" style="width: 200px" v-model="taxCode"/>
+          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxYearDis')"  @on-enter="enterEvent"  style="width: 200px" v-model="taxYear"/>
+          <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxCodeDis')"  @on-enter="enterEvent" style="width: 200px" v-model="taxCode"/>
           <!--<DatePicker type="date" :placeholder="$t('lang_baseManage.baseTaxrate.taxSdateDis')" :editable="false" v-model="taxSdate" style="width: 200px"></DatePicker>-->
           <!--<DatePicker type="date" :placeholder="$t('lang_baseManage.baseTaxrate.taxEdateDis')" :editable="false" v-model="taxEdate" style="width: 200px"></DatePicker>-->
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
@@ -21,7 +21,7 @@
         <row class="table-form" ref="table-form">
           <Table :loading="loading" @on-select="selectedtable" @on-selection-change="selectedtable" @on-sort-change="sortable" :height="tableheight" size="small" border ref="selection" :columns="columns" :data="data"></Table>
         </row>
-                <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
+                <Row style="display: flex">          <Page :total="total" :showTotal="showTotal" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="search()"></Button></Row>
       </card>
       </Col>
     </Row>
@@ -169,6 +169,7 @@
         ],
         data: [],
         total: 0,
+        showTotal: true,
         index: 0,
         sort: 'taxCode',
         order: 'asc',
@@ -193,6 +194,12 @@
       this.getData(1)
     },
     methods: {
+      //enter事件
+      enterEvent(e){
+        if(e.target.value != ''){
+          this.getData(1)
+        }
+      },
       getData(page) {
         const t = this
         if (page) {

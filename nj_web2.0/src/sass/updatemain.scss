@@ -1,0 +1,11 @@
+.option-main {
+  position: relative;
+  height: 500px;
+  overflow-y: auto;
+
+  .btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+}
