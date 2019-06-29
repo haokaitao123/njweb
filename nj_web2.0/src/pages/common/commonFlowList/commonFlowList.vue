@@ -642,6 +642,8 @@ export default {
                 this.flstepName = '全部';
                 this.empnhName = "";
                 this.relibFilldate = "";
+                this.flowId = "";
+                this.curStep = "";
                 this.rcvdata = "";
                 this.getColumns();
             }
