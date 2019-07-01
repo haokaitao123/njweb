@@ -12,9 +12,9 @@
 					<Row>
               <DatePicker
                 type="date"
-                placeholder="请选择面试日期"
+                placeholder="请选择复试日期"
                 :editable="false"
-                v-model="relibFilldate"
+                v-model="relibReexamtm"
                 style="width: 200px"
               ></DatePicker>
             <!-- 查询按钮 @click后绑定的是一个点击事件 -->
@@ -127,7 +127,7 @@ export default {
         imp_mt: 'rmResume.importData',
         // 导出字段设置, code字段名 name列名
        expDataTital: [
-        { code: "relibFilldate", name: "面试日期" },
+        { code: "relibReexamtm", name: "复试日期" },
         { code: "relibName", name: "姓名" },
         { code: "relibFruit", name: "面试结果" },
         { code: "relibApplypostDis", name: "应聘岗位" },
@@ -160,8 +160,8 @@ export default {
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
         },
         {
-          title: "面试日期",
-          key: "relibFilldate",
+          title: "复试日期",
+          key: "relibReexamtm",
           sortable: "custom",
           width: 220
         },
@@ -262,7 +262,7 @@ export default {
       page: 1, //当前页码
       funId: "1000", //功能ID
       roleType: "3user",//角色类型
-      relibFilldate: "" //绑定页面日期选择框的面试日期
+      relibReexamtm: "" //绑定页面日期选择框的面试日期
     };
   },
   //外部调用的组件注册到这里
@@ -328,13 +328,13 @@ export default {
         sort: t.sort, //排序字段
         order: t.order, //排序类型
         logType: "查询", //日志描述
-        relibFilldate: t.relibFilldate, //面试日期
+        relibReexamtm: t.relibReexamtm, //面试日期
         roleType:localStorage.roleType
 			};
-			if (data.relibFilldate !== undefined && data.relibFilldate !== '') {
-       				  data.relibFilldate = new Date(data.relibFilldate).format('yyyy-MM-dd')
+			if (data.relibReexamtm !== undefined && data.relibReexamtm !== '') {
+       				  data.relibReexamtm = new Date(data.relibReexamtm).format('yyyy-MM-dd')
         } else {
-               data.relibFilldate = ''
+               data.relibReexamtm = ''
           }
       //删除请求列表数据的参数为空的参数
       for (const dat in data) {
@@ -382,12 +382,12 @@ export default {
         const t = this
         // 填装查询条件
         const data = {
-          relibFilldate: t.relibFilldate,
+          relibReexamtm: t.relibReexamtm,
         }
-        if (data.relibFilldate !== undefined && data.relibFilldate !== '') {
-       				  data.relibFilldate = new Date(data.relibFilldate).format('yyyy-MM-dd')
+        if (data.relibReexamtm !== undefined && data.relibReexamtm !== '') {
+       				  data.relibReexamtm = new Date(data.relibReexamtm).format('yyyy-MM-dd')
         } else {
-               data.relibFilldate = ''
+               data.relibReexamtm = ''
           }
         // 设置导出mt参数
         this.$refs.expwindow.getData(this.expDataTital, 'recruitProcess.export', data)
