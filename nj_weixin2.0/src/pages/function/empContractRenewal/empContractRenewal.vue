@@ -91,7 +91,7 @@ export default {
     height: 100%;
     background: #f6f6f6;
     .empContractRenewalWrap {
-        min-height: 100%;
+        min-height: calc(~"100% - 110px");
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
