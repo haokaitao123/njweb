@@ -14,12 +14,12 @@
                      v-for="(item,index) in list">
                     <div class="item_left">
                         <span>离职员工：{{item.empIdName}}</span>
-                        <span>
+                        <!--<span>
                             公<b>公司</b>司：{{companyName}}
                         </span>
                         <span>部<b>公司</b>门：{{item.deptIdDis}}</span>
                         <span>岗<b>公司</b>位：{{item.postIdDis}}</span>
-                        <span>离职类型：{{item.dimTypeDis}}</span>
+                        <span>离职类型：{{item.dimTypeDis}}</span>-->
                         <span>申请日期：{{item.dimApplydate}}</span>
                     </div>
                     <div class="item_right">

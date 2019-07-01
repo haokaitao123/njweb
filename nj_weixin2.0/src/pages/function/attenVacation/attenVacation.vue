@@ -14,12 +14,12 @@
                      v-for="(item,index) in list">
                     <div class="item_left">
                         <span>请假员工：{{item.empnhName}}</span>
-                        <span>
+                        <!--<span>
                             公<b>公司</b>司：{{companyName}}
                         </span>
                         <span>部<b>公司</b>门：{{item.unitFname}}</span>
                         <span>岗<b>公司</b>位：{{item.postFname}}</span>
-                        <span>请假类型：{{item.vacTypeDis}}</span>
+                        <span>请假类型：{{item.vacTypeDis}}</span>-->
                         <span>申请日期：{{item.createTime}}</span>
                     </div>
                     <div class="item_right">
