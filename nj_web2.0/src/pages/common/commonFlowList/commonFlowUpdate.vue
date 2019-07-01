@@ -1090,25 +1090,7 @@
 							}
 						}
                     }
-                    //  t.$nextTick(function(){
-                    //     let tt = document.querySelectorAll('.ivu-form-item-error');
-                    //     console.log(tt,"tt");
-                    //      console.log($(".ivu-form-item-error").eq(0).closest('.dataBlocks')[0].offsetTop,"tt123");
-                    //      console.log(t.$refs.scrollBox.scrollTop,"t.$refs.scrollBox.scrollTop");
-                    //      let offsetTop = $(".ivu-form-item-error").eq(0).closest('.dataBlocks')[0].offsetTop;
-                    //     // console.log($(".ivu-form-item-error").eq(0).closest('.dataBlocks').offsetTop(),"123")
-                    //     // console.log(tt[0].parentNode.offsetTop,"tt[0].parentNode.offsetTop");
-                    //     if(t.thisSetpName===''){
-                    //         if(offsetTop<t.$refs.scrollBox.scrollTop-20){
-                    //             t.$refs.scrollBox.scrollTop = offsetTop
-                    //         }
-                    //     }else{
-                    //         if(offsetTop<t.$refs.scrollBox.scrollTop-83){
-                    //             t.$refs.scrollBox.scrollTop = offsetTop
-                    //         }
-                    //     }
-                        
-                    // })
+                    
 					// console.log(t.formDataSubmit, "t.formDataSubmit");
 					// console.log(t.clmMap, "t.clmMap");
 					// if(t.clmMap.transDeposit&&t.formDataSubmit.transDeposit!==""){
@@ -1127,7 +1109,14 @@
 					// })
 					if(!a) {
                         t.loading1 = false
-                       
+                        t.$nextTick(function(){
+                            let tt = document.querySelectorAll('.ivu-form-item-error');
+                            if(tt.length>0){
+                                let offsetTop = $(".ivu-form-item-error").eq(0).closest('.dataBlocks')[0].offsetTop;
+                                let domOffsetTop =  $(".ivu-form-item-error").eq(0).parent()[0].offsetTop
+                                t.$refs.scrollBox.scrollTop = offsetTop+domOffsetTop+20
+                            }                  
+                        })
 						return
 					}
 					t.formDataSubmit._mt = 'platAutoLayoutFlowSave.addOrUpd'
