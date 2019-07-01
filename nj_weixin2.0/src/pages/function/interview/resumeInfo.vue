@@ -681,6 +681,11 @@
 		},
 		mounted() {
 			var __this = this;
+			window.addEventListener("scroll", function(e) {
+				//变量t就是滚动条滚动时，到顶部的距离
+				var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
+				__this.topDisor = topDis;
+			});
 			const u = navigator.userAgent;
 			const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
 			if(isiOS) {
@@ -689,14 +694,7 @@
 				this.getClientHeight();
 				window.addEventListener("resize", this.windowResizeEvent);
 			}
-			window.addEventListener("scroll", function(e) {
-				//变量t就是滚动条滚动时，到顶部的距离
-				var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
-				__this.topDisor = topDis;
-			});
-			setTimeout(() => {
-				this.judgeData()
-			}, 1000)
+			
 		},
 		beforeMount() {
 			var th = this
@@ -726,7 +724,7 @@
 					this.wzd += 3.75
 				}
 				if(this.form.relibBirtplace != "") {
-					this.wzd += 1
+					this.wzd += 2
 				}
 				if(this.relibNatalityDis != "请选择") {
 					this.wzd += 1
@@ -780,7 +778,7 @@
 					this.wzd += 1
 				}
 				if(this.form.relibAvaitime != "请选择") {
-					this.wzd += 2
+					this.wzd += 1
 				}
 				if(this.relibIsrelativesDis != "请选择") {
 					this.wzd += 1
@@ -812,6 +810,9 @@
 				if(this.relibIsgraduDis != "请选择") {
 					this.wzd += 3.75
 				}
+			this.percent = parseInt(this.wzd)
+			},
+			judgeWk(){
 				if(this.onewk) {
 					if(this.workExpList.length > 0) {
 						this.wzd += 5
@@ -819,23 +820,29 @@
 						this.onewk = false
 					}
 				}
+			},
+			judgeFy(){
 				if(this.onefy) {
 					if(this.familyList.length > 0) {
 						this.wzd += 5
+						this.percent = parseInt(this.wzd)
 						this.onefy = false
 					}
 					if(this.workExpList.length > 0 && this.familyList.length > 0) {
 						this.wzd += 5
+						this.percent = parseInt(this.wzd)
 						this.onefy = false
 					}
 				}
+			},
+			judgeEd(){
 				if(this.oneed) {
 					if(this.educationList.length > 0) {
 						this.wzd += 5
+						this.percent = parseInt(this.wzd)
 						this.oneed = false
 					}
 				}
-			this.percent = parseInt(this.wzd)
 			},
 			changefy() {
 				if(this.onefy && !this.onewk) {
@@ -845,6 +852,7 @@
 				}
 				if(this.onefy) {
 					this.wzd += 5
+					this.percent = parseInt(this.wzd)
 					this.onefy = false
 				}
 			},
@@ -1384,6 +1392,7 @@
 								t.valuation(data)
 							}
 						}
+						t.judgeData()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1407,6 +1416,7 @@
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
 						t.workExpList = data
+						t.judgeWk()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1430,6 +1440,7 @@
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
 						t.familyList = data
+						t.judgeFy()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1453,6 +1464,7 @@
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
 						t.educationList = data;
+						t.judgeEd()
 					}
 				}).catch((err) => {
 					t.$notify({
