@@ -654,7 +654,7 @@
 					display: inline-block;
 				}
 				.tow {
-					margin-left: 50px;
+					margin-left: 20px;
 					display: inline-block;
 				}
 			}
@@ -668,7 +668,7 @@
 					display: inline-block;
 				}
 				.tow {
-					margin-left: 50px;
+					margin-left: 20px;
 					display: inline-block;
 				}
 			}

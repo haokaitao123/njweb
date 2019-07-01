@@ -72,7 +72,8 @@
                                  @buttonEmp="changeState('入职')"
                                  @buttonDel="deletemsg"
                                  @buttonSubmit="changeState('提交')"
-                                 @buttonTrans="buttonTrans"></btnList>
+                                 @buttonTrans="buttonTrans"
+                                 @buttonQuits="buttonQuits"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -161,6 +162,13 @@
                          @closeTransaction="closeTransaction"
                          ref="transactionWindow"></transaction>
         </transition>
+        <transition name="fade">
+            <quitsaction v-show="openQuitsaction"
+                         :id="tableselected"
+                         :logType="logType"
+                         @closeQuitsaction="closeQuitsaction"
+                         ref="quitsactionWindow"></quitsaction>
+        </transition>
     </div>
 </template>
 <script>
@@ -172,6 +180,7 @@ import importExcel from "../../../components/importModel/importParam";
 import btnList from "../../../components/btnAuth/btnAuth";
 import searchTable from '../../../components/searchTable/searchPost';
 import transaction from './transaction';
+import quitsaction from './quitsaction';
 import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin
@@ -223,6 +232,7 @@ export default {
             openExpDow: false,
             openExp: false,
             openTransaction: false,
+            openQuitsaction: false,
             filekey: "",
             filename: "",
             // 子页面参数
@@ -492,7 +502,8 @@ export default {
         expdow,
         importExcel,
         searchTable,
-        transaction
+        transaction,
+        quitsaction
     },
     mounted () {
         this.getData();
@@ -957,7 +968,19 @@ export default {
         },
         closeTransaction () {
             this.openTransaction = false;
-        }
+        },
+         //离职
+        buttonQuits () {
+            if (this.tableselected.length === 0) {
+                this.$Message.warning('请至少选择一条数据');
+            } else {
+                this.logType = "批量离职";
+                this.openQuitsaction = true;
+            }
+        },
+        closeQuitsaction () {
+            this.openQuitsaction = false;
+        },
     }
 };
 </script>

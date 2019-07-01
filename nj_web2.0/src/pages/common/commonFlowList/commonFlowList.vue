@@ -457,6 +457,7 @@ export default {
             } else {
                 t.curStep = paramId;
             }
+            t.relibFilldate = t.tbName!=='recruit_process'? '': t.relibFilldate;
             this.page = 1;
             t.tableselected = []
             t.getData(1);
@@ -490,16 +491,21 @@ export default {
                     empnhName: t.empnhName,
                     relibFilldate: t.relibFilldate
                 };
+                
                 for (const dat in tt) {
-                    if (tt[dat] === "") {
-                        delete tt[dat];
+                        if (tt[dat] === "") {
+                            delete tt[dat];
+                        }
                     }
-                }
                 t.rcvdata = JSON.stringify(tt);
             } else {
+                for (const dat in rcdata) {
+                        if (rcdata[dat] === "") {
+                            delete rcdata[dat];
+                        }
+                    }
                 t.rcvdata = JSON.stringify(rcdata);
             }
-
             getDataLevelUserLogin({
                 _mt: 'platAutoLayoutGetFlowList.getFlowSta',
                 sort: t.sort,
@@ -635,6 +641,9 @@ export default {
             if (value.name === 'commonFlowList') {
                 this.flstepName = '全部';
                 this.empnhName = "";
+                this.relibFilldate = "";
+                this.flowId = "";
+                this.curStep = "";
                 this.rcvdata = "";
                 this.getColumns();
             }
