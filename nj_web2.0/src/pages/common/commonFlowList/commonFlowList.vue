@@ -8,15 +8,15 @@
                     &nbsp;{{titleName}}
                 </p>
                 <Row>
-                    <Input :placeholder= "tbName=='recruit_process' ? '请输入求职者姓名' : '请输入员工姓名'"
+                    <Input :placeholder="tbName=='recruit_process' ? '请输入求职者姓名' : '请输入员工姓名'"
                            style="width: 200px"
                            @on-enter="enterEvent"
                            v-model.trim="empnhName" />
                     <DatePicker type="date"
-                                      v-model="relibFilldate"
-                                      placeholder="请输入面试时间"
-                                      style="width: 200px"
-                                      v-if="tbName=='recruit_process'"></DatePicker>       
+                                v-model="relibFilldate"
+                                placeholder="请输入面试时间"
+                                style="width: 200px"
+                                v-if="tbName=='recruit_process'"></DatePicker>
                     <Button class="btns"
                             v-for="(item, index) in btns"
                             :key="index"
@@ -147,7 +147,7 @@ export default {
             loading: "",
             curStep: '',
             empnhName: '',
-            relibFilldate:'',
+            relibFilldate: '',
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -247,13 +247,10 @@ export default {
                         if (aa[i].className !== '') {
                             aa[i].width = 120
                             aa[i]['render'] = (h, params) => {
-                                let bb = []
-                                if (params.row[aa[i].key]) {
-                                    bb = params.row[aa[i].key].split('$')
-                                }
+                                let bb = params.row[aa[i].key];
                                 let text = ''
                                 let show = ''
-                                switch (bb[3]) {
+                                switch (params.row.cellClassName[aa[i].key]) {
                                     case 'p_flowst_0':
                                         show = '未开启'
                                         break
@@ -267,8 +264,8 @@ export default {
                                         show = '已完成'
                                         break
                                 }
-                                if (bb[2]) {
-                                    text = '[ ' + bb[2] + ' ]'
+                                if (bb) {
+                                    text = '[ ' + bb + ' ]'
                                 }
                                 if (text !== '') {
                                     return h('Tooltip', {
@@ -287,16 +284,16 @@ export default {
                                                 },
                                                 on: {
                                                     click: async () => {
-                                                        let stepId = params.row[params.column.key].split('$')[1]
-                                                        //                            alert(stepId)
-                                                        this.stepState = params.row[params.column.key].split('$')[3]
-                                                        this.processState = params.row[params.column.key].split('$')[4]
-                                                        if (this.stepState === 'p_flowst_0') {
+                                                        let stepId = t.flowStep[params.column.key].stepid
+                                                        t.stepState = params.row.cellClassName[aa[i].key]
+                                                        t.processState = t.flowStep[params.column.key].handleStatus
+                                                        if (t.stepState === 'p_flowst_0') {
                                                             return
                                                         }
-                                                        this.stepName = params.row[params.column.key].split('$')[5]
-                                                        await this.getData()
-                                                        this.openUp(params.row.id, stepId, params.index)
+                                                        t.stepName = t.flowStep[params.column.key].flstepName;
+                                                        console.log(t.processState, "t.processState")
+                                                        // await t.getData()
+                                                        t.openUp(params.row.id, stepId, params.index)
                                                     },
                                                 },
                                             }, text),
@@ -332,7 +329,6 @@ export default {
             }
         },
         btnFunction (btnId) {
-            console.log(1)
             if (btnId === 'button_search') {
                 const t = this;
                 if (valid.val_check(this.empnhName)) {
@@ -457,7 +453,7 @@ export default {
             } else {
                 t.curStep = paramId;
             }
-            t.relibFilldate = t.tbName!=='recruit_process'? '': t.relibFilldate;
+            t.relibFilldate = t.tbName !== 'recruit_process' ? '' : t.relibFilldate;
             this.page = 1;
             t.tableselected = []
             t.getData(1);
@@ -472,7 +468,7 @@ export default {
                 this.page = 1;
             }
             t.loading = true;
-            t.relibFilldate = t.relibFilldate!="" ? new Date(t.relibFilldate).format("yyyy-MM-dd") : "";
+            t.relibFilldate = t.relibFilldate != "" ? new Date(t.relibFilldate).format("yyyy-MM-dd") : "";
             const rcdata = {
                 curStep: t.curStep,
                 flowId: t.flowId,
@@ -481,29 +477,23 @@ export default {
             };
             t.rcvdata = "";
             if (rcdata.curStep === "") {
-                // let empName = { 
-                //     empnhName: t.empnhName
-                // }
-                // let relibFilldate = {
-                //     relibFilldate: t.relibFilldate
-                // }
-                let tt ={
+                let tt = {
                     empnhName: t.empnhName,
                     relibFilldate: t.relibFilldate
                 };
-                
+
                 for (const dat in tt) {
-                        if (tt[dat] === "") {
-                            delete tt[dat];
-                        }
+                    if (tt[dat] === "") {
+                        delete tt[dat];
                     }
+                }
                 t.rcvdata = JSON.stringify(tt);
             } else {
                 for (const dat in rcdata) {
-                        if (rcdata[dat] === "") {
-                            delete rcdata[dat];
-                        }
+                    if (rcdata[dat] === "") {
+                        delete rcdata[dat];
                     }
+                }
                 t.rcvdata = JSON.stringify(rcdata);
             }
             getDataLevelUserLogin({
@@ -518,17 +508,9 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     t.data = JSON.parse(res.data.content[0].rows);
-
-                    for (let i = 0; i < t.data.length; i++) {
-                        t.data[i].cellClassName = {}
-                        for (let item in t.data[i]) {
-                            if (typeof t.data[i][item] === 'string') {
-                                if (t.data[i][item].split('$').length > 1) {
-                                    t.data[i].cellClassName[item] = t.data[i][item].split('$')[3]
-                                }
-                            }
-                        }
-                    }
+                    t.flowStep = JSON.parse(res.data.content[0].flowStep)
+                    console.log(t.data, "content");
+                    console.log(t.flowStep, "t.flowStep");
                     t.total = res.data.content[0].records
                 }
             }).catch(() => {
