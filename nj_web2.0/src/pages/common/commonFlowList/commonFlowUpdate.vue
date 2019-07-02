@@ -702,10 +702,6 @@
 														}
 														
                                                         this.thisSetpName = t.flowStep[params.column.key].flstepName;
-                                                         console.log(params.row.id, "params.row");
-                                                         console.log(this.thisStepId, "this.thisStepId");
-                                                         console.log(this.thisStepState, "this.thisStepState");
-                                                         console.log(this.thisSetpName, "thisSetpName");
 														this.getDataBlock()
 													},
 												},
@@ -743,18 +739,6 @@
 					if(isSuccess(res, t)) {
                         t.data = JSON.parse(res.data.content[0].rows);
                         t.flowStep = JSON.parse(res.data.content[0].flowStep)
-                        console.log(t.data,"t.data123");
-                        console.log(t.flowStep, "t.flowStep");
-						// for(let i = 0; i < t.data.length; i++) {
-						// 	t.data[i].cellClassName = {}
-						// 	for(let item in t.data[i]) {
-						// 		if(typeof t.data[i][item] === 'string') {
-						// 			if(t.data[i][item].split('$').length > 1) {
-						// 				t.data[i].cellClassName[item] = t.data[i][item].split('$')[3]
-						// 			}
-						// 		}
-						// 	}
-						// }
 					}
 				}).catch(() => {
 					t.$Message.error(this.$t("reminder.errormessage"));
