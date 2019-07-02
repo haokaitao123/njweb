@@ -23,7 +23,7 @@
                         <span>申请日期：{{item.createTime}}</span>
                     </div>
                     <div class="item_right">
-                        <span>{{item.curStepDis}}</span>
+                        <span v-if="item.curStepDis">{{item.curStepDis}}</span>
                         <span :class="item.curStepstate">{{curStepstate[item.curStepstate]}}</span>
                         <div class="close"
                              v-show="item.curStepCode==='flow_leaveproc _1000'"

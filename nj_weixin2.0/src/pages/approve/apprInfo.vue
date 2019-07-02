@@ -497,7 +497,7 @@
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
                         t.list = data;
-                        
+                        console.log(data,"t.data")
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -534,14 +534,19 @@
 				}
 				let dates = {}
 				if(this.$route.query.item.tbname == 'atten_vacation') {
-					dates.vacActdate = this.form.relibFilldate
+                    if(this.$route.query.item.aprdStepcode==='vacation_3'){
+                        dates.vacActdate = this.form.relibFilldate
+                    }
+					
 				}
 
 				if(this.$route.query.item.tbname == 'emp_empdim') {
-					dates.dimReceive = this.empIdName
+                    if(this.$route.query.item.aprdStepcode==='empdim_10'){
+                        dates.dimReceive = this.form.relibInviteman
+                    }
 				}
 				const data = {
-					_mt: '..wxansrpttodo.approvalSubmit',
+					_mt: 'wxansrpttodo.approvalSubmit',
 					companyId: pubsource.companyId,
 					logType: logType,
 					stepId: this.$route.query.item.aprvrelaStepid,
@@ -552,7 +557,6 @@
 					pkValue: this.list.id,
 					pkData: JSON.stringify(dates),
 				}
-				console.log('参数', data)
 				getDataLevelUserLogin(data).then((res) => {
 					if(isSuccess(res, t)) {
 						this.$router.push({

@@ -20,42 +20,32 @@
                         <div slot="title">应聘岗位<span>*</span></div>
                     </cell> -->
 					<icon type="warn" class="error" v-show="relibApplypostDis==='请选择'" v-remind="form.relibApplypost"></icon>
-					<x-input title="应聘岗位<span>*</span>" v-if="state" v-model="relibApplypostDis" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="应聘岗位<span>*</span>" v-if="state" v-model="relibApplypostDis" :show-clear="false" :disabled="state" placeholder="未填写" >
 					</x-input>
-				</div>
-				<div class="prog" v-if="topDisor > 20">
-					<div class="inf">
-						信息完整度
-					</div>
-					<van-progress :percentage="percent" />
-				</div>
-				<div class="items" v-if="topDisor < 20">
-					<span class="informs">信息完整度</span>
-					<div class="prss">{{percent+'%'}}</div>
 				</div>
 				<!-- 身份 -->
 				<div class="item_box">
-					<cell title="请选择" is-link v-if="!state" value-align="left" v-model="relibIdentityDis" @click.native="popupClick('relibIdentityShow','relibIdentity','1')">
+					<cell title="请选择" is-link v-if="!state" value-align="left" v-model="relibIdentityDis" @click.native="popupClick('relibIdentityShow','relibIdentity')">
 						<div slot="title">身份</div>
 					</cell>
-					<x-input title="身份" v-if="state" v-model="relibIdentityDis" @on-blur="blurEvent(2,form.relibBirtplace)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="身份" v-if="state" v-model="relibIdentityDis" :show-clear="false" :disabled="state" placeholder="未填写" >
 					</x-input>
 				</div>
 				<!-- 姓名 -->
 				<div class="item_box">
-					<x-input title="姓名<span>*</span>" v-model.trim="form.relibName" @on-blur="blurEvent(2,form.relibName)" @on-focus="focusEvent" :disabled="true" v-verify="form.relibName" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="姓名<span>*</span>" v-model.trim="form.relibName" :disabled="true" v-verify="form.relibName" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibName==''" v-remind="form.relibName"></icon>
 				</div>
 				<!-- 证件号码 -->
 				<div class="item_box">
-					<x-input title="证件号码<span>*</span>" v-model="form.relibIdno" @on-blur="blurEvent(2,form.relibIdno,'idcard')" @on-focus="focusEvent(form.relibIdno,'idNumber')" :disabled="state" :show-clear="false" v-verify="form.relibIdno" :placeholder="state?'未填写':'请填写'">
+					<x-input title="证件号码<span>*</span>" v-model="form.relibIdno" :disabled="state" :show-clear="false" v-verify="form.relibIdno" @on-blur="idNumber" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibIdno==''" v-remind="form.relibIdno"></icon>
 				</div>
 				<!-- 手机号 -->
 				<div class="item_box">
-					<x-input title="手机号<span>*</span>" :disabled="true" v-model="form.relibMobile" @on-blur="blurEvent(2,form.relibMobile)" @on-focus="focusEvent" v-verify="form.relibMobile" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="手机号<span>*</span>" :disabled="true" v-model="form.relibMobile" v-verify="form.relibMobile" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibMobile==''" v-remind="form.relibMobile"></icon>
 				</div>
@@ -71,26 +61,26 @@
                         <div slot="title">性别<span>*</span></div>
                     </cell> -->
 					<icon type="warn" class="error" v-show="relibGenderDis=='请选择'" v-remind="form.relibGender"></icon>
-					<x-input title="性别<span>*</span>" v-model="relibGenderDis" @on-blur="blurEvent(2,relibGenderDis)" @on-focus="focusEvent" v-verify="form.relibGender" :show-clear="false" :disabled="true" placeholder="未填写">
+					<x-input title="性别<span>*</span>" v-model="relibGenderDis" v-verify="form.relibGender" :show-clear="false" :disabled="true" placeholder="未填写" >
 					</x-input>
 				</div>
 				<!-- 出生日期 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="form.relibBirtday" v-verify="form.relibBirtday" @click.native="popupClick('relibBirtdaydateShow','relibBirtday','2')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="form.relibBirtday" v-verify="form.relibBirtday" @click.native="popupClick('relibBirtdaydateShow','relibBirtday')">
 						<div slot="title">出生日期<span>*</span></div>
 					</cell>
 					<icon type="warn" class="error" v-show="form.relibBirtday=='请选择'" v-remind="form.relibBirtday"></icon>
-					<x-input title="出生日期<span>*</span>" v-if="state" v-model="form.relibBirtday" @on-blur="blurEvent(2,form.relibBirtday)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="出生日期<span>*</span>" v-if="state" v-model="form.relibBirtday" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 籍贯 -->
 				<div class="item_box">
-					<x-input title="籍贯" v-model="form.relibBirtplace" :disabled="state" @on-blur="blurEvent(1,form.relibBirtplace)" @on-focus="focusEvent" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="籍贯" v-model="form.relibBirtplace" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 				</div>
 				<!-- 民族 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="relibNatalityDis" @click.native="popupClick('relibNatalityShow','relibNatality','1')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="relibNatalityDis" @click.native="popupClick('relibNatalityShow','relibNatality')">
 						<div slot="title">民族</div>
 					</cell>
 					<x-input title="民族" v-if="state" v-model="relibNatalityDis" :show-clear="false" :disabled="state" placeholder="未填写">
@@ -98,10 +88,10 @@
 				</div>
 				<!-- 政治面貌 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="relibPoliticalDis" @click.native="popupClick('relibPoliticaShow','relibPolitical','1')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="relibPoliticalDis" @click.native="popupClick('relibPoliticaShow','relibPolitical')">
 						<div slot="title">政治面貌</div>
 					</cell>
-					<x-input title="政治面貌" v-if="state" v-model="relibPoliticalDis" @on-blur="blurEvent(1,relibPoliticalDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="政治面貌" v-if="state" v-model="relibPoliticalDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 邀约时间 -->
@@ -119,180 +109,179 @@
                           class="error"
                           v-show="form.relibFilldate==='请选择'"
                           v-remind="form.relibFilldate"></icon> -->
-					<x-input title="邀约时间<span>*</span>" v-model="form.relibFilldate" @on-blur="blurEvent(1,form.relibFilldate)" @on-focus="focusEvent" :show-clear="false" :disabled="true" placeholder="未填写">
+					<x-input title="邀约时间<span>*</span>" v-model="form.relibFilldate" :show-clear="false" :disabled="true" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 健康状况 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="relibHealthstaDis" @click.native="popupClick('relibHealthstaShow','relibHealthsta','1')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="relibHealthstaDis" @click.native="popupClick('relibHealthstaShow','relibHealthsta')">
 						<div slot="title">健康状况</div>
 					</cell>
-					<x-input title="健康状况" v-if="state" v-model="relibHealthstaDis" @on-blur="blurEvent(1,relibHealthstaDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="健康状况" v-if="state" v-model="relibHealthstaDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 婚姻状况 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="relibMaritlstaDis" @click.native="popupClick('relibMaritlstaShow','relibMaritlsta','1')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="relibMaritlstaDis" @click.native="popupClick('relibMaritlstaShow','relibMaritlsta')">
 						<div slot="title">婚姻状况</div>
 					</cell>
-					<x-input title="婚姻状况" v-if="state" v-model="relibMaritlstaDis" @on-blur="blurEvent(1,relibMaritlstaDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="婚姻状况" v-if="state" v-model="relibMaritlstaDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 身高 -->
 				<div class="item_box">
-					<x-input title="身高(cm)<span>*</span>" v-model="form.relibHeight" @on-blur="blurEvent(2,form.relibHeight,'cm')" @on-focus="focusEvent" v-verify="form.relibHeight" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'">
+					<x-input title="身高(cm)<span>*</span>" v-model="form.relibHeight" v-verify="form.relibHeight" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibHeight==''" v-remind="form.relibHeight"></icon>
 				</div>
 				<!-- 体重 -->
 				<div class="item_box">
-					<x-input title="体重(kg)<span>*</span>" v-model="form.relibWeight" @on-blur="blurEvent(2,form.relibWeight,'kg')" @on-focus="focusEvent" v-verify="form.relibWeight" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="体重(kg)<span>*</span>" v-model="form.relibWeight" v-verify="form.relibWeight" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibWeight==''" v-remind="form.relibWeight"></icon>
 				</div>
 				<!-- 招生范围 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="relibEnrorageDis" v-verify="form.relibEnrorage" @click.native="popupClick('relibEnrorageShow','relibEnrorage','2')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="relibEnrorageDis" v-verify="form.relibEnrorage" @click.native="popupClick('relibEnrorageShow','relibEnrorage')">
 						<div slot="title">招生范围<span>*</span></div>
 					</cell>
-					<x-input title="招生范围<span>*</span>" v-if="state" v-model="relibEnrorageDis" @on-blur="blurEvent(2,relibEnrorageDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="招生范围<span>*</span>" v-if="state" v-model="relibEnrorageDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibEnrorage===''" v-remind="form.relibEnrorage"></icon>
 				</div>
 				<!-- 是否毕业-->
 				<div class="item_box">
-					<cell title="是否毕业" is-link v-if="!state" value-align="left" v-model="relibIsgraduDis" v-verify="form.relibIsgradu" @click.native="popupClick('relibIsgraduShow','relibIsgradu','2')">
+					<cell title="是否毕业" is-link v-if="!state" value-align="left" v-model="relibIsgraduDis" v-verify="form.relibIsgradu" @click.native="popupClick('relibIsgraduShow','relibIsgradu')">
 						<div slot="title">是否毕业<span>*</span></div>
 					</cell>
-					<x-input title="是否毕业<span>*</span>" v-if="state" v-model="relibIsgraduDis" @on-blur="blurEvent(2,relibIsgraduDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="是否毕业<span>*</span>" v-if="state" v-model="relibIsgraduDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibIsgradu===''" v-remind="form.relibIsgradu"></icon>
 				</div>
 				<!-- 学历 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="relibEducatDis" v-verify="form.relibEducat" @click.native="popupClick('relibEducatShow','relibEducat','2')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="relibEducatDis" v-verify="form.relibEducat" @click.native="popupClick('relibEducatShow','relibEducat')">
 						<div slot="title">学历<span>*</span></div>
 					</cell>
-					<x-input title="学历<span>*</span>" v-if="state" v-model="relibEducatDis" @on-blur="blurEvent(2,relibEducatDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="学历<span>*</span>" v-if="state" v-model="relibEducatDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 					<icon type="warn" class="error" v-show="relibEducatDis==='请选择'" v-remind="form.relibEducat"></icon>
 				</div>
 				<!-- 毕业院校 -->
 				<div class="item_box">
-					<x-input title="毕业院校<span>*</span>" v-model="form.relibSchool" @on-blur="blurEvent(2,form.relibSchool)" @on-focus="focusEvent" v-verify="form.relibSchool" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="毕业院校<span>*</span>" v-model="form.relibSchool" v-verify="form.relibSchool" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibSchool===''" v-remind="form.relibSchool"></icon>
 				</div>
 				<!-- 专业 -->
 				<div class="item_box">
-					<x-input title="专业" v-model="form.relibProfes" @on-blur="blurEvent(1,form.relibProfes)" @on-focus="focusEvent" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="专业" v-model="form.relibProfes" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 				</div>
 				<!-- 现居住地 -->
 				<div class="item_box">
-					<x-input title="现居住地<span>*</span>" v-model="form.relibLiving" @on-blur="blurEvent(2,form.relibLiving)" @on-focus="focusEvent" v-verify="form.relibLiving" :readonly="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="现居住地<span>*</span>" v-model="form.relibLiving" v-verify="form.relibLiving" :readonly="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibLiving===''" v-remind="form.relibLiving"></icon>
 				</div>
 				<!-- 家庭地址 -->
 				<div class="item_box">
-					<x-input title="家庭地址" v-model="form.relibFamadds" @on-blur="blurEvent(1,form.relibFamadds)" @on-focus="focusEvent" :readonly="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="家庭地址" v-model="form.relibFamadds" :readonly="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 				</div>
 				<!-- 紧急联系人姓名 -->
 				<div class="item_box">
-					<x-input title="紧急联系人姓名<span>*</span>" v-model="form.relibEmernm" @on-blur="blurEvent(2,form.relibEmernm)" @on-focus="focusEvent" v-verify="form.relibEmernm" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="紧急联系人姓名<span>*</span>" v-model="form.relibEmernm" v-verify="form.relibEmernm" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibEmernm==''" v-remind="form.relibEmernm"></icon>
 				</div>
 				<!-- 紧急联系人电话 -->
 				<div class="item_box">
-					<x-input title="紧急联系人电话<span>*</span>" v-model="form.relibEmphone" @on-blur="blurEvent(2,form.relibEmphone)" @on-focus="focusEvent" v-verify="form.relibEmphone" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="紧急联系人电话<span>*</span>" v-model="form.relibEmphone" v-verify="form.relibEmphone" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibEmphone==''" v-remind="form.relibEmphone"></icon>
 				</div>
 				<!-- 与本人关系 -->
 				<div class="item_box">
-					<cell title="与本人关系" is-link v-if="!state" value-align="left" v-model="relibWithmeDis" @click.native="popupClick('relibWithmeShow','relibWithme','1')">
+					<cell title="与本人关系" is-link v-if="!state" value-align="left" v-model="relibWithmeDis" @click.native="popupClick('relibWithmeShow','relibWithme')">
 					</cell>
-					<x-input title="与本人关系" v-if="state" v-model="relibWithmeDis" @on-blur="blurEvent(1,relibWithmeDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="与本人关系" v-if="state" v-model="relibWithmeDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 期望薪资 -->
 				<div class="item_box">
-					<x-input title="期望薪资" v-model="form.relibSalary" @on-blur="blurEvent(1,form.relibSalary)" @on-focus="focusEvent" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="期望薪资" v-model="form.relibSalary" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 					<icon type="warn" class="error" v-remind="form.relibSalary"></icon>
 				</div>
 				<!-- 职业状态 -->
 				<div class="item_box">
-					<cell title="职业状态" is-link v-if="!state" value-align="left" v-model="relibProstatusDis" @click.native="popupClick('relibProstatusShow','relibProstatus','1')">
+					<cell title="职业状态" is-link v-if="!state" value-align="left" v-model="relibProstatusDis" @click.native="popupClick('relibProstatusShow','relibProstatus')">
 					</cell>
-					<x-input title="职业状态" v-if="state" v-model="relibProstatusDis" @on-blur="blurEvent(1,relibProstatusDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="职业状态" v-if="state" v-model="relibProstatusDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 可到岗时间 -->
 				<div class="item_box">
-					<cell title="可到岗时间" is-link v-if="!state" value-align="left" v-model="form.relibAvaitime" @click.native="popupClick('relibAvaitimedateShow','relibAvaitime','1')">
+					<cell title="可到岗时间" is-link v-if="!state" value-align="left" v-model="form.relibAvaitime" @click.native="popupClick('relibAvaitimedateShow','relibAvaitime')">
 					</cell>
-					<x-input title="可到岗时间" v-if="state" v-model="form.relibAvaitime" @on-blur="blurEvent(1,form.relibAvaitime)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="可到岗时间" v-if="state" v-model="form.relibAvaitime" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 是否有亲戚或朋友在本公司任职 -->
 				<div class="item_box">
-					<cell title="是否有亲戚或朋友在本公司任职" is-link v-if="!state" value-align="left" v-model="relibIsrelativesDis" @click.native="popupClick('relibIsrelativesShow','relibIsrelatives','1')">
+					<cell title="是否有亲戚或朋友在本公司任职" is-link v-if="!state" value-align="left" v-model="relibIsrelativesDis" @click.native="popupClick('relibIsrelativesShow','relibIsrelatives')">
 					</cell>
-					<x-input title="是否有亲戚或朋友在本公司任职" v-if="state" v-model="relibIsrelativesDis" @on-blur="blurEvent(1,relibIsrelativesDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="是否有亲戚或朋友在本公司任职" v-if="state" v-model="relibIsrelativesDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 本公司任职亲戚或朋友姓名 -->
 				<div class="item_box">
-					<x-input title="本公司任职亲戚或朋友姓名" v-model="form.relibRelatname" @on-blur="blurEvent(1,form.relibRelatname)" @on-focus="focusEvent" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'">
+					<x-input title="本公司任职亲戚或朋友姓名" v-model="form.relibRelatname" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 				</div>
 				<!-- 本公司任职亲戚或朋友部门 -->
 				<div class="item_box">
-					<x-input title="本公司任职亲戚或朋友部门" v-model="form.relibRelatdept" @on-blur="blurEvent(1,form.relibRelatdept)" @on-focus="focusEvent" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'">
+					<x-input title="本公司任职亲戚或朋友部门" v-model="form.relibRelatdept" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 				</div>
 				<!-- 有无犯罪记录 -->
 				<div class="item_box">
-					<cell title="" is-link v-if="!state" value-align="left" v-model="relibIscriminalDis" v-verify="form.relibIscriminal" @click.native="popupClick('relibIscriminalShow','relibIscriminal','2')">
+					<cell title="" is-link v-if="!state" value-align="left" v-model="relibIscriminalDis" v-verify="form.relibIscriminal" @click.native="popupClick('relibIscriminalShow','relibIscriminal')">
 						<div slot="title">是否有犯罪记录<span>*</span></div>
 					</cell>
-					<x-input title="是否有犯罪记录<span>*</span>" v-if="state" v-model="relibIscriminalDis" @on-blur="blurEvent(2,relibIscriminalDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="是否有犯罪记录<span>*</span>" v-if="state" v-model="relibIscriminalDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibIscriminal===''" v-remind="form.relibIscriminal"></icon>
 				</div>
 				<!-- 有无纹身 -->
 				<div class="item_box">
-					<cell title="是否有纹身" is-link v-if="!state" value-align="left" v-model="relibIstattooDis" @click.native="popupClick('relibIstattooShow','relibIstattoo','1')">
+					<cell title="是否有纹身" is-link v-if="!state" value-align="left" v-model="relibIstattooDis" @click.native="popupClick('relibIstattooShow','relibIstattoo')">
 					</cell>
-					<x-input title="是否有纹身" v-if="state" v-model="relibIstattooDis" @on-blur="blurEvent(1,relibIstattooDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="是否有纹身" v-if="state" v-model="relibIstattooDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 通过何种方式应聘 -->
 				<div class="item_box">
-					<cell title="通过何种方式应聘" is-link v-if="!state" value-align="left" v-model="relibApplytypeDis" @click.native="popupClick('relibApplytypeShow','relibApplytype','1',)">
+					<cell title="通过何种方式应聘" is-link v-if="!state" value-align="left" v-model="relibApplytypeDis" @click.native="popupClick('relibApplytypeShow','relibApplytype')">
 					</cell>
-					<x-input title="通过何种方式应聘" v-if="state" v-model="relibApplytypeDis" @on-blur="blurEvent(1,relibApplytypeDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="通过何种方式应聘" v-if="state" v-model="relibApplytypeDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
 				<!-- 介绍人姓名 -->
 				<div class="item_box">
-					<x-input title="介绍人姓名" v-model="form.relibIntrname" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'">
+					<x-input title="介绍人姓名" v-model="form.relibIntrname" :show-clear="false" :disabled="state" :placeholder="state?'未填写':'请填写'" >
 					</x-input>
 				</div>
 				<!-- 是否服从分配 -->
 				<div class="item_box">
-					<cell title="是否服从调配" is-link v-if="!state" value-align="left" v-model="relibIscomDis" @click.native="popupClick('relibIscomShow','relibIscom','1')">
+					<cell title="是否服从调配" is-link v-if="!state" value-align="left" v-model="relibIscomDis" @click.native="popupClick('relibIscomShow','relibIscom')">
 					</cell>
-					<x-input title="是否服从调配" v-if="state" v-model="relibIscomDis" @on-blur="blurEvent(1,relibIscomDis)" @on-focus="focusEvent" :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="是否服从调配" v-if="state" v-model="relibIscomDis" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
 				</div>
-
 				<!-- 自我评价 -->
-				<x-textarea :max="300" title="自我评价" :height="95" v-model="form.relibSelfeval" @on-blur="blurEvent(1,form.relibSelfeval)" @on-focus="focusEvent(form.relibSelfeval)" :disabled="state" :placeholder="state?'未填写':'请填写'" :show-counter="false"></x-textarea>
+				<x-textarea :max="300" title="自我评价" :height="95" v-model="form.relibSelfeval" :disabled="state" :placeholder="state?'未填写':'请填写'" :show-counter="false" ></x-textarea>
 			</group>
 			<div class="title">
 				<div class="title_left">
@@ -342,7 +331,6 @@
 					<img src="../../../../static/function/work.png" alt="">
 					<h3>家庭成员</h3>
 				</div>
-
 				<span @click="goTo('familyShow')" v-if="!state">添加</span>
 			</div>
 			<group label-align="left" gutter="0" class="form childForm">
@@ -361,77 +349,62 @@
 		<!-- 性别 -->
 		<van-popup v-model="relibGenderShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibGenderIndex" :columns=selectRelibGender show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 民族 -->
 		<van-popup v-model="relibNatalityShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibNatalityIndex" :columns=selectRelibNatality show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 政治面貌 -->
 		<van-popup v-model="relibPoliticaShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibPoliticaIndex" :columns=selectRelibPolitica show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 健康状况 -->
 		<van-popup v-model="relibHealthstaShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibHealthstaIndex" :columns=selectRelibHealthsta show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 婚育状况 -->
 		<van-popup v-model="relibMaritlstaShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibMaritlstaIndex" :columns=selectRelibMaritlsta show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 学历 -->
 		<van-popup v-model="relibEducatShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibEducatIndex" :columns=selectRelibEducat show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 与本人关系 -->
 		<van-popup v-model="relibWithmeShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibWithmeIndex" :columns=selectRelibWithme show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 职业状态 -->
 		<van-popup v-model="relibProstatusShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibProstatusIndex" :columns=selectRelibProstatus show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 是否有亲朋在本公司任职 -->
 		<van-popup v-model="relibIsrelativesShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibIsrelativesIndex" :columns=selectRelibIsrelatives show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 是否有犯罪记录 -->
 		<van-popup v-model="relibIscriminalShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibIscriminalIndex" :columns=selectRelibIscriminal show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 是否有纹身 -->
 		<van-popup v-model="relibIstattooShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibIstattooIndex" :columns=selectRelibIstattoo show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 是否服从调配 -->
 		<van-popup v-model="relibIscomShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibIscomIndex" :columns=selectRelibIscom show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 通过何种方式应聘 -->
 		<van-popup v-model="relibApplytypeShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibApplytypeIndex" :columns=selectRelibApplytype show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 招生范围 -->
 		<van-popup v-model="relibEnrorageShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibEnrorageIndex" :columns=selectRelibEnrorage show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 是否毕业 -->
 		<van-popup v-model="relibIsgraduShow" position="bottom">
 			<van-picker ref="vanPicker" :defaultIndex="relibIsgraduIndex" :columns=selectRelibIsgradu show-toolbar @confirm="confirm" @cancel="cancel" />
-
 		</van-popup>
 		<!-- 出生日期-->
 		<van-popup v-model="relibBirtdaydateShow" position="bottom">
@@ -447,15 +420,15 @@
 		</van-popup>
 		<!-- 教育信息 -->
 		<van-popup v-model="educationShow" position="right" :close-on-click-overlay=false class="right_popup">
-			<education :id=currentId @change="changeed" :disabled=state @cancel="closeRight('educationShow')" v-if='educationShow'></education>
+			<education :id=currentId :disabled=state @cancel="closeRight('educationShow')" v-if='educationShow'></education>
 		</van-popup>
 		<!-- 家庭状况 -->
 		<van-popup v-model="familyShow" position="right" :close-on-click-overlay=false class="right_popup">
-			<family :id=currentId :disabled=state @change="changefy" @cancel="closeRight('familyShow')" v-if='familyShow'></family>
+			<family :id=currentId :disabled=state @cancel="closeRight('familyShow')" v-if='familyShow'></family>
 		</van-popup>
 		<!-- 工作经历 -->
 		<van-popup v-model="workExpShow" position="right" :close-on-click-overlay=false class="right_popup">
-			<workExp :id=currentId :disabled=state @change="changewk" @cancel="closeRight('workExpShow')" v-if='workExpShow'></workExp>
+			<workExp :id=currentId :disabled=state @cancel="closeRight('workExpShow')" v-if='workExpShow'></workExp>
 		</van-popup>
 		<!-- 岗位 -->
 		<van-popup v-model="relibApplypostShow" position="right" class="popup_width">
@@ -466,8 +439,7 @@
 <script>
 	import { getDataLevelNone, getDataLevelNoneNew, getDataLevelUserLoginNew } from '@/axios/axios'
 	import { isSuccess, deepCopy } from '@/lib/util'
-	import { Group, Cell, XInput, XTextarea, Icon, XProgress } from 'vux'
-	import { Progress } from 'vant';
+	import { Group, Cell, XInput, XTextarea, Icon } from 'vux'
 	import valid from '@/lib/pub_valid'
 	import city from '@/lib/cityData'
 	import education from '@/pages/function/interview/educationMes'
@@ -479,12 +451,6 @@
 		data() {
 			return {
 				curStepCode: "",
-				localData: 0,
-				wzd: 0,
-				percent: 0,
-				lodata: 0,
-				cent: '',
-				curStep: "",
 				curStepstate: "",
 				state: false,
 				currentId: '',
@@ -504,23 +470,13 @@
 				minRelibFilldate: new Date(1900, 10, 1),
 				maxRelibFilldate: new Date(2099, 12, 31),
 				h: document.body.scrollHeight,
-				topDisor: 0,
+				topDisor: '',
 				test: '',
 				clientHeight: "",
-				onekg: true,
-				onecm: true,
-				oneed: true,
-				onefy: true,
-				onewk: true,
-				textNull: true,
-				ifValue: '',
-				first: '',
-				Birtplace: true,
-				Birtday: true,
 				form: {
+					relibApplypost: "", //应聘岗位
 					relibIdentity: "", //身份
 					relibName: "", //姓名
-					relibApplypost: "", //应聘岗位
 					relibIdno: "", //证件号码
 					relibMobile: "", //手机号
 					relibGender: "", //性别
@@ -550,7 +506,7 @@
 					relibIscriminal: "", //有无犯罪记录
 					relibIstattoo: "", //有无纹身
 					relibApplytype: "", //通过何种方式应聘
-					relibIntrname: "", //介绍人姓名
+					relibIntrname: "", //介绍人姓名 
 					relibIscom: "", //是否服从调配
 					relibSelfeval: "", //自我评价
 					relibEnrorage: "", //招生范围
@@ -572,7 +528,7 @@
 				relibApplytypeDis: '请选择', //通过何种方式应聘
 				relibIscomDis: '请选择', //是否服从调配
 				relibEnrorageDis: '请选择', //招生范围
-				relibIsgraduDis: '请选择', //是否毕业
+				relibIsgraduDis: '请选择', //是否毕业 
 				relibApplypostShow: false,
 				relibIdentityShow: false,
 				relibGenderShow: false,
@@ -666,8 +622,7 @@
 			education,
 			family,
 			workExp,
-			searchPost,
-			XProgress
+			searchPost
 		},
 		created() {
 			this.getSelect();
@@ -675,321 +630,33 @@
 			this.getWorkExp();
 			this.getFamily();
 			this.getEducation();
-			//window.localStorage.setItem("temp",0)
 			window.localStorage.setItem('reeduPid', this.$route.query.id);
-			//localStorage.removeItem("temp")
 		},
 		mounted() {
 			var __this = this;
-			window.addEventListener("scroll", function(e) {
-				//变量t就是滚动条滚动时，到顶部的距离
-				var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
-				__this.topDisor = topDis;
-			});
-			const u = navigator.userAgent;
+            const u = navigator.userAgent;
 			const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-			if(isiOS) {
-				return;
+			if (isiOS) {
+				return ;
 			} else {
-				this.getClientHeight();
+                this.getClientHeight();
 				window.addEventListener("resize", this.windowResizeEvent);
+                window.addEventListener("scroll", function(e) {
+                    //变量t就是滚动条滚动时，到顶部的距离
+                    var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
+                    __this.topDisor = topDis;
+                });
 			}
-			
 		},
 		beforeMount() {
 			var th = this
 			th.test = th.topDisor;
 		},
 		methods: {
-			judgeData() {
-				if(this.relibIdentityDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.form.relibName != "") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibIdno != "") {
-					var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-					if(idcardReg.test(parseInt(this.form.relibIdno))) {
-						this.wzd += 3.75
-					}
-				}
-				if(this.form.relibMobile != "") {
-					this.wzd += 3.75
-				}
-				if(this.relibGenderDis != "请选择") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibBirtday != "请选择") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibBirtplace != "") {
-					this.wzd += 2
-				}
-				if(this.relibNatalityDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.relibPoliticalDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.form.relibFilldate != "请选择") {
-					this.wzd += 3.75
-				}
-				if(this.relibHealthstaDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.relibMaritlstaDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.form.relibHeight != "") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibWeight != "") {
-					this.wzd += 3.75
-				}
-				if(this.relibEducatDis != "请选择") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibSchool != "") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibProfes != "") {
-					this.wzd += 1
-				}
-				if(this.form.relibLiving != "") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibFamadds != "") {
-					this.wzd += 1
-				}
-				if(this.form.relibEmernm != "") {
-					this.wzd += 3.75
-				}
-				if(this.form.relibEmphone != "") {
-					this.wzd += 3.75
-				}
-				if(this.relibWithmeDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.form.relibSalary != "") {
-					this.wzd += 1
-				}
-				if(this.relibProstatusDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.form.relibAvaitime != "请选择") {
-					this.wzd += 1
-				}
-				if(this.relibIsrelativesDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.form.relibRelatname != "") {
-					this.wzd += 1
-				}
-				if(this.form.relibRelatdept != "") {
-					this.wzd += 1
-				}
-				if(this.relibIscriminalDis != "请选择") {
-					this.wzd += 3.75
-				}
-				if(this.relibIstattooDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.relibApplytypeDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.relibIscomDis != "请选择") {
-					this.wzd += 1
-				}
-				if(this.form.relibSelfeval != "") {
-					this.wzd += 1
-				}
-				if(this.relibEnrorageDis != "请选择") {
-					this.wzd += 3.75
-				}
-				if(this.relibIsgraduDis != "请选择") {
-					this.wzd += 3.75
-				}
-			this.percent = parseInt(this.wzd)
-			},
-			judgeWk(){
-				if(this.onewk) {
-					if(this.workExpList.length > 0) {
-						this.wzd += 5
-						this.percent = parseInt(this.wzd)
-						this.onewk = false
-					}
-				}
-			},
-			judgeFy(){
-				if(this.onefy) {
-					if(this.familyList.length > 0) {
-						this.wzd += 5
-						this.percent = parseInt(this.wzd)
-						this.onefy = false
-					}
-					if(this.workExpList.length > 0 && this.familyList.length > 0) {
-						this.wzd += 5
-						this.percent = parseInt(this.wzd)
-						this.onefy = false
-					}
-				}
-			},
-			judgeEd(){
-				if(this.oneed) {
-					if(this.educationList.length > 0) {
-						this.wzd += 5
-						this.percent = parseInt(this.wzd)
-						this.oneed = false
-					}
-				}
-			},
-			changefy() {
-				if(this.onefy && !this.onewk) {
-					this.wzd += 10
-					this.percent = parseInt(this.wzd)
-					this.onefy = false
-				}
-				if(this.onefy) {
-					this.wzd += 5
-					this.percent = parseInt(this.wzd)
-					this.onefy = false
-				}
-			},
-			changeed() {
-				if(this.oneed) {
-					this.wzd += 5
-					this.percent = parseInt(this.wzd)
-					this.oneed = false
-				}
-				this.burEvent()
-			},
-			changewk() {
-				if(!this.onefy && this.onewk) {
-					this.wzd += 10
-					this.percent = parseInt(this.wzd)
-					this.onewk = false
-				}
-				if(this.onewk) {
-					this.wzd += 5
-					this.percent = parseInt(this.wzd)
-					this.onewk = false
-				}
-				this.burEvent()
-			},
-			focusEvent(value, types) {
-				if(types == 'idNumber') {
-					if(this.form.relibBirtplace == "") {
-						this.Birtplace = false
-					}
-					if(this.form.relibBirtday == "请选择") {
-						this.Birtday = false
-					}
-				}
-				this.ifValue = value
-			},
-			blurEvent(a, x, y) {
-				if(y == 'idcard') {
-					this.idNumber()
-					if(this.ifValue == "") {
-						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-						if(idcardReg.test(parseInt(x))) {
-							this.wzd += 3.75
-							if(!this.Birtplace) {
-								this.wzd += 2
-								this.Birtplace = true
-							}
-							if(!this.Birtday) {
-								this.wzd += 3.75
-								this.Birtday = true
-							}
-						}
-					}
-					if(x == "") {
-						//console.log('er',this.ifValue)
-						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-						if(idcardReg.test(parseInt(this.ifValue))) {
-							if(this.ifValue != "") {
-								this.wzd -= 3.75
-							}
-						}
-					}
-				}
-				if(this.onekg && y == 'kg') {
-					if(x != "") {
-						var isValue = isNaN(x);
-						if(!isValue) {
-							this.wzd += 3.75
-							this.onekg = false
-						}
-					}
-				}
-				if(y == 'kg') {
-					if(x == "") {
-						var num = isNaN(x);
-						if(this.ifValue != "") {
-							//console.log(num)
-							this.wzd -= 3.75
-							this.onekg = true
-						}
-					}
-				}
-				if(this.onecm && y == 'cm') {
-					var isValue = isNaN(x);
-					if(x != "") {
-						if(!isValue) {
-							//console.log(num)
-							this.wzd += 3.75
-							this.onecm = false
-						}
-					}
-				}
-				if(y == 'cm') {
-					if(x == "") {
-						if(this.ifValue != "") {
-							this.wzd -= 3.75
-							this.onecm = true
-						}
-					}
-				}
-				if(x != "" && y == undefined) {
-					if(this.ifValue == "") {
-						if(a == '1') {
-							this.wzd += 1
-						}
-						if(a == '2') {
-							this.wzd += 3.75
-						}
-
-					}
-
-					if(this.ifValue == undefined) {
-						if(a == '1') {
-							this.wzd += 1
-						}
-						if(a == '2') {
-							this.wzd += 3.75
-						}
-					}
-
-				}
-				if(x == "" && y == undefined) {
-					if(this.ifValue != "") {
-						if(a == '1') {
-							this.wzd -= 1
-						}
-						if(a == '2') {
-							this.wzd -= 3.75
-						}
-					}
-				}
-				this.percent = parseInt(this.wzd)
-			},
 			//页面变化
 			windowResizeEvent() {
 				var datas = this.topDisor
 				var storage = window.localStorage;
-
 				var target = this;
 				var bodys = document.querySelector(".resumeInfoWrap")
 				var clientHeights = 0;
@@ -998,11 +665,10 @@
 				} else {
 					var clientHeights = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
 				}
-
 				if(clientHeights < this.clientHeight) {
 					bodys.classList.add("addClass");
 					bodys.style.top = "-" + this.topDisor - 50 + "px";
-					bodys.style.left = 0 + "px";
+					console.log('top', bodys.style.top)
 					var datas = this.topDisor
 					var key = 'ok';
 					storage.setItem(key, JSON.stringify(datas));
@@ -1011,19 +677,19 @@
 					var bodys = document.querySelector(".resumeInfoWrap")
 					bodys.classList.remove("addClass");
 					bodys.removeAttribute("style")
-
+					
 					setTimeout(() => {
 						var key = 'ok';
 						var storage = window.localStorage;
 						var tops = Number(JSON.parse(storage.getItem(key)))
 						//alert(tops, "tops")
-						window.scrollTo(0, Math.max(tops - 1, 0));
+						window.scrollTo(0,Math.max(tops - 1,0));
 					}, 300);
 				}
 			},
-
 			//可视窗口高度
 			getClientHeight() {
+				console.log(123)
 				var clientHeights = 0;
 				if(document.body.clientHeights && document.documentElement.clientHeights) {
 					var clientHeights = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
@@ -1031,12 +697,11 @@
 					var clientHeights = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
 				}
 				this.clientHeight = clientHeights;
-
+				console.log('qq', clientHeights)
 			},
 			goTo(name, id) {
 				this[name] = true;
 				this.currentId = id;
-
 			},
 			checkChild() {
 				const t = this;
@@ -1107,38 +772,12 @@
 				}
 			},
 			//底部弹出框
-			popupClick(domShow, dom, res) {
-				this.cent = res;
+			popupClick(domShow, dom) {
 				this.curDom = dom;
 				this.curDomShow = domShow;
 				this[domShow] = true;
-				var selects = this.curDom
-				this.first = this.form[selects]
 			},
 			confirm(value) {
-				if(this.cent == '1') {
-					if(this.first == '') {
-						this.wzd += 1
-					}
-					if(this.first == undefined) {
-						this.wzd += 1
-					}
-					if(this.first == '请选择') {
-						this.wzd += 1
-					}
-
-				}
-				if(this.cent == '2') {
-					if(this.first == '') {
-						this.wzd += 3.75
-					}
-					if(this.first == undefined) {
-						this.wzd += 3.75
-					}
-					if(this.first == '请选择') {
-						this.wzd += 3.75
-					}
-				}
 				if(this.curDomShow.indexOf("dateShow") != -1) {
 					if(this.curDomShow === 'relibBirtdaydateShow' || this.curDomShow === 'relibAvaitimedateShow') {
 						value = new Date(value).format('yyyy-MM-dd');
@@ -1153,7 +792,6 @@
 					this[str] = value.text;
 				}
 				this[this.curDomShow] = false;
-				this.percent = parseInt(this.wzd)
 			},
 			cancel(value) {
 				if(this.curDomShow == "dateShow") {
@@ -1219,114 +857,114 @@
 						return k.index;
 					}
 				}
-			},
-			valuation(data) {
-				const t = this;
-				t.curStepCode = data.curStepCode ? "" : data.curStepCode;
-				t.curStepstate = !data.curStepstate ? "" : data.curStepstate;
-				if(t.curStepCode === 'flow_recruitprocess_1000' && t.curStepstate !== 'p_flowst_3') {
-					t.state = false;
-				}
-				t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
-				t.form.relibIdentity = data.relibIdentity;
-				t.form.relibName = !data.relibName ? "" : data.relibName;
-				t.form.relibIdno = !data.relibIdno ? "" : data.relibIdno;
-				t.form.relibMobile = !data.relibMobile ? "" : data.relibMobile;
-				t.form.relibGender = data.relibGender;
-				t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
-				t.form.relibBirtplace = !data.relibBirtplace ? "" : data.relibBirtplace;
-				t.form.relibNatality = data.relibNatality ? data.relibNatality : '10';
-				t.form.relibPolitical = data.relibPolitical;
-				t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '请选择';
-				t.form.relibHealthsta = data.relibHealthsta;
-				t.form.relibMaritlsta = data.relibMaritlsta;
-				t.form.relibHeight = !data.relibHeight ? "" : data.relibHeight;
-				t.form.relibWeight = !data.relibWeight ? "" : data.relibWeight;
-				t.form.relibEducat = data.relibEducat ? data.relibEducat : '';;
-				t.form.relibSchool = !data.relibSchool ? "" : data.relibSchool;
-				t.form.relibProfes = !data.relibProfes ? "" : data.relibProfes;
-				t.form.relibLiving = !data.relibLiving ? "" : data.relibLiving;
-				t.form.relibFamadds = !data.relibFamadds ? "" : data.relibFamadds;
-				t.form.relibEmernm = !data.relibEmernm ? "" : data.relibEmernm;
-				t.form.relibEmphone = !data.relibEmphone ? "" : data.relibEmphone;
-				t.form.relibWithme = data.relibWithme;
-				t.form.relibSalary = !data.relibSalary ? "" : data.relibSalary;
-				t.form.relibProstatus = data.relibProstatus;
-				t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
-				t.form.relibIsrelatives = data.relibIsrelatives;
-				t.form.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
-				t.form.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
-				t.form.relibIscriminal = data.relibIscriminal ? data.relibIscriminal : '';
-				t.form.relibIstattoo = data.relibIstattoo;
-				t.form.relibApplytype = data.relibApplytype;
-				t.form.relibIntrname = !data.relibIntrname ? "" : data.relibIntrname;
-				t.form.relibIscom = data.relibIscom;
-				t.form.relibSelfeval = data.relibSelfeval;
-				t.form.relibEnrorage = data.relibEnrorage ? data.relibEnrorage : '';
-				t.form.relibIsgradu = data.relibIsgradu ? data.relibIsgradu : '';
-				t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
-				t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '请选择';
-				t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '请选择';
-				t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '汉族';
-				t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '请选择';
-				t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '请选择';
-				t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '请选择';
-				t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '请选择';
-				t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '请选择';
-				t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '请选择';
-				t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '请选择';
-				t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '请选择';
-				t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '请选择';
-				t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '请选择';
-				t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '请选择';
-				t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '请选择';
-				t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '请选择';
-				if(t.state) {
-					t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '未选择';
-					t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '未选择';
-					t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '未选择';
-					t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '未选择';
-					t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '未选择';
-					t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '未选择';
-					t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '未选择';
-					t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '未选择';
-					t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '未选择';
-					t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '未选择';
-					t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '未选择';
-					t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '未选择';
-					t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '未选择';
-					t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '未选择';
-					t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '未选择';
-					t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '未选择';
-					t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '未选择';
-					t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
-					t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '未选择';
-					t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
-				}
-				t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday.replace(/-/g, '/'));
-				t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime.replace(/-/g, '/'));
-				t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate.replace(/-/g, '/'));
-				if(!data.relibNatalityDis) {
-					t.setSelectValue('汉族', 'selectRelibNatality', 'relibNatalityIndex');
-				} else {
-					t.setSelectValue(data.relibNatalityDis, 'selectRelibNatality', 'relibNatalityIndex');
-				}
-				t.setSelectValue(data.relibIdentityDis, 'selectRelibIdentity', 'relibIdentityIndex');
-				t.setSelectValue(data.relibGenderDis, 'selectRelibGender', 'relibGenderIndex');
-				t.setSelectValue(data.relibPoliticalDis, 'selectRelibPolitica', 'relibPoliticaIndex');
-				t.setSelectValue(data.relibHealthstaDis, 'selectRelibHealthsta', 'relibHealthstaIndex');
-				t.setSelectValue(data.relibMaritlstaDis, 'selectRelibMaritlsta', 'relibMaritlstaIndex');
-				t.setSelectValue(data.relibEducatDis, 'selectRelibEducat', 'relibEducatIndex');
-				t.setSelectValue(data.relibWithmeDis, 'selectRelibWithme', 'relibWithmeIndex');
-				t.setSelectValue(data.relibProstatusDis, 'selectRelibProstatus', 'relibProstatusIndex');
-				t.setSelectValue(data.relibIsrelativesDis, 'selectRelibIsrelatives', 'relibIsrelativesIndex');
-				t.setSelectValue(data.relibIscriminalDis, 'selectRelibIscriminal', 'relibIscriminalIndex');
-				t.setSelectValue(data.relibIstattooDis, 'selectRelibIstattoo', 'relibIstattooIndex');
-				t.setSelectValue(data.relibApplytypeDis, 'selectRelibApplytype', 'relibApplytypeIndex');
-				t.setSelectValue(data.relibIscomDis, 'selectRelibIscom', 'relibIscomIndex');
-				t.setSelectValue(data.relibEnrorageDis, 'selectRelibEnrorage', 'relibEnrorageIndex');
-				t.setSelectValue(data.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
-			},
+            },
+            valuation(data){
+                const t =this;
+                t.curStepCode = data.curStepCode ? "" : data.curStepCode;
+                t.curStepstate = !data.curStepstate ? "" : data.curStepstate;
+                if(t.curStepCode === 'flow_recruitprocess_1000' && t.curStepstate !== 'p_flowst_3') {
+                    t.state = false;
+                }
+                t.form.relibApplypost = !data.relibApplypost ? "" : data.relibApplypost;
+                t.form.relibIdentity = data.relibIdentity;
+                t.form.relibName = !data.relibName ? "" : data.relibName;
+                t.form.relibIdno = !data.relibIdno ? "" : data.relibIdno;
+                t.form.relibMobile = !data.relibMobile ? "" : data.relibMobile;
+                t.form.relibGender = data.relibGender;
+                t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
+                t.form.relibBirtplace = !data.relibBirtplace ? "" : data.relibBirtplace;
+                t.form.relibNatality = data.relibNatality ? data.relibNatality : '10';
+                t.form.relibPolitical = data.relibPolitical;
+                t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '请选择';
+                t.form.relibHealthsta = data.relibHealthsta;
+                t.form.relibMaritlsta = data.relibMaritlsta;
+                t.form.relibHeight = !data.relibHeight ? "" : data.relibHeight;
+                t.form.relibWeight = !data.relibWeight ? "" : data.relibWeight;
+                t.form.relibEducat = data.relibEducat ? data.relibEducat : '';;
+                t.form.relibSchool = !data.relibSchool ? "" : data.relibSchool;
+                t.form.relibProfes = !data.relibProfes ? "" : data.relibProfes;
+                t.form.relibLiving = !data.relibLiving ? "" : data.relibLiving;
+                t.form.relibFamadds = !data.relibFamadds ? "" : data.relibFamadds;
+                t.form.relibEmernm = !data.relibEmernm ? "" : data.relibEmernm;
+                t.form.relibEmphone = !data.relibEmphone ? "" : data.relibEmphone;
+                t.form.relibWithme = data.relibWithme;
+                t.form.relibSalary = !data.relibSalary ? "" : data.relibSalary;
+                t.form.relibProstatus = data.relibProstatus;
+                t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '请选择';
+                t.form.relibIsrelatives = data.relibIsrelatives;
+                t.form.relibRelatname = !data.relibRelatname ? "" : data.relibRelatname;
+                t.form.relibRelatdept = !data.relibRelatdept ? "" : data.relibRelatdept;
+                t.form.relibIscriminal = data.relibIscriminal ? data.relibIscriminal : '';
+                t.form.relibIstattoo = data.relibIstattoo;
+                t.form.relibApplytype = data.relibApplytype;
+                t.form.relibIntrname = !data.relibIntrname ? "" : data.relibIntrname;
+                t.form.relibIscom = data.relibIscom;
+                t.form.relibSelfeval = data.relibSelfeval;
+                t.form.relibEnrorage = data.relibEnrorage ? data.relibEnrorage : '';
+                t.form.relibIsgradu = data.relibIsgradu ? data.relibIsgradu : '';
+                t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '请选择';
+                t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '请选择';
+                t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '请选择';
+                t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '汉族';
+                t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '请选择';
+                t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '请选择';
+                t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '请选择';
+                t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '请选择';
+                t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '请选择';
+                t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '请选择';
+                t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '请选择';
+                t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '请选择';
+                t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '请选择';
+                t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '请选择';
+                t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '请选择';
+                t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '请选择';
+                t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '请选择';
+                if(t.state) {
+                    t.relibApplypostDis = data.relibApplypostDis ? data.relibApplypostDis : '未选择';
+                    t.relibIdentityDis = data.relibIdentityDis ? data.relibIdentityDis : '未选择';
+                    t.relibGenderDis = data.relibGenderDis ? data.relibGenderDis : '未选择';
+                    t.relibNatalityDis = data.relibNatalityDis ? data.relibNatalityDis : '未选择';
+                    t.relibPoliticalDis = data.relibPoliticalDis ? data.relibPoliticalDis : '未选择';
+                    t.relibHealthstaDis = data.relibHealthstaDis ? data.relibHealthstaDis : '未选择';
+                    t.relibMaritlstaDis = data.relibMaritlstaDis ? data.relibMaritlstaDis : '未选择';
+                    t.relibEducatDis = data.relibEducatDis ? data.relibEducatDis : '未选择';
+                    t.relibWithmeDis = data.relibWithmeDis ? data.relibWithmeDis : '未选择';
+                    t.relibProstatusDis = data.relibProstatusDis ? data.relibProstatusDis : '未选择';
+                    t.relibIsrelativesDis = data.relibIsrelativesDis ? data.relibIsrelativesDis : '未选择';
+                    t.relibIscriminalDis = data.relibIscriminalDis ? data.relibIscriminalDis : '未选择';
+                    t.relibIstattooDis = data.relibIstattooDis ? data.relibIstattooDis : '未选择';
+                    t.relibApplytypeDis = data.relibApplytypeDis ? data.relibApplytypeDis : '未选择';
+                    t.relibIscomDis = data.relibIscomDis ? data.relibIscomDis : '未选择';
+                    t.relibEnrorageDis = data.relibEnrorageDis ? data.relibEnrorageDis : '未选择';
+                    t.relibIsgraduDis = data.relibIsgraduDis ? data.relibIsgraduDis : '未选择';
+                    t.form.relibBirtday = data.relibBirtday ? new Date(data.relibBirtday.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
+                    t.form.relibFilldate = data.relibFilldate ? data.relibFilldate : '未选择';
+                    t.form.relibAvaitime = data.relibAvaitime ? new Date(data.relibAvaitime.replace(/-/g, '/')).format('yyyy-MM-dd') : '未选择';
+                }
+                t.relibBirtdayDate = !data.relibBirtday ? new Date() : new Date(data.relibBirtday.replace(/-/g, '/'));
+                t.relibAvaitimeDate = !data.relibAvaitime ? new Date() : new Date(data.relibAvaitime.replace(/-/g, '/'));
+                t.relibFilldateDate = !data.relibFilldate ? new Date() : new Date(data.relibFilldate.replace(/-/g, '/'));
+                if(!data.relibNatalityDis) {
+                    t.setSelectValue('汉族', 'selectRelibNatality', 'relibNatalityIndex');
+                } else {
+                    t.setSelectValue(data.relibNatalityDis, 'selectRelibNatality', 'relibNatalityIndex');
+                }
+                t.setSelectValue(data.relibIdentityDis, 'selectRelibIdentity', 'relibIdentityIndex');
+                t.setSelectValue(data.relibGenderDis, 'selectRelibGender', 'relibGenderIndex');
+                t.setSelectValue(data.relibPoliticalDis, 'selectRelibPolitica', 'relibPoliticaIndex');
+                t.setSelectValue(data.relibHealthstaDis, 'selectRelibHealthsta', 'relibHealthstaIndex');
+                t.setSelectValue(data.relibMaritlstaDis, 'selectRelibMaritlsta', 'relibMaritlstaIndex');
+                t.setSelectValue(data.relibEducatDis, 'selectRelibEducat', 'relibEducatIndex');
+                t.setSelectValue(data.relibWithmeDis, 'selectRelibWithme', 'relibWithmeIndex');
+                t.setSelectValue(data.relibProstatusDis, 'selectRelibProstatus', 'relibProstatusIndex');
+                t.setSelectValue(data.relibIsrelativesDis, 'selectRelibIsrelatives', 'relibIsrelativesIndex');
+                t.setSelectValue(data.relibIscriminalDis, 'selectRelibIscriminal', 'relibIscriminalIndex');
+                t.setSelectValue(data.relibIstattooDis, 'selectRelibIstattoo', 'relibIstattooIndex');
+                t.setSelectValue(data.relibApplytypeDis, 'selectRelibApplytype', 'relibApplytypeIndex');
+                t.setSelectValue(data.relibIscomDis, 'selectRelibIscom', 'relibIscomIndex');
+                t.setSelectValue(data.relibEnrorageDis, 'selectRelibEnrorage', 'relibEnrorageIndex');
+                t.setSelectValue(data.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
+            },
 			//获取面试员工数据
 			getData() {
 				const t = this;
@@ -1337,11 +975,11 @@
 				}
 				getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
-						let resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
-						if(resumeInfoForm !== null && resumeInfoForm.id !== t.$route.query.id) {
-							localStorage.removeItem('resumeInfoForm');
-							resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
-						}
+                        let resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
+                        if (resumeInfoForm !== null && resumeInfoForm.id !== t.$route.query.id) {
+                            localStorage.removeItem('resumeInfoForm');
+                            resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
+                        }
 						if(!resumeInfoForm) {
 							let data = JSON.parse(res.data.content[0].value);
 							t.valuation(data)
@@ -1387,12 +1025,11 @@
 								t.setSelectValue(resumeInfoForm.relibEnrorageDis, 'selectRelibEnrorage', 'relibEnrorageIndex');
 								t.setSelectValue(resumeInfoForm.relibIsgraduDis, 'selectRelibIsgradu', 'relibIsgraduIndex');
 							} else {
-								localStorage.removeItem('resumeInfoForm')
-								let data = JSON.parse(res.data.content[0].value);
-								t.valuation(data)
+                                localStorage.removeItem('resumeInfoForm');
+                                let data = JSON.parse(res.data.content[0].value);
+                                t.valuation(data)
 							}
 						}
-						t.judgeData()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1416,7 +1053,6 @@
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
 						t.workExpList = data
-						t.judgeWk()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1440,7 +1076,6 @@
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
 						t.familyList = data
-						t.judgeFy()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1463,12 +1098,11 @@
 				await getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
-						t.educationList = data;
-						t.judgeEd()
+						t.educationList = data
 					}
 				}).catch((err) => {
 					t.$notify({
-						message: '网络错误00',
+						message: '网络错误',
 						duration: 1500,
 						background: '#f44'
 					});
@@ -1492,7 +1126,7 @@
 							this.relibGenderDis = "女";
 							this.setSelectValue('女', 'selectRelibGender', 'relibGenderIndex');
 						}
-						//判断出生日期
+						//判断出生日期                    
 						if(this.form.relibIdno.length == 18) {
 							let birthdate = this.form.relibIdno.substring(6, 10) + "-" + this.form.relibIdno.substring(10, 12) + "-" +
 								this.form.relibIdno.substring(12, 14);
@@ -1552,32 +1186,28 @@
 					tt.relibIscomDis = this.relibIscomDis;
 					tt.relibEnrorageDis = this.relibEnrorageDis;
 					tt.relibIsgraduDis = this.relibIsgraduDis;
-					tt.createTime = new Date();
-					tt.id = this.$route.query.id;
+                    tt.createTime = new Date();
+                    tt.id = this.$route.query.id;
 					tt = JSON.stringify(tt);
 					window.localStorage.setItem('resumeInfoForm', tt)
 				},
 				deep: true
-			},
-			//		percent(val) {
-			//			this.percent = parseInt(this.wzd);
-			//			//window.localStorage.setItem("temp", this.percent)
-			//		}
+			}
 		},
 	}
 </script>
 <style lang="less">
 	.resumeInfo {
-		height: 100%;
-		width: 100%;
+        height: 100%;
+        width:100%;
 		background: #f6f6f6;
 		.resumeInfoWrap {
 			overflow: scroll;
 			-webkit-overflow-scrolling: touch;
 			box-sizing: border-box;
 			display: flex;
-			flex-direction: column;
-			width: 100%;
+            flex-direction: column;
+            width:100%;
 			.title {
 				background: #fff;
 				padding: 30px 0 25px 40px;
@@ -1661,43 +1291,7 @@
 	}
 	
 	.addClass {
-		position: fixed;
-		right: 0;
-	}
-	
-	.items {
-		height: 100px;
-		line-height: 100px;
-	}
-	
-	.prss {
-		display: inline-block;
-		height: 30px;
-		margin-left: 100px;
-		font-size: 30px;
-	}
-	
-	.informs {
-		margin-left: 30px;
-		font-size: 28px;
-		display: inline-block;
-	}
-	
-	.prog {
-		z-index: 10;
-		color: #1989fa;
-		height: 100px;
-		background-color: white;
-		padding-bottom: 25px;
-		padding-right: 10px;
-		position: fixed;
-		top: 0px;
-		width: 100%;
-		border-bottom: 1px solid #D9D9D9;
-		.inf {
-			font-size: 30px;
-			padding: 20px 33px;
-			margin-bottom: 10px;
-		}
+        position: fixed;
+        right:0;
 	}
 </style>
