@@ -614,7 +614,7 @@
 		box-sizing: border-box;
 		overflow: -Scroll;
 		overflow-x: hidden;
-		overflow-y: hidden;
+		overflow-y: auto;
 		.head {
 			width: 100%;
 			height: 80px;
@@ -628,7 +628,7 @@
 		.content {
 			padding: 20px 20px;
 			padding-bottom: 40px;
-			width: 100%;
+			width: 95%;
 			border-bottom: 1px solid gainsboro;
 			.appNumber {
 				padding-top: 20px;
@@ -724,6 +724,7 @@
 		}
 		.textWrite {
 			font-size: 30px;
+			border-bottom: 1px solid gainsboro;
 		}
 		.save_button {
 			padding: 65px 54px 50px;

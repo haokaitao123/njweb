@@ -709,10 +709,7 @@
 					this.wzd += 3.75
 				}
 				if(this.form.relibIdno != "") {
-					var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-					if(idcardReg.test(parseInt(this.form.relibIdno))) {
 						this.wzd += 3.75
-					}
 				}
 				if(this.form.relibMobile != "") {
 					this.wzd += 3.75
@@ -989,7 +986,6 @@
 			windowResizeEvent() {
 				var datas = this.topDisor
 				var storage = window.localStorage;
-
 				var target = this;
 				var bodys = document.querySelector(".resumeInfoWrap")
 				var clientHeights = 0;
@@ -998,7 +994,6 @@
 				} else {
 					var clientHeights = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
 				}
-
 				if(clientHeights < this.clientHeight) {
 					bodys.classList.add("addClass");
 					bodys.style.top = "-" + this.topDisor - 50 + "px";
@@ -1011,7 +1006,6 @@
 					var bodys = document.querySelector(".resumeInfoWrap")
 					bodys.classList.remove("addClass");
 					bodys.removeAttribute("style")
-
 					setTimeout(() => {
 						var key = 'ok';
 						var storage = window.localStorage;
@@ -1031,12 +1025,10 @@
 					var clientHeights = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
 				}
 				this.clientHeight = clientHeights;
-
 			},
 			goTo(name, id) {
 				this[name] = true;
 				this.currentId = id;
-
 			},
 			checkChild() {
 				const t = this;
