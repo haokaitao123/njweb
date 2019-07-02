@@ -251,7 +251,8 @@
 					},
 				},
 				fixed: false,
-				thisStepCode: ''
+                thisStepCode: '',
+                flowStep:''
 			}
 		},
 		props: {
@@ -656,13 +657,10 @@
 							if(aa[i].className !== '') {
 								aa[i].width = 120
 								aa[i]['render'] = (h, params) => {
-									let bb = []
-									if(params.row[aa[i].key]) {
-										bb = params.row[aa[i].key].split('$')
-									}
-									let text = ''
-									let show = ''
-									switch(bb[3]) {
+									let bb = params.row[aa[i].key];
+                                    let text = ''
+                                    let show = ''
+									switch(params.row.cellClassName[aa[i].key]) {
 										case 'p_flowst_0':
 											show = '未开启'
 											break
@@ -676,8 +674,8 @@
 											show = '已完成'
 											break
 									}
-									if(bb[2]) {
-										text = '[ ' + bb[2] + ' ]'
+									if(bb) {
+										text = '[ ' + bb + ' ]'
 									}
 									if(text !== '') {
 										return h('Tooltip', {
@@ -696,13 +694,18 @@
 												},
 												on: {
 													click: () => {
-														this.thisPkValue = params.row.id
-														this.thisStepId = params.row[params.column.key].split('$')[1]
-														if(params.row[params.column.key].split('$')[3] === 'p_flowst_0') {
+														this.thisPkValue = params.row.id;
+                                                        this.thisStepId = t.flowStep[params.column.key].stepid;
+                                                        this.thisStepState = params.row.cellClassName[aa[i].key]
+														if(this.thisStepState === 'p_flowst_0') {
 															return
 														}
-														this.thisStepState = params.row[params.column.key].split('$')[3]
-														this.thisSetpName = params.row[params.column.key].split('$')[5]
+														
+                                                        this.thisSetpName = t.flowStep[params.column.key].flstepName;
+                                                         console.log(params.row.id, "params.row");
+                                                         console.log(this.thisStepId, "this.thisStepId");
+                                                         console.log(this.thisStepState, "this.thisStepState");
+                                                         console.log(this.thisSetpName, "thisSetpName");
 														this.getDataBlock()
 													},
 												},
@@ -738,17 +741,20 @@
 					}),
 				}).then((res) => {
 					if(isSuccess(res, t)) {
-						t.data = JSON.parse(res.data.content[0].rows)
-						for(let i = 0; i < t.data.length; i++) {
-							t.data[i].cellClassName = {}
-							for(let item in t.data[i]) {
-								if(typeof t.data[i][item] === 'string') {
-									if(t.data[i][item].split('$').length > 1) {
-										t.data[i].cellClassName[item] = t.data[i][item].split('$')[3]
-									}
-								}
-							}
-						}
+                        t.data = JSON.parse(res.data.content[0].rows);
+                        t.flowStep = JSON.parse(res.data.content[0].flowStep)
+                        console.log(t.data,"t.data123");
+                        console.log(t.flowStep, "t.flowStep");
+						// for(let i = 0; i < t.data.length; i++) {
+						// 	t.data[i].cellClassName = {}
+						// 	for(let item in t.data[i]) {
+						// 		if(typeof t.data[i][item] === 'string') {
+						// 			if(t.data[i][item].split('$').length > 1) {
+						// 				t.data[i].cellClassName[item] = t.data[i][item].split('$')[3]
+						// 			}
+						// 		}
+						// 	}
+						// }
 					}
 				}).catch(() => {
 					t.$Message.error(this.$t("reminder.errormessage"));
