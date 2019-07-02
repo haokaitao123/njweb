@@ -291,8 +291,7 @@ export default {
                                                             return
                                                         }
                                                         t.stepName = t.flowStep[params.column.key].flstepName;
-                                                        console.log(t.processState, "t.processState")
-                                                        // await t.getData()
+                                                        await t.getData()
                                                         t.openUp(params.row.id, stepId, params.index)
                                                     },
                                                 },
@@ -509,8 +508,6 @@ export default {
                 if (isSuccess(res, t)) {
                     t.data = JSON.parse(res.data.content[0].rows);
                     t.flowStep = JSON.parse(res.data.content[0].flowStep)
-                    console.log(t.data, "content");
-                    console.log(t.flowStep, "t.flowStep");
                     t.total = res.data.content[0].records
                 }
             }).catch(() => {
@@ -565,8 +562,6 @@ export default {
                 t.$Message.warning(t.$t('reminder.leastone'))
                 return
             }
-            console.log(t.tbName, "t.tbName");
-            console.log(t.flowId, "t.flowId");
             t.$Modal.confirm({
                 title: t.$t("reminder.remind"),
                 content: t.$t("reminder.isDelete"),
