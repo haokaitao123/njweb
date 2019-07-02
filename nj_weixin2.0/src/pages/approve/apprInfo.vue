@@ -608,7 +608,7 @@
 <style lang="less" scoped>
 	.appInfo {
 		width: 100%;
-		height: calc(~"100% - 110px");
+		height: calc(~"100% - 100px");
 		padding: 20px;
 		background: white;
 		box-sizing: border-box;
