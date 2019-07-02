@@ -269,7 +269,7 @@
                     </x-input>
                 </div> -->
                 <!-- 是否工作交接 -->
-                <div class="item_box">
+                <!-- <div class="item_box">
                     <cell title=""
                           is-link
                           v-if="!disabled"
@@ -285,9 +285,9 @@
                              :disabled="disabled"
                              placeholder="未填写">
                     </x-input>
-                </div>
+                </div> -->
                 <!-- 交接人 -->
-                <div class="item_box">
+                <!-- <div class="item_box">
                     <cell title=""
                           is-link
                           v-show="!disabled&&form.dimIsreceive==='1'"
@@ -306,7 +306,7 @@
                              :placeholder="disabled?'未填写':'请填写'"
                              :disabled="disabled">
                     </x-input>
-                </div>
+                </div> -->
                 <!-- 备注 -->
                 <x-textarea :max="300"
                             title="备注"
@@ -376,7 +376,7 @@
                         @cancel="cancel" />
         </van-popup>
         <!-- 是否工作交接 -->
-        <van-popup v-model="dimIsreceiveShow"
+        <!-- <van-popup v-model="dimIsreceiveShow"
                    position="bottom">
             <van-picker ref="dimIsreceivePicker"
                         :defaultIndex="dimIsreceiveIndex"
@@ -384,7 +384,7 @@
                         show-toolbar
                         @confirm="confirm"
                         @cancel="cancel" />
-        </van-popup>
+        </van-popup> -->
         <!-- 申请离职日期 -->
         <van-popup v-model="dimLevsqdayShow"
                    position="bottom">
@@ -469,8 +469,8 @@ export default {
                 dimReason: "", //离职原因
                 dimLevsqday: new Date().format("yyyy-MM-dd"), //申请离职日期
                 dimLevday: "请选择", //约定离职日期
-                dimIsreceive: "0", //是否工作交接
-                dimReceive: "",//交接人
+                // dimIsreceive: "0", //是否工作交接
+                // dimReceive: "",//交接人
                 note: "" //备注
             },
             dimApplicantDis: JSON.parse(localStorage.getItem('empData')).empnhName ? JSON.parse(localStorage.getItem('empData')).empnhName : "",
@@ -482,28 +482,28 @@ export default {
             dimCertifiDis: "请选择",
             dimTypeDis: "正常离职",
             dimReasonDis: "请选择",
-            dimIsreceiveDis: "否",
-            dimReceiveDis: '请选择',
+            // dimIsreceiveDis: "否",
+            // dimReceiveDis: '请选择',
             empShow: false,
             dimCertifiShow: false,
             dimTypeShow: false,
             dimReasonShow: false,
-            dimIsreceiveShow: false,
+            // dimIsreceiveShow: false,
             dimCertifiIndex: 0,
             dimTypeIndex: 0,
             dimReasonIndex: 0,
-            dimIsreceiveIndex: 1,
+            // dimIsreceiveIndex: 1,
             selectDimCertifi: [],
             selectDimType: [],
             selectDimReason: [],
-            selectDimIsreceive: [],
+            // selectDimIsreceive: [],
             dimLevsqdayShow: false,
             dimLevdayShow: false,
             dimLaswkdayShow: false,
             surveyShow: false,
             saveStatus: false,
             disabled: false,
-            dimReceiveError: false,
+            // dimReceiveError: false,
             bankVaild: true,
         }
     },
@@ -518,7 +518,7 @@ export default {
             dimLevday: "required",
             dimLaswkday: "required",
             surveyName: "required",
-            dimReceive: "required",
+            // dimReceive: "required",
         }
     },
     components: {
@@ -603,8 +603,7 @@ export default {
         //保存
         async save (type) {
             const t = this;
-            this.dimReceiveCheck();
-            if (this.$verify.check() && this.dimReceiveCheck()) {
+            if (this.$verify.check()) {
                 const data = deepCopy(t.form);
                 data._mt = "wxPublicProcess.addProcess";
                 data.companyId = pubsource.companyId;
@@ -652,17 +651,17 @@ export default {
                 t.$vux.toast.text('请检查填写信息');
             }
         },
-        dimReceiveCheck () {
-            if (this.form.dimReceive === "" && this.form.dimIsreceive === "1") {
-                this.dimReceiveError = true;
-                return false
-            } else {
-                this.dimReceiveError = false;
-                return true
-            }
-        },
+        // dimReceiveCheck () {
+        //     if (this.form.dimReceive === "" && this.form.dimIsreceive === "1") {
+        //         this.dimReceiveError = true;
+        //         return false
+        //     } else {
+        //         this.dimReceiveError = false;
+        //         return true
+        //     }
+        // },
         comfirmSubmit () {
-            if (this.$verify.check() && this.bankVaild) {
+            if (this.$verify.check()) {
                 this.$dialog.confirm({
                     title: '',
                     message: '是否确认提交？'
@@ -743,7 +742,7 @@ export default {
             this.currentId = res.id;
             this.form.empId = res.id;
             this.empIdName = res.empnhName;
-            this.dimReceiveCheck();
+            // this.dimReceiveCheck();
         },
         //问卷调查事件
         inputSurvey (res) {
@@ -790,8 +789,8 @@ export default {
                     t.form.dimReason = data.dimReason;
                     t.form.dimLevsqday = data.dimLevsqday;
                     t.form.dimLevday = data.dimLevday;
-                    t.form.dimIsreceive = data.dimIsreceive;
-                    t.form.dimReceive = data.dimReceive ? data.dimReceive : '';
+                    // t.form.dimIsreceive = data.dimIsreceive;
+                    // t.form.dimReceive = data.dimReceive ? data.dimReceive : '';
                     t.form.note = data.note;
                     // t.curStep = data.curStep;
                     t.empIdName = data.empIdName;
@@ -802,24 +801,24 @@ export default {
                     t.dimCertifiDis = data.dimCertifiDis ? data.dimCertifiDis : '请选择';
                     t.dimTypeDis = data.dimTypeDis;
                     t.dimReasonDis = data.dimReasonDis;
-                    t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '请选择';
-                    t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '请选择';
+                    // t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '请选择';
+                    // t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '请选择';
                     t.currentId = data.dimReceive;
                     if (t.disabled) {
                         t.dimCertifiDis = data.dimCertifiDis ? data.dimCertifiDis : '未选择';
-                        t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '未选择';
-                        t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '未选择';
+                        // t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '未选择';
+                        // t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '未选择';
                     } else {
                         t.dimCertifiDis = data.dimCertifiDis ? data.dimCertifiDis : '请选择';
-                        t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '请选择';
-                        t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '请选择';
+                        // t.dimIsreceiveDis = data.dimIsreceiveDis ? data.dimIsreceiveDis : '请选择';
+                        // t.dimReceiveDis = data.dimReceiveDis ? data.dimReceiveDis : '请选择';
                     }
                     t.dimLevsqdayDate = new Date(data.dimLevsqday.replace(/-/g, '/'));
                     t.dimLevdayDate = new Date(data.dimLevday.replace(/-/g, '/'));
                     t.setSelectValue(data.dimCertifiDis, 'selectDimCertifi', 'dimCertifiIndex');
                     t.setSelectValue(data.dimTypeDis, 'selectDimType', 'dimTypeIndex');
                     t.setSelectValue(data.dimReasonDis, 'selectDimReason', 'dimReasonIndex');
-                    t.setSelectValue(data.dimIsreceiveDis, 'selectDimIsreceive', 'dimIsreceiveIndex');
+                    // t.setSelectValue(data.dimIsreceiveDis, 'selectDimIsreceive', 'dimIsreceiveIndex');
                 }
             }).catch((err) => {
                 t.$notify({
@@ -842,7 +841,7 @@ export default {
                     t.selectData(res.data.content[0].value[0].paramList, "selectDimType");
                     t.selectData(res.data.content[0].value[1].paramList, "selectDimReason");
                     t.selectData(res.data.content[0].value[2].paramList, "selectDimCertifi");
-                    t.selectData(res.data.content[0].value[2].paramList, "selectDimIsreceive");
+                    // t.selectData(res.data.content[0].value[2].paramList, "selectDimIsreceive");
                 }
             }).catch(() => {
                 t.$notify({

@@ -23,6 +23,7 @@ const recruit_process = {
     recruit_process.relibApplypost_set(this);
     recruit_process.relibTrysqtime_set(this);
     recruit_process.relibApproval_set(this);
+    recruit_process.relibAppsqus_set(this);
   },
   relibScore(node) {
     recruit_process.relibScore_set(this.$parent)
@@ -85,9 +86,11 @@ const recruit_process = {
   },
   //默认试岗申请时间为当前时间
   relibTrysqtime_set(t) {
+
     if (t.valueMap.relibTrysqtime && t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime === '') {
       let nowDate = new Date()
       t.$refs[t.valueMap.relibTrysqtime][0].$set(t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit, 'relibTrysqtime', nowDate.format('yyyy-MM-dd'))
+      t.$refs[t.valueMap.relibTrysqtime][0].$refs.relibTrysqtime.thisValue = nowDate.format('yyyy-MM-dd');
     }
   },
   //试岗必须3天后再入职,试岗申请时间与可入职当前时间
@@ -188,12 +191,24 @@ const recruit_process = {
           id: t.$store.state.user.userId,
         }).then((res) => {
           if (isSuccess(res, this.$parent)) {
+
             t.$refs[t.valueMap.relibTrypsus][0].$set(t.$refs[t.valueMap.relibTrypsus][0].formDataSubmit, 'relibTrypsus', res.data.content[0].sysUsempid)
             t.$refs[t.valueMap.relibTrypsus][0].$refs.relibTrypsus.thisValue = res.data.content[0].sysUsempidDis
           }
         }).catch(() => {
+          console.log('123', res.data.content[0].sysUsempid)
           t.$Message.error('网络错误')
         })
+      }
+    }
+  },
+  //初始的审批人，默认是当前用户
+  relibAppsqus_set(t) {
+    const th = this.$parent
+    if (t.valueMap.relibAppsqus) {
+      if (t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit.relibAppsqus === '') {
+        t.$refs[t.valueMap.relibAppsqus][0].$set(t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit, 'relibAppsqus', t.$store.state.user.userId)
+        t.$refs[t.valueMap.relibAppsqus][0].$refs.relibAppsqus.thisValue = t.$store.state.user.name
       }
     }
   },

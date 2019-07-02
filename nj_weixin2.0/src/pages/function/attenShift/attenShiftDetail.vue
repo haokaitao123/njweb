@@ -230,7 +230,7 @@ export default {
             curStep: "1441",
             curDom: "",
             curDomShow: "",
-            currentId: "",
+            currentId: localStorage.getItem('empId') ? localStorage.getItem('empId') : "",
             shiftBgdateDate: new Date(),
             minShiftBgdate: new Date(1900, 10, 1),
             maxShiftBgdate: new Date(2099, 12, 31),
@@ -241,9 +241,9 @@ export default {
             filekey: '',
             fileName: '',
             form: {
-                empId: "",                         //员工id
-                deptId: "",                        //部门
-                postId: "",                        //岗位
+                empId: localStorage.getItem('empId') ? localStorage.getItem('empId') : "",                         //员工id
+                deptId: JSON.parse(localStorage.getItem('empData')).deptId ? JSON.parse(localStorage.getItem('empData')).deptId : "",                        //部门
+                postId: JSON.parse(localStorage.getItem('empData')).postId ? JSON.parse(localStorage.getItem('empData')).postId : "",                        //岗位
                 shiftReason: "",                   //调班原因
                 shiftDays: "",                     //调班天数
                 shiftBgdate: "请选择",             //调班开始日期
@@ -251,9 +251,9 @@ export default {
                 shiftProof: "",                    //相关证明
                 note: "",                          //备注
             },
-            empnhName: "请选择",
-            unitFname: "",
-            postFname: "",
+            empnhName: JSON.parse(localStorage.getItem('empData')).empnhName ? JSON.parse(localStorage.getItem('empData')).empnhName : "",
+            unitFname: JSON.parse(localStorage.getItem('empData')).unitFname ? JSON.parse(localStorage.getItem('empData')).unitFname : "",
+            postFname: JSON.parse(localStorage.getItem('empData')).postFname ? JSON.parse(localStorage.getItem('empData')).postFname : "",
             shiftBgdateShow: false,
             shiftEddateShow: false,
             empShow: false,
@@ -397,11 +397,18 @@ export default {
                 this.currentDate = new Date();
                 this.form[this.curDom] = value;
                 if (this.curDom === 'shiftBgdate') {
-                    if (this.form.shiftDays !== '' && !isNaN(Number(this.form.shiftDays))) {
-                        let day = new Date(value).setDate(new Date(value).getDate() + Number(this.form.shiftDays));
+                    if (this.form.shiftDays !== '' && valid.val_number103(this.form.shiftDays)) {
+                        let shiftDays = parseInt(this.form.shiftDays);
+                        if (Number(this.form.shiftDays) > parseInt(this.form.shiftDays)) {
+                            shiftDays = parseInt(this.form.shiftDays) + 1
+                        }
+                        let day = new Date(value).setDate(new Date(value).getDate() + shiftDays - 1);
                         day = new Date(day);
                         this.shiftEddateDate = day;
                         this.form.shiftEddate = day.format('yyyy-MM-dd');
+                        this.minShiftEddate = day;
+                    } else {
+                        this.minShiftEddate = new Date(value);
                     }
                 }
             } else {
@@ -476,7 +483,6 @@ export default {
             var file = event.target.files;
             const formData = new FormData()
             formData.append('upfile', file[0])
-            console.log(formData)
             uploadFile(formData).then(res => {
                 console.log(res, "res")
                 if (res.status == '200') {
@@ -549,13 +555,18 @@ export default {
         },
         //设置调班结束日期
         shiftEddate () {
-            if (this.form.shiftDays !== '' && !isNaN(Number(this.form.shiftDays))) {
+            if (this.form.shiftDays !== '' && valid.val_number103(this.form.shiftDays)) {
                 if (this.form.shiftBgdate !== '请选择') {
                     let value = this.form.shiftBgdate;
-                    let day = new Date(value).setDate(new Date(value).getDate() + Number(this.form.shiftDays));
+                    let shiftDays = parseInt(this.form.shiftDays);
+                    if (Number(this.form.shiftDays) > parseInt(this.form.shiftDays)) {
+                        shiftDays = parseInt(this.form.shiftDays) + 1
+                    }
+                    let day = new Date(value).setDate(new Date(value).getDate() + shiftDays - 1);
                     day = new Date(day);
                     this.shiftEddateDate = day;
                     this.form.shiftEddate = day.format('yyyy-MM-dd');
+                    this.minShiftEddate = day;
                 }
             }
         }
@@ -574,7 +585,7 @@ export default {
         display: flex;
         background: #f6f6f6;
         flex-direction: column;
-       	margin-bottom:100px;
+        margin-bottom: 100px;
         .item_box .weui-icon-warn {
             position: absolute;
             right: 0;
