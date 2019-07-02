@@ -5,7 +5,7 @@
               fix
               v-if="spinShow">
         </Spin>
-        <Row style="max-height: 420px;overflow-y: auto;">
+        <Row style="max-height: 420px;overflow-y: auto;" ref="scrollBox">
             <Form ref="formValidate"
                   :model="formValidate"
                   :rules="ruleValidate"
@@ -253,7 +253,14 @@ export default {
                     }).finally(() => {
                         t.loadingStatus = false
                     })
-                }
+                }else{
+					 this.$nextTick(function(){
+                            let tt = document.querySelectorAll('.ivu-form-item-error');
+                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
+                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                            }
+                        }) 
+				}
             })
         },
         /*选择员工*/

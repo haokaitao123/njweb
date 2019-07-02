@@ -485,7 +485,14 @@ export default {
                         .catch(() => {
                             this.$Message.error(this.$t("reminder.errormessage"));
                         });
-                }
+                }else{
+					 this.$nextTick(function(){
+                            let tt = document.querySelectorAll('.ivu-form-item-error');
+                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
+                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                            }
+                        }) 
+				}
             });
         },
 
