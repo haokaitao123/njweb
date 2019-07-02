@@ -17,6 +17,11 @@
                                 placeholder="请输入面试时间"
                                 style="width: 200px"
                                 v-if="tbName=='recruit_process'"></DatePicker>
+                    <DatePicker type="date"
+                                v-model="relibReexamtm"
+                                placeholder="请输入复试时间"
+                                style="width: 200px"
+                                v-if="tbName=='recruit_process'"></DatePicker>               
                     <Button class="btns"
                             v-for="(item, index) in btns"
                             :key="index"
@@ -148,6 +153,7 @@ export default {
             curStep: '',
             empnhName: '',
             relibFilldate: '',
+            relibReexamtm:'',
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -453,6 +459,7 @@ export default {
                 t.curStep = paramId;
             }
             t.relibFilldate = t.tbName !== 'recruit_process' ? '' : t.relibFilldate;
+            t.relibReexamtm = t.tbName !== 'recruit_process' ? '' : t.relibReexamtm;
             this.page = 1;
             t.tableselected = []
             t.getData(1);
@@ -468,17 +475,20 @@ export default {
             }
             t.loading = true;
             t.relibFilldate = t.relibFilldate != "" ? new Date(t.relibFilldate).format("yyyy-MM-dd") : "";
+            t.relibReexamtm = t.relibReexamtm != "" ? new Date(t.relibReexamtm).format("yyyy-MM-dd") : "";
             const rcdata = {
                 curStep: t.curStep,
                 flowId: t.flowId,
                 empnhName: t.empnhName,
-                relibFilldate: t.relibFilldate
+                relibFilldate: t.relibFilldate,
+                relibReexamtm: t.relibReexamtm
             };
             t.rcvdata = "";
             if (rcdata.curStep === "") {
                 let tt = {
                     empnhName: t.empnhName,
-                    relibFilldate: t.relibFilldate
+                    relibFilldate: t.relibFilldate,
+                    relibReexamtm: t.relibReexamtm
                 };
 
                 for (const dat in tt) {
@@ -619,6 +629,7 @@ export default {
                 this.flstepName = '全部';
                 this.empnhName = "";
                 this.relibFilldate = "";
+                this.relibReexamtm = "";
                 this.flowId = "";
                 this.curStep = "";
                 this.rcvdata = "";
