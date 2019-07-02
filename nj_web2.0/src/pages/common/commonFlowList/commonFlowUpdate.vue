@@ -11,7 +11,7 @@
                               size="16"></Icon>
                     </Button>
 				</div>
-				<div class="content">
+				<div class="content" ref="scrollBox">
 					<row class="table-form" ref="table-form">
 						<Table v-show="thisPkValue!=='0'" size="small" border ref="selection" :columns="columns" :data="data" :loading="data.length === 0"></Table>
 					</row>
@@ -251,7 +251,8 @@
 					},
 				},
 				fixed: false,
-				thisStepCode: ''
+                thisStepCode: '',
+                flowStep:''
 			}
 		},
 		props: {
@@ -656,13 +657,10 @@
 							if(aa[i].className !== '') {
 								aa[i].width = 120
 								aa[i]['render'] = (h, params) => {
-									let bb = []
-									if(params.row[aa[i].key]) {
-										bb = params.row[aa[i].key].split('$')
-									}
-									let text = ''
-									let show = ''
-									switch(bb[3]) {
+									let bb = params.row[aa[i].key];
+                                    let text = ''
+                                    let show = ''
+									switch(params.row.cellClassName[aa[i].key]) {
 										case 'p_flowst_0':
 											show = '未开启'
 											break
@@ -676,8 +674,8 @@
 											show = '已完成'
 											break
 									}
-									if(bb[2]) {
-										text = '[ ' + bb[2] + ' ]'
+									if(bb) {
+										text = '[ ' + bb + ' ]'
 									}
 									if(text !== '') {
 										return h('Tooltip', {
@@ -696,13 +694,14 @@
 												},
 												on: {
 													click: () => {
-														this.thisPkValue = params.row.id
-														this.thisStepId = params.row[params.column.key].split('$')[1]
-														if(params.row[params.column.key].split('$')[3] === 'p_flowst_0') {
+														this.thisPkValue = params.row.id;
+                                                        this.thisStepId = t.flowStep[params.column.key].stepid;
+                                                        this.thisStepState = params.row.cellClassName[aa[i].key]
+														if(this.thisStepState === 'p_flowst_0') {
 															return
 														}
-														this.thisStepState = params.row[params.column.key].split('$')[3]
-														this.thisSetpName = params.row[params.column.key].split('$')[5]
+														
+                                                        this.thisSetpName = t.flowStep[params.column.key].flstepName;
 														this.getDataBlock()
 													},
 												},
@@ -738,17 +737,8 @@
 					}),
 				}).then((res) => {
 					if(isSuccess(res, t)) {
-						t.data = JSON.parse(res.data.content[0].rows)
-						for(let i = 0; i < t.data.length; i++) {
-							t.data[i].cellClassName = {}
-							for(let item in t.data[i]) {
-								if(typeof t.data[i][item] === 'string') {
-									if(t.data[i][item].split('$').length > 1) {
-										t.data[i].cellClassName[item] = t.data[i][item].split('$')[3]
-									}
-								}
-							}
-						}
+                        t.data = JSON.parse(res.data.content[0].rows);
+                        t.flowStep = JSON.parse(res.data.content[0].flowStep)
 					}
 				}).catch(() => {
 					t.$Message.error(this.$t("reminder.errormessage"));
@@ -1072,7 +1062,7 @@
 			 * 保存方法
 			 * */
 			async save() {
-				const t = this
+                const t = this
 				t.loading1 = true
 				t.formDataSubmit = {}
 				try {
@@ -1080,15 +1070,17 @@
 					for(let i = 0; i < this.$children.length; i++) {
 						if(this.$children[i].$options) {
 							if(this.$children[i].$options._componentTag === 'commonSingleForm') {
-								let b = await this.$children[i].validForm()
+                                let b = await this.$children[i].validForm();
+                                
 								if(!b) {
-									a = false
+									a = false; 
 								}
 								extendObject(t.formDataSubmit, t.$children[i].formDataSubmit)
 								extendObject(t.clmMap, t.$children[i].clmMap)
 							}
 						}
-					}
+                    }
+                    
 					// console.log(t.formDataSubmit, "t.formDataSubmit");
 					// console.log(t.clmMap, "t.clmMap");
 					// if(t.clmMap.transDeposit&&t.formDataSubmit.transDeposit!==""){
@@ -1106,7 +1098,15 @@
 					//     return
 					// })
 					if(!a) {
-						t.loading1 = false
+                        t.loading1 = false
+                        t.$nextTick(function(){
+                            let tt = document.querySelectorAll('.ivu-form-item-error');
+                            if(tt.length>0){
+                                let offsetTop = $(".ivu-form-item-error").eq(0).closest('.dataBlocks')[0].offsetTop;
+                                let domOffsetTop =  $(".ivu-form-item-error").eq(0).parent()[0].offsetTop
+                                t.$refs.scrollBox.scrollTop = offsetTop+domOffsetTop+20
+                            }                  
+                        })
 						return
 					}
 					t.formDataSubmit._mt = 'platAutoLayoutFlowSave.addOrUpd'
@@ -1152,32 +1152,89 @@
 		},
 	}
 </script>
-<style lang="scss" >
-	@import "../../../sass/updateAndAdd.scss";
-	.cover .box {
-		width: 1200px ;
-		left: 100px;
-        @media screen and (max-width: 1024px) {
-            position: fixed;
-            top: 70px;
-            left: 50px;
-            width: 90% !important;
+<style lang="scss" scoped>
+     .cover {
+        position: fixed;
+        overflow: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, .5);
+        -webkit-overflow-scrolling: touch;
+        outline: 0;
+        .box {
+            left: 100px;
+            position: relative;
+            width: 1200px !important;
+            background-color: #fff;
+            padding: 60px 20px 30px 20px;
+            border-radius: 10px;
+            @media screen and (max-width: 1024px) {
+                position: fixed;
+                top: 70px;
+                left: 50px;
+                width: 90% !important;
+            }
+            @media screen and (min-width: 1025px) and (max-width: 1366px) {
+                position: fixed;
+                left: 5%;
+                width: 90% !important;
+            }
+            .form {
+                max-height: 800px;
+                overflow-y: auto;
+            }
+
+            .title {
+                display: flex;
+                position: absolute;
+                height: 40px;
+                width: 100%;
+                line-height: 40px;
+                justify-content: space-between;
+                align-items: center;
+                padding-left: 20px;
+                top: 0;
+                border-bottom: 1px solid #efefef;
+                left: 0;
+
+                .title-text {
+                    font-weight: bold;
+                    font-size: 14px;
+                }
+            }
+            .ivu-col-offset-1 {
+                @media screen and(max-width: 1024px) {
+                    margin-left: 36px !important;
+                }
+                .ivu-form-item {
+                    @media screen and(max-width: 1024px) {
+                        margin-left: -32px !important;
+                    }
+                }
+            }
         }
-        @media screen and (min-width: 1025px) and (max-width: 1366px) {
-            width: 900px!important;
-        }
-		.ivu-col-offset-1 {
-			@media screen and(max-width: 1024px) {
-				margin-left: 36px !important;
-			}
-			.ivu-form-item {
-				@media screen and(max-width: 1024px) {
-					margin-left: -32px !important;
-				}
-			}
-		}
-	}
-	
+     }
+     .clearfix {
+        content: ".";
+        visibility: hidden;
+        display: block;
+        clear: both;
+    }
+
+    .ivu-form .ivu-form-item-label {
+        line-height: 1.2
+    }
+
+    .ivu-input[disabled],
+        fieldset[disabled] .ivu-input {
+        color: #333333;
+    }
 	.content {
 		@media screen and(min-width: 1024px) and (max-width: 1366px) {
             height: 400px;
@@ -1234,14 +1291,28 @@
 	}
 	
 	.cover .fixed {
-        width: 77%;
+        width: 77%!important;
 		@media screen and(max-width: 1024px) {
 			height: 550px;
-            top:40px;
-            width:90%!important;
+            // top:40px;
+            // width:90%!important;
+             position: fixed;
+            /* top: 70px; */
+            left: 5%;
+            width: 90% !important;
 		}
 		@media screen and (min-width: 1025px) and (max-width: 1366px) {
-            width: 80%!important;
+            // width: 80%!important;
+             position: fixed;
+            /* top: 70px; */
+            left: 5%;
+            width: 90% !important;
+        }
+        @media screen and (min-width: 1366px) and (max-width: 1600px) {
+            position: fixed;
+            /* top: 70px; */
+            left: 5%;
+            width: 90% !important;
         }
 		.content {
 			@media screen and(max-width: 1024px) {
@@ -1325,5 +1396,41 @@
 		display: flex;
 		justify-content: flex-end;
 	}
-    
+   
+</style>
+<style lang="scss">
+    .cover .fixed .approvIdea .ivu-col-span-10 {
+        width: 87%;
+    }
+    .cover .fixed .approvIdea textarea.ivu-input {
+        height: 240px;
+    }
+    .cover .fixed {
+        .approvIdea {
+            textarea.ivu-input {
+                @media screen and(max-width: 1100px) {
+                    height: 120px;
+                }
+                @media screen and (max-width:1366px) and (min-width:1100px) {
+                    height: 120px;
+                }
+            }
+		}
+        .ivu-form .ivu-form-item-label{
+            @media screen and(max-width: 1100px) {
+                width: 110px!important;
+            }
+            @media screen and (max-width:1566px) and (min-width:1024px) {
+                width: 110px!important;
+            }
+        }
+        .ivu-form-item-content{
+            @media screen and(max-width: 1100px) {
+                margin-left:110px!important;
+            }
+            @media screen and (max-width:1566px) and (min-width:1024px) {
+                margin-left:110px!important;
+            }
+        }
+    }
 </style>

@@ -25,6 +25,7 @@ import enLocale from 'iview/src/locale/lang/en-US'
 import store from './vuex'
 import './assets/iconfont/iconfont.css';
 import isIE from '../src/lib/isIE'
+import $ from 'jquery'
 import {
   getDataLevelUserLogin
 } from './axios/axios'
@@ -103,8 +104,8 @@ router.beforeEach((to, from, next) => {
   } else {
     store.commit('setFunId', to.query.id)
   }
-  if (to.path.indexOf('loginmain') == -1 && to.path != "/" && to.path != "/home" && to.path != "/ansrptToDoList" && to.path != "/empmasterManage"
-  && to.path != "/empEntryConManage" && to.path != "/depRemManage" && to.path != "/empRefundManage" && to.path != "/applicitions") {
+  if (to.path.indexOf('loginmain') == -1 && to.path != "/" && to.path != "/home" && to.path != "/ansrptToDoList" && to.path != "/empmasterManage" &&
+    to.path != "/empEntryConManage" && to.path != "/depRemManage" && to.path != "/empRefundManage" && to.path != "/applicitions") {
     const t = this
     let data = {
       _mt: 'sysFunctions.getStatusBtnByAuth',

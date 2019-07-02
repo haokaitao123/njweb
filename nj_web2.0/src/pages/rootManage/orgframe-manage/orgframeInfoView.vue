@@ -169,6 +169,7 @@
                                        :disabled="disabled"
                                        size="default"
                                        style="width: 290px"
+                                       @on-change="calculatePartEstablish()"
                                        placeholder="请输入经理编制"></Input>
                                 <!--@on-blur="cop()"-->
                             </FormItem>
@@ -180,6 +181,7 @@
                                        :disabled="disabled"
                                        size="default"
                                        style="width: 290px"
+                                       @on-change="calculatePartEstablish()"
                                        placeholder="请输入主管编制"></Input>
                             </FormItem>
                             <!--@on-blur="cop1()"-->
@@ -191,6 +193,7 @@
                                        :disabled="disabled"
                                        size="default"
                                        style="width: 290px"
+                                       @on-change="calculatePartEstablish()"
                                        placeholder="请输入员工编制"></Input>
                             </FormItem>
                             <!--@on-blur="cop2()"-->
@@ -202,6 +205,7 @@
                                        :disabled="disabled"
                                        size="default"
                                        style="width: 290px"
+                                       @on-change="calculatePartEstablish()"
                                        placeholder="请输入驻厂员工编制"></Input>
                             </FormItem>
                             <!--@on-blur="cop3()"-->
@@ -295,7 +299,6 @@ import searchOrgframe from '../../../components/searchTable/searchOrgframe'
 import searchOrgcostcenter from '../../../components/searchTable/searchOrgcostcenter'
 import valid from '../../../lib/pub_valid'
 export default {
-
     data () {
         const numberCheck = (rule, value, numberValCheck) => {
             if (value !== '' && value !== undefined) {
@@ -310,7 +313,6 @@ export default {
             if (value === "" || !value) {
                 callback(new Error("请输入部门编制"));
             } else {
-                console.log(value, "value")
                 if (valid.val_number103(value) == false) {
                     return callback(new Error('请输入正确的数字格式'));
                 } else {
@@ -795,33 +797,13 @@ export default {
             //document.getElementById("scrollBox").scrollTop = "0";
             this.$emit('closeUp')
         },
+        calculatePartEstablish () {
+            if (valid.val_number99(this.formValidate.unitManger) && valid.val_number99(this.formValidate.unitDirec) && valid.val_number99(this.formValidate.unitStaff) && valid.val_number99(this.formValidate.unitPtstaff)) {
+                let str = Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff) + Number(this.formValidate.unitPtstaff)
+                this.formValidate.partEstablish = str.toString()
+            }
+        }
     },
-    watch: {
-        //经理编制
-        "formValidate.unitManger": function unitManger (val) {
-            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitDirec) && valid.val_number99(this.formValidate.unitStaff) && valid.val_number99(this.formValidate.unitPtstaff)) {
-                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff) + Number(this.formValidate.unitPtstaff)
-            }
-        },
-        //主管编制
-        "formValidate.unitDirec": function unitDirec (val) {
-            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitManger) && valid.val_number99(this.formValidate.unitStaff) && valid.val_number99(this.formValidate.unitPtstaff)) {
-                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitManger) + Number(this.formValidate.unitStaff) + Number(this.formValidate.unitPtstaff)
-            }
-        },
-        //员工编制
-        "formValidate.unitStaff": function unitStaff (val) {
-            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitManger) && valid.val_number99(this.formValidate.unitDirec) && valid.val_number99(this.formValidate.unitPtstaff)) {
-                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitPtstaff)
-            }
-        },
-        //驻厂员工编制
-        "formValidate.unitPtstaff": function unitPtstaff (val) {
-            if (valid.val_number99(val) && valid.val_number99(this.formValidate.unitManger) && valid.val_number99(this.formValidate.unitDirec) && valid.val_number99(this.formValidate.unitStaff)) {
-                this.formValidate.partEstablish = Number(val) + Number(this.formValidate.unitManger) + Number(this.formValidate.unitDirec) + Number(this.formValidate.unitStaff)
-            }
-        },
-    }
 }
 </script>
 <style lang="scss">

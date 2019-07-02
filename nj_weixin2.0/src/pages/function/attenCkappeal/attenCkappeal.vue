@@ -204,7 +204,7 @@ export default {
     height: 100%;
     background: #f6f6f6;
     .attenCkappealWrap {
-        height: 100%;
+        height: calc(~"100% - 110px");
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;

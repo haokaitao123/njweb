@@ -62,7 +62,7 @@ const valid = {
     return rtn;
   },
   //数字格式_非负浮点数
-  val_number103: (str) => {
+    val_number103: (str) => {
     let rtn = false,
       reg = /^(((\d)|([1-9]\d+))(\.\d+)?)$/;
     if (str.match(reg))

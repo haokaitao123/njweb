@@ -256,11 +256,11 @@ export default {
             id: 0,
             curDom: "",
             curDomShow: "",
-            vacSdateDate: new Date(),
-            minVacSdate: new Date(),
+            vacSdateDate: new Date(2019, 1, 1),
+            minVacSdate: new Date(2019, 1, 1),
             maxVacSdate: new Date(2099, 12, 31),
-            vacEdateDate: new Date(),
-            minVacEdate: new Date(),
+            vacEdateDate: new Date(2019, 1, 1),
+            minVacEdate: new Date(2019, 1, 1),
             maxVacEdate: new Date(2099, 12, 31),
             file: '',
             filekey: '',
@@ -427,34 +427,52 @@ export default {
                 this.currentDate = new Date();
                 this.form[this.curDom] = value;
                 if (this.curDom === 'vacSdate') {
-                    if (this.form.vacDay !== '' && !isNaN(Number(this.form.vacDay))) {
-                        let day = new Date(value).setDate(new Date(value).getDate() + Number(this.form.vacDay));
+
+                    if (this.form.vacDay !== '' && valid.val_number103(this.form.vacDay)) {
+                        let vacDay = parseInt(this.form.vacDay);
+                        if (Number(this.form.vacDay) > parseInt(this.form.vacDay)) {
+                            vacDay = parseInt(this.form.vacDay) + 1
+                        }
+                        let day = new Date(value).setDate(new Date(value).getDate() + vacDay - 1);
                         day = new Date(day);
                         this.vacEdateDate = day;
                         this.form.vacEdate = day.format('yyyy-MM-dd');
+                        this.minVacEdate = day;
+                        // this.maxVacEdate = day;
+                    } else {
+                        this.minVacEdate = new Date(value);
                     }
                 }
             } else {
                 if (this.curDom === 'vacIsreapply') {
-                    if (value.text === '是') {
-                        if (this.form.vacDay !== '' && !isNaN(Number(this.form.vacDay))) {
-                            let day = new Date().setDate(new Date().getDate() + Number(this.form.vacDay));
+                    if (value.text === '否') {
+                        if (this.form.vacDay !== '' && valid.val_number103(this.form.vacDay)) {
+                            let vacDay = parseInt(this.form.vacDay);
+                            if (Number(this.form.vacDay) > parseInt(this.form.vacDay)) {
+                                vacDay = parseInt(this.form.vacDay) + 1
+                            }
+                            let day = new Date().setDate(new Date().getDate() + vacDay - 1);
                             day = new Date(day);
                             if (this.form.vacSdate !== '请选择') {
                                 let date = new Date(this.form.vacSdate).getTime();//开始日期
                                 let minVacSdate = day.getTime();
                                 if (date < minVacSdate) {
                                     this.form.vacSdate = day.format('yyyy-MM-dd');
-                                    let vacEdateDate = new Date(this.form.vacSdate).setDate(new Date(this.form.vacSdate).getDate() + Number(this.form.vacDay));
+                                    if (Number(this.form.vacDay) > parseInt(this.form.vacDay)) {
+                                        vacDay = parseInt(this.form.vacDay) + 1
+                                    }
+                                    let vacEdateDate = new Date(this.form.vacSdate).setDate(new Date(this.form.vacSdate).getDate() + vacDay - 1);
                                     vacEdateDate = new Date(vacEdateDate);
                                     this.vacEdateDate = vacEdateDate;
                                     this.form.vacEdate = vacEdateDate.format('yyyy-MM-dd');
+                                    this.minVacEdate = vacEdateDate;
+                                    // this.maxVacEdate = vacEdateDate;
                                 }
                             }
                             this.minVacSdate = day
                         }
                     } else {
-                        this.minVacSdate = new Date();
+                        this.minVacSdate = new Date(2019, 1, 1);
                     }
                 }
                 this.form[this.curDom] = value.key;
@@ -470,23 +488,35 @@ export default {
         },
         //设置日期
         setDate () {
-            if (this.form.vacDay !== '' && !isNaN(Number(this.form.vacDay))) {
-                if (this.form.vacIsreapply === '1') {
-                    let day = new Date().setDate(new Date().getDate() + Number(this.form.vacDay));
+            console.log(valid.val_number103(this.form.vacDay), "213123")
+            if (this.form.vacDay !== '' && valid.val_number103(this.form.vacDay)) {
+                if (this.form.vacIsreapply === '0') {
+                    let vacDay = parseInt(this.form.vacDay);
+                    if (Number(this.form.vacDay) > parseInt(this.form.vacDay)) {
+                        vacDay = parseInt(this.form.vacDay) + 1
+                    }
+                    let day = new Date().setDate(new Date().getDate() + vacDay - 1);
                     day = new Date(day)
-                    this.minVacSdate = day
-                } else {
-                    this.minVacSdate = new Date();
+                    this.minVacSdate = day;
+                    this.vacSdateDate = day;
+                    this.form.vacSdate = day.format('yyyy-MM-dd');
                 }
                 if (this.form.vacSdate !== '请选择') {
                     let value = this.form.vacSdate;
-                    let day = new Date(value).setDate(new Date(value).getDate() + Number(this.form.vacDay));
+                    let vacDay = parseInt(this.form.vacDay);
+                    if (Number(this.form.vacDay) > parseInt(this.form.vacDay)) {
+                        vacDay = parseInt(this.form.vacDay) + 1
+                    }
+                    let day = new Date(value).setDate(new Date(value).getDate() + vacDay - 1);
                     day = new Date(day);
                     this.vacEdateDate = day;
+                    this.minVacEdate = day;
                     this.form.vacEdate = day.format('yyyy-MM-dd');
                 }
-            }
 
+            } else {
+                this.minVacSdate = new Date(2019, 1, 1);
+            }
         },
         //获取详情
         getData () {
@@ -536,6 +566,7 @@ export default {
                     t.vacEdateDate = !data.vacEdate ? new Date() : new Date(data.vacEdate.replace(/-/g, '/'));
                     t.setSelectValue(data.vacIsreapplyDis, 'selectVacIsreapply', 'vacIsreapplyIndex');
                     t.setSelectValue(data.vacTypeDis, 'selectVacType', 'vacTypeIndex');
+
                 }
             }).catch((err) => {
                 t.$notify({
@@ -669,7 +700,7 @@ export default {
         display: flex;
         background: #f6f6f6;
         flex-direction: column;
-		margin-bottom: 100px;
+        margin-bottom: 100px;
         .save_button {
             padding: 125px 54px 50px;
             display: flex;

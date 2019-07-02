@@ -268,12 +268,6 @@ export default {
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
                 return
             }
-            let res = valid.bankCardAttribution(value)
-            let bankType = this.empnhSalbankDis
-            console.log('type', bankType)
-            this.empnhSalbankDis = res.bankName
-            console.log(res.bankName)
-            this.form.empupdSalbank = res.bankName
             this.bankVaild = true;
 
         },

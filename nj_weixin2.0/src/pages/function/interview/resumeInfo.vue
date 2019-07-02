@@ -479,8 +479,10 @@
 		data() {
 			return {
 				curStepCode: "",
+				localData: 0,
 				wzd: 0,
-				percent:0,
+				percent: 0,
+				lodata: 0,
 				cent: '',
 				curStep: "",
 				curStepstate: "",
@@ -513,12 +515,12 @@
 				textNull: true,
 				ifValue: '',
 				first: '',
-				Birtplace:true,
-				Birtday:true,
+				Birtplace: true,
+				Birtday: true,
 				form: {
-					relibApplypost: "", //应聘岗位
 					relibIdentity: "", //身份
 					relibName: "", //姓名
+					relibApplypost: "", //应聘岗位
 					relibIdno: "", //证件号码
 					relibMobile: "", //手机号
 					relibGender: "", //性别
@@ -673,10 +675,17 @@
 			this.getWorkExp();
 			this.getFamily();
 			this.getEducation();
+			//window.localStorage.setItem("temp",0)
 			window.localStorage.setItem('reeduPid', this.$route.query.id);
+			//localStorage.removeItem("temp")
 		},
 		mounted() {
 			var __this = this;
+			window.addEventListener("scroll", function(e) {
+				//变量t就是滚动条滚动时，到顶部的距离
+				var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
+				__this.topDisor = topDis;
+			});
 			const u = navigator.userAgent;
 			const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
 			if(isiOS) {
@@ -685,17 +694,153 @@
 				this.getClientHeight();
 				window.addEventListener("resize", this.windowResizeEvent);
 			}
-			window.addEventListener("scroll", function(e) {
-				//变量t就是滚动条滚动时，到顶部的距离
-				var topDis = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
-				__this.topDisor = topDis;
-			});
+			
 		},
 		beforeMount() {
 			var th = this
 			th.test = th.topDisor;
 		},
 		methods: {
+			judgeData() {
+				if(this.relibIdentityDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.form.relibName != "") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibIdno != "") {
+						this.wzd += 3.75
+				}
+				if(this.form.relibMobile != "") {
+					this.wzd += 3.75
+				}
+				if(this.relibGenderDis != "请选择") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibBirtday != "请选择") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibBirtplace != "") {
+					this.wzd += 2
+				}
+				if(this.relibNatalityDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.relibPoliticalDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.form.relibFilldate != "请选择") {
+					this.wzd += 3.75
+				}
+				if(this.relibHealthstaDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.relibMaritlstaDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.form.relibHeight != "") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibWeight != "") {
+					this.wzd += 3.75
+				}
+				if(this.relibEducatDis != "请选择") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibSchool != "") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibProfes != "") {
+					this.wzd += 1
+				}
+				if(this.form.relibLiving != "") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibFamadds != "") {
+					this.wzd += 1
+				}
+				if(this.form.relibEmernm != "") {
+					this.wzd += 3.75
+				}
+				if(this.form.relibEmphone != "") {
+					this.wzd += 3.75
+				}
+				if(this.relibWithmeDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.form.relibSalary != "") {
+					this.wzd += 1
+				}
+				if(this.relibProstatusDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.form.relibAvaitime != "请选择") {
+					this.wzd += 1
+				}
+				if(this.relibIsrelativesDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.form.relibRelatname != "") {
+					this.wzd += 1
+				}
+				if(this.form.relibRelatdept != "") {
+					this.wzd += 1
+				}
+				if(this.relibIscriminalDis != "请选择") {
+					this.wzd += 3.75
+				}
+				if(this.relibIstattooDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.relibApplytypeDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.relibIscomDis != "请选择") {
+					this.wzd += 1
+				}
+				if(this.form.relibSelfeval != "") {
+					this.wzd += 1
+				}
+				if(this.relibEnrorageDis != "请选择") {
+					this.wzd += 3.75
+				}
+				if(this.relibIsgraduDis != "请选择") {
+					this.wzd += 3.75
+				}
+			this.percent = parseInt(this.wzd)
+			},
+			judgeWk(){
+				if(this.onewk) {
+					if(this.workExpList.length > 0) {
+						this.wzd += 5
+						this.percent = parseInt(this.wzd)
+						this.onewk = false
+					}
+				}
+			},
+			judgeFy(){
+				if(this.onefy) {
+					if(this.familyList.length > 0) {
+						this.wzd += 5
+						this.percent = parseInt(this.wzd)
+						this.onefy = false
+					}
+					if(this.workExpList.length > 0 && this.familyList.length > 0) {
+						this.wzd += 5
+						this.percent = parseInt(this.wzd)
+						this.onefy = false
+					}
+				}
+			},
+			judgeEd(){
+				if(this.oneed) {
+					if(this.educationList.length > 0) {
+						this.wzd += 5
+						this.percent = parseInt(this.wzd)
+						this.oneed = false
+					}
+				}
+			},
 			changefy() {
 				if(this.onefy && !this.onewk) {
 					this.wzd += 10
@@ -704,6 +849,7 @@
 				}
 				if(this.onefy) {
 					this.wzd += 5
+					this.percent = parseInt(this.wzd)
 					this.onefy = false
 				}
 			},
@@ -713,6 +859,7 @@
 					this.percent = parseInt(this.wzd)
 					this.oneed = false
 				}
+				this.burEvent()
 			},
 			changewk() {
 				if(!this.onefy && this.onewk) {
@@ -725,39 +872,31 @@
 					this.percent = parseInt(this.wzd)
 					this.onewk = false
 				}
+				this.burEvent()
 			},
-			focusEvent(value,types) {
-				console.log('focus', value,types)
-				if(types == 'idNumber'){
-					console.log('1',this.form.relibBirtplace)
-				if(this.form.relibBirtplace == ""){
-					console.log('123678',this.form.relibBirtplace)
-					this.Birtplace = false
-				}
-				if(this.form.relibBirtday == "请选择"){
-					this.Birtday = false
-				}
+			focusEvent(value, types) {
+				if(types == 'idNumber') {
+					if(this.form.relibBirtplace == "") {
+						this.Birtplace = false
+					}
+					if(this.form.relibBirtday == "请选择") {
+						this.Birtday = false
+					}
 				}
 				this.ifValue = value
 			},
 			blurEvent(a, x, y) {
-				console.log(a, 'a', x, 'x', y, 'y')
 				if(y == 'idcard') {
-						this.idNumber()
+					this.idNumber()
 					if(this.ifValue == "") {
-						console.log('id', this.ifValue)
 						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
 						if(idcardReg.test(parseInt(x))) {
 							this.wzd += 3.75
-							console.log('huji',this.Birtplace)
 							if(!this.Birtplace) {
-								console.log('huji')
 								this.wzd += 2
 								this.Birtplace = true
 							}
-							console.log('sr',this.Birtday)
 							if(!this.Birtday) {
-								console.log('sr')
 								this.wzd += 3.75
 								this.Birtday = true
 							}
@@ -766,10 +905,10 @@
 					if(x == "") {
 						//console.log('er',this.ifValue)
 						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-						if(idcardReg.test(parseInt(this.ifValue))){
+						if(idcardReg.test(parseInt(this.ifValue))) {
 							if(this.ifValue != "") {
-							this.wzd -= 3.75
-						}
+								this.wzd -= 3.75
+							}
 						}
 					}
 				}
@@ -784,7 +923,6 @@
 				}
 				if(y == 'kg') {
 					if(x == "") {
-						console.log(123)
 						var num = isNaN(x);
 						if(this.ifValue != "") {
 							//console.log(num)
@@ -846,38 +984,28 @@
 			},
 			//页面变化
 			windowResizeEvent() {
-				console.log('ww', this.topDisor)
 				var datas = this.topDisor
 				var storage = window.localStorage;
-
 				var target = this;
 				var bodys = document.querySelector(".resumeInfoWrap")
-				console.log(bodys)
-				console.log('1234', bodys.clientHeight)
 				var clientHeights = 0;
 				if(document.body.clientHeights && document.documentElement.clientHeights) {
 					var clientHeights = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
 				} else {
 					var clientHeights = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
 				}
-				console.log('s', clientHeights)
-				console.log('os', this.clientHeight)
-
 				if(clientHeights < this.clientHeight) {
 					bodys.classList.add("addClass");
 					bodys.style.top = "-" + this.topDisor - 50 + "px";
 					bodys.style.left = 0 + "px";
-					console.log('top', bodys.style.top)
 					var datas = this.topDisor
 					var key = 'ok';
 					storage.setItem(key, JSON.stringify(datas));
 				} else {
 					var rods = this;
-					console.log('spa', rods.test)
 					var bodys = document.querySelector(".resumeInfoWrap")
 					bodys.classList.remove("addClass");
 					bodys.removeAttribute("style")
-
 					setTimeout(() => {
 						var key = 'ok';
 						var storage = window.localStorage;
@@ -890,7 +1018,6 @@
 
 			//可视窗口高度
 			getClientHeight() {
-				console.log(123)
 				var clientHeights = 0;
 				if(document.body.clientHeights && document.documentElement.clientHeights) {
 					var clientHeights = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
@@ -898,12 +1025,10 @@
 					var clientHeights = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
 				}
 				this.clientHeight = clientHeights;
-
 			},
 			goTo(name, id) {
 				this[name] = true;
 				this.currentId = id;
-
 			},
 			checkChild() {
 				const t = this;
@@ -976,18 +1101,14 @@
 			//底部弹出框
 			popupClick(domShow, dom, res) {
 				this.cent = res;
-				console.log('this.cent', this.cent)
 				this.curDom = dom;
 				this.curDomShow = domShow;
 				this[domShow] = true;
 				var selects = this.curDom
-				console.log(selects)
 				this.first = this.form[selects]
-				console.log(this.first)
 			},
 			confirm(value) {
 				if(this.cent == '1') {
-					console.log(this.first)
 					if(this.first == '') {
 						this.wzd += 1
 					}
@@ -1000,7 +1121,6 @@
 
 				}
 				if(this.cent == '2') {
-					console.log(this.first)
 					if(this.first == '') {
 						this.wzd += 3.75
 					}
@@ -1264,8 +1384,7 @@
 								t.valuation(data)
 							}
 						}
-								t.wzd += 16;
-								t.percent += 16;
+						t.judgeData()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1287,21 +1406,9 @@
 				}
 				await getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
-
 						let data = JSON.parse(res.data.content[0].value);
 						t.workExpList = data
-						if(t.onewk) {
-							if(t.workExpList.length > 0) {
-								this.wzd += 5
-								this.percent = parseInt(this.wzd)
-								t.onewk = false
-							}
-							if(t.workExpList.length > 0 && t.familyList.length > 0) {
-								this.wzd += 5
-								this.percent = parseInt(this.wzd)
-								t.onewk = false
-							}
-						}
+						t.judgeWk()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1323,21 +1430,9 @@
 				}
 				getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
-
 						let data = JSON.parse(res.data.content[0].value);
 						t.familyList = data
-						if(t.onefy) {
-							if(t.familyList.length > 0) {
-								this.wzd += 5
-								this.percent = parseInt(this.wzd)
-								t.onefy = false
-							}
-							if(t.workExpList.length > 0 && t.familyList.length > 0) {
-								this.wzd += 5
-								this.percent = parseInt(this.wzd)
-								t.onefy = false
-							}
-						}
+						t.judgeFy()
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -1359,20 +1454,13 @@
 				}
 				await getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
-
 						let data = JSON.parse(res.data.content[0].value);
-						t.educationList = data
-						if(t.oneed) {
-							if(t.educationList.length >= 1) {
-								this.wzd += 5
-								this.percent = parseInt(this.wzd)
-								t.oneed = false
-							}
-						}
+						t.educationList = data;
+						t.judgeEd()
 					}
 				}).catch((err) => {
 					t.$notify({
-						message: '网络错误',
+						message: '网络错误00',
 						duration: 1500,
 						background: '#f44'
 					});
@@ -1462,7 +1550,11 @@
 					window.localStorage.setItem('resumeInfoForm', tt)
 				},
 				deep: true
-			}
+			},
+			//		percent(val) {
+			//			this.percent = parseInt(this.wzd);
+			//			//window.localStorage.setItem("temp", this.percent)
+			//		}
 		},
 	}
 </script>

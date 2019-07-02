@@ -497,7 +497,7 @@
 					if(isSuccess(res, t)) {
 						let data = JSON.parse(res.data.content[0].value);
                         t.list = data;
-                        
+                        console.log(data,"t.data")
 					}
 				}).catch((err) => {
 					t.$notify({
@@ -534,14 +534,19 @@
 				}
 				let dates = {}
 				if(this.$route.query.item.tbname == 'atten_vacation') {
-					dates.vacActdate = this.form.relibFilldate
+                    if(this.$route.query.item.aprdStepcode==='vacation_3'){
+                        dates.vacActdate = this.form.relibFilldate
+                    }
+					
 				}
 
 				if(this.$route.query.item.tbname == 'emp_empdim') {
-					dates.dimReceive = this.empIdName
+                    if(this.$route.query.item.aprdStepcode==='empdim_10'){
+                        dates.dimReceive = this.form.relibInviteman
+                    }
 				}
 				const data = {
-					_mt: '..wxansrpttodo.approvalSubmit',
+					_mt: 'wxansrpttodo.approvalSubmit',
 					companyId: pubsource.companyId,
 					logType: logType,
 					stepId: this.$route.query.item.aprvrelaStepid,
@@ -552,7 +557,6 @@
 					pkValue: this.list.id,
 					pkData: JSON.stringify(dates),
 				}
-				console.log('参数', data)
 				getDataLevelUserLogin(data).then((res) => {
 					if(isSuccess(res, t)) {
 						this.$router.push({
@@ -608,13 +612,13 @@
 <style lang="less" scoped>
 	.appInfo {
 		width: 100%;
-		height: calc(~"100% - 110px");
+		height: calc(~"100% - 100px");
 		padding: 20px;
 		background: white;
 		box-sizing: border-box;
 		overflow: -Scroll;
 		overflow-x: hidden;
-		overflow-y: hidden;
+		overflow-y: auto;
 		.head {
 			width: 100%;
 			height: 80px;
@@ -628,7 +632,7 @@
 		.content {
 			padding: 20px 20px;
 			padding-bottom: 40px;
-			width: 100%;
+			width: 95%;
 			border-bottom: 1px solid gainsboro;
 			.appNumber {
 				padding-top: 20px;
@@ -654,7 +658,7 @@
 					display: inline-block;
 				}
 				.tow {
-					margin-left: 50px;
+					margin-left: 20px;
 					display: inline-block;
 				}
 			}
@@ -668,7 +672,7 @@
 					display: inline-block;
 				}
 				.tow {
-					margin-left: 50px;
+					margin-left: 20px;
 					display: inline-block;
 				}
 			}
@@ -724,6 +728,7 @@
 		}
 		.textWrite {
 			font-size: 30px;
+			border-bottom: 1px solid gainsboro;
 		}
 		.save_button {
 			padding: 65px 54px 50px;
