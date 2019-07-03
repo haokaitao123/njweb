@@ -201,7 +201,7 @@ export default {
     background: #f6f6f6;
     .informNoticeWrap {
         width: 100%;
-        height: 100%;
+		height :100%;
         box-sizing: border-box;
         display: flex;
         background: #f6f6f6;
@@ -234,7 +234,8 @@ export default {
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 30px;
+			height: calc(~"100% - 200px");
+            margin-bottom: 140px;
             .informNoticeContent {
                 padding: 15px 30px 15px;
                 .info_item {

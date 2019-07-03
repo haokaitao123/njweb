@@ -252,23 +252,22 @@ export default {
         bankCheck () {
             console.log(123)
             if (this.form.empupdSalcount == '') {
-                this.bankVaild = false;
-                return
+                this.bankVaild = true;
             }
             if (valid.val_backNumber(this.form.empupdSalcount) == 1) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-                return;
+
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 2) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-                return
+
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 3) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-                return
+
             }
-            this.bankVaild = true;
+
 
         },
         async save () {
@@ -323,7 +322,7 @@ export default {
             this[domShow] = true;
         },
         comfirmSubmit () {
-            if (this.$verify.check()) {
+            if (this.$verify.check() && this.bankVaild) {
                 this.$dialog.confirm({
                     title: '',
                     message: '是否确认提交？'

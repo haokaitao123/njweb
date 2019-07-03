@@ -2,6 +2,9 @@
     <div class="wrapper">
         <div v-for="i in tabbar"
              class="tabBar_box">
+			 <div class="tabTip" v-show ="tipNum > 0" v-if='i.title == "审批"'>
+			<badge class="tips"></badge>
+			</div>
             <div class="tabbar_item"
                  @click="tabTo(i.key)">
                 <div class="tabbar_icon">
@@ -10,12 +13,17 @@
                 <span class="font"
                       :class="[pKey == i.key?'tabbar_active':'']">{{i.title}}</span>
             </div>
+			
         </div>
     </div>
 </template>
 
 <script>
+import { Badge } from 'vux'
 export default {
+	components: {
+    Badge
+  },
     props: {
         pIndexKey: {
             type: [String],
@@ -25,9 +33,6 @@ export default {
         pKey () {
             return this.$store.state.pIndexKey
         }
-    },
-    created () {
-        this.getTipNum()
     },
     data () {
         return {
@@ -50,11 +55,17 @@ export default {
                     imgSrc: "../../../static/footer/kb_05-01.svg",
                     activeImgSrc: "../../../static/footer/zy_06-01.svg"
                 },
-            ]
+            ],
+			tipNum : 0
         };
     },
     methods: {
+		getTipNum(){
+					this.tipNum = JSON.parse(localStorage.getItem('tipNum'));
+					console.log(this.tipNum)
+		},
         tabTo (_key) {
+			this.getTipNum()
             if (this.pKey === _key) return;
             this.$store.commit('setPIndexKey', _key);
             this.$emit("tabTo", {
@@ -82,6 +93,19 @@ export default {
     border-top: 1px solid #dcdcdc;
     .tabBar_box {
         flex: 1;
+		.tabTip{
+			display: inline-block;
+			position: fixed;
+			bottom: 60px;
+			left: 330px;
+		.tips{
+			width: 15px;
+			height: 15px;
+			line-height: 30px;
+			display: inline-block;
+			border-radius: 50%;
+		}
+		}
         .tabbar_item {
             height: 100%;
             display: flex;

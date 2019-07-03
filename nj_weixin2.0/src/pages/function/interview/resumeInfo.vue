@@ -207,7 +207,7 @@
 				</div>
 				<!-- 紧急联系人电话 -->
 				<div class="item_box">
-					<x-input title="紧急联系人电话<span>*</span>" v-model="form.relibEmphone" @on-blur="blurEvent(2,form.relibEmphone,'phone')" @on-focus="focusEvent" v-verify="form.relibEmphone" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="紧急联系人电话<span>*</span>" v-model="form.relibEmphone" @on-blur="blurEvent(2,form.relibEmphone)" @on-focus="focusEvent" v-verify="form.relibEmphone" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibEmphone==''" v-remind="form.relibEmphone"></icon>
 				</div>
@@ -921,27 +921,6 @@
 						if(idcardReg.test(parseInt(this.ifValue))) {
 							if(this.ifValue != "") {
 								this.wzd -= 3.75
-							}
-						}
-					}
-				}
-				if(y == 'phone'){
-					
-					if(!(/^1[3456789]\d{9}$/.test(parseInt(this.ifValue)))){
-						//console.log(x)	
-						if((/^1[3456789]\d{9}$/.test(parseInt(x)))){ 
-							//alert('1')
-							if(this.isIphone){
-								this.wzd += 3.75
-								this.isIphone = false
-							}
-						} 
-					}
-					if(x == ""){
-						if(this.ifValue != "") {
-							if((/^1[3456789]\d{9}$/.test(parseInt(this.ifValue)))){ 
-								this.wzd -= 3.75
-								this.isIphone = true
 							}
 						}
 					}

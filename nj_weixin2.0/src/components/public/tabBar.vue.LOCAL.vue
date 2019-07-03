@@ -26,9 +26,6 @@ export default {
             return this.$store.state.pIndexKey
         }
     },
-    created () {
-        this.getTipNum()
-    },
     data () {
         return {
             tabbar: [
