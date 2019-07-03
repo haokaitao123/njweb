@@ -7,7 +7,7 @@ const empReportList = resolve => require(['@/pages/report/empReportList'], resol
 //离职员工名单
 const empdimReportList = resolve => require(['@/pages/report/empdimReportList'], resolve)
 //异动员工名单
-const empTransReportList = resolve => require(['@/pages/report/empTransReportList'], resolve)
+//const empTransReportList = resolve => require(['@/pages/report/empTransReportList'], resolve)
 
 export default [
   {
@@ -20,9 +20,9 @@ export default [
     name: 'empdimReportList',
     component: empdimReportList,
   },
-  {
-    path: 'empTransReportList',
-    name: 'empTransReportList',
-    component: empTransReportList,
-  },
+  // {
+  //   path: 'empTransReportList',
+  //   name: 'empTransReportList',
+  //   component: empTransReportList,
+  // },
 ]

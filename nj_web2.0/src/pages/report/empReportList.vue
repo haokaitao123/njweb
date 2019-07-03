@@ -128,7 +128,7 @@ export default {
         { code: "unitFname", name: "项目" },
         { code: "empnhName", name: "姓名" },
         { code: "postFname", name: "岗位" },
-        { code: "postType", name: "职级" },
+        { code: "postTypeDis", name: "职级" },
         { code: "empnhPmpDis", name: "直接领导" },
         { code: "empnhWklocatDis", name: "工作属地" },
         { code: "empnhGenderDis", name: "性别" },
@@ -198,7 +198,7 @@ export default {
         },
         {
           title: "职级",
-          key: "postType",
+          key: "postTypeDis",
           width: 220
         },
         {
@@ -492,7 +492,7 @@ export default {
       const t = this;
       // 填装查询条件
       const data = {
-        state : "02empstate",
+        state : "01empstate",
       };
       // 设置导出mt参数
       this.$refs.expwindow.getData(
