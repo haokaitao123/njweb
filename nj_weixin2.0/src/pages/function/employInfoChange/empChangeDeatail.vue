@@ -96,8 +96,8 @@
                 <div class="item_box">
                     <x-input title="银行账号"
                              v-model="form.empupdSalcount "
+                             v-verify="form.empupdSalcount"
                              :disabled="disabled"
-							  @on-blur="bankCheck"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
@@ -115,10 +115,10 @@
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                  <!--  <icon type="warn"
+                    <icon type="warn"
                           class="error"
                           v-show="form.empupdSalcname==''"
-                          v-remind="form.empupdSalcname"></icon> -->
+                          v-remind="form.empupdSalcname"></icon>
                 </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
@@ -214,10 +214,10 @@ export default {
     verify: {
         form: {
             empId: "required",
-            //empupdResaddr: "required",
+            empupdResaddr: "required",
             empupdSalbank: "required",
-            //empupdSalcount: ["required", "number"],
-            //empupdSalcname: "required"
+            empupdSalcount: ["required", "number"],
+            empupdSalcname: "required"
         }
     },
     components: {
@@ -250,7 +250,7 @@ export default {
         //银行卡号校验
         //银行卡验证
         bankCheck () {
-            //console.log(123)
+            console.log(123)
             if (this.form.empupdSalcount == '') {
                 this.bankVaild = false;
                 return
