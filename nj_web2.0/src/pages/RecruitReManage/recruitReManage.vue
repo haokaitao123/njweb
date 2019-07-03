@@ -137,6 +137,7 @@ export default {
         { code: "relibEducatDis", name: "学历" },
         { code: "relibReexamusDis", name: "复试人" },
         { code: "reason", name: "复试备注" },
+        { code: "relibCheckopin", name: "复试筛选备注" },
         { code: "relibMobile", name: "电话号码" },
 			],
         // 导入导出默认参数 无需变更
@@ -209,6 +210,11 @@ export default {
         {
           title: "复试备注",
           key: "reason",
+          width: 220
+        },
+        {
+          title: "复试筛选备注",
+          key: "relibCheckopin",
           width: 220
         },
         {
