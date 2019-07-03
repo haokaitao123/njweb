@@ -751,6 +751,7 @@ export default {
             this.form.dimBuspmp = res.empnhPmp;
             this.dimBuspmpDis = res.empnhPmpDis;
             this.form.empnhMobile = res.empnhMobile;
+            this.form.empnhSalaccount = res.empnhSalaccount
             // this.dimReceiveCheck();
         },
         //问卷调查事件

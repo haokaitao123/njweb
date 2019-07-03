@@ -101,10 +101,10 @@
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <!-- <icon type="warn"
+                    <icon type="warn"
                           class="error"
                           v-show="form.empupdSalcount==''"
-                          v-remind="form.empupdSalcount"></icon> -->
+                          v-remind="form.empupdSalcount"></icon>
                 </div>
                 <!-- 户名 -->
                 <div class="item_box">
