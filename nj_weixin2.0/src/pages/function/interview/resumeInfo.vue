@@ -633,7 +633,8 @@
 				popupShow: false,
 				educationState: false,
 				workExpState: false,
-				childCheck: false
+				childCheck: false,
+				idCardRend: false
 			}
 		},
 		verify: {
@@ -893,6 +894,7 @@
 						var idcardReg =  /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
 						if(idcardReg.test(parseInt(x))) {
 							this.wzd += 3.75
+							this.idCardRend = true;
 							if(!this.Birtplace) {
 								this.wzd += 1
 								this.Birtplace = true
@@ -916,13 +918,14 @@
 						}
 					}
 					if(x == "") {
-						//console.log('er',this.ifValue)
-						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-						if(idcardReg.test(parseInt(this.ifValue))) {
-							if(this.ifValue != "") {
+						// //console.log('er',this.ifValue)
+						//var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+						 //if(idcardReg.test(parseInt(this.ifValue))) {
+							if(this.ifValue != "" && this.idCardRend) {
 								this.wzd -= 3.75
-							}
+								this.idCardRend = false
 						}
+													// }
 					}
 				}
 				if(this.onekg && y == 'kg') {
@@ -1355,6 +1358,7 @@
 							let nowTime = new Date().getTime();
 							if(nowTime - createTime < 5 * 60 * 1000) {
 								t.form = deepCopy(resumeInfoForm.form);
+								t.idCardRend = resumeInfoForm.idCard;
 								t.relibApplypostDis = resumeInfoForm.relibApplypostDis;
 								t.relibIdentityDis = resumeInfoForm.relibIdentityDis;
 								t.relibGenderDis = resumeInfoForm.relibGenderDis;
@@ -1559,6 +1563,7 @@
 					tt.relibIsgraduDis = this.relibIsgraduDis;
 					tt.createTime = new Date();
 					tt.id = this.$route.query.id;
+					tt.idCard = this.idCardRend;
 					tt = JSON.stringify(tt);
 					window.localStorage.setItem('resumeInfoForm', tt)
 				},
