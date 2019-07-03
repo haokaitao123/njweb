@@ -55,7 +55,7 @@
 				</div>
 				<!-- 手机号 -->
 				<div class="item_box">
-					<x-input title="手机号<span>*</span>" :disabled="true" v-model="form.relibMobile" @on-blur="blurEvent(2,form.relibMobile)" @on-focus="focusEvent" v-verify="form.relibMobile" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="手机号<span>*</span>" :disabled="true" v-model="form.relibMobile" @on-blur="blurEvent(2,form.relibMobile )" @on-focus="focusEvent" v-verify="form.relibMobile" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibMobile==''" v-remind="form.relibMobile"></icon>
 				</div>
@@ -207,7 +207,7 @@
 				</div>
 				<!-- 紧急联系人电话 -->
 				<div class="item_box">
-					<x-input title="紧急联系人电话<span>*</span>" v-model="form.relibEmphone" @on-blur="blurEvent(2,form.relibEmphone)" @on-focus="focusEvent" v-verify="form.relibEmphone" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="紧急联系人电话<span>*</span>" v-model="form.relibEmphone" @on-blur="blurEvent(2,form.relibEmphone,'phone')" @on-focus="focusEvent" v-verify="form.relibEmphone" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibEmphone==''" v-remind="form.relibEmphone"></icon>
 				</div>
@@ -517,6 +517,7 @@
 				first: '',
 				Birtplace: true,
 				Birtday: true,
+				isIphone:true,
 				form: {
 					relibIdentity: "", //身份
 					relibName: "", //姓名
@@ -721,9 +722,10 @@
 					this.wzd += 3.75
 				}
 				if(this.form.relibBirtplace != "") {
-					this.wzd += 2
+					this.wzd += 1
 				}
 				if(this.relibNatalityDis != "请选择") {
+					//alert('1')
 					this.wzd += 1
 				}
 				if(this.relibPoliticalDis != "请选择") {
@@ -790,7 +792,7 @@
 					this.wzd += 3.75
 				}
 				if(this.relibIstattooDis != "请选择") {
-					this.wzd += 1
+					this.wzd += 2
 				}
 				if(this.relibApplytypeDis != "请选择") {
 					this.wzd += 1
@@ -859,7 +861,6 @@
 					this.percent = parseInt(this.wzd)
 					this.oneed = false
 				}
-				this.burEvent()
 			},
 			changewk() {
 				if(!this.onefy && this.onewk) {
@@ -889,11 +890,11 @@
 				if(y == 'idcard') {
 					this.idNumber()
 					if(this.ifValue == "") {
-						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+						var idcardReg =  /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
 						if(idcardReg.test(parseInt(x))) {
 							this.wzd += 3.75
 							if(!this.Birtplace) {
-								this.wzd += 2
+								this.wzd += 1
 								this.Birtplace = true
 							}
 							if(!this.Birtday) {
@@ -902,12 +903,45 @@
 							}
 						}
 					}
+					var idcardReg = /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
+					if(idcardReg.test(parseInt(x))) {
+						//this.wzd += 3.75
+						if(!this.Birtplace) {
+							this.wzd += 1
+							this.Birtplace = true
+						}
+						if(!this.Birtday) {
+							this.wzd += 3.75
+							this.Birtday = true
+						}
+					}
 					if(x == "") {
 						//console.log('er',this.ifValue)
 						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
 						if(idcardReg.test(parseInt(this.ifValue))) {
 							if(this.ifValue != "") {
 								this.wzd -= 3.75
+							}
+						}
+					}
+				}
+				if(y == 'phone'){
+					
+					if(!(/^1[3456789]\d{9}$/.test(parseInt(this.ifValue)))){
+						//console.log(x)	
+						if((/^1[3456789]\d{9}$/.test(parseInt(x)))){ 
+							//alert('1')
+							if(this.isIphone){
+								this.wzd += 3.75
+								this.isIphone = false
+							}
+						} 
+					}
+					if(x == ""){
+						if(this.ifValue != "") {
+							if((/^1[3456789]\d{9}$/.test(parseInt(this.ifValue)))){ 
+								this.wzd -= 3.75
+								this.isIphone = true
 							}
 						}
 					}
