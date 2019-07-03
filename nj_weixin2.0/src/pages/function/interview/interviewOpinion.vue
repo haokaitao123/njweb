@@ -1839,7 +1839,7 @@ export default {
         .save_button {
             padding: 50px 54px 50px;
             display: flex;
-            margin-bottom: 100px;
+            margin-bottom: 80px;
             .x_button {
                 color: #fff;
                 font-size: 34px;
