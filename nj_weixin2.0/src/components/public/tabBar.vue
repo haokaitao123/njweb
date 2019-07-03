@@ -2,8 +2,8 @@
     <div class="wrapper">
         <div v-for="i in tabbar"
              class="tabBar_box">
-			 <div class="tabTip" v-show ="tipNum > 0" v-if='i.title == "审批"'>
-			<badge class="tips"></badge>
+			 <!-- <div class="tabTip" v-show ="tipNum > 0" v-if='i.title == "审批"'>
+			<badge class="tips"></badge> -->
 			</div>
             <div class="tabbar_item"
                  @click="tabTo(i.key)">
