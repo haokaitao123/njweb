@@ -225,6 +225,8 @@
 								item.checked = false
 							});
 							t.list = listRes
+							t.list.length
+							localStorage.setItem("tipNum", t.list.length);
 						}
 						t.isLoading = false
 					}

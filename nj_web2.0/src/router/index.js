@@ -27,6 +27,7 @@ import recruit from './recruit'
 import remind from './remind'
 import atten from './atten'
 import perfAssess from './perfAssess'
+import report from './report'
 Vue.use(Router)
 
 export default new Router({
@@ -63,7 +64,8 @@ export default new Router({
         ...recruit,
         ...remind,
         ...atten,
-        ...perfAssess
+        ...perfAssess,
+        ...report
       ]
     },
     ...emp,
