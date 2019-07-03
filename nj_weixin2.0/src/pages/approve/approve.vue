@@ -231,11 +231,13 @@
 						t.isLoading = false
 					}
 				}).catch(() => {
+					localStorage.setItem("tipNum",0);
 					t.$notify({
 						message: '网络错误',
 						duration: 1500,
 						background: '#f44'
 					});
+					
 				}).finally(() => {
 					t.$store.commit('hideLoading');
 					console.log('123', this.list)

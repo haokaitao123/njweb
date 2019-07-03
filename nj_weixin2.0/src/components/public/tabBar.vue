@@ -3,7 +3,7 @@
         <div v-for="i in tabbar"
              class="tabBar_box">
 			 <div class="tabTip" v-show ="tipNum > 0" v-if='i.title == "审批"'>
-			<badge class="tips"></badge>
+			<badge class="tips" :text=tipNum></badge>
 			</div>
             <div class="tabbar_item"
                  @click="tabTo(i.key)">
@@ -102,8 +102,8 @@ export default {
 			bottom: 60px;
 			left: 390px;
 		.tips{
-			width: 15px;
-			height: 15px;
+			width: 30px;
+			height: 30px;
 			line-height: 30px;
 			display: inline-block;
 			border-radius: 50%;
