@@ -2,8 +2,8 @@
     <div class="wrapper">
         <div v-for="i in tabbar"
              class="tabBar_box">
-			 <!-- <div class="tabTip" v-show ="tipNum > 0" v-if='i.title == "审批"'>
-			<badge class="tips"></badge> -->
+			 <div class="tabTip" v-show ="tipNum > 0" v-if='i.title == "审批"'>
+			<badge class="tips"></badge>
 			</div>
             <div class="tabbar_item"
                  @click="tabTo(i.key)">
@@ -34,6 +34,9 @@ export default {
             return this.$store.state.pIndexKey
         }
     },
+	created(){
+		this.getTipNum()
+	},
     data () {
         return {
             tabbar: [
@@ -65,7 +68,7 @@ export default {
 					console.log(this.tipNum)
 		},
         tabTo (_key) {
-			this.getTipNum()
+			
             if (this.pKey === _key) return;
             this.$store.commit('setPIndexKey', _key);
             this.$emit("tabTo", {
@@ -97,7 +100,7 @@ export default {
 			display: inline-block;
 			position: fixed;
 			bottom: 60px;
-			left: 330px;
+			left: 390px;
 		.tips{
 			width: 15px;
 			height: 15px;

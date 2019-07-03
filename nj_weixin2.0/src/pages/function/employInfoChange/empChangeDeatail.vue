@@ -214,10 +214,10 @@ export default {
     verify: {
         form: {
             empId: "required",
-            //empupdResaddr: "required",
-            empupdSalbank: "required",
-            //empupdSalcount: ["required", "number"],
-            //empupdSalcname: "required"
+            // empupdResaddr: "required",
+            // empupdSalbank: "required",
+            // empupdSalcount: ["required", "number"],
+            // empupdSalcname: "required"
         }
     },
     components: {
@@ -249,31 +249,30 @@ export default {
         // },
         //银行卡号校验
         //银行卡验证
-        bankCheck () {
+        bankCheck (value) {
             //console.log(123)
             if (this.form.empupdSalcount == '') {
-                this.bankVaild = false;
-                return
+                 this.bankVaild = true;
             }
             if (valid.val_backNumber(this.form.empupdSalcount) == 1) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-                return;
+               
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 2) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-                return
+               
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 3) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-                return
+              
             }
-            this.bankVaild = true;
-
+           
+			
         },
         async save () {
             const t = this;
-            if (this.$verify.check()) {
+            if (this.$verify.check() ) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpupd.addAndUpd";
                 data.companyId = pubsource.companyId;
@@ -323,7 +322,7 @@ export default {
             this[domShow] = true;
         },
         comfirmSubmit () {
-            if (this.$verify.check()) {
+            if (this.$verify.check() && this.bankVaild ) {
                 this.$dialog.confirm({
                     title: '',
                     message: '是否确认提交？'
