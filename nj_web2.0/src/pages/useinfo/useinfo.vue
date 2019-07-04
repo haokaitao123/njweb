@@ -255,7 +255,9 @@ export default {
                     console.log(formData)
                     uploadimage(formData).then((res) => {
                         if (res) {
+                            console.log(pubsource.pub_pubf_downlink, "pubsource.pub_pubf_downlink")
                             for (const key in res.data) {
+
                                 t.cropedImgkey = res.data[key]
                                 t.cropedImg = t.httpImg + res.data[key]
                                 t.formValidate.pictureDis = key + ',' + res.data[key]
@@ -300,6 +302,12 @@ export default {
                         title: this.$t('reminder.suc'),
                         content: '保存成功',
                     })
+                    let tt = res.data.content[0].pictureDis;
+                    if (res.data.content[0].pictureDis) {
+                        tt = tt.split(',')
+
+                    }
+                    this.$emit("changeImg", tt[1].toString())
                 }
             }).catch(() => {
                 this.$Modal.error({

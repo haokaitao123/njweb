@@ -140,6 +140,7 @@
         <userinfo v-show="showUserInfo"
                   :isEmpty="isEmpty"
                   ref="userinfo"
+                  @changeImg="changeImg"
                   @close="close"></userinfo>
         <transition name="fade">
             <loginim v-show="showIM"
@@ -518,6 +519,9 @@ export default {
         },
         close () {
             this.showUserInfo = false
+        },
+        changeImg (img) {
+            this.userImg = pubsource.pub_pubf_downlink + img
         },
         checkTag (name) {
             const openpageHasTag = this.pageTagsList.some((item) => {
