@@ -192,7 +192,7 @@ import message from '../pages/homePage/messageList'
 // import contact from '../pages/homePage/contentList'
 import loginim from '../pages/homePage/loginIM'
 import { getDataLevelUserLogin2, getDataLevelUserLogin, getDataLevelUserLoginNew } from '../axios/axios'
-import { setCookie, isSuccess, deepCopy } from '../lib/util'
+import { setCookie, isSuccess, deepCopy, getCookie } from '../lib/util'
 import Bus from '../lib/bus'
 export default {
     data () {
@@ -249,16 +249,48 @@ export default {
         window.onbeforeunload = function () {
             t.$store.commit('clearAllTags')
         }
-        this.getUser()
+        this.checkFirstLogin();
+
     },
     methods: {
         clearIM () {
             closeSocket();
             layer.closeAll(); // 关闭即时通讯
         },
-        getUser () {
+        async checkFirstLogin () {
+            const t = this;
+            await getDataLevelUserLogin({
+                _mt: 'userMgmt.forceUpdPassword',
+                funId: '1',
+                logType: '强制修改密码',
+                loginCode: getCookie('useName'),
+            }).then((res) => {
+                if (isSuccess(res, t)) {
+                    console.log(res, "res");
+                    if (res.data.content[0].value === "1" || res.data.content[0].value === "2") {
+                        t.$store.commit('changePwd/setChangePwd', true);
+                        t.showUserInfo = true;
+                        t.$refs.userinfo.showPassWord = true;
+                        t.$refs.userinfo.getInfo()
+                        t.$refs.userinfo.getSelect()
+                    } else {
+                        t.$store.commit('changePwd/setChangePwd', false);
+                        t.getUser();
+                    }
+                    if (res.data.content[0].value === "1") {
+                        this.$Message.warning('第一次登陆，请修改初始密码');
+                    }
+                    if (res.data.content[0].value === "2") {
+                        this.$Message.warning('密码已失效，请重新设置密码');
+                    }
+                }
+            }).catch(() => {
+                this.$Message.error('网络错误');
+            })
+        },
+        async getUser () {
             const t = this
-            getDataLevelUserLogin2({
+            await getDataLevelUserLogin2({
                 _mt: 'authUserPerm.getSysUserPerm',
                 language: 'CN',
                 companyId: '0',
@@ -299,10 +331,7 @@ export default {
                     }
                 }
             }).catch(() => {
-                t.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
+                this.$Message.error('网络错误');
             })
         },
         getUser2 () {

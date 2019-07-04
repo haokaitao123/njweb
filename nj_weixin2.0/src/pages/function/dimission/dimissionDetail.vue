@@ -738,10 +738,20 @@ export default {
         },
         //员工弹出框事件
         inputEmp (res) {
+            console.log(res, "res")
             this.empShow = false;
             this.currentId = res.id;
             this.form.empId = res.id;
             this.empIdName = res.empnhName;
+            this.form.empIdno = res.empnhIdno
+            this.form.deptId = res.deptId;
+            this.deptIdDis = res.unitFname;
+            this.form.postId = res.postId;
+            this.postIdDis = res.postFname;
+            this.form.dimBuspmp = res.empnhPmp;
+            this.dimBuspmpDis = res.empnhPmpDis;
+            this.form.empnhMobile = res.empnhMobile;
+            this.form.empnhSalaccount = res.empnhSalaccount
             // this.dimReceiveCheck();
         },
         //问卷调查事件

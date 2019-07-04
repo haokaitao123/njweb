@@ -27,7 +27,7 @@
 					<div class="inf">
 						信息完整度
 					</div>
-					<van-progress :percentage="percent" />
+					<van-progress class="pross" :percentage="percent" />
 				</div>
 				<div class="items" v-if="topDisor < 20">
 					<span class="informs">信息完整度</span>
@@ -55,7 +55,7 @@
 				</div>
 				<!-- 手机号 -->
 				<div class="item_box">
-					<x-input title="手机号<span>*</span>" :disabled="true" v-model="form.relibMobile" @on-blur="blurEvent(2,form.relibMobile)" @on-focus="focusEvent" v-verify="form.relibMobile" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="手机号<span>*</span>" :disabled="true" v-model="form.relibMobile" @on-blur="blurEvent(2,form.relibMobile )" @on-focus="focusEvent" v-verify="form.relibMobile" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
 					<icon type="warn" class="error" v-show="form.relibMobile==''" v-remind="form.relibMobile"></icon>
 				</div>
@@ -220,9 +220,9 @@
 				</div>
 				<!-- 期望薪资 -->
 				<div class="item_box">
-					<x-input title="期望薪资" v-model="form.relibSalary" @on-blur="blurEvent(1,form.relibSalary)" @on-focus="focusEvent" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="期望薪资" v-model="form.relibSalary" @on-blur="blurEvent(1,form.relibSalary,'salary')" @on-focus="focusEvent" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
-					<icon type="warn" class="error" v-remind="form.relibSalary"></icon>
+					<icon type="warn" class="error" v-show="reSalary" ></icon>
 				</div>
 				<!-- 职业状态 -->
 				<div class="item_box">
@@ -517,6 +517,7 @@
 				first: '',
 				Birtplace: true,
 				Birtday: true,
+				isIphone:true,
 				form: {
 					relibIdentity: "", //身份
 					relibName: "", //姓名
@@ -632,7 +633,9 @@
 				popupShow: false,
 				educationState: false,
 				workExpState: false,
-				childCheck: false
+				childCheck: false,
+				idCardRend: false,
+				reSalary: false
 			}
 		},
 		verify: {
@@ -721,9 +724,10 @@
 					this.wzd += 3.75
 				}
 				if(this.form.relibBirtplace != "") {
-					this.wzd += 2
+					this.wzd += 1
 				}
 				if(this.relibNatalityDis != "请选择") {
+					//alert('1')
 					this.wzd += 1
 				}
 				if(this.relibPoliticalDis != "请选择") {
@@ -790,7 +794,7 @@
 					this.wzd += 3.75
 				}
 				if(this.relibIstattooDis != "请选择") {
-					this.wzd += 1
+					this.wzd += 2
 				}
 				if(this.relibApplytypeDis != "请选择") {
 					this.wzd += 1
@@ -859,7 +863,6 @@
 					this.percent = parseInt(this.wzd)
 					this.oneed = false
 				}
-				this.burEvent()
 			},
 			changewk() {
 				if(!this.onefy && this.onewk) {
@@ -886,14 +889,29 @@
 				this.ifValue = value
 			},
 			blurEvent(a, x, y) {
+				if(y == 'salary'){
+					 var reg = /^[0-9]*$/ ;
+					 this.reSalary = ! reg.test(parseInt(x))
+					 if(x == ""){
+					 	this.reSalary = false
+					 	}
+						  if(this.ifValue == "" && x != "") {
+							  this.wzd += 1
+						  }
+					  if(this.ifValue != "" && x == ""){
+							this.wzd -= 1
+					  }
+					  //alert(this.reSalary)
+				}
 				if(y == 'idcard') {
 					this.idNumber()
 					if(this.ifValue == "") {
-						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+						var idcardReg =  /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
 						if(idcardReg.test(parseInt(x))) {
 							this.wzd += 3.75
+							this.idCardRend = true;
 							if(!this.Birtplace) {
-								this.wzd += 2
+								this.wzd += 1
 								this.Birtplace = true
 							}
 							if(!this.Birtday) {
@@ -902,14 +920,27 @@
 							}
 						}
 					}
-					if(x == "") {
-						//console.log('er',this.ifValue)
-						var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-						if(idcardReg.test(parseInt(this.ifValue))) {
-							if(this.ifValue != "") {
-								this.wzd -= 3.75
-							}
+					var idcardReg = /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
+					if(idcardReg.test(parseInt(x))) {
+						//this.wzd += 3.75
+						if(!this.Birtplace) {
+							this.wzd += 1
+							this.Birtplace = true
 						}
+						if(!this.Birtday) {
+							this.wzd += 3.75
+							this.Birtday = true
+						}
+					}
+					if(x == "") {
+						// //console.log('er',this.ifValue)
+						//var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+						 //if(idcardReg.test(parseInt(this.ifValue))) {
+							if(this.ifValue != "" && this.idCardRend) {
+								this.wzd -= 3.75
+								this.idCardRend = false
+						}
+													// }
 					}
 				}
 				if(this.onekg && y == 'kg') {
@@ -1342,6 +1373,7 @@
 							let nowTime = new Date().getTime();
 							if(nowTime - createTime < 5 * 60 * 1000) {
 								t.form = deepCopy(resumeInfoForm.form);
+								t.idCardRend = resumeInfoForm.idCard;
 								t.relibApplypostDis = resumeInfoForm.relibApplypostDis;
 								t.relibIdentityDis = resumeInfoForm.relibIdentityDis;
 								t.relibGenderDis = resumeInfoForm.relibGenderDis;
@@ -1460,7 +1492,7 @@
 					}
 				}).catch((err) => {
 					t.$notify({
-						message: '网络错误00',
+						message: '网络错误',
 						duration: 1500,
 						background: '#f44'
 					});
@@ -1546,6 +1578,7 @@
 					tt.relibIsgraduDis = this.relibIsgraduDis;
 					tt.createTime = new Date();
 					tt.id = this.$route.query.id;
+					tt.idCard = this.idCardRend;
 					tt = JSON.stringify(tt);
 					window.localStorage.setItem('resumeInfoForm', tt)
 				},
@@ -1686,10 +1719,20 @@
 		top: 0px;
 		width: 100%;
 		border-bottom: 1px solid #D9D9D9;
+		.pross{
+			.van-progress__pivot{
+				font-size: 25px;
+			}
+		}
 		.inf {
 			font-size: 30px;
 			padding: 20px 33px;
 			margin-bottom: 10px;
 		}
+		
+	}
+	.prog/deep/.van-progress{
+		width: 95%;
+		left: 2%;
 	}
 </style>

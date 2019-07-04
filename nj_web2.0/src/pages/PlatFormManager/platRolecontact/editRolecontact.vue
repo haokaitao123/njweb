@@ -1,6 +1,6 @@
 <template>
   <div class="option-main">
-    <Row style="max-height: 450px;overflow-y: auto;">
+    <Row style="max-height: 450px;overflow-y: auto;" ref="scrollBox">
       <Form :model="form" label-position="right" :rules="ruleValidate" ref="form" :label-width="120">
         <i-col span="11">
         <FormItem :label="$t('lang_authorization.platRolecont.platRolecontCode')"  prop="platRolecontCode">
@@ -191,7 +191,14 @@
             content: this.$t('reminder.errormessage'),
           })
         })
-          }
+          }else{
+						 this.$nextTick(function(){
+                            let tt = document.querySelectorAll('.ivu-form-item-error');
+                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
+                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                            }
+                        }) 
+					}
         })
       },
       getSelect() {

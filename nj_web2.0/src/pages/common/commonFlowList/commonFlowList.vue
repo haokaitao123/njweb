@@ -17,6 +17,11 @@
                                 placeholder="请输入面试时间"
                                 style="width: 200px"
                                 v-if="tbName=='recruit_process'"></DatePicker>
+                    <DatePicker type="date"
+                                v-model="relibReexamtm"
+                                placeholder="请输入复试时间"
+                                style="width: 200px"
+                                v-if="tbName=='recruit_process'"></DatePicker>
                     <Button class="btns"
                             v-for="(item, index) in btns"
                             :key="index"
@@ -86,6 +91,13 @@
                          @closeTransaction="closeTransaction"
                          ref="transactionWindow"></transaction>
         </transition>
+      <transition name="fade">
+        <interviewOrder v-show="openOrdersaction"
+                     :id="tableselected"
+                     :logType="logType"
+                     @closeOrdersaction="closeOrdersaction"
+                     ref="interviewOrder"></interviewOrder>
+      </transition>
         <commonFlowUpdate v-if="openTestUpd"
                           @close="closeTest"
                           ref="commonFlowUpdate"
@@ -105,7 +117,8 @@ import { getDataLevelUserLogin } from '../../../axios/axios'
 import { isSuccess } from '../../../lib/util'
 import selCountry from '../../../components/commonsel/selCountry'
 import commonFlowUpdate from './commonFlowUpdate'
-import transaction from './transaction';
+import transaction from './transaction'
+import interviewOrder from './interviewOrder'
 import valid from '@/lib/pub_valid'
 export default {
     data () {
@@ -116,6 +129,7 @@ export default {
             openUpdate: false,
             openTestUpd: false,
             openTransaction: false,
+            openOrdersaction: false,
             updateId: NaN,
             tableselected: [],
             transactionId: '',
@@ -148,12 +162,14 @@ export default {
             curStep: '',
             empnhName: '',
             relibFilldate: '',
+            relibReexamtm: '',
             flowStep: {
                 width: 65,
                 title: '步骤',
                 align: 'center',
             },
-            rcvdata: ''
+            rcvdata: '',
+            store: ""
         }
     },
     computed: {
@@ -164,6 +180,7 @@ export default {
         commonFlowUpdate,
         //      update,
         transaction,
+      interviewOrder,
     },
     //    created() {
     //
@@ -202,22 +219,56 @@ export default {
                     t.titleName = res.data.content[0].flowName
 
                     t.tbName = res.data.content[0].tbName
+                    if (t.tbName === "recruit_process") {
+                        let step = {
+                            id: 'store',
+                            flstepName: '暂存中'
+                        }
+                        t.dropdownMenuList.push(step)
+                    }
                     console.log('aa1', res.data.content[0].columns)
                     aa = res.data.content[0].columns
                     //固定公共页面的第一列
-                    if (aa.length > 10) {
+                    if (aa.length > 9) {
+                        console.log(aa, "aa")
                         for (let j = 0; j < aa.length; j++) {
-                            if (aa[j].title == '姓名') {
-                                aa[j].width = 80
+                            // if (aa[j].key == '姓名') {
+                            //     aa[j].width = 80
+                            //     aa[j].fixed = 'left'
+                            // }
+                            // if (aa[j].title == '员工姓名') {
+                            //     aa[j].width = 80
+                            //     aa[j].fixed = 'left'
+                            // }
+                            if (aa[j].key == 'empId') {
                                 aa[j].fixed = 'left'
                             }
-                            if (aa[j].title == '员工姓名') {
-                                aa[j].width = 80
+                            if (aa[j].key == 'relibName') {
+                                aa[j].width = 100
+                                aa[j].fixed = 'left'
+                            }
+                            if (aa[j].key == 'relibApplypost') {
+                                aa[j].fixed = 'left'
+                            }
+                            if (aa[j].key == 'relibFilldate') {
+                                aa[j].fixed = 'left'
+                            }
+                            if (aa[j].key == 'relibQueue') {
+                                aa[j].fixed = 'left'
+                            }
+
+                            if (aa[j].key == 'relibFirstus') {
+                                aa[j].width = 100
+                                aa[j].fixed = 'left'
+                            }
+                            if (aa[j].key == 'relibReexamus') {
+                                aa[j].width = 100
                                 aa[j].fixed = 'left'
                             }
                             if (aa[j].type == 'selection') {
                                 aa[j].fixed = 'left'
                             }
+
                         }
                     }
                     for (let i = 0; i < aa.length; i++) {
@@ -386,6 +437,80 @@ export default {
             if (btnId === 'button_blacklist') {
                 this.addBlackUser()
             }
+            //暂存按钮
+            if (btnId === 'button_store') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("reminder.confirmOper"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "recruitProcess.updateStore",
+                                funId: t.$route.query.id,
+                                logType: '暂存',
+                                ids: t.tableselected,
+                                type: 'store',
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        t.$Message.success(this.$t('reminder.operatsuccess'))
+                                        t.tableselected = []
+                                        t.getData(1)
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
+                }
+            }
+            //还原按钮
+            if (btnId === 'button_restore') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("reminder.confirmOper"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "recruitProcess.updateStore",
+                                funId: t.$route.query.id,
+                                logType: '还原',
+                                ids: t.tableselected,
+                                type: 'restore',
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        t.$Message.success(this.$t('reminder.operatsuccess'))
+                                        t.tableselected = []
+                                        t.getData(1)
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
+                }
+            }
             if (btnId === 'button_quickpass') {
                 const t = this;
                 if (t.tableselected.length === 0) {
@@ -424,6 +549,15 @@ export default {
                     });
                 }
             }
+          if (btnId === 'button_order') {
+            const t = this;
+            if (t.tableselected.length === 0) {
+              this.$Message.warning(this.$t('reminder.leastone'))
+            } else {
+              this.logType = "面谈预约";
+              this.openOrdersaction = true;
+            }
+          }
         },
         addBlackUser () {
             const t = this
@@ -447,12 +581,18 @@ export default {
         },
         getPageByState (paramId, paramName) {
             const t = this;
-            if (paramId === "") {
+            t.store = t.tbName !== 'recruit_process' ? '' : "restore";
+            if (paramId == 'store') {
+                t.store = paramId
+            }
+            if (paramId === "" || paramId === "store") {
                 t.curStep = "";
             } else {
                 t.curStep = paramId;
             }
             t.relibFilldate = t.tbName !== 'recruit_process' ? '' : t.relibFilldate;
+            t.relibReexamtm = t.tbName !== 'recruit_process' ? '' : t.relibReexamtm;
+            //            t.relibStore = t.tbName !== 'recruit_process' ? '' : t.relibStore;
             this.page = 1;
             t.tableselected = []
             t.getData(1);
@@ -468,17 +608,22 @@ export default {
             }
             t.loading = true;
             t.relibFilldate = t.relibFilldate != "" ? new Date(t.relibFilldate).format("yyyy-MM-dd") : "";
+            t.relibReexamtm = t.relibReexamtm != "" ? new Date(t.relibReexamtm).format("yyyy-MM-dd") : "";
             const rcdata = {
                 curStep: t.curStep,
                 flowId: t.flowId,
                 empnhName: t.empnhName,
-                relibFilldate: t.relibFilldate
+                relibFilldate: t.relibFilldate,
+                relibReexamtm: t.relibReexamtm,
+                relibStore: t.store
             };
             t.rcvdata = "";
             if (rcdata.curStep === "") {
                 let tt = {
                     empnhName: t.empnhName,
-                    relibFilldate: t.relibFilldate
+                    relibFilldate: t.relibFilldate,
+                    relibReexamtm: t.relibReexamtm,
+                    relibStore: t.store
                 };
 
                 for (const dat in tt) {
@@ -612,6 +757,11 @@ export default {
         closeTransaction () {
             this.openTransaction = false;
         },
+        closeOrdersaction () {
+            this.tableselected = [];
+            this.openOrdersaction = false;
+            this.getData(1);
+        },
     },
     watch: {
         $route (value, from) {
@@ -619,6 +769,7 @@ export default {
                 this.flstepName = '全部';
                 this.empnhName = "";
                 this.relibFilldate = "";
+                this.relibReexamtm = "";
                 this.flowId = "";
                 this.curStep = "";
                 this.rcvdata = "";

@@ -30,6 +30,7 @@ export default {
         return {
             userName: '',
             passWord: '',
+            pwdCheck: false
         }
     },
     // beforeCreate () {
@@ -65,7 +66,7 @@ export default {
                     setCookie('wtk', res.data.content[0].webToken);
                     setCookie('useId', res.data.content[0].uid);
                     setCookie('token', res.data.content[0].token);
-                    this.getEmpId();
+                    t.getPwdCheck();
                 }
             }).catch((res) => {
                 t.$notify({
@@ -77,16 +78,15 @@ export default {
                 t.$store.commit('hideLoading');
             });
         },
-        getEmpId () {
+        async  getEmpId () {
             let userId = window.localStorage.getItem('uid');
             const t = this
-            getDataLevelUserLogin({
+            await getDataLevelUserLogin({
                 _mt: 'wxEmpConrenewal.getEmpIdByUserId',
                 userId: userId,
                 companyId: pubsource.companyId
             }).then((res) => {
                 if (isSuccess(res, t)) {
-                    console.log(JSON.parse(res.data.content[0].value), "123");
                     let empId = JSON.parse(res.data.content[0].value).id;
                     let empData = res.data.content[0].value;
                     window.localStorage.setItem("empId", empId);
@@ -105,13 +105,46 @@ export default {
                 t.$store.commit('hideLoading');
             });
         },
+        async getPwdCheck () {
+            const t = this;
+            await getDataLevelUserLogin({
+                _mt: 'wxLogin.forceUpdPassword',
+                loginCode: t.userName,
+                password: md5(t.passWord),
+                companyId: pubsource.companyId
+            }).then((res) => {
+                if (isSuccess(res, t)) {
+                    let value = res.data.content[0].value;
+                    if (value === '1') {
+                        this.$router.push({
+                            name: "changePwd",
+                            query: { type: "1" }
+                        })
+                    } else if (value === '2') {
+                        this.$router.push({
+                            name: "changePwd",
+                            query: { type: "2" }
+                        })
+                    } else {
+                        t.getEmpId();
+                    }
+                }
+            }).catch((res) => {
+                t.$notify({
+                    message: res.data.stat.stateList[0].desc,
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
+                t.$store.commit('hideLoading');
+            });
+        },
         forgetPwd () {
             this.$router.push({
                 name: "forgetPwd"
             })
         }
     },
-
 }
 </script>
 <style  lang="less" scoped>

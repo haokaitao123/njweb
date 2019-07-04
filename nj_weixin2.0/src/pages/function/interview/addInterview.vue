@@ -109,7 +109,7 @@
                           is-link
                           value-align="left"
                           v-model="form.relibFilldate"
-                          v-if='!curStep'
+                          v-if='(!curStep||!reexamine)'
                           v-verify="form.relibFilldate"
                           @click.native="popupClick('relibFilldateShow','relibFilldate')">
                         <div slot="title">面到时间<span>*</span></div>
@@ -119,7 +119,7 @@
                           v-show="form.relibFilldate=='请选择'?true:false"
                           v-remind="form.relibFilldate"></icon>
                     <x-input title="面到时间<span>*</span>"
-                             v-if='curStep'
+                             v-if='curStep&&reexamine'
                              v-model="form.relibFilldate"
                              :show-clear="false"
                              :disabled="curStep"
@@ -183,7 +183,7 @@
                 <x-button type="primary"
                           class="x_button"
                           @click.native="save"
-                          :disabled="curStep"
+                          :disabled="curStep?reexamine:curStep"
                           action-type="button">保存</x-button>
             </div>
 
@@ -283,6 +283,7 @@ export default {
             relibCheckopin: "",
             idRecord: "",
             disabled: false,
+            reexamine: this.$route.query.reexamine
         }
     },
     verify: {
@@ -319,7 +320,8 @@ export default {
                 data.userId = window.localStorage.getItem('uid');
                 let listId = t.$route.query.id;
                 if (listId !== undefined) {
-                    data.pkValue = listId
+                    data.pkValue = listId;
+                    data.curStep = this.$route.query.curStepId
                     t.saveState = true;
                 } else {
                     if (t.oldName != t.form.relibName || t.oldTele != t.form.relibMobile) {
@@ -338,7 +340,6 @@ export default {
                 }
                 console.log(t.saveState, "t.saveState")
                 if (t.saveState) {
-                    console.log(data, 'datatt')
                     getDataLevelUserLoginNew(data).then(res => {
                         if (isSuccess(res, t)) {
                             console.log(res, "res");
@@ -389,7 +390,7 @@ export default {
                             let reason = t.relibApplypostDis;
                             let num = data.times;
                             t.idRecord = data.id;
-                            t.saveState = true;
+                            // t.saveState = true;
                             t.$dialog.alert({
                                 message: `<div style="line-height:1.2;text-align:left">
                                                     <p style="margin-bottom:10px"><b >面试人:</b>${name}</span>
@@ -591,6 +592,7 @@ export default {
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
+        margin-bottom: 100px;
         .save_button {
             padding: 46px 70px;
             .x_button {
