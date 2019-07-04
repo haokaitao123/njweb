@@ -205,7 +205,7 @@ export default {
     height: 100%;
     background: #f6f6f6;
     .attenShiftWrap {
-        height: 100%;
+        height: calc(~"100% - 100px");
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;

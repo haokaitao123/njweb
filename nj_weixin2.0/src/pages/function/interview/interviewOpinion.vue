@@ -580,8 +580,30 @@
                             :height="95"
                             v-model="form.relibFirstopin"
                             placeholder="请填写"
-                            :show-counter="true"></x-textarea>
+                            :show-counter="true"></x-textarea>	
             </group>
+			<van-popup 
+			v-model="show"
+			 position="bottom"
+			:style="{ height: '20%' }"
+			>
+			 <div class="save_button">
+			    <!-- <x-button type="primary"
+			              class="x_button"
+			              @click.native="comfirmSubmit"
+			              action-type="button">提交</x-button> -->
+			    <x-button type="default"
+			              class="x_button button_left"
+			              action-type="button"
+			              @click.native="comfirmSubmit('0')">不通过</x-button>
+			    <x-button type="primary"
+			              class="x_button"
+			              :disabled="isRelibFirpass"
+			              @click.native="comfirmSubmit('1')">通过</x-button>
+				
+			</div>
+			</van-popup>
+			
             <div class="save_button">
                 <!-- <x-button type="primary"
                           class="x_button"
@@ -590,13 +612,13 @@
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
-                          @click.native="comfirmSubmit('0')">不通过</x-button>
+                          @click.native="save('save')">保存</x-button>
                 <x-button type="primary"
                           class="x_button"
-                          :disabled="isRelibFirpass"
-                          @click.native="comfirmSubmit('1')">通过</x-button>
+                          @click.native="showPopup">初试审核</x-button>
+				
             </div>
-
+			
         </div>
         <!-- 初试是否通过 -->
         <van-popup v-model="relibFirpassShow"
@@ -861,16 +883,21 @@
 
     </div>
 </template>
+<i18n>
+  Basic Usage:	
+  zh-CN: 基本使用
+</i18n>
 <script>
 import { getDataLevelUserLogin, getDataLevelUserLoginNew, getDataLevelNone } from '@/axios/axios'
 import { isSuccess, deepCopy } from '@/lib/util'
-import { Group, Cell, XInput, XTextarea, Icon, Popup } from 'vux'
+import { Group, Cell, XInput, XTextarea, Icon, Popup, TransferDom, Actionsheet, XSwitch, Toast } from 'vux'
 import education from '@/pages/function/interview/educationMes'
 import family from '@/pages/function/interview/family'
 import workExp from '@/pages/function/interview/workExp.vue'
 import valid from '@/lib/pub_valid'
 import city from '@/lib/cityData'
 import searchPost from '@/components/search/searchPost'
+//import { ActionSheet } from 'vant';
 export default {
     data () {
         return {
@@ -1021,6 +1048,7 @@ export default {
             educationState: false,
             workExpState: false,
             childCheck: false,
+			 show: false
         }
     },
     verify: {
@@ -1058,8 +1086,14 @@ export default {
         education,
         family,
         workExp,
-        searchPost
+        searchPost,
+		 Actionsheet,
+		XSwitch,
+		Toast
     },
+	 directives: {
+    TransferDom
+  },
     created () {
         // this.getCondition(); 
     },
@@ -1071,6 +1105,9 @@ export default {
         this.getEducation();
     },
     methods: {
+		 showPopup() {
+      this.show = true;
+    },
         //提交
         async submit () {
             await this.save();
@@ -1122,7 +1159,7 @@ export default {
             });
         },
         //保存
-        async save () {
+        async save (type) {
             const t = this;
             if (!t.isCanInterview) {
                 await this.getInterviewTime();
@@ -1143,6 +1180,13 @@ export default {
                     if (isSuccess(res, t)) {
                         console.log(res, "res");
                         t.saveStatus = true;
+						 if (type == 'save') {
+						    t.$notify({
+						        message: '保存成功',
+						        duration: 1500,
+						        background: '#1989fa'
+						    });
+						}
                     }
                 }).catch(() => {
                     t.saveStatus = false
@@ -1206,7 +1250,6 @@ export default {
                     }
                 }
                 await getDataLevelUserLoginNew(data).then((res) => {
-                    console.log(res.data.content[0].value, "123")
                     if (res.data.content[0].value == 1) {
                         t.isCanInterview = false;
                         t.pass = true;
@@ -1794,9 +1837,9 @@ export default {
             }
         }
         .save_button {
-            padding: 125px 54px 50px;
+            padding: 50px 54px 50px;
             display: flex;
-            margin-bottom: 100px;
+            margin-bottom: 80px;
             .x_button {
                 color: #fff;
                 font-size: 34px;
@@ -1816,6 +1859,16 @@ export default {
                 margin-top: 0;
             }
         }
+		.saveBtn{
+			 padding: 0px 56px;
+			background: #f6f6f6;
+			margin-top: 100px;
+			.x_save{
+				color: #fff;
+				font-size: 34px;
+				width: 640px;
+			}
+		}
     }
     .van-popup--right {
         top: 50% !important;

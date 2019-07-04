@@ -36,7 +36,6 @@ const salaryRule = resolve => require(['@/pages/empManage/salaryRule/salaryRule'
 const depCeilRule = resolve => require(['@/pages/empManage/depCeilRule/depCeilRule'], resolve)
 
 const empEmpupd = resolve => require(['@/pages/empManage/empEmpupd/empEmpupdList'], resolve)
-
 export default [{
     path: 'goaborddetail',
     name: 'goaborddetail',

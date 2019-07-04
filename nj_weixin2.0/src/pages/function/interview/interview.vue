@@ -11,7 +11,7 @@
                       :offset="10">
                 <div class="interviewItem"
                      v-for="(item,index) in list"
-                     @click="goTo(item.id,item.curStepCode,item.curStepstate)">
+                     @click="goTo(item.id,item.curStepCode,item.curStepstate,item.curStep)">
                     <div class="interview_item item_first">
                         <h3>{{item.relibName}}</h3>
                         <span>{{item.curStepDis}}</span>
@@ -50,7 +50,7 @@
                                 v-if="item.curStepstate!=='p_flowst_3'&&item.curStepCode==='flow_recruitprocess_1000'"
                                 @click="submit($event,item.id)">查看</button>
                         <button type="button"
-                                v-else-if="item.curStepCode==='flow_recruitprocess_1010'&&item.curStepstate!=='p_flowst_3'"
+                                v-else-if="item.curStepCode==='flow_recruitprocess_1010'&&item.curStepstate!=='p_flowst_3'&&item.relibStore!=='store'"
                                 @click="interviewMes($event,item.id)">预约信息</button>
                     </div>
                 </div>
@@ -133,13 +133,17 @@ export default {
         addNewInterview
     },
     methods: {
-        goTo (id, curStepCode, curStepstate) {
+        goTo (id, curStepCode, curStepstate, curStepId) {
             let curStep = false;
+            let reexamine = true;
             if (curStepCode && curStepstate) {
                 if (curStepCode === 'flow_recruitprocess_1000' && curStepstate !== 'p_flowst_3') {
                     curStep = false;
                 } else {
                     curStep = true;
+                }
+                if (curStepCode === 'flow_recruitprocess_1010' && curStepstate !== 'p_flowst_3') {
+                    reexamine = false;
                 }
             }
             this.$router.push({
@@ -148,7 +152,9 @@ export default {
                     id: id,
                     curStep: curStep,
                     curStepCode: curStepCode,
-                    curStepstate: curStepstate
+                    curStepstate: curStepstate,
+                    curStepId: curStepId,
+                    reexamine: reexamine,
                 }
             })
         },
