@@ -103,6 +103,7 @@ import {
 import addNewInterview from '@/components/public/addNew'
 export default {
     data () {
+		
         return {
             list: [],
             loading: false, //是否处于加载状态
@@ -126,6 +127,27 @@ export default {
                 'p_flowst_2': '处理中',
                 'p_flowst_1': '待处理',
             },
+			vshareConfig: {
+			  shareList: [
+			    // 此处放分享列表（ID）
+			  ],
+			  common : {
+			    //此处放置通用设置
+			  },
+			  share : [{
+			    //此处放置分享按钮设置
+			    }
+			  ],
+			  slide : [
+			    //此处放置浮窗分享设置
+			  ],
+			  image : [
+			    //此处放置图片分享设置
+			  ],
+			  selectShare : [
+			    //此处放置划词分享设置
+			  ]
+			}
         }
     },
     components: {
@@ -133,7 +155,7 @@ export default {
         addNewInterview
     },
     methods: {
-        goTo (id, curStepCode, curStepstate, curStepId) {
+        goTo (id, curStepCode, curStepstate, curStepId) { 
             let curStep = false;
             let reexamine = true;
             if (curStepCode && curStepstate) {

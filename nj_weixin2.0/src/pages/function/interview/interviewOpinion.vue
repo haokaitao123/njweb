@@ -1048,7 +1048,7 @@ export default {
             educationState: false,
             workExpState: false,
             childCheck: false,
-			 show: false
+			show: false
         }
     },
     verify: {
@@ -1155,6 +1155,7 @@ export default {
             }).then(() => {
                 this.form.relibFirpass = type;
                 this.submit();
+				
             }).catch(() => {
             });
         },
@@ -1186,6 +1187,7 @@ export default {
 						        duration: 1500,
 						        background: '#1989fa'
 						    });
+							this.$router.push({ name: 'interview' })
 						}
                     }
                 }).catch(() => {
@@ -1276,6 +1278,7 @@ export default {
                     t.$store.commit('hideLoading');
                 });
             } else {
+				this.show = false;
                 t.isCanInterview = false
                 t.$vux.toast.text('请检查填写信息');
             }

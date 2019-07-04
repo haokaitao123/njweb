@@ -390,7 +390,7 @@ export default {
                             let reason = t.relibApplypostDis;
                             let num = data.times;
                             t.idRecord = data.id;
-                            t.saveState = true;
+                            // t.saveState = true;
                             t.$dialog.alert({
                                 message: `<div style="line-height:1.2;text-align:left">
                                                     <p style="margin-bottom:10px"><b >面试人:</b>${name}</span>

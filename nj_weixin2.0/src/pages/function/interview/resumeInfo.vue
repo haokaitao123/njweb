@@ -27,7 +27,7 @@
 					<div class="inf">
 						信息完整度
 					</div>
-					<van-progress :percentage="percent" />
+					<van-progress class="pross" :percentage="percent" />
 				</div>
 				<div class="items" v-if="topDisor < 20">
 					<span class="informs">信息完整度</span>
@@ -220,9 +220,9 @@
 				</div>
 				<!-- 期望薪资 -->
 				<div class="item_box">
-					<x-input title="期望薪资" v-model="form.relibSalary" @on-blur="blurEvent(1,form.relibSalary)" @on-focus="focusEvent" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="期望薪资" v-model="form.relibSalary" @on-blur="blurEvent(1,form.relibSalary,'salary')" @on-focus="focusEvent" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
-					<icon type="warn" class="error" v-remind="form.relibSalary"></icon>
+					<icon type="warn" class="error" v-show="reSalary" ></icon>
 				</div>
 				<!-- 职业状态 -->
 				<div class="item_box">
@@ -634,7 +634,8 @@
 				educationState: false,
 				workExpState: false,
 				childCheck: false,
-				idCardRend: false
+				idCardRend: false,
+				reSalary: false
 			}
 		},
 		verify: {
@@ -888,6 +889,20 @@
 				this.ifValue = value
 			},
 			blurEvent(a, x, y) {
+				if(y == 'salary'){
+					 var reg = /^[0-9]*$/ ;
+					 this.reSalary = ! reg.test(parseInt(x))
+					 if(x == ""){
+					 	this.reSalary = false
+					 	}
+						  if(this.ifValue == "" && x != "") {
+							  this.wzd += 1
+						  }
+					  if(this.ifValue != "" && x == ""){
+							this.wzd -= 1
+					  }
+					  //alert(this.reSalary)
+				}
 				if(y == 'idcard') {
 					this.idNumber()
 					if(this.ifValue == "") {
@@ -1477,7 +1492,7 @@
 					}
 				}).catch((err) => {
 					t.$notify({
-						message: '网络错误00',
+						message: '网络错误',
 						duration: 1500,
 						background: '#f44'
 					});
@@ -1704,10 +1719,20 @@
 		top: 0px;
 		width: 100%;
 		border-bottom: 1px solid #D9D9D9;
+		.pross{
+			.van-progress__pivot{
+				font-size: 25px;
+			}
+		}
 		.inf {
 			font-size: 30px;
 			padding: 20px 33px;
 			margin-bottom: 10px;
 		}
+		
+	}
+	.prog/deep/.van-progress{
+		width: 95%;
+		left: 2%;
 	}
 </style>
