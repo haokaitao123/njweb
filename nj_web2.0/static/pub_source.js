@@ -5,7 +5,7 @@ var pubsource = {
   pub_getCaptcha: "http://najie.hrocloud.com:8099/api/v1",
   pub_pubf_uploadlink: "http://najie.hrocloud.com:9709/upload?groupId=0",
   pub_prvf_uploadlink: "http://najie.hrocloud.com:9709/upload?groupId=1",
-  pub_pubf_downlink: "http://najie.hrocloud.com:8088/",
+  pub_pubf_downlink: "http://najiefile.hrocloud.com:8088/",
   pub_prvf_downlink: "http://najie.hrocloud.com:9709/file?",
 
   //以下测试环境
@@ -24,7 +24,7 @@ var pubsource = {
   pub_getCaptcha: "http://hr.333job.com:19102/api/v1",
   pub_pubf_uploadlink: "http://hr.333job.com:19101/upload?groupId=0",
   pub_prvf_uploadlink: "http://hr.333job.com:19101/upload?groupId=1",
-  pub_pubf_downlink: "http://hr.333job.com:19100/",
+  pub_pubf_downlink: "http://hr.333job.com:19004/",
   pub_prvf_downlink: "http://hr.333job.com:19101/file?",
   */
   // 以下为该变量收尾，新增的请放到该变量前面

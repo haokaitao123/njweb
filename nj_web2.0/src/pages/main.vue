@@ -249,8 +249,8 @@ export default {
         window.onbeforeunload = function () {
             t.$store.commit('clearAllTags')
         }
-        this.getUser();
         this.checkFirstLogin();
+
     },
     methods: {
         clearIM () {
@@ -275,6 +275,7 @@ export default {
                         t.$refs.userinfo.getSelect()
                     } else {
                         t.$store.commit('changePwd/setChangePwd', false);
+                        t.getUser();
                     }
                     if (res.data.content[0].value === "1") {
                         this.$Message.warning('第一次登陆，请修改初始密码');
