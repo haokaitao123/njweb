@@ -220,9 +220,9 @@
 				</div>
 				<!-- 期望薪资 -->
 				<div class="item_box">
-					<x-input title="期望薪资" v-model="form.relibSalary" @on-blur="blurEvent(1,form.relibSalary)" @on-focus="focusEvent" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
+					<x-input title="期望薪资" v-model="form.relibSalary" @on-blur="blurEvent(1,form.relibSalary,'salary')" @on-focus="focusEvent" v-verify="form.relibSalary" :disabled="state" :show-clear="false" :placeholder="state?'未填写':'请填写'">
 					</x-input>
-					<icon type="warn" class="error" v-remind="form.relibSalary"></icon>
+					<icon type="warn" class="error" v-show="reSalary" ></icon>
 				</div>
 				<!-- 职业状态 -->
 				<div class="item_box">
@@ -634,7 +634,8 @@
 				educationState: false,
 				workExpState: false,
 				childCheck: false,
-				idCardRend: false
+				idCardRend: false,
+				reSalary: false
 			}
 		},
 		verify: {
@@ -888,6 +889,20 @@
 				this.ifValue = value
 			},
 			blurEvent(a, x, y) {
+				if(y == 'salary'){
+					 var reg = /^[0-9]*$/ ;
+					 this.reSalary = ! reg.test(parseInt(x))
+					 if(x == ""){
+					 	this.reSalary = false
+					 	}
+						  if(this.ifValue == "" && x != "") {
+							  this.wzd += 1
+						  }
+					  if(this.ifValue != "" && x == ""){
+							this.wzd -= 1
+					  }
+					  //alert(this.reSalary)
+				}
 				if(y == 'idcard') {
 					this.idNumber()
 					if(this.ifValue == "") {
