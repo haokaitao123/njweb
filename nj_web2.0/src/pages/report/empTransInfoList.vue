@@ -87,7 +87,7 @@
         ref="expwindow"
       ></expwindow>
     </transition>
-    <transition>
+   <transition>
       <expdow
         v-show="openExpDow"
         :filekey="filekey"
@@ -96,7 +96,7 @@
         ref="expdow"
       ></expdow>
     </transition>
-    <transition name="fade">
+<!--    <transition name="fade">
       <importExcel
         v-show="openImport"
         :impid="updateId"
@@ -105,7 +105,7 @@
         @closeImport="closeImport"
         ref="importExcel"
       ></importExcel>
-    </transition>
+    </transition>-->
     <transition name="fade">
       <searchTable v-show="openPick"
          :searchDeptClo="searchCloumns"
@@ -140,7 +140,7 @@
           {code: "deptThreeName", name: "一级部门及分公司"},
           {code: "deptTwoName", name: "二级部门"},
           {code: "unitFname", name: "项目"},
-          {code: "unitFname", name: "小组"},
+          {code: "groupName", name: "小组"},
           {code: "empnhName", name: "姓名"},
           {code: "postFname", name: "岗位"},
           {code: "postTypeDis", name: "职级"},
@@ -161,6 +161,8 @@
         logType: "",
         loading: false,
         tableselected: [],
+        filekey: "",
+        filename: "",
         columns: [
           {
             type: "selection",
@@ -170,7 +172,7 @@
           },
           {
             title: "异动日期",
-            key: "deptThreeName",
+            key: "transDate",
             width: 220
           },
           {
@@ -190,13 +192,13 @@
           },
           {
             title: "小组",
-            key: "unitFname",
+            key: "groupName",
             width: 220
           },
           {
             title: "姓名",
             key: "empnhName",
-            width: 220
+            width: 150
           },
           {
             title: "岗位",
@@ -206,17 +208,17 @@
           {
             title: "职级",
             key: "postTypeDis",
-            width: 220
+            width: 150
           },
           {
             title: "直接领导",
             key: "empnhPmpDis",
-            width: 220
+            width: 150
           },
           {
             title: "工作属地",
             key: "empnhWklocatDis",
-            width: 220
+            width: 150
           },
           {
             title: "性别",
@@ -226,22 +228,22 @@
           {
             title: "入职时间",
             key: "empnhEntrydate",
-            width: 220
+            width: 150
           },
           {
             title: "司龄",
-            key: "empnhEntrydate",
+            key: "empAge",
             width: 100
           },
           {
             title: "司龄分段",
-            key: "recruitName",
+            key: "empAgeRange",
             width: 220
           },
           {
             title: "异动情况",
-            key: "empnhCompmail",
-            width: 300
+            key: "transCase",
+            width: 500
           },
         ],
         tableBtn: {
@@ -437,7 +439,7 @@
       },
       openUp(id, logType, index) {
         const t = this;
-        t.updateId = parseInt(id, 10);
+        /*t.updateId = parseInt(id, 10);*/
         t.logType = logType;
         t.openUpdate = true;
         t.index = index;
@@ -473,18 +475,30 @@
       },
       // 导入导出默认方法
       expData() {
-        const t = this;
-        // 填装查询条件
-        const data = {
-          //state: "01empstate",
-        };
-        // 设置导出mt参数
-        this.$refs.expwindow.getData(
-          this.expDataTital,
-          "empEmpnh.export",
-          data
-        );
-        this.openExp = true;
+        if(this.transDate!==""&&this.deptId!==""){
+          const t = this;
+          // 填装查询条件
+          const data = {
+            //ids:t.tableselected.toString(),
+            transDate:t.transDate,
+            deptId:t.deptId
+          };
+          if (data.transDate !== undefined && data.transDate !== '') {
+            data.transDate = new Date(data.transDate).format('yyyy-MM-dd')
+          } else {
+            data.transDate = ''
+          }
+
+          // 设置导出mt参数
+          this.$refs.expwindow.getData(
+            this.expDataTital,
+            "empEmpnh.exportTrans",
+            data
+          );
+          this.openExp = true;
+        }else{
+          this.$Message.warning('请选择异动截止日期和异动后项目部门');
+        }
       },
       // 导入导出默认方法 无需更改
       closeExp() {
@@ -495,8 +509,8 @@
       //清除岗位选择框数据
       clearDept() {
         const t = this;
-        t.unitFname = ""
-        t.deptId = ""
+        t.unitFname = "";
+        t.deptId = "";
       },
       //打开部门选择弹出框
       pickDept () {
@@ -520,7 +534,8 @@
         t.openExpDow = false;
       },
       // 导入导出默认方法 无需更改
-      setFileKey(filekey, filename, openExpDow) {
+      // 导入导出默认方法 无需更改
+      setFileKey (filekey, filename, openExpDow) {
         const t = this;
         t.filekey = filekey;
         t.filename = filename;
