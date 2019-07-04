@@ -27,7 +27,7 @@
 					<div class="inf">
 						信息完整度
 					</div>
-					<van-progress :percentage="percent" />
+					<van-progress class="pross" :percentage="percent" />
 				</div>
 				<div class="items" v-if="topDisor < 20">
 					<span class="informs">信息完整度</span>
@@ -1477,7 +1477,7 @@
 					}
 				}).catch((err) => {
 					t.$notify({
-						message: '网络错误00',
+						message: '网络错误',
 						duration: 1500,
 						background: '#f44'
 					});
@@ -1704,10 +1704,20 @@
 		top: 0px;
 		width: 100%;
 		border-bottom: 1px solid #D9D9D9;
+		.pross{
+			.van-progress__pivot{
+				font-size: 25px;
+			}
+		}
 		.inf {
 			font-size: 30px;
 			padding: 20px 33px;
 			margin-bottom: 10px;
 		}
+		
+	}
+	.prog/deep/.van-progress{
+		width: 95%;
+		left: 2%;
 	}
 </style>
