@@ -171,7 +171,7 @@ export default {
         },
         {
           title: "一级部门及分公司",
-          key: "deptThreeName",
+          key: "unitFname",
           width: 200
         },
         {
@@ -181,7 +181,7 @@ export default {
         },
         {
           title: "项目",
-          key: "unitFname",
+          key: "deptThreeName",
           width: 200
         },
         {
