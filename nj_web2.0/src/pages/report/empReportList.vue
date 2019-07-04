@@ -128,7 +128,7 @@ export default {
         { code: "unitFname", name: "项目" },
         { code: "empnhName", name: "姓名" },
         { code: "postFname", name: "岗位" },
-        { code: "postType", name: "职级" },
+        { code: "postTypeDis", name: "职级" },
         { code: "empnhPmpDis", name: "直接领导" },
         { code: "empnhWklocatDis", name: "工作属地" },
         { code: "empnhGenderDis", name: "性别" },
@@ -157,7 +157,7 @@ export default {
       updateId: NaN,
       tableselected: [],
       //页面初始化默认状态
-      state: "01ok",
+      state: "",
       columns: [
         {
           type: "selection",
@@ -198,7 +198,7 @@ export default {
         },
         {
           title: "职级",
-          key: "postType",
+          key: "postTypeDis",
           width: 220
         },
         {
@@ -280,7 +280,7 @@ export default {
       rows: 20,
       page: 1,
       funId: "1000",
-      state: this.modity,
+      state: "",
       loading: "",
       reportDate: ""
     };
@@ -492,14 +492,8 @@ export default {
       const t = this;
       // 填装查询条件
       const data = {
-        reportDate:t.reportDate,
-        state: t.modity
+        state : "01empstate",
       };
-       if (data.reportDate !== undefined && data.reportDate !== '') {
-       				  data.reportDate = new Date(data.reportDate).format('yyyy-MM')
-                } else {
-                    data.reportDate = new Date().format('yyyy-MM')
-            }
       // 设置导出mt参数
       this.$refs.expwindow.getData(
         this.expDataTital,

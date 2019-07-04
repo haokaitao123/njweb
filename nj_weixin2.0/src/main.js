@@ -11,7 +11,7 @@ import axios from 'axios'
 import 'babel-polyfill'
 import {
   ToastPlugin,
-  XButton
+  XButton,
 } from 'vux'
 import verify from "vue-verify-plugin";
 import valid from './lib/pub_valid';
@@ -34,11 +34,12 @@ import {
   Icon,
   Row,
   Col,
-  Progress
+  Progress,
+  Tabbar,
+  TabbarItem
 } from 'vant';
 Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).
-use(List).use(Loading).use(search).use(ImagePreview).use(Notify)
-  .use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Icon).use(Row).use(Col).use(Progress);
+use(List).use(Loading).use(search).use(ImagePreview).use(Notify).use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Icon).use(Row).use(Col).use(Progress).use(Tabbar).use(TabbarItem);
 Notify.setDefaultOptions.duration = '1000'
 var myRules = {
   required: {

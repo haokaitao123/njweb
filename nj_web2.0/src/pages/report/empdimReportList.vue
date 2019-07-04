@@ -126,7 +126,6 @@ export default {
         { code: "deptThreeName", name: "一级部门及分公司" },
         { code: "deptTwoName", name: "二级部门" },
         { code: "unitFname", name: "项目" },
-        { code: "groupName", name: "小组" },
         { code: "empnhName", name: "姓名" },
         { code: "postFname", name: "岗位" },
         { code: "postTypeDis", name: "职级" },
@@ -183,7 +182,6 @@ export default {
         {
           title: "项目",
           key: "unitFname",
-          //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 200
         },
         {
@@ -205,7 +203,7 @@ export default {
           title: "职级",
           key: "postTypeDis",
           width: 200
-        },
+    },
         {
           title: "直接领导",
           key: "empnhPmpDis",

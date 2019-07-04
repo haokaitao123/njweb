@@ -59,6 +59,7 @@
 			}
 			getDataLevelUserLoginNew(data).then((res) => {
 				if (isSuccess(res, t)) {
+				  console.log(res.data.content[0].rows,"res")
 					t.data = res.data.content[0].rows
 					t.total = res.data.content[0].records
 				}
