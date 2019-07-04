@@ -4,7 +4,7 @@
       <Col span="24">
         <card>
           <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;离职员工名单
+            <Icon type="mouse"></Icon>&nbsp;异动员工名单
           </p>
           <Row>
             <Col span="18" style="width: 100% !important">
@@ -123,23 +123,25 @@ export default {
       imp_mt: "protocolManage.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "deptThreeName", name: "一级部门及分公司" },
-        { code: "deptTwoName", name: "二级部门" },
-        { code: "unitFname", name: "项目" },
-        { code: "empnhName", name: "姓名" },
-        { code: "postFname", name: "岗位" },
-        { code: "postTypeDis", name: "职级" },
-        { code: "empnhPmpDis", name: "直接领导" },
-        { code: "empnhWklocatDis", name: "工作属地" },
-        { code: "empnhGenderDis", name: "性别" },
+        { code: "empName", name: "姓名" },
         { code: "empnhEntrydate", name: "入职日期" },
-        { code: "empAge", name: "司龄" },
-        { code: "empAgeRange", name: "司龄分段" },
-        { code: "state", name: "离职情况" },
-        { code: "dimSalday", name: "工资截止时间" },
-        { code: "dimLastsalday", name: "工资发放时间" },
-        { code: "dimLevsqday", name: "自离离职日期" },
-        { code: "dimActlevday", name: "办理离职日期" },
+        { code: "deptThreePastName", name: "原一级部门及分公司" },
+        { code: "deptTwoPastName", name: "原二级部门" },
+        { code: "deptIdpastDis", name: "原项目" },
+        { code: "groupPastName", name: "原小组" },
+        { code: "postIdpastDis", name: "原岗位" },
+        { code: "postTypePastDis", name: "原职级" },
+        { code: "transPastleaderDis", name: "原直接领导" },
+        { code: "deptThreeNowName", name: "新一级部门及分公司" },
+        { code: "deptTwoNowName", name: "新二级部门" },
+        { code: "deptIdnewDis", name: "新项目" },
+         { code: "groupNowName", name: "新小组" },
+        { code: "postIdnewDis", name: "新岗位" },
+        { code: "postTypeNewDis", name: "新职级" },
+        { code: "transNewleaderDis", name: "现直接领导" },
+        { code: "transDate", name: "异动日期" },
+        { code: "transDate", name: "办理异动日期" },
+        { code: "transTypeDis", name: "异动原因" },
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -169,94 +171,104 @@ export default {
           fixed: "left",
           align: "center"
         },
-        {
-          title: "一级部门及分公司",
-          key: "unitFname",
-          width: 200
-        },
-        {
-          title: "二级部门",
-          key: "deptTwoName",
-          width: 200
-        },
-        {
-          title: "项目",
-          key: "deptThreeName",
-          width: 200
-        },
-        {
-          title: "小组",
-          key: "groupName",
-          width: 200
-        },
-        {
+         {
           title: "姓名",
-          key: "empnhName",
-          width: 200
-        },
-        {
-          title: "岗位",
-          key: "postFname",
-          width: 200
-        },
-        {
-          title: "职级",
-          key: "postTypeDis",
-          width: 200
-    },
-        {
-          title: "直接领导",
-          key: "empnhPmpDis",
-          width: 200
-        },
-        {
-          title: "工作属地",
-          key: "empnhWklocatDis",
-          width: 200
-        },
-        {
-          title: "性别",
-          key: "empnhGenderDis",
-          width: 200
+          key: "empName",
+          width: 220
         },
         {
           title: "入职日期",
           key: "empnhEntrydate",
-          width: 200
+          width: 220
         },
-         {
-          title: "司龄",
-          key: "empAge",
-          width: 200
-        },
-         {
-          title: "司龄分段",
-          key: "empAgeRange",
-          width: 200
-        },
-         {
-          title: "离职情况",
-          key: "stateDis",
-          width: 200
-        },
-         {
-          title: "工资截止时间",
-          key: "dimSalday",
+        {
+          title: "原一级部门及分公司",
+          key: "deptThreePastName",
           width: 200
         },
         {
-          title: "工资发放时间",
-          key: "dimLastsalday",
+          title: "原二级部门",
+          key: "deptTwoPastName",
+          width: 220
+        },
+        {
+          title: "原项目",
+          key: "deptIdpastDis",
+          //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 200
         },
         {
-          title: "自离离职日期",
-          key: "dimLevsqday",
+          title: "原小组",
+          key: "groupPastName",
+          width: 200
+        },
+       
+        {
+          title: "原岗位",
+          key: "postIdpastDis",
           width: 200
         },
         {
-          title: "办理离职日期",
-          key: "dimActlevday",
+          title: "原职级",
+          key: "postTypePastDis",
+          width: 200
+        },
+        {
+          title: "原直接领导",
+          key: "transPastleaderDis",
+          width: 200
+        },
+        
+
+        {
+          title: "新一级部门及分公司",
+          key: "deptThreeNowName",
+          width: 200
+        },
+        {
+          title: "新二级部门",
+          key: "deptTwoNowName",
+          width: 200
+        },
+        {
+          title: "新项目",
+          key: "deptIdnewDis",
+          width: 200
+        },
+        {
+          title: "新小组",
+          key: "groupNowName",
+          width: 200
+        },
+        {
+          title: "新岗位",
+          key: "postIdnewDis",
+          width: 200
+        },
+        
+        {
+          title: "新职级",
+          key: "postTypeNewDis",
+          width: 200
+        },
+        {
+          title: "现直接领导",
+          key: "transNewleaderDis",
+          width: 200
+        },
+        {
+          title: "异动日期",
+          key: "transDate",
+          width: 200
+        },
+        {
+          title: "办理异动日期",
+          key: "transDate",
+          width: 200
+        },
+        {
+          title: "异动原因",
+          key: "transTypeDis",
           width: 200
         },
       ],
@@ -372,16 +384,15 @@ export default {
         this.page = 1;
       }
       const data = {
-        //_mt: "empReport.getEmpdimPage",
-        _mt:"empEmpnh.getPage",
+        _mt: "empReport.getPage",
         rows: t.rows,
         page: t.page,
         sort: t.sort,
         order: t.order,
-        logType: "离职统计查询",
+        logType: "招聘统计查询",
         funId: "1000",
         reportDate:t.reportDate,
-        state: "04empstate"
+        //state: "01empstate"
       };
       if (data.reportDate !== undefined && data.reportDate !== '') {
        				  data.reportDate = new Date(data.reportDate).format('yyyy-MM')
@@ -516,7 +527,7 @@ export default {
       const t = this;
       // 填装查询条件
       const data = {
-        //reportDate:t.reportDate,
+       // reportDate:t.reportDate,
         state: t.modity
       };
     //    if (data.reportDate !== undefined && data.reportDate !== '') {
@@ -527,7 +538,7 @@ export default {
       // 设置导出mt参数
       this.$refs.expwindow.getData(
         this.expDataTital,
-        "empEmpnh.exportEmpdim",
+        "empReport.exportEmptrans",
         data
       );
       this.openExp = true;

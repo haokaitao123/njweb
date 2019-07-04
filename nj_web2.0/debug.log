@@ -1,0 +1,4 @@
+[0620/102323.260:ERROR:process_info.cc(359)] UncheckedAllocate
+[0620/102323.887:ERROR:process_info.cc(375)] NtQuerySystemInformation SystemExtendedHandleInformation: {没有足够配额} 没有足够的虚拟内存或分页文件配额以完成指定的操作。 (0xc0000017)
+[0701/222535.414:ERROR:process_reader_win.cc(123)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。 (0xc0000022)
+[0701/222536.024:ERROR:exception_snapshot_win.cc(88)] thread ID 2132 not found in process

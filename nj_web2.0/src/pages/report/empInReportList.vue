@@ -4,18 +4,18 @@
       <Col span="24">
         <card>
           <p slot="title">
-            <Icon type="mouse"></Icon>&nbsp;离职员工名单
+            <Icon type="mouse"></Icon>&nbsp;在职员工名单
           </p>
           <Row>
             <Col span="18" style="width: 100% !important">
               <Row>
-                  <!-- <DatePicker
-                  type="month"
+                  <DatePicker
+                  type="date"
                   placeholder="请选择入职日期"
                   :editable="false"
-                  v-model="reportDate"
+                  v-model="empnhEntrydate"
                   style="width: 200px"
-                  ></DatePicker> -->
+                  ></DatePicker>
                   <btnList
                   @buttonExport="expData"
                   @buttonImport="importExcel"
@@ -123,9 +123,9 @@ export default {
       imp_mt: "protocolManage.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "deptThreeName", name: "一级部门及分公司" },
+        { code: "unitFname", name: "一级部门及分公司" },
         { code: "deptTwoName", name: "二级部门" },
-        { code: "unitFname", name: "项目" },
+        { code: "deptThreeName", name: "项目" },
         { code: "empnhName", name: "姓名" },
         { code: "postFname", name: "岗位" },
         { code: "postTypeDis", name: "职级" },
@@ -135,11 +135,8 @@ export default {
         { code: "empnhEntrydate", name: "入职日期" },
         { code: "empAge", name: "司龄" },
         { code: "empAgeRange", name: "司龄分段" },
-        { code: "state", name: "离职情况" },
-        { code: "dimSalday", name: "工资截止时间" },
-        { code: "dimLastsalday", name: "工资发放时间" },
-        { code: "dimLevsqday", name: "自离离职日期" },
-        { code: "dimActlevday", name: "办理离职日期" },
+        { code: "transCase", name: "异动情况" },
+        { code: "empnhCompmail", name: "邮箱号" },
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -161,7 +158,7 @@ export default {
       updateId: NaN,
       tableselected: [],
       //页面初始化默认状态
-      state: "01ok",
+      state: "",
       columns: [
         {
           type: "selection",
@@ -172,92 +169,73 @@ export default {
         {
           title: "一级部门及分公司",
           key: "unitFname",
-          width: 200
+          //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
+          width: 220
         },
         {
           title: "二级部门",
           key: "deptTwoName",
-          width: 200
+          width: 220
         },
         {
           title: "项目",
           key: "deptThreeName",
-          width: 200
+          width: 220
         },
         {
           title: "小组",
           key: "groupName",
-          width: 200
+          width: 220
         },
         {
           title: "姓名",
           key: "empnhName",
-          width: 200
+          width: 220
         },
         {
           title: "岗位",
           key: "postFname",
-          width: 200
+          width: 220
         },
         {
           title: "职级",
           key: "postTypeDis",
-          width: 200
-    },
+          width: 220
+        },
         {
           title: "直接领导",
           key: "empnhPmpDis",
-          width: 200
+          width: 220
         },
         {
           title: "工作属地",
           key: "empnhWklocatDis",
-          width: 200
+          width: 220
         },
         {
           title: "性别",
           key: "empnhGenderDis",
-          width: 200
+          width: 220
         },
         {
           title: "入职日期",
           key: "empnhEntrydate",
-          width: 200
+          width: 220
         },
-         {
+        {
+          title: "异动情况",
+          key: "transCase",
+          width: 400
+        },
+        {
           title: "司龄",
           key: "empAge",
-          width: 200
+          width: 220
         },
-         {
+        {
           title: "司龄分段",
           key: "empAgeRange",
-          width: 200
-        },
-         {
-          title: "离职情况",
-          key: "stateDis",
-          width: 200
-        },
-         {
-          title: "工资截止时间",
-          key: "dimSalday",
-          width: 200
-        },
-        {
-          title: "工资发放时间",
-          key: "dimLastsalday",
-          width: 200
-        },
-        {
-          title: "自离离职日期",
-          key: "dimLevsqday",
-          width: 200
-        },
-        {
-          title: "办理离职日期",
-          key: "dimActlevday",
-          width: 200
+          width: 220
         },
       ],
    tableBtn: {
@@ -303,9 +281,9 @@ export default {
       rows: 20,
       page: 1,
       funId: "1000",
-      state: this.modity,
+      state: "",
       loading: "",
-      reportDate: ""
+      empnhEntrydate: ""
     };
   },
   computed: {
@@ -372,21 +350,20 @@ export default {
         this.page = 1;
       }
       const data = {
-        //_mt: "empReport.getEmpdimPage",
-        _mt:"empEmpnh.getPage",
+        _mt: "empEmpnh.getPage",
         rows: t.rows,
         page: t.page,
         sort: t.sort,
         order: t.order,
-        logType: "离职统计查询",
+        logType: "招聘统计查询",
         funId: "1000",
-        reportDate:t.reportDate,
-        state: "04empstate"
+        empnhEntrydate:t.empnhEntrydate,
+        state: "02empstate"
       };
-      if (data.reportDate !== undefined && data.reportDate !== '') {
-       				  data.reportDate = new Date(data.reportDate).format('yyyy-MM')
+      if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
+       				  data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM--dd')
         } else {
-               data.reportDate = ''
+               data.empnhEntrydate = ''
         }
       for (const dat in data) {
         if (data[dat] === "") {
@@ -516,18 +493,18 @@ export default {
       const t = this;
       // 填装查询条件
       const data = {
-        //reportDate:t.reportDate,
-        state: t.modity
+        state : "02empstate",
+        empnhEntrydate: t.empnhEntrydate,
       };
-    //    if (data.reportDate !== undefined && data.reportDate !== '') {
-    //    				  data.reportDate = new Date(data.reportDate).format('yyyy-MM')
-    //             } else {
-    //                 data.reportDate = new Date().format('yyyy-MM')
-    //         }
+      if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
+       			data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM--dd')
+        } else {
+            data.empnhEntrydate = ''
+        }
       // 设置导出mt参数
       this.$refs.expwindow.getData(
         this.expDataTital,
-        "empEmpnh.exportEmpdim",
+        "empEmpnh.export",
         data
       );
       this.openExp = true;

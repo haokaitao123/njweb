@@ -273,7 +273,10 @@ export default {
           break
         case "黑名单":
           name = 'buttonBlacklist'
-          break  
+          break
+        case "面谈预约":
+          name = 'buttonOrder'
+          break
       }
       return name;
     },
@@ -377,6 +380,10 @@ export default {
         case "button_blacklist":
           btnName = '黑名单';
           bType = 'error';
+          break
+        case "button_order":
+          btnName = '面谈预约';
+          bType = 'success';
           break
       }
       let obj = {

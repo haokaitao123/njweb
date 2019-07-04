@@ -1,4 +1,4 @@
-/**
+/**stateDis
  * Created by Aaron on 2019/07/03.
  */
 
@@ -7,7 +7,12 @@ const empReportList = resolve => require(['@/pages/report/empReportList'], resol
 //离职员工名单
 const empdimReportList = resolve => require(['@/pages/report/empdimReportList'], resolve)
 //异动员工名单
-//const empTransReportList = resolve => require(['@/pages/report/empTransReportList'], resolve)
+const empTransReportList = resolve => require(['@/pages/report/empTransReportList'], resolve)
+//在职员工名单
+const empInReportList = resolve => require(['@/pages/report/empInReportList'], resolve)
+//异动到外包部员工名单
+const empTransInfoList = resolve => require(['@/pages/report/empTransInfoList'], resolve)
+
 
 export default [
   {
@@ -20,9 +25,20 @@ export default [
     name: 'empdimReportList',
     component: empdimReportList,
   },
-  // {
-  //   path: 'empTransReportList',
-  //   name: 'empTransReportList',
-  //   component: empTransReportList,
-  // },
+  {
+    path: 'empTransInfoList',
+    name: 'empTransInfoList',
+    component: empTransInfoList,
+  },
+
+  {
+    path: 'empInReportList',
+    name: 'empInReportList',
+    component: empInReportList,
+  },
+  {
+    path: 'empTransReportList',
+    name: 'empTransReportList',
+    component: empTransReportList,
+  },
 ]
