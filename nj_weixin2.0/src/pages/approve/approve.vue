@@ -4,8 +4,8 @@
         <van-pull-refresh v-model="isLoading"
                           @refresh="onRefresh"
                           class="ref">
-            <van-row>
-                <van-col span="24">
+            <div class="itemWrap">
+                <div style="width: 100%;">
                     <div class="appItem"
                          v-for="(item,index) in list"
                          @click="goTo(item)">
@@ -118,8 +118,8 @@
                         </div>
                     </div>
 
-                </van-col>
-            </van-row>
+                </div>
+            </div>
         </van-pull-refresh>
         <div v-if="	list.length > 0"
              class="topBtn">
@@ -239,6 +239,9 @@ export default {
                             item.checked = false
                         });
                         t.list = listRes
+                        t.list.length
+                        //localStorage.setItem("tipNum", t.list.length);
+                        t.$store.commit('tabarTip', t.list.length);
                     }
                     t.isLoading = false
                 }
@@ -248,6 +251,7 @@ export default {
                     duration: 1500,
                     background: '#f44'
                 });
+
             }).finally(() => {
                 t.$store.commit('hideLoading');
                 console.log('123', this.list)
@@ -294,9 +298,6 @@ export default {
                         params.push(dataList)
                     }
                 }
-                // if(list.aprvrelaStepid != 'empdim_10' && list.aprvrelaStepid != 'vacation_3') {
-                //     params.push(dataList)
-                // }
                 console.log('params', params)
             });
             const t = this;
@@ -312,6 +313,8 @@ export default {
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     this.getInfor()
+
+
                 }
             }).catch(() => {
                 t.$notify({
@@ -332,13 +335,14 @@ export default {
 <style lang="less" scoped>
 #app {
     .approve {
-        height: 84%;
+        height: calc(~"100% - 110px");
+        display: flex;
+        flex-direction: column;
         background: #f6f6f6;
         box-sizing: border-box;
-        overflow: scroll;
         -webkit-overflow-scrolling: touch;
         .ref {
-            height: 100%;
+            flex: 1;
             overflow: auto;
         }
         .chooseAll {
@@ -353,9 +357,9 @@ export default {
             width: 100%;
             height: 120px;
             background: white;
-            position: fixed;
+            // position: fixed;
             border-top: 1px solid #f0f0f0;
-            bottom: 100px;
+            // bottom: 100px;
             .save_button {
                 width: 390px;
                 margin-bottom: 100px;
@@ -364,7 +368,7 @@ export default {
                 margin-left: 290px;
                 .x_button {
                     color: #fff;
-                    font-size: 15px;
+                    font-size: 28px;
                     width: 140px;
                     margin-left: 70px;
                 }
@@ -378,32 +382,35 @@ export default {
                 }
             }
         }
-        .appItem {
-            background: white;
-            padding: 40px 40px;
-            height: 100%;
-            margin-bottom: 20px;
-            overflow: hidden;
-            .cent {
-                .cent_top {
-                    display: flex;
-                    .selects {
-                        display: inline-block;
-                    }
-                    .title {
-                        margin-left: 20px;
-                        display: inline-block;
-                        font-size: 30px;
-                    }
-                    .tranDate {
-                        flex: 1;
-                        text-align: right;
-                        font-size: 30px;
-                    }
-                    .tranDates {
-                        flex: 1;
-                        text-align: right;
-                        font-size: 30px;
+        .itemWrap {
+            height: 84%;
+            .appItem {
+                background: white;
+                padding: 40px 40px;
+                height: 100%;
+                margin-bottom: 20px;
+                overflow: hidden;
+                .cent {
+                    .cent_top {
+                        display: flex;
+                        .selects {
+                            display: inline-block;
+                        }
+                        .title {
+                            margin-left: 20px;
+                            display: inline-block;
+                            font-size: 30px;
+                        }
+                        .tranDate {
+                            flex: 1;
+                            text-align: right;
+                            font-size: 30px;
+                        }
+                        .tranDates {
+                            flex: 1;
+                            text-align: right;
+                            font-size: 30px;
+                        }
                     }
                 }
                 .outTem {
