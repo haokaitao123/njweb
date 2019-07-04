@@ -92,6 +92,13 @@
                          @closeTransaction="closeTransaction"
                          ref="transactionWindow"></transaction>
         </transition>
+      <transition name="fade">
+        <interviewOrder v-show="openOrdersaction"
+                     :id="tableselected"
+                     :logType="logType"
+                     @closeOrdersaction="closeOrdersaction"
+                     ref="interviewOrder"></interviewOrder>
+      </transition>
         <commonFlowUpdate v-if="openTestUpd"
                           @close="closeTest"
                           ref="commonFlowUpdate"
@@ -111,7 +118,8 @@ import { getDataLevelUserLogin } from '../../../axios/axios'
 import { isSuccess } from '../../../lib/util'
 import selCountry from '../../../components/commonsel/selCountry'
 import commonFlowUpdate from './commonFlowUpdate'
-import transaction from './transaction';
+import transaction from './transaction'
+import interviewOrder from './interviewOrder'
 import valid from '@/lib/pub_valid'
 export default {
     data () {
@@ -122,6 +130,7 @@ export default {
             openUpdate: false,
             openTestUpd: false,
             openTransaction: false,
+            openOrdersaction: false,
             updateId: NaN,
             tableselected: [],
             transactionId: '',
@@ -172,6 +181,7 @@ export default {
         commonFlowUpdate,
         //      update,
         transaction,
+      interviewOrder,
     },
     //    created() {
     //
@@ -513,6 +523,15 @@ export default {
                     });
                 }
             }
+          if (btnId === 'button_order') {
+            const t = this;
+            if (t.tableselected.length === 0) {
+              this.$Message.warning(this.$t('reminder.leastone'))
+            } else {
+              this.logType = "面谈预约";
+              this.openOrdersaction = true;
+            }
+          }
         },
         addBlackUser () {
             const t = this
@@ -711,6 +730,11 @@ export default {
         },
         closeTransaction () {
             this.openTransaction = false;
+        },
+        closeOrdersaction () {
+            this.tableselected = [];
+            this.openOrdersaction = false;
+            this.getData(1);
         },
     },
     watch: {

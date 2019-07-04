@@ -1,12 +1,8 @@
 /**
  * Created by Aaron on 2018/4/19.
  */
-import {
-  getDataLevelUserLogin
-} from '../../../axios/axios'
-import {
-  isSuccess
-} from '../../../lib/util'
+import { getDataLevelUserLogin } from '../../../axios/axios'
+import { isSuccess } from '../../../lib/util'
 
 const emp_empdim = {
   all_dis() {
@@ -15,7 +11,9 @@ const emp_empdim = {
     emp_empdim.empdimApplicant_set(this)
     emp_empdim.dimSalday_set(this)
     emp_empdim.dimLevsqday_dis(this)
+    emp_empdim.dimReason_dis(this)
     emp_empdim.dimType_dis(this)
+
   },
 
   dimLevsqday(node) {
@@ -32,6 +30,11 @@ const emp_empdim = {
     emp_empdim.dimIsreceive_set(this.$parent)
     emp_empdim.dimIsreceive_dis(this.$parent)
   },
+  dimReason(node) {
+    //  emp_empdim.dimReason_set(this.$parent)
+    emp_empdim.dimReason_dis(this.$parent)
+  }
+  ,
   empdimApplicant_set(t) {
     if (t.valueMap.dimApplicant) {
       //alert(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant)
@@ -227,12 +230,29 @@ const emp_empdim = {
       }
     }
   },
-
   dimIsreceive_set(t) {
     //清空
     if (t.valueMap.dimIsreceive && t.$refs[t.valueMap.dimIsreceive][0].formDataSubmit.dimIsreceive === '0') {
       if (t.valueMap.dimReceive) {
         t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formDataSubmit, 'dimReceive', '')
+      }
+    }
+  },
+  //离职原因是其他，显示其他离职原因文本框
+  dimReason_dis(t) {
+    debugger
+    if (t.valueMap.dimReason) {
+      debugger
+      if (t.$refs[t.valueMap.dimReason][0].formDataSubmit.dimReason === '9080') {
+        if (t.valueMap.dimReasonother) {
+          t.$refs[t.valueMap.dimReasonother][0].$set(t.$refs[t.valueMap.dimReasonother][0].formshow, 'dimReasonother', '')
+        }
+      } else {
+        if (t.valueMap.dimReasonother) {
+          t.$refs[t.valueMap.dimReasonother][0].$refs.dimReasonother.thisValue = ''
+          t.$refs[t.valueMap.dimReasonother][0].$delete(t.$refs[t.valueMap.dimReasonother][0].formshow, 'dimReasonother')
+
+        }
       }
     }
   },
@@ -246,9 +266,10 @@ const emp_empdim = {
         // t.$refs[t.valueMap.dimType][0].$refs.dimReceive.thisValue = ''
         //}
       } else {
-        //if (t.valueMap.dimReceive) {
-        t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive', '')
+        if (t.valueMap.dimReceive) t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive', '')
+        if (t.valueMap.dimActlevday)
         t.$refs[t.valueMap.dimActlevday][0].$set(t.$refs[t.valueMap.dimActlevday][0].formshow, 'dimActlevday', '')
+        if (t.valueMap.dimLastsalday)
         t.$refs[t.valueMap.dimLastsalday][0].$set(t.$refs[t.valueMap.dimLastsalday][0].formshow, 'dimLastsalday', '')
 
         // }
