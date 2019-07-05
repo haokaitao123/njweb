@@ -113,16 +113,16 @@ export default {
             expDataTital: [
                 { code: "empName", name: "姓名" },
                 { code: "empnhEntrydate", name: "入职日期" },
-                { code: "deptThreePastName", name: "原一级部门及分公司" },
+                { code: "deptOnePastName", name: "原一级部门及分公司" },
                 { code: "deptTwoPastName", name: "原二级部门" },
-                { code: "deptIdpastDis", name: "原项目" },
+                { code: "deptThreePastName", name: "原项目" },
                 { code: "groupPastName", name: "原小组" },
                 { code: "postIdpastDis", name: "原岗位" },
                 { code: "postTypePastDis", name: "原职级" },
                 { code: "transPastleaderDis", name: "原直接领导" },
-                { code: "deptThreeNowName", name: "新一级部门及分公司" },
+                { code: "deptOneNowName", name: "新一级部门及分公司" },
                 { code: "deptTwoNowName", name: "新二级部门" },
-                { code: "deptIdnewDis", name: "新项目" },
+                { code: "deptThreeNowName", name: "新项目" },
                 { code: "groupNowName", name: "新小组" },
                 { code: "postIdnewDis", name: "新岗位" },
                 { code: "postTypeNewDis", name: "新职级" },
@@ -172,7 +172,7 @@ export default {
                 },
                 {
                     title: "原一级部门及分公司",
-                    key: "deptThreePastName",
+                    key: "deptOnePastName",
                     width: 200
                 },
                 {
@@ -182,7 +182,7 @@ export default {
                 },
                 {
                     title: "原项目",
-                    key: "deptIdpastDis",
+                    key: "deptThreePastName",
                     //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
                     width: 200
                 },
@@ -211,7 +211,7 @@ export default {
 
                 {
                     title: "新一级部门及分公司",
-                    key: "deptThreeNowName",
+                    key: "deptOneNowName",
                     width: 200
                 },
                 {
@@ -221,7 +221,7 @@ export default {
                 },
                 {
                     title: "新项目",
-                    key: "deptIdnewDis",
+                    key: "deptThreeNowName",
                     width: 200
                 },
                 {
