@@ -137,9 +137,9 @@
         // 导出字段设置, code字段名 name列名
         expDataTital: [
           {code: "transDate", name: "异动日期"},
-          {code: "deptThreeName", name: "一级部门及分公司"},
+          {code: "unitFname", name: "一级部门及分公司"},
           {code: "deptTwoName", name: "二级部门"},
-          {code: "unitFname", name: "项目"},
+          {code: "deptThreeName", name: "项目"},
           {code: "groupName", name: "小组"},
           {code: "empnhName", name: "姓名"},
           {code: "postFname", name: "岗位"},
@@ -177,7 +177,7 @@
           },
           {
             title: "一级部门及分公司",
-            key: "deptThreeName",
+            key: "unitFname",
             width: 220
           },
           {
@@ -187,7 +187,7 @@
           },
           {
             title: "项目",
-            key: "unitFname",
+            key: "deptThreeName",
             width: 220
           },
           {
