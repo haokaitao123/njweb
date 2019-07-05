@@ -225,7 +225,7 @@ export default {
         {
           title: "异动情况",
           key: "transCase",
-          width: 400
+          width: 1200
         },
         {
           title: "司龄",
