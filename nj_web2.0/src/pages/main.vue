@@ -141,6 +141,7 @@
                   :isEmpty="isEmpty"
                   ref="userinfo"
                   @changeImg="changeImg"
+                  @changeName="changeName"
                   @close="close"></userinfo>
         <transition name="fade">
             <loginim v-show="showIM"
@@ -312,7 +313,15 @@ export default {
                         t.companyies = res.data.content[0].cur_roleType.companyies
                         t.userFuns = res.data.content[0].userFuns
                         t.userName = res.data.content[0].usreName
-                        t.userImg = pubsource.pub_pubf_downlink + res.data.content[0].userImgMin
+                        if (res.data.content[0].userImgMin) {
+                            t.userImg = pubsource.pub_pubf_downlink + res.data.content[0].userImgMin
+                        } else {
+                            t.userImg = "../../static/employee/rt.png"
+                        }
+                        console.log(res.data.content[0].userImgMin, "res.data.content[0].userImgMin");
+                        console.log(res.data.content[0], "data12312");
+                        console.log(pubsource.pub_pubf_downlink + res.data.content[0].userImgMin, "pubsource.pub_pubf_downlink + res.data.content[0].userImgMin");
+
                         t.$refs.menu.subdata(res.data.content[0].userFuns)
                         t.$store.commit('setLang', t.cur_language === 'CN' ? 'zh-CN' : 'en-US')
                         t.$store.commit('setId', res.data.content[0].userId)
@@ -522,6 +531,10 @@ export default {
         },
         changeImg (img) {
             this.userImg = pubsource.pub_pubf_downlink + img
+        },
+        changeName (name) {
+            this.userName = name;
+            this.$store.commit('setName', name)
         },
         checkTag (name) {
             const openpageHasTag = this.pageTagsList.some((item) => {

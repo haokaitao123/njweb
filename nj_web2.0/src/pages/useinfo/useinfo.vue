@@ -178,6 +178,9 @@ export default {
                 ],
                 birthDate: [
                     { required: true, message: '请填写出生日期', trigger: 'change', type: 'date' },
+                ],
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' },
                 ]
             },
             httpImg: '',
@@ -298,26 +301,32 @@ export default {
             data['_mt'] = 'userMgmt.addOrUpd'
             data['logType'] = '修改'
             data['id'] = getCookie('useId')
-            data.birthDate = data.birthDate === '' ? '' : new Date(data.birthDate).format('yyyy-MM-dd')
-            getDataLevelUserLoginSeniorSetFunId(data).then((res) => {
-                if (isSuccess(res, t)) {
-                    this.$Modal.success({
-                        title: this.$t('reminder.suc'),
-                        content: '保存成功',
+            data.birthDate = data.birthDate === '' ? '' : new Date(data.birthDate).format('yyyy-MM-dd');
+            this.$refs.formValidate.validate((valid) => {
+                if (valid) {
+                    getDataLevelUserLoginSeniorSetFunId(data).then((res) => {
+                        if (isSuccess(res, t)) {
+                            this.$Modal.success({
+                                title: this.$t('reminder.suc'),
+                                content: '保存成功',
+                            })
+
+                            if (res.data.content[0].pictureDis && res.data.content[0].pictureDis !== '') {
+                                let tt = res.data.content[0].pictureDis;
+                                tt = tt.split(',')
+                                this.$emit("changeImg", tt[1].toString())
+                            }
+                            if (res.data.content[0].name) {
+                                this.$emit("changeName", res.data.content[0].name)
+                            }
+                        }
+                    }).catch(() => {
+                        this.$Modal.error({
+                            title: this.$t('reminder.err'),
+                            content: this.$t('reminder.errormessage'),
+                        })
                     })
-
-                    if (res.data.content[0].pictureDis && res.data.content[0].pictureDis !== '') {
-                        let tt = res.data.content[0].pictureDis;
-                        tt = tt.split(',')
-                        this.$emit("changeImg", tt[1].toString())
-                    }
-
                 }
-            }).catch(() => {
-                this.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
             })
         },
         getInfo () {
