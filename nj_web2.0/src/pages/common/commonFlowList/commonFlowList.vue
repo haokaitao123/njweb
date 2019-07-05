@@ -91,13 +91,13 @@
                          @closeTransaction="closeTransaction"
                          ref="transactionWindow"></transaction>
         </transition>
-      <transition name="fade">
-        <interviewOrder v-show="openOrdersaction"
-                     :id="tableselected"
-                     :logType="logType"
-                     @closeOrdersaction="closeOrdersaction"
-                     ref="interviewOrder"></interviewOrder>
-      </transition>
+        <transition name="fade">
+            <interviewOrder v-show="openOrdersaction"
+                            :id="tableselected"
+                            :logType="logType"
+                            @closeOrdersaction="closeOrdersaction"
+                            ref="interviewOrder"></interviewOrder>
+        </transition>
         <commonFlowUpdate v-if="openTestUpd"
                           @close="closeTest"
                           ref="commonFlowUpdate"
@@ -169,7 +169,8 @@ export default {
                 align: 'center',
             },
             rcvdata: '',
-            store: ""
+            store: "",
+            operateName: ""
         }
     },
     computed: {
@@ -180,7 +181,7 @@ export default {
         commonFlowUpdate,
         //      update,
         transaction,
-      interviewOrder,
+        interviewOrder,
     },
     //    created() {
     //
@@ -342,8 +343,19 @@ export default {
                                                             return
                                                         }
                                                         t.stepName = t.flowStep[params.column.key].flstepName;
-                                                        await t.getData()
-                                                        t.openUp(params.row.id, stepId, params.index)
+                                                        // await t.getData()
+                                                        if (aa[i].key === 'flow_recruitprocess_1010' && t.stepState === 'p_flowst_2') {
+                                                            await t.getOperateMan(t.flowId, stepId, params.row.id);
+                                                            console.log(t.operateName, "李延1");
+                                                            console.log(t.$store.state.user.name, "李延2")
+                                                            if (t.operateName === t.$store.state.user.name) {
+                                                                t.openUp(params.row.id, stepId, params.index)
+                                                            } else {
+                                                                t.$Message.warning('此人员正在复试中')
+                                                            }
+                                                        } else {
+                                                            t.openUp(params.row.id, stepId, params.index)
+                                                        }
                                                     },
                                                 },
                                             }, text),
@@ -371,6 +383,33 @@ export default {
                     this.step.push(data[i].key)
                 }
             }
+        },
+        //获取操作人
+        async getOperateMan (flowId, thisStepId, thisPkValue) {
+            const t = this
+            // t.dataBlocksFake = []
+            // t.operation = []
+            await getDataLevelUserLogin({
+                _mt: 'platAutoLayoutGetFlowEdit.getDataBlock',
+                flowId: flowId, // 流程ID
+                stepId: thisStepId, // 流程步骤ID
+                roleType: t.$store.state.user.roleType, // 角色类型
+                logType: 'getDataBlock', // 主键值
+                pkValue: thisPkValue,
+            }).then((res) => {
+                if (isSuccess(res, t)) {
+                    console.log(res, "res12312312");
+                    t.dataBlocksFake = res.data.content[0].dataBlocks;
+                    for (let v of t.dataBlocksFake) {
+                        if (v.flsdbType === 'operation') {
+                            console.log(JSON.parse(v.flsdbMark).optuser, "res31231");
+                            this.operateName = JSON.parse(v.flsdbMark).optuser;
+                        }
+                    }
+                }
+            }).catch(() => {
+                t.$Message.error(this.$t("reminder.errormessage"))
+            })
         },
         //enter事件
         enterEvent (e) {
@@ -549,15 +588,15 @@ export default {
                     });
                 }
             }
-          if (btnId === 'button_order') {
-            const t = this;
-            if (t.tableselected.length === 0) {
-              this.$Message.warning(this.$t('reminder.leastone'))
-            } else {
-              this.logType = "面谈预约";
-              this.openOrdersaction = true;
+            if (btnId === 'button_order') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    this.logType = "面谈预约";
+                    this.openOrdersaction = true;
+                }
             }
-          }
         },
         addBlackUser () {
             const t = this

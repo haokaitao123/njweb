@@ -206,7 +206,7 @@ export default {
             openUpdate: false,
             shrink: false,
             userName: this.$store.state.user.name,
-            userImg: '',
+            userImg: require('../../static/employee/rt.png'),
             cur_company: '',
             cur_roleType: '',
             cur_language: '',
@@ -315,9 +315,10 @@ export default {
                         t.userName = res.data.content[0].usreName
                         if (res.data.content[0].userImgMin) {
                             t.userImg = pubsource.pub_pubf_downlink + res.data.content[0].userImgMin
-                        } else {
-                            t.userImg = "../../static/employee/rt.png"
                         }
+                        // else {
+                        //     t.userImg = "./static/employee/rt.png"
+                        // }
                         console.log(res.data.content[0].userImgMin, "res.data.content[0].userImgMin");
                         console.log(res.data.content[0], "data12312");
                         console.log(pubsource.pub_pubf_downlink + res.data.content[0].userImgMin, "pubsource.pub_pubf_downlink + res.data.content[0].userImgMin");

@@ -337,7 +337,7 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     t.formValidate.mobileNo = res.data.content[0].mobileNo
-                    t.formValidate.birthDate = res.data.content[0].birthDate
+                    t.formValidate.birthDate = res.data.content[0].birthDate ? new Date(res.data.content[0].birthDate) : ''
                     t.formValidate.email = res.data.content[0].email
                     t.formValidate.idNo = res.data.content[0].idNo
                     t.formValidate.name = res.data.content[0].name
