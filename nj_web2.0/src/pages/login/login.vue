@@ -63,10 +63,10 @@
                     </FormItem>
                     <FormItem class="no-margin">
                         <Row>
-                            <Col span="12">
+                            <!-- <Col span="12">
                             <router-link to="register">注册账号</router-link>
-                            </Col>
-                            <Col span="12"
+                            </Col> -->
+                            <Col span="24"
                                  class="align-right">
                             <router-link to="change">忘记密码</router-link>
                             </Col>

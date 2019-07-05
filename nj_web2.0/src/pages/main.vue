@@ -108,8 +108,8 @@
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="userinfo">{{$t('user.userCenter')}}</DropdownItem>
                                     <!-- <DropdownItem name="setBusiness" >{{$t('lang_homePage.menuItem.businessupport')}}</DropdownItem> -->
-                                    <DropdownItem name="setApproval"
-                                                  v-show="cur_roleType === '3user' || cur_roleType === '3user-hrbp'">{{$t('lang_homePage.menuItem.platsetting')}}</DropdownItem>
+                                    <!-- <DropdownItem name="setApproval"
+                                                  v-show="cur_roleType === '3user' || cur_roleType === '3user-hrbp'">{{$t('lang_homePage.menuItem.platsetting')}}</DropdownItem> -->
                                     <DropdownItem name="loginout">{{$t('user.quit')}}</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>

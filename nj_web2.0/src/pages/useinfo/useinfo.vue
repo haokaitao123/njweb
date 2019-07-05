@@ -176,6 +176,9 @@ export default {
                 mobileNo: [
                     { required: true, message: '请填写手机号', trigger: 'blur' },
                 ],
+                birthDate: [
+                    { required: true, message: '请填写出生日期', trigger: 'change', type: 'date' },
+                ]
             },
             httpImg: '',
         }
@@ -302,12 +305,13 @@ export default {
                         title: this.$t('reminder.suc'),
                         content: '保存成功',
                     })
-                    let tt = res.data.content[0].pictureDis;
-                    if (res.data.content[0].pictureDis) {
-                        tt = tt.split(',')
 
+                    if (res.data.content[0].pictureDis && res.data.content[0].pictureDis !== '') {
+                        let tt = res.data.content[0].pictureDis;
+                        tt = tt.split(',')
+                        this.$emit("changeImg", tt[1].toString())
                     }
-                    this.$emit("changeImg", tt[1].toString())
+
                 }
             }).catch(() => {
                 this.$Modal.error({
@@ -331,6 +335,7 @@ export default {
                     t.formValidate.gender = res.data.content[0].gender
                     t.formValidate.memo = res.data.content[0].memo
                     t.formValidate.idType = res.data.content[0].idType
+                    t.formValidate.pictureDis = res.data.content[0].picture ? res.data.content[0].picture : ""
                     if (res.data.content[0].picture) {
                         const a = res.data.content[0].pictureShrink.split(',')
                         t.cropedImg = t.httpImg + a[1]
