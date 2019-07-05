@@ -158,18 +158,19 @@ export default {
         {
           type: "selection", //列类型，选择selection类型 就是checkbox
           width: 54, //列宽
+          fixed: "left",
           align: "center" //对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐
+        },
+         {
+          title: "姓名",
+          key: "relibName",
+          fixed: "left",
+          width: 220
         },
         {
           title: "复试日期",
           key: "relibReexamtm",
           sortable: "custom",
-          width: 220
-        },
-        {
-          title: "姓名",
-          key: "relibName",
-          //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
           width: 220
         },
         {
