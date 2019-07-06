@@ -282,9 +282,9 @@ export default {
                         if (aa[i].title == '姓名') {
                             aa[i].width = 80
                         } else if (aa[i].title == '初试人员') {
-                            aa[i].width = 80
+                            aa[i].width = 120
                         } else if (aa[i].title == '复试人员') {
-                            aa[i].width = 80
+                            aa[i].width = 120
                         } else if (aa[i].title == '面到时间') {
                             aa[i].width = 150
                         } else if (aa[i].title == '员工姓名') {
