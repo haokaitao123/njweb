@@ -14,7 +14,7 @@ var pubsource = {
       pub_getCaptcha: "http://njtest.hrocloud.com:8099/api/v1",
       pub_pubf_uploadlink: "http://njtest.hrocloud.com:9709/upload?groupId=0",
       pub_prvf_uploadlink: "http://njtest.hrocloud.com:9709/upload?groupId=1",
-      pub_pubf_downlink: "http://njtest.hrocloud.com:8088/",
+      pub_pubf_downlink: "http://njtestfile.hrocloud.com:8088/",
       pub_prvf_downlink: "http://njtest.hrocloud.com:9709/file?",
   */
 

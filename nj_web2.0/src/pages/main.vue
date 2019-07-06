@@ -108,8 +108,8 @@
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="userinfo">{{$t('user.userCenter')}}</DropdownItem>
                                     <!-- <DropdownItem name="setBusiness" >{{$t('lang_homePage.menuItem.businessupport')}}</DropdownItem> -->
-                                    <DropdownItem name="setApproval"
-                                                  v-show="cur_roleType === '3user' || cur_roleType === '3user-hrbp'">{{$t('lang_homePage.menuItem.platsetting')}}</DropdownItem>
+                                    <!-- <DropdownItem name="setApproval"
+                                                  v-show="cur_roleType === '3user' || cur_roleType === '3user-hrbp'">{{$t('lang_homePage.menuItem.platsetting')}}</DropdownItem> -->
                                     <DropdownItem name="loginout">{{$t('user.quit')}}</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
@@ -140,6 +140,8 @@
         <userinfo v-show="showUserInfo"
                   :isEmpty="isEmpty"
                   ref="userinfo"
+                  @changeImg="changeImg"
+                  @changeName="changeName"
                   @close="close"></userinfo>
         <transition name="fade">
             <loginim v-show="showIM"
@@ -204,7 +206,7 @@ export default {
             openUpdate: false,
             shrink: false,
             userName: this.$store.state.user.name,
-            userImg: '',
+            userImg: require('../../static/employee/rt.png'),
             cur_company: '',
             cur_roleType: '',
             cur_language: '',
@@ -311,7 +313,16 @@ export default {
                         t.companyies = res.data.content[0].cur_roleType.companyies
                         t.userFuns = res.data.content[0].userFuns
                         t.userName = res.data.content[0].usreName
-                        t.userImg = pubsource.pub_pubf_downlink + res.data.content[0].userImgMin
+                        if (res.data.content[0].userImgMin) {
+                            t.userImg = pubsource.pub_pubf_downlink + res.data.content[0].userImgMin
+                        }
+                        // else {
+                        //     t.userImg = "./static/employee/rt.png"
+                        // }
+                        console.log(res.data.content[0].userImgMin, "res.data.content[0].userImgMin");
+                        console.log(res.data.content[0], "data12312");
+                        console.log(pubsource.pub_pubf_downlink + res.data.content[0].userImgMin, "pubsource.pub_pubf_downlink + res.data.content[0].userImgMin");
+
                         t.$refs.menu.subdata(res.data.content[0].userFuns)
                         t.$store.commit('setLang', t.cur_language === 'CN' ? 'zh-CN' : 'en-US')
                         t.$store.commit('setId', res.data.content[0].userId)
@@ -518,6 +529,13 @@ export default {
         },
         close () {
             this.showUserInfo = false
+        },
+        changeImg (img) {
+            this.userImg = pubsource.pub_pubf_downlink + img
+        },
+        changeName (name) {
+            this.userName = name;
+            this.$store.commit('setName', name)
         },
         checkTag (name) {
             const openpageHasTag = this.pageTagsList.some((item) => {

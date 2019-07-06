@@ -122,7 +122,7 @@ export default {
       imp_mt: "protocolManage.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "recruitTime", name: "时间" },
+        { code: "recruitTime", name: "周期" },
         { code: "reexamineNum", name: "总复试数" },
         { code: "passNum", name: "面过人数" },
         { code: "trialPostNum", name: "试岗人数" },
@@ -163,6 +163,7 @@ export default {
         {
           title: "周期",
           key: "recruitTime",
+          fixed: "left",
           width: 220
         },
         {

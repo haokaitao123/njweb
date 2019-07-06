@@ -176,6 +176,12 @@ export default {
                 mobileNo: [
                     { required: true, message: '请填写手机号', trigger: 'blur' },
                 ],
+                birthDate: [
+                    { required: true, message: '请填写出生日期', trigger: 'change', type: 'date' },
+                ],
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' },
+                ]
             },
             httpImg: '',
         }
@@ -255,7 +261,9 @@ export default {
                     console.log(formData)
                     uploadimage(formData).then((res) => {
                         if (res) {
+                            console.log(pubsource.pub_pubf_downlink, "pubsource.pub_pubf_downlink")
                             for (const key in res.data) {
+
                                 t.cropedImgkey = res.data[key]
                                 t.cropedImg = t.httpImg + res.data[key]
                                 t.formValidate.pictureDis = key + ',' + res.data[key]
@@ -293,19 +301,32 @@ export default {
             data['_mt'] = 'userMgmt.addOrUpd'
             data['logType'] = '修改'
             data['id'] = getCookie('useId')
-            data.birthDate = data.birthDate === '' ? '' : new Date(data.birthDate).format('yyyy-MM-dd')
-            getDataLevelUserLoginSeniorSetFunId(data).then((res) => {
-                if (isSuccess(res, t)) {
-                    this.$Modal.success({
-                        title: this.$t('reminder.suc'),
-                        content: '保存成功',
+            data.birthDate = data.birthDate === '' ? '' : new Date(data.birthDate).format('yyyy-MM-dd');
+            this.$refs.formValidate.validate((valid) => {
+                if (valid) {
+                    getDataLevelUserLoginSeniorSetFunId(data).then((res) => {
+                        if (isSuccess(res, t)) {
+                            this.$Modal.success({
+                                title: this.$t('reminder.suc'),
+                                content: '保存成功',
+                            })
+
+                            if (res.data.content[0].pictureDis && res.data.content[0].pictureDis !== '') {
+                                let tt = res.data.content[0].pictureDis;
+                                tt = tt.split(',')
+                                this.$emit("changeImg", tt[1].toString())
+                            }
+                            if (res.data.content[0].name) {
+                                this.$emit("changeName", res.data.content[0].name)
+                            }
+                        }
+                    }).catch(() => {
+                        this.$Modal.error({
+                            title: this.$t('reminder.err'),
+                            content: this.$t('reminder.errormessage'),
+                        })
                     })
                 }
-            }).catch(() => {
-                this.$Modal.error({
-                    title: this.$t('reminder.err'),
-                    content: this.$t('reminder.errormessage'),
-                })
             })
         },
         getInfo () {
@@ -316,13 +337,14 @@ export default {
             }).then((res) => {
                 if (isSuccess(res, t)) {
                     t.formValidate.mobileNo = res.data.content[0].mobileNo
-                    t.formValidate.birthDate = res.data.content[0].birthDate
+                    t.formValidate.birthDate = res.data.content[0].birthDate ? new Date(res.data.content[0].birthDate) : ''
                     t.formValidate.email = res.data.content[0].email
                     t.formValidate.idNo = res.data.content[0].idNo
                     t.formValidate.name = res.data.content[0].name
                     t.formValidate.gender = res.data.content[0].gender
                     t.formValidate.memo = res.data.content[0].memo
                     t.formValidate.idType = res.data.content[0].idType
+                    t.formValidate.pictureDis = res.data.content[0].picture ? res.data.content[0].picture : ""
                     if (res.data.content[0].picture) {
                         const a = res.data.content[0].pictureShrink.split(',')
                         t.cropedImg = t.httpImg + a[1]
