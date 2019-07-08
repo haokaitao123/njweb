@@ -528,7 +528,7 @@ export default {
                     });
                 }
             }
-                         //退回按钮
+            //退回按钮
             if (btnId === 'button_returns') {
                 const t = this;
                 if (t.tableselected.length === 0) {
@@ -543,6 +543,44 @@ export default {
                                 funId: t.$route.query.id,
                                 logType: '退回',
                                 ids: t.tableselected,
+                                type:'returns',
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        t.$Message.success(this.$t('reminder.operatsuccess'))
+                                        t.tableselected = []
+                                        t.getData(1)
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
+                }
+            }
+             //淘汰按钮
+            if (btnId === 'button_sifted') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("reminder.confirmOper"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "platFlDealNode.update",
+                                funId: t.$route.query.id,
+                                logType: '淘汰',
+                                ids: t.tableselected,
+                                type:'sifted',
                             };
                             for (const dat in data) {
                                 if (data[dat] === "") {
