@@ -10,13 +10,13 @@
                     <Col span="18"
                          style="width: 100% !important">
                     <Row>
-                        <!-- <DatePicker
-                  type="month"
-                  placeholder="请选择入职日期"
-                  :editable="false"
-                  v-model="reportDate"
-                  style="width: 200px"
-                  ></DatePicker> -->
+                        <DatePicker
+                        type="date"
+                        placeholder="请选择入职日期"
+                        :editable="false"
+                        v-model="empnhEntrydate"
+                        style="width: 200px"
+                        ></DatePicker>
                         <btnList @buttonExport="expData"
                                  @buttonImport="importExcel"
                                  @buttonAdd="openUp(NaN,$t('button.add'))"
@@ -271,7 +271,7 @@ export default {
             funId: "1000",
             state: "",
             loading: "",
-            reportDate: ""
+            empnhEntrydate: ""
         };
     },
     computed: {
@@ -345,13 +345,13 @@ export default {
                 order: t.order,
                 logType: "招聘统计查询",
                 funId: "1000",
-                reportDate: t.reportDate,
+                empnhEntrydate: t.empnhEntrydate,
                 state: "01empstate"
             };
-            if (data.reportDate !== undefined && data.reportDate !== '') {
-                data.reportDate = new Date(data.reportDate).format('yyyy-MM')
+            if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
+                data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
             } else {
-                data.reportDate = ''
+                data.empnhEntrydate = ''
             }
             for (const dat in data) {
                 if (data[dat] === "") {
@@ -482,7 +482,13 @@ export default {
             // 填装查询条件
             const data = {
                 state: "01empstate",
+                empnhEntrydate: t.empnhEntrydate,
             };
+            if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
+                data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM--dd')
+            } else {
+                data.empnhEntrydate = ''
+            }
             // 设置导出mt参数
             this.$refs.expwindow.getData(
                 this.expDataTital,
