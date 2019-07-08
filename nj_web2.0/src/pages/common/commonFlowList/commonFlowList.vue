@@ -355,7 +355,7 @@ export default {
                                                         console.log(t.reexamineState,"t.reexamineState2")
                                                         if(!t.reexamineState){
                                                           //提示复试中
-                                                          alert("复试中")
+                                                          t.$Message.warning('复试中')
                                                           return
                                                         }
 
@@ -631,7 +631,7 @@ export default {
         closeTest () {
             this.stepName = ''
             this.openTestUpd = false
-            t.reexamineState = true
+            this.reexamineState = true
             //删除复试中状态
             this.getReexamineState(this.pkValue,false,"nj_reex_state")
 
