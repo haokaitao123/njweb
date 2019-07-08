@@ -714,6 +714,9 @@ export default {
             };
             t.rcvdata = "";
             if (rcdata.curStep === "") {
+                if(t.tbName!== 'recruit_process'){
+                  t.store='';
+                }
                 let tt = {
                     empnhName: t.empnhName,
                     relibFilldate: t.relibFilldate,
