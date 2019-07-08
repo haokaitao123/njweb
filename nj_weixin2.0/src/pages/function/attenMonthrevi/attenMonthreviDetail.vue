@@ -237,21 +237,24 @@ export default {
 </script>
 <style lang="less">
 .attenMonthreviDetail {
-    height: 100%;
+    height: calc(~"100% - 100px");
     background: #f6f6f6;
     .attenMonthreviDetailWrap {
+        height: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
-        margin-bottom: 100px;
+        // margin-bottom: 100px;
         .save_button {
             padding: 46px 70px;
+            // margin-bottom: 100px;
             .x_button {
                 color: #fff;
                 font-size: 34px;
+                height: 80px;
             }
         }
     }

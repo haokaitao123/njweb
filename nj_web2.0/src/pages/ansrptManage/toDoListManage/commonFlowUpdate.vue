@@ -57,7 +57,7 @@
                                           @click="PageSize(itemTable.dataBlockId)">
                                         <Row style="display: flex">
                                             <Page :total="totalTable"
-                                            showTotal
+                                                  showTotal
                                                   :current="itemTable.page"
                                                   size="small"
                                                   show-elevator
@@ -80,6 +80,7 @@
                     <!--Test-->
                     <div class="dataBlocks"
                          v-for="(item, index) in dataBlocksFlow"
+                         v-if="relibInvitemanShow"
                          :key="index">
                         <div class="dataBlocksTitle">
                             <Icon type="compose"
@@ -337,7 +338,9 @@ export default {
                 },
             },
             blockNum: 0,
-            fixed: false
+            fixed: false,
+            dimManPostType: "",
+            relibInvitemanShow: false,
         }
     },
     props: {
@@ -498,6 +501,7 @@ export default {
                     t.flowName = res.data.content[0].stepName
                     t.flowId = res.data.content[0].flowId
                     //            t.stepAuthLimits = res.data.content[0].stepAuth
+
                     for (let i = t.dataBlocksFake.length - 1; i > 0; i--) {
                         if (t.dataBlocksFake[i].flsdbType === 'operation') {
                             t.dataBlocksFake[i].flsdbMark = JSON.parse(t.dataBlocksFake[i].flsdbMark)
@@ -509,7 +513,7 @@ export default {
                         t.requirCount = t.dataBlocksFake.length
                         //              t.getColumn(t.dataBlocksFake[i].id, t.dataBlocksFake[i].flsdbType)
                         if (t.dataBlocksFake[i].flsdbType === '01form') {
-                            t.getColumn(t.dataBlocksFake[i].id, t.dataBlocksFake[i].flsdbType)
+                            t.getColumn(t.dataBlocksFake[i].id, t.dataBlocksFake[i].flsdbType);
                         } else {
                             /// 延时一秒为了先把ChildDataBloks加载出来控制table的显示隐藏
                             setTimeout(() => {
@@ -531,6 +535,7 @@ export default {
                             }, 1000)
                         }
                     }
+
                     //判断保存提交取消按钮的显示
                     this.showBtn()
                 }
@@ -568,6 +573,7 @@ export default {
                     t.blockStepId = res.data.content[0].stepId
                     t.flowName = res.data.content[0].stepName
                     t.flowId = res.data.content[0].flowId
+                    t.stepCode = res.data.content[0].stepCode
                     this.getColumnFlow();
                 }
             }).catch(() => {
@@ -781,6 +787,24 @@ export default {
                             bb[i]['formlist'] = t.getFormDataSubmit(res.data.content[0].columns)
                         }
                     }
+                    if (res.data.content[0].columns.length > 0) {
+                        for (let v of res.data.content[0].columns) {
+                            if (v.clmName === 'dimManPostType') {
+                                this.dimManPostType = v.clmValue
+                                console.log(this.dimManPostType, "this.dimManPostType");
+                            }
+                        }
+                    }
+                    console.log(t.stepCode, "t.stepCode");
+                    if (this.dimManPostType !== '') {
+                        if (t.stepCode === 'empdim_10' && !(this.dimManPostType == '07Edirector' || this.dimManPostType == '08Employee')) {
+                            t.relibInvitemanShow = true
+                        }
+                        if (t.stepCode === 'empdim_20' && (this.dimManPostType == '07Edirector' || this.dimManPostType == '08Employee')) {
+                            t.relibInvitemanShow = true
+                        }
+                    }
+
                     t.dataBlocksFake = bb // 临时block存储变量最后赋值给正式的block，这样才能正确更新数据
                     t.dataBlocks = t.dataBlocksFake
                     t.ChildDataBloks = []
@@ -805,6 +829,8 @@ export default {
                     //     t.clmkvMap[res.data.content[0].columns[j].clmName] = res.data.content[0].columns[j].clmDname
                     //   }
                     // }
+
+                    // console.log(this.dimManPostType, "this.dimManPostType")
                     if (t.finishCount + t.ChildDataBloks.length === t.requirCount) {
                         this.$store.commit('flowClmkMap/setClmkvMap', t.clmkvMap)
                         t.clmkvMap = {} // 清空
@@ -820,6 +846,7 @@ export default {
                             }, 500)
                         }
                     }
+
                 }
             }).catch((res) => {
                 t.$Modal.error({

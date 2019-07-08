@@ -217,16 +217,17 @@ export default {
 </script>
 <style lang="less">
 .contractRenewalDetail {
-    height: 100%;
+    height: calc(~"100% - 100px");
     background: #f6f6f6;
     .contractRenewalDetailWrap {
+        height: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
-        margin-bottom: 100px;
+        // margin-bottom: 100px;
         .save_button {
             padding: 46px 70px;
             .x_button {

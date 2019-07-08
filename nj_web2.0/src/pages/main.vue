@@ -261,6 +261,11 @@ export default {
         },
         async checkFirstLogin () {
             const t = this;
+            console.log(getCookie('useName'), "username")
+            if (!getCookie('useName')) {
+                t.$router.push('/loginmain/login');
+                return;
+            }
             await getDataLevelUserLogin({
                 _mt: 'userMgmt.forceUpdPassword',
                 funId: '1',

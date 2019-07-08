@@ -265,7 +265,6 @@ export default {
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 3) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-
             }
 
 
@@ -446,16 +445,17 @@ export default {
 </script>
 <style lang="less" >
 .empChangeDeatail {
-    height: 100%;
+    height: calc(~"100% - 100px");
     background: #f6f6f6;
     .empChangeDeatailWrap {
+        height: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         background: #f6f6f6;
-        margin-bottom: 110px;
+        // margin-bottom: 110px;
     }
     .van-popup--right {
         top: 50% !important;
@@ -468,17 +468,20 @@ export default {
     .save_button {
         padding: 125px 54px 50px;
         display: flex;
-
+        margin-bottom: 100px;
         .x_button {
             color: #fff;
             font-size: 34px;
             width: 300px;
+            flex: 1;
+            height: 80px;
         }
 
         .button_left {
             color: #339afe;
             background: #fff;
             border: 2px solid #339afe !important;
+            margin-right: 5%;
         }
 
         .weui-btn + .weui-btn {
