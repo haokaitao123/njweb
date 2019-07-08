@@ -123,6 +123,7 @@ import valid from '@/lib/pub_valid'
 export default {
     data () {
         return {
+            reexamineState:true,
             tableheight: document.body.offsetHeight - 280,
             value: '',
             logType: '',
@@ -336,13 +337,28 @@ export default {
                                                 },
                                                 on: {
                                                     click: async () => {
+
                                                         let stepId = t.flowStep[params.column.key].stepid
                                                         t.stepState = params.row.cellClassName[aa[i].key]
                                                         t.processState = t.flowStep[params.column.key].handleStatus
                                                         if (t.stepState === 'p_flowst_0') {
                                                             return
                                                         }
-                                                        t.stepName = t.flowStep[params.column.key].flstepName;
+                                                        t.stepName = t.flowStep[params.column.key].flstepName
+                                                        if(t.stepName === '复试' && (t.stepState === 'p_flowst_1' ||
+                                                          t.stepState === 'p_flowst_2')){
+                                                          //查询是否在复试中
+                                                          console.log(t.reexamineState,"t.reexamineState1")
+                                                          await t.getReexamineState(params.row.id,true,"nj_reex_state")
+
+                                                        }
+                                                        console.log(t.reexamineState,"t.reexamineState2")
+                                                        if(!t.reexamineState){
+                                                          //提示复试中
+                                                          alert("复试中")
+                                                          return
+                                                        }
+
                                                         await t.getData()
                                                         t.openUp(params.row.id, stepId, params.index)
                                                     },
@@ -579,6 +595,10 @@ export default {
         closeTest () {
             this.stepName = ''
             this.openTestUpd = false
+            t.reexamineState = true
+            //删除复试中状态
+            this.getReexamineState(this.pkValue,false,"nj_reex_state")
+
         },
         getPageByState (paramId, paramName) {
             const t = this;
@@ -763,6 +783,39 @@ export default {
             this.openOrdersaction = false;
             this.getData(1);
         },
+      /**
+       *设置iView查看(true)或删除(false)
+       * @param id 数据id
+       * @param isView 查看true,删除false
+       * @param type 唯一标记
+       */
+        async getReexamineState(id,isView,type) {
+        const t = this
+        const data = {
+          _mt: "platFlowState.flowState",
+          logType: '复试状态更新',
+          isView:isView,
+          type:type,
+          id: id
+        }
+        for (const dat in data) {
+          if (data[dat] === "") {
+            delete data[dat];
+          }
+        }
+        await getDataLevelUserLogin(data)
+          .then(res => {
+            if (isSuccess(res, t)) {
+              let data = res.data.content[0].value;
+              t.reexamineState =data;
+              console.log(t.reexamineState,"t.reexamineState3")
+            }
+          })
+          .catch(() => {
+            t.$Message.error(this.$t('reminder.errormessage'))
+          })
+      },
+
     },
     watch: {
         $route (value, from) {
