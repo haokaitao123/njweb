@@ -103,13 +103,13 @@ const recruit_process = {
       let day2 = 3 * 24 * 60 * 60 * 1000
       if (t.valueMap.relibTrysqtime) {
         if ((nowDate - day1) > day2) { //可入职时间-试岗申请时间大于3，不可入职
-          t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '1');
+          t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue);
           t.$store.commit('recruitProcess/setEntry', 'true');
-          t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
+         // t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
         } else {
-          t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', '0');
+          t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue);
           t.$store.commit('recruitProcess/setEntry', 'false')
-          t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
+         // t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
         }
       }
     }
