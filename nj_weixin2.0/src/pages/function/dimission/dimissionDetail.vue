@@ -201,7 +201,7 @@
                 </div> -->
                 <!-- 申请离职日期 -->
                 <div class="item_box">
-                    <cell title=""
+                    <!-- <cell title=""
                           is-link
                           v-if="!disabled"
                           value-align="left"
@@ -213,18 +213,17 @@
                     <icon type="warn"
                           class="error"
                           v-show="form.dimLevsqday=='请选择'"
-                          v-remind="form.dimLevsqday"></icon>
+                          v-remind="form.dimLevsqday"></icon> -->
                     <x-input title="申请离职日期<span>*</span>"
-                             v-if="disabled"
                              v-model="form.dimLevsqday"
                              :show-clear="false"
-                             :disabled="disabled"
+                             disabled="disabled"
                              placeholder="">
                     </x-input>
                 </div>
                 <!-- 交接日期 -->
                 <div class="item_box">
-                    <cell title=""
+                    <!-- <cell title=""
                           is-link
                           v-if="!disabled"
                           value-align="left"
@@ -236,12 +235,11 @@
                     <icon type="warn"
                           class="error"
                           v-show="form.dimLevday=='请选择'"
-                          v-remind="form.dimLevday"></icon>
+                          v-remind="form.dimLevday"></icon> -->
                     <x-input title="交接日期<span>*</span>"
-                             v-if="disabled"
                              v-model="form.dimLevday"
                              :show-clear="false"
-                             :disabled="disabled"
+                             disabled="disabled"
                              placeholder="">
                     </x-input>
                 </div>
@@ -751,7 +749,10 @@ export default {
             this.form.dimBuspmp = res.empnhPmp;
             this.dimBuspmpDis = res.empnhPmpDis;
             this.form.empnhMobile = res.empnhMobile;
-            this.form.empnhSalaccount = res.empnhSalaccount
+            this.form.empnhSalaccount = res.empnhSalaccount;
+            let entryDate = new Date(res.empnhEntrydate);
+            let now = new Date();
+            this.completeDate(entryDate, now, 3)
             // this.dimReceiveCheck();
         },
         //问卷调查事件
@@ -884,14 +885,43 @@ export default {
                 }
             }
         },
+        //获取审批记录
+        // getApprove () {
+        //     const t = this;
+        //     if (this.$route.query.id === undefined) {
+        //         return;
+        //     }
+        //     const data = {
+        //         _mt: 'wxansrpttodo.getAnsrptRecord',
+        //         companyId: pubsource.companyId,
+        //         dataId: this.$route.query.id,
+        //         billId: '',
+        //         tbname: 'emp_empdim'
+        //     }
+        //     getDataLevelUserLogin(data).then((res) => {
+        //         if (isSuccess(res, t)) {
+        //             let data = JSON.parse(res.data.content[0].value);
+        //             t.list = data;
+        //             console.log(data, "t.data")
+        //         }
+        //     }).catch((err) => {
+        //         t.$notify({
+        //             message: '网络错误',
+        //             duration: 1500,
+        //             background: '#f44'
+        //         });
+        //     }).finally(() => {
+        //         console.log('rrr', t.list)
+        //         t.$store.commit('hideLoading');
+        //     });
+        // }
     },
 }
 </script>
 <style lang="less">
 .dimissionDetail {
-    height: 100%;
+    height: calc(~"100% - 100px");
     background: #f6f6f6;
-
     .dimissionDetailWrap {
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
@@ -899,28 +929,66 @@ export default {
         display: flex;
         background: #f6f6f6;
         flex-direction: column;
-        margin-bottom: 100px;
-
+        // margin-bottom: 100px;
+        height: 100%;
         .save_button {
             padding: 125px 54px 50px;
             display: flex;
-
+            margin-bottom: 100px;
             .x_button {
                 color: #fff;
                 font-size: 34px;
                 width: 300px;
+                flex: 1;
+                height: 80px;
             }
 
             .button_left {
                 color: #339afe;
                 background: #fff;
                 border: 2px solid #339afe !important;
+                margin-right: 5%;
             }
 
             .weui-btn + .weui-btn {
                 margin-top: 0;
             }
         }
+        // .course {
+        //     font-size: 30px;
+        //     padding: 20px 20px;
+        //     margin-bottom: 10px;
+        //     width: 100%;
+        //     .start {
+        //         width: 90%;
+        //         margin-top: 20px;
+        //         .first {
+        //             display: inline-block;
+        //             width: 100px;
+        //             height: 20px;
+        //             border: 1px solid white;
+        //         }
+        //         .data {
+        //             float: right;
+        //         }
+        //         .firsts {
+        //             width: 150px;
+        //             height: 20px;
+        //             border: 1px solid white;
+        //             text-align: left;
+        //             display: inline-block;
+        //             margin-left: 70px;
+        //             color: green;
+        //         }
+        //     }
+        //     .point {
+        //         margin-top: 30px;
+        //         margin-left: 100px;
+        //         width: 1px;
+        //         height: 50px;
+        //         border: 1px solid black;
+        //     }
+        // }
     }
 }
 

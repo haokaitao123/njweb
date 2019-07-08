@@ -172,14 +172,24 @@ const router = new Router({
         title: '员工信息修改'
       }
     },
-    //  {
-    //    path: '/empChange',
-    //    name: 'empChange',
-    //    component: resolve => require(['@/pages/function/employInfoChange/empChange'], resolve),
-    //    meta: {
-    //      title: '员工信息修改'
-    //    }
-    //  },
+    {
+      path: '/transaction',
+      name: 'transaction',
+      component: resolve => require(['@/pages/function/transaction/transaction'], resolve),
+      meta: {
+        showTar: true,
+        title: '员工异动信息'
+      }
+    },
+    {
+      path: '/transactionDetails',
+      name: 'transactionDetails',
+      component: resolve => require(['@/pages/function/transaction/transactionDetails'], resolve),
+      meta: {
+        showTar: true,
+        title: '员工异动信息'
+      }
+    },
     {
       path: '/empContractRenewal',
       name: 'empContractRenewal',

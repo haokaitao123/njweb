@@ -282,9 +282,9 @@ export default {
                         if (aa[i].title == '姓名') {
                             aa[i].width = 80
                         } else if (aa[i].title == '初试人员') {
-                            aa[i].width = 80
+                            aa[i].width = 120
                         } else if (aa[i].title == '复试人员') {
-                            aa[i].width = 80
+                            aa[i].width = 120
                         } else if (aa[i].title == '面到时间') {
                             aa[i].width = 150
                         } else if (aa[i].title == '员工姓名') {
@@ -343,19 +343,8 @@ export default {
                                                             return
                                                         }
                                                         t.stepName = t.flowStep[params.column.key].flstepName;
-                                                        // await t.getData()
-                                                        if (aa[i].key === 'flow_recruitprocess_1010' && t.stepState === 'p_flowst_2') {
-                                                            await t.getOperateMan(t.flowId, stepId, params.row.id);
-                                                            console.log(t.operateName, "李延1");
-                                                            console.log(t.$store.state.user.name, "李延2")
-                                                            if (t.operateName === t.$store.state.user.name) {
-                                                                t.openUp(params.row.id, stepId, params.index)
-                                                            } else {
-                                                                t.$Message.warning('此人员正在复试中')
-                                                            }
-                                                        } else {
-                                                            t.openUp(params.row.id, stepId, params.index)
-                                                        }
+                                                        await t.getData()
+                                                        t.openUp(params.row.id, stepId, params.index)
                                                     },
                                                 },
                                             }, text),
@@ -383,33 +372,6 @@ export default {
                     this.step.push(data[i].key)
                 }
             }
-        },
-        //获取操作人
-        async getOperateMan (flowId, thisStepId, thisPkValue) {
-            const t = this
-            // t.dataBlocksFake = []
-            // t.operation = []
-            await getDataLevelUserLogin({
-                _mt: 'platAutoLayoutGetFlowEdit.getDataBlock',
-                flowId: flowId, // 流程ID
-                stepId: thisStepId, // 流程步骤ID
-                roleType: t.$store.state.user.roleType, // 角色类型
-                logType: 'getDataBlock', // 主键值
-                pkValue: thisPkValue,
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    console.log(res, "res12312312");
-                    t.dataBlocksFake = res.data.content[0].dataBlocks;
-                    for (let v of t.dataBlocksFake) {
-                        if (v.flsdbType === 'operation') {
-                            console.log(JSON.parse(v.flsdbMark).optuser, "res31231");
-                            this.operateName = JSON.parse(v.flsdbMark).optuser;
-                        }
-                    }
-                }
-            }).catch(() => {
-                t.$Message.error(this.$t("reminder.errormessage"))
-            })
         },
         //enter事件
         enterEvent (e) {

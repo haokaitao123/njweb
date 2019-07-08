@@ -43,6 +43,14 @@
                     <span class="functionItem_Name">员工离职申请</span>
                 </div>
                 <div class="functionItem"
+                     @click="goTo('transaction')">
+                    <div class="functionItem_img">
+                        <img src="../../../static/main/function2.png"
+                             alt="">
+                    </div>
+                    <span class="functionItem_Name">员工异动查看</span>
+                </div>
+                <div class="functionItem"
                      @click="goTo('empContractRenewal')">
                     <div class="functionItem_img">
                         <img src="../../../static/main/function6.png"

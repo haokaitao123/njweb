@@ -68,9 +68,6 @@ const emp_transtion = {
       } else {
         if (t.valueMap.transMan) {
           t.$refs[t.valueMap.transMan][0].$set(t.$refs[t.valueMap.transMan][0].formshow, 'transMan', '')
-
-
-
           t.$refs[t.valueMap.fileKey][0].$set(t.$refs[t.valueMap.fileKey][0].formshow, 'fileKey', '')
         }
       }
@@ -105,30 +102,48 @@ const emp_transtion = {
      }
   },
 
-  //根据现岗位现部门判断是否显示押金金额字段
-/*  transDeposit_dis(t){
-    //debugger
-    let mey
-    mey= t.$refs[t.valueMap.transDeposit][0].formDataSubmit.transDeposit;
-    //console.log(mey,'111111111111111111111111');
+  postIdnew(node) {
+    emp_transtion.postIdnew_set(this.$parent)
+  },
+
+  postIdnew_set(t) {
+/*    console.log(t,"t");
+    console.log(t.valueMap,"valueMap")
+    let postOldId = t.$refs[t.valueMap.postIdpast][0].$refs.postIdpast.id;
+    let postOldIdd=t.$refs[t.valueMap.empnhHirelocation][0].formDataSubmit.postIdpast;
+    let postNewId = t.$refs[t.valueMap.postIdnew][0].$refs.postIdnew.id;
+    console.log(postOldId+'-----------'+postNewId);
     getDataLevelUserLogin({
-      _mt: 'empDeposmin.isSmall',
-      logType:'最低押金判断',
-      money: mey,
+      _mt: 'orgPost.getById',
+      logType:'查询岗位职级',
+      id: postOldId,
     }).then((res) => {
       if (isSuccess(res, this.$parent)) {
-        //console.log(res.data.content[0].value,'666666666666666666');
-      if(!res.data.content[0].value){
-        t.$Message.warning("押金金额小于最低押金！");
+        let oldLevel  = res.data.content[0].substring(1,2);
+      getDataLevelUserLogin({
+        _mt: 'orgPost.getById',
+        logType:'查询岗位职级',
+        id: postOldId,
+      }).then((res) => {
+        if (isSuccess(res, this.$parent)) {
+          let newLevel  = res.data.content[0].substring(1,2);
+          //if(Number(oldLevel)>Number(oldLevel))
+          console.log(oldLevel+'.....'+newLevel);
+        }
+      }).catch(() => {
+          this.$Modal.error({
+          title: this.$t('reminder.err'),
+          content: this.$t('reminder.errormessage'),
+        })
+      })
       }
-    }
-  }).catch(() => {
-      this.$Modal.error({
-      title: this.$t('reminder.err'),
-      content: this.$t('reminder.errormessage'),
-    })
-  })
-  },*/
+    }).catch(() => {
+        this.$Modal.error({
+        title: this.$t('reminder.err'),
+        content: this.$t('reminder.errormessage'),
+      })
+    })*/
+  },
 
   //根据现岗位现部门判断是否显示押金金额字段
   money_dis(t){

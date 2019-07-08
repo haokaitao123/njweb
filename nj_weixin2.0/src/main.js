@@ -44,7 +44,6 @@ Notify.setDefaultOptions.duration = '1000'
 var myRules = {
   required: {
     test: function (val) {
-      console.log(val, "val")
       if (val.length == "") {
         return false
       }

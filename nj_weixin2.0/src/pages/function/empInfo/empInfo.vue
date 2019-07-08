@@ -1190,18 +1190,22 @@ export default {
 </script>
 <style lang="less">
 .resumeInfo {
-    height: 100%;
+    height: calc(~"100% - 100px");
     background: #f6f6f6;
+    width: 100%;
     .resumeInfoWrap {
-        overflow: scroll;
+        height: 100%;
+        overflow: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        margin-bottom: 100px;
+        // margin-bottom: 100px;
+        width: 100%;
         .title {
             background: #fff;
-            padding: 30px 0 25px 40px;
+            padding: 30px 0 0 40px;
+            padding-bottom: 60px;
             display: flex;
             position: relative;
             justify-content: space-between;
