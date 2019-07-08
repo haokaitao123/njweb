@@ -306,6 +306,12 @@ export default {
                     align: "center",
                     sortable: "custom"
                 },
+                 {
+                    title: "招聘状态",
+                    key: "recruitState",
+                    width: 140,
+                    align: "center",
+                },
                 // {
                 //     title: "唯一编号",
                 //     key: "numberCode",

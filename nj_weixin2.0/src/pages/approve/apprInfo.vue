@@ -382,7 +382,7 @@
 		</div>
 		<!--交接人-->
 		<div v-if="this.$route.query.item.tbname == 'emp_empdim'">
-			<div class="item_box" v-if="this.$route.query.item.aprdStepcode == 'empdim_10'">
+			<div class="item_box" v-if="relibInvitemanShow">
 				<cell title="" is-link value-align="left" v-model="empIdName" v-verify="form.relibInviteman" @click.native="popupClick('empShow','relibInviteman')">
 					<div slot="title">交接人<span>*</span></div>
 				</cell>
@@ -451,7 +451,8 @@
 				form: {
 					relibInviteman: '',             //交接人id
 					relibFilldate: "请选择",        //归来日期 
-				}
+                },
+                relibInvitemanShow:false,
 			}
 		},
 		verify: {
@@ -495,8 +496,16 @@
 				}
 				getDataLevelUserLogin(data).then((res) => {
 					if(isSuccess(res, t)) {
-						let data = JSON.parse(res.data.content[0].value);
+                        let data = JSON.parse(res.data.content[0].value);
+                        console.log(data,"data")
                         t.list = data;
+                        let code = this.$route.query.item.aprdStepcode;
+                        if(code ==='empdim_10'&&!(data.dimManPostType == '07Edirector' || data.dimManPostType == '08Employee')){
+                            t.relibInvitemanShow =true
+                        }
+                       if(code ==='empdim_20'&&(data.dimManPostType == '07Edirector' || data.dimManPostType == '08Employee')){
+                            t.relibInvitemanShow =true
+                        }
                         console.log(data,"t.data")
 					}
 				}).catch((err) => {
@@ -541,7 +550,7 @@
 				}
 
 				if(this.$route.query.item.tbname == 'emp_empdim') {
-                    if(this.$route.query.item.aprdStepcode==='empdim_10'){
+                    if(t.relibInvitemanShow){
                         dates.dimReceive = this.form.relibInviteman
                     }
 				}

@@ -150,7 +150,7 @@ const valid = {
   //手机格式 204 必须以数字开头，除数字外，可含有-
   val_mobile: (str) => {
     let rtn = false,
-      reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+      reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
     if (str.match(reg))
       rtn = true;
     return rtn;

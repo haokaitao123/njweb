@@ -109,8 +109,8 @@ span {
             left: 0;
             top: 0;
             right: 0;
-            height: 0.013333rem;
-            border-top: 0.013333rem solid #d9d9d9;
+            height: 2rem;
+            border-top: 2px solid #d9d9d9;
             color: #d9d9d9;
             -webkit-transform-origin: 0 0;
             transform-origin: 0 0;

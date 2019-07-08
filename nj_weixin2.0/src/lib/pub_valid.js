@@ -3,16 +3,17 @@ const valid = {
   val_number100: (str) => {
     let rtn = false,
       reg = /^((\d)|([1-9]\d+))$/;
-    if (str.match(reg))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
-
   //数字格式_正整数
   val_number101: (str) => {
     let rtn = false,
       reg = /^[1-9]\d*$/;
-    if (str.match(reg))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
@@ -20,15 +21,19 @@ const valid = {
   val_number102: (str) => {
     let rtn = false,
       reg = /^((-[1-9]\d*)|(\d)|([1-9]\d+))$/;
-    if (str.match(reg))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
   //数字格式_非负浮点数
   val_number103: (str) => {
+    console.log('str', str)
     let rtn = false,
       reg = /^(((\d)|([1-9]\d+))(\.\d+)?)$/;
-    if (str.match(reg))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    // console.log('str',strs)
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
@@ -36,7 +41,8 @@ const valid = {
   val_number104: (str) => {
     let rtn = false,
       reg = /^((0\.\d*[1-9]\d*)|(([1-9]\d*)(\.\d+)?))$/;
-    if (str.match(reg))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
@@ -44,15 +50,18 @@ const valid = {
   val_number105: (str) => {
     let rtn = false,
       reg = /^((-0\.\d*[1-9]\d*)|((-[1-9]\d*)(\.\d+)?)|(((\d)|([1-9]\d+))(\.\d+)?))$/;
-    if (str.match(reg))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
   //数字格式_数字
   val_number106: (str) => {
+    console.log(str)
     let rtn = false,
       reg = /^\d+$/;
-    if (str.match(reg))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
@@ -60,31 +69,36 @@ const valid = {
   val_mobile: (str) => {
     let rtn = false,
       reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-    if (str.match(reg))
+    console.log('wwww', str.replace(/(^\s*)|(\s*$)/g, ""))
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg))
       rtn = true;
     return rtn;
   },
   //银行卡号码的验证
-	val_backNumber: (bankCard) => {
-		if(bankCard != "") {
-			if(bankCard.length < 15 || bankCard.length > 20) {
-				return 1;
-			}
-			var num = /^\d*$/; //全数字
-			if(!num.test(bankCard)) {
-				return 2;
-			}
-			//开头6位
-			var strBin = "10,18,30,35,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99";
-			if(strBin.indexOf(bankCard.substring(0, 2)) == -1) {
-				return 3;
-			}
-		}
-		},
+  val_backNumber: (bankCard) => {
+    var bankCardnum = bankCard.replace(/(^\s*)|(\s*$)/g, "");
+    //console.log('bankCardnum',bankCard.replace(/(^\s*)|(\s*$)/g, ""))
+    if (bankCardnum != "") {
+      if (bankCardnum.length < 15 || bankCardnum.length > 20) {
+        return 1;
+      }
+      var num = /^\d*$/; //全数字
+      if (!num.test(bankCardnum)) {
+        return 2;
+      }
+      //开头6位
+      var strBin = "10,18,30,35,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99";
+      if (strBin.indexOf(bankCardnum.substring(0, 2)) == -1) {
+        return 3;
+      }
+    }
+  },
   //email格式 205
   val_mail2(str) {
     let rtn = false,
       reg = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
+    str.replace(/(^\s*)|(\s*$)/g, "")
     if (str.match(reg))
       rtn = true;
     return rtn;
@@ -128,16 +142,17 @@ const valid = {
       82: "澳门",
       91: "国外 "
     };
+    var codes = code.replace(/(^\s*)|(\s*$)/g, "")
     let pass = true;
     //验证身份证格式（6个地区编码，8位出生日期，3位顺序号，1位校验位）
-    if (!code || !/^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/.test(code)) {
+    if (!codes || !/^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/.test(codes)) {
       pass = false;
-    } else if (!city[code.substr(0, 2)]) {
+    } else if (!city[codes.substr(0, 2)]) {
       pass = false;
     } else {
       //18位身份证需要验证最后一位校验位
-      if (code.length == 18) {
-        code = code.split('');
+      if (codes.length == 18) {
+        codes = codes.split('');
         //∑(ai×Wi)(mod 11)
         //加权因子
         let factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
@@ -147,12 +162,12 @@ const valid = {
         let ai = 0;
         let wi = 0;
         for (let i = 0; i < 17; i++) {
-          ai = code[i];
+          ai = codes[i];
           wi = factor[i];
           sum += ai * wi;
         }
         let last = parity[sum % 11];
-        if (parity[sum % 11] != code[17]) {
+        if (parity[sum % 11] != codes[17]) {
           pass = false;
         }
       }
@@ -160,5 +175,4 @@ const valid = {
     return pass;
   },
 }
-
 export default valid

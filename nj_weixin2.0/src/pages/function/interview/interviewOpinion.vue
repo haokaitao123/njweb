@@ -580,30 +580,28 @@
                             :height="95"
                             v-model="form.relibFirstopin"
                             placeholder="请填写"
-                            :show-counter="true"></x-textarea>	
+                            :show-counter="true"></x-textarea>
             </group>
-			<van-popup 
-			v-model="show"
-			 position="bottom"
-			:style="{ height: '20%' }"
-			>
-			 <div class="save_button">
-			    <!-- <x-button type="primary"
+            <van-popup v-model="show"
+                       position="bottom"
+                       :class="isIos?'buttonIosHeight':'buttonHeight'">
+                <div class="save_button">
+                    <!-- <x-button type="primary"
 			              class="x_button"
 			              @click.native="comfirmSubmit"
 			              action-type="button">提交</x-button> -->
-			    <x-button type="default"
-			              class="x_button button_left"
-			              action-type="button"
-			              @click.native="comfirmSubmit('0')">不通过</x-button>
-			    <x-button type="primary"
-			              class="x_button"
-			              :disabled="isRelibFirpass"
-			              @click.native="comfirmSubmit('1')">通过</x-button>
-				
-			</div>
-			</van-popup>
-			
+                    <x-button type="default"
+                              class="x_button button_left"
+                              action-type="button"
+                              @click.native="comfirmSubmit('0')">不通过</x-button>
+                    <x-button type="primary"
+                              class="x_button"
+                              :disabled="isRelibFirpass"
+                              @click.native="comfirmSubmit('1')">通过</x-button>
+
+                </div>
+            </van-popup>
+
             <div class="save_button">
                 <!-- <x-button type="primary"
                           class="x_button"
@@ -616,9 +614,9 @@
                 <x-button type="primary"
                           class="x_button"
                           @click.native="showPopup">初试审核</x-button>
-				
+
             </div>
-			
+
         </div>
         <!-- 初试是否通过 -->
         <van-popup v-model="relibFirpassShow"
@@ -1048,7 +1046,8 @@ export default {
             educationState: false,
             workExpState: false,
             childCheck: false,
-			show: false
+            show: false,
+            isIos: false,
         }
     },
     verify: {
@@ -1087,15 +1086,25 @@ export default {
         family,
         workExp,
         searchPost,
-		 Actionsheet,
-		XSwitch,
-		Toast
+        Actionsheet,
+        XSwitch,
+        Toast
     },
-	 directives: {
-    TransferDom
-  },
+    directives: {
+        TransferDom
+    },
     created () {
         // this.getCondition(); 
+        const u = navigator.userAgent;
+        const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if (isiOS) {
+            this.isIos = true;
+        } else {
+            this.isIos = false;
+        }
+    },
+    beforeCreate () {
+
     },
     mounted () {
         this.getSelect();
@@ -1105,9 +1114,9 @@ export default {
         this.getEducation();
     },
     methods: {
-		 showPopup() {
-      this.show = true;
-    },
+        showPopup () {
+            this.show = true;
+        },
         //提交
         async submit () {
             await this.save();
@@ -1155,7 +1164,7 @@ export default {
             }).then(() => {
                 this.form.relibFirpass = type;
                 this.submit();
-				
+
             }).catch(() => {
             });
         },
@@ -1181,14 +1190,14 @@ export default {
                     if (isSuccess(res, t)) {
                         console.log(res, "res");
                         t.saveStatus = true;
-						 if (type == 'save') {
-						    t.$notify({
-						        message: '保存成功',
-						        duration: 1500,
-						        background: '#1989fa'
-						    });
-							this.$router.push({ name: 'interview' })
-						}
+                        if (type == 'save') {
+                            t.$notify({
+                                message: '保存成功',
+                                duration: 1500,
+                                background: '#1989fa'
+                            });
+                            this.$router.push({ name: 'interview' })
+                        }
                     }
                 }).catch(() => {
                     t.saveStatus = false
@@ -1278,7 +1287,7 @@ export default {
                     t.$store.commit('hideLoading');
                 });
             } else {
-				this.show = false;
+                this.show = false;
                 t.isCanInterview = false
                 t.$vux.toast.text('请检查填写信息');
             }
@@ -1779,6 +1788,7 @@ export default {
     height: 100%;
     background: #f6f6f6;
     .interviewOpinionWrap {
+        // height: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
@@ -1862,16 +1872,22 @@ export default {
                 margin-top: 0;
             }
         }
-		.saveBtn{
-			 padding: 0px 56px;
-			background: #f6f6f6;
-			margin-top: 100px;
-			.x_save{
-				color: #fff;
-				font-size: 34px;
-				width: 640px;
-			}
-		}
+        .saveBtn {
+            padding: 0px 56px;
+            background: #f6f6f6;
+            // margin-top: 100px;
+            .x_save {
+                color: #fff;
+                font-size: 34px;
+                width: 640px;
+            }
+        }
+        .buttonIosHeight {
+            height: 30%;
+        }
+        .buttonHeight {
+            height: 20%;
+        }
     }
     .van-popup--right {
         top: 50% !important;

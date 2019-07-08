@@ -123,6 +123,7 @@ import valid from '@/lib/pub_valid'
 export default {
     data () {
         return {
+            reexamineState:true,
             tableheight: document.body.offsetHeight - 280,
             value: '',
             logType: '',
@@ -336,26 +337,30 @@ export default {
                                                 },
                                                 on: {
                                                     click: async () => {
+
                                                         let stepId = t.flowStep[params.column.key].stepid
                                                         t.stepState = params.row.cellClassName[aa[i].key]
                                                         t.processState = t.flowStep[params.column.key].handleStatus
                                                         if (t.stepState === 'p_flowst_0') {
                                                             return
                                                         }
-                                                        t.stepName = t.flowStep[params.column.key].flstepName;
-                                                        // await t.getData()
-                                                        if (aa[i].key === 'flow_recruitprocess_1010' && t.stepState === 'p_flowst_2') {
-                                                            await t.getOperateMan(t.flowId, stepId, params.row.id);
-                                                            console.log(t.operateName, "李延1");
-                                                            console.log(t.$store.state.user.name, "李延2")
-                                                            if (t.operateName === t.$store.state.user.name) {
-                                                                t.openUp(params.row.id, stepId, params.index)
-                                                            } else {
-                                                                t.$Message.warning('此人员正在复试中')
-                                                            }
-                                                        } else {
-                                                            t.openUp(params.row.id, stepId, params.index)
+                                                        t.stepName = t.flowStep[params.column.key].flstepName
+                                                        if(t.stepName === '复试' && (t.stepState === 'p_flowst_1' ||
+                                                          t.stepState === 'p_flowst_2')){
+                                                          //查询是否在复试中
+                                                          console.log(t.reexamineState,"t.reexamineState1")
+                                                          await t.getReexamineState(params.row.id,true,"nj_reex_state")
+
                                                         }
+                                                        console.log(t.reexamineState,"t.reexamineState2")
+                                                        if(!t.reexamineState){
+                                                          //提示复试中
+                                                          alert("复试中")
+                                                          return
+                                                        }
+
+                                                        await t.getData()
+                                                        t.openUp(params.row.id, stepId, params.index)
                                                     },
                                                 },
                                             }, text),
@@ -383,33 +388,6 @@ export default {
                     this.step.push(data[i].key)
                 }
             }
-        },
-        //获取操作人
-        async getOperateMan (flowId, thisStepId, thisPkValue) {
-            const t = this
-            // t.dataBlocksFake = []
-            // t.operation = []
-            await getDataLevelUserLogin({
-                _mt: 'platAutoLayoutGetFlowEdit.getDataBlock',
-                flowId: flowId, // 流程ID
-                stepId: thisStepId, // 流程步骤ID
-                roleType: t.$store.state.user.roleType, // 角色类型
-                logType: 'getDataBlock', // 主键值
-                pkValue: thisPkValue,
-            }).then((res) => {
-                if (isSuccess(res, t)) {
-                    console.log(res, "res12312312");
-                    t.dataBlocksFake = res.data.content[0].dataBlocks;
-                    for (let v of t.dataBlocksFake) {
-                        if (v.flsdbType === 'operation') {
-                            console.log(JSON.parse(v.flsdbMark).optuser, "res31231");
-                            this.operateName = JSON.parse(v.flsdbMark).optuser;
-                        }
-                    }
-                }
-            }).catch(() => {
-                t.$Message.error(this.$t("reminder.errormessage"))
-            })
         },
         //enter事件
         enterEvent (e) {
@@ -550,6 +528,80 @@ export default {
                     });
                 }
             }
+            //退回按钮
+            if (btnId === 'button_returns') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("reminder.confirmOper"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "platFlDealNode.update",
+                                funId: t.$route.query.id,
+                                logType: '退回',
+                                ids: t.tableselected,
+                                type:'returns',
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        t.$Message.success(this.$t('reminder.operatsuccess'))
+                                        t.tableselected = []
+                                        t.getData(1)
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
+                }
+            }
+             //淘汰按钮
+            if (btnId === 'button_sifted') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("reminder.confirmOper"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "platFlDealNode.update",
+                                funId: t.$route.query.id,
+                                logType: '淘汰',
+                                ids: t.tableselected,
+                                type:'sifted',
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        t.$Message.success(this.$t('reminder.operatsuccess'))
+                                        t.tableselected = []
+                                        t.getData(1)
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
+                }
+            }
             if (btnId === 'button_quickpass') {
                 const t = this;
                 if (t.tableselected.length === 0) {
@@ -617,6 +669,10 @@ export default {
         closeTest () {
             this.stepName = ''
             this.openTestUpd = false
+            t.reexamineState = true
+            //删除复试中状态
+            this.getReexamineState(this.pkValue,false,"nj_reex_state")
+
         },
         getPageByState (paramId, paramName) {
             const t = this;
@@ -658,6 +714,9 @@ export default {
             };
             t.rcvdata = "";
             if (rcdata.curStep === "") {
+                if(t.tbName!== 'recruit_process'){
+                  t.store='';
+                }
                 let tt = {
                     empnhName: t.empnhName,
                     relibFilldate: t.relibFilldate,
@@ -801,6 +860,39 @@ export default {
             this.openOrdersaction = false;
             this.getData(1);
         },
+      /**
+       *设置iView查看(true)或删除(false)
+       * @param id 数据id
+       * @param isView 查看true,删除false
+       * @param type 唯一标记
+       */
+        async getReexamineState(id,isView,type) {
+        const t = this
+        const data = {
+          _mt: "platFlowState.flowState",
+          logType: '复试状态更新',
+          isView:isView,
+          type:type,
+          id: id
+        }
+        for (const dat in data) {
+          if (data[dat] === "") {
+            delete data[dat];
+          }
+        }
+        await getDataLevelUserLogin(data)
+          .then(res => {
+            if (isSuccess(res, t)) {
+              let data = res.data.content[0].value;
+              t.reexamineState =data;
+              console.log(t.reexamineState,"t.reexamineState3")
+            }
+          })
+          .catch(() => {
+            t.$Message.error(this.$t('reminder.errormessage'))
+          })
+      },
+
     },
     watch: {
         $route (value, from) {
