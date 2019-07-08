@@ -8,7 +8,7 @@ const emp_transtion = {
   all_dis() {
     emp_transtion.transDate_set(this)
     emp_transtion.transPostinfo_dis(this)
-    //emp_transtion.transMaterialtm_set(this);
+    //emp_transtion.transDate_set(this);
     emp_transtion.transMaterial_dis(this);
     emp_transtion.money_dis(this);
     //emp_transtion.transDeposit_dis(this)
@@ -107,11 +107,8 @@ const emp_transtion = {
   },
 
   postIdnew_set(t) {
-/*    console.log(t,"t");
-    console.log(t.valueMap,"valueMap")
-    let postOldId = t.$refs[t.valueMap.postIdpast][0].$refs.postIdpast.id;
-    let postOldIdd=t.$refs[t.valueMap.empnhHirelocation][0].formDataSubmit.postIdpast;
-    let postNewId = t.$refs[t.valueMap.postIdnew][0].$refs.postIdnew.id;
+    let postOldId = t.$refs[t.valueMap.postIdpast][0].formDataSubmit.postIdpast;
+    let postNewId = t.$refs[t.valueMap.postIdnew][0].formDataSubmit.postIdnew;
     console.log(postOldId+'-----------'+postNewId);
     getDataLevelUserLogin({
       _mt: 'orgPost.getById',
@@ -119,30 +116,37 @@ const emp_transtion = {
       id: postOldId,
     }).then((res) => {
       if (isSuccess(res, this.$parent)) {
-        let oldLevel  = res.data.content[0].substring(1,2);
+        let oldLevel  = res.data.content[0].postDfpslevel.substring(1,2);
       getDataLevelUserLogin({
         _mt: 'orgPost.getById',
         logType:'查询岗位职级',
-        id: postOldId,
+        id: postNewId,
       }).then((res) => {
         if (isSuccess(res, this.$parent)) {
-          let newLevel  = res.data.content[0].substring(1,2);
-          //if(Number(oldLevel)>Number(oldLevel))
+          let newLevel  = res.data.content[0].postDfpslevel.substring(1,2);
           console.log(oldLevel+'.....'+newLevel);
+          if(Number(oldLevel)>Number(newLevel)){
+            t.$refs[t.valueMap.transType][0].$set(t.$refs[t.valueMap.transType][0].formDataSubmit, 'transType', '01transtype')
+          }else if(Number(oldLevel)<Number(newLevel)){
+            t.$refs[t.valueMap.transType][0].$set(t.$refs[t.valueMap.transType][0].formDataSubmit, 'transType', '03transtype')
+          }else{
+            t.$refs[t.valueMap.transType][0].$set(t.$refs[t.valueMap.transType][0].formDataSubmit, 'transType', '02transtype')
+          }
+
         }
       }).catch(() => {
-          this.$Modal.error({
+/*          this.$Modal.error({
           title: this.$t('reminder.err'),
           content: this.$t('reminder.errormessage'),
-        })
+        })*/
       })
       }
     }).catch(() => {
-        this.$Modal.error({
+/*        this.$Modal.error({
         title: this.$t('reminder.err'),
         content: this.$t('reminder.errormessage'),
-      })
-    })*/
+      })*/
+    })
   },
 
   //根据现岗位现部门判断是否显示押金金额字段
