@@ -106,7 +106,7 @@ export default {
                             getDataLevelUserLogin(tt)
                                 .then(res => {
                                     if (isSuccess(res, t)) {
-                                        t.$Message.success("面试预约成功");
+                                        t.$Message.success("面谈预约成功");
                                         t.handleReset();
                                     }
                                 })
