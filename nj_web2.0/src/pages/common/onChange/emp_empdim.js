@@ -99,10 +99,9 @@ const emp_empdim = {
     },*/
 
   dimSalday_set(t) {
-
+    //debugger
     if (t.valueMap.dimSalday) {
       //alert(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday)
-      //debugger
       if (t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday.length <= 0 && t.$refs[t.valueMap.dimLastsalday][0].formDataSubmit.dimLastsalday.length <= 0) {
         //当月的20号
         let nowDate = new Date()
@@ -117,12 +116,14 @@ const emp_empdim = {
           resDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-27')
           resLastDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 2) + '-27')
           t.$refs[t.valueMap.dimSalday][0].$set(t.$refs[t.valueMap.dimSalday][0].formDataSubmit, 'dimSalday', resDate.format('yyyy-MM-dd'))
+          t.$refs[t.valueMap.dimSalday][0].$refs.dimSalday.thisValue = resDate.format('yyyy-MM-dd')
         } else {
           //resDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-20')
           t.$refs[t.valueMap.dimSalday][0].$set(t.$refs[t.valueMap.dimSalday][0].formDataSubmit, 'dimSalday', '')
           resLastDate = new Date(nowDate.getFullYear() + '-' + (nowDate.getMonth() + 2) + '-27')
         }
         t.$refs[t.valueMap.dimLastsalday][0].$set(t.$refs[t.valueMap.dimLastsalday][0].formDataSubmit, 'dimLastsalday', resLastDate.format('yyyy-MM-dd'))
+        t.$refs[t.valueMap.dimLastsalday][0].$refs.dimLastsalday.thisValue = resLastDate.format('yyyy-MM-dd')
       }
     }
   },
@@ -240,9 +241,7 @@ const emp_empdim = {
   },
   //离职原因是其他，显示其他离职原因文本框
   dimReason_dis(t) {
-    debugger
     if (t.valueMap.dimReason) {
-      debugger
       if (t.$refs[t.valueMap.dimReason][0].formDataSubmit.dimReason === '9080') {
         if (t.valueMap.dimReasonother) {
           t.$refs[t.valueMap.dimReasonother][0].$set(t.$refs[t.valueMap.dimReasonother][0].formshow, 'dimReasonother', '')

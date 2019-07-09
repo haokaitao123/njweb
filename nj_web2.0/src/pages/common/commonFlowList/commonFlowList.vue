@@ -98,6 +98,13 @@
                             @closeOrdersaction="closeOrdersaction"
                             ref="interviewOrder"></interviewOrder>
         </transition>
+        <transition name="fade">
+            <handover v-show="openHandoveraction"
+                            :id="tableselected"
+                            :logType="logType"
+                            @closeHandoveraction="closeHandoveraction"
+                            ref="handover"></handover>
+        </transition>
         <commonFlowUpdate v-if="openTestUpd"
                           @close="closeTest"
                           ref="commonFlowUpdate"
@@ -119,6 +126,7 @@ import selCountry from '../../../components/commonsel/selCountry'
 import commonFlowUpdate from './commonFlowUpdate'
 import transaction from './transaction'
 import interviewOrder from './interviewOrder'
+import handover from './handover'
 import valid from '@/lib/pub_valid'
 export default {
     data () {
@@ -131,6 +139,7 @@ export default {
             openTestUpd: false,
             openTransaction: false,
             openOrdersaction: false,
+            openHandoveraction:false,
             updateId: NaN,
             tableselected: [],
             transactionId: '',
@@ -183,6 +192,7 @@ export default {
         //      update,
         transaction,
         interviewOrder,
+        handover,
     },
     //    created() {
     //
@@ -602,54 +612,102 @@ export default {
                     });
                 }
             }
-            if (btnId === 'button_quickpass') {
-                const t = this;
-                if (t.tableselected.length === 0) {
-                    this.$Message.warning(this.$t('reminder.leastone'))
-                } else {
-                    t.$Modal.confirm({
-                        title: this.$t("reminder.remind"),
-                        content: this.$t("reminder.confirmOper"),
-                        onOk: () => {
-                            const data = {
-                                _mt: "platAutoLayoutFlowSubmit.transSubmit",
-                                roleType: t.$store.state.user.roleType,
-                                funId: t.$route.query.id,
-                                flowId: t.flowId,
-                                logType: '快速审批',
-                                ids: t.tableselected,
-                                tbName: t.tbName,
-                            };
-                            for (const dat in data) {
-                                if (data[dat] === "") {
-                                    delete data[dat];
-                                }
-                            }
-                            getDataLevelUserLogin(data)
-                                .then(res => {
-                                    if (isSuccess(res, t)) {
-                                        t.$Message.success(this.$t('reminder.operatsuccess'))
-                                        t.tableselected = []
-                                        t.getData(1)
-                                    }
-                                })
-                                .catch(() => {
-                                    t.$Message.error(this.$t('reminder.errormessage'))
-                                });
-                        }
-                    });
+          if (btnId === 'button_quickpass') {
+              const t = this;
+              if (t.tableselected.length === 0) {
+                  this.$Message.warning(this.$t('reminder.leastone'))
+              } else {
+                  t.$Modal.confirm({
+                      title: this.$t("reminder.remind"),
+                      content: this.$t("快速审批将直接异动完成，不需要审批，请谨慎操作"),
+                      onOk: () => {
+                          const data = {
+                              _mt: "platAutoLayoutFlowSubmit.transSubmit",
+                              roleType: t.$store.state.user.roleType,
+                              funId: t.$route.query.id,
+                              flowId: t.flowId,
+                              logType: '快速审批',
+                              ids: t.tableselected,
+                              tbName: t.tbName,
+                          };
+                          for (const dat in data) {
+                              if (data[dat] === "") {
+                                  delete data[dat];
+                              }
+                          }
+                          getDataLevelUserLogin(data)
+                              .then(res => {
+                                  if (isSuccess(res, t)) {
+                                      t.$Message.success(this.$t('reminder.operatsuccess'))
+                                      t.tableselected = []
+                                      t.getData(1)
+                                  }
+                              })
+                              .catch(() => {
+                                  t.$Message.error(this.$t('reminder.errormessage'))
+                              });
+                      }
+                  });
+              }
+          }
+          if (btnId === 'button_transbatch') {
+          const t = this;
+          if (t.tableselected.length === 0) {
+            this.$Message.warning(this.$t('reminder.leastone'))
+          } else {
+            t.$Modal.confirm({
+              title: this.$t("reminder.remind"),
+              content: this.$t("reminder.confirmOper"),
+              onOk: () => {
+                const data = {
+                  _mt: "platAutoLayoutFlowSubmit.transBatch",
+                  roleType: t.$store.state.user.roleType,
+                  funId: t.$route.query.id,
+                  flowId: t.flowId,
+                  logType: '快速审批',
+                  ids: t.tableselected,
+                  tbName: t.tbName,
+                };
+                for (const dat in data) {
+                  if (data[dat] === "") {
+                    delete data[dat];
+                  }
                 }
+                getDataLevelUserLogin(data)
+                  .then(res => {
+                    if (isSuccess(res, t)) {
+                      t.$Message.success(this.$t('reminder.operatsuccess'))
+                      t.tableselected = []
+                      t.getData(1)
+                    }
+                  })
+                  .catch(() => {
+                    t.$Message.error(this.$t('reminder.errormessage'))
+                  });
+              }
+            });
+          }
+        }
+          if (btnId === 'button_order') {
+              const t = this;
+              if (t.tableselected.length === 0) {
+                  this.$Message.warning(this.$t('reminder.leastone'))
+              } else {
+                  this.logType = "面谈预约";
+                  this.openOrdersaction = true;
+              }
+          }
+          if (btnId === 'button_handover') {
+            const t = this;
+            if (t.tableselected.length === 0) {
+              this.$Message.warning(this.$t('reminder.leastone'))
+            } else {
+              this.logType = "交接时间";
+              this.openHandoveraction = true;
             }
-            if (btnId === 'button_order') {
-                const t = this;
-                if (t.tableselected.length === 0) {
-                    this.$Message.warning(this.$t('reminder.leastone'))
-                } else {
-                    this.logType = "面谈预约";
-                    this.openOrdersaction = true;
-                }
-            }
+          }
         },
+
         addBlackUser () {
             const t = this
             t.transactionId = t.tableselected
@@ -858,6 +916,11 @@ export default {
         closeOrdersaction () {
             this.tableselected = [];
             this.openOrdersaction = false;
+            this.getData(1);
+        },
+      closeHandoveraction () {
+            this.tableselected = [];
+            this.openHandoveraction = false;
             this.getData(1);
         },
       /**
