@@ -602,82 +602,82 @@ export default {
                     });
                 }
             }
-            if (btnId === 'button_quickpass') {
-                const t = this;
-                if (t.tableselected.length === 0) {
-                    this.$Message.warning(this.$t('reminder.leastone'))
-                } else {
-                    t.$Modal.confirm({
-                        title: this.$t("reminder.remind"),
-                        content: this.$t("快速审批将直接异动完成，不需要审批，请谨慎操作"),
-                        onOk: () => {
-                            const data = {
-                                _mt: "platAutoLayoutFlowSubmit.transSubmit",
-                                roleType: t.$store.state.user.roleType,
-                                funId: t.$route.query.id,
-                                flowId: t.flowId,
-                                logType: '快速审批',
-                                ids: t.tableselected,
-                                tbName: t.tbName,
-                            };
-                            for (const dat in data) {
-                                if (data[dat] === "") {
-                                    delete data[dat];
-                                }
-                            }
-                            getDataLevelUserLogin(data)
-                                .then(res => {
-                                    if (isSuccess(res, t)) {
-                                        t.$Message.success(this.$t('reminder.operatsuccess'))
-                                        t.tableselected = []
-                                        t.getData(1)
-                                    }
-                                })
-                                .catch(() => {
-                                    t.$Message.error(this.$t('reminder.errormessage'))
-                                });
-                        }
-                    });
-                }
-            }
-            if (btnId === 'button_transbatch') {
-            const t = this;
-            if (t.tableselected.length === 0) {
-              this.$Message.warning(this.$t('reminder.leastone'))
-            } else {
-              t.$Modal.confirm({
-                title: this.$t("reminder.remind"),
-                content: this.$t("reminder.confirmOper"),
-                onOk: () => {
-                  const data = {
-                    _mt: "platAutoLayoutFlowSubmit.transBatch",
-                    roleType: t.$store.state.user.roleType,
-                    funId: t.$route.query.id,
-                    flowId: t.flowId,
-                    logType: '快速审批',
-                    ids: t.tableselected,
-                    tbName: t.tbName,
-                  };
-                  for (const dat in data) {
-                    if (data[dat] === "") {
-                      delete data[dat];
-                    }
-                  }
-                  getDataLevelUserLogin(data)
-                    .then(res => {
-                      if (isSuccess(res, t)) {
-                        t.$Message.success(this.$t('reminder.operatsuccess'))
-                        t.tableselected = []
-                        t.getData(1)
+          if (btnId === 'button_quickpass') {
+              const t = this;
+              if (t.tableselected.length === 0) {
+                  this.$Message.warning(this.$t('reminder.leastone'))
+              } else {
+                  t.$Modal.confirm({
+                      title: this.$t("reminder.remind"),
+                      content: this.$t("快速审批将直接异动完成，不需要审批，请谨慎操作"),
+                      onOk: () => {
+                          const data = {
+                              _mt: "platAutoLayoutFlowSubmit.transSubmit",
+                              roleType: t.$store.state.user.roleType,
+                              funId: t.$route.query.id,
+                              flowId: t.flowId,
+                              logType: '快速审批',
+                              ids: t.tableselected,
+                              tbName: t.tbName,
+                          };
+                          for (const dat in data) {
+                              if (data[dat] === "") {
+                                  delete data[dat];
+                              }
+                          }
+                          getDataLevelUserLogin(data)
+                              .then(res => {
+                                  if (isSuccess(res, t)) {
+                                      t.$Message.success(this.$t('reminder.operatsuccess'))
+                                      t.tableselected = []
+                                      t.getData(1)
+                                  }
+                              })
+                              .catch(() => {
+                                  t.$Message.error(this.$t('reminder.errormessage'))
+                              });
                       }
-                    })
-                    .catch(() => {
-                      t.$Message.error(this.$t('reminder.errormessage'))
-                    });
-                }
-              });
-            }
+                  });
+              }
           }
+          if (btnId === 'button_transbatch') {
+          const t = this;
+          if (t.tableselected.length === 0) {
+            this.$Message.warning(this.$t('reminder.leastone'))
+          } else {
+            t.$Modal.confirm({
+              title: this.$t("reminder.remind"),
+              content: this.$t("reminder.confirmOper"),
+              onOk: () => {
+                const data = {
+                  _mt: "platAutoLayoutFlowSubmit.transBatch",
+                  roleType: t.$store.state.user.roleType,
+                  funId: t.$route.query.id,
+                  flowId: t.flowId,
+                  logType: '快速审批',
+                  ids: t.tableselected,
+                  tbName: t.tbName,
+                };
+                for (const dat in data) {
+                  if (data[dat] === "") {
+                    delete data[dat];
+                  }
+                }
+                getDataLevelUserLogin(data)
+                  .then(res => {
+                    if (isSuccess(res, t)) {
+                      t.$Message.success(this.$t('reminder.operatsuccess'))
+                      t.tableselected = []
+                      t.getData(1)
+                    }
+                  })
+                  .catch(() => {
+                    t.$Message.error(this.$t('reminder.errormessage'))
+                  });
+              }
+            });
+          }
+        }
           if (btnId === 'button_order') {
               const t = this;
               if (t.tableselected.length === 0) {
