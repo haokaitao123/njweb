@@ -240,9 +240,7 @@ const emp_empdim = {
   },
   //离职原因是其他，显示其他离职原因文本框
   dimReason_dis(t) {
-    debugger
     if (t.valueMap.dimReason) {
-      debugger
       if (t.$refs[t.valueMap.dimReason][0].formDataSubmit.dimReason === '9080') {
         if (t.valueMap.dimReasonother) {
           t.$refs[t.valueMap.dimReasonother][0].$set(t.$refs[t.valueMap.dimReasonother][0].formshow, 'dimReasonother', '')
