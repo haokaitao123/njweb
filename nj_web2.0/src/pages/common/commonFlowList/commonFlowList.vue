@@ -355,7 +355,7 @@ export default {
                                                         console.log(t.reexamineState,"t.reexamineState2")
                                                         if(!t.reexamineState){
                                                           //提示复试中
-                                                          t.$Message.warning('复试中')
+                                                          t.$Message.warning('此人员正在复试中')
                                                           return
                                                         }
 

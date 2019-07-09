@@ -996,14 +996,15 @@
 							data.logType = 'submit'
 							//        t.formDataSubmit.clmMap = JSON.stringify(t.clmMap)
 							getDataLevelUserLogin(data).then((res2) => {
-								t.loading2 = false
+								
 								if(isSuccess(res2, t)) {
 									t.thisStepState = 'p_flowst_3';
 									if(this.entry === 'false') {
 										t.$store.commit('recruitProcess/setEntry', 'true');
 									}
 									t.getColumns()
-									t.getDataBlock()
+                                    t.getDataBlock()
+                                    t.loading2 = false
 									t.$emit('getData')
 									t.$Message.success(this.$t("reminder.submitsuccess"));
 								}
@@ -1120,7 +1121,7 @@
 						t.formDataSubmit.empbcContent = t.formDataSubmit.empbcContent.join(',')
 					}
 					getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
-						t.loading1 = false
+						
 						if(isSuccess(res, t)) {
 							if(t.thisPkValue === '0') {
 								t.thisPkValue = res.data.content[0].value.split('_')[0]
@@ -1129,7 +1130,8 @@
 								t.$emit('getData')
 							}
 							this.getColumns()
-							this.getDataBlock()
+                            this.getDataBlock()
+                            t.loading1 = false
 							t.$Message.success(this.$t("reminder.savsuccess"));
 						}
 					}).catch(() => {
