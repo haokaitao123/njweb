@@ -574,6 +574,7 @@
                              placeholder="未填写">
                     </x-input>
                 </div> -->
+                c
                 <!-- 初试意见 -->
                 <x-textarea :max="300"
                             title="初试意见"
@@ -1446,8 +1447,11 @@ export default {
                             t.isRelibFirpass = true;
                         }
                     }
-                    if (t.form.relibFirstopin.length > 0) {
-                        t.form.relibFirstopin = "基本要求不符 (" + t.form.relibFirstopin + " )"
+                    if (t.form.relibFirstopin.length > 0 && data.relibFirstopin.length > 0) {
+                        t.form.relibFirstopin = "基本要求不符 (" + t.form.relibFirstopin + " )" + data.relibFirstopin
+                    } else {
+
+                        t.form.relibFirstopin = !data.relibFirstopin ? "" : data.relibFirstopin;
                     }
                     console.log(t.isRelibFirpass, '是否通过')
                     if (t.isRelibFirpass) {
