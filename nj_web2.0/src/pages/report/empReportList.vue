@@ -12,9 +12,17 @@
                     <Row>
                         <DatePicker
                         type="date"
-                        placeholder="请选择入职日期"
+                        placeholder="请选择入职日期区间"
                         :editable="false"
                         v-model="empnhEntrydate"
+                        style="width: 200px"
+                        ></DatePicker>
+
+                        <DatePicker
+                        type="date"
+                        placeholder="请选择入职日期区间"
+                        :editable="false"
+                        v-model="empDate"
                         style="width: 200px"
                         ></DatePicker>
                         <btnList @buttonExport="expData"
@@ -271,7 +279,8 @@ export default {
             funId: "1000",
             state: "",
             loading: "",
-            empnhEntrydate: ""
+            empDate: "",
+            empnhEntrydate:""
         };
     },
     computed: {
@@ -345,9 +354,15 @@ export default {
                 order: t.order,
                 logType: "招聘统计查询",
                 funId: "1000",
-                empnhEntrydate: t.empnhEntrydate,
+                empDate: t.empDate,
+                empnhEntrydate:t.empnhEntrydate,
                 state: "01empstate"
             };
+            if (data.empDate !== undefined && data.empDate !== '') {
+                data.empDate = new Date(data.empDate).format('yyyy-MM-dd')
+            } else {
+                data.empDate = ''
+            }
             if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
                 data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
             } else {
@@ -482,8 +497,14 @@ export default {
             // 填装查询条件
             const data = {
                 state: "01empstate",
+                empDate: t.empDate,
                 empnhEntrydate: t.empnhEntrydate,
             };
+            if (data.empDate !== undefined && data.empDate !== '') {
+                data.empDate = new Date(data.empDate).format('yyyy-MM--dd')
+            } else {
+                data.empDate = ''
+            }
             if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
                 data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM--dd')
             } else {
