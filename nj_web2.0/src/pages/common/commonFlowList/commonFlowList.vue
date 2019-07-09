@@ -98,6 +98,13 @@
                             @closeOrdersaction="closeOrdersaction"
                             ref="interviewOrder"></interviewOrder>
         </transition>
+        <transition name="fade">
+            <handover v-show="openHandoveraction"
+                            :id="tableselected"
+                            :logType="logType"
+                            @closeHandoveraction="closeHandoveraction"
+                            ref="handover"></handover>
+        </transition>
         <commonFlowUpdate v-if="openTestUpd"
                           @close="closeTest"
                           ref="commonFlowUpdate"
@@ -119,6 +126,7 @@ import selCountry from '../../../components/commonsel/selCountry'
 import commonFlowUpdate from './commonFlowUpdate'
 import transaction from './transaction'
 import interviewOrder from './interviewOrder'
+import handover from './handover'
 import valid from '@/lib/pub_valid'
 export default {
     data () {
@@ -131,6 +139,7 @@ export default {
             openTestUpd: false,
             openTransaction: false,
             openOrdersaction: false,
+            openHandoveraction:false,
             updateId: NaN,
             tableselected: [],
             transactionId: '',
@@ -183,6 +192,7 @@ export default {
         //      update,
         transaction,
         interviewOrder,
+        handover,
     },
     //    created() {
     //
@@ -687,7 +697,17 @@ export default {
                   this.openOrdersaction = true;
               }
           }
+          if (btnId === 'button_handover') {
+            const t = this;
+            if (t.tableselected.length === 0) {
+              this.$Message.warning(this.$t('reminder.leastone'))
+            } else {
+              this.logType = "交接时间";
+              this.openHandoveraction = true;
+            }
+          }
         },
+
         addBlackUser () {
             const t = this
             t.transactionId = t.tableselected
@@ -896,6 +916,11 @@ export default {
         closeOrdersaction () {
             this.tableselected = [];
             this.openOrdersaction = false;
+            this.getData(1);
+        },
+      closeHandoveraction () {
+            this.tableselected = [];
+            this.openHandoveraction = false;
             this.getData(1);
         },
       /**

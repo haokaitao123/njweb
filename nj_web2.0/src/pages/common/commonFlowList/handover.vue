@@ -6,7 +6,7 @@
                 <div class="title-text">
                     <Icon type="mouse"
                           size="16"
-                          style="margin-right: 10px;"></Icon>&nbsp;面谈预约
+                          style="margin-right: 10px;"></Icon>&nbsp;交接时间
                 </div>
                 <Button type="text"
                         @click="handleReset">
@@ -20,12 +20,12 @@
                       :rules="ruleValidate"
                       :label-width="120">
                     <Col span="11">
-                    <FormItem label="面试预约日期"
-                              prop="dimIntetime">
+                    <FormItem label="交接时间"
+                              prop="dimCoftime">
                         <DatePicker type="datetime"
-                                    placeholder="请选择面试预约日期"
+                                    placeholder="请选择交接时间"
                                     :editable="false"
-                                    v-model="formValidate.dimIntetime"
+                                    v-model="formValidate.dimCoftime"
                                     style="width: 100%"></DatePicker>
                     </FormItem>
                     </Col>
@@ -44,7 +44,7 @@ export default {
     data () {
         return {
             formValidate: {
-                dimIntetime: ""
+                dimCoftime: ""
             },
             disabled: false,
             dimTypeDis: "",
@@ -56,11 +56,11 @@ export default {
             selectDimtype: [],
             selectDimReason: [],
             ruleValidate: {
-                dimIntetime: [
+                dimCoftime: [
                     {
                         required: true,
                         type: "date",
-                        message: "请选择面谈日期",
+                        message: "请选择交接时间",
                         trigger: "change"
                     }
                 ]
@@ -88,12 +88,12 @@ export default {
                 if (valid) {
                     t.$Modal.confirm({
                         title: t.$t("reminder.remind"),
-                        content: "是否确定预约",
+                        content: "是否确定交接时间",
                         onOk: () => {
                             debugger
                             let params = "";
                             const data = deepCopy(t.formValidate);
-                            data.dimIntetime = new Date(data.dimIntetime).format(
+                            data.dimCoftime = new Date(data.dimCoftime).format(
                                 "yyyy-MM-dd hh:mm:ss"
                             );
                             params = JSON.stringify(data);
@@ -102,12 +102,12 @@ export default {
                             tt.logType = t.logType;
                             tt.ids = t.id;
                             tt.data = params;
-                            tt.updType = "interview";
+                            tt.updType = "handover";
 
                             getDataLevelUserLogin(tt)
                                 .then(res => {
                                     if (isSuccess(res, t)) {
-                                        t.$Message.success("面谈预约成功");
+                                        t.$Message.success("交接时间设置成功");
                                         t.handleReset();
                                     }
                                 })
@@ -138,9 +138,9 @@ export default {
                 });
         },
         handleReset () {
-            this.$emit("closeOrdersaction");
+            this.$emit("closeHandoveraction");
             this.$refs.formValidate.resetFields();
-            this.formValidate.dimIntetime = "";
+            this.formValidate.dimCoftime = "";
         }
     }
 };
