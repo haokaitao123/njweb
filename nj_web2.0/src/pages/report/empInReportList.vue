@@ -13,7 +13,7 @@
                         <DatePicker type="date"
                                     placeholder="请选择入职日期"
                                     :editable="false"
-                                    v-model="empnhEntrydate"
+                                    v-model="jobDate"
                                     style="width: 200px"></DatePicker>
                         <btnList @buttonExport="expData"
                                  @buttonImport="importExcel"
@@ -270,7 +270,7 @@ export default {
             funId: "1000",
             state: "",
             loading: "",
-            empnhEntrydate: ""
+            jobDate: ""
         };
     },
     computed: {
@@ -344,13 +344,13 @@ export default {
                 order: t.order,
                 logType: "招聘统计查询",
                 funId: "1000",
-                empnhEntrydate: t.empnhEntrydate,
+                jobDate: t.jobDate,
                 state: "02empstate"
             };
-            if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
-                data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM--dd')
+            if (data.jobDate !== undefined && data.jobDate !== '') {
+                data.jobDate = new Date(data.jobDate).format('yyyy-MM--dd')
             } else {
-                data.empnhEntrydate = ''
+                data.jobDate = ''
             }
             for (const dat in data) {
                 if (data[dat] === "") {
@@ -481,12 +481,12 @@ export default {
             // 填装查询条件
             const data = {
                 state: "02empstate",
-                empnhEntrydate: t.empnhEntrydate,
+                jobDate: t.jobDate,
             };
-            if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
-                data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM--dd')
+            if (data.jobDate !== undefined && data.jobDate !== '') {
+                data.jobDate = new Date(data.jobDate).format('yyyy-MM--dd')
             } else {
-                data.empnhEntrydate = ''
+                data.jobDate = ''
             }
             // 设置导出mt参数
             this.$refs.expwindow.getData(
