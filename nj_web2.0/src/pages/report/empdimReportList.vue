@@ -130,7 +130,7 @@ export default {
       imp_mt: "protocolManage.importData",
       // 导出字段设置, code字段名 name列名
       expDataTital: [
-        { code: "unitFname", name: "一级部门及分公司" },
+        { code: "deptOneName", name: "一级部门及分公司" },
         { code: "deptTwoName", name: "二级部门" },
         { code: "deptThreeName", name: "项目" },
         { code: "empnhName", name: "姓名" },
@@ -177,7 +177,7 @@ export default {
         },
         {
           title: "一级部门及分公司",
-          key: "unitFname",
+          key: "deptOneName",
           width: 200
         },
         {
