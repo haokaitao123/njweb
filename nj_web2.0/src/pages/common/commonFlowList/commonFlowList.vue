@@ -609,7 +609,7 @@ export default {
                 } else {
                     t.$Modal.confirm({
                         title: this.$t("reminder.remind"),
-                        content: this.$t("reminder.confirmOper"),
+                        content: this.$t("快速审批将直接异动完成，不需要审批，请谨慎操作"),
                         onOk: () => {
                             const data = {
                                 _mt: "platAutoLayoutFlowSubmit.transSubmit",
