@@ -209,7 +209,7 @@ export default {
                 { code: "empnhBirthdate", name: "出生日期" },
                 { code: "empnhMobile", name: "手机号码" },
                 { code: "empnhResiaddr", name: "居住地址" },
-                { code: "empnhRegaddr", name: "户籍地址" },
+                { code: "empnhRegaddr", name: "身份证地址" },
                 { code: "empnhRegtypeDis", name: "户籍性质" },
                 { code: "empnhWklocatDis", name: "工作地点" },
                 { code: "empnhNationDis", name: "民族" },
