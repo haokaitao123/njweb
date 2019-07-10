@@ -121,8 +121,8 @@
 					</FormItem>
 				</i-col>
 				<i-col span="11">
-					<FormItem label="户籍地址" prop="empnhRegaddr">
-						<Input v-model="form.empnhRegaddr" :disabled="disabled" placeholder="请输入户籍地址"></Input>
+					<FormItem label="身份证地址" prop="empnhRegaddr">
+						<Input v-model="form.empnhRegaddr" :disabled="disabled" placeholder="请输入身份证地址"></Input>
 					</FormItem>
 				</i-col>
 				<i-col span="11">
@@ -448,7 +448,7 @@
 					empnhMobile: "", // 手机号码
 					empnhResiaddr: "",//"武汉市", // 居住地址
 					empnhRegtype: "", // 户籍性质
-					empnhRegaddr: "", // 户籍地址
+					empnhRegaddr: "", // 身份证地址
 					empnhPersmail: "", // 个人邮箱
 					empnhCompmail: "", // 公司邮箱
 					empnhQq: "", // QQ号码
@@ -481,7 +481,7 @@
 				postFname: "", // 岗位名称显示字段  弹框
 				empnhPmpDis: "", // 直接上级显示字段 弹框
 				empnhIdtypeDis: "", // 证件类型显示字段
-				empnhRegaddrDis: "", // 户籍地址显示字段
+				empnhRegaddrDis: "", // 身份证地址显示字段
 				empnhAttendynDis: "", // 是否考勤显示字段
 				empnhWklocatDis: "武汉市", // 工作地点显示字段 弹框
 				empnhMarriageDis: "", // 婚姻状况显示字段
@@ -721,7 +721,7 @@
 					],
 					empnhRegaddr: [{
 						required: true,
-						message: "请输入户籍地址",
+						message: "请输入身份证地址",
 						trigger: "blur"
 					}],
 					empnhRegtype: [{
@@ -1046,7 +1046,7 @@
 				t.postFname = ""; // 岗位名称显示字段  弹框
 				t.empnhPmpDis = ""; // 直接上级显示字段 弹框
 				t.empnhIdtypeDis = ""; // 证件类型显示字段
-				t.empnhRegaddrDis = ""; // 户籍地址显示字段
+				t.empnhRegaddrDis = ""; // 身份证地址显示字段
 				t.empnhAttendynDis = ""; // 是否考勤显示字段
 				t.empnhWklocatDis = "武汉市"; // 工作地点显示字段 弹框
 				t.empnhMarriageDis = ""; // 婚姻状况显示字段

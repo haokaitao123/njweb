@@ -125,7 +125,7 @@ export default {
             // 导出字段设置, code字段名 name列名
             expDataTital: [
                 { code: "transDate", name: "异动日期" },
-                { code: "unitFname", name: "一级部门及分公司" },
+                { code: "deptOneName", name: "一级部门及分公司" },
                 { code: "deptTwoName", name: "二级部门" },
                 { code: "deptThreeName", name: "项目" },
                 { code: "groupName", name: "小组" },
@@ -165,7 +165,7 @@ export default {
                 },
                 {
                     title: "一级部门及分公司",
-                    key: "unitFname",
+                    key: "deptOneName",
                     width: 220
                 },
                 {
