@@ -47,6 +47,7 @@ import payEntrybase from '../pages/payroll/payEntrybaseManage/payEntrybase'
 import payLeaveprop from '../pages/payroll/payLeavepropManage/payLeaveprop'
 import payProjbase from '@/pages/payroll/payProjbase/payProjbase'
 import changePwd from '@/pages/useinfo/changePwd'
+import commonFlowButton from '@/pages/common/commonFlowList/commonFlowButton'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -103,7 +104,8 @@ const store = new Vuex.Store({
     empdim,
     attenQuotainfo,
     payProjbase,
-    changePwd
+    changePwd,
+    commonFlowButton
   },
 });
 
