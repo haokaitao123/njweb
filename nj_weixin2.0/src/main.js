@@ -104,6 +104,25 @@ var myRules = {
     },
     message: ""
   },
+  backNumber: {
+    test: function (val) {
+      if (val !== "") {
+        console.log(valid.val_backNumber(val), "valid.val_backNumber(val)")
+        if (valid.val_backNumber(val) === 1) {
+          return false;
+        } else if (valid.val_backNumber(val) === 2) {
+          return false;
+        } else if (valid.val_backNumber(val) === 3) {
+          return false;
+        } else {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    },
+    message: ""
+  }
 }
 Vue.use(verify, {
   rules: myRules,

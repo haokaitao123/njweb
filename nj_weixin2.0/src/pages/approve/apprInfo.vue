@@ -484,7 +484,6 @@
 			getData() {
 				const t = this;
 				if(this.$route.query.item === undefined) {
-					console.log('123www')
 					return;
 				}
 				const data = {
@@ -533,8 +532,7 @@
 				}
 			},
 			submit(type, logType) {
-				const t = this
-
+				const t = this;
 				let params = {
 					aprdApprover: localStorage.getItem('empId'),
 					aprdAprvtime: new Date().format('yyyy-MM-dd hh:mm:ss'),

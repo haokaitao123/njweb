@@ -25,7 +25,7 @@
 
                 <!-- 员工姓名 -->
                 <div class="item_box">
-                    <cell title=""
+                    <!-- <cell title=""
                           is-link
                           v-if="!disabled"
                           value-align="left"
@@ -37,11 +37,9 @@
                     <icon type="warn"
                           class="error"
                           v-show="empIdName==''"
-                          v-remind="form.empId"></icon>
+                          v-remind="form.empId"></icon> -->
                     <x-input title="员工姓名<span>*</span>"
                              v-model="empIdName"
-                             v-if="disabled"
-                             v-verify="form.empId"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'"
                              :disabled="true">
@@ -184,6 +182,21 @@
                              placeholder="">
                     </x-input>
                 </div>
+                <!-- 其他离职原因 -->
+                <div class="item_box">
+                    <x-textarea :max="300"
+                                v-if="dimReasonDis==='其他'"
+                                title="其他离职原因<span>*</span>"
+                                :height="95"
+                                v-model.trim="form.dimReasonother"
+                                v-verify="form.dimReasonother"
+                                :disabled="disabled"
+                                :placeholder="disabled?'未填写':'请填写'"
+                                :show-counter="true"></x-textarea>
+                    <icon type="warn"
+                          class="error"
+                          v-show="dimReasonotherError&&dimReasonDis=='其他'"></icon>
+                </div>
                 <!-- 问卷调查 -->
                 <!-- <div class="item_box">
                     <cell title=""
@@ -315,6 +328,30 @@
                             :show-counter="true"></x-textarea>
 
             </group>
+            <div class="title title_f"
+                 v-if="approveList.length>0">
+                <div class="title_left">
+                    <img src="../../../../static/function/resumeTitle.png"
+                         alt="">
+                    <h3>审批信息</h3>
+                </div>
+            </div>
+            <div class="course"
+                 v-if="approveList.length>0">
+                <div v-for="(item,index) in approveList">
+                    <div class="start">
+                        <div class="first">
+                            {{item.name}}
+                        </div>
+                        <div class="firsts">
+                            {{item.state}}
+                        </div>
+                        <div class="data">
+                            {{item.date}}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 	 -->
             <div class="save_button"
                  v-if="!disabled">
@@ -326,7 +363,6 @@
                           class="x_button"
                           @click.native="comfirmSubmit">提交</x-button>
             </div>
-
         </div>
         <!-- 员工 -->
         <van-popup v-model="empShow"
@@ -469,6 +505,7 @@ export default {
                 dimLevday: "请选择", //约定离职日期
                 // dimIsreceive: "0", //是否工作交接
                 // dimReceive: "",//交接人
+                dimReasonother: "", //其他离职原因
                 note: "" //备注
             },
             dimApplicantDis: JSON.parse(localStorage.getItem('empData')).empnhName ? JSON.parse(localStorage.getItem('empData')).empnhName : "",
@@ -503,6 +540,8 @@ export default {
             disabled: false,
             // dimReceiveError: false,
             bankVaild: true,
+            dimReasonotherError: "",
+            approveList: []
         }
     },
     verify: {
@@ -537,6 +576,7 @@ export default {
 
         this.getSelect();
         this.getData();
+        this.getApprove();
     },
     methods: {
         //判断两个时间段是否相差 m 个月
@@ -601,7 +641,8 @@ export default {
         //保存
         async save (type) {
             const t = this;
-            if (this.$verify.check()) {
+            await this.dimReasonotherCheck();
+            if (this.$verify.check() && !this.dimReasonotherError) {
                 const data = deepCopy(t.form);
                 data._mt = "wxPublicProcess.addProcess";
                 data.companyId = pubsource.companyId;
@@ -649,15 +690,13 @@ export default {
                 t.$vux.toast.text('请检查填写信息');
             }
         },
-        // dimReceiveCheck () {
-        //     if (this.form.dimReceive === "" && this.form.dimIsreceive === "1") {
-        //         this.dimReceiveError = true;
-        //         return false
-        //     } else {
-        //         this.dimReceiveError = false;
-        //         return true
-        //     }
-        // },
+        dimReasonotherCheck () {
+            if (this.form.dimReasonother === "" && this.dimReasonDis === "其他") {
+                this.dimReasonotherError = true;
+            } else {
+                this.dimReasonotherError = false;
+            }
+        },
         comfirmSubmit () {
             if (this.$verify.check()) {
                 this.$dialog.confirm({
@@ -724,6 +763,9 @@ export default {
                 }
             } else {
                 this.form[this.curDom] = value.key;
+                if (this.curDom === 'dimReason' && value.text !== '其他' && this.form.dimReasonother !== "") {
+                    this.form.dimReasonother = " "
+                }
                 let str = this.curDom
                 str += "Dis";
                 this[str] = value.text;
@@ -800,6 +842,7 @@ export default {
                     t.form.dimReason = data.dimReason;
                     t.form.dimLevsqday = data.dimLevsqday;
                     t.form.dimLevday = data.dimLevday;
+                    t.form.dimReasonother = data.dimReasonother;
                     // t.form.dimIsreceive = data.dimIsreceive;
                     // t.form.dimReceive = data.dimReceive ? data.dimReceive : '';
                     t.form.note = data.note;
@@ -886,35 +929,33 @@ export default {
             }
         },
         //获取审批记录
-        // getApprove () {
-        //     const t = this;
-        //     if (this.$route.query.id === undefined) {
-        //         return;
-        //     }
-        //     const data = {
-        //         _mt: 'wxansrpttodo.getAnsrptRecord',
-        //         companyId: pubsource.companyId,
-        //         dataId: this.$route.query.id,
-        //         billId: '',
-        //         tbname: 'emp_empdim'
-        //     }
-        //     getDataLevelUserLogin(data).then((res) => {
-        //         if (isSuccess(res, t)) {
-        //             let data = JSON.parse(res.data.content[0].value);
-        //             t.list = data;
-        //             console.log(data, "t.data")
-        //         }
-        //     }).catch((err) => {
-        //         t.$notify({
-        //             message: '网络错误',
-        //             duration: 1500,
-        //             background: '#f44'
-        //         });
-        //     }).finally(() => {
-        //         console.log('rrr', t.list)
-        //         t.$store.commit('hideLoading');
-        //     });
-        // }
+        getApprove () {
+            const t = this;
+            if (this.$route.query.id === undefined) {
+                return;
+            }
+            const data = {
+                _mt: 'wxansrpttodo.getAnsrptRecord',
+                companyId: pubsource.companyId,
+                dataId: this.$route.query.id,
+                tbname: 'emp_empdim'
+            }
+            getDataLevelUserLogin(data).then((res) => {
+                if (isSuccess(res, t)) {
+                    let data = JSON.parse(res.data.content[0].value);
+                    t.approveList = data.ansList;
+                    console.log(data, "t.data")
+                }
+            }).catch((err) => {
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
+                t.$store.commit('hideLoading');
+            });
+        }
     },
 }
 </script>
@@ -954,41 +995,86 @@ export default {
                 margin-top: 0;
             }
         }
-        // .course {
-        //     font-size: 30px;
-        //     padding: 20px 20px;
-        //     margin-bottom: 10px;
-        //     width: 100%;
-        //     .start {
-        //         width: 90%;
-        //         margin-top: 20px;
-        //         .first {
-        //             display: inline-block;
-        //             width: 100px;
-        //             height: 20px;
-        //             border: 1px solid white;
-        //         }
-        //         .data {
-        //             float: right;
-        //         }
-        //         .firsts {
-        //             width: 150px;
-        //             height: 20px;
-        //             border: 1px solid white;
-        //             text-align: left;
-        //             display: inline-block;
-        //             margin-left: 70px;
-        //             color: green;
-        //         }
-        //     }
-        //     .point {
-        //         margin-top: 30px;
-        //         margin-left: 100px;
-        //         width: 1px;
-        //         height: 50px;
-        //         border: 1px solid black;
-        //     }
-        // }
+        .title {
+            background: #fff;
+            padding: 30px 0 0 40px;
+            padding-bottom: 60px;
+            display: flex;
+            position: relative;
+            justify-content: space-between;
+            .title_left {
+                display: flex;
+            }
+            > span {
+                font-size: 30px;
+                padding-right: 36px;
+                color: #339afe;
+            }
+            img {
+                width: 30px;
+                height: 30px;
+                margin-right: 20px;
+            }
+            h3 {
+                font-size: 30px;
+                font-weight: normal;
+                color: #999999;
+            }
+            &:after {
+                content: " ";
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                height: 2px;
+                border-bottom: 2px solid #d9d9d9;
+                color: #d9d9d9;
+                -webkit-transform-origin: 0 0;
+                transform-origin: 0 0;
+                -webkit-transform: scaleY(0.5);
+                transform: scaleY(0.5);
+                left: 0.2rem;
+            }
+        }
+        .course {
+            font-size: 30px;
+            padding: 20px 20px;
+            margin-bottom: 10px;
+            // width: 100%;
+            border-top: 1px solid #d9d9d9;
+            display: flex;
+            background: #fff;
+            flex-direction: column;
+            .start {
+                width: 90%;
+                margin-top: 20px;
+                .first {
+                    display: inline-block;
+                    width: 100px;
+                    height: 20px;
+                    border: 1px solid white;
+                }
+                .data {
+                    float: right;
+                }
+                .firsts {
+                    width: 150px;
+                    height: 20px;
+                    border: 1px solid white;
+                    text-align: left;
+                    display: inline-block;
+                    margin-left: 70px;
+                    color: green;
+                }
+            }
+            .point {
+                margin-top: 30px;
+                margin-left: 100px;
+                width: 1px;
+                height: 50px;
+                border: 1px solid black;
+            }
+        }
     }
 }
 

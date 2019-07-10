@@ -132,8 +132,8 @@
 				</div>
 				<div class="footer" v-show="thisStepState !== 'p_flowst_3' && thisStepState !== 'p_flowst_0'">
 					<div class="footerChilden" v-show="stepAuthLimits == '03submit'">
-						<Button type="primary" @click="save" :loading="loading1">{{$t('button.sav')}}</Button>
-						<Button type="success" style="margin-left: 5px;" @click="isSubmit" :loading="loading2" v-show="thisPkValue !== '0'">提交</Button>
+						<Button type="primary" @click="save" :loading="saveLoading">{{$t('button.sav')}}</Button>
+						<Button type="success" style="margin-left: 5px;" @click="isSubmit" :loading="submitLoading" v-show="thisPkValue !== '0'">提交</Button>
 					</div>
 				</div>
 			</div>
@@ -272,7 +272,13 @@
 			},
 			bankCheck() {
 				return this.$store.state.empdim.bankName;
-			}
+            },
+            saveLoading() {
+				return this.$store.state.commonFlowButton.saveLoading;
+            },
+            submitLoading() {
+				return this.$store.state.commonFlowButton.submitLoading;
+            },
 		},
 		created() {
 			this.getColumns()
@@ -342,7 +348,7 @@
 				t.dataBlocksFake = []
 				t.operation = []
 				t.docs = []
-				t.mailRecords = []
+                t.mailRecords = [];
 				getDataLevelUserLogin({
 					_mt: 'platAutoLayoutGetFlowEdit.getDataBlock',
 					flowId: t.flowId, // 流程ID
@@ -408,10 +414,15 @@
 										}
 									}
 								}, 1000)
-							}
-						}
+                            }
+                             
+                        }
+                        console.log("t.datablock")
+                        
 					}
 				}).catch(() => {
+                    this.$store.commit('commonFlowButton/setSaveLoading', false);
+                     this.$store.commit('commonFlowButton/setSubmitLoading', false);
 					t.$Message.error(this.$t("reminder.errormessage"));
 				})
 			},
@@ -635,7 +646,7 @@
 			 * 获取表格字段
 			 * */
 			getColumns() {
-				const t = this
+                const t = this
 				getDataLevelUserLogin({
 					_mt: 'platAutoLayoutGetFlowList.getListColumn',
 					roleType: t.$store.state.user.roleType,
@@ -712,10 +723,14 @@
 								}
 							}
 						}
-						t.columns = aa
-						this.getData()
+                        t.columns = aa
+                        console.log("getColumns1")
+                        this.getData()
+                        console.log("getColumns2")
 					}
 				}).catch(() => {
+                    this.$store.commit('commonFlowButton/setSaveLoading', false);
+                     this.$store.commit('commonFlowButton/setSubmitLoading', false);
 					t.$Message.error(this.$t("reminder.errormessage"));
 				})
 			},
@@ -723,7 +738,7 @@
 			 * 获取表格数据
 			 * */
 			getData() {
-				const t = this
+                const t = this
 				getDataLevelUserLogin({
 					_mt: 'platAutoLayoutGetFlowList.getPage',
 					sort: 'id',
@@ -738,14 +753,20 @@
 				}).then((res) => {
 					if(isSuccess(res, t)) {
                         t.data = JSON.parse(res.data.content[0].rows);
-                        t.flowStep = JSON.parse(res.data.content[0].flowStep)
+                        t.flowStep = JSON.parse(res.data.content[0].flowStep);
+                        console.log("getData")
+                        // this.$store.commit('commonFlowButton/setSaveLoading', true)
 					}
 				}).catch(() => {
+                   this.$store.commit('commonFlowButton/setSaveLoading', false);
+                     this.$store.commit('commonFlowButton/setSubmitLoading', false);
 					t.$Message.error(this.$t("reminder.errormessage"));
 				})
 			},
 			getColumn(dataBlockId, dataBlockType) {
-				const t = this
+                const t = this
+                // this.$store.commit('commonFlowButton/setSaveLoading', true);
+                //  this.$store.commit('commonFlowButton/setSubmitLoading', true);
 				const params = {
 					_mt: 'platAutoLayoutGetFlowEdit.getDataBlockColumn',
 					flowId: t.flowId, // 流程ID
@@ -827,9 +848,15 @@
 									onChange[this.tbName].all_dis.call(this)
 								}, 500)
 							}
-						}
-					}
+                        }
+                        
+                    }
+                    console.log("this.getColumn")
+                    this.$store.commit('commonFlowButton/setSaveLoading', false);
+                     this.$store.commit('commonFlowButton/setSubmitLoading', false);
 				}).catch((res) => {
+                     this.$store.commit('commonFlowButton/setSaveLoading', false);
+                     this.$store.commit('commonFlowButton/setSubmitLoading', false);
 					t.$Message.error(res);
 				})
 			},
@@ -953,7 +980,8 @@
 			},
 			async submit() {
 				const t = this
-				t.loading2 = true
+                t.loading2 = true
+                 this.$store.commit('commonFlowButton/setSubmitLoading', true)
 				t.formDataSubmit = {}
 				try {
 					let a = true
@@ -970,7 +998,7 @@
 						}
 					}
 					if(!a) {
-						t.loading2 = false
+						 this.$store.commit('commonFlowButton/setSubmitLoading', false)
 						return
 					}
 					t.formDataSubmit._mt = 'platAutoLayoutFlowSave.addOrUpd'
@@ -984,7 +1012,7 @@
 						t.formDataSubmit.empbcContent = t.formDataSubmit.empbcContent.join(',')
 					}
 					getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
-						t.loading2 = false
+						// t.loading2 = false
 						if(isSuccess(res, t)) {
 							let data = {}
 							data._mt = 'platAutoLayoutFlowSubmit.submit'
@@ -995,8 +1023,7 @@
 							data.pkValue = t.thisPkValue
 							data.logType = 'submit'
 							//        t.formDataSubmit.clmMap = JSON.stringify(t.clmMap)
-							getDataLevelUserLogin(data).then((res2) => {
-								
+							getDataLevelUserLogin(data).then((res2) => {		
 								if(isSuccess(res2, t)) {
 									t.thisStepState = 'p_flowst_3';
 									if(this.entry === 'false') {
@@ -1004,21 +1031,21 @@
 									}
 									t.getColumns()
                                     t.getDataBlock()
-                                    t.loading2 = false
+                                    // t.loading2 = false
 									t.$emit('getData')
 									t.$Message.success(this.$t("reminder.submitsuccess"));
 								}
 							}).catch(() => {
-								t.loading2 = false
+								 this.$store.commit('commonFlowButton/setSubmitLoading', false)
 								t.$Message.error(this.$t("reminder.errormessage"));
 							})
 						}
 					}).catch(() => {
-						t.loading2 = false
+						 this.$store.commit('commonFlowButton/setSubmitLoading', false)
 						t.$Message.error(this.$t("reminder.errormessage"));
 					})
 				} catch(res) {
-					t.loading2 = false
+					 this.$store.commit('commonFlowButton/setSubmitLoading', false)
 				}
 			},
 			change() {
@@ -1064,7 +1091,8 @@
 			 * */
 			async save() {
                 const t = this
-				t.loading1 = true
+                // t.loading1 = true;
+                this.$store.commit('commonFlowButton/setSaveLoading', true)
 				t.formDataSubmit = {}
 				try {
 					let a = true
@@ -1074,7 +1102,8 @@
                                 let b = await this.$children[i].validForm();
                                 
 								if(!b) {
-									a = false; 
+                                    a = false; 
+                                   
 								}
 								extendObject(t.formDataSubmit, t.$children[i].formDataSubmit)
 								extendObject(t.clmMap, t.$children[i].clmMap)
@@ -1099,7 +1128,8 @@
 					//     return
 					// })
 					if(!a) {
-                        t.loading1 = false
+                        // t.loading1 = false
+                         this.$store.commit('commonFlowButton/setSaveLoading', false)
                         t.$nextTick(function(){
                             let tt = document.querySelectorAll('.ivu-form-item-error');
                             if(tt.length>0){
@@ -1131,15 +1161,17 @@
 							}
 							this.getColumns()
                             this.getDataBlock()
-                            t.loading1 = false
+                            // t.loading1 = false
 							t.$Message.success(this.$t("reminder.savsuccess"));
 						}
 					}).catch(() => {
-						t.loading1 = false
+                        // t.loading1 = false
+                         this.$store.commit('commonFlowButton/setSaveLoading', false)
 						t.$Message.error(this.$t("reminder.errormessage"));
 					})
 				} catch(res) {
-					t.loading1 = false
+                    // t.loading1 = false
+                     this.$store.commit('commonFlowButton/setSaveLoading', false)
 				}
 			},
 		},

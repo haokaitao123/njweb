@@ -118,6 +118,30 @@
                     </x-input>
                 </div>
             </group>
+            <div class="title title_f"
+                 v-if="approveList.length>0">
+                <div class="title_left">
+                    <img src="../../../../static/function/resumeTitle.png"
+                         alt="">
+                    <h3>审批信息</h3>
+                </div>
+            </div>
+            <div class="course"
+                 v-if="approveList.length>0">
+                <div v-for="(item,index) in approveList">
+                    <div class="start">
+                        <div class="first">
+                            {{item.name}}
+                        </div>
+                        <div class="firsts">
+                            {{item.state}}
+                        </div>
+                        <div class="data">
+                            {{item.date}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -154,6 +178,7 @@ export default {
             postIdnewDis: "",
             transNewleaderDis: "",
             transPostinfoDis: "",
+            approveList: []
         }
     },
     components: {
@@ -165,6 +190,7 @@ export default {
     },
     mounted () {
         this.getData();
+        this.getApprove();
     },
     methods: {
         //获取详情
@@ -210,6 +236,34 @@ export default {
                 t.$store.commit('hideLoading');
             });
         },
+        //获取审批记录
+        getApprove () {
+            const t = this;
+            if (this.$route.query.id === undefined) {
+                return;
+            }
+            const data = {
+                _mt: 'wxansrpttodo.getAnsrptRecord',
+                companyId: pubsource.companyId,
+                dataId: this.$route.query.id,
+                tbname: 'emp_transtion'
+            }
+            getDataLevelUserLogin(data).then((res) => {
+                if (isSuccess(res, t)) {
+                    let data = JSON.parse(res.data.content[0].value);
+                    t.approveList = data.ansList;
+                    console.log(data, "t.data")
+                }
+            }).catch((err) => {
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
+                t.$store.commit('hideLoading');
+            });
+        }
     },
 }
 </script>
@@ -300,6 +354,86 @@ export default {
             }
             .justify {
                 justify-content: flex-start;
+            }
+        }
+        .title {
+            background: #fff;
+            padding: 30px 0 0 40px;
+            padding-bottom: 60px;
+            display: flex;
+            position: relative;
+            justify-content: space-between;
+            .title_left {
+                display: flex;
+            }
+            > span {
+                font-size: 30px;
+                padding-right: 36px;
+                color: #339afe;
+            }
+            img {
+                width: 30px;
+                height: 30px;
+                margin-right: 20px;
+            }
+            h3 {
+                font-size: 30px;
+                font-weight: normal;
+                color: #999999;
+            }
+            &:after {
+                content: " ";
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                height: 2px;
+                border-bottom: 2px solid #d9d9d9;
+                color: #d9d9d9;
+                -webkit-transform-origin: 0 0;
+                transform-origin: 0 0;
+                -webkit-transform: scaleY(0.5);
+                transform: scaleY(0.5);
+                left: 0.2rem;
+            }
+        }
+        .course {
+            font-size: 30px;
+            padding: 20px 20px;
+            margin-bottom: 10px;
+            // width: 100%;
+            border-top: 1px solid #d9d9d9;
+            display: flex;
+            background: #fff;
+            flex-direction: column;
+            .start {
+                width: 90%;
+                margin-top: 20px;
+                .first {
+                    display: inline-block;
+                    width: 100px;
+                    height: 20px;
+                    border: 1px solid white;
+                }
+                .data {
+                    float: right;
+                }
+                .firsts {
+                    width: 150px;
+                    height: 20px;
+                    border: 1px solid white;
+                    text-align: left;
+                    display: inline-block;
+                    margin-left: 70px;
+                    color: green;
+                }
+            }
+            .point {
+                margin-top: 30px;
+                margin-left: 100px;
+                width: 1px;
+                height: 50px;
+                border: 1px solid black;
             }
         }
     }

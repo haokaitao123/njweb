@@ -48,7 +48,7 @@
 
                     <icon type="warn"
                           class="error"
-                          v-show="empnhNationDis==''"
+                          v-show="empnhNationDis=='请选择'"
                           v-remind="empnhNationDis"></icon>
                     <x-input title="民族<span>*</span>"
                              v-if="state"
@@ -299,12 +299,11 @@
                              :show-clear="false"
                              :disabled="state"
                              :placeholder="state?'未填写':'请填写'"
-                             @on-blur="bankCheck"
-                             >
+                             @on-blur="bankCheck">
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="!bankVaild"
+                          v-show="form.empnhSalaccount==''||!bankVaild"
                           v-remind="form.empnhSalaccount"></icon>
                 </div>
                 <!-- 户名 -->
@@ -372,7 +371,7 @@
                           class="error"
                           v-show="form.empnhFirstwkdate=='请选择'?true:false"
                           v-remind="form.empnhFirstwkdate"></icon>
-                    <x-input title="参加工作时间"
+                    <x-input title="参加工作时间<span>*</span>"
                              v-if="state"
                              v-model="form.empnhFirstwkdate"
                              :show-clear="false"
@@ -532,7 +531,7 @@
                           class="x_button"
                           @click.native="save"
                           :disabled="state"
-                          action-type="button">保存</x-button>
+                          action-type="button">提交</x-button>
             </div>
         </div>
         <!-- 民族 -->
@@ -803,7 +802,7 @@ export default {
             empnhQq: "number",
             empnhPersmail: "email",
             empnhSalbank: "required",
-            empnhSalaccount: ["required", "number"],
+            empnhSalaccount: ["required", "backNumber"],
             empnhSalaccname: "required",
             empnhFirstwkdate: "required"
         },
@@ -878,26 +877,31 @@ export default {
         },
         //银行卡号校验
         //银行卡验证
-         bankCheck(){
-        	console.log(123)
-        	if(this.form.empnhSalaccount == ''){
-        		this.bankVaild = false;
-        	}
-        		if(valid.val_backNumber(this.form.empnhSalaccount) == 1){
-        			this.bankVaild = false;
-        			this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-        			return;
-        		}else if(valid.val_backNumber(this.form.empnhSalaccount) == 2){
-        			this.bankVaild = false;
-        			this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-        			return
-        		}else if(valid.val_backNumber(this.form.empnhSalaccount)== 3){
-        			this.bankVaild = false;
-        			this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-        			return
-        		}
-	        	 this.bankVaild = true;
-        	
+        bankCheck () {
+            console.log(123);
+            // debugger;
+            if (this.form.empnhSalaccount == '') {
+                this.bankVaild = false;
+                return;
+            } else {
+                console.log(valid.val_backNumber(this.form.empnhSalaccount), "123")
+                if (valid.val_backNumber(this.form.empnhSalaccount) === 1) {
+                    this.bankVaild = false;
+                    this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
+                    return;
+                } else if (valid.val_backNumber(this.form.empnhSalaccount) === 2) {
+                    this.bankVaild = false;
+                    this.$vux.toast.text('银行卡号码必须全为数字', 'number');
+                    return
+                } else if (valid.val_backNumber(this.form.empnhSalaccount) === 3) {
+                    this.bankVaild = false;
+                    this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
+                    return
+                } else {
+                    this.bankVaild = true;
+                }
+            }
+
         },
         //保存
         save () {

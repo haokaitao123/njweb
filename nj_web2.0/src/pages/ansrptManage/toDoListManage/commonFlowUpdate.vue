@@ -210,7 +210,8 @@
                     <div v-if="displayHide">
                         <Button type="success"
                                 style="margin-left: 5px;"
-                                @click="isSubmit">提交</Button>
+                                @click="isSubmit"
+                                :loading="submitLoading">提交</Button>
                     </div>
                 </div>
             </div>
@@ -254,6 +255,7 @@ export default {
             disabled: true,
             loading1: false,
             loading2: false,
+            submitLoading: false,
             dataBlocksFake: [], // 临时存储
             dataBlocksFakeFlow: [], // 临时存储
             abroDestination: '',
@@ -989,11 +991,16 @@ export default {
                             })
                             t.$emit('close')
                             t.$emit('getAllData')
-                            t.$emit('getAllDataMain')
+                            t.$emit('getAllDataMain');
+                            t.submitLoading = false
+                            console.log("tt2")
                         }
                     }).catch(() => {
+                        t.submitLoading = false
                         t.$Message.error(this.$t("reminder.errormessage"));
                     })
+                } else {
+                    t.submitLoading = false
                 }
             })
         },
@@ -1060,7 +1067,7 @@ export default {
         },
         async saveFlowup () {
             const t = this
-            t.loading1 = true
+            t.submitLoading = true
             t.formDataSubmit = {}
             let a = true
             for (let i = 0; i < this.$children.length; i++) {
@@ -1076,7 +1083,7 @@ export default {
                 }
             }
             if (!a) {
-                t.loading1 = false
+                t.submitLoading = false
                 return
             }
             if (t.flowup != undefined && t.flowup != "") {
@@ -1091,21 +1098,17 @@ export default {
                     t.formDataSubmit.empbcContent = t.formDataSubmit.empbcContent.join(',')
                 }
                 getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
-                    t.loading1 = false
+                    // t.loading1 = false
                     if (isSuccess(res, t)) {
+                        console.log("tt")
                     }
                 }).catch(() => {
-                    t.loading1 = false
+                    t.submitLoading = false
                     t.$Message.error(this.$t("reminder.errormessage"));
                 })
             }
             t.submit2();
         }
-
-
-
-
-
     },
     watch: {
         thisStepState (value) {
