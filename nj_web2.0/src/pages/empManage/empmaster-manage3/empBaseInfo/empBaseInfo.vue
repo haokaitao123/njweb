@@ -542,8 +542,8 @@
 				//城市
 				params: {
 					_mt: "baseCity.getPage",
-					sort: "id",
-					order: "desc",
+					sort: "cityCode3",
+					order: "asc",
 					rows: 10,
 					page: 1,
 					funId: "1",
