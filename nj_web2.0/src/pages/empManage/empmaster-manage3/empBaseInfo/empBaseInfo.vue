@@ -3,7 +3,7 @@
 		<Spin size="large" fix v-if="spinShow"></Spin>
 		<Row style="overflow-y: auto;" :style="{ maxHeight: disabled?'500px':'420px' }" ref="scrollBox">
 			<Form :model="form" label-position="right" ref="form" :label-width="100" id="empForm" :rules="ruleValidate">
-               
+
 				<i-col span="11">
 					<FormItem label="唯一编号" prop="numberCode">
 						<Input v-model="form.numberCode" :disabled="true"></Input>
@@ -1023,7 +1023,7 @@
                             if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
                                 this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
                             }
-                        }) 
+                        })
                     }
 				});
 			},
@@ -1082,6 +1082,10 @@
 				const t = this
 				t.unitFname = ''
 				t.form.deptId = ''
+        t.form.postId = "";
+        t.postFname = "";
+        t.empnhPmpDis = ''
+        t.form.empnhPmp = ''
 			},
 			pickDeptData() {
 				const t = this
@@ -1099,6 +1103,10 @@
 				console.log(name, "name")
 				t.unitFname = name
 				t.form.deptId = id
+        t.form.postId = "";
+        t.postFname = "";
+        t.empnhPmpDis = ''
+        t.form.empnhPmp = ''
 			},
 			//岗位
 			dbPost() {
