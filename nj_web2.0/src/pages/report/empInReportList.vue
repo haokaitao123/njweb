@@ -109,7 +109,7 @@ export default {
             imp_mt: "protocolManage.importData",
             // 导出字段设置, code字段名 name列名
             expDataTital: [
-                { code: "unitFname", name: "一级部门及分公司" },
+                { code: "deptOneName", name: "一级部门及分公司" },
                 { code: "deptTwoName", name: "二级部门" },
                 { code: "deptThreeName", name: "项目" },
                 { code: "empnhName", name: "姓名" },
@@ -154,7 +154,7 @@ export default {
                 },
                 {
                     title: "一级部门及分公司",
-                    key: "unitFname",
+                    key: "deptOneName",
                     //对应列是否可以排序，如果设置为 custom，则代表排序，需要监听 Table 的 on-sort-change 事件
                     width: 220
                 },
@@ -337,7 +337,7 @@ export default {
                 this.page = 1;
             }
             const data = {
-                _mt: "empEmpnh.getPage",
+                _mt: "empEmpnh.getReportPage",
                 rows: t.rows,
                 page: t.page,
                 sort: t.sort,
@@ -491,7 +491,7 @@ export default {
             // 设置导出mt参数
             this.$refs.expwindow.getData(
                 this.expDataTital,
-                "empEmpnh.export",
+                "empEmpnh.exporReport",
                 data
             );
             this.openExp = true;
