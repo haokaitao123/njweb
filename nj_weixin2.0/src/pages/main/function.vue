@@ -45,7 +45,7 @@
                 <div class="functionItem"
                      @click="goTo('transaction')">
                     <div class="functionItem_img">
-                        <img src="../../../static/main/function2.png"
+                        <img src="../../../static/main/function12.png"
                              alt="">
                     </div>
                     <span class="functionItem_Name">员工异动查看</span>

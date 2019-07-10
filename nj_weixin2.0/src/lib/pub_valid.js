@@ -80,6 +80,7 @@ const valid = {
     var bankCardnum = bankCard.replace(/(^\s*)|(\s*$)/g, "");
     //console.log('bankCardnum',bankCard.replace(/(^\s*)|(\s*$)/g, ""))
     if (bankCardnum != "") {
+      //   debugger;
       if (bankCardnum.length < 15 || bankCardnum.length > 20) {
         return 1;
       }
@@ -92,6 +93,7 @@ const valid = {
       if (strBin.indexOf(bankCardnum.substring(0, 2)) == -1) {
         return 3;
       }
+      return true;
     }
   },
   //email格式 205

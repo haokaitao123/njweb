@@ -574,7 +574,6 @@
                              placeholder="未填写">
                     </x-input>
                 </div> -->
-                c
                 <!-- 初试意见 -->
                 <x-textarea :max="300"
                             title="初试意见"
@@ -959,6 +958,8 @@ export default {
                 relibFirsttm: new Date().format('yyyy-MM-dd hh:mm:ss'),      // 初试时间
                 relibFirpass: "",              // 初试是否通过
                 relibFirstopin: "",            // 初试意见
+                empnhSalbank: "1011",
+                empnhWklocat: "1410",
             },
             relibApplypostDis: '请选择',						//岗位
             relibIdentityDis: '请选择',                     //身份
@@ -1447,11 +1448,10 @@ export default {
                             t.isRelibFirpass = true;
                         }
                     }
-                    if (t.form.relibFirstopin.length > 0 && data.relibFirstopin.length > 0) {
-                        t.form.relibFirstopin = "基本要求不符 (" + t.form.relibFirstopin + " )" + data.relibFirstopin
-                    } else {
-
-                        t.form.relibFirstopin = !data.relibFirstopin ? "" : data.relibFirstopin;
+                    if (data.relibFirstopin) {
+                        t.form.relibFirstopin = data.relibFirstopin ? data.relibFirstopin : ""
+                    } else if (t.form.relibFirstopin.length > 0) {
+                        t.form.relibFirstopin = "基本要求不符 (" + t.form.relibFirstopin + " )"
                     }
                     console.log(t.isRelibFirpass, '是否通过')
                     if (t.isRelibFirpass) {
@@ -1538,7 +1538,6 @@ export default {
                     }
                 }
             }
-
             if (!this.form.relibIdno) {
                 this.form.relibFirstopin += "年龄、"
                 this.isRelibFirpass = true;
