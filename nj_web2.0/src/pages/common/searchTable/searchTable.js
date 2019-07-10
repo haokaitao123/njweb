@@ -69,7 +69,7 @@ const searchTable = {
     ],
     param: {
       _mt: 'baseCity.getPage',
-      sort: 'id',
+      sort: 'cityCode3',
       order: 'asc',
       rows: 10,
       page: 1,
