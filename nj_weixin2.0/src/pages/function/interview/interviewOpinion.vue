@@ -881,10 +881,6 @@
 
     </div>
 </template>
-<i18n>
-  Basic Usage:	
-  zh-CN: 基本使用
-</i18n>
 <script>
 import { getDataLevelUserLogin, getDataLevelUserLoginNew, getDataLevelNone } from '@/axios/axios'
 import { isSuccess, deepCopy } from '@/lib/util'
@@ -958,8 +954,8 @@ export default {
                 relibFirsttm: new Date().format('yyyy-MM-dd hh:mm:ss'),      // 初试时间
                 relibFirpass: "",              // 初试是否通过
                 relibFirstopin: "",            // 初试意见
-                empnhSalbank: "1011",
-                empnhWklocat: "1410",
+                // empnhSalbank: "1011",
+                // empnhWklocat: "1410",
             },
             relibApplypostDis: '请选择',						//岗位
             relibIdentityDis: '请选择',                     //身份
@@ -1437,17 +1433,17 @@ export default {
                             }
                         }
                     }
-                    if (!data.relibIdno) {
-                        t.form.relibFirstopin += "年龄、"
-                        t.isRelibFirpass = true;
-                    } else {
-                        let birthYear = Number(data.relibIdno.substring(6, 10));
-                        let nowYear = new Date().getFullYear();
-                        if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
-                            t.form.relibFirstopin += "年龄、"
-                            t.isRelibFirpass = true;
-                        }
-                    }
+                    // if (!data.relibIdno) {
+                    //     t.form.relibFirstopin += "年龄、"
+                    //     t.isRelibFirpass = true;
+                    // } else {
+                    //     let birthYear = Number(data.relibIdno.substring(6, 10));
+                    //     let nowYear = new Date().getFullYear();
+                    //     if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
+                    //         t.form.relibFirstopin += "年龄、"
+                    //         t.isRelibFirpass = true;
+                    //     }
+                    // }
                     if (data.relibFirstopin) {
                         t.form.relibFirstopin = data.relibFirstopin ? data.relibFirstopin : ""
                     } else if (t.form.relibFirstopin.length > 0) {
@@ -1538,17 +1534,17 @@ export default {
                     }
                 }
             }
-            if (!this.form.relibIdno) {
-                this.form.relibFirstopin += "年龄、"
-                this.isRelibFirpass = true;
-            } else {
-                let birthYear = Number(this.form.relibIdno.substring(6, 10));
-                let nowYear = new Date().getFullYear();
-                if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
-                    this.form.relibFirstopin += "年龄、"
-                    this.isRelibFirpass = true;
-                }
-            }
+            // if (!this.form.relibIdno) {
+            //     this.form.relibFirstopin += "年龄、"
+            //     this.isRelibFirpass = true;
+            // } else {
+            //     let birthYear = Number(this.form.relibIdno.substring(6, 10));
+            //     let nowYear = new Date().getFullYear();
+            //     if (nowYear - birthYear > 29 || nowYear - birthYear < 19) {
+            //         this.form.relibFirstopin += "年龄、"
+            //         this.isRelibFirpass = true;
+            //     }
+            // }
             console.log(this.isRelibFirpass, '是否通过');
             if (this.form.relibFirstopin.length > 0) {
                 this.form.relibFirstopin = "基本要求不符 (" + this.form.relibFirstopin + " )"
@@ -1576,9 +1572,9 @@ export default {
                 }
                 this.currentDate = new Date();
                 this.form[this.curDom] = value;
-                if (this.curDom === 'relibBirtday') {
-                    this.condition();
-                }
+                // if (this.curDom === 'relibBirtday') {
+                //     this.condition();
+                // }
             } else {
                 this.form[this.curDom] = value.key;
                 let str = this.curDom

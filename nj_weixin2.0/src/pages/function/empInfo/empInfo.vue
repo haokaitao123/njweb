@@ -221,7 +221,7 @@
                 </div>
                 <!-- 户籍地址 -->
                 <div class="item_box">
-                    <x-input title="户籍地址<span>*</span>"
+                    <x-input title="身份证地址<span>*</span>"
                              v-model.trim="form.empnhRegaddr"
                              v-verify="form.empnhRegaddr"
                              :show-clear="false"
@@ -289,6 +289,29 @@
                              :show-clear="false"
                              :disabled="state"
                              :placeholder="state?'未填写':'请填写'">
+                    </x-input>
+                </div>
+                <!-- 入职日期 -->
+                <div class="item_box">
+                    <cell title="入职日期"
+                          is-link
+                          v-if="!state"
+                          value-align="left"
+                          v-model="form.empnhEntrydate"
+                          v-verify="form.empnhEntrydate"
+                          @click.native="popupClick('empnhEntrydateShow','empnhEntrydate')">
+                        <div slot="title">入职日期<span>*</span></div>
+                    </cell>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.empnhEntrydate=='请选择'?true:false"
+                          v-remind="form.empnhEntrydate"></icon>
+                    <x-input title="入职日期<span>*</span>"
+                             v-if="state"
+                             v-model="form.empnhEntrydate"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
                     </x-input>
                 </div>
                 <!-- 银行账号 -->
@@ -634,6 +657,16 @@
                                  @confirm="confirm"
                                  @cancel="cancel" />
         </van-popup>
+        <!-- 入职日期 -->
+        <van-popup v-model="empnhEntrydateShow"
+                   position="bottom">
+            <van-datetime-picker v-model="empnhEntrydateDate"
+                                 type="date"
+                                 :min-date="minEmpnhEntrydate"
+                                 :max-date="maxEmpnhEntrydate"
+                                 @confirm="confirm"
+                                 @cancel="cancel" />
+        </van-popup>
         <!-- 参加工作时间-->
         <van-popup v-model="empnhFirstwkdateShow"
                    position="bottom">
@@ -718,6 +751,9 @@ export default {
             maxEmpnhFirstwkdate: new Date(2099, 12, 31),
             minEmpnhTechdate: new Date(1900, 10, 1),
             maxEmpnhTechdate: new Date(2099, 12, 31),
+            empnhEntrydateDate: new Date(),
+            minEmpnhEntrydate: new Date(1900, 10, 1),
+            maxEmpnhEntrydate: new Date(2099, 12, 31),
             form: {
                 empnhName: "",                  //姓名
                 empnhPtname: "",                //曾用名
@@ -735,6 +771,7 @@ export default {
                 empnhPersmail: "",             //个人邮箱
                 empnhQq: "",                    //QQ号码
                 empnhWechat: "",                //微信号
+                empnhEntrydate: "请选择",              //入职日期
                 empnhSalaccount: "",            //银行账号
                 empnhSalaccname: "",            //户名
                 empnhMarriage: "",              //婚姻状况
@@ -774,6 +811,7 @@ export default {
             empnhBirthdateShow: false,
             empnhFirstwkdateShow: false,
             empnhTechdateShow: false,
+            empnhEntrydateShow: false,
             empnhNationIndex: 0,
             empnhIdtypeIndex: 0,
             empnhGenderIndex: 0,
@@ -804,7 +842,8 @@ export default {
             empnhSalbank: "required",
             empnhSalaccount: ["required", "backNumber"],
             empnhSalaccname: "required",
-            empnhFirstwkdate: "required"
+            empnhFirstwkdate: "required",
+            empnhEntrydate: "required",
         },
         empnhNationDis: "required",
         empnhIdtypeDis: "required",
@@ -1028,6 +1067,7 @@ export default {
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
+                    console.log(data, "data")
                     t.form.empnhName = !data.empnhName ? "" : data.empnhName;
                     t.form.empnhPtname = !data.empnhPtname ? "" : data.empnhPtname;
                     t.form.empnhNation = data.empnhNation;
@@ -1048,6 +1088,7 @@ export default {
                     t.form.empnhSalaccname = !data.empnhSalaccname ? "" : data.empnhSalaccname;
                     t.form.empnhMarriage = data.empnhMarriage;
                     t.form.empnhPolitical = data.empnhPolitical;
+                    t.form.empnhEntrydate = data.empnhEntrydate ? data.empnhEntrydate : '请选择';
                     t.form.empnhFirstwkdate = data.empnhFirstwkdate ? data.empnhFirstwkdate : '请选择';
                     t.form.empnhTechtil = data.empnhTechtil;
                     t.form.empnhTechspec = !data.empnhTechspec ? "" : data.empnhTechspec;
@@ -1076,12 +1117,13 @@ export default {
                         t.form.empnhBirthdate = data.empnhBirthdate ? data.empnhBirthdate : '未填写';
                         t.form.empnhFirstwkdate = data.empnhFirstwkdate ? data.empnhFirstwkdate : '未填写';
                         t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '未填写';
-
+                        t.form.empnhEntrydate = data.empnhEntrydate ? data.empnhEntrydate : '未填写';
                     }
                     t.empnhSdayDate = !data.empnhSday ? new Date() : new Date(data.empnhSday.replace(/-/g, '/'));
                     t.empnhEdayDate = !data.empnhEday ? new Date() : new Date(data.empnhEday.replace(/-/g, '/'));
                     t.empnhBirthdateDate = !data.empnhBirthdate ? new Date() : new Date(data.empnhBirthdate.replace(/-/g, '/'));
                     t.empnhFirstwkdateDate = !data.empnhFirstwkdate ? new Date() : new Date(data.empnhFirstwkdate.replace(/-/g, '/'));
+                    t.empnhEntrydateDate = !data.empnhEntrydate ? new Date() : new Date(data.empnhEntrydate.replace(/-/g, '/'));
                     t.empnhTechdateDate = !data.empnhTechdate ? new Date() : new Date(data.empnhTechdate.replace(/-/g, '/'));
                     t.setSelectValue(data.empnhNationDis, 'selectNation', 'empnhNationIndex');
                     t.setSelectValue(data.empnhIdtypeDis, 'selectIdtype', 'empnhIdtypeIndex');

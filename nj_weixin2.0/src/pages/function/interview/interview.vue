@@ -170,6 +170,9 @@ export default {
                     reexamine = false;
                 }
             }
+            if (!curStepCode && curStepstate) {
+                curStep = true;
+            }
             this.$router.push({
                 name: 'addInterview',
                 query: {
@@ -251,6 +254,9 @@ export default {
         },
         async getData () {
             const t = this;
+            let tt = {
+                'empId': localStorage.getItem('empId')
+            }
             const data = {
                 _mt: 'wxRecruitProcess.getPage',
                 companyId: pubsource.companyId,
@@ -259,6 +265,7 @@ export default {
                 sort: t.sort,
                 order: t.order,
                 userId: window.localStorage.getItem('uid'),
+                data: JSON.stringify(tt),
             }
             await getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) { //请求成功
