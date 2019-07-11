@@ -13,37 +13,43 @@ import readedDetail from '@/pages/manageInform/message/readedDetail'
 import unreadMessage from '@/pages/manageInform/message/unreadMessage'
 //未读消息明细
 import unreadDetail from '@/pages/manageInform/message/unreadDetail'
-export default [
-    {
-        path: 'manageInform',
-        name: 'manageInform',
-        component: manageInform,
-    },
-    {
-    	path: '/messageNoticeManage',
-    	name: 'messageNoticeManage',
-    	component: messageNoticeManage,
-//  	children: [
-//  		{
-//		    	path: 'readedMessage',
-//		    	name: 'messageNoticeManage',
-//		    	component: readedMessage,
-//		    },
-//		    {
-//		    	path: 'readedDetail',
-//		    	name: 'messageNoticeManage',
-//		    	component: readedDetail,
-//		    },
-//		    {
-//		    	path: 'unreadMessage',
-//		    	name: 'messageNoticeManage',
-//		    	component: unreadMessage,
-//		    },
-//		    {
-//		    	path: 'unreadDetail',
-//		    	name: 'messageNoticeManage',
-//		    	component: unreadDetail,
-//		    },
-//  	]
-    },
+//首页公司公告
+import noticeList from '@/pages/homePage/noticeList'
+export default [{
+    path: 'noticeList',
+    name: 'noticeList',
+    component: noticeList,
+  },
+  {
+    path: 'manageInform',
+    name: 'manageInform',
+    component: manageInform,
+  },
+  {
+    path: '/messageNoticeManage',
+    name: 'messageNoticeManage',
+    component: messageNoticeManage,
+    //  	children: [
+    //  		{
+    //		    	path: 'readedMessage',
+    //		    	name: 'messageNoticeManage',
+    //		    	component: readedMessage,
+    //		    },
+    //		    {
+    //		    	path: 'readedDetail',
+    //		    	name: 'messageNoticeManage',
+    //		    	component: readedDetail,
+    //		    },
+    //		    {
+    //		    	path: 'unreadMessage',
+    //		    	name: 'messageNoticeManage',
+    //		    	component: unreadMessage,
+    //		    },
+    //		    {
+    //		    	path: 'unreadDetail',
+    //		    	name: 'messageNoticeManage',
+    //		    	component: unreadDetail,
+    //		    },
+    //  	]
+  },
 ]

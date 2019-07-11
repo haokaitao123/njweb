@@ -12,6 +12,8 @@
             <message v-if="roleType==='1admin'"></message>
             <mailMsg :roleType="roleType"
                      v-if="roleType==='3user'||roleType==='1admin' || roleType==='3user-hrbp'"></mailMsg>
+            <callboard :roleType="roleType"
+                       v-if="roleType==='3user'||roleType==='3user-hrbp' || roleType==='6essmss'"></callboard>
             <!--<employeeId v-if="roleType==='1admin'"></employeeId>-->
             <!--<question v-if="roleType==='3user' || roleType==='3user-hrbp'"></question>-->
             <!--<employee v-if="roleType==='3user' || roleType==='3user-hrbp'"></employee>-->
@@ -38,7 +40,7 @@ import employeeId from './employeeId'
 import message from './message'
 import autoCount from './autoCount'
 import autoZxCount from './autoZxCount'
-
+import callboard from './callboard'
 export default {
     data () {
         return {
@@ -59,6 +61,7 @@ export default {
         autoCount,
         message,
         autoZxCount,
+        callboard
     },
     computed: {
         roleType () {

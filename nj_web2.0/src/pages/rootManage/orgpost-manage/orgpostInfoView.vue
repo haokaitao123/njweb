@@ -53,9 +53,9 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11"
-                                offset="1">
+                               offset="1">
                             <FormItem label="岗位类别"
-                              prop="quoType">
+                                      prop="quoType">
                                 <Select v-model="formValidate.postGenre"
                                         class="width200"
                                         :disabled="disabled"
@@ -66,7 +66,8 @@
                                 </Select>
                             </FormItem>
                         </i-col>
-                        <i-col span="11">
+                        <i-col span="11"
+                               class="radio">
                             <FormItem :label="$t('lang_organization.orgpost.postStation')"
                                       prop="postStation">
                                 <RadioGroup v-model="formValidate.postStation">
@@ -78,36 +79,8 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11"
-                                offset="1">
-                            <FormItem :label="$t('lang_organization.orgpost.postStansalary')"
-                                      prop="postStansalary">
-                                <Input v-model="formValidate.postStansalary"
-                                             :placeholder="$t('lang_organization.orgpost.postStansalaryInp')"
-                                             :disabled="disabled"/>
-                            </FormItem>
-                        </i-col>
-                        <i-col span="11">
-                            <FormItem :label="$t('lang_organization.orgpost.postTrialsalary')"
-                                      prop="postTrialsalary">
-                                <Input v-model="formValidate.postTrialsalary"
-                                             :placeholder="$t('lang_organization.orgpost.postTrialsalary')"
-                                             :disabled="disabled"/>
-                            </FormItem>
-                        </i-col>
-                        <i-col span="11"
-                                offset="1">
-                            <FormItem label="分摊成本"
-                                      prop="postCostsharing">
-
-                                <RadioGroup v-model="formValidate.postCostsharing">
-                                    <Radio :label="item.paramCode"
-                                           v-for="(item,index) in selectpostCostsharing"
-                                           :key="index"
-                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
-                                </RadioGroup>
-                            </FormItem>
-                        </i-col>
-                        <i-col span="11">
+                               offset="1"
+                               class="radio">
                             <FormItem :label="$t('lang_organization.orgpost.seniorityWage')"
                                       prop="seniorityWage">
 
@@ -119,8 +92,51 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
+                        <i-col span="11">
+                            <FormItem :label="$t('lang_organization.orgpost.postStansalary')"
+                                      prop="postStansalary">
+                                <Input v-model="formValidate.postStansalary"
+                                       :placeholder="$t('lang_organization.orgpost.postStansalaryInp')"
+                                       :disabled="disabled" />
+                            </FormItem>
+                        </i-col>
                         <i-col span="11"
-                                offset="1">
+                               offset="1">
+                            <FormItem :label="$t('lang_organization.orgpost.postTrialsalary')"
+                                      prop="postTrialsalary">
+                                <Input v-model="formValidate.postTrialsalary"
+                                       :placeholder="$t('lang_organization.orgpost.postTrialsalary')"
+                                       :disabled="disabled" />
+                            </FormItem>
+                        </i-col>
+                        <i-col span="11"
+                               class="radio">
+                            <FormItem label="分摊成本"
+                                      prop="postCostsharing">
+
+                                <RadioGroup v-model="formValidate.postCostsharing">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectpostCostsharing"
+                                           :key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
+                            </FormItem>
+                        </i-col>
+                        <!-- <i-col span="11"
+                               class="radio">
+                            <FormItem :label="$t('lang_organization.orgpost.seniorityWage')"
+                                      prop="seniorityWage">
+
+                                <RadioGroup v-model="formValidate.seniorityWage">
+                                    <Radio :label="item.paramCode"
+                                           v-for="(item,index) in selectseniorityWage"
+                                           :key="index"
+                                           :disabled="disabled">{{item.paramInfoCn}}</Radio>
+                                </RadioGroup>
+                            </FormItem>
+                        </i-col> -->
+                        <i-col span="11"
+                               offset="1">
                             <FormItem :label="$t('lang_organization.orgpost.postValiddate')"
                                       prop="postValiddate">
                                 <DatePicker type="date"
@@ -209,31 +225,31 @@ import valid from '../../../lib/pub_valid'
 export default {
     data () {
         const numberCheck = (rule, value, numberValCheck) => {
-            	if (value !== '' && value !== undefined) {
-                	if (valid.val_number103(value)) {
-                    		return numberValCheck()
-                	}
-                	return numberValCheck(new Error(rule.message))
-            	}
-           	 numberValCheck()
-            };
+            if (value !== '' && value !== undefined) {
+                if (valid.val_number103(value)) {
+                    return numberValCheck()
+                }
+                return numberValCheck(new Error(rule.message))
+            }
+            numberValCheck()
+        };
 
 
         const compareTime = (rule, value, callback) => {
-      if (value === "" || !value) {
-        callback(new Error("请选择生效日期"));
-      } else {
-        //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
-        let startTimeNum = new Date(this.formValidate.postValiddate).getTime();
-        let endTimeNum = new Date(this.formValidate.postInvdate).getTime();
-        if (startTimeNum > endTimeNum) {
-          callback(new Error("生效日期不能大于失效日期"));
+            if (value === "" || !value) {
+                callback(new Error("请选择生效日期"));
+            } else {
+                //开始时间不能大于结束时间   this.formValidate.unitValdate和this.formValidate.unitInvdate  这两个值是根据你当前页面 日期时间绑定的变量
+                let startTimeNum = new Date(this.formValidate.postValiddate).getTime();
+                let endTimeNum = new Date(this.formValidate.postInvdate).getTime();
+                if (startTimeNum > endTimeNum) {
+                    callback(new Error("生效日期不能大于失效日期"));
+                }
+                callback();
+            }
         }
-        callback();
-      }
-    }
         return {
-          
+
             type: '',
             distype: false,
             value: "",
@@ -278,7 +294,7 @@ export default {
                 _mt: "orgPost.addOrUpd",
                 postCode: "XXXXXX", //岗位编码
                 postDfpslevel: "", //默认职位级别
-                postGenre:"",
+                postGenre: "",
                 postFname: "", //岗位全称
                 seniorityWage: "1", //工龄工资
                 postCostsharing: "1", //默认分摊成本
@@ -403,8 +419,8 @@ export default {
                     },
                     {
                         required: true,
-                       message: "请输入正确的数字格式",
-                        validator:numberCheck,
+                        message: "请输入正确的数字格式",
+                        validator: numberCheck,
                         trigger: "change"
                     }
                 ],
@@ -417,7 +433,7 @@ export default {
                     {
                         required: true,
                         message: "请输入正确的数字格式",
-                        validator:numberCheck,
+                        validator: numberCheck,
                         trigger: "change"
                     }
                 ],
@@ -428,16 +444,16 @@ export default {
                         trigger: "blur"
                     }
                 ],
-                   //在验证规则里 加上你对应的日期验证
-          //unitValdate 这个变量对应你页面标签里的prop属性名  <FormItem label="生效日期" prop="unitValdate"> ，
-          postValiddate: [
-            {
-              required: true,
-              type: "date",
-              validator: compareTime,
-              trigger: "change"
-            }
-          ],
+                //在验证规则里 加上你对应的日期验证
+                //unitValdate 这个变量对应你页面标签里的prop属性名  <FormItem label="生效日期" prop="unitValdate"> ，
+                postValiddate: [
+                    {
+                        required: true,
+                        type: "date",
+                        validator: compareTime,
+                        trigger: "change"
+                    }
+                ],
             }
         };
     },
@@ -580,7 +596,7 @@ export default {
                         .then(res => {
                             if (isSuccess(res, t)) {
 
-                                 t.$emit("closeUp");
+                                t.$emit("closeUp");
                                 if (t.logType === this.$t("button.add")) {
                                     // t.$Modal.success({
                                     //     title: this.$t("reminder.suc"),
@@ -596,10 +612,10 @@ export default {
                                     // });
                                     // console.log(res, "res")
                                     t.$refs.formValidate.resetFields();
-                                     this.$Message.success(this.$t("reminder.updsuccess"));
+                                    this.$Message.success(this.$t("reminder.updsuccess"));
                                     t.$emit("update", res.data.content[0]);
                                 }
-                                
+
                             }
                         })
                         .catch(() => {
@@ -609,14 +625,14 @@ export default {
                             // });
                             this.$Message.error(this.$t("reminder.errormessage"));
                         });
-                }else{
-					this.$nextTick(function(){
-                            let tt = document.querySelectorAll('.ivu-form-item-error');
-                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
-                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
-                            }
-                        }) 
-				}
+                } else {
+                    this.$nextTick(function () {
+                        let tt = document.querySelectorAll('.ivu-form-item-error');
+                        if (tt[0].parentNode.offsetTop < this.$refs.scrollBox.$el.scrollTop) {
+                            this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                        }
+                    })
+                }
             });
         },
         close () {
@@ -708,5 +724,11 @@ export default {
         bottom: 20px;
         right: 100px;
     }
+}
+// .ivu-form-item {
+//     margin-bottom: 22px;
+// }
+.radio .ivu-form-item {
+    margin-bottom: 22px;
 }
 </style>
