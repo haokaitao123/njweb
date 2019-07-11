@@ -137,7 +137,7 @@ import loading from '@/components/loading/loading'
 export default {
     data () {
         return {
-            showLoading: true,
+            showLoading: false,
             reexamineState: true,
             tableheight: document.body.offsetHeight - 280,
             value: '',
