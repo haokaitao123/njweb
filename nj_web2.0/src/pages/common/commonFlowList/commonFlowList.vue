@@ -137,7 +137,7 @@ import loading from '@/components/loading/loading'
 export default {
     data () {
         return {
-            showLoading: false,
+            showLoading: true,
             reexamineState: true,
             tableheight: document.body.offsetHeight - 280,
             value: '',
@@ -212,12 +212,17 @@ export default {
         this.getColumns()
     },
     methods: {
-        closeLoading () {
+        closeLoading (val) {
             const t = this
-            t.$Message.success(this.$t('reminder.operatsuccess'))
-            t.tableselected = []
-            t.getData(1);
-            t.showLoading = false
+            if (val === 'close') {
+                t.showLoading = false
+            } else {
+
+                t.$Message.success(this.$t('reminder.operatsuccess'))
+                t.tableselected = []
+                t.getData(1);
+                t.showLoading = false
+            }
         },
         refresh () {
             this.page = 1;

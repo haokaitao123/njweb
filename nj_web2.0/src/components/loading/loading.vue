@@ -1,6 +1,13 @@
 
 <template>
+
     <Spin fix>
+        <Button type="text"
+                class="close"
+                @click="handleReset">
+            <Icon type="close-round"
+                  size="16"></Icon>
+        </Button>
         <Icon type="load-c"
               size=18
               class="demo-spin-icon-load"></Icon>
@@ -41,15 +48,21 @@ export default {
                 }
             }).catch(() => {
                 clearInterval(this.imp);
+                this.$emit('closeLoading', "close")
                 t.$Modal.error({
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
             })
         },
+        handleReset () {
+            clearInterval(this.imp);
+            this.$emit('closeLoading', "close")
+        },
         intervalState (redisKey, accouValue) {
             this.accouValue = accouValue;
             this.redisKey = redisKey;
+            this.state = false;
             this.imp = window.setInterval(this.getState, 100)
         }
     },
@@ -85,5 +98,11 @@ export default {
     left: 50%;
     margin-left: -50px;
     margin-top: -50px;
+}
+.close {
+    right: -22px;
+    top: -20px;
+    position: absolute;
+    color: #fff;
 }
 </style>
