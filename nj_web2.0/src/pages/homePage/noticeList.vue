@@ -20,6 +20,7 @@
                         <div v-for="(item, index) in noticeData"
                              :key="index"
                              class="dataClass"
+                             :class="item.noticeStateDis==='read'?'read':''"
                              @click="viewNotice(item.id)">
                             <span v-if="item.noticeType">
                                 {{item.noticeType==='announce'?'公告  ':'通知  '}}
@@ -49,7 +50,7 @@
             </Col>
         </Row>
         <transition name="fade">
-            <noticeDetail v-show="openNoticeDetail"
+            <noticeDetail v-if="openNoticeDetail"
                           @closeUp="closeNoticeDetail"
                           ref="noticeDetail"></noticeDetail>
         </transition>
@@ -87,6 +88,7 @@ export default {
                 sort: 'id',
                 order: 'desc',
                 logType: '公司公告',
+                selType: 'shou'
             }
             getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {
@@ -109,7 +111,8 @@ export default {
             this.$refs.noticeDetail.getData(id)
         },
         closeNoticeDetail () {
-            this.openNoticeDetail = false
+            this.openNoticeDetail = false;
+            this.getAllData()
         }
     }
 }
@@ -137,5 +140,8 @@ export default {
 .mr {
     margin-right: 2%;
     color: red;
+}
+.read {
+    background: #f1f1f1;
 }
 </style>

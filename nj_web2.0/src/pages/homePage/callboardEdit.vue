@@ -82,7 +82,7 @@ export default {
         getData (id) {
             const t = this
             const data = {
-                _mt: 'orgNotice.getById',
+                _mt: 'orgNotice.getWxById',
                 id: id,
                 logType: "查看"
             }

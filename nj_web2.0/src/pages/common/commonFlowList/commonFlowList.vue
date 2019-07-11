@@ -76,6 +76,11 @@
             </card>
             </Col>
         </Row>
+        <!-- :redisKey="redisKey"
+                 :accouValue="accouValue" -->
+        <loading v-show="showLoading"
+                 @closeLoading="closeLoading"
+                 ref="wfloading"></loading>
         <transition name="fade">
             <selCountry v-show="openSelCountry"
                         selSort="id"
@@ -100,10 +105,10 @@
         </transition>
         <transition name="fade">
             <handover v-show="openHandoveraction"
-                            :id="tableselected"
-                            :logType="logType"
-                            @closeHandoveraction="closeHandoveraction"
-                            ref="handover"></handover>
+                      :id="tableselected"
+                      :logType="logType"
+                      @closeHandoveraction="closeHandoveraction"
+                      ref="handover"></handover>
         </transition>
         <commonFlowUpdate v-if="openTestUpd"
                           @close="closeTest"
@@ -128,10 +133,12 @@ import transaction from './transaction'
 import interviewOrder from './interviewOrder'
 import handover from './handover'
 import valid from '@/lib/pub_valid'
+import loading from '@/components/loading/loading'
 export default {
     data () {
         return {
-            reexamineState:true,
+            showLoading: false,
+            reexamineState: true,
             tableheight: document.body.offsetHeight - 280,
             value: '',
             logType: '',
@@ -139,7 +146,7 @@ export default {
             openTestUpd: false,
             openTransaction: false,
             openOrdersaction: false,
-            openHandoveraction:false,
+            openHandoveraction: false,
             updateId: NaN,
             tableselected: [],
             transactionId: '',
@@ -180,7 +187,9 @@ export default {
             },
             rcvdata: '',
             store: "",
-            operateName: ""
+            operateName: "",
+            redisKey: "",
+            accouValue: ""
         }
     },
     computed: {
@@ -193,6 +202,7 @@ export default {
         transaction,
         interviewOrder,
         handover,
+        loading
     },
     //    created() {
     //
@@ -202,6 +212,13 @@ export default {
         this.getColumns()
     },
     methods: {
+        closeLoading () {
+            const t = this
+            t.$Message.success(this.$t('reminder.operatsuccess'))
+            t.tableselected = []
+            t.getData(1);
+            t.showLoading = false
+        },
         refresh () {
             this.page = 1;
             this.getColumns()
@@ -355,18 +372,18 @@ export default {
                                                             return
                                                         }
                                                         t.stepName = t.flowStep[params.column.key].flstepName
-                                                        if(t.stepName === '复试' && (t.stepState === 'p_flowst_1' ||
-                                                          t.stepState === 'p_flowst_2')){
-                                                          //查询是否在复试中
-                                                          console.log(t.reexamineState,"t.reexamineState1")
-                                                          await t.getReexamineState(params.row.id,true,"nj_reex_state")
+                                                        if (t.stepName === '复试' && (t.stepState === 'p_flowst_1' ||
+                                                            t.stepState === 'p_flowst_2')) {
+                                                            //查询是否在复试中
+                                                            console.log(t.reexamineState, "t.reexamineState1")
+                                                            await t.getReexamineState(params.row.id, true, "nj_reex_state")
 
                                                         }
-                                                        console.log(t.reexamineState,"t.reexamineState2")
-                                                        if(!t.reexamineState){
-                                                          //提示复试中
-                                                          t.$Message.warning('此人员正在复试中')
-                                                          return
+                                                        console.log(t.reexamineState, "t.reexamineState2")
+                                                        if (!t.reexamineState) {
+                                                            //提示复试中
+                                                            t.$Message.warning('此人员正在复试中')
+                                                            return
                                                         }
 
                                                         await t.getData()
@@ -553,7 +570,7 @@ export default {
                                 funId: t.$route.query.id,
                                 logType: '退回',
                                 ids: t.tableselected,
-                                type:'returns',
+                                type: 'returns',
                             };
                             for (const dat in data) {
                                 if (data[dat] === "") {
@@ -575,7 +592,7 @@ export default {
                     });
                 }
             }
-             //淘汰按钮
+            //淘汰按钮
             if (btnId === 'button_sifted') {
                 const t = this;
                 if (t.tableselected.length === 0) {
@@ -590,7 +607,7 @@ export default {
                                 funId: t.$route.query.id,
                                 logType: '淘汰',
                                 ids: t.tableselected,
-                                type:'sifted',
+                                type: 'sifted',
                             };
                             for (const dat in data) {
                                 if (data[dat] === "") {
@@ -612,100 +629,104 @@ export default {
                     });
                 }
             }
-          if (btnId === 'button_quickpass') {
-              const t = this;
-              if (t.tableselected.length === 0) {
-                  this.$Message.warning(this.$t('reminder.leastone'))
-              } else {
-                  t.$Modal.confirm({
-                      title: this.$t("reminder.remind"),
-                      content: this.$t("快速审批将直接异动完成，不需要审批，请谨慎操作"),
-                      onOk: () => {
-                          const data = {
-                              _mt: "platAutoLayoutFlowSubmit.transSubmit",
-                              roleType: t.$store.state.user.roleType,
-                              funId: t.$route.query.id,
-                              flowId: t.flowId,
-                              logType: '快速审批',
-                              ids: t.tableselected,
-                              tbName: t.tbName,
-                          };
-                          for (const dat in data) {
-                              if (data[dat] === "") {
-                                  delete data[dat];
-                              }
-                          }
-                          getDataLevelUserLogin(data)
-                              .then(res => {
-                                  if (isSuccess(res, t)) {
-                                      t.$Message.success(this.$t('reminder.operatsuccess'))
-                                      t.tableselected = []
-                                      t.getData(1)
-                                  }
-                              })
-                              .catch(() => {
-                                  t.$Message.error(this.$t('reminder.errormessage'))
-                              });
-                      }
-                  });
-              }
-          }
-          if (btnId === 'button_transbatch') {
-          const t = this;
-          if (t.tableselected.length === 0) {
-            this.$Message.warning(this.$t('reminder.leastone'))
-          } else {
-            t.$Modal.confirm({
-              title: this.$t("reminder.remind"),
-              content: this.$t("reminder.confirmOper"),
-              onOk: () => {
-                const data = {
-                  _mt: "platAutoLayoutFlowSubmit.transBatch",
-                  roleType: t.$store.state.user.roleType,
-                  funId: t.$route.query.id,
-                  flowId: t.flowId,
-                  logType: '快速审批',
-                  ids: t.tableselected,
-                  tbName: t.tbName,
-                };
-                for (const dat in data) {
-                  if (data[dat] === "") {
-                    delete data[dat];
-                  }
+            if (btnId === 'button_quickpass') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("快速审批将直接异动完成，不需要审批，请谨慎操作"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "platAutoLayoutFlowSubmit.transSubmit",
+                                roleType: t.$store.state.user.roleType,
+                                funId: t.$route.query.id,
+                                flowId: t.flowId,
+                                logType: '快速审批',
+                                ids: t.tableselected,
+                                tbName: t.tbName,
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        console.log(res, "res123")
+
+                                        let redisKey = res.data.content[0].redisKey;
+                                        let accouValue = res.data.content[0].accouValue;
+                                        t.showLoading = true;
+                                        t.$refs.wfloading.intervalState(redisKey, accouValue);
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
                 }
-                getDataLevelUserLogin(data)
-                  .then(res => {
-                    if (isSuccess(res, t)) {
-                      t.$Message.success(this.$t('reminder.operatsuccess'))
-                      t.tableselected = []
-                      t.getData(1)
-                    }
-                  })
-                  .catch(() => {
-                    t.$Message.error(this.$t('reminder.errormessage'))
-                  });
-              }
-            });
-          }
-        }
-          if (btnId === 'button_order') {
-              const t = this;
-              if (t.tableselected.length === 0) {
-                  this.$Message.warning(this.$t('reminder.leastone'))
-              } else {
-                  this.logType = "面谈预约";
-                  this.openOrdersaction = true;
-              }
-          }
-          if (btnId === 'button_handover') {
-            const t = this;
-            if (t.tableselected.length === 0) {
-              this.$Message.warning(this.$t('reminder.leastone'))
-            } else {
-              this.logType = "交接时间";
-              this.openHandoveraction = true;
             }
-          }
+            if (btnId === 'button_transbatch') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    t.$Modal.confirm({
+                        title: this.$t("reminder.remind"),
+                        content: this.$t("reminder.confirmOper"),
+                        onOk: () => {
+                            const data = {
+                                _mt: "platAutoLayoutFlowSubmit.transBatch",
+                                roleType: t.$store.state.user.roleType,
+                                funId: t.$route.query.id,
+                                flowId: t.flowId,
+                                logType: '快速审批',
+                                ids: t.tableselected,
+                                tbName: t.tbName,
+                            };
+                            for (const dat in data) {
+                                if (data[dat] === "") {
+                                    delete data[dat];
+                                }
+                            }
+                            getDataLevelUserLogin(data)
+                                .then(res => {
+                                    if (isSuccess(res, t)) {
+                                        console.log(res, "res123")
+                                        t.$Message.success(this.$t('reminder.operatsuccess'))
+                                        t.tableselected = []
+                                        t.getData(1)
+                                    }
+                                })
+                                .catch(() => {
+                                    t.$Message.error(this.$t('reminder.errormessage'))
+                                });
+                        }
+                    });
+                }
+            }
+            if (btnId === 'button_order') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    this.logType = "面谈预约";
+                    this.openOrdersaction = true;
+                }
+            }
+            if (btnId === 'button_handover') {
+                const t = this;
+                if (t.tableselected.length === 0) {
+                    this.$Message.warning(this.$t('reminder.leastone'))
+                } else {
+                    this.logType = "交接时间";
+                    this.openHandoveraction = true;
+                }
+            }
         },
 
         addBlackUser () {
@@ -729,7 +750,7 @@ export default {
             this.openTestUpd = false
             this.reexamineState = true
             //删除复试中状态
-            this.getReexamineState(this.pkValue,false,"nj_reex_state")
+            this.getReexamineState(this.pkValue, false, "nj_reex_state")
 
         },
         getPageByState (paramId, paramName) {
@@ -772,8 +793,8 @@ export default {
             };
             t.rcvdata = "";
             if (rcdata.curStep === "") {
-                if(t.tbName!== 'recruit_process'){
-                  t.store='';
+                if (t.tbName !== 'recruit_process') {
+                    t.store = '';
                 }
                 let tt = {
                     empnhName: t.empnhName,
@@ -918,43 +939,43 @@ export default {
             this.openOrdersaction = false;
             this.getData(1);
         },
-      closeHandoveraction () {
+        closeHandoveraction () {
             this.tableselected = [];
             this.openHandoveraction = false;
             this.getData(1);
         },
-      /**
-       *设置iView查看(true)或删除(false)
-       * @param id 数据id
-       * @param isView 查看true,删除false
-       * @param type 唯一标记
-       */
-        async getReexamineState(id,isView,type) {
-        const t = this
-        const data = {
-          _mt: "platFlowState.flowState",
-          logType: '复试状态更新',
-          isView:isView,
-          type:type,
-          id: id
-        }
-        for (const dat in data) {
-          if (data[dat] === "") {
-            delete data[dat];
-          }
-        }
-        await getDataLevelUserLogin(data)
-          .then(res => {
-            if (isSuccess(res, t)) {
-              let data = res.data.content[0].value;
-              t.reexamineState =data;
-              console.log(t.reexamineState,"t.reexamineState3")
+        /**
+         *设置iView查看(true)或删除(false)
+         * @param id 数据id
+         * @param isView 查看true,删除false
+         * @param type 唯一标记
+         */
+        async getReexamineState (id, isView, type) {
+            const t = this
+            const data = {
+                _mt: "platFlowState.flowState",
+                logType: '复试状态更新',
+                isView: isView,
+                type: type,
+                id: id
             }
-          })
-          .catch(() => {
-            t.$Message.error(this.$t('reminder.errormessage'))
-          })
-      },
+            for (const dat in data) {
+                if (data[dat] === "") {
+                    delete data[dat];
+                }
+            }
+            await getDataLevelUserLogin(data)
+                .then(res => {
+                    if (isSuccess(res, t)) {
+                        let data = res.data.content[0].value;
+                        t.reexamineState = data;
+                        console.log(t.reexamineState, "t.reexamineState3")
+                    }
+                })
+                .catch(() => {
+                    t.$Message.error(this.$t('reminder.errormessage'))
+                })
+        },
 
     },
     watch: {
