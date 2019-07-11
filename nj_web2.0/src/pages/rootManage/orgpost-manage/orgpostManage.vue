@@ -155,6 +155,7 @@ export default {
           { code: "postCode", name: "岗位编码" },
           { code: "postFname", name: "岗位名称" },
           { code: "postDfpslevelName", name: "岗位级别" },
+          { code: "postGenreDis", name: "岗位类别" },
           { code: "postStansalary", name: "岗位标准薪资" },
           { code: "postTrialsalary", name: "试用期薪资" },
           { code: "postCostsharingDis", name: "分摊成本" },
@@ -214,6 +215,11 @@ export default {
             title: "职位级别",
             key: "postDfpslevelName",
             sortable: "custom",
+            width: 180
+          },
+          {
+            title: "岗位类别",
+            key: "postGenreDis",
             width: 180
           },
           {
@@ -527,6 +533,7 @@ FlowNode() {
       t.openUpdate = false;
       t.$refs.update.formValidate.postCode = "XXXXXX";
       t.$refs.update.formValidate.postFname = "";
+      t.$refs.update.formValidate.postGenre = "";
       t.$refs.update.formValidate.seniorityWage = "1";
       t.$refs.update.formValidate.postDfpslevel = "";
       t.$refs.update.formValidate.postStansalary = "";

@@ -53,15 +53,22 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11"
-                               offset="1">
+                                offset="1">
+                            <FormItem label="岗位类别"
+                              prop="quoType">
+                                <Select v-model="formValidate.postGenre"
+                                        class="width200"
+                                        :disabled="disabled"
+                                        placeholder="请选择岗位类别">
+                                    <Option v-for="(item, index) in selectPostGenre"
+                                            :value="item.paramCode"
+                                            :key="index">{{ item.paramInfoCn }}</Option>
+                                </Select>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="11">
                             <FormItem :label="$t('lang_organization.orgpost.postStation')"
                                       prop="postStation">
-                                <!-- <Select v-model="formValidate.postStation"
-                                        placeholder="请选择">
-                                    <Option :value="item.paramCode"
-                                            v-for="(item,index) in selectPostStation"
-                                            :key="index">{{item.paramInfoCn}}</Option>
-                                </Select> -->
                                 <RadioGroup v-model="formValidate.postStation">
                                     <Radio :label="item.paramCode"
                                            v-for="(item,index) in selectPostStation"
@@ -70,28 +77,25 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                        <i-col span="11">
+                        <i-col span="11"
+                                offset="1">
                             <FormItem :label="$t('lang_organization.orgpost.postStansalary')"
                                       prop="postStansalary">
                                 <Input v-model="formValidate.postStansalary"
                                              :placeholder="$t('lang_organization.orgpost.postStansalaryInp')"
-                                             :disabled="disabled"
-                                             :maxlength="12"
-                                             style="width: 290px" />
+                                             :disabled="disabled"/>
                             </FormItem>
                         </i-col>
-                        <i-col span="11"
-                               offset="1">
+                        <i-col span="11">
                             <FormItem :label="$t('lang_organization.orgpost.postTrialsalary')"
                                       prop="postTrialsalary">
                                 <Input v-model="formValidate.postTrialsalary"
                                              :placeholder="$t('lang_organization.orgpost.postTrialsalary')"
-                                             :disabled="disabled"
-                                             :maxlength="12"
-                                             style="width: 290px" />
+                                             :disabled="disabled"/>
                             </FormItem>
                         </i-col>
-                        <i-col span="11">
+                        <i-col span="11"
+                                offset="1">
                             <FormItem label="分摊成本"
                                       prop="postCostsharing">
 
@@ -103,8 +107,7 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                        <i-col span="11"
-                               offset="1">
+                        <i-col span="11">
                             <FormItem :label="$t('lang_organization.orgpost.seniorityWage')"
                                       prop="seniorityWage">
 
@@ -116,7 +119,8 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                        <i-col span="11">
+                        <i-col span="11"
+                                offset="1">
                             <FormItem :label="$t('lang_organization.orgpost.postValiddate')"
                                       prop="postValiddate">
                                 <DatePicker type="date"
@@ -128,8 +132,7 @@
                                             style="width: 100%"></DatePicker>
                             </FormItem>
                         </i-col>
-                        <i-col span="11"
-                               offset="1">
+                        <i-col span="11">
                             <FormItem :label="$t('lang_organization.orgpost.postInvdate')"
                                       prop="postInvdate">
                                 <DatePicker type="date"
@@ -238,6 +241,7 @@ export default {
             forbidden: null,
             popup: '',
             selectDfpslevel: [],
+            selectPostGenre: [],
             selectDfsallevel: [],
             selectDftrvlevel: [],
             selectPostStation: [
@@ -274,6 +278,7 @@ export default {
                 _mt: "orgPost.addOrUpd",
                 postCode: "XXXXXX", //岗位编码
                 postDfpslevel: "", //默认职位级别
+                postGenre:"",
                 postFname: "", //岗位全称
                 seniorityWage: "1", //工龄工资
                 postCostsharing: "1", //默认分摊成本
@@ -466,7 +471,7 @@ export default {
                         t.formValidate.postCode = res.data.content[0].postCode;
                         t.formValidate.postFname = res.data.content[0].postFname;
                         t.formValidate.postCostsharing = res.data.content[0].postCostsharing;
-
+                        t.formValidate.postGenre = res.data.content[0].postGenre;
                         t.formValidate.seniorityWage = res.data.content[0].seniorityWage;
                         t.formValidate.postValiddate = res.data.content[0].postValiddate;
                         t.formValidate.postInvdate = res.data.content[0].postInvdate;
@@ -505,13 +510,14 @@ export default {
             const t = this;
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: "postlevel,salarylevel,travellevel"
+                typeCode: "postlevel,salarylevel,travellevel,postGenre"
             })
                 .then(res => {
                     if (isSuccess(res, t)) {
                         t.selectDfpslevel = res.data.content[0].value[0].paramList;
                         t.selectDfsallevel = res.data.content[0].value[1].paramList;
                         t.selectDftrvlevel = res.data.content[0].value[2].paramList;
+                        t.selectPostGenre = res.data.content[0].value[3].paramList;
                     }
                 })
                 .catch(() => {
