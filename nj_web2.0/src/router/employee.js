@@ -36,7 +36,15 @@ const salaryRule = resolve => require(['@/pages/empManage/salaryRule/salaryRule'
 const depCeilRule = resolve => require(['@/pages/empManage/depCeilRule/depCeilRule'], resolve)
 
 const empEmpupd = resolve => require(['@/pages/empManage/empEmpupd/empEmpupdList'], resolve)
-export default [{
+//坐席状态信息
+const empSeat = resolve => require(['@/pages/empManage/empSeat/empSeatList'], resolve)
+export default [
+    {
+        path: 'empSeat',
+        name: 'empSeat',
+        component: empSeat,
+      },
+    {
     path: 'goaborddetail',
     name: 'goaborddetail',
     component: goaborddetail,
