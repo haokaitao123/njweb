@@ -701,10 +701,14 @@ export default {
                             getDataLevelUserLogin(data)
                                 .then(res => {
                                     if (isSuccess(res, t)) {
-                                        console.log(res, "res123")
+                                       /* console.log(res, "res123")
                                         t.$Message.success(this.$t('reminder.operatsuccess'))
                                         t.tableselected = []
-                                        t.getData(1)
+                                        t.getData(1)*/
+                                      let redisKey = res.data.content[0].redisKey;
+                                      let accouValue = res.data.content[0].accouValue;
+                                      t.showLoading = true;
+                                      t.$refs.wfloading.intervalState(redisKey, accouValue);
                                     }
                                 })
                                 .catch(() => {
