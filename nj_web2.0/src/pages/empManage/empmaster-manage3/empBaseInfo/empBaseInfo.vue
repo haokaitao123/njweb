@@ -1064,7 +1064,7 @@
 			changeinput(name, id) {
 				this.empnhWklocatDis = name;
 				this.form.empnhWklocat = id;
-				this.form.empnhResiaddr = this.empnhWklocatDis;
+				//this.form.empnhResiaddr = this.empnhWklocatDis;
 			},
 			pickData() {
 				const t = this
