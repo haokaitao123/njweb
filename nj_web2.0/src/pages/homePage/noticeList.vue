@@ -6,6 +6,14 @@
                 <p slot="title">
                     <Icon type="mouse"></Icon>
                     &nbsp;公司公告
+                    <Button :type="read?'ghost':'primary'"
+                            style="margin-left: 20px;display: inline-block;"
+                            class="button_operate_left"
+                            @click="buttonOperate('')">未读</Button>
+                    <Button :type="read?'primary':'ghost'"
+                            style="margin-left: 20px;display: inline-block;"
+                            class="button_operate_right"
+                            @click="buttonOperate('read')">已读</Button>
                 </p>
                 <Row :style="{height: rowHeight + 'px'}"
                      class="divContent">
@@ -50,7 +58,7 @@
             </Col>
         </Row>
         <transition name="fade">
-            <noticeDetail v-if="openNoticeDetail"
+            <noticeDetail v-show="openNoticeDetail"
                           @closeUp="closeNoticeDetail"
                           ref="noticeDetail"></noticeDetail>
         </transition>
@@ -69,26 +77,38 @@ export default {
             noticeData: [],
             isSpin: true,
             openNoticeDetail: false,
+            read: false,
+            type: ''
         }
     },
     mounted () {
-        this.getAllData()
+        this.getAllData('')
     },
     components: {
         noticeDetail,
     },
     methods: {
+        buttonOperate (type) {
+            if (type === '') {
+                this.read = false;
+            } else {
+                this.read = true;
+            }
+            this.type = type
+            this.getAllData(type)
+        },
         //announce 公告  notice 通知
-        getAllData () {
+        getAllData (type) {
             const t = this
             const data = {
                 _mt: 'orgNotice.getWxPage',
                 rows: 100,
                 page: 1,
-                sort: 'id',
+                sort: 'noticePublish',
                 order: 'desc',
                 logType: '公司公告',
-                selType: 'shou'
+                recFlag: type
+                // selType: ''
             }
             getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {
@@ -112,7 +132,8 @@ export default {
         },
         closeNoticeDetail () {
             this.openNoticeDetail = false;
-            this.getAllData()
+            console.log(this.type, "this.type");
+            this.getAllData(this.type);
         }
     }
 }
@@ -142,6 +163,15 @@ export default {
     color: red;
 }
 .read {
-    background: #f1f1f1;
+    color: #c1c1c1;
+    // background: #f1f1f1;
+}
+.button_operate_left {
+    position: absolute;
+    right: 20px;
+}
+.button_operate_right {
+    position: absolute;
+    right: 90px;
 }
 </style>

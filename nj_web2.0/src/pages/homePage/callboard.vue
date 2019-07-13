@@ -25,9 +25,9 @@
             </div>
         </card>
         <transition name="fade">
-            <noticeDetail v-if="openNoticeDetail"
-                          @closeUp="closeUp"
-                          ref="noticeDetail"></noticeDetail>
+            <noticeDetail v-show="openNoticeDetail"
+                          ref="noticeDetail"
+                          @closeUp="closeUp"></noticeDetail>
         </transition>
     </i-col>
 </template>
@@ -64,7 +64,7 @@ export default {
                 rows: 6,
                 page: 1,
                 state: 103,
-                sort: 'id',
+                sort: 'noticePublish',
                 order: 'desc',
                 logType: '公司公告',
             }
@@ -83,8 +83,9 @@ export default {
         openUp (id) {
             const t = this
             id = parseInt(id, 10);
-            t.openNoticeDetail = true
-            this.$refs.noticeDetail.getData(id)
+            t.openNoticeDetail = true;
+            console.log(t.$refs.noticeDetail, "t.$refs.noticeDetail")
+            t.$refs.noticeDetail.getData(id)
         },
         closeUp () {
             const t = this
