@@ -127,9 +127,10 @@ export default {
         { code: "reexamineNum", name: "复试人数" },
         { code: "passNum", name: "通过人数" },
         { code: "trialPostNum", name: "试岗人数" },
+        { code: "trainNum", name: "参训人数" },
         { code: "entryNum", name: "入职人数" },
-        { code: "QuitDateNum", name: "2019年入职后离职人数" },
-        { code: "QuitNUme", name: "离职人数" },
+        // { code: "QuitDateNum", name: "2019年入职后离职人数" },
+        // { code: "QuitNUme", name: "离职人数" },
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -181,20 +182,25 @@ export default {
           width: 220
         },
         {
+          title: "参训人数",
+          key: "trainNum",
+          width: 220
+        },
+        {
           title: "入职人数",
           key: "entryNum",
           width: 220
         },
-        {
-          title: "2019年入职后离职人数",
-          key: "QuitDateNum",
-          width: 220
-        },
-        {
-          title: "离职人数",
-          key: "QuitNUme",
-          width: 220
-        },
+        // {
+        //   title: "2019年入职后离职人数",
+        //   key: "QuitDateNum",
+        //   width: 220
+        // },
+        // {
+        //   title: "离职人数",
+        //   key: "QuitNUme",
+        //   width: 220
+        // },
       ],
    tableBtn: {
         title: "操作",

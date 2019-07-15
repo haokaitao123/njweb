@@ -134,6 +134,7 @@ export default {
         { code: "relibHiredeptDis", name: "部门" },
         { code: "groupDis", name: "组别" },
         { code: "relibFirstusDis", name: "初试人" },
+        { code: "relibInvitemanDis", name: "招聘人" },
         { code: "relibEducatDis", name: "学历" },
         { code: "relibReexamusDis", name: "复试人" },
         { code: "reason", name: "复试备注" },
@@ -170,7 +171,6 @@ export default {
         {
           title: "复试日期",
           key: "relibReexamtm",
-          sortable: "custom",
           width: 220
         },
         {
@@ -196,6 +196,11 @@ export default {
         {
           title: "初试人",
           key: "relibFirstusDis",
+          width: 220
+        },
+        {
+          title: "招聘人",
+          key: "relibInvitemanDis",
           width: 220
         },
         {

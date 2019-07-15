@@ -128,6 +128,7 @@ export default {
         { code: "trialPostNum", name: "试岗人数" },
         { code: "entryNum", name: "入职人数" },
         { code: "cultureNum", name: "参培人数" },
+        { code: "weedNum", name: "淘汰人数" },
         { code: "cultureRate", name: "参培入职率" },
         { code: "trialPostRate", name: "试岗率" },
         { code: "reexamineRate", name: "复试入职率" },
@@ -190,6 +191,11 @@ export default {
         {
           title: "参培人数",
           key: "cultureNum",
+          width: 220
+        },
+        {
+          title: "淘汰人数",
+          key: "weedNum",
           width: 220
         },
         {
