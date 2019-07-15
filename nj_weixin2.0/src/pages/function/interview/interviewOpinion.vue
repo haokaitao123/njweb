@@ -1180,7 +1180,7 @@ export default {
                 data.userId = localStorage.getItem('uid');
                 data.pkValue = this.$route.query.id;
                 for (const dat in data) {
-                    if (data[dat] === "" || data[dat] === "请选择") {
+                    if (data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }

@@ -200,7 +200,6 @@ export default {
 
         // 用户全选
         chooseAll () {
-            //debugger;
             console.log("checked", this.isAllChecked)
             var that = this;
             if (that.checkedCode.length !== 0) {
@@ -240,6 +239,7 @@ export default {
                         });
                         t.list = listRes
                         t.list.length
+                        t.isAllChecked = false;
                         //localStorage.setItem("tipNum", t.list.length);
                         t.$store.commit('tabarTip', t.list.length);
                     }
@@ -287,19 +287,26 @@ export default {
             let params = []
             console.log(that.checkedCode)
             that.checkedCode.forEach(function (list, index) {
-                console.log('list', list)
                 let dataList = {}
                 dataList.flowId = list.aprFlowId
                 dataList.stepId = list.aprvrelaStepid
                 dataList.billId = list.aprdBillid
                 dataList.tbname = list.tbname
-                if (list.aprvrelaStepid != 'empdim_10' && list.tbname != 'emp_empdim') {
-                    if (list.aprvrelaStepid != 'vacation_3' && list.tbname != 'atten_vacation') {
-                        params.push(dataList)
+                let state = false;
+                if (list.aprdStepcode != 'empdim_10') {
+                    if (list.aprdStepcode != 'empdim_20') {
+                        state = true
+                    } else if (list.dimManPostType !== '07Edirector' && list.dimManPostType !== '08Employee') {
+                        state = true
                     }
+                } else if (list.dimManPostType == '07Edirector' || list.dimManPostType == '08Employee') {
+                    state = true
                 }
-                console.log('params', params)
+                if (list.aprdStepcode != 'vacation_3' && state) {
+                    params.push(dataList)
+                }
             });
+            console.log('params', params)
             const t = this;
             const data = {
                 _mt: 'wxansrpttodo.approvalSubmitAll',
@@ -312,9 +319,7 @@ export default {
             console.log('参数', data)
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    this.getInfor()
-
-
+                    this.onRefresh()
                 }
             }).catch(() => {
                 t.$notify({
