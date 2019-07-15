@@ -18,38 +18,12 @@
 						<i-col span="22" offset="1">
 							<div @click="iframeDetail">
 								<div class="itemWrap" v-show="ifShow">
-									123434
+									
 							    </div>
 							</div>
 							<div class="itemDetail">
 								<div v-show="ifShows" class="detailWrap">
-										<div class="itemList">
-											湖北武汉:<span></span>
-										</div>
-										<div class="itemList">
-											标题: <span></span>
-										</div>
-										<div class="itemList">
-											创建人:<span></span>
-										</div>
-										<div class="itemList">
-										     时间:<span></span>
-										</div>
-										<div class="itemList">
-											武器:<span></span>
-										</div>
-										<div class="itemList">
-											点击率:<span></span>
-										</div>
-										<div class="itemList">
-											属性:<span></span>
-										</div>
-										<div class="itemList">
-											评价:<span></span>
-										</div>
-									<i-button style="margin-left: 85%; width: 100px;margin-top: 100px; font-size: 15px;" size="large" type="primary" @click="readIform">
-										信息已读
-									</i-button>
+										
 								</div>
 							</div>
 							<div class="adds" v-show="addShow">
