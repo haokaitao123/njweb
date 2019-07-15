@@ -983,7 +983,7 @@
                 t.loading2 = true
                  this.$store.commit('commonFlowButton/setSubmitLoading', true)
 				t.formDataSubmit = {}
-				t.close()
+				
 				try {
 					let a = true
 					for(let i = 0; i < this.$children.length; i++) {
@@ -1034,7 +1034,8 @@
                                     t.getDataBlock()
                                     // t.loading2 = false
 									t.$emit('getData')
-									t.$Message.success(this.$t("reminder.submitsuccess"));
+                                    t.$Message.success(this.$t("reminder.submitsuccess"));
+                                    t.close();
 								}
 							}).catch(() => {
 								 this.$store.commit('commonFlowButton/setSubmitLoading', false)
