@@ -1,4 +1,4 @@
-﻿<template>
+<template>
     <div class="table">
         <Row>
             <Col span="24">
@@ -7,59 +7,103 @@
                     <Icon type="mouse"></Icon>&nbsp;组织信息管理
                 </p>
                 <Row>
-                    <Col span="5"
+                    <Col span="4"
                          class="colTree">
+						  <div>
+						  <Select
+						     style="width: 170px;"
+						 	v-model="keyword"
+						 	filterable
+						 	@keyup.enter.native="knowEvent"
+						 	remote
+						 	:remote-method="remoteMethod1"
+						 	:loading="loading1">
+						 	<Option v-for="(option, index) in options1" :value="option.name"  :key="index">{{option.name}}</Option>
+						 </Select>
+						 		 <i-button style="margin-top: -52px; display: inline-block;margin-left: 180px;" type="primary" @click="addEvent"   icon="android-add">新增</i-button>
+						 </div>
                     <div class="divtree"
                          :style="{height:treeheight + 'px'}">
                         <Tree v-if="dataTree != ''"
                               :data="dataTree"
                               @on-select-change="selectChange"
-                              :render="renderContent"></Tree>
+                              ></Tree>
                         <Spin v-if="loading"
                               size="large"
                               :style="{height:treeheight + 'px'}"></Spin>
                     </div>
                     </Col>
                     <Col span="21"
-                         style="width: 73.3333% !important">
+                         style="width: 81.3333% !important">
                     <Row>
-                        <Input placeholder="请输入组织名称"
+                        <Input placeholder="请输入文章名称"
                                style="width: 200px"
-                               @on-enter="enterEvent"
-                               v-model="unitFname" />
-                        <Select v-model="unitType"
-                                style="width: 200px"
-                                placeholder="请选择组织类别"
-                                clearable>
-                            <Option :value="item.paramCode"
-                                    v-for="(item,index) in unitTypeData"
-                                    :key="index"
-                                    @click="getPageByType(item.paramCode)">{{item.paramInfoCn}}</Option>
-                        </Select>
-                        <btnList @buttonExport="expData"
-                                 @buttonImport="importExcel"
-                                 @buttonAdd="openUp(NaN,$t('button.add'))"
-                                 @buttonDel="deletemsg"
-                                 @buttonValid="modifystatus('02valid')"
-                                 @buttonDraft="modifystatus('01draft')"
-                                 @buttonInvalid="modifystatus('03invalid')"
-                                 @buttonUnitChart="pickData()"
-                                 @moditySelect="modityChange"
-                                 @buttonSearch="search"
-                                 :btnData="btnData"
-                                 :FlowNode="FlowNode"></btnList>
+							   @keyup.enter.native="enterEvent"
+                               v-model="keywordr" />
+						<Input placeholder="请输入内容"
+							          style="width: 200px"
+							   	   @keyup.enter.native="contSearh"
+							          v-model="keywords" />
+						<i-button style="margin-top: 0px;margin-left: 30px;" type="primary" @click="collects"   icon="ios-heart-outline">我的收藏</i-button>
+						<i-button style="margin-top: 0px; display: inline-block;margin-left: 30px;" type="primary" @click="addContent"   icon="android-add">新增内容</i-button>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
                         <Table @on-selection-change="selectedtable"
+								class="tabStyle"
+								:row-class-name="rowClassName"
                                @on-sort-change="sortable"
+							   @on-row-click="selectEvent"
                                :height="tableheight"
                                size="small"
-                               border
+							   border
                                ref="selection"
                                :columns="columns"
-                               :data="data"
+                               :data="TabData"
                                :loading="loading"></Table>
+							   <div class="right-div" style="height:663px;" v-show="divShow">
+								   <div class="heads">内容详情</div>
+								    <div class="operation">
+								    <div class="item-list">
+								       <div class="items">
+								   		<Icon size="30" @click="like" class="heart" type="ios-heart"></Icon>
+								   			<div>收藏</div>
+								   		</div>
+								   	 <div class="items">
+								   	    <Icon size="30"  @click="will" class="zan" type="thumbsup"></Icon>
+								   			 <div>点赞</div>
+								     </div>
+								   	</div>
+								   </div>
+								  <div class="item-title">
+									   <p>标题:&nbsp;&nbsp;{{contentShow.title}}</p>
+								  </div>
+								   <div class="item-content">
+									  内容:
+									  <p id="myContent">
+									  </p>
+								  </div>
+								  <div class="item-list">
+									   <p>时间:&nbsp;&nbsp;{{contentShow.created}}</p>
+								  </div>
+								  <div class="item-list">
+									   <p>点击数:&nbsp;&nbsp;{{contentShow.clicked}}</p>
+								  </div>
+								  <div class="item-list">
+									   <p>赞:&nbsp;&nbsp;30</p>
+								  </div>
+								  <div class="item-list">
+									   <p>发布人:&nbsp;&nbsp;{{contentShow.unitCityName}}</p>
+								  </div>
+								  <div class="item-list">
+									  <p>创建人:&nbsp;&nbsp;{{contentShow.unitInvdate}}</p>
+								  </div>
+								  <div class="link">
+									  <p>
+										  链接:&nbsp;&nbsp;<a href="">1234234</a>
+									  </p>
+								  </div>
+							   </div>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
@@ -85,78 +129,27 @@
             </card>
             </Col>
         </Row>
-        <transition name="fade">
-            <update v-show="openUpdate"
-                    :id="updateId"
-                    :logType="logType"
-                    :index="index"
-                    @closeUp="closeUp"
-                    @getData="addNewArray"
-                    @update="updateArray"
-                    ref="update"></update>
-        </transition>
-        <transition name="fade">
-            <orgframeChart v-show="openChart"
-                           @closeChart="closeChart"
-                           ref="orgframeChart"></orgframeChart>
-        </transition>
-        <transition name="fade">
-            <searchOrgframe v-show="openPick"
-                            :searchCloumns="searchCloumns"
-                            :params="params"
-                            @closeUp="closeFrame"
-                            @changeinput="changeinput"
-                            ref="searchOrgframe"></searchOrgframe>
-        </transition>
-        <!--导入导出子页面 若没有导入导出可以去掉-->
-        <transition>
-            <expwindow v-show="openExp"
-                       :id="tableselected"
-                       @setFileKey="setFileKey"
-                       :logType="logType"
-                       :index="index"
-                       @closeExp="closeExp"
-                       ref="expwindow"></expwindow>
-        </transition>
-        <transition>
-            <expdow v-show="openExpDow"
-                    :filekey="filekey"
-                    :filename="filename"
-                    @closeExpDowMain="closeExpDowMain"
-                    ref="expdow"></expdow>
-        </transition>
-        <transition name="fade">
-            <importExcel v-show="openImport"
-                         :impid="updateId"
-                         :imp_mt="imp_mt"
-                         @getData="getData"
-                         @closeImport="closeImport"
-                         ref="importExcel"></importExcel>
-        </transition>
+		 <transition name="fade">
+		    <newupdate v-show="openUpdates"
+					:logTypes="logTypes"
+		            @closeUp="closeUps"
+		            @getData="addNewArray"
+		            @update="updateArray"
+		            ref="newupdate"></newupdate>
+		</transition>
     </div>
 </template>
 <script>
-import btnList from "../../../components/btnAuth/btnAuth.js";
-import orgframeChart from "./orgframeChart";
-import update from "./orgframeInfoView";
-import searchOrgframe from "../../../components/searchTable/searchOrgframe";
-import { isSuccess } from "../../../lib/util";
+import { isSuccess } from "@/lib/util"
+import expdow from "@/components/fileOperations/expdow";
+import newupdate from './orgframeEdit'
 import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin
-} from "../../../axios/axios";
-import expwindow from "../../../components/fileOperations/expSms";
-import expdow from "../../../components/fileOperations/expdow";
-import importExcel from "../../../components/importModel/importParam";
+} from "@/axios/axios";
 export default {
     components: {
-        update,
-        orgframeChart,
-        searchOrgframe,
-        btnList,
-        expwindow,
-        expdow,
-        importExcel
+		newupdate
     },
     data () {
         return {
@@ -164,41 +157,22 @@ export default {
             // 导入的mt名称
             imp_mt: "orgUnits.importData",
             // 导出字段设置, code字段名 name列名
-            expDataTital: [
-                { code: "unitCode", name: "组织编码" },
-                { code: "unitFname", name: "组织架构全称" },
-                { code: "unitTypeName", name: "组织类型" },
-                { code: "unitPname", name: "上级部门" },
-                { code: "unitPartfunctName", name: "部门职能" },
-                { code: "unitIndustryName", name: "行业" },
-                { code: "empnhName", name: "负责人" },
-                { code: "unitCenterName", name: "成本中心" },
-                { code: "unitCityName", name: "雇佣地点" },
-                { code: "unitValdate", name: "生效日期" },
-                { code: "unitInvdate", name: "失效日期" },
-                { code: "unitInvres", name: "失效原因" },
-                { code: "partEstablish", name: "部门编制" },
-                { code: "unitManger", name: "经理编制" },
-                { code: "unitDirec", name: "主管编制" },
-                { code: "unitStaff", name: "员工编制" },
-                { code: "unitPtstaff", name: "驻厂员工编制" },
-                { code: "unitSysaligName", name: "系统转正" },
-                { code: "note", name: "备注" }
-            ],
             // 导入导出默认参数 无需变更
+			searchs:"",
             openImport: false,
             openExpDow: false,
             openExp: false,
             filekey: "",
             filename: "",
+			divShow:false,
             //左边树的默认参数
             openChart: false,
-            loading: true,
             dataTree: [],
-            treeheight: document.body.offsetHeight - 200,
+            treeheight: document.body.offsetHeight - 250,
             //子页面所需参数，无需变更
             tableheight: document.body.offsetHeight - 280,
             value: "",
+			page: 1,
             logType: "",
             openUpdate: false,
             updateId: NaN,
@@ -209,6 +183,21 @@ export default {
             unitTypeId: NaN,
             status: "",
             unitPid: "",
+			addShow: false,
+			addconShow:false,
+			ifShow:false,
+			selection:[],
+			openUpdates:false,
+			updateIds:NaN,
+			itemId:NaN,
+			logTypes:"",
+			tabIndex :NaN,
+            loading1: false,
+			keyword:"",
+			keywordr:"",
+			keywords:"",
+            options1: [],
+			contentShow:[],
             columns: [
                 {
                     type: "selection",
@@ -216,145 +205,44 @@ export default {
                     fixed: "left",
                     align: "center"
                 },
-/*                {
-                    title: "组织编码",
+                {
+                    title: "标题",
+                    key: "title",
+                    width: 300,
+                    fixed: "left",
+                },
+                {
+                    title: "点击数",
+                    width: 80,
+                    key: "clicked",
+                },
+                {
+                    title: "点赞数",
+                    width: 80,
                     key: "unitCode",
-                    width: 140,
-                    fixed: "left",
-                    sortable: "custom"
-                },*/
-                {
-                    title: "组织架构名称",
-                    width: 180,
-                    fixed: "left",
-                    key: "unitFname"
                 },
-                {
-                    title: "组织类型",
-                    width: 140,
-                    key: "unitTypeName",
-                    sortable: "custom"
-                },
-                {
-                    title: "上级部门",
-                    width: 180,
-                    key: "unitPname",
-                    sortable: "custom"
-                },
-                {
-                    title: "部门职能",
-                    key: "unitPartfunctName",
-                    width: 140
-                },
-                {
-                    title: "行业",
-                    key: "unitIndustryName",
-                    width: 140
-                },
-                {
-                    title: "负责人",
-                    key: "empnhName",
-                    width: 140
-                },
-                {
-                    title: "成本中心",
-                    key: "unitCenterName",
-                    width: 140
-                },
-                {
-                    title: "雇佣地点",
-                    key: "unitCityName",
-                    width: 140
-                },
-                {
-                    title: "生效日期",
-                    key: "unitValdate",
-                    sortable: "custom",
-                    width: 140
-                },
-                {
-                    title: "失效日期",
-                    key: "unitInvdate",
-                    sortable: "custom",
-                    width: 140
-                },
-                {
-                    title: "部门编制",
-                    key: "partEstablish",
-                    width: 140
-                },
-                {
-                    title: "经理编制",
-                    key: "unitManger",
-                    width: 140
-                },
-                {
-                    title: "主管编制",
-                    key: "unitDirec",
-                    width: 140
-                },
-                {
-                    title: "员工编制",
-                    key: "unitStaff",
-                    width: 140
-                },
-                {
-                  title: "驻厂员工编制",
-                  key: "unitPtstaff",
-                  width: 140
-                },
-                {
-                    title: "系统转正",
-                    key: "unitSysalig",
-                    width: 140,
-                    render: (h, params) => {
-                        return h("div", params.row.unitSysalig == 1 ? "是" : "否");
-                    }
-                }
+                // {
+                //     title: "创建时间",
+                //     key: "created",
+                //     width: 140
+                // },
+                // {
+                //     title: "失效时间",
+                //     key: "unitCityName",
+                //     width: 140
+                // },
             ],
-            tableBtn: {
-                title: "操作",
-                key: "action",
-                width: 100,
-                fixed: "right",
-                align: "center",
-                render: (h, params) => {
-                    let child = [];
-                    for (let v of this.tableButton) {
-                        child.push(
-                            h(
-                                "Button",
-                                {
-                                    props: {
-                                        type: v.type,
-                                        size: "small"
-                                    },
-                                    style: {
-                                        marginRight: "5px",
-                                        display:
-                                            this.pageShow.indexOf(v.btnName) != -1 ? "inline" : "none"
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.openUp(params.row.id, v.name, params.index);
-                                        }
-                                    }
-                                },
-                                v.name
-                            )
-                        );
-                    }
-                    return h("div", [child]);
-                }
-            },
+			tabShow:false,
+			TabData:[],
             data: [],
+			detList:[],
             total: 0,
             showTotal: true,
             index: 0,
             sort: "id",
             order: "desc",
             rows: 20,
-            page: 1,
+			TreeId:'',
             funId: "1000",
             unitCode: "",
             compFnameCnDis: "",
@@ -363,36 +251,20 @@ export default {
             unitFname: "",
             unitType: "",
             openPick: false,
-            unitPid: "",
             params: {
-                _mt: "orgUnits.getByOrgFramePageList",
-                sort: "id",
-                order: "asc",
-                rows: 10,
-                page: 1,
-                funId: "1",
-                logType: "组织架构查询",
-                data: "{}",
-                unitPid: 0
+				_mt: "orgUnits.getByOrgFramePageList",
+				sort: "id",
+				order: "asc",
+				rows: 10,
+				page: 1,
+				funId: "1",
+				logType: "组织架构查询",
+				data: "{}",
+				unitPid: 0
             },
             modify: "false",
-            searchCloumns: [
-                {
-                    title: this.$t("lang_organization.orgframe.unitCode"),
-                    key: "unitCode",
-                    sortable: "custom"
-                },
-                {
-                    title: this.$t("lang_organization.orgframe.compCOrEName"),
-                    key: "unitFname"
-                },
-                {
-                    title: this.$t("lang_organization.orgframe.unitTypeName"),
-                    key: "unitTypeName"
-                }
-            ],
             state: this.modity,
-            loading: ""
+            loading: false
         };
     },
     computed: {
@@ -414,85 +286,193 @@ export default {
         }
     },
     created () {
-        if (this.pageShow !== "") {
-            this.columns.push(this.tableBtn);
-            this.tableOperate = true;
-        }
+		this.openUps()
     },
     mounted () {
-        this.getData();
-        this.getTree();
+		this.getTable()
+        //this.getTree();
+		this.getTreedata()
         // this.getSelect();
-        this.unitTypeSelect();
     },
     watch: {
         pageShow (val) {
             if (val === "" && this.tableOperate === true) {
                 this.columns.pop();
                 this.tableOperate = false;
-            } else if (this.tableOperate === false) {
-                this.columns.push(this.tableBtn);
-                this.tableOperate = true;
             }
         }
     },
     methods: {
-  //enter事件
+		selectEvent(selection){
+			console.log(selection)
+			const t = this;
+			this.TabData.forEach(function(currentValue, index, arr){
+				if(currentValue.id == selection.id){
+					t.contentShow = selection;
+					//t.detList = row
+					t.tabIndex = index;
+					document.getElementById('myContent').innerHTML=t.contentShow.content
+				}
+			})
+		},
+		rowClassName (row, index) {
+                if (index === this.tabIndex) {
+                    return 'demo-table-info-row';
+                }
+                return '';
+            },
+		addEvent(){
+			const t = this;
+			t.openUpdates = true;
+			t.addShow = true;
+			t.ifShow = false;
+			t.logTypes = "新增"
+			t.$refs.newupdate.newAdd()
+		},
+		addContent(){
+			const t = this;
+			t.openUpdates = true;
+			t.addShow = false;
+			t.ifShow = false;
+			t.addconShow = true;
+			t.logTypes = "新增内容"
+			t.$refs.newupdate.addContent()
+		},
+		remoteMethod1 (query) {
+                if (query !== '') {
+					this.getEvent()
+                    this.loading1 = true;
+                    setTimeout(() => {
+                        this.loading1 = false;
+                      for(var i = 0;i < this.list.length;i++){
+						  if(this.list[i].name.includes(query)){
+							  this.options1.push(this.list[i]);
+						  }
+					  }
+                    }, 200);
+                } else {
+                    this.options1 = [];
+                }
+            },
+		getEvent() {
+			   this.options1 = [];
+               const t = this
+               this.axios.get('http://192.168.101.155/api/exam/ry/knowledgeCategory/search',{
+               			 params: {  
+               			  nameLike:this.keyword,
+               			  page:'1',
+               			  size:'9999',
+               			  sort:'asc',
+               			}
+               })
+                .then((res) => {
+                 t.list =  res.data.content[0].rows[0]
+				 console.log(t.list)
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            },
+			getTreedata() {
+			       const t = this
+			       this.axios.get('http://192.168.151.46:8081/ry/knowledgeCategory/getPersonKnowledgeCategoryTree',{
+						params: {  
+						 nameLike:this.keyword
+					   }
+			       })
+			        .then((res) => {
+					 t.list = res.data.content[0];
+			        t.dataTree = t.toTree(res.data.content[0]);
+					
+			        })
+			        .catch((err) => {
+			          console.log(err);
+			        });
+			    },
+		like(){
+			var oDivs = document.querySelector(".heart");
+			oDivs.style.color = "red";
+		},
+		will(){
+			var oDiv = document.querySelector(".zan");
+			oDiv.style.color = "blue";
+		},
+		 collects(){
+			  const t = this;
+			  t.openUpdates = true
+			  t.logTypes = "收藏列表"
+			  t.$refs.newupdate.colEvent()
+		  },
+		   //enter事件
         enterEvent(e){
-          if(e.target.value != ''){
-            this.search()
-          }
+			this.getTable()
         },
-        modityChange (res) {
-            this.tableselected = [];
-            this.getData();
-            this.getTree();
-        },
-        // 导入导出默认方法 无需更改
-        closeImport () {
-            const t = this;
-            t.openImport = false;
-        },
-        // 导入导出默认方法 无需更改
-        importExcel () {
-            const t = this;
-            t.openImport = true;
-            t.$refs.importExcel.getDowModelFile();
-        },
-        // 导入导出默认方法
-        expData () {
-            const t = this;
-
-            // 填装查询条件
-            const data = {
-                unitCode: t.unitCode,
-                unitFname: t.unitFname,
-                unitType: t.unitType,
-                state: t.modity,
-                unitPid: t.treeid
-            };
-            // 设置导出mt参数
-            this.$refs.expwindow.getData(this.expDataTital, "orgUnits.export", data);
-            this.openExp = true;
-        },
-        // 导入导出默认方法 无需更改
-        closeExp () {
-            const t = this;
-            t.openExp = false;
-        },
-        // 导入导出默认方法 无需更改
-        closeExpDowMain () {
-            const t = this;
-            t.openExpDow = false;
-        },
-        // 导入导出默认方法 无需更改
-        setFileKey (filekey, filename, openExpDow) {
-            const t = this;
-            t.filekey = filekey;
-            t.filename = filename;
-            t.openExpDow = openExpDow;
-            t.$refs.expdow.getPriToken(t.filekey);
-        },
+		knowEvent(e){
+		this.getTreedata()
+		},
+		getTable (id) {
+			console.log(id)
+			const t = this
+			t.TreeId = id 
+			 this.axios.get('http://192.168.101.155/api/exam/ry/knowledge/search',{
+				 params: {
+				  titleLike:this.keywordr,
+				  categoryId:t.TreeId,
+				  page:'1',
+				  size:'20',
+				  sort:'asc',
+				}
+			 })
+          .then((res) => {
+			  console.log(res);
+			   t.TabData =  res.data.content[0].rows[0]; 
+			   if(res.data.content[0].rows[0][0]){
+				    t.contentShow = res.data.content[0].rows[0][0];
+					t.divShow = true;
+			   }else{
+				   t.divShow = false;
+			   }
+			   console.log('123',t.TabData.length)
+		   if(t.TabData.length == 0){
+			   t.loading = true;
+		   }else{
+			   t.loading = false;
+		   }
+		   t.total = res.data.content[0].total;
+		   t.page = res.data.content[0].page;
+		   t.records = res.data.content[0].records;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+		},
+		contSearh(){
+			const t = this
+			this.axios.get('http://192.168.101.155/api/exam/ry/knowledge/search',{
+						 params: {  
+						  contentLike:this.keywords,
+						  page:'1',
+						  size:'20',
+						  sort:'asc',
+						}
+			})
+			 .then((res) => {
+				 console.log(res,"res")
+			  t.TabData =  res.data.content[0].rows[0];
+			  t.contentShow = res.data.content[0].rows[0][0];
+			  if(t.TabData.length == 0){
+			  	  t.tabShow = false;
+			  	  t.TabData = []; 
+			  }else{
+			  	  t.tabShow = true;
+			  }
+			  console.log('t.data',t.data)
+			  t.total = res.data.content[0].records;
+			 })
+			 .catch((err) => {
+			   console.log(err);
+			 });
+		},
         pickData () {
             const t = this;
             t.$refs.searchOrgframe.getData(this.params);
@@ -511,49 +491,6 @@ export default {
         closeChart () {
             this.openChart = false;
         }, //关闭组织架构图
-        getData (id, page) {
-            const t = this;
-            if (typeof page == "undefined") {
-                this.page = 1;
-            }
-            const data = {
-                _mt: "orgUnits.getByOrgFramePageList",
-                rows: t.rows,
-                page: t.page,
-                sort: t.sort,
-                order: t.order,
-                logType: "组织架构查询",
-                unitFname: t.unitFname,
-                unitType: t.unitType,
-                unitPid: id,
-                state: t.modity
-            };
-            for (const dat in data) {
-                if (data[dat] === "") {
-                    delete data[dat];
-                }
-            }
-            this.loading = true;
-            getDataLevelUserLoginNew(data)
-                .then(res => {
-                    if (isSuccess(res, t)) {
-                        this.loading = false;
-                        t.data = res.data.content[0].rows;
-                        t.total = res.data.content[0].records;
-                    }
-                })
-                .catch(() => {
-                    this.loading = false;
-                    // t.$Modal.error({
-                    //     title: this.$t("reminder.err"),
-                    //     content: this.$t("reminder.errormessage")
-                    // });
-                    this.$Message.error(this.$t("reminder.errormessage"));
-                })
-                .finally(() => {
-                    this.$store.commit('btnOperate/setSearchLoading', false)
-                });
-        }, //获取列表数据
         getTree () {
             const t = this;
             const data = {
@@ -574,9 +511,12 @@ export default {
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
+						console.log(res,'res')
                         t.loading = false;
                         setTimeout(() => {
+							console.log('res.data.content[0].value',res.data.content[0].value)
                             t.dataTree = t.toTree(res.data.content[0].value);
+							console.log(t.dataTree,'t.dataTree')
                         }, 500);
                     }
                 })
@@ -590,17 +530,21 @@ export default {
         },
         /* 树点击事件 */
         selectChange (e) {
-            this.treeid = e.id;
+			console.log('e',e[0].id)
+			//const t = this
+			// t.logTypes = "修改"
+			// t.$refs.newupdate.revise(e)
+			// t.openUpdates = true;
+			this.treeid = e.id;
             this.page = 1;
-            this.getData(e.id);
+			if(e[0].id){
+				 this.getTable(e[0].id);
+			}
         },
         /* 把后台数据转化为tree的格式 */
         toTree (data) {
-
             data.forEach(item => {
-                item.expand = false;
-                item.checked = item.authRoleFunDis === "1";
-                item.title = item.unitFname;
+                item.title = item.name;
                 delete item.children;
             });
             const map = {};
@@ -609,17 +553,14 @@ export default {
             });
             const val = [];
             data.forEach(item => {
-                const parent = map[item.unitPid];
-                if (item.unitPid === "0") {
-                    item.expand = true;
-                }
+                const parent = map[item.pid];
                 if (parent) {
                     (parent.children || (parent.children = [])).push(item);
-
                 } else {
                     val.push(item);
                 }
             });
+			console.log(val,'val')
             return val;
         },
         addNewArray (res) {
@@ -633,8 +574,11 @@ export default {
             t.getTree();
         },
         sortable (column) {
+			console.log('column',column)
             this.sort = column.key;
+			console.log(this.sort)
             this.order = column.order;
+			
             if (this.order !== "normal") {
                 this.getData(this.treeid);
             } else {
@@ -653,12 +597,13 @@ export default {
         }, //分页
         selectedtable (selection) {
             const newArr = [];
-            console.log(selection, "selection");
+			this.selection = selection
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id);
             }
             console.log(newArr, "newArr");
             this.tableselected = newArr;
+			
         }, //列表中选中的item
         deletemsg () {
             const t = this;
@@ -695,28 +640,16 @@ export default {
                 });
             }
         },
-        openUp (id, logType, index) {
-            const t = this;
-            t.updateId = parseInt(id, 10);
-            t.logType = logType;
-            t.openUpdate = true;
-            t.index = index;
-            // t.$refs.update.getSelect();
-            t.$refs.update.formValidate.unitSysalig = "1";
-            t.$refs.update.formValidate.unitOprecord = "";
-            t.$refs.update.disabled = false;
-            t.$refs.update.getSelect("orgunittype");
-            t.$refs.update.getSelect("unitIndustry");
-            t.$refs.update.getSelect("unitPartfunct");
-
-            if (logType === this.$t("button.upd") || logType === "查看") {
-                t.$refs.update.getData(id);
-            }
-            if (logType === "查看") {
-                t.$refs.update.formValidate.unitSysalig = "1";
-                t.$refs.update.disabled = true;
-            }
-        }, //打开窗口
+		openUps(){
+			var t = this;
+			t.ifShow = true;
+			t.logTypes = "信息列表"
+			t.openUpdates = true;
+		},
+		 closeUps () {
+		    const t = this;
+		    t.openUpdates = false;
+			},
         closeUp () {
             const t = this;
             t.openUpdate = false;
@@ -799,7 +732,7 @@ export default {
                     )
                 ]
             );
-        }, //渲染树状图
+         }, //渲染树状图
         getSelect () {
             const t = this;
             t.dropdownMenuList = [];
@@ -865,32 +798,7 @@ export default {
                 },
                 onCancel: () => { }
             });
-        }, //修改状态
-        unitTypeSelect () {
-            const t = this;
-            t.unitTypeData = [];
-            getDataLevelUserLogin({
-                _mt: "baseParmInfo.getSelectValue",
-                logType: t.logType,
-                typeCode: "orgunittype"
-            })
-                .then(res => {
-                    if (isSuccess(res, t)) {
-                        t.unitTypeData = res.data.content[0].value[0].paramList;
-                        // let obj = {
-                        //     paramCode: "",
-                        //     paramInfoCn: "请选择"
-                        // };
-                        // t.unitTypeData.unshift(obj);
-                    }
-                })
-                .catch(() => {
-                    this.$Modal.error({
-                        title: this.$t("reminder.err"),
-                        content: this.$t("reminder.errormessage")
-                    });
-                });
-        }, // 组织类别下拉列表数据
+        }, 
         getPageByType (paramCode) {
             this.unitTypeId = paramCode;
             this.getData();
@@ -902,7 +810,15 @@ export default {
 <style lang="scss" scoped>
 .table-form {
     margin: 10px 0;
+	display: flex;
+	justify-content: space-between;
+	.table-form /deep/.ivu-table{
+		width: 100%;
+	}
 }
+ .tabStyle /deep/ .demo-table-info-row td{
+        background-color: #dbdbdb !important;
+    }
 .margin-right-10 {
     margin-right: 10px;
 }
@@ -928,4 +844,58 @@ export default {
     overflow: auto;
     position: relative;
 }
+.tabStyle{
+    width: 80%;
+}
+.right-div{
+	overflow-y:auto;
+	border: 1px solid #e9e7e7;
+	width: 100%;
+	font-size: 16px;
+	.heads{
+		width: 100%;
+		text-align: center;
+		margin-top: 20px;
+	}
+	.item-content{
+		margin-top: 10px;
+		margin-left: 25px;
+	}
+	.link{
+		margin-left: 25px;
+	}
+	.operation{
+		margin-top: -50px;
+		margin-left: 80%;
+		.items{
+			margin-left: 20px;
+			font-size:10px;
+			display: inline-block;
+		}
+	}
+	.item-title{
+		margin-top: 30px;
+		margin-left: 25px;
+	}
+	.item-list{
+		width: 230px;
+		height: 50px;
+		display: inline-block;
+		margin-left: 25px;
+		margin-top: 20px;
+		p{
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+	}
+}
+.table-form /deep/.ivu-table{
+		width: 100%;
+	}
+	.ivu-table td.demo-table-info-column{
+        background-color: #2db7f5;
+        color: #fff;
+    }
 </style>
+

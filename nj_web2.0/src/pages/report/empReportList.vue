@@ -356,7 +356,7 @@ export default {
                 funId: "1000",
                 empDate: t.empDate,
                 empnhEntrydate:t.empnhEntrydate,
-                state: "01empstate"
+                state: "02empstate"
             };
             if (data.empDate !== undefined && data.empDate !== '') {
                 data.empDate = new Date(data.empDate).format('yyyy-MM-dd')
@@ -366,7 +366,7 @@ export default {
             if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
                 data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM-dd')
             } else {
-                data.empnhEntrydate = ''
+                data.empnhEntrydate = new Date().format('yyyy-MM-dd')
             }
             for (const dat in data) {
                 if (data[dat] === "") {
@@ -496,7 +496,7 @@ export default {
             const t = this;
             // 填装查询条件
             const data = {
-                state: "01empstate",
+                state: "02empstate",
                 empDate: t.empDate,
                 empnhEntrydate: t.empnhEntrydate,
             };
@@ -508,7 +508,7 @@ export default {
             if (data.empnhEntrydate !== undefined && data.empnhEntrydate !== '') {
                 data.empnhEntrydate = new Date(data.empnhEntrydate).format('yyyy-MM--dd')
             } else {
-                data.empnhEntrydate = ''
+                data.empnhEntrydate = new Date().format('yyyy-MM-dd')
             }
             // 设置导出mt参数
             this.$refs.expwindow.getData(

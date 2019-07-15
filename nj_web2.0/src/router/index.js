@@ -28,6 +28,9 @@ import remind from './remind'
 import atten from './atten'
 import perfAssess from './perfAssess'
 import report from './report'
+import knowledgeSys from './knowledgeSys'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -65,7 +68,8 @@ export default new Router({
         ...remind,
         ...atten,
         ...perfAssess,
-        ...report
+        ...report,
+        ...knowledgeSys
       ]
     },
     ...emp,

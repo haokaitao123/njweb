@@ -198,16 +198,17 @@ export default {
             fixed: "left",
             align: "center"
           },
-          {
+/*          {
             title: this.$t("lang_organization.orgpost.postCode"),
             key: "postCode",
             width: 180,
             fixed: "left",
             sortable: "custom"
-          },
+          },*/
           {
             title: "岗位名称",
             width: 180,
+            fixed: "left",
             key: "postFname"
           },
 
