@@ -497,7 +497,11 @@
                 <div class="title_left">
                     <img src="../../../../static/function/work.png"
                          alt="">
-                    <h3>工作经历管理</h3>
+                    <h3>工作经历管理<span>*</span></h3>
+					<icon type="warn"
+					      class="error"
+						  style="margin-left:10px"
+					      v-show="workState"></icon>
                 </div>
 
                 <span @click="goTo('empWorkExpShow')"
@@ -536,7 +540,11 @@
                 <div class="title_left">
                     <img src="../../../../static/function/work.png"
                          alt="">
-                    <h3>家庭成员管理</h3>
+                    <h3>家庭成员管理<span>*</span></h3>
+					<icon type="warn"
+					      class="error"
+						  style="margin-left:10px"
+					      v-show="familyState"></icon>
                 </div>
 
                 <span @click="goTo('empFamilyShow')"
@@ -831,6 +839,8 @@ export default {
             bankVaild: true,
 			educationState:false,
 			childCheck: false,
+			workState:false,
+			familyState:false,
         }
     },
     verify: {
@@ -957,6 +967,22 @@ export default {
 			    return false;
 			} else {
 			    t.educationState = false;
+			    t.childCheck = false;
+			}
+			 if (t.workExpList.length < 1) {
+			    t.workState = true;
+			    t.childCheck = true;
+			    return false;
+			} else {
+			    t.educationState = false;
+			    t.childCheck = false;
+			}
+			if (t.familyList.length < 1) {
+			    t.familyState = true;
+			    t.childCheck = true;
+			    return false;
+			} else {
+			    t.familyState = false;
 			    t.childCheck = false;
 			}
 			return true;
