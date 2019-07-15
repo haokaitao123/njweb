@@ -983,6 +983,7 @@
                 t.loading2 = true
                  this.$store.commit('commonFlowButton/setSubmitLoading', true)
 				t.formDataSubmit = {}
+				t.close()
 				try {
 					let a = true
 					for(let i = 0; i < this.$children.length; i++) {
@@ -1094,6 +1095,7 @@
                 // t.loading1 = true;
                 this.$store.commit('commonFlowButton/setSaveLoading', true)
 				t.formDataSubmit = {}
+				
 				try {
 					let a = true
 					for(let i = 0; i < this.$children.length; i++) {
