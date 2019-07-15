@@ -461,10 +461,10 @@
                     <img src="../../../../static/function/educatInfo.png"
                          alt="">
                     <h3>学历信息管理<span>*</span></h3>
-					<icon type="warn"
-					      class="error"
-						  style="margin-left:10px"
-					      v-show="educationState"></icon>
+                    <icon type="warn"
+                          class="error"
+                          style="margin-left:10px"
+                          v-show="educationState"></icon>
                 </div>
 
                 <span @click="goTo('empEducationShow')"
@@ -498,10 +498,10 @@
                     <img src="../../../../static/function/work.png"
                          alt="">
                     <h3>工作经历管理<span>*</span></h3>
-					<icon type="warn"
-					      class="error"
-						  style="margin-left:10px"
-					      v-show="workState"></icon>
+                    <icon type="warn"
+                          class="error"
+                          style="margin-left:10px"
+                          v-show="workExpState"></icon>
                 </div>
 
                 <span @click="goTo('empWorkExpShow')"
@@ -541,10 +541,10 @@
                     <img src="../../../../static/function/work.png"
                          alt="">
                     <h3>家庭成员管理<span>*</span></h3>
-					<icon type="warn"
-					      class="error"
-						  style="margin-left:10px"
-					      v-show="familyState"></icon>
+                    <icon type="warn"
+                          class="error"
+                          style="margin-left:10px"
+                          v-show="familyState"></icon>
                 </div>
 
                 <span @click="goTo('empFamilyShow')"
@@ -837,10 +837,11 @@ export default {
             idNumberVaild: false,
             phoneVaild: false,
             bankVaild: true,
-			educationState:false,
-			childCheck: false,
-			workState:false,
-			familyState:false,
+            educationState: false,
+            childCheck: false,
+            // workState: false,
+            familyState: false,
+            workExpState: false,
         }
     },
     verify: {
@@ -958,40 +959,51 @@ export default {
             }
 
         },
-		 //校验子表
-		checkChild () {
-		   const t = this;
-			 if (t.educationList.length < 1) {
-			    t.educationState = true;
-			    t.childCheck = true;
-			    return false;
-			} else {
-			    t.educationState = false;
-			    t.childCheck = false;
-			}
-			 if (t.workExpList.length < 1) {
-			    t.workState = true;
-			    t.childCheck = true;
-			    return false;
-			} else {
-			    t.educationState = false;
-			    t.childCheck = false;
-			}
-			if (t.familyList.length < 1) {
-			    t.familyState = true;
-			    t.childCheck = true;
-			    return false;
-			} else {
-			    t.familyState = false;
-			    t.childCheck = false;
-			}
-			return true;
-		},
+        //校验子表
+        checkChild () {
+            const t = this;
+            if (t.workExpList.length < 1) {
+                t.childCheck = true
+                t.workExpState = true;
+                if (t.educationList.length < 1) {
+                    t.educationState = true;
+                    if (t.familyList.length < 1) {
+                        t.familyState = true;
+                    } else {
+                        t.familyState = false;
+                    }
+                } else {
+                    t.educationState = false;
+                    if (t.familyList.length < 1) {
+                        t.familyState = true;
+                    } else {
+                        t.familyState = false;
+                    }
+                }
+
+            } else {
+                t.workExpState = false;
+                t.childCheck = false
+                if (t.educationList.length < 1) {
+                    t.educationState = true;
+                    t.childCheck = true;
+                } else {
+                    if (t.familyList.length < 1) {
+                        t.familyState = true;
+                        t.childCheck = true;
+                    } else {
+                        t.familyState = false;
+                    }
+                    t.educationState = false;
+                    t.childCheck = false;
+                }
+            }
+        },
         //保存
         save () {
             console.log(this.$verify.check());
             const t = this;
-			 let state = t.checkChild()
+            let state = t.checkChild()
             if (this.$verify.check() && this.bankVaild && state) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
@@ -1141,7 +1153,7 @@ export default {
                     t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '请选择';
                     t.form.note = data.note;
                     if (data.state !== '01empstate' && data.state !== '06empstate') {
-                        t.state = true
+                        t.state = false
                     }
                     t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '请选择';
                     t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '请选择';
@@ -1274,6 +1286,7 @@ export default {
                 this.getWorkExp();
             }
             this[dom] = false;
+            this.checkChild();
             // this.slideClass = '';
             // document.getElementsByClassName('resumeInfoWrap')[0].style.overflow = 'scroll';
         }
@@ -1309,13 +1322,13 @@ export default {
                 padding-right: 36px;
                 color: #339afe;
             }
-			h3{
-				span{
-					color:red;
-					display: inline-block;
-					margin-left: 5px;
-				}
-			}
+            h3 {
+                span {
+                    color: red;
+                    display: inline-block;
+                    margin-left: 5px;
+                }
+            }
             img {
                 width: 30px;
                 height: 30px;
