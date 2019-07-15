@@ -2,6 +2,7 @@
  * Created by darren on 2018/08/04.
  */
 import axios from 'axios';
+import qs from 'qs'
 import {
   encrypt,
   encryptNew,
@@ -20,12 +21,12 @@ export const getDataLevelNone = (params) => {
     data: params,
     level: "None"
   };
-  const data = encrypt(requestData.level, requestData.data);
+  const data = qs.stringify(encrypt(requestData.level, requestData.data));
   return axios({
     method: 'post',
     withCredentials: true, //跨域请求时是否需要使用凭证
     url: pubsource.pub_getlink,
-    params: data
+    data: data
   })
 };
 
@@ -34,12 +35,12 @@ export const getDataLevelNoneNew = (params) => {
     data: params,
     level: "None"
   };
-  const data = encryptNew(requestData.level, requestData.data);
+  const data = qs.stringify(encryptNew(requestData.level, requestData.data));
   return axios({
     method: 'post',
     withCredentials: true, //跨域请求时是否需要使用凭证
     url: pubsource.pub_getlink,
-    params: data
+    data: data
   })
 };
 
@@ -54,13 +55,13 @@ export const getDataLevelUserLogin = (params) => {
     data: params,
     level: "UserLogin",
   };
-  const data = encrypt(requestData.level, requestData.data);
+  const data = qs.stringify(encrypt(requestData.level, requestData.data));
   // console.log(data)
   return axios({
     method: 'post',
     withCredentials: true, //跨域请求时是否需要使用凭证
     url: pubsource.pub_getlink,
-    params: data,
+    data: data,
   })
 }
 /*
@@ -76,13 +77,13 @@ export const getDataLevelUserLoginNew = (params) => {
     level: "UserLogin",
   };
   // console.log(params)
-  const data = encryptNew(requestData.level, requestData.data);
+  const data = qs.stringify(encryptNew(requestData.level, requestData.data));
   console.log(data)
   return axios({
     method: 'post',
     withCredentials: true, //跨域请求时是否需要使用凭证
     url: pubsource.pub_getlink,
-    params: data,
+    data: data,
   })
 }
 /*
@@ -98,13 +99,13 @@ export const getDataLevelUserLoginEmpId = (params) => {
     level: "UserLogin",
   };
   // console.log(params)
-  const data = encryptEmpId(requestData.level, requestData.data);
+  const data = qs.stringify(encryptEmpId(requestData.level, requestData.data));
   console.log(data)
   return axios({
     method: 'post',
     withCredentials: true, //跨域请求时是否需要使用凭证
     url: pubsource.pub_getlink,
-    params: data,
+    data: data,
   })
 }
 //上传头像

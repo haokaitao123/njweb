@@ -73,7 +73,8 @@
                                  @buttonDel="deletemsg"
                                  @buttonSubmit="changeState('提交')"
                                  @buttonTrans="buttonTrans"
-                                 @buttonQuits="buttonQuits"></btnList>
+                                 @buttonQuits="buttonQuits"
+                                 @buttonQkleave="changeState('快速离职','quickleave')"></btnList>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
@@ -632,14 +633,18 @@ export default {
             }
         },
         // 改变流程状态
-        changeState (name) {
+        changeState (name,type) {
             const t = this;
             if (t.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
+              let tips = "您确定继续操作吗？";
+              if(type==='quickleave'){
+                  tips = "选中的员工会快速离职，您确定继续操作吗？";
+              }
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
-                    content: "您确定继续操作吗？",
+                    content: tips,
                     onOk: () => {
                         getDataLevelUserLogin({
                             _mt: "empEmpnh.updStateByIds",

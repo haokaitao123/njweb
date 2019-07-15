@@ -62,7 +62,7 @@
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.relibName==''?true:false"
+                          v-show="form.relibName==''"
                           v-remind="form.relibName"></icon>
                 </div>
                 <!-- 性别 -->
@@ -116,7 +116,7 @@
                     </cell>
                     <icon type="warn"
                           class="error"
-                          v-show="form.relibFilldate=='请选择'?true:false"
+                          v-show="form.relibFilldate=='请选择'"
                           v-remind="form.relibFilldate"></icon>
                     <x-input title="面到时间<span>*</span>"
                              v-if='curStep&&reexamine'
@@ -136,13 +136,13 @@
                           v-model="empIdName"
                           v-verify="form.relibInviteman"
                           @click.native="popupClick('empShow','relibInviteman')">
-                        <div slot="title">招聘人</div>
+                        <div slot="title">招聘人<span>*</span></div>
                     </cell>
-                    <!--<icon type="warn"
+                    <icon type="warn"
                           class="error"
-                          v-show="empIdName=='请选择'?true:false"
-                          v-remind="form.empId"></icon>-->
-                    <x-input title="招聘人"
+                          v-show="empIdName=='请选择'"
+                          v-remind="form.relibInviteman"></icon>
+                    <x-input title="招聘人<span>*</span>"
                              v-model="empIdName"
                              v-if="curStep"
                              v-verify="form.relibInviteman"
@@ -283,7 +283,7 @@ export default {
             relibCheckopin: "",
             idRecord: "",
             disabled: false,
-            reexamine: this.$route.query.reexamine
+            reexamine: this.$route.query.reexamine ? true : false
         }
     },
     verify: {
@@ -293,6 +293,7 @@ export default {
             relibGender: "required",
             relibMobile: ["required", "mobile"],
             relibFilldate: "required",
+            relibInviteman: "required",
         }
     },
     components: {
