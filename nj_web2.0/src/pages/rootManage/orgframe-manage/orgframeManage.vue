@@ -216,16 +216,17 @@ export default {
                     fixed: "left",
                     align: "center"
                 },
-                {
+/*                {
                     title: "组织编码",
                     key: "unitCode",
                     width: 140,
                     fixed: "left",
                     sortable: "custom"
-                },
+                },*/
                 {
                     title: "组织架构名称",
                     width: 180,
+                    fixed: "left",
                     key: "unitFname"
                 },
                 {
