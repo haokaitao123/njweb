@@ -4,7 +4,7 @@
             <Col span="24">
             <card>
                 <p slot="title">
-                    <Icon type="mouse"></Icon>&nbsp;组织信息管理
+                    <Icon type="mouse"></Icon>&nbsp;知识库
                 </p>
                 <Row>
                     <Col span="4"
@@ -15,7 +15,7 @@
 						 	v-model="keyword"
 						 	filterable
 						 	@keyup.enter.native="knowEvent"
-						 	remote
+						 	:remote = true 
 						 	:remote-method="remoteMethod1"
 						 	:loading="loading1">
 						 	<Option v-for="(option, index) in options1" :value="option.name"  :key="index">{{option.name}}</Option>
@@ -122,7 +122,7 @@
                                 shape="circle"
                                 icon="refresh"
                                 style="margin-left: 20px;display: inline-block;"
-                                @click="search()"></Button>
+                                @click="getTable()"></Button>
                     </Row>
                     </Col>
                 </Row>
@@ -172,7 +172,7 @@ export default {
             //子页面所需参数，无需变更
             tableheight: document.body.offsetHeight - 280,
             value: "",
-			page: 1,
+			page: 0,
             logType: "",
             openUpdate: false,
             updateId: NaN,
@@ -339,40 +339,46 @@ export default {
 			t.$refs.newupdate.addContent()
 		},
 		remoteMethod1 (query) {
-                if (query !== '') {
-					this.getEvent()
-                    this.loading1 = true;
-                    setTimeout(() => {
-                        this.loading1 = false;
-                      for(var i = 0;i < this.list.length;i++){
-						  if(this.list[i].name.includes(query)){
-							  this.options1.push(this.list[i]);
-						  }
+			if (query !== '') {
+				this.getEvent(query)
+				this.loading1 = true;
+				setTimeout(() => {
+					this.loading1 = false;
+					 this.options1 = [];
+					 console.log(this.list,"this.list");
+					 console.log(query,"query")
+				  for(var i = 0;i < this.list.length;i++){
+					  // debugger;
+					  if(this.list[i].name.includes(query)){
+						  this.options1.push(this.list[i]);
 					  }
-                    }, 200);
-                } else {
-                    this.options1 = [];
-                }
-            },
-		getEvent() {
-			   this.options1 = [];
-               const t = this
-               this.axios.get('http://192.168.101.155/api/exam/ry/knowledgeCategory/search',{
-               			 params: {  
-               			  nameLike:this.keyword,
-               			  page:'1',
-               			  size:'9999',
-               			  sort:'asc',
-               			}
-               })
-                .then((res) => {
-                 t.list =  res.data.content[0].rows[0]
-				 console.log(t.list)
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            },
+				  }
+				}, 200);
+			} else {
+				this.options1 = [];
+			}
+		},
+		getEvent(query) {
+		   const t = this
+		   // debugger;
+		   console.log(query,"t.keyword")
+		   this.axios.get('http://192.168.101.155/api/exam/ry/knowledgeCategory/search',{
+					 params: {  
+					  nameLike:query,
+					  page:'1',
+					  size:'9999',
+					  sort:'asc',
+					}
+		   })
+			.then((res) => {
+				console.log(res,"res")
+			 t.list =  res.data.content[0].rows[0]
+			 console.log(t.list)
+			})
+			.catch((err) => {
+			  console.log(err);
+			});
+		},
 			getTreedata() {
 			       const t = this
 			       this.axios.get('http://192.168.151.46:8081/ry/knowledgeCategory/getPersonKnowledgeCategoryTree',{
@@ -410,15 +416,16 @@ export default {
 		knowEvent(e){
 		this.getTreedata()
 		},
-		getTable (id) {
+		getTable (id,page) {
 			console.log(id)
 			const t = this
 			t.TreeId = id 
+			t.page = page
 			 this.axios.get('http://192.168.101.155/api/exam/ry/knowledge/search',{
 				 params: {
 				  titleLike:this.keywordr,
 				  categoryId:t.TreeId,
-				  page:'1',
+				  page:t.page,
 				  size:'20',
 				  sort:'asc',
 				}
@@ -433,11 +440,6 @@ export default {
 				   t.divShow = false;
 			   }
 			   console.log('123',t.TabData.length)
-		   if(t.TabData.length == 0){
-			   t.loading = true;
-		   }else{
-			   t.loading = false;
-		   }
 		   t.total = res.data.content[0].total;
 		   t.page = res.data.content[0].page;
 		   t.records = res.data.content[0].records;
@@ -459,14 +461,16 @@ export default {
 			 .then((res) => {
 				 console.log(res,"res")
 			  t.TabData =  res.data.content[0].rows[0];
-			  t.contentShow = res.data.content[0].rows[0][0];
-			  if(t.TabData.length == 0){
-			  	  t.tabShow = false;
-			  	  t.TabData = []; 
-			  }else{
-			  	  t.tabShow = true;
-			  }
-			  console.log('t.data',t.data)
+			  if(res.data.content[0].rows[0][0]){
+			 				    t.contentShow = res.data.content[0].rows[0][0];
+			 					t.divShow = true;
+			 			   }else{
+			 				   t.divShow = false;
+			 			   }
+			 			   console.log('123',t.TabData.length)
+			  t.total = res.data.content[0].total;
+			  t.page = res.data.content[0].page;
+			  t.records = res.data.content[0].records;
 			  t.total = res.data.content[0].records;
 			 })
 			 .catch((err) => {
@@ -593,7 +597,7 @@ export default {
         pageChange (page) {
             const t = this;
             t.page = page;
-            t.getData(this.treeid, t.page);
+            t.getTable(this.treeid, t.page);
         }, //分页
         selectedtable (selection) {
             const newArr = [];
@@ -645,6 +649,7 @@ export default {
 			t.ifShow = true;
 			t.logTypes = "信息列表"
 			t.openUpdates = true;
+			
 		},
 		 closeUps () {
 		    const t = this;

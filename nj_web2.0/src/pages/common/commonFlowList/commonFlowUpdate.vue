@@ -1026,16 +1026,17 @@
 							//        t.formDataSubmit.clmMap = JSON.stringify(t.clmMap)
 							getDataLevelUserLogin(data).then((res2) => {		
 								if(isSuccess(res2, t)) {
-									t.thisStepState = 'p_flowst_3';
+                                    t.thisStepState = 'p_flowst_3';
+                                   
 									if(this.entry === 'false') {
 										t.$store.commit('recruitProcess/setEntry', 'true');
 									}
-									t.getColumns()
-                                    t.getDataBlock()
+									// t.getColumns()
+                                    // t.getDataBlock()
                                     // t.loading2 = false
 									t.$emit('getData')
-                                    t.$Message.success(this.$t("reminder.submitsuccess"));
-                                    t.close();
+                                    t.$Message.success(this.$t("reminder.submitsuccess"));      
+                                     t.close();     
 								}
 							}).catch(() => {
 								 this.$store.commit('commonFlowButton/setSubmitLoading', false)
