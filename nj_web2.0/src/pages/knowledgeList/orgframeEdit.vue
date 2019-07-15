@@ -335,6 +335,7 @@ export default {
 			file: "",
 			filekey: "",
 			fileName:"",
+			coloData:[],
 			form:{
 				claName:'',  //分类名
 				tier:'',   //层级
@@ -440,7 +441,27 @@ export default {
 	  editor.create();
 	  console.log(this.form.state, "form");
 	},
+	created() {
+		this.celectDate()
+	},
 	methods: {
+		celectDate(){
+			const t = this
+			this.axios.get('http://192.168.101.155/api/exam/ry/mustReadKnowledge/search',{
+						 params: {  
+						  page:'1',
+						  size:'20',
+						  sort:'asc',
+						}
+			})
+			 .then((res) => {
+				 console.log(res,"res")
+			  t.coloData =  res.data.content;
+			 })
+			 .catch((err) => {
+			   console.log(err);
+			 });
+		},
 		getLists(msg){
 			console.log(msg)
 		},
