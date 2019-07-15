@@ -460,7 +460,11 @@
                 <div class="title_left">
                     <img src="../../../../static/function/educatInfo.png"
                          alt="">
-                    <h3>学历信息管理</h3>
+                    <h3>学历信息管理<span>*</span></h3>
+					<icon type="warn"
+					      class="error"
+						  style="margin-left:10px"
+					      v-show="educationState"></icon>
                 </div>
 
                 <span @click="goTo('empEducationShow')"
@@ -825,6 +829,8 @@ export default {
             idNumberVaild: false,
             phoneVaild: false,
             bankVaild: true,
+			educationState:false,
+			childCheck: false,
         }
     },
     verify: {
@@ -942,11 +948,25 @@ export default {
             }
 
         },
+		 //校验子表
+		checkChild () {
+		   const t = this;
+			 if (t.educationList.length < 1) {
+			    t.educationState = true;
+			    t.childCheck = true;
+			    return false;
+			} else {
+			    t.educationState = false;
+			    t.childCheck = false;
+			}
+			return true;
+		},
         //保存
         save () {
             console.log(this.$verify.check());
             const t = this;
-            if (this.$verify.check() && this.bankVaild) {
+			 let state = t.checkChild()
+            if (this.$verify.check() && this.bankVaild && state) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;
@@ -1263,6 +1283,13 @@ export default {
                 padding-right: 36px;
                 color: #339afe;
             }
+			h3{
+				span{
+					color:red;
+					display: inline-block;
+					margin-left: 5px;
+				}
+			}
             img {
                 width: 30px;
                 height: 30px;
