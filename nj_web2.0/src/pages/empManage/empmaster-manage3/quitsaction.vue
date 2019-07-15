@@ -56,6 +56,17 @@
               </Select>
             </FormItem>
           </Col>
+          <Col span="11"  offset="1">
+            <FormItem label="约定离职日期" prop="dimLevday">
+              <DatePicker
+                type="date"
+                placeholder="请输入约定离职日期"
+                :editable="false"
+                v-model="formValidate.dimLevday"
+                style="width: 100%"
+              ></DatePicker>
+            </FormItem>
+          </Col>
         </Form>
       </div>
       <Button type="primary" @click="handleSubmit" style="float: right;">确定</Button>
@@ -76,7 +87,10 @@ export default {
         //funId: "1",
         dimType: "",
         dimReason: "",
-        dimLevsqday: ""
+        dimLevsqday: "",
+        dimApplicant:"",
+        dimApplydate:"",
+        dimLevday:""
       },
       disabled: false,
       dimTypeDis: "",
@@ -138,7 +152,14 @@ export default {
             onOk: () => {
               let params = "";
               const data = deepCopy(t.formValidate);
+              data.dimApplicant = t.$store.state.user.userId;
+               data.dimLevday = new Date(data.dimLevday).format(
+                "yyyy-MM-dd"
+              );
               data.dimLevsqday = new Date(data.dimLevsqday).format(
+                "yyyy-MM-dd"
+              );
+              data.dimApplydate = new Date().format(
                 "yyyy-MM-dd"
               );
               params = JSON.stringify(data);
@@ -192,6 +213,9 @@ export default {
       this.formValidate.dimType = "";
       this.dimTypeDis = "";
       this.formValidate.dimLevsqday = "";
+      this.formValidate.dimApplicant = "";
+      this.formValidate.dimApplydate = "";
+      this.formValidate.dimLevday = "";
     }
   }
 };
