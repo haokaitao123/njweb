@@ -277,6 +277,9 @@ export default {
         case "面谈预约":
           name = 'buttonOrder'
           break
+        case "快速离职":
+          name = 'buttonQkleave'
+          break
       }
       return name;
     },
@@ -372,6 +375,10 @@ export default {
         case "button_trans":
           btnName = '异动';
           bType = 'success';
+          break
+        case "button_qkleave":
+          btnName = '快速离职';
+          bType = 'error';
           break
         case "button_quits":
           btnName = '离职';
