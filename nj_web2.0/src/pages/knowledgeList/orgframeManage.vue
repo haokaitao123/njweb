@@ -66,11 +66,11 @@
 								    <div class="operation">
 								    <div class="item-list">
 								       <div class="items">
-								   		<Icon size="30" @click="like" class="heart" type="ios-heart"></Icon>
+								   		<Icon size=30 @click="like" class="heart" type="ios-heart"></Icon>
 								   			<div>收藏</div>
 								   		</div>
 								   	 <div class="items">
-								   	    <Icon size="30"  @click="will" class="zan" type="thumbsup"></Icon>
+								   	    <Icon size=30 @click="will" class="zan" type="thumbsup"></Icon>
 								   			 <div>点赞</div>
 								     </div>
 								   	</div>
@@ -90,7 +90,7 @@
 									   <p>点击数:&nbsp;&nbsp;{{contentShow.clicked}}</p>
 								  </div>
 								  <div class="item-list">
-									   <p>赞:&nbsp;&nbsp;30</p>
+									  
 								  </div>
 								  <div class="item-list">
 									   <p>发布人:&nbsp;&nbsp;{{contentShow.unitCityName}}</p>
@@ -99,9 +99,7 @@
 									  <p>创建人:&nbsp;&nbsp;{{contentShow.unitInvdate}}</p>
 								  </div>
 								  <div class="link">
-									  <p>
-										  链接:&nbsp;&nbsp;<a href="">1234234</a>
-									  </p>
+									 
 								  </div>
 							   </div>
                     </row>
@@ -251,6 +249,7 @@ export default {
             unitFname: "",
             unitType: "",
             openPick: false,
+			knowledgeId:'',
             params: {
 				_mt: "orgUnits.getByOrgFramePageList",
 				sort: "id",
@@ -268,9 +267,9 @@ export default {
         };
     },
     computed: {
-        pageShow () {
-            return this.$store.state.btnOperate.pageShow;
-        },
+        // pageShow () {
+        //     return this.btnOperate.pageShow;
+        // },
         tableButton () {
             return this.$store.state.btnOperate.tableButton;
         },
@@ -295,17 +294,22 @@ export default {
         // this.getSelect();
     },
     watch: {
-        pageShow (val) {
-            if (val === "" && this.tableOperate === true) {
-                this.columns.pop();
-                this.tableOperate = false;
-            }
-        }
+        // pageShow (val) {
+        //     if (val === "" && this.tableOperate === true) {
+        //         this.columns.pop();
+        //         this.tableOperate = false;
+        //     }
+        // }
     },
     methods: {
 		selectEvent(selection){
+			var oDiv = document.querySelector(".zan");
+				oDiv.style.color = '#000000'
+			var oDivs = document.querySelector(".heart");
+				oDivs.style.color = '#000000'
 			console.log(selection)
 			const t = this;
+			this.knowledgeId = selection.id
 			this.TabData.forEach(function(currentValue, index, arr){
 				if(currentValue.id == selection.id){
 					t.contentShow = selection;
@@ -339,6 +343,7 @@ export default {
 			t.$refs.newupdate.addContent()
 		},
 		remoteMethod1 (query) {
+			//console.log('/',query)
 			if (query !== '') {
 				this.getEvent(query)
 				this.loading1 = true;
@@ -348,7 +353,6 @@ export default {
 					 console.log(this.list,"this.list");
 					 console.log(query,"query")
 				  for(var i = 0;i < this.list.length;i++){
-					  // debugger;
 					  if(this.list[i].name.includes(query)){
 						  this.options1.push(this.list[i]);
 					  }
@@ -360,7 +364,6 @@ export default {
 		},
 		getEvent(query) {
 		   const t = this
-		   // debugger;
 		   console.log(query,"t.keyword")
 		   this.axios.get('http://192.168.101.155/api/exam/ry/knowledgeCategory/search',{
 					 params: {  
@@ -371,8 +374,8 @@ export default {
 					}
 		   })
 			.then((res) => {
-				console.log(res,"res")
-			 t.list =  res.data.content[0].rows[0]
+				console.log(res,"reskk")
+			 t.list =  res.data.content[0];
 			 console.log(t.list)
 			})
 			.catch((err) => {
@@ -381,13 +384,13 @@ export default {
 		},
 			getTreedata() {
 			       const t = this
-			       this.axios.get('http://192.168.151.46:8081/ry/knowledgeCategory/getPersonKnowledgeCategoryTree',{
+			       this.axios.get('http://192.168.101.155/api/exam/ry/knowledgeCategory/getPersonKnowledgeCategoryTree',{
 						params: {  
 						 nameLike:this.keyword
 					   }
 			       })
 			        .then((res) => {
-					 t.list = res.data.content[0];
+					 //t.list = res.data.content[0];
 			        t.dataTree = t.toTree(res.data.content[0]);
 					
 			        })
@@ -396,12 +399,47 @@ export default {
 			        });
 			    },
 		like(){
-			var oDivs = document.querySelector(".heart");
-			oDivs.style.color = "red";
+			var readyData= JSON.stringify({
+				categoryId:this.treeid,
+				knowledgeId:this.knowledgeId,
+				staffId:this.$store.state.user.userId
+			});
+			console.log('readyData',readyData)
+			this.axios.post('/ry/operationKnowledge/collection',{
+				headers: {'Content-Type':'application/x-www-form-urlencoded'},
+				readyData
+			})
+			  .then(function (response) {
+				console.log(response);
+				var oDivs = document.querySelector(".heart");
+				oDivs.style.color = "red";
+			  })
+			  .catch(function (error) {
+				  t.$Message.error('保存失败');
+				console.log(error);
+			  });
 		},
 		will(){
-			var oDiv = document.querySelector(".zan");
-			oDiv.style.color = "blue";
+			const t = this;
+			var readyData= JSON.stringify({
+				knowledgeId:this.knowledgeId,
+				staffId:this.$store.state.user.userId
+			});
+			console.log('readyData',readyData)
+			this.axios.post('/ry/operationKnowledge/praise',{
+				headers: {'Content-Type':'application/x-www-form-urlencoded'},
+				readyData
+			})
+			  .then(function (response) {
+				console.log(response);
+				var oDiv = document.querySelector(".zan");
+				oDiv.style.color = "blue";
+			  })
+			  .catch(function (error) {
+				  t.$Message.error('保存失败');
+				console.log(error);
+			  });
+			
 		},
 		 collects(){
 			  const t = this;
@@ -415,6 +453,7 @@ export default {
         },
 		knowEvent(e){
 		this.getTreedata()
+		this.list = []
 		},
 		getTable (id,page) {
 			console.log(id)
@@ -649,7 +688,6 @@ export default {
 			t.ifShow = true;
 			t.logTypes = "信息列表"
 			t.openUpdates = true;
-			
 		},
 		 closeUps () {
 		    const t = this;
@@ -876,6 +914,12 @@ export default {
 			margin-left: 20px;
 			font-size:10px;
 			display: inline-block;
+			.addheart{
+				color: red;
+			}
+			.addwill{
+				color:blue;
+			}
 		}
 	}
 	.item-title{
@@ -902,5 +946,6 @@ export default {
         background-color: #2db7f5;
         color: #fff;
     }
+	
 </style>
 

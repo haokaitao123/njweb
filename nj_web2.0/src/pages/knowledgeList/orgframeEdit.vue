@@ -16,14 +16,16 @@
 					:rules="ruleValidate"
 					>
 						<i-col span="22" offset="1">
-							<div @click="iframeDetail">
+							<div>
 								<div class="itemWrap" v-show="ifShow">
-									
+									<li v-for="item in coloData">
+										<div @click="iframeDetail(item.id)">{{item.knowledgeId}}</div>
+									</li>
 							    </div>
 							</div>
 							<div class="itemDetail">
 								<div v-show="ifShows" class="detailWrap">
-										
+									<i-button type="primary">知识已读</i-button>	
 								</div>
 							</div>
 							<div class="adds" v-show="addShow">
@@ -91,7 +93,6 @@
 								  <FormItem label="路径名称" prop="urlname">
 									<span>
 										<Input placeholder="请输入路径"
-											  
 											   :disabled='disabled'
 											   v-model="form.urlname"/>
 									</span>
@@ -127,7 +128,6 @@
 									<FormItem label="操作员id" prop="operatId">
 										<span>
 											<Input placeholder="请输入操作员id"
-												
 												 :disabled='disabled'
 												 v-model="form.operatId"/>
 										</span>
@@ -310,6 +310,7 @@ export default {
 			filekey: "",
 			fileName:"",
 			coloData:[],
+			departmentId:'',
 			form:{
 				claName:'',  //分类名
 				tier:'',   //层级
@@ -340,8 +341,6 @@ export default {
 			noticeContent: '',
 			unitPidDis: '',
 			noticePublish: '',
-			file: '',
-			filekey: '',
 			ifShow: true,
 			ifShows: false,
 			value: '',
@@ -352,6 +351,9 @@ export default {
 			addShow:false,
 			addconShow:false,
 			ifCollect:false,
+			i:0,
+			units:'',
+			partmId:'',
 			searchDeptCloumns: [
 				 {
 				    type: "selection",
@@ -431,13 +433,20 @@ export default {
 			 .then((res) => {
 				 console.log(res,"res")
 			  t.coloData =  res.data.content;
+			 
 			 })
 			 .catch((err) => {
 			   console.log(err);
 			 });
 		},
 		getLists(msg){
-			console.log(msg)
+			console.log(msg[this.i])
+			this.units += msg[this.i].unitFname+','
+			this.form.department = this.units;
+			this.partmId += msg[this.i].id+',';
+			this.departmentId  = this.partmId;
+			console.log(this.departmentId);
+			this.i+= 1
 		},
 		revise(e){
 			console.log('213',e)
@@ -488,11 +497,11 @@ export default {
 			  })
 			  .catch(function (error) {
 				  t.$Message.error('保存失败');
-				console.log(error);
+				  console.log(error);
 			  });
 			  	 }
 			  });
-		},
+			},
 			postQuest(){
 				const t = this;
 				var ifPass = 1
@@ -505,7 +514,7 @@ export default {
 					  "contentNum": this.from.count,
 					  "createBy": this.from.operatId,
 					  "deleted": 1,
-					  "departmentId":this.from.department,
+					  "departmentId":this.departmentId,
 					  "level": this.from.tier,
 					  "name": this.from.claName,
 					  "num": 1,
@@ -546,6 +555,17 @@ export default {
 			t.ifShows = false;
 			t.addconShow=false;
 			t.ifCollect = true;
+			// this.axios.get('http://192.168.101.155/api/exam/ry/operationKnowledge/queryCollection',{
+			// 			 params: {  
+			// 			}
+			// })
+			//  .then((res) => {
+			// 	 console.log(res,"res")
+			//   t.coloData =  res.data.content;
+			//  })
+			//  .catch((err) => {
+			//    console.log(err);
+			//  });
 		},
 		addContent(){
 			const t = this;
@@ -559,9 +579,23 @@ export default {
 			const t = this;
 			t.$emit('closeUp');
 		},
-		iframeDetail() {
+		iframeDetail(id) {
 			this.ifShow = false;
 			this.ifShows = true;
+			const t = this
+			this.axios.get('http://192.168.101.155/api/exam/ry/mustReadKnowledge',{
+						 params: {  
+						 id:id
+						}
+			})
+			 .then((res) => {
+				 console.log(res,"res")
+			  t.coloData =  res.data.content;
+			 
+			 })
+			 .catch((err) => {
+			   console.log(err);
+			 });
 		},
 		readIform() {
 			this.ifShows = false;
@@ -607,6 +641,8 @@ export default {
 			t.openDeptPick = true;
 		},
 		closeDept(msg) {
+			this.i = 0;
+			//this.form.department = '';
 			console.log(msg)
 			const t = this;
 			t.$refs.searchDept.unitCode = '';
@@ -615,8 +651,8 @@ export default {
 		changeDeptInput(name, id) {
 			//console.log(section)
 			const t = this;
-			console.log(name, 'name');
-			t.department = name;
+			console.log(id, 'id');
+			//t.departmentId = id;
 			t.formValidate.deptId = id;
 		}
 	}
@@ -670,8 +706,10 @@ export default {
 	position: relative;
 	height: 500px;
 	.itemWrap {
-		
-		
+		>div{
+			margin-top: 20px;
+			font-size: 13px;
+		}
 	}
 }
 .btn {
