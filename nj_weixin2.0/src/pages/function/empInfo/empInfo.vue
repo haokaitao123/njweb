@@ -934,8 +934,6 @@ export default {
         //银行卡号校验
         //银行卡验证
         bankCheck () {
-            console.log(123);
-            // debugger;
             if (this.form.empnhSalaccount == '') {
                 this.bankVaild = false;
                 return;
@@ -985,6 +983,12 @@ export default {
                 t.workExpState = false;
                 t.childCheck = false
                 if (t.educationList.length < 1) {
+                    if (t.familyList.length < 1) {
+                        t.familyState = true;
+                        t.childCheck = true;
+                    } else {
+                        t.familyState = false;
+                    }
                     t.educationState = true;
                     t.childCheck = true;
                 } else {
@@ -1003,8 +1007,10 @@ export default {
         save () {
             console.log(this.$verify.check());
             const t = this;
-            let state = t.checkChild()
-            if (this.$verify.check() && this.bankVaild && state) {
+            console.log(this.childCheck, "this.childCheck1")
+            t.checkChild();
+            console.log(this.childCheck, "this.childCheck2")
+            if (this.$verify.check() && this.bankVaild && !this.childCheck) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;
@@ -1206,14 +1212,14 @@ export default {
                 });
         },
         //获取工作经历
-        getWorkExp () {
+        async getWorkExp () {
             const t = this;
             const data = {
                 _mt: 'wxEmpWorkExp.getByEmpId',
                 companyId: pubsource.companyId,
                 empId: window.localStorage.getItem('empId'),
             }
-            getDataLevelUserLogin(data).then((res) => {
+            await getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.workExpList = JSON.parse(res.data.content[0].value);
@@ -1230,14 +1236,14 @@ export default {
             });
         },
         //获取家庭成员
-        getFamily () {
+        async getFamily () {
             const t = this;
             const data = {
                 _mt: 'wxEmpFamily.getByEmpId',
                 companyId: pubsource.companyId,
                 empId: window.localStorage.getItem('empId'),
             }
-            getDataLevelUserLogin(data).then((res) => {
+            await getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.familyList = JSON.parse(res.data.content[0].value);
@@ -1254,14 +1260,14 @@ export default {
             });
         },
         //获取教育信息
-        getEducation () {
+        async getEducation () {
             const t = this;
             const data = {
                 _mt: 'wxEmpEducation.getByEmpId',
                 companyId: pubsource.companyId,
                 empId: window.localStorage.getItem('empId'),
             }
-            getDataLevelUserLogin(data).then((res) => {
+            await getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     t.educationList = JSON.parse(res.data.content[0].value);
                     console.log(data, "getEducation")
@@ -1276,14 +1282,14 @@ export default {
             });
         },
         //取消添加
-        closeRight (dom) {
+        async closeRight (dom) {
 
             if (dom === 'empEducationShow') {
-                this.getEducation();
+                await this.getEducation();
             } else if (dom === 'empFamilyShow') {
-                this.getFamily();
+                await this.getFamily();
             } else if (dom === 'empWorkExpShow') {
-                this.getWorkExp();
+                await this.getWorkExp();
             }
             this[dom] = false;
             this.checkChild();

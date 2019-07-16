@@ -69,7 +69,6 @@ const valid = {
   val_mobile: (str) => {
     let rtn = false,
       reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-    console.log('wwww', str.replace(/(^\s*)|(\s*$)/g, ""))
     var strs = str.replace(/(^\s*)|(\s*$)/g, "")
     if (strs.match(reg))
       rtn = true;
