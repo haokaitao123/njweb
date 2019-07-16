@@ -26,6 +26,12 @@ import store from './vuex'
 import './assets/iconfont/iconfont.css';
 import isIE from '../src/lib/isIE'
 import $ from 'jquery'
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+
 // 引入axios
 import axios from 'axios'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; // 配置请求头（推荐）
@@ -44,7 +50,7 @@ const navLang = navigator.language;
 const localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false
 const lang = window.localStorage.lang || localLang || 'zh-CN'
 
-
+Vue.use(VueQuillEditor)
 Vue.config.productionTip = false
 Vue.use(VueI18n)
 Vue.use(iView)
