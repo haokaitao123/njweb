@@ -158,6 +158,20 @@ router.beforeEach((to, from, next) => {
     next()
   }
 });
+axios.interceptors.request.use(
+  config => {
+    let mt = config.data.split('&');
+    mt.forEach((item, index) => {
+      if (item.includes('_mt')) {
+        config.url = config.url + "?" + mt[index]
+      }
+    })
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
 /*
  * 数组是否包含元素
  * */
