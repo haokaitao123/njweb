@@ -212,7 +212,7 @@
                              v-verify="form.empnhResiaddr"
                              :show-clear="false"
                              :readonly="state"
-                             :placeholder="state?'请填写省、市、区、街道信息':'请填写'">
+                             :placeholder="state?'请填写省、市、区、街道信息':'请将地址完善到门牌号'">
                     </x-input>
                     <icon type="warn"
                           class="error"
