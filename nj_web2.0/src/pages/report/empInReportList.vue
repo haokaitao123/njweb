@@ -121,6 +121,7 @@ export default {
                 { code: "empnhEntrydate", name: "入职日期" },
                 { code: "empAge", name: "司龄" },
                 { code: "empAgeRange", name: "司龄分段" },
+                { code: "transCase", name: "异动情况" },
                 { code: "empnhIdno", name: "身份证号码" },
                 { code: "empnhBirthdate", name: "出生日期" },
                 { code: "ageNum", name: "年龄" },
