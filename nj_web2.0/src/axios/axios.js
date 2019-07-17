@@ -387,3 +387,23 @@ export const uploadFile = (data) => {
     data: data,
   })
 }
+//知识库get请求
+export const getKnowledgeGet = (url, data) => {
+  return axios({
+    method: 'get',
+    url: pubsource.pub_knowledge + url,
+    params: data,
+  })
+}
+//知识库post请求
+export const getKnowledgePost = (url, params) => {
+  //   let data = qs.stringify(params);
+  return axios({
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    url: pubsource.pub_knowledge + url,
+    data: params,
+  })
+}
