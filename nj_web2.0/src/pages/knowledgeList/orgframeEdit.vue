@@ -347,7 +347,6 @@ export default {
 			unitFname: '',
 			openDeptPick: false,
 			postFname:'',
-			logTypes:'',
 			addShow:false,
 			addconShow:false,
 			ifCollect:false,

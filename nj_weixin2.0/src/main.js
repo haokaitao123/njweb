@@ -130,7 +130,7 @@ var myRules = {
   backNumber: {
     test: function (val) {
       if (val !== "") {
-        console.log(valid.val_backNumber(val), "valid.val_backNumber(val)")
+        // console.log(valid.val_backNumber(val), "valid.val_backNumber(val)")
         if (valid.val_backNumber(val) === 1) {
           return false;
         } else if (valid.val_backNumber(val) === 2) {
