@@ -22,6 +22,11 @@
                                 placeholder="请输入复试时间"
                                 style="width: 200px"
                                 v-if="tbName=='recruit_process'"></DatePicker>
+                     <DatePicker type="date"
+                                v-model="dimLevsqday"
+                                placeholder="请输入申请离职日期"
+                                style="width: 200px"
+                                v-if="tbName=='emp_empdim'"></DatePicker>
                     <Button class="btns"
                             v-for="(item, index) in btns"
                             :key="index"
@@ -98,14 +103,14 @@
         </transition>
         <transition name="fade">
             <interviewOrder v-show="openOrdersaction"
-                            :id="tableselected"
+                            :id="exportselected"
                             :logType="logType"
                             @closeOrdersaction="closeOrdersaction"
                             ref="interviewOrder"></interviewOrder>
         </transition>
         <transition name="fade">
             <handover v-show="openHandoveraction"
-                      :id="tableselected"
+                      :id="exportselected"
                       :logType="logType"
                       @closeHandoveraction="closeHandoveraction"
                       ref="handover"></handover>
@@ -122,6 +127,28 @@
                           :stepState="stepState"
                           :processState="processState">
         </commonFlowUpdate>
+        <!--导入导出子页面 若没有导入导出可以去掉-->
+    <transition>
+      <expwindow
+        v-show="openExp"
+        :id="exportselected"
+        @setFileKey="setFileKey"
+        :logType="logType"
+        :index="index"
+        :tbName="tbName"
+        @closeExp="closeExp"
+        ref="expwindow"
+      ></expwindow>
+    </transition>
+    <transition>
+      <expdow
+        v-show="openExpDow"
+        :filekey="filekey"
+        :filename="filename"
+        @closeExpDowMain="closeExpDowMain"
+        ref="expdow"
+      ></expdow>
+    </transition>
     </div>
 </template>
 <script>
@@ -134,9 +161,17 @@ import interviewOrder from './interviewOrder'
 import handover from './handover'
 import valid from '@/lib/pub_valid'
 import loading from '@/components/loading/loading'
+ import expwindow from "../../../components/fileOperations/expSms";
+import expdow from "../../../components/fileOperations/expdow";
 export default {
     data () {
         return {
+            // 导出默认参数
+            openExpDow: false,
+        openExp: false,
+         filekey: "",
+        filename: "",
+        exportselected:[],
             showLoading: false,
             reexamineState: true,
             tableheight: document.body.offsetHeight - 280,
@@ -180,6 +215,7 @@ export default {
             empnhName: '',
             relibFilldate: '',
             relibReexamtm: '',
+            dimLevsqday:'',
             flowStep: {
                 width: 65,
                 title: '步骤',
@@ -202,6 +238,8 @@ export default {
         transaction,
         interviewOrder,
         handover,
+        expwindow,
+      expdow,
         loading
     },
     //    created() {
@@ -480,6 +518,26 @@ export default {
                     });
                 }
             }
+            //导出按钮
+            if (btnId === 'button_export') {
+                const t = this;
+                // 填装查询条件
+                
+                // this.exportselected = this.tableselected.split(',');
+                
+                const data = {   
+                empnhName: t.empnhName,
+                empnhIdno: t.empnhIdno,
+                dimLevsqday: t.dimLevsqday,
+                relibFilldate:t.relibFilldate,
+                relibReexamtm:t.relibReexamtm,
+                state: t.state
+                };
+                // 设置导出mt参数
+                this.$refs.expwindow.getData(t.getexpDataTital(t.tbName), "platAutoLayoutExport.export", data);
+                this.openExp = true;
+                
+            }
             if (btnId === 'button_del') {
                 this.deletemsg();
             }
@@ -724,6 +782,7 @@ export default {
                     this.$Message.warning(this.$t('reminder.leastone'))
                 } else {
                     this.logType = "面谈预约";
+                    this.exportselected = this.tableselected.split(',');
                     this.openOrdersaction = true;
                 }
             }
@@ -733,11 +792,103 @@ export default {
                     this.$Message.warning(this.$t('reminder.leastone'))
                 } else {
                     this.logType = "交接时间";
+                    this.exportselected = this.tableselected.split(',');
                     this.openHandoveraction = true;
                 }
             }
         },
+        // 公共导出字段设置
+        getexpDataTital(tbName){
+            let  expDataTital ;
+            if(tbName === "emp_empdim"){
+               expDataTital =  [
+            { code: "empIdName", name: "员工姓名" },
+            { code: "deptIdDis", name: "部门" },
+            { code: "postIdDis", name: "岗位" },
+            { code: "dimLevday", name: "约定离职日期" },
+            { code: "dimLaswkday", name: "最后工作日期" },
+            { code: "dimActlevday", name: "实际离职日期" },
+            { code: "dimReasonDis", name: "离职原因" },
+            { code: "dimTypeDis", name: "离职类型" },
+            { code: "dimLevsqday", name: "申请离职日期" },
+            { code: "dimIsreceiveDis", name: "是否工作交接" },
+            { code: "dimReceiveDis", name: "交接人" },
+            { code: "dimIntetime", name: "面谈时间" },
+            { code: "dimIntenote", name: "面谈记录" },
+            { code: "dimIntereason", name: "面谈离职原因" },
+            { code: "dimCertifiDis", name: "是否需要离职证明" },
+            { code: "dimCoftime", name: "工作交接时间" },
+            { code: "dimSalday", name: "当月工资发放时间" },
+            { code: "dimLastsalday", name: "下月工资发放时间" },
+            { code: "dimAttday", name: "考勤截止日期" },
+            { code: "dimBuspmpDis", name: "上级经理" },
+            { code: "dimDeppmp", name: "部门负责人" },
+            { code: "postStation", name: "是否驻厂" },
+            ]
+            return expDataTital;
+            }else if(tbName === "recruit_process"){
+                 expDataTital =  [
+            { code: "relibName", name: "员工姓名" },
+            { code: "relibReexamtm", name: "复试结果" },
+            { code: "relibFruit", name: "面试结果" },
+            { code: "relibApplypostDis", name: "应聘岗位" },
+            { code: "relibHiredeptDis", name: "入职部门" },
+            { code: "groupDis", name: "组别" },
+            { code: "relibFirstusDis", name: "初试人员" },
+            { code: "relibInvitemanDis", name: "招聘人" },
+            { code: "relibEducatDis", name: "学历" },
+            { code: "relibReexamusDis", name: "复试人员" },
+            { code: "reason", name: "未通过原因" },
+            { code: "relibCheckopin", name: "筛选意见" },
+            { code: "relibMobile", name: "手机号" },
+           
+            ]
 
+                return expDataTital;    
+            }else if(tbName === "emp_transtion"){
+                 expDataTital =  [
+            { code: "empName", name: "员工姓名" },
+            { code: "empIdno", name: "证件号码" },
+            { code: "empnhEntrydate", name: "入职日期" },
+            { code: "transDate", name: "异动日期" },
+            { code: "transTypeDis", name: "异动类型" },
+            { code: "transCroscompDis", name: "是否跨公司" },
+            { code: "transCrospartDis", name: "是否跨部门" },
+            { code: "transSignproDis", name: "是否签订补充协议" },
+            { code: "transPostinfoDis", name: "岗位资料是否移交" },
+            { code: "deptIdpastDis", name: "原部门" },
+            { code: "postIdpastDis", name: "原岗位" },
+            { code: "transPastleaderDis", name: "原直接领导" },
+            { code: "transPastupopin", name: "原上级直接意见" },
+            { code: "deptIdnewDis", name: "现部门" },
+            { code: "deptPmp", name: "现部门负责人" },
+            { code: "postIdnewDis", name: "现岗位" },
+            { code: "transNewleaderDis", name: "现直接领导" },
+            { code: "transNewupopin", name: "现上级直接意见" },
+            { code: "transPartmopin", name: "部门经理意见" },
+            { code: "transGenraopin", name: "总经办意见" },
+            ]
+
+                return expDataTital;    
+            }else if(tbName === "atten_shift"){
+                //调班流程导出
+
+                return expDataTital;    
+            }else if(tbName === "atten_vacation"){
+                //请假流程导出
+
+                return expDataTital;    
+            }else if(tbName === "atten_gooutproc"){
+                //外出流程导出
+
+                return expDataTital;    
+            }else if(tbName === "atten_ckappeal"){
+                //考勤申诉流程导出
+
+                return expDataTital;    
+            }
+
+        },
         addBlackUser () {
             const t = this
             t.transactionId = t.tableselected
@@ -775,7 +926,7 @@ export default {
             }
             t.relibFilldate = t.tbName !== 'recruit_process' ? '' : t.relibFilldate;
             t.relibReexamtm = t.tbName !== 'recruit_process' ? '' : t.relibReexamtm;
-            //            t.relibStore = t.tbName !== 'recruit_process' ? '' : t.relibStore;
+            t.dimLevsqday = t.tbName !== 'emp_empdim' ? '' : t.dimLevsqday;
             this.page = 1;
             t.tableselected = []
             t.getData(1);
@@ -792,12 +943,14 @@ export default {
             t.loading = true;
             t.relibFilldate = t.relibFilldate != "" ? new Date(t.relibFilldate).format("yyyy-MM-dd") : "";
             t.relibReexamtm = t.relibReexamtm != "" ? new Date(t.relibReexamtm).format("yyyy-MM-dd") : "";
+            t.dimLevsqday = t.dimLevsqday != "" ? new Date(t.dimLevsqday).format("yyyy-MM-dd") : "";
             const rcdata = {
                 curStep: t.curStep,
                 flowId: t.flowId,
                 empnhName: t.empnhName,
                 relibFilldate: t.relibFilldate,
                 relibReexamtm: t.relibReexamtm,
+                dimLevsqday:t.dimLevsqday,
                 relibStore: t.store
             };
             t.rcvdata = "";
@@ -809,6 +962,7 @@ export default {
                     empnhName: t.empnhName,
                     relibFilldate: t.relibFilldate,
                     relibReexamtm: t.relibReexamtm,
+                     dimLevsqday:t.dimLevsqday,
                     relibStore: t.store
                 };
 
@@ -850,6 +1004,29 @@ export default {
                 t.loading = false;
             });
         },
+
+        //  //导出
+        // expData () {
+        //     this.$refs.commonPage.expData()
+        // },
+         // 导入导出默认方法 无需更改
+      closeExp() {
+        const t = this;
+        t.openExp = false;
+      },
+      // 导入导出默认方法 无需更改
+      closeExpDowMain() {
+        const t = this;
+        t.openExpDow = false;
+      },
+       // 导入导出默认方法 无需更改
+      setFileKey(filekey, filename, openExpDow) {
+        const t = this;
+        t.filekey = filekey;
+        t.filename = filename;
+        t.openExpDow = openExpDow;
+        t.$refs.expdow.getPriToken(t.filekey);
+      },
         addNewArray (res) {
             const t = this
             if (t.data.length === 0) {
@@ -885,6 +1062,7 @@ export default {
                 newArr.push(selection[i].id)
             }
             this.tableselected = newArr.toString();
+            this.exportselected = newArr;
 
         },
         deletemsg () {
@@ -994,6 +1172,7 @@ export default {
                 this.empnhName = "";
                 this.relibFilldate = "";
                 this.relibReexamtm = "";
+                this.dimLevsqday ="";
                 this.flowId = "";
                 this.curStep = "";
                 this.rcvdata = "";

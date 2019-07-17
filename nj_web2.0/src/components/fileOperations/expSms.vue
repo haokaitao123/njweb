@@ -58,6 +58,10 @@ export default {
         id: Array,
         logType: String,
         index: Number,
+        tbName:{
+            type:String,
+            default:''
+        }
     },
     updated () {
 
@@ -91,6 +95,7 @@ export default {
                 expDisFields: t.expDisFields.join(';'),
                 data: JSON.stringify(tedata),
                 roleType:localStorage.roleType,
+                tbName:this.tbName,
             }
             for (const dat in data) {
                 if (data[dat] === '') {
