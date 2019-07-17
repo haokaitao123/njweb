@@ -179,7 +179,7 @@ export default {
     verify: {
         form: {
             fmRelation: "required",
-            fmCname: "required",
+            fmCname: [ "required","chinese"],
             fmCompany: "required",
             fmPhone: "required",
             fmIsurgent: "required",

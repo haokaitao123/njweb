@@ -335,12 +335,18 @@
                 </div>
                 <!-- 可到岗时间 -->
                 <div class="item_box">
-                    <cell title="可到岗时间"
+                    <cell title=""
                           is-link
                           value-align="left"
+						   v-verify="form.relibAvaitime"
                           v-model="form.relibAvaitime"
                           @click.native="popupClick('relibAvaitimedateShow','relibAvaitime')">
+						  <div slot="title">可到岗时间<span>*</span></div>
                     </cell>
+					<icon type="warn"
+					      class="error"
+					      v-show="form.relibAvaitime==='请选择'"
+					      v-remind="form.relibAvaitime"></icon>
                 </div>
                 <!-- 是否有亲戚或朋友在本公司任职 -->
                 <div class="item_box">
@@ -1071,6 +1077,7 @@ export default {
             relibFirpass: "required",
             relibSchool: "required",
             relibLiving: "required",
+			relibAvaitime:"required"
         }
     },
     components: {

@@ -1073,7 +1073,7 @@ export default {
             }
             t.$Modal.confirm({
                 title: t.$t("reminder.remind"),
-                content: t.$t("reminder.isDelete"),
+                content: t.$t("删除操作会直接删掉数据，是否确认删除"),
                 onOk: () => {
                     getDataLevelUserLogin({
                         _mt: 'platAutoLayoutDel.delByIds',
@@ -1085,15 +1085,20 @@ export default {
                     }).then((res) => {
                         if (isSuccess(res, t)) {
                             console.log(res.data.content[0].value, "res");
-                            let data = res.data.content[0].value;
-                            if (data === 0) {
+
+                            if(t.tbName==="recruit_process"){
+                              let data = res.data.content[0].value;
+                              if (data === 0) {
                                 t.$Message.success(t.$t('reminder.deletesuccess'));
-                            } else if (data === 1) {
+                              } else if (data === 1) {
                                 t.$Message.warning('当前所选数据只能部分删除');
-                            } else if (data === 2) {
+                              } else if (data === 2) {
                                 t.$Message.warning('当前所选数据无法进行删除');
+                              }
+                            }else{
+                              t.$Message.success(t.$t('reminder.deletesuccess'));
                             }
-                            // t.$Message.success(t.$t('reminder.deletesuccess'));
+
                             t.tableselected = []
                             t.getData()
                         }
