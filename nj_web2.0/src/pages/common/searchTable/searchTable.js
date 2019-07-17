@@ -749,7 +749,7 @@ const searchTable = {
       }
     ],
     param: {
-      _mt: 'empEmpnh.getPage',
+      _mt: 'empEmpnh.getEjectPage',
       sort: 'id',
       order: 'desc',
       rows: 10,
@@ -781,7 +781,7 @@ const searchTable = {
         }
       ],
       param: {
-        _mt: 'empEmpnh.getPage',
+        _mt: 'empEmpnh.getEjectPage',
         sort: 'id',
         order: 'desc',
         rows: 10,
