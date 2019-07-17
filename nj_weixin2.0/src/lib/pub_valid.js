@@ -65,6 +65,16 @@ const valid = {
       rtn = true;
     return rtn;
   },
+	//汉字验证
+	val_chinese: (str) => {
+	  console.log(str)
+	  let rtn = false,
+	    reg = /^[\u4e00-\u9fa5]+$/;
+	  var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+	  if (strs.match(reg))
+	    rtn = true;
+	  return rtn;
+	},
   //手机格式 204 必须以数字开头，除数字外，可含有-
   val_mobile: (str) => {
     let rtn = false,
