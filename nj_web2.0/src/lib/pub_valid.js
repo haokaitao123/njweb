@@ -171,7 +171,16 @@ const valid = {
       rtn = true;
     return rtn;
   },
-
+//汉字验证
+	val_chinese: (str) => {
+	  console.log(str)
+	  let rtn = false,
+	    reg = /^[\u4e00-\u9fa5]+$/;
+	  var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+	  if (strs.match(reg))
+	    rtn = true;
+	  return rtn;
+	},
   //验证多个email地址，206 以,或;隔开
   val_mulmail: (str) => {
     let rtn = true,
