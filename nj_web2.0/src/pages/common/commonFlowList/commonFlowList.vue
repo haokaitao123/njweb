@@ -522,9 +522,9 @@ export default {
             if (btnId === 'button_export') {
                 const t = this;
                 // 填装查询条件
-                
-                // this.exportselected = this.tableselected.split(',');
-                
+                if(this.tableselected.length > 0){
+                 this.exportselected = this.tableselected.split(',');
+                }
                 const data = {   
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
@@ -841,6 +841,28 @@ export default {
             { code: "reason", name: "未通过原因" },
             { code: "relibCheckopin", name: "筛选意见" },
             { code: "relibMobile", name: "手机号" },
+            { code: "relibAvaitime", name: "可到岗时间" },
+            { code: "relibIdentityDis", name: "身份" },
+            { code: "relibGenderDis", name: "性别" },
+            { code: "relibBirtplaceDis", name: "籍贯" },
+            { code: "relibNatalityDis", name: "民族" },
+            { code: "relibPoliticalDis", name: "政治面貌" },
+            { code: "relibHealthstaDis", name: "健康状况" },
+            { code: "relibMaritlstaDis", name: "婚姻状况" },
+            { code: "relibWithmeDis", name: "与本人关系" },
+            { code: "relibProstatusDis", name: "职业状态" },
+            { code: "relibIsrelativesDis", name: "是否有朋友在职" },
+            { code: "relibIscriminalDis", name: "是否有犯罪记录" },
+            { code: "relibIstattooDis", name: "是否有纹身" },
+            { code: "relibApplytypeDis", name: "通过何种方法应聘" },
+            { code: "relibIscomDis", name: "是否服从调配" },
+            { code: "relibEnrorageDis", name: "招生范围" },
+            { code: "relibIsgraduDis", name: "是否毕业" },
+            { code: "relibExaminaresDis", name: "补考结果" },
+            { code: "relibFirpassDis", name: "补考是否通过" },
+            { code: "relibIsguaranDis", name: "是否担保" },
+            { code: "relibExaminaDis", name: "考试结果" },
+            { code: "relibGuaranteeDis", name: "担保人" },
            
             ]
 
@@ -1012,6 +1034,9 @@ export default {
          // 导入导出默认方法 无需更改
       closeExp() {
         const t = this;
+        this.$refs.expwindow.expDisFields = [];
+        this.$refs.expwindow.checkAll = false;
+        this.$refs.expwindow.indeterminate = false;
         t.openExp = false;
       },
       // 导入导出默认方法 无需更改
@@ -1062,7 +1087,7 @@ export default {
                 newArr.push(selection[i].id)
             }
             this.tableselected = newArr.toString();
-            this.exportselected = newArr;
+            //this.exportselected = newArr;
 
         },
         deletemsg () {
@@ -1127,12 +1152,12 @@ export default {
             this.openTransaction = false;
         },
         closeOrdersaction () {
-            this.tableselected = [];
+            this.exportselected = [];
             this.openOrdersaction = false;
             this.getData(1);
         },
         closeHandoveraction () {
-            this.tableselected = [];
+            this.exportselected = [];
             this.openHandoveraction = false;
             this.getData(1);
         },
