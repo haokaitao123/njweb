@@ -70,14 +70,15 @@ export default {
         title: String,
     },
     mounted () {
-        this.orangize_getData();
+
     },
     methods: {
         //  分配组织架构获取树
         orangize_getData (id) {
             const t = this
             const data = deepCopy(t.orangize_params)
-            data.id = "999" + id
+            data.userId = "999" + id;
+            data.id=0;
             data.logType = '查询'
             this.id = id
             getDataLevelUserLoginNew(data).then((res) => {
