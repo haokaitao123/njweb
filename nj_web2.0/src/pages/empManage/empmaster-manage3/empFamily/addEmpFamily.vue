@@ -134,15 +134,8 @@ export default {
                 }
                 return numberValCheck(new Error(rule.message))
             }
+            numberValCheck()
         }
-		const namecheck = (rule, value, nameValCheck) =>{
-			if (value !== '' && value !== undefined) {
-			    if (valid.val_chinese(value)) {
-			        return nameValCheck()
-			    }
-			    return nameValCheck(new Error(rule.message))
-			}
-		}
         return {
             disabled: false,
             selectFmRelation: [],
@@ -172,11 +165,7 @@ export default {
                     { required: true, message: "请输入成员关系", trigger: "blur" }
                 ],
                 fmCname: [
-                    { required: true, message: "请输入姓名", trigger: "blur" },{
-						validator:namecheck,
-						message: '请填写中文',
-						trigger: 'blur'
-					}
+                    { required: true, message: "请输入姓名", trigger: "blur" }
                 ],
                 fmCompany: [
                     { required: true, message: "请输入工作单位", trigger: "blur" }

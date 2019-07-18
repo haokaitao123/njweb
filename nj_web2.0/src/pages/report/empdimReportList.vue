@@ -146,24 +146,7 @@ export default {
         { code: "dimSalday", name: "工资截止时间" },
         { code: "dimLastsalday", name: "工资发放时间" },
         { code: "empnhLevday", name: "自离离职日期" },
-        { code: "dimActlevday", name: "办理离职日期" },
-        { code: "empnhIdno", name: "身份证号码" },
-        { code: "empnhBirthdate", name: "出生日期" },
-        { code: "ageNum", name: "年龄" },
-        { code: "ageSlice", name: "年龄分层" },
-        { code: "empnhMobile", name: "联系电话" },
-        { code: "empnhRegaddr", name: "户籍所在地" },
-        { code: "empnhResiaddr", name: "现居地址" },
-        { code: "edSchool", name: "毕业院校" },
-        { code: "edSpecialty", name: "专业" },
-        { code: "edEdate", name: "毕业时间" },
-        { code: "contValiddate", name: "合同生效日期" },
-        { code: "contEdate", name: "合同截至日期" },
-        { code: "contTypeDis", name: "用工方式" },
-        { code: "fmPhone", name: "紧急联系电话" },
-        { code: "fmCname", name: "紧急联系人" },
-        { code: "empnhSalbankDis", name: "银行" },
-        { code: "empnhSalaccount", name: "卡号" },
+        { code: "dimActlevday", name: "办理离职日期" }
       ],
       // 导入导出默认参数 无需变更
       openImport: false,
@@ -282,97 +265,7 @@ export default {
           title: "办理离职日期",
           key: "dimActlevday",
           width: 200
-        },
-        {
-                    title: "身份证号码",
-                    key: "empnhIdno",
-                    width: 220
-                },
-                {
-                    title: "出生日期",
-                    key: "empnhBirthdate",
-                    width: 220
-                },
-                {
-                    title: "年龄",
-                    key: "ageNum",
-                    width: 220
-                },
-                {
-                    title: "年龄分层",
-                    key: "ageSlice",
-                    width: 220
-                },
-                {
-                    title: "联系电话",
-                    key: "empnhMobile",
-                    width: 220
-                },
-                {
-                    title: "户籍所在地",
-                    key: "empnhRegaddr",
-                    width: 220
-                },
-                {
-                    title: "现居地址",
-                    key: "empnhResiaddr",
-                    width: 220
-                },
-                {
-                    title: "毕业院校",
-                    key: "edSchool",
-                    width: 220
-                },
-                {
-                    title: "专业",
-                    key: "edSpecialty",
-                    width: 220
-                },
-                {
-                    title: "学历",
-                    key: "edEducationlevelDis",
-                    width: 220
-                },
-                {
-                    title: "毕业时间",
-                    key: "edEdate",
-                    width: 220
-                },
-                {
-                    title: "合同生效日期",
-                    key: "contValiddate",
-                    width: 220
-                },
-                {
-                    title: "合同截止日期",
-                    key: "contEdate",
-                    width: 220
-                },
-                {
-                    title: "用工方式",
-                    key: "contTypeDis",
-                    width: 220
-                },
-                {
-                    title: "紧急联系电话",
-                    key: "fmPhone",
-                    width: 220
-                },
-                {
-                    title: "紧急联系人",
-                    key: "fmCname",
-                    width: 220
-                },
-                {
-                    title: "银行",
-                    key: "empnhSalbankDis",
-                    width: 220
-                },
-                {
-                    title: "卡号",
-                    key: "empnhSalaccount",
-                    width: 220
-                },
+        }
       ],
       tableBtn: {
         title: "操作",
