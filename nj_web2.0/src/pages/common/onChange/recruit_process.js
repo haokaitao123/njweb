@@ -25,9 +25,6 @@ const recruit_process = {
     recruit_process.relibApproval_set(this);
     recruit_process.relibAppsqus_set(this);
   },
-  relibHiredept(node) {
-    recruit_process.relibHiredept_set(this.$parent)
-  },
   relibScore(node) {
     recruit_process.relibScore_set(this.$parent)
   },
@@ -62,6 +59,8 @@ const recruit_process = {
       t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = t.$refs[t.valueMap.relibApplypost][0].formData1.columns[0].clmDisValue
     }
   },
+
+
   //根据分数判断是否通过考试
   relibScore_set(t) {
     let score
@@ -324,6 +323,7 @@ const recruit_process = {
       }
     }
   },
+<<<<<<< HEAD
   // 入职部门
   relibHiredept_set(t) {
     if (t.valueMap.relibHiredept) {
@@ -331,6 +331,8 @@ const recruit_process = {
       t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = ''
     }
   },
+=======
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
   // 是否担保
   relibIsguaran_dis(t) {
     if (t.valueMap.relibIsguaran) {

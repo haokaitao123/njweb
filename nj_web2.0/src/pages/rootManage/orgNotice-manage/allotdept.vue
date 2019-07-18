@@ -55,6 +55,7 @@ import { isSuccess, deepCopy } from '../../../lib/util'
 export default {
     data () {
         return {
+            id:"",
             tableselected: [],
             total: NaN,
             // 分配组织架构
@@ -67,18 +68,19 @@ export default {
     },
     props: {
         title: String,
-        id: String
     },
     mounted () {
-        this.orangize_getData();
+//        this.orangize_getData();
     },
     methods: {
         //  分配组织架构获取树
-        orangize_getData () {
-            const t = this
-            const data = deepCopy(t.orangize_params)
-            data.id = 0
-            data.logType = '查询'
+        orangize_getData (id) {
+            const t = this;
+            this.id = id;
+            const data = deepCopy(t.orangize_params);
+            data.id = 0 ;
+            data.logType = '查询';
+            data.userId = "999"+id;
             getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {
                     if (res.data.content[0]) {
@@ -151,7 +153,7 @@ export default {
                         title: this.$t('reminder.suc'),
                         content: this.$t('reminder.savsuccess'),
                     })
-                    t.$emit('close')
+                    t.close();
                 }
             }).catch(() => {
                 t.$Modal.error({
@@ -182,6 +184,7 @@ export default {
             }
         },
         close () {
+            this.treeData(this.distribution_data, 'expand', false)
             this.$emit('close')
         }
     },
