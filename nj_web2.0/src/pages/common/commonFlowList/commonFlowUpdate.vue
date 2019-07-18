@@ -545,7 +545,7 @@
 				}).catch(() => {
 					t.$Message.error(this.$t("reminder.errormessage"));
 				})
-			},		
+			},
 			openUp(id) {
 				const t = this
 				t.openUpdate = true
@@ -1011,15 +1011,6 @@
 					t.formDataSubmit.clmMap = JSON.stringify(t.clmMap)
 					if(t.formDataSubmit.hasOwnProperty('empbcContent')) { // 用来判断提交时是否有多选框  有的话需要把值转为字符串传到后台
 						t.formDataSubmit.empbcContent = t.formDataSubmit.empbcContent.join(',')
-					}
-					
-					if(this.tbName=='recruit_process'&&this.stepId=="1341"){
-						//console.log(this.stepId)
-						var localhour=new Date().getHours()
-						if(localhour>='11'&&localhour<='13'){
-							this.$Message.warning("初试提交时间控制  11：00-2：00不可提交复试");
-							return 
-						}
 					}
 					getDataLevelUserLoginNew2(t.formDataSubmit).then((res) => {
 						// t.loading2 = false

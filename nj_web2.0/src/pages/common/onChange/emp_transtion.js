@@ -17,9 +17,7 @@ const emp_transtion = {
     emp_transtion.transPostinfo_set(this.$parent)
     emp_transtion.transPostinfo_dis(this.$parent)
   },
-  deptIdnew(node) {
-    emp_transtion.deptIdnew_set(this.$parent)
-  },
+
   transMaterial(node) {
     emp_transtion.transMaterial_dis(this.$parent)
   },
@@ -43,13 +41,7 @@ const emp_transtion = {
       }
     }
   },
-//现部门
-deptIdnew_set(t){
-    if (t.valueMap.deptIdnew) {
-        t.$refs[t.valueMap.postIdnew][0].$set(t.$refs[t.valueMap.postIdnew][0].formDataSubmit, 'postIdnew', '')
-        t.$refs[t.valueMap.postIdnew][0].$refs.postIdnew.thisValue = ''
-    }
-},
+
 //   transMaterialtm_set(t) {
 //     if (t.valueMap.transMaterialtm) {
 //         if(t.$refs[t.valueMap.transMaterialtm][0].formDataSubmit.transMaterialtm.length<=0){

@@ -140,7 +140,6 @@ export default {
         { code: "reason", name: "复试备注" },
         { code: "relibCheckopin", name: "复试筛选备注" },
         { code: "relibMobile", name: "电话号码" },
-        { code: "relibAvaitime", name: "到岗时间" },
 			],
         // 导入导出默认参数 无需变更
         openImport: false,
@@ -227,11 +226,6 @@ export default {
         {
           title: "电话号码",
           key: "relibMobile",
-          width: 220
-        },
-        {
-          title: "到岗时间",
-          key: "relibAvaitime",
           width: 220
         },
       ],

@@ -28,7 +28,6 @@
                             <span>{{new Date(item.relibFilldate.replace(/\-/g, '/')).format('hh:mm:ss')}}</span>
                         </div>
                     </div>
-
                     <div class="interview_item"
                          v-show="item.curStepDis">
                         <span class="curStepstate"
@@ -62,8 +61,7 @@
              v-if="show">
             <me-qrcode :qrUrl='url'
                        :qr-size='320'
-                       :qr-logo-size="80"
-                       :qrLogo="iconurl"></me-qrcode>
+                       :qr-logo-size="80"></me-qrcode>
         </div>
         <div id="mask"
              @click="closeQrCode"
@@ -97,7 +95,7 @@
     </div>
 </template>
 <script>
-import meQrcode from "@/components/qrcode/qrcode";
+import QRCode from 'qrcode'
 import {
     getDataLevelUserLogin
 } from '@/axios/axios'
@@ -107,10 +105,7 @@ import {
 import addNewInterview from '@/components/public/addNew'
 export default {
     data () {
-
         return {
-            url: '',
-            iconurl: '../../../static/main/qrcode.jpg',
             list: [],
             loading: false, //是否处于加载状态
             finished: false, //是否已加载完所有数据
@@ -157,7 +152,7 @@ export default {
         }
     },
     components: {
-        meQrcode,
+        QRCode: QRCode,
         addNewInterview
     },
     methods: {
@@ -321,8 +316,11 @@ export default {
             this.show = true;
             this.maskShow = true;
             var canvas = document.getElementById('canvas');
-            const url = pubsource.pub_url + '#/resumeInfo?id=' + id;
-            this.url = url;
+            const url = pubsource.pub_url + '#/resumeInfo?id=' + id
+            QRCode.toCanvas(canvas, url, function (error) {
+                if (error) console.error(error)
+                console.log('url', url);
+            })
         },
         //关闭二维码
         closeQrCode () {
@@ -337,7 +335,6 @@ export default {
 .interview {
     height: 100%;
     background: #f6f6f6;
-
     .interviewWrap {
         height: calc(~"100% - 110px");
         overflow: scroll;
@@ -377,13 +374,11 @@ export default {
             }
             .item_first {
                 justify-content: space-between;
-
                 h3 {
                     font-size: 30px;
                     color: #333333;
                     font-weight: normal;
                 }
-
                 span {
                     font-size: 30px;
                     color: #ff6b00;
@@ -391,16 +386,13 @@ export default {
             }
             .item_second {
                 justify-content: space-between;
-
                 .item_left {
                     font-size: 24px;
                     color: #666666;
                     display: flex;
-
                     span:first-child {
                         margin-right: 30px;
                     }
-
                     img {
                         width: 24px;
                         height: 24px;
@@ -411,7 +403,6 @@ export default {
                     display: flex;
                     font-size: 24px;
                     color: #999999;
-
                     span:first-child {
                         margin-right: 20px;
                     }
@@ -428,7 +419,6 @@ export default {
                     font-size: 28px;
                     color: #339afe;
                     border-radius: 6px;
-
                     &:first-child {
                         margin-right: 16px;
                     }
@@ -439,23 +429,23 @@ export default {
     .qrCodeContent {
         position: fixed;
         width: 100%;
-        height: 600px;
+        height: 640px;
         left: 0;
         right: 0;
         bottom: 0;
         top: 0;
         margin: auto;
-        background: #fff;
+        // background: #fff;
         z-index: 100;
         transition: all 0.5s;
         display: flex;
         justify-content: center;
-        #canvas {
-            width: 80% !important;
-            height: 90% !important;
-            margin-left: 10%;
-            margin-top: 5%;
-        }
+        // #canvas {
+        //     width: 80% !important;
+        //     height: 90% !important;
+        //     margin-left: 10%;
+        //     margin-top: 5%;
+        // }
     }
     .interviewMes {
         position: fixed;
@@ -513,12 +503,10 @@ export default {
         transition: all 0.2s;
     }
 }
-
 .addNew {
     position: fixed;
     bottom: 10%;
     right: 10%;
-
     .add {
         font-size: 76px;
         background-color: #339afe;
