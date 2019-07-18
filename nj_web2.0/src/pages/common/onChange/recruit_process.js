@@ -323,7 +323,6 @@ const recruit_process = {
       }
     }
   },
-<<<<<<< HEAD
   // 入职部门
   relibHiredept_set(t) {
     if (t.valueMap.relibHiredept) {
@@ -331,8 +330,6 @@ const recruit_process = {
       t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = ''
     }
   },
-=======
->>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
   // 是否担保
   relibIsguaran_dis(t) {
     if (t.valueMap.relibIsguaran) {
