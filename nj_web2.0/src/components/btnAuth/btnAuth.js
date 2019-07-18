@@ -280,6 +280,9 @@ export default {
         case "快速离职":
           name = 'buttonQkleave'
           break
+        case "拒绝":
+          name = 'buttonRefuse'
+          break
       }
       return name;
     },
@@ -390,6 +393,10 @@ export default {
           break
         case "button_order":
           btnName = '面谈预约';
+          bType = 'success';
+          break
+        case "button_refuse":
+          btnName = '拒绝';
           bType = 'success';
           break
       }
