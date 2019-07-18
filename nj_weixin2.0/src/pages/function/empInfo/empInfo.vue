@@ -207,12 +207,12 @@
                 </div>
                 <!-- 居住地址 -->
                 <div class="item_box">
-                    <x-input title="现居住地址<span>*</span>"
+                    <x-input title="居住地址<span>*</span>"
                              v-model.trim="form.empnhResiaddr"
                              v-verify="form.empnhResiaddr"
                              :show-clear="false"
                              :readonly="state"
-                             :placeholder="state?'请填写省、市、区、街道信息':'请将地址完善到门牌号'">
+                             :placeholder="state?'请填写省、市、区、街道信息':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
@@ -793,7 +793,6 @@ export default {
                 empnhTechspec: "",              //职称专业
                 empnhTechdate: "请选择",         //职称取得时间
                 note: "",                       //备注
-				empnhIrmentdate:"",             //转正日期
             },
             empnhNationDis: "请选择",
             empnhIdtypeDis: "请选择",
@@ -853,7 +852,7 @@ export default {
             empnhEday: "required",
             empnhBirthdate: "required",
             empnhMobile: ["required", "mobile"],
-            empnhResiaddr:[ "required","address"],
+            empnhResiaddr: "required",
             empnhRegaddr: "required",
             empnhQq: "number",
             empnhPersmail: "email",
@@ -888,19 +887,6 @@ export default {
             this[name] = true;
             this.currentId = id;
         },
-		//转正日期
-		 Positive(){
-			var str = this.form.empnhEntrydate
-			 str = str.replace(/-/g, '/'); // 转为格式"2015/05/26";
-             // 创建日期对象，并初始化，完成文本转日期
-             var date = new Date(str);
-			 var month= date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
-			 var date2 = new Date(date).setMonth(month);
-			 date2 = new Date(date2).format("yyyy-MM-dd")
-			 this.form.empnhIrmentdate = date2
-			 //console.log(this.form.empnhIrmentdate,"date223")
-			
-		},
         //证件号码验证
         idNumber () {
             if (this.form.empnhIdno !== '') {
@@ -948,6 +934,8 @@ export default {
         //银行卡号校验
         //银行卡验证
         bankCheck () {
+            console.log(123);
+            // debugger;
             if (this.form.empnhSalaccount == '') {
                 this.bankVaild = false;
                 return;
@@ -997,12 +985,6 @@ export default {
                 t.workExpState = false;
                 t.childCheck = false
                 if (t.educationList.length < 1) {
-                    if (t.familyList.length < 1) {
-                        t.familyState = true;
-                        t.childCheck = true;
-                    } else {
-                        t.familyState = false;
-                    }
                     t.educationState = true;
                     t.childCheck = true;
                 } else {
@@ -1021,11 +1003,8 @@ export default {
         save () {
             console.log(this.$verify.check());
             const t = this;
-            console.log(this.childCheck, "this.childCheck1")
-            t.checkChild();
-            console.log(this.childCheck, "this.childCheck2")
-			t.Positive()
-            if (this.$verify.check() && this.bankVaild && !this.childCheck) {
+            let state = t.checkChild()
+            if (this.$verify.check() && this.bankVaild && state) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;
@@ -1035,7 +1014,6 @@ export default {
                         delete data[dat];
                     }
                 }
-				//console.log('data',data)
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
                         t.$notify({
@@ -1068,7 +1046,6 @@ export default {
         },
         //底部弹出窗确认事件
         confirm (value) {
-			console.log(value)
             if (this.curDomShow.indexOf("dateShow") != -1) {
                 if (this.curDom == 'empnhSday') {
                     this.minEmpnhEday = new Date(value);
@@ -1077,14 +1054,6 @@ export default {
                 }
                 value = new Date(value).format('yyyy-MM-dd');
                 this.form[this.curDom] = value
-				if(this.curDom == 'empnhEntrydate'){
-					var date = new Date(value);
-					var month= date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
-					var date2 = new Date(date).setMonth(month);
-					date2 = new Date(date2).format("yyyy-MM-dd")
-					this.form.empnhIrmentdate = date2
-					//console.log(this.form.empnhIrmentdate,"date2")
-				}
             } else {
                 this.form[this.curDom] = value.key;
                 let str = this.curDom
@@ -1184,7 +1153,7 @@ export default {
                     t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '请选择';
                     t.form.note = data.note;
                     if (data.state !== '01empstate' && data.state !== '06empstate') {
-                        t.state = true
+                        t.state = false
                     }
                     t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '请选择';
                     t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '请选择';
@@ -1237,14 +1206,14 @@ export default {
                 });
         },
         //获取工作经历
-        async getWorkExp () {
+        getWorkExp () {
             const t = this;
             const data = {
                 _mt: 'wxEmpWorkExp.getByEmpId',
                 companyId: pubsource.companyId,
                 empId: window.localStorage.getItem('empId'),
             }
-            await getDataLevelUserLogin(data).then((res) => {
+            getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.workExpList = JSON.parse(res.data.content[0].value);
@@ -1261,14 +1230,14 @@ export default {
             });
         },
         //获取家庭成员
-        async getFamily () {
+        getFamily () {
             const t = this;
             const data = {
                 _mt: 'wxEmpFamily.getByEmpId',
                 companyId: pubsource.companyId,
                 empId: window.localStorage.getItem('empId'),
             }
-            await getDataLevelUserLogin(data).then((res) => {
+            getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let data = JSON.parse(res.data.content[0].value);
                     t.familyList = JSON.parse(res.data.content[0].value);
@@ -1285,14 +1254,14 @@ export default {
             });
         },
         //获取教育信息
-        async getEducation () {
+        getEducation () {
             const t = this;
             const data = {
                 _mt: 'wxEmpEducation.getByEmpId',
                 companyId: pubsource.companyId,
                 empId: window.localStorage.getItem('empId'),
             }
-            await getDataLevelUserLogin(data).then((res) => {
+            getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
                     t.educationList = JSON.parse(res.data.content[0].value);
                     console.log(data, "getEducation")
@@ -1307,14 +1276,14 @@ export default {
             });
         },
         //取消添加
-        async closeRight (dom) {
+        closeRight (dom) {
 
             if (dom === 'empEducationShow') {
-                await this.getEducation();
+                this.getEducation();
             } else if (dom === 'empFamilyShow') {
-                await this.getFamily();
+                this.getFamily();
             } else if (dom === 'empWorkExpShow') {
-                await this.getWorkExp();
+                this.getWorkExp();
             }
             this[dom] = false;
             this.checkChild();

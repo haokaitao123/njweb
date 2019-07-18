@@ -36,9 +36,10 @@ import {
   Col,
   Progress,
   Tabbar,
+  TabbarItem
 } from 'vant';
 Vue.use(DatetimePicker).use(Picker).use(Popup).use(PullRefresh).
-use(List).use(Loading).use(search).use(ImagePreview).use(Notify).use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Icon).use(Row).use(Col).use(Progress).use(Tabbar);
+use(List).use(Loading).use(search).use(ImagePreview).use(Notify).use(Dialog).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Icon).use(Row).use(Col).use(Progress).use(Tabbar).use(TabbarItem);
 Notify.setDefaultOptions.duration = '1000'
 var myRules = {
   required: {
@@ -66,6 +67,7 @@ var myRules = {
     },
     message: ""
   },
+
   idNumber: {
     test: function (val) {
       if (val !== "") {
@@ -90,31 +92,6 @@ var myRules = {
     },
     message: ""
   },
-  address:{
-	  test: function (val) {
-	    if (val !== "") {
-	      if (val.length > 3) {
-	        return true;
-	      }else{
-			  return false; 
-		  }
-	    }
-		return false;
-	  },
-	  message: ""
-  },
-  chinese:{
-	 test: function (val) {
-	   if (val !== "") {
-	     if (valid.val_chinese(val)) {
-	       return true;
-	     }
-	     return false;
-	   }
-	   return true;
-	 },
-	 message: "" 
-  },
   email: {
     test: function (val) {
       if (val !== "") {
@@ -130,7 +107,7 @@ var myRules = {
   backNumber: {
     test: function (val) {
       if (val !== "") {
-        // console.log(valid.val_backNumber(val), "valid.val_backNumber(val)")
+        console.log(valid.val_backNumber(val), "valid.val_backNumber(val)")
         if (valid.val_backNumber(val) === 1) {
           return false;
         } else if (valid.val_backNumber(val) === 2) {
@@ -184,15 +161,12 @@ Date.prototype.format = function (fmt) {
 }
 axios.interceptors.request.use(
   config => {
-    // console.log(config.data, "config");
-
-    // let mt = config.data.split('&');
-
-    // mt.forEach((item, index) => {
-    //   if (item.includes('_mt')) {
-    //     config.url = config.url + "?" + mt[index]
-    //   }
-    // })
+    let mt = config.data.split('&');
+    mt.forEach((item, index) => {
+      if (item.includes('_mt')) {
+        config.url = config.url + "?" + mt[index]
+      }
+    })
     store.commit('showLoading');
     return config
   },
