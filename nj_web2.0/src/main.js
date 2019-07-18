@@ -26,13 +26,6 @@ import store from './vuex'
 import './assets/iconfont/iconfont.css';
 import isIE from '../src/lib/isIE'
 import $ from 'jquery'
-// 引入axios
-import axios from 'axios'
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; // 配置请求头（推荐）
-axios.defaults.baseURL = 'http://192.168.101.155/api/exam'; //设置一个类似base_url的请求路径
-global.axios = axios; //设置一个全局axios便于调用
-// 挂载到vue原型链上
-Vue.prototype.axios = axios
 import {
   getDataLevelUserLogin
 } from './axios/axios'
@@ -43,7 +36,6 @@ import {
 const navLang = navigator.language;
 const localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false
 const lang = window.localStorage.lang || localLang || 'zh-CN'
-
 
 Vue.config.productionTip = false
 Vue.use(VueI18n)
@@ -152,6 +144,20 @@ router.beforeEach((to, from, next) => {
     next()
   }
 });
+// axios.interceptors.request.use(
+//   config => {
+//     let mt = config.data.split('&');
+//     mt.forEach((item, index) => {
+//       if (item.includes('_mt')) {
+//         config.url = config.url + "?" + mt[index]
+//       }
+//     })
+//     return config
+//   },
+//   error => {
+//     return Promise.reject(error)
+//   }
+// )
 /*
  * 数组是否包含元素
  * */

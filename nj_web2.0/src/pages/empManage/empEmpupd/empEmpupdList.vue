@@ -105,7 +105,7 @@ export default {
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
                 { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110 , fixed : "left" },
-                { key: "createTime", title: "提交时间",sortable: "custom" , width : 190},
+                { key: "createTime", title: "提交时间", width : 180},
                 { key: "unitFname", title: "部门名称", sortable: "custom" , width : 180},
                 { key: "postFname", title: "岗位名称", sortable: "custom" , width : 110},
                 { key: "empupdResaddr", title: "居住详细地址", width : 280},

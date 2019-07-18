@@ -426,7 +426,6 @@ export const isSuccess = (data, t) => {
     if (buscode === 0) {
       return true;
     } else if (buscode !== 0) {
-      t.$store.commit('commonFlowButton/setSaveLoading', false)
       if (buscode === -100) {
         // t.$Message.error("网络错误");
         t.$Message.warning(data.data.stat.stateList[0].desc);
@@ -438,7 +437,6 @@ export const isSuccess = (data, t) => {
       return false;
     }
   } else if (apicode !== 0) {
-    t.$store.commit('commonFlowButton/setSaveLoading', false)
     if (apicode === -100 || apicode === -120 || apicode === -140 || apicode === -200 || apicode === -280) {
       // t.$Message.error("网络错误");
       t.$Message.error(data.data.stat.stateList[0].desc);
@@ -447,7 +445,6 @@ export const isSuccess = (data, t) => {
       t.$router.push('/loginmain/login');
       //   t.$Message.warning('请重新登录');
     } else {
-
       t.$Message.error(data.data.stat.stateList[0].desc);
     }
     return false;

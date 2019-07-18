@@ -70,7 +70,6 @@
                                  @buttonAdd="openUp('',$t('button.add'))"
                                  @moditySelect="modityChange"
                                  @buttonEmp="changeState('入职')"
-                                 @buttonRefuse="returnState"
                                  @buttonDel="deletemsg"
                                  @buttonSubmit="changeState('提交')"
                                  @buttonTrans="buttonTrans"
@@ -668,38 +667,6 @@ export default {
                 });
             }
         },
-      /*拒绝*/
-      returnState() {
-        const t = this;
-        if (t.tableselected.length === 0) {
-          this.$Message.warning('请至少选择一条数据');
-        } else {
-          let tips = "您确定继续操作吗？";
-          t.$Modal.confirm({
-            title: this.$t("reminder.remind"),
-            content: tips,
-            onOk: () => {
-              getDataLevelUserLogin({
-                _mt: "empEmpnh.updStateByIds",
-                logType: '拒绝',
-                ids: t.tableselected.toString(),
-                state: 'return',
-              })
-                .then(res => {
-                  if (isSuccess(res, t)) {
-                    this.$Message.success('操作成功');
-                    t.tableselected = [];
-                    t.getData(this.treeid)
-                  }
-                })
-                .catch(() => {
-                  this.$Message.error('操作失败');
-                });
-            },
-            onCancel: () => { }
-          });
-        }
-      },
         // 条数变化
         sizeChange (size) {
             const t = this;

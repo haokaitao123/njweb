@@ -96,6 +96,7 @@
         <transition name="fade">
             <allotdept v-show="allotdeptState"
                        :title="title"
+                       :id="allotdeptId"
                        @close="closeAllotdept"
                        ref="allotdept"></allotdept>
         </transition>
@@ -228,8 +229,7 @@ export default {
                                     } else {
                                         this.allotdeptState = true;
                                         this.title = params.row.noticeTitle;
-                                        this.allotdeptId = params.row.id;
-                                        this.$refs.allotdept.orangize_getData(params.row.id)
+                                        this.allotdeptId = params.row.id
                                     }
 
                                 },
