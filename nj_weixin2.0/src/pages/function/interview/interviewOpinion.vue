@@ -1120,6 +1120,11 @@ export default {
     },
     methods: {
         showPopup () {
+            var localhour=new Date().getHours()
+            if(localhour>="11"&&localhour<="13"){
+                this.$vux.toast.text('初试提交时间控制  11：00-2：00不可提交复试 ');
+                return
+            }
             this.show = true;
         },
         //提交
