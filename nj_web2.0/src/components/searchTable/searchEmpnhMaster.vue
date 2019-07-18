@@ -60,7 +60,7 @@ export default {
             empnhName: '',
             searchText: '选择员工信息',
             params: {
-                _mt: 'empEmpnh.getEjectPage',
+                _mt: 'empEmpnh.getPage',
                 sort: 'id',
                 order: 'desc',
                 rows: 20,

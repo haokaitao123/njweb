@@ -223,12 +223,10 @@
 				</div>
 				<!-- 可到岗时间 -->
 				<div class="item_box">
-					<cell title="可到岗时间" is-link v-if="!state" value-align="left" v-model="form.relibAvaitime" v-verify="form.relibAvaitime" @click.native="popupClick('relibAvaitimedateShow','relibAvaitime')">
-						<div slot="title">可到岗时间<span>*</span></div>
+					<cell title="可到岗时间" is-link v-if="!state" value-align="left" v-model="form.relibAvaitime" @click.native="popupClick('relibAvaitimedateShow','relibAvaitime')">
 					</cell>
-					<x-input title="可到岗时间" v-if="state" v-model="form.relibAvaitime"  :show-clear="false" :disabled="state" placeholder="未填写">
+					<x-input title="可到岗时间" v-if="state" v-model="form.relibAvaitime" :show-clear="false" :disabled="state" placeholder="未填写">
 					</x-input>
-					<icon type="warn" class="error" v-show="form.relibAvaitime==='请选择'" v-remind="form.relibAvaitime"></icon>
 				</div>
 				<!-- 是否有亲戚或朋友在本公司任职 -->
 				<div class="item_box">
@@ -630,8 +628,6 @@
 				relibIsgradu: "required",
 				relibSchool: "required",
 				relibLiving: "required",
-				relibAvaitime:"required"
-				
 			}
 		},
 		components: {
