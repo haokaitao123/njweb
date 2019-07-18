@@ -92,7 +92,7 @@ export default {
             // 导出字段设置, code字段名 name列名
             expDataTital: [
                 { code: "empnhName", name: "员工姓名" },
-                { code: "empnhIdno", name: "身份证号码" },
+                { code: "createTime", name: "提交时间" },
                 { code: "unitFname", name: "部门名称" },
                 { code: "postFname", name: "岗位名称" },
                 { code: "empupdResaddr", name: "居住详细地址" },
@@ -105,7 +105,7 @@ export default {
             columns: [
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
                 { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110 , fixed : "left" },
-                { key: "empnhIdno", title: "身份证号码", width : 190},
+                { key: "createTime", title: "提交时间",sortable: "custom" , width : 190},
                 { key: "unitFname", title: "部门名称", sortable: "custom" , width : 180},
                 { key: "postFname", title: "岗位名称", sortable: "custom" , width : 110},
                 { key: "empupdResaddr", title: "居住详细地址", width : 280},
