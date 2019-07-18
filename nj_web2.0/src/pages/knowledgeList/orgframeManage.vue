@@ -9,28 +9,25 @@
                 <Row>
                     <Col span="4"
                          class="colTree">
-                    <div>
-                        <Select style="width: 170px;"
-                                v-model="keyword"
-                                filterable
-                                @keyup.enter.native="knowEvent"
-                                :remote=true
-                                :remote-method="remoteMethod1"
-                                :loading="loading1">
-                            <Option v-for="(option, index) in options1"
-                                    :value="option.name"
-                                    :key="index">{{option.name}}</Option>
-                        </Select>
-                        <i-button style="margin-top: -52px; display: inline-block;margin-left: 180px;"
-                                  type="primary"
-                                  @click="addEvent"
-                                  icon="android-add">新增</i-button>
-                    </div>
+						  <div>
+						  <Select
+						     style="width: 170px;"
+						 	v-model="keyword"
+						 	filterable
+						 	@keyup.enter.native="knowEvent"
+						 	:remote = true 
+						 	:remote-method="remoteMethod1"
+						 	:loading="loading1">
+						 	<Option v-for="(option, index) in options1" :value="option.name"  :key="index">{{option.name}}</Option>
+						 </Select>
+						 		 <i-button style="margin-top: -52px; display: inline-block;margin-left: 180px;" type="primary" @click="addEvent"   icon="android-add">新增</i-button>
+						 </div>
                     <div class="divtree"
                          :style="{height:treeheight + 'px'}">
                         <Tree v-if="dataTree != ''"
                               :data="dataTree"
-                              @on-select-change="selectChange"></Tree>
+                              @on-select-change="selectChange"
+                              ></Tree>
                         <Spin v-if="loading"
                               size="large"
                               :style="{height:treeheight + 'px'}"></Spin>
@@ -41,88 +38,74 @@
                     <Row>
                         <Input placeholder="请输入文章名称"
                                style="width: 200px"
-                               @keyup.enter.native="enterEvent"
+							   @keyup.enter.native="enterEvent"
                                v-model="keywordr" />
-                        <Input placeholder="请输入内容"
-                               style="width: 200px"
-                               @keyup.enter.native="contSearh"
-                               v-model="keywords" />
-                        <i-button style="margin-top: 0px;margin-left: 30px;"
-                                  type="primary"
-                                  @click="collects"
-                                  icon="ios-heart-outline">我的收藏</i-button>
-                        <i-button style="margin-top: 0px; display: inline-block;margin-left: 30px;"
-                                  type="primary"
-                                  @click="addContent"
-                                  icon="android-add">新增内容</i-button>
+						<Input placeholder="请输入内容"
+							          style="width: 200px"
+							   	   @keyup.enter.native="contSearh"
+							          v-model="keywords" />
+						<i-button style="margin-top: 0px;margin-left: 30px;" type="primary" @click="collects"   icon="ios-heart-outline">我的收藏</i-button>
+						<i-button style="margin-top: 0px; display: inline-block;margin-left: 30px;" type="primary" @click="addContent"   icon="android-add">新增内容</i-button>
                     </Row>
                     <row class="table-form"
                          ref="table-form">
                         <Table @on-selection-change="selectedtable"
-                               class="tabStyle"
-                               :row-class-name="rowClassName"
+								class="tabStyle"
+								:row-class-name="rowClassName"
                                @on-sort-change="sortable"
-                               @on-row-click="selectEvent"
+							   @on-row-click="selectEvent"
                                :height="tableheight"
                                size="small"
-                               border
+							   border
                                ref="selection"
                                :columns="columns"
                                :data="TabData"
                                :loading="loading"></Table>
-                        <div class="right-div"
-                             style="height:663px;"
-                             v-show="divShow">
-                            <div class="heads">内容详情</div>
-                            <div class="operation">
-                                <div class="item-list">
-                                    <div class="items">
-                                        <Icon size=30
-                                              @click="like"
-                                              class="heart"
-                                              type="ios-heart"></Icon>
-                                        <div>收藏</div>
-                                    </div>
-                                    <div class="items">
-                                        <Icon size=30
-                                              @click="will"
-                                              class="zan"
-                                              type="thumbsup"></Icon>
-                                        <div>点赞</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item-title">
-                                <p>标题:&nbsp;&nbsp;{{contentShow.title}}</p>
-                            </div>
-                            <div class="item-content">
-                                内容:
-                                <p id="myContent">
-                                </p>
-                            </div>
-                            <div class="item-list">
-                                <p>时间:&nbsp;&nbsp;{{contentShow.created}}</p>
-                            </div>
-                            <div class="item-list">
-                                <p>点击数:&nbsp;&nbsp;{{contentShow.clicked}}</p>
-                            </div>
-                            <div class="item-list">
-
-                            </div>
-                            <div class="item-list">
-                                <p>发布人:&nbsp;&nbsp;{{contentShow.unitCityName}}</p>
-                            </div>
-                            <div class="item-list">
-                                <p>创建人:&nbsp;&nbsp;{{contentShow.unitInvdate}}</p>
-                            </div>
-                            <div class="link">
-
-                            </div>
-                        </div>
+							   <div class="right-div" style="height:663px;" v-show="divShow">
+								   <div class="heads">内容详情</div>
+								    <div class="operation">
+								    <div class="item-list">
+								       <div class="items">
+								   		<Icon size=30 @click="like" class="heart" type="ios-heart"></Icon>
+								   			<div>收藏</div>
+								   		</div>
+								   	 <div class="items">
+								   	    <Icon size=30 @click="will" class="zan" type="thumbsup"></Icon>
+								   			 <div>点赞</div>
+								     </div>
+								   	</div>
+								   </div>
+								  <div class="item-title">
+									   <p>标题:&nbsp;&nbsp;{{contentShow.title}}</p>
+								  </div>
+								   <div class="item-content">
+									  内容:
+									  <p id="myContent">
+									  </p>
+								  </div>
+								  <div class="item-list">
+									   <p>时间:&nbsp;&nbsp;{{contentShow.created}}</p>
+								  </div>
+								  <div class="item-list">
+									   <p>点击数:&nbsp;&nbsp;{{contentShow.clicked}}</p>
+								  </div>
+								  <div class="item-list">
+									  
+								  </div>
+								  <div class="item-list">
+									   <p>发布人:&nbsp;&nbsp;{{contentShow.unitCityName}}</p>
+								  </div>
+								  <div class="item-list">
+									  <p>创建人:&nbsp;&nbsp;{{contentShow.unitInvdate}}</p>
+								  </div>
+								  <div class="link">
+									 
+								  </div>
+							   </div>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
-                              :showTotal="showTotal"
+                            :showTotal="showTotal"
                               size="small"
                               :current="page"
                               show-elevator
@@ -144,14 +127,14 @@
             </card>
             </Col>
         </Row>
-        <transition name="fade">
-            <newupdate v-show="openUpdates"
-                       :logTypes="logTypes"
-                       @closeUp="closeUps"
-                       @getData="addNewArray"
-                       @update="updateArray"
-                       ref="newupdate"></newupdate>
-        </transition>
+		 <transition name="fade">
+		    <newupdate v-show="openUpdates"
+					:logTypes="logTypes"
+		            @closeUp="closeUps"
+		            @getData="addNewArray"
+		            @update="updateArray"
+		            ref="newupdate"></newupdate>
+		</transition>
     </div>
 </template>
 <script>
@@ -160,13 +143,11 @@ import expdow from "@/components/fileOperations/expdow";
 import newupdate from './orgframeEdit'
 import {
     getDataLevelUserLoginNew,
-    getDataLevelUserLogin,
-    getKnowledgeGet,
-    getKnowledgePost
+    getDataLevelUserLogin
 } from "@/axios/axios";
 export default {
     components: {
-        newupdate
+		newupdate
     },
     data () {
         return {
@@ -175,13 +156,13 @@ export default {
             imp_mt: "orgUnits.importData",
             // 导出字段设置, code字段名 name列名
             // 导入导出默认参数 无需变更
-            searchs: "",
+			searchs:"",
             openImport: false,
             openExpDow: false,
             openExp: false,
             filekey: "",
             filename: "",
-            divShow: false,
+			divShow:false,
             //左边树的默认参数
             openChart: false,
             dataTree: [],
@@ -189,7 +170,7 @@ export default {
             //子页面所需参数，无需变更
             tableheight: document.body.offsetHeight - 280,
             value: "",
-            page: 0,
+			page: 0,
             logType: "",
             openUpdate: false,
             updateId: NaN,
@@ -200,21 +181,21 @@ export default {
             unitTypeId: NaN,
             status: "",
             unitPid: "",
-            addShow: false,
-            addconShow: false,
-            ifShow: false,
-            selection: [],
-            openUpdates: false,
-            updateIds: NaN,
-            itemId: NaN,
-            logTypes: "",
-            tabIndex: NaN,
+			addShow: false,
+			addconShow:false,
+			ifShow:false,
+			selection:[],
+			openUpdates:false,
+			updateIds:NaN,
+			itemId:NaN,
+			logTypes:"",
+			tabIndex :NaN,
             loading1: false,
-            keyword: "",
-            keywordr: "",
-            keywords: "",
+			keyword:"",
+			keywordr:"",
+			keywords:"",
             options1: [],
-            contentShow: [],
+			contentShow:[],
             columns: [
                 {
                     type: "selection",
@@ -249,17 +230,17 @@ export default {
                 //     width: 140
                 // },
             ],
-            tabShow: false,
-            TabData: [],
+			tabShow:false,
+			TabData:[],
             data: [],
-            detList: [],
+			detList:[],
             total: 0,
             showTotal: true,
             index: 0,
             sort: "id",
             order: "desc",
             rows: 20,
-            TreeId: '',
+			TreeId:'',
             funId: "1000",
             unitCode: "",
             compFnameCnDis: "",
@@ -268,17 +249,17 @@ export default {
             unitFname: "",
             unitType: "",
             openPick: false,
-            knowledgeId: '',
+			knowledgeId:'',
             params: {
-                _mt: "orgUnits.getByOrgFramePageList",
-                sort: "id",
-                order: "asc",
-                rows: 10,
-                page: 1,
-                funId: "1",
-                logType: "组织架构查询",
-                data: "{}",
-                unitPid: 0
+				_mt: "orgUnits.getByOrgFramePageList",
+				sort: "id",
+				order: "asc",
+				rows: 10,
+				page: 1,
+				funId: "1",
+				logType: "组织架构查询",
+				data: "{}",
+				unitPid: 0
             },
             modify: "false",
             state: this.modity,
@@ -304,12 +285,12 @@ export default {
         }
     },
     created () {
-        this.openUps()
+		this.openUps()
     },
     mounted () {
-        this.getTable()
+		this.getTable()
         //this.getTree();
-        this.getTreedata()
+		this.getTreedata()
         // this.getSelect();
     },
     watch: {
@@ -321,212 +302,220 @@ export default {
         // }
     },
     methods: {
-        selectEvent (selection) {
-            var oDiv = document.querySelector(".zan");
-            oDiv.style.color = '#000000'
-            var oDivs = document.querySelector(".heart");
-            oDivs.style.color = '#000000'
-            console.log(selection)
-            const t = this;
-            this.knowledgeId = selection.id
-            this.TabData.forEach(function (currentValue, index, arr) {
-                if (currentValue.id == selection.id) {
-                    t.contentShow = selection;
-                    //t.detList = row
-                    t.tabIndex = index;
-                    document.getElementById('myContent').innerHTML = t.contentShow.content
+		selectEvent(selection){
+			var oDiv = document.querySelector(".zan");
+				oDiv.style.color = '#000000'
+			var oDivs = document.querySelector(".heart");
+				oDivs.style.color = '#000000'
+			console.log(selection)
+			const t = this;
+			this.knowledgeId = selection.id
+			this.TabData.forEach(function(currentValue, index, arr){
+				if(currentValue.id == selection.id){
+					t.contentShow = selection;
+					//t.detList = row
+					t.tabIndex = index;
+					document.getElementById('myContent').innerHTML=t.contentShow.content
+				}
+			})
+		},
+		rowClassName (row, index) {
+                if (index === this.tabIndex) {
+                    return 'demo-table-info-row';
                 }
-            })
+                return '';
+            },
+		addEvent(){
+			const t = this;
+			t.openUpdates = true;
+			t.addShow = true;
+			t.ifShow = false;
+			t.logTypes = "新增"
+			t.$refs.newupdate.newAdd()
+		},
+		addContent(){
+			const t = this;
+			t.openUpdates = true;
+			t.addShow = false;
+			t.ifShow = false;
+			t.addconShow = true;
+			t.logTypes = "新增内容"
+			t.$refs.newupdate.addContent()
+		},
+		remoteMethod1 (query) {
+			//console.log('/',query)
+			if (query !== '') {
+				this.getEvent(query)
+				this.loading1 = true;
+				setTimeout(() => {
+					this.loading1 = false;
+					 this.options1 = [];
+					 console.log(this.list,"this.list");
+					 console.log(query,"query")
+				  for(var i = 0;i < this.list.length;i++){
+					  if(this.list[i].name.includes(query)){
+						  this.options1.push(this.list[i]);
+					  }
+				  }
+				}, 200);
+			} else {
+				this.options1 = [];
+			}
+		},
+		getEvent(query) {
+		   const t = this
+		   console.log(query,"t.keyword")
+		   this.axios.get('http://192.168.101.155/api/exam/ry/knowledgeCategory/search',{
+					 params: {  
+					  nameLike:query,
+					  page:'1',
+					  size:'9999',
+					  sort:'asc',
+					}
+		   })
+			.then((res) => {
+				console.log(res,"reskk")
+			 t.list =  res.data.content[0];
+			 console.log(t.list)
+			})
+			.catch((err) => {
+			  console.log(err);
+			});
+		},
+			getTreedata() {
+			       const t = this
+			       this.axios.get('http://192.168.101.155/api/exam/ry/knowledgeCategory/getPersonKnowledgeCategoryTree',{
+						params: {  
+						 nameLike:this.keyword
+					   }
+			       })
+			        .then((res) => {
+					 //t.list = res.data.content[0];
+			        t.dataTree = t.toTree(res.data.content[0]);
+					
+			        })
+			        .catch((err) => {
+			          console.log(err);
+			        });
+			    },
+		like(){
+			var readyData= JSON.stringify({
+				categoryId:this.treeid,
+				knowledgeId:this.knowledgeId,
+				staffId:this.$store.state.user.userId
+			});
+			console.log('readyData',readyData)
+			this.axios.post('/ry/operationKnowledge/collection',{
+				headers: {'Content-Type':'application/x-www-form-urlencoded'},
+				readyData
+			})
+			  .then(function (response) {
+				console.log(response);
+				var oDivs = document.querySelector(".heart");
+				oDivs.style.color = "red";
+			  })
+			  .catch(function (error) {
+				  t.$Message.error('保存失败');
+				console.log(error);
+			  });
+		},
+		will(){
+			const t = this;
+			var readyData= JSON.stringify({
+				knowledgeId:this.knowledgeId,
+				staffId:this.$store.state.user.userId
+			});
+			console.log('readyData',readyData)
+			this.axios.post('/ry/operationKnowledge/praise',{
+				headers: {'Content-Type':'application/x-www-form-urlencoded'},
+				readyData
+			})
+			  .then(function (response) {
+				console.log(response);
+				var oDiv = document.querySelector(".zan");
+				oDiv.style.color = "blue";
+			  })
+			  .catch(function (error) {
+				  t.$Message.error('保存失败');
+				console.log(error);
+			  });
+			
+		},
+		 collects(){
+			  const t = this;
+			  t.openUpdates = true
+			  t.logTypes = "收藏列表"
+			  t.$refs.newupdate.colEvent()
+		  },
+		   //enter事件
+        enterEvent(e){
+			this.getTable()
         },
-        rowClassName (row, index) {
-            if (index === this.tabIndex) {
-                return 'demo-table-info-row';
-            }
-            return '';
-        },
-        addEvent () {
-            const t = this;
-            t.openUpdates = true;
-            t.addShow = true;
-            t.ifShow = false;
-            t.logTypes = "新增"
-            t.$refs.newupdate.newAdd()
-        },
-        addContent () {
-            const t = this;
-            t.openUpdates = true;
-            t.addShow = false;
-            t.ifShow = false;
-            t.addconShow = true;
-            t.logTypes = "新增内容"
-            t.$refs.newupdate.addContent()
-        },
-        remoteMethod1 (query) {
-            //console.log('/',query)
-            if (query !== '') {
-                this.getEvent(query)
-                this.loading1 = true;
-                setTimeout(() => {
-                    this.loading1 = false;
-                    this.options1 = [];
-                    console.log(this.list, "this.list");
-                    console.log(query, "query")
-                    for (var i = 0; i < this.list.length; i++) {
-                        if (this.list[i].name.includes(query)) {
-                            this.options1.push(this.list[i]);
-                        }
-                    }
-                }, 200);
-            } else {
-                this.options1 = [];
-            }
-        },
-        getEvent (query) {
-            const t = this
-            console.log(query, "t.keyword")
-            getKnowledgeGet('ry/knowledgeCategory/search', {
-                nameLike: query,
-                page: '1',
-                size: '9999',
-                sort: 'asc',
-            })
-                .then((res) => {
-                    console.log(res, "reskk")
-                    t.list = res.data.content[0];
-                    console.log(t.list)
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        getTreedata () {
-            const t = this
-            getKnowledgeGet('ry/knowledgeCategory/getPersonKnowledgeCategoryTree', {
-                nameLike: this.keyword
-            })
-                .then((res) => {
-                    //t.list = res.data.content[0];
-                    t.dataTree = t.toTree(res.data.content[0]);
-
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        like () {
-            var readyData = {
-                categoryId: this.treeid,
-                knowledgeId: this.knowledgeId,
-                staffId: this.$store.state.user.userId
-            };
-            console.log('readyData', readyData)
-            getKnowledgePost('ry/operationKnowledge/collection', {
-                readyData
-            })
-                .then(function (response) {
-                    console.log(response);
-                    var oDivs = document.querySelector(".heart");
-                    oDivs.style.color = "red";
-                })
-                .catch(function (error) {
-                    t.$Message.error('保存失败');
-                    console.log(error);
-                });
-        },
-        will () {
-            const t = this;
-            var readyData = {
-                knowledgeId: this.knowledgeId,
-                staffId: this.$store.state.user.userId
-            };
-            console.log('readyData', readyData)
-            getKnowledgePost('ry/operationKnowledge/praise', {
-                readyData
-            })
-                .then(function (response) {
-                    console.log(response);
-                    var oDiv = document.querySelector(".zan");
-                    oDiv.style.color = "blue";
-                })
-                .catch(function (error) {
-                    t.$Message.error('保存失败');
-                    console.log(error);
-                });
-
-        },
-        collects () {
-            const t = this;
-            t.openUpdates = true
-            t.logTypes = "收藏列表"
-            t.$refs.newupdate.colEvent()
-        },
-        //enter事件
-        enterEvent (e) {
-            this.getTable()
-        },
-        knowEvent (e) {
-            this.getTreedata()
-            this.list = []
-        },
-        getTable (id, page) {
-            console.log(id)
-            const t = this
-            t.TreeId = id
-            t.page = page
-            getKnowledgeGet('ry/knowledge/search', {
-                titleLike: this.keywordr,
-                categoryId: t.TreeId,
-                page: t.page,
-                size: '20',
-                sort: 'asc',
-            })
-                .then((res) => {
-                    console.log(res);
-                    t.TabData = res.data.content[0].rows[0];
-                    if (res.data.content[0].rows[0][0]) {
-                        t.contentShow = res.data.content[0].rows[0][0];
-                        document.getElementById('myContent').innerHTML = t.contentShow.content
-                        console.log(t.contentShow, "t.contentShow")
-                        t.divShow = true;
-                    } else {
-                        t.divShow = false;
-                    }
-                    console.log('123', t.TabData.length)
-                    t.total = res.data.content[0].total;
-                    t.page = res.data.content[0].page;
-                    t.records = res.data.content[0].records;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        contSearh () {
-            const t = this
-            getKnowledgeGet('ry/knowledge/search', {
-                contentLike: this.keywords,
-                page: '1',
-                size: '20',
-                sort: 'asc',
-            })
-                .then((res) => {
-                    console.log(res, "res")
-                    t.TabData = res.data.content[0].rows[0];
-                    if (res.data.content[0].rows[0][0]) {
-                        t.contentShow = res.data.content[0].rows[0][0];
-                        t.divShow = true;
-                    } else {
-                        t.divShow = false;
-                    }
-                    console.log('123', t.TabData.length)
-                    t.total = res.data.content[0].total;
-                    t.page = res.data.content[0].page;
-                    t.records = res.data.content[0].records;
-                    t.total = res.data.content[0].records;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
+		knowEvent(e){
+		this.getTreedata()
+		this.list = []
+		},
+		getTable (id,page) {
+			console.log(id)
+			const t = this
+			t.TreeId = id 
+			t.page = page
+			 this.axios.get('http://192.168.101.155/api/exam/ry/knowledge/search',{
+				 params: {
+				  titleLike:this.keywordr,
+				  categoryId:t.TreeId,
+				  page:t.page,
+				  size:'20',
+				  sort:'asc',
+				}
+			 })
+          .then((res) => {
+			  console.log(res);
+			   t.TabData =  res.data.content[0].rows[0]; 
+			   if(res.data.content[0].rows[0][0]){
+				    t.contentShow = res.data.content[0].rows[0][0];
+					t.divShow = true;
+			   }else{
+				   t.divShow = false;
+			   }
+			   console.log('123',t.TabData.length)
+		   t.total = res.data.content[0].total;
+		   t.page = res.data.content[0].page;
+		   t.records = res.data.content[0].records;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+		},
+		contSearh(){
+			const t = this
+			this.axios.get('http://192.168.101.155/api/exam/ry/knowledge/search',{
+						 params: {  
+						  contentLike:this.keywords,
+						  page:'1',
+						  size:'20',
+						  sort:'asc',
+						}
+			})
+			 .then((res) => {
+				 console.log(res,"res")
+			  t.TabData =  res.data.content[0].rows[0];
+			  if(res.data.content[0].rows[0][0]){
+			 				    t.contentShow = res.data.content[0].rows[0][0];
+			 					t.divShow = true;
+			 			   }else{
+			 				   t.divShow = false;
+			 			   }
+			 			   console.log('123',t.TabData.length)
+			  t.total = res.data.content[0].total;
+			  t.page = res.data.content[0].page;
+			  t.records = res.data.content[0].records;
+			  t.total = res.data.content[0].records;
+			 })
+			 .catch((err) => {
+			   console.log(err);
+			 });
+		},
         pickData () {
             const t = this;
             t.$refs.searchOrgframe.getData(this.params);
@@ -565,12 +554,12 @@ export default {
             getDataLevelUserLoginNew(data)
                 .then(res => {
                     if (isSuccess(res, t)) {
-                        console.log(res, 'res')
+						console.log(res,'res')
                         t.loading = false;
                         setTimeout(() => {
-                            console.log('res.data.content[0].value', res.data.content[0].value)
+							console.log('res.data.content[0].value',res.data.content[0].value)
                             t.dataTree = t.toTree(res.data.content[0].value);
-                            console.log(t.dataTree, 't.dataTree')
+							console.log(t.dataTree,'t.dataTree')
                         }, 500);
                     }
                 })
@@ -584,16 +573,16 @@ export default {
         },
         /* 树点击事件 */
         selectChange (e) {
-            console.log('e', e[0].id)
-            //const t = this
-            // t.logTypes = "修改"
-            // t.$refs.newupdate.revise(e)
-            // t.openUpdates = true;
-            this.treeid = e.id;
+			console.log('e',e[0].id)
+			//const t = this
+			// t.logTypes = "修改"
+			// t.$refs.newupdate.revise(e)
+			// t.openUpdates = true;
+			this.treeid = e.id;
             this.page = 1;
-            if (e[0].id) {
-                this.getTable(e[0].id);
-            }
+			if(e[0].id){
+				 this.getTable(e[0].id);
+			}
         },
         /* 把后台数据转化为tree的格式 */
         toTree (data) {
@@ -614,7 +603,7 @@ export default {
                     val.push(item);
                 }
             });
-            console.log(val, 'val')
+			console.log(val,'val')
             return val;
         },
         addNewArray (res) {
@@ -628,11 +617,11 @@ export default {
             t.getTree();
         },
         sortable (column) {
-            console.log('column', column)
+			console.log('column',column)
             this.sort = column.key;
-            console.log(this.sort)
+			console.log(this.sort)
             this.order = column.order;
-
+			
             if (this.order !== "normal") {
                 this.getData(this.treeid);
             } else {
@@ -651,13 +640,13 @@ export default {
         }, //分页
         selectedtable (selection) {
             const newArr = [];
-            this.selection = selection
+			this.selection = selection
             for (let i = 0; i < selection.length; i++) {
                 newArr.push(selection[i].id);
             }
             console.log(newArr, "newArr");
             this.tableselected = newArr;
-
+			
         }, //列表中选中的item
         deletemsg () {
             const t = this;
@@ -694,16 +683,16 @@ export default {
                 });
             }
         },
-        openUps () {
-            var t = this;
-            t.ifShow = true;
-            t.logTypes = "信息列表"
-            t.openUpdates = true;
-        },
-        closeUps () {
-            const t = this;
-            t.openUpdates = false;
-        },
+		openUps(){
+			var t = this;
+			t.ifShow = true;
+			t.logTypes = "信息列表"
+			t.openUpdates = true;
+		},
+		 closeUps () {
+		    const t = this;
+		    t.openUpdates = false;
+			},
         closeUp () {
             const t = this;
             t.openUpdate = false;
@@ -786,7 +775,7 @@ export default {
                     )
                 ]
             );
-        }, //渲染树状图
+         }, //渲染树状图
         getSelect () {
             const t = this;
             t.dropdownMenuList = [];
@@ -852,7 +841,7 @@ export default {
                 },
                 onCancel: () => { }
             });
-        },
+        }, 
         getPageByType (paramCode) {
             this.unitTypeId = paramCode;
             this.getData();
@@ -864,15 +853,15 @@ export default {
 <style lang="scss" scoped>
 .table-form {
     margin: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    .table-form /deep/.ivu-table {
-        width: 100%;
+	display: flex;
+	justify-content: space-between;
+	.table-form /deep/.ivu-table{
+		width: 100%;
+	}
+}
+ .tabStyle /deep/ .demo-table-info-row td{
+        background-color: #dbdbdb !important;
     }
-}
-.tabStyle /deep/ .demo-table-info-row td {
-    background-color: #dbdbdb !important;
-}
 .margin-right-10 {
     margin-right: 10px;
 }
@@ -898,64 +887,65 @@ export default {
     overflow: auto;
     position: relative;
 }
-.tabStyle {
+.tabStyle{
     width: 80%;
 }
-.right-div {
-    overflow-y: auto;
-    border: 1px solid #e9e7e7;
-    width: 100%;
-    font-size: 16px;
-    .heads {
-        width: 100%;
-        text-align: center;
-        margin-top: 20px;
-    }
-    .item-content {
-        margin-top: 10px;
-        margin-left: 25px;
-    }
-    .link {
-        margin-left: 25px;
-    }
-    .operation {
-        margin-top: -50px;
-        margin-left: 80%;
-        .items {
-            margin-left: 20px;
-            font-size: 10px;
-            display: inline-block;
-            .addheart {
-                color: red;
-            }
-            .addwill {
-                color: blue;
-            }
-        }
-    }
-    .item-title {
-        margin-top: 30px;
-        margin-left: 25px;
-    }
-    .item-list {
-        width: 230px;
-        height: 50px;
-        display: inline-block;
-        margin-left: 25px;
-        margin-top: 20px;
-        p {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-    }
+.right-div{
+	overflow-y:auto;
+	border: 1px solid #e9e7e7;
+	width: 100%;
+	font-size: 16px;
+	.heads{
+		width: 100%;
+		text-align: center;
+		margin-top: 20px;
+	}
+	.item-content{
+		margin-top: 10px;
+		margin-left: 25px;
+	}
+	.link{
+		margin-left: 25px;
+	}
+	.operation{
+		margin-top: -50px;
+		margin-left: 80%;
+		.items{
+			margin-left: 20px;
+			font-size:10px;
+			display: inline-block;
+			.addheart{
+				color: red;
+			}
+			.addwill{
+				color:blue;
+			}
+		}
+	}
+	.item-title{
+		margin-top: 30px;
+		margin-left: 25px;
+	}
+	.item-list{
+		width: 230px;
+		height: 50px;
+		display: inline-block;
+		margin-left: 25px;
+		margin-top: 20px;
+		p{
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+	}
 }
-.table-form /deep/.ivu-table {
-    width: 100%;
-}
-.ivu-table td.demo-table-info-column {
-    background-color: #2db7f5;
-    color: #fff;
-}
+.table-form /deep/.ivu-table{
+		width: 100%;
+	}
+	.ivu-table td.demo-table-info-column{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+	
 </style>
 

@@ -141,7 +141,7 @@ export default {
     verify: {
         form: {
             refaMembers: "required",
-            refaName: [ "required","chinese"],
+            refaName: "required",
             refaContact: ["required", "mobile"],
         }
     },
