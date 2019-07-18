@@ -92,7 +92,6 @@ var myRules = {
     },
     message: ""
   },
-<<<<<<< HEAD
   address: {
     test: function (val) {
       if (val !== "") {
@@ -118,8 +117,6 @@ var myRules = {
     },
     message: ""
   },
-=======
->>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
   email: {
     test: function (val) {
       if (val !== "") {
@@ -189,19 +186,6 @@ Date.prototype.format = function (fmt) {
 }
 axios.interceptors.request.use(
   config => {
-<<<<<<< HEAD
-    console.log(config.data, "config");
-
-    let mt = config.data.split('&');
-
-=======
-    let mt = config.data.split('&');
->>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
-    mt.forEach((item, index) => {
-      if (item.includes('_mt')) {
-        config.url = config.url + "?" + mt[index]
-      }
-    })
     store.commit('showLoading');
     return config
   },

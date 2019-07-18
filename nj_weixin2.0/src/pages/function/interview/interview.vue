@@ -58,16 +58,10 @@
             </van-list>
         </van-pull-refresh>
         <div class="qrCodeContent"
-<<<<<<< HEAD
              v-if="show">
             <me-qrcode :qrUrl='url'
                        :qr-size='320'
                        :qr-logo-size="80"></me-qrcode>
-=======
-             v-show="show">
-            <canvas id="canvas"
-                    style="height:600px;width:300px"></canvas>
->>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
         </div>
         <div id="mask"
              @click="closeQrCode"
@@ -444,7 +438,6 @@ export default {
         // background: #fff;
         z-index: 100;
         transition: all 0.5s;
-<<<<<<< HEAD
         display: flex;
         justify-content: center;
         // #canvas {
@@ -453,14 +446,6 @@ export default {
         //     margin-left: 10%;
         //     margin-top: 5%;
         // }
-=======
-        #canvas {
-            width: 80% !important;
-            height: 90% !important;
-            margin-left: 10%;
-            margin-top: 5%;
-        }
->>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
     }
     .interviewMes {
         position: fixed;
