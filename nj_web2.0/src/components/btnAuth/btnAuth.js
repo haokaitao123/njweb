@@ -399,6 +399,9 @@ export default {
           btnName = '拒绝';
           bType = 'success';
           break
+        case "button_opt_allotdept":
+          btnName = '分配部门'
+          break
       }
       let obj = {
         "bType": bType,
