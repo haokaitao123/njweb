@@ -28,7 +28,6 @@
                             <span>{{new Date(item.relibFilldate.replace(/\-/g, '/')).format('hh:mm:ss')}}</span>
                         </div>
                     </div>
-
                     <div class="interview_item"
                          v-show="item.curStepDis">
                         <span class="curStepstate"
@@ -59,9 +58,16 @@
             </van-list>
         </van-pull-refresh>
         <div class="qrCodeContent"
+<<<<<<< HEAD
+             v-if="show">
+            <me-qrcode :qrUrl='url'
+                       :qr-size='320'
+                       :qr-logo-size="80"></me-qrcode>
+=======
              v-show="show">
             <canvas id="canvas"
                     style="height:600px;width:300px"></canvas>
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
         </div>
         <div id="mask"
              @click="closeQrCode"
@@ -105,7 +111,6 @@ import {
 import addNewInterview from '@/components/public/addNew'
 export default {
     data () {
-
         return {
             list: [],
             loading: false, //是否处于加载状态
@@ -336,7 +341,6 @@ export default {
 .interview {
     height: 100%;
     background: #f6f6f6;
-
     .interviewWrap {
         height: calc(~"100% - 110px");
         overflow: scroll;
@@ -376,13 +380,11 @@ export default {
             }
             .item_first {
                 justify-content: space-between;
-
                 h3 {
                     font-size: 30px;
                     color: #333333;
                     font-weight: normal;
                 }
-
                 span {
                     font-size: 30px;
                     color: #ff6b00;
@@ -390,16 +392,13 @@ export default {
             }
             .item_second {
                 justify-content: space-between;
-
                 .item_left {
                     font-size: 24px;
                     color: #666666;
                     display: flex;
-
                     span:first-child {
                         margin-right: 30px;
                     }
-
                     img {
                         width: 24px;
                         height: 24px;
@@ -410,7 +409,6 @@ export default {
                     display: flex;
                     font-size: 24px;
                     color: #999999;
-
                     span:first-child {
                         margin-right: 20px;
                     }
@@ -427,7 +425,6 @@ export default {
                     font-size: 28px;
                     color: #339afe;
                     border-radius: 6px;
-
                     &:first-child {
                         margin-right: 16px;
                     }
@@ -438,21 +435,32 @@ export default {
     .qrCodeContent {
         position: fixed;
         width: 100%;
-        height: 600px;
+        height: 640px;
         left: 0;
         right: 0;
         bottom: 0;
         top: 0;
         margin: auto;
-        background: #fff;
+        // background: #fff;
         z-index: 100;
         transition: all 0.5s;
+<<<<<<< HEAD
+        display: flex;
+        justify-content: center;
+        // #canvas {
+        //     width: 80% !important;
+        //     height: 90% !important;
+        //     margin-left: 10%;
+        //     margin-top: 5%;
+        // }
+=======
         #canvas {
             width: 80% !important;
             height: 90% !important;
             margin-left: 10%;
             margin-top: 5%;
         }
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
     }
     .interviewMes {
         position: fixed;
@@ -510,12 +518,10 @@ export default {
         transition: all 0.2s;
     }
 }
-
 .addNew {
     position: fixed;
     bottom: 10%;
     right: 10%;
-
     .add {
         font-size: 76px;
         background-color: #339afe;

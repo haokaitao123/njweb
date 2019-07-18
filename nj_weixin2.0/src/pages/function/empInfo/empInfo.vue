@@ -793,6 +793,10 @@ export default {
                 empnhTechspec: "",              //职称专业
                 empnhTechdate: "请选择",         //职称取得时间
                 note: "",                       //备注
+<<<<<<< HEAD
+                empnhIrmentdate: "",             //转正日期
+=======
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
             },
             empnhNationDis: "请选择",
             empnhIdtypeDis: "请选择",
@@ -842,6 +846,7 @@ export default {
             // workState: false,
             familyState: false,
             workExpState: false,
+            empState: ''
         }
     },
     verify: {
@@ -852,7 +857,11 @@ export default {
             empnhEday: "required",
             empnhBirthdate: "required",
             empnhMobile: ["required", "mobile"],
+<<<<<<< HEAD
+            empnhResiaddr: ["required", "address"],
+=======
             empnhResiaddr: "required",
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
             empnhRegaddr: "required",
             empnhQq: "number",
             empnhPersmail: "email",
@@ -887,6 +896,22 @@ export default {
             this[name] = true;
             this.currentId = id;
         },
+<<<<<<< HEAD
+        //转正日期
+        Positive () {
+            var str = this.form.empnhEntrydate
+            str = str.replace(/-/g, '/'); // 转为格式"2015/05/26";
+            // 创建日期对象，并初始化，完成文本转日期
+            var date = new Date(str);
+            var month = date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
+            var date2 = new Date(date).setMonth(month);
+            date2 = new Date(date2).format("yyyy-MM-dd")
+            this.form.empnhIrmentdate = date2
+            //console.log(this.form.empnhIrmentdate,"date223")
+
+        },
+=======
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
         //证件号码验证
         idNumber () {
             if (this.form.empnhIdno !== '') {
@@ -1003,17 +1028,32 @@ export default {
         save () {
             console.log(this.$verify.check());
             const t = this;
+<<<<<<< HEAD
+            console.log(this.childCheck, "this.childCheck1")
+            t.checkChild();
+            console.log(this.childCheck, "this.childCheck2")
+            t.Positive()
+            if (this.$verify.check() && this.bankVaild && !this.childCheck) {
+=======
             let state = t.checkChild()
             if (this.$verify.check() && this.bankVaild && state) {
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;
                 data.id = window.localStorage.getItem('empId');
+                if (this.empState === '01empstate') {
+                    data.state = '03empstate'
+                }
                 for (const dat in data) {
                     if (data[dat] === "" || data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
+<<<<<<< HEAD
+                //console.log('data',data)
+=======
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
                         t.$notify({
@@ -1046,6 +1086,10 @@ export default {
         },
         //底部弹出窗确认事件
         confirm (value) {
+<<<<<<< HEAD
+            console.log(value)
+=======
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
             if (this.curDomShow.indexOf("dateShow") != -1) {
                 if (this.curDom == 'empnhSday') {
                     this.minEmpnhEday = new Date(value);
@@ -1054,6 +1098,17 @@ export default {
                 }
                 value = new Date(value).format('yyyy-MM-dd');
                 this.form[this.curDom] = value
+<<<<<<< HEAD
+                if (this.curDom == 'empnhEntrydate') {
+                    var date = new Date(value);
+                    var month = date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
+                    var date2 = new Date(date).setMonth(month);
+                    date2 = new Date(date2).format("yyyy-MM-dd")
+                    this.form.empnhIrmentdate = date2
+                    //console.log(this.form.empnhIrmentdate,"date2")
+                }
+=======
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
             } else {
                 this.form[this.curDom] = value.key;
                 let str = this.curDom
@@ -1152,6 +1207,7 @@ export default {
                     t.form.empnhTechspec = !data.empnhTechspec ? "" : data.empnhTechspec;
                     t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '请选择';
                     t.form.note = data.note;
+                    t.empState = data.state;
                     if (data.state !== '01empstate' && data.state !== '06empstate') {
                         t.state = false
                     }

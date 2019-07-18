@@ -92,6 +92,34 @@ var myRules = {
     },
     message: ""
   },
+<<<<<<< HEAD
+  address: {
+    test: function (val) {
+      if (val !== "") {
+        if (val.length > 3) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return false;
+    },
+    message: ""
+  },
+  chinese: {
+    test: function (val) {
+      if (val !== "") {
+        if (valid.val_chinese(val)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    },
+    message: ""
+  },
+=======
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
   email: {
     test: function (val) {
       if (val !== "") {
@@ -161,7 +189,14 @@ Date.prototype.format = function (fmt) {
 }
 axios.interceptors.request.use(
   config => {
+<<<<<<< HEAD
+    console.log(config.data, "config");
+
     let mt = config.data.split('&');
+
+=======
+    let mt = config.data.split('&');
+>>>>>>> b653396f901b5a940c79dd15264b12e1a69dc317
     mt.forEach((item, index) => {
       if (item.includes('_mt')) {
         config.url = config.url + "?" + mt[index]
