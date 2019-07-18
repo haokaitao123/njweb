@@ -184,12 +184,15 @@ Date.prototype.format = function (fmt) {
 }
 axios.interceptors.request.use(
   config => {
-    let mt = config.data.split('&');
-    mt.forEach((item, index) => {
-      if (item.includes('_mt')) {
-        config.url = config.url + "?" + mt[index]
-      }
-    })
+    // console.log(config.data, "config");
+
+    // let mt = config.data.split('&');
+
+    // mt.forEach((item, index) => {
+    //   if (item.includes('_mt')) {
+    //     config.url = config.url + "?" + mt[index]
+    //   }
+    // })
     store.commit('showLoading');
     return config
   },

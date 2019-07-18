@@ -60,7 +60,7 @@ export default {
         getData () {
             const t = this
             const data = {
-                _mt: 'orgNotice.getPage',
+                _mt: 'orgNotice.getListPage',
                 rows: 6,
                 page: 1,
                 state: 103,

@@ -392,6 +392,9 @@ export default {
           btnName = '面谈预约';
           bType = 'success';
           break
+        case "button_opt_allotdept":
+          btnName = '分配部门'
+          break
       }
       let obj = {
         "bType": bType,
