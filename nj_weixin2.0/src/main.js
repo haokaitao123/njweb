@@ -90,30 +90,30 @@ var myRules = {
     },
     message: ""
   },
-  address:{
-	  test: function (val) {
-	    if (val !== "") {
-	      if (val.length > 3) {
-	        return true;
-	      }else{
-			  return false; 
-		  }
-	    }
-		return false;
-	  },
-	  message: ""
+  address: {
+    test: function (val) {
+      if (val !== "") {
+        if (val.length > 3) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return false;
+    },
+    message: ""
   },
-  chinese:{
-	 test: function (val) {
-	   if (val !== "") {
-	     if (valid.val_chinese(val)) {
-	       return true;
-	     }
-	     return false;
-	   }
-	   return true;
-	 },
-	 message: "" 
+  chinese: {
+    test: function (val) {
+      if (val !== "") {
+        if (valid.val_chinese(val)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    },
+    message: ""
   },
   email: {
     test: function (val) {
@@ -184,15 +184,15 @@ Date.prototype.format = function (fmt) {
 }
 axios.interceptors.request.use(
   config => {
-    // console.log(config.data, "config");
+    console.log(config.data, "config");
 
-    // let mt = config.data.split('&');
+    let mt = config.data.split('&');
 
-    // mt.forEach((item, index) => {
-    //   if (item.includes('_mt')) {
-    //     config.url = config.url + "?" + mt[index]
-    //   }
-    // })
+    mt.forEach((item, index) => {
+      if (item.includes('_mt')) {
+        config.url = config.url + "?" + mt[index]
+      }
+    })
     store.commit('showLoading');
     return config
   },
