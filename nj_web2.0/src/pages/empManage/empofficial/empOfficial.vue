@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -296,9 +296,7 @@
         this.getData()
       },
       enterEvent(e){
-        if(e.target.value != ''){
           this.getData()
-        }
       },
       // 勾选数据方法 无需更改
       selectedtable(selection) {

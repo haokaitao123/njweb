@@ -10,7 +10,7 @@
         <Row>
           <DatePicker type="date" :placeholder="$t('lang_baseManage.wxMsgRecord.sdateIns')" :editable="false" v-model="sdate" :transfer="true" ></DatePicker>
           <DatePicker type="date" :placeholder="$t('lang_baseManage.wxMsgRecord.edateIns')" :editable="false" v-model="edate" :transfer="true" ></DatePicker>
-          <Input :placeholder="$t('lang_baseManage.wxMsgRecord.wxmsgSendeeIns')" style="width: 200px" v-model="wxmsgSendee"/>
+          <Input :placeholder="$t('lang_baseManage.wxMsgRecord.wxmsgSendeeIns')" style="width: 200px" @on-enter="enterEvent" v-model="wxmsgSendee"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
         </Row>
         <row class="table-form" ref="table-form">
@@ -129,6 +129,10 @@
       this.getData(1)
     },
     methods: {
+				//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

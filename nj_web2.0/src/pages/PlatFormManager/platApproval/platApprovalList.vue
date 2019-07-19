@@ -8,7 +8,7 @@
           &nbsp;{{$t('lang_approval.platapprovallist.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_approval.platapprovallist.aprvNameDis')" style="width: 200px" v-model="aprvName"/>
+          <Input :placeholder="$t('lang_approval.platapprovallist.aprvNameDis')" @on-enter="enterEvent" style="width: 200px" v-model="aprvName"/>
           <Dropdown>
             <Button type="primary">
               {{statusDis}}
@@ -177,6 +177,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

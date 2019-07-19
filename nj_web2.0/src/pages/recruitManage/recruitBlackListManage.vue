@@ -301,9 +301,7 @@ export default {
   methods: {
     //enter事件
     enterEvent(e){
-      if(e.target.value != ''){
         this.search()
-      }
     },
     // 查询方法
     getData(page) {

@@ -9,7 +9,7 @@
         </p>
         <Row>
            <span @dblclick="clearUser">
-            <Input v-model="userName" icon="search" :readonly="true" placeholder="请选择用户" style="width: 200px" @on-click="pickData" />
+            <Input v-model="userName" icon="search" :readonly="true" placeholder="请选择用户" @on-enter="enterEvent" style="width: 200px" @on-click="pickData" />
           </span>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
@@ -110,6 +110,10 @@
       this.getData(1)
     },
     methods: {
+				//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

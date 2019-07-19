@@ -522,9 +522,7 @@ export default {
         //enter事件
       enterEvent(e){
           console.log('1',e.target.value)
-       if(e.target.value != ""){
           this.search()
-       }
       },
         // 查询
         search () {

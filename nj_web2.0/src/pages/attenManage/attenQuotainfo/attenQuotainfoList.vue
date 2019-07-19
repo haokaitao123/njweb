@@ -11,8 +11,10 @@
                     <Row>
                     	    <Input v-model="searchParams.empnhName"
                                 placeholder="请输入员工姓名"
+								@on-enter="enterEvent"
                             style="width: 200px"/>    <Input v-model="searchParams.quoYear"
                                 placeholder="请输入年份"
+								@on-enter="enterEvent"
                             style="width: 200px"/>
                         <!-- 页面按钮 -->
                             <btnList @buttonExport="expData"
@@ -147,6 +149,10 @@ export default {
         this.getColumns();
     },
     methods: {
+		//enter事件
+		enterEvent(e){
+		    this.search()
+		},
         //获取列表项字段
         getColumns () {
             this.$store.commit('commonPage/setColumns', this.columns)
