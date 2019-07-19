@@ -10,7 +10,7 @@
                     <Col span="4"
                          class="colTree">
                     <div>
-                        <Select style="width: 200px;"
+                        <Select style="width: 260px;"
                                 v-model="keyword"
                                 filterable
                                 @keyup.enter.native="knowEvent"

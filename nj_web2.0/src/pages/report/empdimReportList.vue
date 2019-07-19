@@ -142,8 +142,8 @@ export default {
         { code: "empnhEntrydate", name: "入职日期" },
         { code: "empAge", name: "司龄" },
         { code: "empAgeRange", name: "司龄分段" },
-        { code: "state", name: "离职情况" },
-        { code: "dimSalday", name: "工资截止时间" },
+        { code: "stateDis", name: "离职情况" },
+        { code: "dimAttday", name: "工资截止时间" },
         { code: "dimLastsalday", name: "工资发放时间" },
         { code: "empnhLevday", name: "自离离职日期" },
         { code: "dimActlevday", name: "办理离职日期" },
@@ -265,7 +265,7 @@ export default {
         },
         {
           title: "工资截止时间",
-          key: "dimSalday",
+          key: "dimAttday",
           width: 200
         },
         {

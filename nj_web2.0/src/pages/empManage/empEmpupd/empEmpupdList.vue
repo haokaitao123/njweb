@@ -93,7 +93,7 @@ export default {
             // 导出字段设置, code字段名 name列名
             expDataTital: [
                 { code: "empnhName", name: "员工姓名" },
-                { code: "createTime", name: "提交时间" },
+                { code: "createTime", name: "申请时间" },
                 { code: "unitFname", name: "部门名称" },
                 { code: "postFname", name: "岗位名称" },
                 { code: "empupdResaddr", name: "居住详细地址" },
@@ -104,16 +104,16 @@ export default {
             ],
             // 表格列字段
             columns: [
-                { type: "selection", width: 54, fixed: "left", align: "center" },
-                { key: "empnhName", title: "员工姓名", sortable: "custom", width: 110, fixed: "left" },
-                { key: "createTime", title: "提交时间", sortable: "custom", width: 190 },
-                { key: "unitFname", title: "部门名称", sortable: "custom", width: 180 },
-                { key: "postFname", title: "岗位名称", sortable: "custom", width: 110 },
-                { key: "empupdResaddr", title: "居住详细地址", width: 280 },
-                { key: "empnhSalbankDis", title: "开户银行", width: 220 },
-                { key: "empupdSalcount", title: "银行账号", width: 220 },
-                { key: "empupdSalcname", title: "户名", width: 90 },
-                { key: "empupdReason", title: "未通过原因", width: 220 },
+            	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
+                { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110 , fixed : "left" },
+                { key: "createTime", title: "申请时间",sortable: "custom" , width : 190},
+                { key: "unitFname", title: "部门名称", sortable: "custom" , width : 180},
+                { key: "postFname", title: "岗位名称", sortable: "custom" , width : 110},
+                { key: "empupdResaddr", title: "居住详细地址", width : 280},
+                { key: "empnhSalbankDis", title: "开户银行",width : 220},
+                { key: "empupdSalcount", title: "银行账号", width : 220},
+                { key: "empupdSalcname", title: "户名", width : 90},
+                { key: "empupdReason", title: "未通过原因", width : 220},
 
             ],
             // 表格获取数据mt名称
@@ -177,12 +177,10 @@ export default {
         deletemsg () {
             this.$refs.commonPage.deletemsg()
         },
-        //enter事件
-        enterEvent (e) {
-            if (e.target.value != '') {
-                this.search()
-            }
-        },
+      //enter事件
+      enterEvent(e){
+          this.search()
+      },
         //页面查询
         search () {
             this.$store.commit('commonPage/setParams', this.searchParams)

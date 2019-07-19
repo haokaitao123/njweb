@@ -265,7 +265,8 @@ export default {
                     title: "员工姓名",
                     key: "empnhName",
                     width: 140,
-                    align: "center"
+                    align: "center",
+                    sortable: "custom"
                 },
                 // {
                 //     title: "证件号码",
@@ -521,9 +522,7 @@ export default {
         //enter事件
       enterEvent(e){
           console.log('1',e.target.value)
-       if(e.target.value != ""){
           this.search()
-       }
       },
         // 查询
         search () {

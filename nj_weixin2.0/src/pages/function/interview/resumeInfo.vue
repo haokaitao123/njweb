@@ -464,11 +464,13 @@
 	import education from '@/pages/function/interview/educationMes'
 	import family from '@/pages/function/interview/family'
 	import workExp from '@/pages/function/interview/workExp.vue'
-	import searchPost from '@/components/search/searchPost'
+    import searchPost from '@/components/search/searchPost'
+    let Base64 = require('js-base64').Base64;
 	// import wx from 'weixin-js-sdk'
 	export default {
 		data() {
 			return {
+                id:"",
 				curStepCode: "",
 				curStepstate: "",
 				state: false,
@@ -646,12 +648,15 @@
 			searchPost
 		},
 		created() {
+            let params=decodeURIComponent(window.location.href);
+            window.localStorage.setItem('reeduPid', params.split("=")[1]);
+            this.id= params.split("=")[1];
+            console.log(params.split("=")[1], "params");
 			this.getSelect();
 			this.getData();
 			this.getWorkExp();
 			this.getFamily();
-			this.getEducation();
-			window.localStorage.setItem('reeduPid', this.$route.query.id);
+			this.getEducation();		
 		},
 		mounted() {
 			var __this = this;
@@ -671,7 +676,8 @@
 		},
 		beforeMount() {
 			var th = this
-			th.test = th.topDisor;
+            th.test = th.topDisor;
+          
 		},
 		methods: {
 			//页面变化
@@ -768,7 +774,7 @@
 					data._mt = "wxRecruitProcess.addOrUpdNoLogin";
 					data.companyId = pubsource.companyId;
 					data.userId = '1';
-					data.id = t.$route.query.id;
+					data.id = t.id;
 					for(const dat in data) {
 						if(data[dat] === "" || data[dat] === "请选择") {
 							delete data[dat];
@@ -994,12 +1000,12 @@
 				const data = {
 					_mt: 'wxRecruitProcess.getByIdNoLogin',
 					companyId: pubsource.companyId,
-					id: this.$route.query.id,
+					id: this.id,
 				}
 				getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
                         let resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
-                        if (resumeInfoForm !== null && resumeInfoForm.id !== t.$route.query.id) {
+                        if (resumeInfoForm !== null && resumeInfoForm.id !== t.id) {
                             localStorage.removeItem('resumeInfoForm');
                             resumeInfoForm = JSON.parse(window.localStorage.getItem('resumeInfoForm'));
                         }
@@ -1070,7 +1076,7 @@
 				const data = {
 					_mt: 'wxRecruitWorkexp.getByRefaPidNoLogin',
 					companyId: pubsource.companyId,
-					refaPid: this.$route.query.id,
+					refaPid: this.id,
 				}
 				await getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
@@ -1093,7 +1099,7 @@
 				const data = {
 					_mt: 'wxRecruitFamily.getByRefaPidNoLogin',
 					companyId: pubsource.companyId,
-					refaPid: this.$route.query.id,
+					refaPid: this.id,
 				}
 				getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
@@ -1116,7 +1122,7 @@
 				const data = {
 					_mt: 'wxRecruitEduca.getByRefaPidNoLogin',
 					companyId: pubsource.companyId,
-					refaPid: this.$route.query.id,
+					refaPid: this.id,
 				}
 				await getDataLevelNone(data).then((res) => {
 					if(isSuccess(res, t)) {
@@ -1210,7 +1216,7 @@
 					tt.relibEnrorageDis = this.relibEnrorageDis;
 					tt.relibIsgraduDis = this.relibIsgraduDis;
                     tt.createTime = new Date();
-                    tt.id = this.$route.query.id;
+                    tt.id = this.id;
 					tt = JSON.stringify(tt);
 					window.localStorage.setItem('resumeInfoForm', tt)
 				},

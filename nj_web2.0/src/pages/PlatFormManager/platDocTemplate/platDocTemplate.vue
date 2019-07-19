@@ -12,11 +12,13 @@
               :placeholder="$t('lang_platdoc.platDoc.p_platDctpCode')"
               style="width: 200px"
               v-model="platDctpCode"
+							@on-enter="enterEvent"
             />
             <Input
               :placeholder="$t('lang_platdoc.platDoc.p_platDctpName')"
               style="width: 200px"
               v-model="platDctpName"
+							@on-enter="enterEvent"
             />
             <span style="margin: 0;">
               <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
@@ -153,6 +155,10 @@ export default {
     this.getData(1);
   },
   methods: {
+		//enter事件
+		enterEvent (e) {
+		        this.getData(1)
+		},
     getData(page) {
       const t = this;
       if (page) {

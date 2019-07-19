@@ -20,6 +20,7 @@
     "vant": "^1.6.14",
     "vee-validate": "^2.2.3",
     "vue": "^2.5.2",
+    "vue-clipboard2": "^0.3.0",
     "vue-qr": "^2.1.0",
     "vue-router": "^3.0.1",
     "vue-verify-plugin": "^2.0.8",

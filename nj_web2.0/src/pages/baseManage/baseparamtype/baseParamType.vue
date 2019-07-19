@@ -8,7 +8,7 @@
           &nbsp;{{$t('lang_role.adminpmtype.pmtypetitle')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_role.adminpmtype.ppmtypeCode')"style="width: 200px" v-model="pmtypeCode"/>
+          <Input :placeholder="$t('lang_role.adminpmtype.ppmtypeCode')"style="width: 200px" @on-enter="enterEvent" v-model="pmtypeCode"/>
           <span style="margin: 0;"><Button type="primary" icon="search"
                                            @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'),0)">{{$t('button.add')}}</Button>
@@ -120,6 +120,10 @@
       this.getData(1)
     },
     methods: {
+			 //enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

@@ -95,7 +95,7 @@
     </div>
 </template>
 <script>
-import QRCode from 'qrcode'
+import meQrcode from "@/components/qrcode/qrcode";
 import {
     getDataLevelUserLogin
 } from '@/axios/axios'
@@ -106,6 +106,7 @@ import addNewInterview from '@/components/public/addNew'
 export default {
     data () {
         return {
+            url: '',
             list: [],
             loading: false, //是否处于加载状态
             finished: false, //是否已加载完所有数据
@@ -152,7 +153,7 @@ export default {
         }
     },
     components: {
-        QRCode: QRCode,
+        meQrcode: meQrcode,
         addNewInterview
     },
     methods: {
@@ -315,12 +316,8 @@ export default {
             e.stopPropagation();
             this.show = true;
             this.maskShow = true;
-            var canvas = document.getElementById('canvas');
-            const url = pubsource.pub_url + '#/resumeInfo?id=' + id
-            QRCode.toCanvas(canvas, url, function (error) {
-                if (error) console.error(error)
-                console.log('url', url);
-            })
+            const url = pubsource.pub_url + '#/resumeInfo?id=' + id;
+            this.url = url;
         },
         //关闭二维码
         closeQrCode () {
@@ -429,7 +426,7 @@ export default {
     .qrCodeContent {
         position: fixed;
         width: 100%;
-        height: 640px;
+        height: 660px;
         left: 0;
         right: 0;
         bottom: 0;
@@ -440,6 +437,7 @@ export default {
         transition: all 0.5s;
         display: flex;
         justify-content: center;
+        flex-direction: column;
         // #canvas {
         //     width: 80% !important;
         //     height: 90% !important;

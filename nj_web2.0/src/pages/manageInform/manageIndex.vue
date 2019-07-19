@@ -11,7 +11,7 @@
             <Option v-for="(item, index) in noticeType" :value="item.paramCode" :key="index">{{ item.paramInfoCn }}
             </Option>
           </Select>
-          <Input v-model="infoTitle" :placeholder="$t('lang_role.cmutnotic.infoTitle')" style="width:200px;"></Input>
+          <Input v-model="infoTitle" :placeholder="$t('lang_role.cmutnotic.infoTitle')"  @on-enter="enterEvent" style="width:200px;"></Input>
           <Dropdown>
             <Button type="primary">
               {{statusDis}}
@@ -170,6 +170,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       // 获取参数类型
       getSelect() {
         const t = this

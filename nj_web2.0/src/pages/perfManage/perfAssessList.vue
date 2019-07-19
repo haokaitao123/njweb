@@ -169,9 +169,7 @@ export default {
   methods: {
     //enter事件
     enterEvent(e){
-      if(e.target.value != ''){
         this.search()
-      }
     },
     //获取列表项字段
     getColumns() {

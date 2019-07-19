@@ -457,9 +457,7 @@ export default {
         },
         //enter事件
         enterEvent (e) {
-            if (e.target.value != '') {
                 this.getData(1)
-            }
         },
         btnFunction (btnId) {
             if (btnId === 'button_search') {

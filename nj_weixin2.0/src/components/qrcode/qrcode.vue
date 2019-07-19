@@ -8,7 +8,9 @@
             <img class="qrcode_canvas"
                  id="qrcode_canvas"
                  ref="qrcode_canvas"
+                 style="width:8.55rem;height:8.55rem;"
                  alt="二维码图片">
+
             <img class="qrcode_logo"
                  ref="qrcode_logo"
                  src="../../../static/main/qrcode.jpg"
@@ -16,15 +18,22 @@
             <canvas :width="qrSize"
                     :height="qrSize"
                     class="canvas"
-                    ref="canvas"></canvas>
+                    ref="canvas">
+            </canvas>
         </div>
+        <p class="goLink"
+           @click="doCopy">{{goLink}}</p>
+        <!-- <span class="goLink">链接：{{goLink}}</span> -->
     </div>
 </template>
 <script>
 const QRCode = require("qrcode");
+let Base64 = require('js-base64').Base64;
 export default {
     data () {
-        return {};
+        return {
+            goLink: "",
+        };
     },
     /**传入时间戳显示倒计时函数【后台时间戳一般都是10位的】
      * @argument qrUrl        二维码内容
@@ -38,6 +47,8 @@ export default {
     props: ["qrUrl", "qrSize", "qrLogoSize", "qrTextSize",],
     created () { },
     mounted () {
+        this.goLink = this.qrUrl.split("?")[0] + "?" + encodeURIComponent(this.qrUrl.split("?")[1]);
+        console.log(Base64.encode(this.qrUrl.split("?")[1]), "qrUrl");
         // 画二维码里的logo[注意添加logo图片的时候需要使用服务器]
         let qrcode_canvas = this.$refs.qrcode_canvas;
         let qrcode_logo = this.$refs.qrcode_logo;
@@ -79,15 +90,40 @@ export default {
                 qrcode_canvas.style.display = "inline-block";
             }, 50);
         });
+    },
+    methods: {
+        doCopy () {
+            const t = this;
+            this.$copyText(this.goLink).then(function (e) {
+                t.$vux.toast.text('链接复制成功', 'middle');
+            }, function (e) {
+                t.$vux.toast.text('链接复制失败', 'middle');
+            })
+        }
     }
 };
 </script>
 <style scoped>
 .qrcode_box,
 #meQrcode {
-    display: inline-block;
+    /* display: inline-block; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
 }
 .qrcode_box img {
     display: none;
+}
+.goLink {
+    background: #fff;
+    color: #333;
+    font-size: 36px;
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    line-height: 1.4;
+    height: 140px;
+    word-wrap: break-word;
 }
 </style>

@@ -15,7 +15,7 @@
         	</i-col>
         	<i-col span="20" style="width: 83.3333% !important">
         		<Row>
-		          <Input :placeholder="$t('lang_knowBase.workOrderType.searchText')" style="width: 200px" v-model="cmutKntypeCode"/>
+		          <Input :placeholder="$t('lang_knowBase.workOrderType.searchText')" style="width: 200px" @on-enter="enterEvent" v-model="cmutKntypeCode"/>
 		          <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
 		          <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
 		          <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -143,6 +143,10 @@
       this.getTree()
     },
     methods: {
+				//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {
