@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -10,7 +10,7 @@
           <!-- 操作按钮和查询输入框 -->
             <!-- 查询输入框   placeholder这是输入框默认显示值   v-model里写的输入框绑定的值-->
 					<Row>
-							<Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px"></Input>
+							<Input v-model="empName" placeholder="请输入员工姓名" style="width: 200px" @keyup.enter.native="search"></Input>
               <DatePicker
                 type="date"
                 placeholder="请选择简历日期"

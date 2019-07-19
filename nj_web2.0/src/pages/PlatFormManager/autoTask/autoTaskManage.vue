@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_platform.autoTask.autoTask')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_platform.autoTask.atskNoIns')" style="width: 200px" v-model="autoTaskNo"/>
-          <Input :placeholder="$t('lang_platform.autoTask.atskNameIns')" style="width: 200px" v-model="autoTaskName"/>
+          <Input :placeholder="$t('lang_platform.autoTask.atskNoIns')" style="width: 200px" @on-enter="enterEvent" v-model="autoTaskNo"/>
+          <Input :placeholder="$t('lang_platform.autoTask.atskNameIns')" style="width: 200px" @on-enter="enterEvent" v-model="autoTaskName"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp('',$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -123,6 +123,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

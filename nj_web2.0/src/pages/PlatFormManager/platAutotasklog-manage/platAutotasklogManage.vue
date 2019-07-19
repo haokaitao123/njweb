@@ -9,11 +9,11 @@
         </p>
         <Row>
               <span @dblclick="clearatsk">
-              <Input v-model="atlogAtskidName" icon="search" :readonly="true" :placeholder="$t('lang_platform.autotasklog.atlogAtskidNameIns')" style="width: 200px" @on-click="pickData" />
+              <Input v-model="atlogAtskidName" icon="search" :readonly="true" @on-enter="enterEvent" :placeholder="$t('lang_platform.autotasklog.atlogAtskidNameIns')" style="width: 200px" @on-click="pickData" />
             </span>
           <DatePicker type="date" :placeholder="$t('lang_platform.autotasklog.sdateIns')" :editable="false" v-model="sdate" style="width: 200px"></DatePicker>
           <DatePicker type="date" :placeholder="$t('lang_platform.autotasklog.edateIns')" :editable="false" v-model="edate" style="width: 200px"></DatePicker>
-          <Input :placeholder="$t('lang_platform.autotasklog.atlogRuntypeIns')" style="width: 200px" v-model="atlogRuntype"/>
+          <Input :placeholder="$t('lang_platform.autotasklog.atlogRuntypeIns')" style="width: 200px"  v-model="atlogRuntype"/>
             <Select style="width: 200px"  v-model="atlogStatus"  :placeholder="$t('lang_platform.autotasklog.atlogStatusIns')">
               <Option :value="item.paramCode"  v-for="(item,index) in selectStatusType" :key="index">{{item.paramInfoCn}}</Option>
             </Select>
@@ -166,6 +166,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

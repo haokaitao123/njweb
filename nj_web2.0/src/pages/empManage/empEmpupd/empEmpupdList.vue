@@ -178,9 +178,7 @@ export default {
         },
       //enter事件
       enterEvent(e){
-        if(e.target.value != ''){
           this.search()
-        }
       },
         //页面查询
         search () {

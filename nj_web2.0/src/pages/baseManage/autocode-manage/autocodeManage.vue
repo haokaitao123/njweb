@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -11,11 +11,13 @@
             <Input
               :placeholder="$t('lang_baseManage.autocode.autoFlagIns')"
               style="width: 200px"
+							@on-enter="enterEvent"
               v-model="autoFlag"
             />
             <Input
               :placeholder="$t('lang_baseManage.autocode.autoNameIns')"
               style="width: 200px"
+							@on-enter="enterEvent"
               v-model="autoName"
             />
             <span style="margin: 0;">
@@ -195,6 +197,10 @@ export default {
     this.getData(1);
   },
   methods: {
+		//enter事件
+		enterEvent (e) {
+		        this.getData(1)
+		},
     getData(page) {
       const t = this;
       if (page) {

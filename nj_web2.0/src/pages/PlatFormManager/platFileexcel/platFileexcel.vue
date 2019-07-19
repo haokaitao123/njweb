@@ -10,8 +10,10 @@
         </p>
         <Row>
           <Input v-model="paramCode" :placeholder="$t('lang_role.imp.paramCode')"
+					@on-enter="enterEvent"
                  style="width: 200px"/>
           <Input v-model="fileName" :placeholder="$t('lang_role.imp.pfileName')"
+					@on-enter="enterEvent"
                  style="width: 200px"/>
           <span style="margin: 0;"><Button type="primary" icon="search"
                                            @click="getData(1)">{{$t('button.ser')}}</Button></span>
@@ -144,6 +146,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

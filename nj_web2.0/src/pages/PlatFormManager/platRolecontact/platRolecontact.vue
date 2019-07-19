@@ -159,9 +159,7 @@
     methods: {
       //enter事件
       enterEvent(e){
-        if(e.target.value != ''){
           this.getData(1)
-        }
       },
       getData(page) {
         const t = this

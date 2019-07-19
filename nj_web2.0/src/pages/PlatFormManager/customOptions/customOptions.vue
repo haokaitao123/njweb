@@ -6,8 +6,8 @@
         <p slot="title">
           <Icon type="mouse"></Icon>&nbsp;&nbsp;{{$t('lang_selfdef.platCustoption.title')}}</p>
         <Row>
-          <Input :placeholder="$t('lang_selfdef.platCustoption.p_cptTablename')" style="width: 200px" v-model="cptTablename"/>
-          <Input :placeholder="$t('lang_selfdef.platCustoption.p_cptFiele')" style="width: 200px" v-model="cptFiele"/>
+          <Input :placeholder="$t('lang_selfdef.platCustoption.p_cptTablename')" style="width: 200px" @on-enter="enterEvent" v-model="cptTablename"/>
+          <Input :placeholder="$t('lang_selfdef.platCustoption.p_cptFiele')" style="width: 200px" @on-enter="enterEvent" v-model="cptFiele"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -98,6 +98,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

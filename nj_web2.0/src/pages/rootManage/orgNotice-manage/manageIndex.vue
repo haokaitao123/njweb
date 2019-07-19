@@ -275,9 +275,7 @@ export default {
     methods: {
         //enter事件
         enterEvent (e) {
-            if (e.target.value != '') {
                 this.getData(1)
-            }
         },
         btnEvent (res) {
             console.log(res, "res12345")

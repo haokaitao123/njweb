@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -9,7 +9,7 @@
         </p>
         <Row>
           <DatePicker type="date" placeholder="选择发送时间" :editable="false" v-model="msgTime" style="width: 200px"></DatePicker>
-          <Input placeholder="请输入业务类型" style="width: 200px" v-model="msgBustype"/>
+          <Input placeholder="请输入业务类型" style="width: 200px"  @on-enter="enterEvent" v-model="msgBustype"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <!--<Button type="primary"  @click="expData">导出</Button>-->
         </Row>
@@ -159,6 +159,10 @@
       this.getData(1)
     },
     methods: {
+		//enter事件
+		enterEvent (e) {
+		        this.getData(1)
+		},
       getData(page) {
         const t = this
         if (page) {

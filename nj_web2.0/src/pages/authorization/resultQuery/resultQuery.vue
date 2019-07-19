@@ -8,9 +8,9 @@
           &nbsp;{{$t('lang_role.suvadmin.title2')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_role.suvadmin.infoTitle')" style="width: 200px" v-model="platRcdSuvidDis"/>
-          <Input :placeholder="$t('lang_role.que.platRasEmpName')" style="width: 200px" v-model="platRasEmpName"/>
-          <Input :placeholder="$t('lang_role.que.platRasEmpNo')" style="width: 200px" v-model="platRasEmpNo"/>
+          <Input :placeholder="$t('lang_role.suvadmin.infoTitle')" style="width: 200px" @on-enter="enterEvent" v-model="platRcdSuvidDis"/>
+          <Input :placeholder="$t('lang_role.que.platRasEmpName')" style="width: 200px" @on-enter="enterEvent" v-model="platRasEmpName"/>
+          <Input :placeholder="$t('lang_role.que.platRasEmpNo')" style="width: 200px" @on-enter="enterEvent" v-model="platRasEmpNo"/>
           <span style="margin: 0;"><Button type="primary" icon="search"
                                            @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <!--<Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>-->
@@ -154,6 +154,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

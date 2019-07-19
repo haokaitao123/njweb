@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <i-Col span="24">
@@ -150,9 +150,7 @@
     methods: {
       //enter事件
       enterEvent(e){
-        if(e.target.value != ''){
           this.search()
-        }
       },
       refresh() {
         this.getData(1)

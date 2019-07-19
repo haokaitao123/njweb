@@ -1,4 +1,4 @@
-﻿<template>
+<template>
     <div class="table">
         <Row>
             <Col span="24">
@@ -299,9 +299,7 @@ export default {
     methods: {
       //enter事件
       enterEvent(e){
-        if(e.target.value != ''){
           this.search()
-        }
       },
         //获取当前列表数据
         getData (id, page) {

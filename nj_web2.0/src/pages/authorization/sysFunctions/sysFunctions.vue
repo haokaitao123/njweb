@@ -12,15 +12,18 @@
                         <Input v-model="funPidDis"
                                icon="search"
                                :readonly="true"
+							   @on-enter="enterEvent"
                                :placeholder="$t('lang_role.adminfun.pfunPidDis')"
                                style="width: 200px"
                                @on-click="pickData" />
                     </span>
                     <Input :placeholder="$t('lang_role.adminfun.pfunCode')"
                            style="width: 200px"
+						   @on-enter="enterEvent"
                            v-model="funCode" />
                     <Input :placeholder="$t('lang_role.adminfun.pfunName')"
                            style="width: 200px"
+						   @on-enter="enterEvent"
                            v-model="funName" />
                     <span style="margin: 0;"><Button type="primary"
                                 icon="search"
@@ -210,6 +213,10 @@ export default {
         this.getData(1)
     },
     methods: {
+		//enter事件
+		enterEvent (e) {
+		        this.getData(1)
+		},
         getData (page) {
             const t = this
             if (page) {
