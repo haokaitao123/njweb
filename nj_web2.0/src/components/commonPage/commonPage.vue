@@ -130,8 +130,8 @@ export default {
             data: [],
             total: 0,
             index: 0,
-            sort: "id",
-            order: "desc",
+            sort: this.sortType,
+            order: this.orderType,
             rows: 20,
             page: 1,
             state: this.modity,
@@ -179,7 +179,17 @@ export default {
         //模拟数据
         mockData: {
             type: Array,
-        }
+        },
+        //排序方式
+        sortType: {
+            type: String,
+            default: "id"
+        },
+        //排序方式
+        orderType: {
+            type: String,
+            default: "desc"
+        },
     },
     computed: {
         pageShow () {
@@ -231,6 +241,12 @@ export default {
                 this.columns.push(this.tableBtn);
                 this.tableOperate = true;
             }
+        },
+        sortType: function (val) {
+            this.sort = val
+        },
+        orderType: function (val) {
+            this.order = val
         }
     },
     methods: {

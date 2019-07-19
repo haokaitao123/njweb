@@ -378,7 +378,7 @@ export default {
                 this.file = file
             } else {
                 this.$Message.error({
-                    content: this.$t('lang_fileOperation.import.importErr'),
+                    content: "暂不支持word格式",
                     duration: 2,
                 })
             }

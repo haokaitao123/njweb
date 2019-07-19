@@ -1128,11 +1128,13 @@ export default {
         closeOrdersaction () {
             this.tableselected = [];
             this.openOrdersaction = false;
+            this.exportselected = "";
             this.getData(1);
         },
         closeHandoveraction () {
             this.tableselected = [];
             this.openHandoveraction = false;
+            this.exportselected = "";
             this.getData(1);
         },
         /**
