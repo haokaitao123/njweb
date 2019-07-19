@@ -1022,6 +1022,10 @@ export default {
             t.checkChild();
             console.log(this.childCheck, "this.childCheck2")
             t.Positive()
+			if(String(t.form.empnhResiaddr).length < 4){
+			   t.$vux.toast.text('请将现居住地址完善到门牌号');
+				return;
+			}
             if (this.$verify.check() && this.bankVaild && !this.childCheck) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";

@@ -67,13 +67,16 @@ const valid = {
   },
 	//汉字验证
 	val_chinese: (str) => {
-	  console.log(str)
 	  let rtn = false,
-	    reg = /^[\u4e00-\u9fa5]+$/;
+	    reg = /[^\0-9]/;
+		var reg1 = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]/im;
 	  var strs = str.replace(/(^\s*)|(\s*$)/g, "")
-	  if (strs.match(reg))
-	    rtn = true;
-	  return rtn;
+	  if (strs.match(reg)){
+		  if(!strs.match(reg1)){
+			 rtn = true;
+			return rtn;  
+		  }
+	  }
 	},
   //手机格式 204 必须以数字开头，除数字外，可含有-
   val_mobile: (str) => {
