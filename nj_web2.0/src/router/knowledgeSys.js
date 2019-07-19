@@ -1,5 +1,5 @@
 //知识库
-import  knowledgeSearch from '@/pages/knowledgeList/orgframeManage'
+import  knowledgeSearch from '@/pages/knowledgeList/category'
 //import useinfo from '@/pages/useinfo/useinfo'
 import knowledgeChild from '@/pages/knowledgeList/orgframeManage'
 

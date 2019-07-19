@@ -296,7 +296,7 @@
 </template>
 <script>
 import searchDept from '@/components/otherSearch/searchBM';
-import { getDataLevelUserLogin, getDataLevelNone, getDataLevelUserLoginNew } from '@/axios/axios.js';
+import { getDataLevelUserLogin, getDataLevelNone, getDataLevelUserLoginNew, getKnowledgeGet,getKnowledgePost } from '@/axios/axios.js';
 import { isSuccess, deepCopy } from '@/lib/util';
 import valid from '@/lib/pub_valid';
 import qs from 'qs'
@@ -422,7 +422,7 @@ export default {
 	methods: {
 		celectDate(){
 			const t = this
-			this.axios.get('http://192.168.101.155/api/exam/ry/mustReadKnowledge/search',{
+			getKnowledgeGet('ry/mustReadKnowledge/search',{
 						 params: {  
 						  page:'1',
 						  size:'20',
@@ -486,7 +486,7 @@ export default {
 			});
 			console.log('readyData',readyData)
 			//var headers = {'Content-Type':'application/x-www-form-urlencoded'};
-			this.axios.post('ry/knowledge',{
+			 getKnowledgePost('ry/knowledge',{
 				headers: {'Content-Type':'application/x-www-form-urlencoded'},
 				readyData
 			})
@@ -526,7 +526,7 @@ export default {
 				});
 				console.log('readyData',readyData)
 				//var headers = {'Content-Type':'application/x-www-form-urlencoded'};
-				this.axios.post('ry/knowledgeCategory',{
+				getKnowledgePost('ry/knowledgeCategory',{
 					headers: {'Content-Type':'application/x-www-form-urlencoded'},
 					readyData
 				})
@@ -582,7 +582,7 @@ export default {
 			this.ifShow = false;
 			this.ifShows = true;
 			const t = this
-			this.axios.get('http://192.168.101.155/api/exam/ry/mustReadKnowledge',{
+			getKnowledgeGet('http://192.168.101.155/api/exam/ry/mustReadKnowledge',{
 						 params: {  
 						 id:id
 						}
@@ -609,7 +609,7 @@ export default {
 		 });
 		 console.log('readyData',readyData)
 		 //var headers = {'Content-Type':'application/x-www-form-urlencoded'};
-		 this.axios.post('ry/upload',{
+		 getKnowledgePost('ry/upload',{
 		 	headers: {'Content-Type':'application/x-www-form-urlencoded'},
 		 	readyData
 		 })
@@ -623,6 +623,7 @@ export default {
 		   });
 		},
 		 handleUpload(file) {
+			 console.log(file)
 		  this.file = file;
 		  this.loadingStatus = true;
 		  return false;

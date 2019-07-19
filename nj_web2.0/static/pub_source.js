@@ -7,7 +7,7 @@ var pubsource = {
   pub_prvf_uploadlink: "http://najie.hrocloud.com:9709/upload?groupId=1",
   pub_pubf_downlink: "http://najiefile.hrocloud.com:8088/",
   pub_prvf_downlink: "http://najie.hrocloud.com:9709/file?",
-  pub_knowledge: "http://192.168.101.155/api/exam/",
+  pub_knowledge: "http://hr.333job.com:18888/api/exam/",
 
   //以下测试环境
   /*
@@ -17,7 +17,7 @@ var pubsource = {
       pub_prvf_uploadlink: "http://njtest.hrocloud.com:9709/upload?groupId=1",
       pub_pubf_downlink: "http://njtestfile.hrocloud.com:8088/",
       pub_prvf_downlink: "http://njtest.hrocloud.com:9709/file?",
-       pub_knowledge: "http://192.168.101.155/api/exam/",
+       pub_knowledge: "http://hr.333job.com:18888/api/exam/",
   */
 
   //以下为生产环境变量配置
