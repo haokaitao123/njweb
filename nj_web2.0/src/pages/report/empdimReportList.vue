@@ -142,8 +142,8 @@ export default {
         { code: "empnhEntrydate", name: "入职日期" },
         { code: "empAge", name: "司龄" },
         { code: "empAgeRange", name: "司龄分段" },
-        { code: "state", name: "离职情况" },
-        { code: "dimSalday", name: "工资截止时间" },
+        { code: "stateDis", name: "离职情况" },
+        { code: "dimAttday", name: "工资截止时间" },
         { code: "dimLastsalday", name: "工资发放时间" },
         { code: "empnhLevday", name: "自离离职日期" },
         { code: "dimActlevday", name: "办理离职日期" },
@@ -154,8 +154,11 @@ export default {
         { code: "empnhMobile", name: "联系电话" },
         { code: "empnhRegaddr", name: "户籍所在地" },
         { code: "empnhResiaddr", name: "现居地址" },
+        { code: "empnhRegaddr", name: "身份证地址" },
         { code: "edSchool", name: "毕业院校" },
         { code: "edSpecialty", name: "专业" },
+        { code: "edEducationlevelDis", name: "学历" },
+        { code: "educationType", name: "学历类型" },
         { code: "edEdate", name: "毕业时间" },
         { code: "contValiddate", name: "合同生效日期" },
         { code: "contEdate", name: "合同截至日期" },
@@ -265,7 +268,7 @@ export default {
         },
         {
           title: "工资截止时间",
-          key: "dimSalday",
+          key: "dimAttday",
           width: 200
         },
         {
@@ -319,6 +322,11 @@ export default {
                     width: 220
                 },
                 {
+                    title: "身份证地址",
+                    key: "empnhRegaddr",
+                    width: 220
+                },
+                {
                     title: "毕业院校",
                     key: "edSchool",
                     width: 220
@@ -331,6 +339,11 @@ export default {
                 {
                     title: "学历",
                     key: "edEducationlevelDis",
+                    width: 220
+                },
+                {
+                    title: "学历类型",
+                    key: "educationType",
                     width: 220
                 },
                 {

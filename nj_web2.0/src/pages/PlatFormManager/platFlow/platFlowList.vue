@@ -8,7 +8,7 @@
           &nbsp;{{$t('lang_flow.flow.title')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_flow.flow.flowName')" style="width: 200px" v-model="flowName"/>
+          <Input :placeholder="$t('lang_flow.flow.flowName')" style="width: 200px" @on-enter="enterEvent" v-model="flowName"/>
           <Dropdown>
             <Button type="primary">
               {{statusDis}}
@@ -176,6 +176,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

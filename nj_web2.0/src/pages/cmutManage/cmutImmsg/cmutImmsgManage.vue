@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -11,9 +11,9 @@
           <DatePicker type="datetime" :placeholder="$t('lang_communication.cmutImmsgLog.imsgSTime')" :editable="false" v-model="imsgSTime" style="width: 200px"></DatePicker>
           <DatePicker type="datetime" :placeholder="$t('lang_communication.cmutImmsgLog.imsgEtime')" :editable="false" v-model="imsgEtime" style="width: 200px"></DatePicker>
           <span @dblclick="clearSender">
-            <Input v-model="imsgSenderDis" icon="search" :readonly="true" :placeholder="$t('lang_communication.cmutImmsgLog.imsgSenderDis')" style="width: 200px;" @on-click="pickSender" />
+            <Input v-model="imsgSenderDis" icon="search" :readonly="true" :placeholder="$t('lang_communication.cmutImmsgLog.imsgSenderDis')" style="width: 200px;" @on-enter="enterEvent" @on-click="pickSender" />
           </span>
-          <Input :placeholder="$t('lang_communication.cmutImmsgLog.imsgKeyword')" style="width: 200px" v-model="imsgKeyword"/>
+          <Input :placeholder="$t('lang_communication.cmutImmsgLog.imsgKeyword')" style="width: 200px" @on-enter="enterEvent" v-model="imsgKeyword"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
         </Row>
         <row class="table-form" ref="table-form">
@@ -166,6 +166,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

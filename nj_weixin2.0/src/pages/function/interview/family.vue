@@ -135,13 +135,13 @@ export default {
             refaMembersShow: false,
             refaMembersIndex: 0,
             selectRefaMembers: [],
-            reeduPid: this.$route.query.id,
+            reeduPid: "",
         }
     },
     verify: {
         form: {
             refaMembers: "required",
-            refaName: [ "required","chinese"],
+            refaName: ["required", "chinese"],
             refaContact: ["required", "mobile"],
         }
     },
@@ -162,6 +162,10 @@ export default {
         Icon,
         XTextarea
     },
+    created () {
+        let params = decodeURIComponent(window.location.href);
+        this.reeduPid = params.split("=")[1];
+    },
     mounted () {
         this.getSelect();
         this.getData();
@@ -171,7 +175,7 @@ export default {
         save () {
             const t = this;
             if (this.$verify.check()) {
-            	t.$emit('change', 'fm')
+                t.$emit('change', 'fm')
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitFamily.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
@@ -240,7 +244,7 @@ export default {
             if (t.id === '') {
                 let familyForm = JSON.parse(window.localStorage.getItem('familyForm' + t.id.toString()));
                 if (familyForm) {
-                    if (familyForm.id === t.$route.query.id) {
+                    if (familyForm.id === t.reeduPid) {
                         let createTime = new Date(familyForm.createTime).getTime();
                         let nowTime = new Date().getTime();
                         if (nowTime - createTime < 5 * 60 * 1000) {
@@ -266,7 +270,7 @@ export default {
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let familyForm = JSON.parse(window.localStorage.getItem('familyForm' + t.id));
-                    if (familyForm !== null && familyForm.id !== t.$route.query.id) {
+                    if (familyForm !== null && familyForm.id !== t.reeduPid) {
                         localStorage.removeItem('familyForm');
                         familyForm = JSON.parse(window.localStorage.getItem('familyForm'));
                     }
@@ -352,7 +356,7 @@ export default {
                 tt.form = val;
                 tt.refaMembersDis = this.refaMembersDis;
                 tt.createTime = new Date();
-                tt.id = this.$route.query.id;
+                tt.id = this.reeduPid;
                 tt = JSON.stringify(tt);
                 window.localStorage.setItem('familyForm' + this.id, tt)
             },

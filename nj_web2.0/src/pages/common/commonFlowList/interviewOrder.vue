@@ -100,7 +100,7 @@ export default {
                             let tt = {};
                             tt._mt = "EmpEmpdim.updateById";
                             tt.logType = t.logType;
-                            tt.ids = t.id;
+                            tt.ids = t.id.toString();
                             tt.data = params;
                             tt.updType = "interview";
 

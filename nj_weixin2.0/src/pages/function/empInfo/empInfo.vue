@@ -316,17 +316,15 @@
                 </div>
                 <!-- 银行账号 -->
                 <div class="item_box">
-                    <x-input title="银行账号<span>*</span>"
+                    <x-input title="银行账号"
                              v-model.trim="form.empnhSalaccount"
                              v-verify="form.empnhSalaccount"
                              :show-clear="false"
                              :disabled="state"
-                             :placeholder="state?'未填写':'请填写'"
-                             @on-blur="bankCheck">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.empnhSalaccount==''||!bankVaild"
                           v-remind="form.empnhSalaccount"></icon>
                 </div>
                 <!-- 户名 -->
@@ -361,6 +359,57 @@
                              placeholder="未填写">
                     </x-input>
                 </div>
+                <!--毕业院校-->
+                <!-- <div class="item_box">
+                    <x-input title="毕业院校<span>*</span>"
+                             v-model.trim="form.empnhSchool"
+                             v-verify="form.empnhSchool"
+                             :show-clear="false"
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
+                    </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.empnhSchool==''"
+                          v-remind="form.empnhSchool"></icon>
+                </div> -->
+                <!-- 专业 -->
+                <!-- <div class="item_box">
+                    <x-input title="专业<span>*</span>"
+                             v-model.trim="form.empnhMajor"
+                             v-verify="form.empnhMajor"
+                             :show-clear="false"
+                             :disabled="state"
+                             :placeholder="state?'未填写':'请填写'">
+                    </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.empnhMajor==''"
+                          v-remind="form.empnhMajor"></icon>
+                </div> -->
+                <!-- 学历 -->
+                <!-- <div class="item_box">
+                    <cell title="学历<span>*</span>"
+                          is-link
+                          v-if="!state"
+                          value-align="left"
+                          v-verify="empnhRecorcdDis"
+                          v-model="empnhRecorcdDis"
+                          @click.native="popupClick('empnhRecorcdShow','empnhRecorcd')">
+                        <div slot="title">学历<span>*</span></div>
+                    </cell>
+                    <x-input title="学历<span>*</span>"
+                             v-if="state"
+                             v-model="empnhRecorcdDis"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="empnhRecorcdDis=='请选择'"
+                          v-remind="empnhRecorcdDis"></icon>
+                </div> -->
                 <!-- 政治面貌 -->
                 <div class="item_box">
                     <cell title="政治面貌"
@@ -619,6 +668,16 @@
                         @confirm="confirm"
                         @cancel="cancel" />
         </van-popup>
+        <!-- 学历 -->
+        <van-popup v-model="empnhRecorcdShow"
+                   position="bottom">
+            <van-picker ref="vanPicker"
+                        :defaultIndex="empnhRecorcdIndex"
+                        :columns=selectEmpnhRecorcd
+                        show-toolbar
+                        @confirm="confirm"
+                        @cancel="cancel" />
+        </van-popup>
         <!-- 政治面貌 -->
         <van-popup v-model="empnhPoliticalShow"
                    position="bottom">
@@ -787,13 +846,16 @@ export default {
                 empnhSalaccount: "",            //银行账号
                 empnhSalaccname: "",            //户名
                 empnhMarriage: "",              //婚姻状况
+                empnhSchool: "",                 //毕业院校
+                empnhMajor: "",                  //专业
+                empnhRecorcd: "",                //学历
                 empnhPolitical: "请选择",        //政治面貌
                 empnhFirstwkdate: "请选择",      //参加工作时间
                 empnhTechtil: "请选择",          //职称
                 empnhTechspec: "",              //职称专业
                 empnhTechdate: "请选择",         //职称取得时间
                 note: "",                       //备注
-				empnhIrmentdate:"",             //转正日期
+                empnhIrmentdate: "",             //转正日期
             },
             empnhNationDis: "请选择",
             empnhIdtypeDis: "请选择",
@@ -802,6 +864,7 @@ export default {
             empnhMarriageDis: "请选择",
             empnhPoliticalDis: "请选择",
             empnhTechtilDis: "请选择",
+            empnhRecorcdDis: "请选择",
             selectGender: [],
             selectTechnicaltitle: [],
             selectMarriage: [],
@@ -810,6 +873,7 @@ export default {
             selectIdtype: [],
             selectRegtype: [],
             selectSalbank: [],
+            selectEmpnhRecorcd: [],
             dateShow: false,
             popupShow: false,
             empnhNationShow: false,
@@ -818,6 +882,7 @@ export default {
             empnhRegtypeShow: false,
             empnhMarriageShow: false,
             empnhPoliticalShow: false,
+            empnhRecorcdShow: false,
             empnhTechtilShow: false,
             empnhSdaydateShow: false,
             empnhEdaydateShow: false,
@@ -832,17 +897,18 @@ export default {
             empnhMarriageIndex: 0,
             empnhPoliticalIndex: 0,
             empnhTechtilIndex: 0,
+            empnhRecorcdIndex: 0,
             workExpList: [],
             educationList: [],
             familyList: [],
             idNumberVaild: false,
             phoneVaild: false,
-            bankVaild: true,
             educationState: false,
             childCheck: false,
             // workState: false,
             familyState: false,
             workExpState: false,
+            empState: ''
         }
     },
     verify: {
@@ -853,20 +919,23 @@ export default {
             empnhEday: "required",
             empnhBirthdate: "required",
             empnhMobile: ["required", "mobile"],
-            empnhResiaddr:[ "required","address"],
+            empnhResiaddr: ["required", "address"],
             empnhRegaddr: "required",
             empnhQq: "number",
             empnhPersmail: "email",
             empnhSalbank: "required",
-            empnhSalaccount: ["required", "backNumber"],
+            empnhSalaccount: "number",
             empnhSalaccname: "required",
             empnhFirstwkdate: "required",
             empnhEntrydate: "required",
+            empnhSchool: "required",
+            empnhMajor: "required",
         },
         empnhNationDis: "required",
         empnhIdtypeDis: "required",
         empnhGenderDis: "required",
         empnhRegtypeDis: "required",
+        empnhRecorcdDis: "required",
     },
     components: {
         Group,
@@ -888,19 +957,19 @@ export default {
             this[name] = true;
             this.currentId = id;
         },
-		//转正日期
-		 Positive(){
-			var str = this.form.empnhEntrydate
-			 str = str.replace(/-/g, '/'); // 转为格式"2015/05/26";
-             // 创建日期对象，并初始化，完成文本转日期
-             var date = new Date(str);
-			 var month= date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
-			 var date2 = new Date(date).setMonth(month);
-			 date2 = new Date(date2).format("yyyy-MM-dd")
-			 this.form.empnhIrmentdate = date2
-			 //console.log(this.form.empnhIrmentdate,"date223")
-			
-		},
+        //转正日期
+        Positive () {
+            var str = this.form.empnhEntrydate
+            str = str.replace(/-/g, '/'); // 转为格式"2015/05/26";
+            // 创建日期对象，并初始化，完成文本转日期
+            var date = new Date(str);
+            var month = date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
+            var date2 = new Date(date).setMonth(month);
+            date2 = new Date(date2).format("yyyy-MM-dd")
+            this.form.empnhIrmentdate = date2
+            //console.log(this.form.empnhIrmentdate,"date223")
+
+        },
         //证件号码验证
         idNumber () {
             if (this.form.empnhIdno !== '') {
@@ -946,31 +1015,6 @@ export default {
             }
         },
         //银行卡号校验
-        //银行卡验证
-        bankCheck () {
-            if (this.form.empnhSalaccount == '') {
-                this.bankVaild = false;
-                return;
-            } else {
-                console.log(valid.val_backNumber(this.form.empnhSalaccount), "123")
-                if (valid.val_backNumber(this.form.empnhSalaccount) === 1) {
-                    this.bankVaild = false;
-                    this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-                    return;
-                } else if (valid.val_backNumber(this.form.empnhSalaccount) === 2) {
-                    this.bankVaild = false;
-                    this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-                    return
-                } else if (valid.val_backNumber(this.form.empnhSalaccount) === 3) {
-                    this.bankVaild = false;
-                    this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-                    return
-                } else {
-                    this.bankVaild = true;
-                }
-            }
-
-        },
         //校验子表
         checkChild () {
             const t = this;
@@ -992,7 +1036,6 @@ export default {
                         t.familyState = false;
                     }
                 }
-
             } else {
                 t.workExpState = false;
                 t.childCheck = false
@@ -1021,21 +1064,26 @@ export default {
         save () {
             console.log(this.$verify.check());
             const t = this;
-            console.log(this.childCheck, "this.childCheck1")
             t.checkChild();
-            console.log(this.childCheck, "this.childCheck2")
-			t.Positive()
-            if (this.$verify.check() && this.bankVaild && !this.childCheck) {
+            t.Positive()
+            if (String(t.form.empnhResiaddr).length < 4) {
+                t.$vux.toast.text('请将现居住地址完善到门牌号');
+                return;
+            }
+            if (this.$verify.check() && !this.educationState && !this.workExpState && !this.familyState) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;
                 data.id = window.localStorage.getItem('empId');
+                if (this.empState === '01empstate') {
+                    data.state = '03empstate'
+                }
                 for (const dat in data) {
-                    if (data[dat] === "" || data[dat] === "请选择") {
+                    if (data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
-				//console.log('data',data)
+                console.log('data', data)
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
                         t.$notify({
@@ -1068,7 +1116,7 @@ export default {
         },
         //底部弹出窗确认事件
         confirm (value) {
-			console.log(value)
+            console.log(value)
             if (this.curDomShow.indexOf("dateShow") != -1) {
                 if (this.curDom == 'empnhSday') {
                     this.minEmpnhEday = new Date(value);
@@ -1077,14 +1125,14 @@ export default {
                 }
                 value = new Date(value).format('yyyy-MM-dd');
                 this.form[this.curDom] = value
-				if(this.curDom == 'empnhEntrydate'){
-					var date = new Date(value);
-					var month= date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
-					var date2 = new Date(date).setMonth(month);
-					date2 = new Date(date2).format("yyyy-MM-dd")
-					this.form.empnhIrmentdate = date2
-					//console.log(this.form.empnhIrmentdate,"date2")
-				}
+                if (this.curDom == 'empnhEntrydate') {
+                    var date = new Date(value);
+                    var month = date.getMonth() + 6;//月 +6个月  因为js里month从0开始，所以要加1
+                    var date2 = new Date(date).setMonth(month);
+                    date2 = new Date(date2).format("yyyy-MM-dd")
+                    this.form.empnhIrmentdate = date2
+                    //console.log(this.form.empnhIrmentdate,"date2")
+                }
             } else {
                 this.form[this.curDom] = value.key;
                 let str = this.curDom
@@ -1103,7 +1151,7 @@ export default {
             const t = this;
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: 'nationtype,idtype,registerproperty,marrystatus,political,techlevel,gender'
+                typeCode: 'nationtype,idtype,registerproperty,marrystatus,political,techlevel,gender,education'
             }).then(res => {
                 if (isSuccess(res, t)) {
                     t.selectData(res.data.content[0].value[0].paramList, "selectNation");
@@ -1113,6 +1161,7 @@ export default {
                     t.selectData(res.data.content[0].value[4].paramList, "selectPolitical");
                     t.selectData(res.data.content[0].value[5].paramList, "selectTechnicaltitle");
                     t.selectData(res.data.content[0].value[6].paramList, "selectGender");
+                    t.selectData(res.data.content[0].value[7].paramList, "selectEmpnhRecorcd");
                 }
             }).catch(() => {
                 t.$notify({
@@ -1182,7 +1231,11 @@ export default {
                     t.form.empnhTechtil = data.empnhTechtil;
                     t.form.empnhTechspec = !data.empnhTechspec ? "" : data.empnhTechspec;
                     t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '请选择';
+                    t.form.empnhSchool = data.empnhSchool ? data.empnhSchool : '';
+                    t.form.empnhMajor = data.empnhMajor ? data.empnhMajor : '';
+                    t.form.empnhRecorcd = data.empnhRecorcd ? data.empnhRecorcd : '';
                     t.form.note = data.note;
+                    t.empState = data.state;
                     if (data.state !== '01empstate' && data.state !== '06empstate') {
                         t.state = true
                     }
@@ -1193,6 +1246,7 @@ export default {
                     t.empnhMarriageDis = data.empnhMarriageDis ? data.empnhMarriageDis : '请选择';
                     t.empnhPoliticalDis = data.empnhPoliticalDis ? data.empnhPoliticalDis : '请选择';
                     t.empnhTechtilDis = data.empnhTechtilDis ? data.empnhTechtilDis : '请选择';
+                    t.empnhRecorcdDis = data.empnhRecorcdDis ? data.empnhRecorcdDis : '请选择';
                     if (t.state) {
                         t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '未填写';
                         t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '未填写';
@@ -1201,6 +1255,7 @@ export default {
                         t.empnhMarriageDis = data.empnhMarriageDis ? data.empnhMarriageDis : '未填写';
                         t.empnhPoliticalDis = data.empnhPoliticalDis ? data.empnhPoliticalDis : '未填写';
                         t.empnhTechtilDis = data.empnhTechtilDis ? data.empnhTechtilDis : '未填写';
+                        t.empnhRecorcdDis = data.empnhRecorcdDis ? data.empnhRecorcdDis : '未填写';
                         t.form.empnhSday = data.empnhSday ? data.empnhSday : '未填写';
                         t.form.empnhEday = data.empnhEday ? data.empnhEday : '未填写';
                         t.form.empnhBirthdate = data.empnhBirthdate ? data.empnhBirthdate : '未填写';
@@ -1221,6 +1276,7 @@ export default {
                     t.setSelectValue(data.empnhMarriageDis, 'selectMarriage', 'empnhMarriageIndex');
                     t.setSelectValue(data.empnhPoliticalDis, 'selectPolitical', 'empnhPoliticalIndex');
                     t.setSelectValue(data.empnhTechtilDis, 'selectTechnicaltitle', 'empnhTechtilIndex');
+                    t.setSelectValue(data.empnhRecorcdDis, 'selectEmpnhRecorcd', 'empnhRecorcdIndex');
                     t.getWorkExp();
                     t.getFamily();
                     t.getEducation();
@@ -1308,7 +1364,6 @@ export default {
         },
         //取消添加
         async closeRight (dom) {
-
             if (dom === 'empEducationShow') {
                 await this.getEducation();
             } else if (dom === 'empFamilyShow') {

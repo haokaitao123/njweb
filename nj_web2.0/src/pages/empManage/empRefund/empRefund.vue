@@ -374,9 +374,7 @@
     methods: {
       //enter事件
       enterEvent(e){
-        if(e.target.value != ''){
           this.search()
-        }
       },
       changemodity(res){
         this.tableselected = [];

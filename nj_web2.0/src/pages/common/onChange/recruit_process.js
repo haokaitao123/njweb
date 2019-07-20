@@ -25,6 +25,9 @@ const recruit_process = {
     recruit_process.relibApproval_set(this);
     recruit_process.relibAppsqus_set(this);
   },
+  relibHiredept(node) {
+    recruit_process.relibHiredept_set(this.$parent)
+  },
   relibScore(node) {
     recruit_process.relibScore_set(this.$parent)
   },
@@ -59,8 +62,6 @@ const recruit_process = {
       t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = t.$refs[t.valueMap.relibApplypost][0].formData1.columns[0].clmDisValue
     }
   },
-
-
   //根据分数判断是否通过考试
   relibScore_set(t) {
     let score
@@ -86,7 +87,6 @@ const recruit_process = {
   },
   //默认试岗申请时间为当前时间
   relibTrysqtime_set(t) {
-
     if (t.valueMap.relibTrysqtime && t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime === '') {
       let nowDate = new Date()
       t.$refs[t.valueMap.relibTrysqtime][0].$set(t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit, 'relibTrysqtime', nowDate.format('yyyy-MM-dd'))
@@ -115,7 +115,6 @@ const recruit_process = {
     }
   },
   relibApplytype_dis(t) {
-
     if (t.valueMap.relibApplytype) {
       if (t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype === '03introducer') {
         if (t.valueMap.relibIntrname) {
@@ -330,7 +329,6 @@ const recruit_process = {
       t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = ''
     }
   },
-
   // 是否担保
   relibIsguaran_dis(t) {
     if (t.valueMap.relibIsguaran) {
@@ -348,3 +346,4 @@ const recruit_process = {
 
 }
 export default recruit_process
+// export default flow1 612731199608271618

@@ -59,6 +59,7 @@
                                 <Select v-model="formValidate.postGenre"
                                         class="width200"
                                         :disabled="disabled"
+                                        :clearable="!disabled"
                                         placeholder="请选择岗位类别">
                                     <Option v-for="(item, index) in selectPostGenre"
                                             :value="item.paramCode"

@@ -9,12 +9,12 @@
         </p>
         <Row>
           <Input v-model="paramCode" :placeholder="$t('lang_role.adminpminfo.pparamCode')"
-                 style="width: 200px"/>
+                 style="width: 200px" @on-enter="enterEvent"/>
           <Input v-model="paramInfoName" :placeholder="$t('lang_role.adminpminfo.pparamInfoName')"
-                 style="width: 200px"/>
+                 style="width: 200px" @on-enter="enterEvent"/>
           <span @dblclick="clear">
             <Input v-model="paramName" icon="search" :placeholder="$t('lang_role.adminpminfo.pparamName')"
-                   :readonly="true"  style="width: 200px"
+                   :readonly="true"  style="width: 200px" @on-enter="enterEvent"
                    @on-click="pickData"/>
           </span>
           <span style="margin: 0;"><Button type="primary" icon="search"
@@ -133,6 +133,10 @@
       this.getData(1)
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

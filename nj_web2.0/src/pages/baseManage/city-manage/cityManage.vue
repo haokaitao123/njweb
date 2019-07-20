@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -224,9 +224,7 @@
     methods: {
       //enter事件
       enterEvent(e){
-        if(e.target.value != ''){
           this.search()
-        }
       },
       getData(id, page) {
         const t = this

@@ -129,6 +129,7 @@ export default {
                 { code: "empnhWklocatDis", name: "工作属地" },
                 { code: "empnhGenderDis", name: "性别" },
                 { code: "empnhEntrydate", name: "入职日期" },
+                { code: "submitTime", name: "提交时间" },
                 { code: "empnhEntrydate", name: "办理日期" },
                 { code: "recruitName", name: "招聘人" },
                 { code: "empnhCompmail", name: "邮箱号" },
@@ -142,8 +143,11 @@ export default {
                 { code: "empnhMobile", name: "联系电话" },
                 { code: "empnhRegaddr", name: "户籍所在地" },
                 { code: "empnhResiaddr", name: "现居地址" },
+                { code: "empnhRegaddr", name: "身份证地址" },
                 { code: "edSchool", name: "毕业院校" },
                 { code: "edSpecialty", name: "专业" },
+                { code: "edEducationlevelDis", name: "学历" },
+                { code: "educationType", name: "学历类型" },
                 { code: "edEdate", name: "毕业时间" },
                 { code: "contValiddate", name: "合同生效日期" },
                 { code: "contEdate", name: "合同截至日期" },
@@ -239,6 +243,13 @@ export default {
                     width: 220
                 },
                 {
+                    title: "提交时间",
+                    key: "submitTime",
+                    width: 220,
+                    align: "center",
+                    sortable: "custom"
+                },
+                {
                     title: "办理日期",
                     key: "empnhEntrydate",
                     width: 220
@@ -304,6 +315,11 @@ export default {
                     width: 220
                 },
                 {
+                    title: "身份证地址",
+                    key: "empnhRegaddr",
+                    width: 220
+                },
+                {
                     title: "毕业院校",
                     key: "edSchool",
                     width: 220
@@ -316,6 +332,11 @@ export default {
                 {
                     title: "学历",
                     key: "edEducationlevelDis",
+                    width: 220
+                },
+                {
+                    title: "学历类型",
+                    key: "educationType",
                     width: 220
                 },
                 {

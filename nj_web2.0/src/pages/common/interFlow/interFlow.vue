@@ -315,9 +315,7 @@
     methods: {
       //enter事件
       enterEvent(e){
-        if(e.target.value != ''){
           this.search()
-        }
       },
       closeTest() {
         this.openTestUpd = false

@@ -202,7 +202,7 @@ export default {
             reeduEdateShow: false,
             reeduLevelIndex: 0,
             selectReeduLevel: [],
-            reeduPid: this.$route.query.id,
+            reeduPid: "",
         }
     },
     verify: {
@@ -230,6 +230,10 @@ export default {
         Icon,
         XTextarea
     },
+    created () {
+        let params = decodeURIComponent(window.location.href);
+        this.reeduPid = params.split("=")[1];
+    },
     mounted () {
         this.getSelect();
         this.getData();
@@ -239,7 +243,7 @@ export default {
         save () {
             const t = this;
             if (this.$verify.check()) {
-            	t.$emit('change', 'fm')
+                t.$emit('change', 'fm')
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitEduca.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
@@ -316,7 +320,7 @@ export default {
             if (t.id === '') {
                 let educationMesForm = JSON.parse(window.localStorage.getItem('educationMesForm' + t.id));
                 if (educationMesForm) {
-                    if (educationMesForm.id === t.$route.query.id) {
+                    if (educationMesForm.id === t.reeduPid) {
                         let createTime = new Date(educationMesForm.createTime).getTime();
                         let nowTime = new Date().getTime();
                         if (nowTime - createTime < 5 * 60 * 1000) {
@@ -344,7 +348,7 @@ export default {
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let educationMesForm = JSON.parse(window.localStorage.getItem('educationMesForm' + t.id));
-                    if (educationMesForm !== null && educationMesForm.id !== t.$route.query.id) {
+                    if (educationMesForm !== null && educationMesForm.id !== t.reeduPid) {
                         localStorage.removeItem('educationMesForm');
                         educationMesForm = JSON.parse(window.localStorage.getItem('educationMesForm'));
                     }
@@ -432,7 +436,7 @@ export default {
                 tt.form = val;
                 tt.reeduLevelDis = this.reeduLevelDis;
                 tt.createTime = new Date();
-                tt.id = this.$route.query.id;
+                tt.id = this.reeduPid;
                 tt = JSON.stringify(tt);
                 window.localStorage.setItem('educationMesForm' + this.id, tt)
             },

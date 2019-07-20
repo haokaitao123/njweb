@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -10,11 +10,11 @@
         <Row>
           <DatePicker type="date" :placeholder="$t('lang_baseManage.emaillog.sdateIns')" :editable="false" v-model="mailTime" style="width: 200px"></DatePicker>
           <DatePicker type="date" :placeholder="$t('lang_baseManage.emaillog.edateIns')" :editable="false" v-model="mailEtime" style="width: 200px"></DatePicker>
-          <Input :placeholder="$t('lang_baseManage.emaillog.mailObjectIns')" style="width: 200px" v-model="mailObject"/>
-          <Input :placeholder="$t('lang_baseManage.emaillog.mailToIns')" style="width: 200px" v-model="mailTo" />
-          <Input :placeholder="$t('lang_baseManage.emaillog.mailCcIns')" style="width: 200px" v-model="mailCc" />
-          <Input :placeholder="$t('lang_baseManage.emaillog.mailContentIns')" style="width: 200px" v-model="mailContent"/>
-          <Input :placeholder="$t('lang_baseManage.emaillog.mailStatusIns')" style="width: 200px" v-model="mailStatus"/>
+          <Input :placeholder="$t('lang_baseManage.emaillog.mailObjectIns')" style="width: 200px"  @on-enter="enterEvent" v-model="mailObject"/>
+          <Input :placeholder="$t('lang_baseManage.emaillog.mailToIns')" style="width: 200px"  @on-enter="enterEvent" v-model="mailTo" />
+          <Input :placeholder="$t('lang_baseManage.emaillog.mailCcIns')" style="width: 200px"  @on-enter="enterEvent" v-model="mailCc" />
+          <Input :placeholder="$t('lang_baseManage.emaillog.mailContentIns')" style="width: 200px"  @on-enter="enterEvent" v-model="mailContent"/>
+          <Input :placeholder="$t('lang_baseManage.emaillog.mailStatusIns')" style="width: 200px"  @on-enter="enterEvent" v-model="mailStatus"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
         </Row>
         <row class="table-form" ref="table-form">
@@ -129,6 +129,10 @@
       this.getData()
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getData(page) {
         const t = this
         if (page) {

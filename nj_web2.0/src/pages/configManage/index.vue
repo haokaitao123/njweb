@@ -8,12 +8,12 @@
           {{$t('lang_role.suvadmin.title')}}
         </p>
         <Row>
-          <Input v-model="infoCode" :placeholder="$t('lang_role.suvadmin.infoCode')" style="width:200px;"></Input>
+          <Input v-model="infoCode" :placeholder="$t('lang_role.suvadmin.infoCode')" @on-enter="enterEvent" style="width:200px;"></Input>
           <Select v-model="infoType" :placeholder="$t('lang_role.suvadmin.infoType')" style="width:200px" clearable>
             <Option v-for="(item, index) in emailType" :value="item.paramCode" :key="index">{{ item.paramInfoName }}
             </Option>
           </Select>
-          <Input v-model="infoTitle" :placeholder="$t('lang_role.suvadmin.infoTitle')" style="width:200px;"></Input>
+          <Input v-model="infoTitle" :placeholder="$t('lang_role.suvadmin.infoTitle')" @on-enter="enterEvent" style="width:200px;"></Input>
           <span style="margin-left: 20px;"><Button type="primary" icon="search"
                                                    @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
@@ -205,6 +205,10 @@
       this.getSelect()
     },
     methods: {
+			//enter事件
+			enterEvent (e) {
+			        this.getData(1)
+			},
       getSelect() {
         const t = this
         getDataLevelUserLogin2({

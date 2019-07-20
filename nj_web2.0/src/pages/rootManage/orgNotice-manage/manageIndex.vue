@@ -96,7 +96,6 @@
         <transition name="fade">
             <allotdept v-show="allotdeptState"
                        :title="title"
-                       :id="allotdeptId"
                        @close="closeAllotdept"
                        ref="allotdept"></allotdept>
         </transition>
@@ -229,7 +228,8 @@ export default {
                                     } else {
                                         this.allotdeptState = true;
                                         this.title = params.row.noticeTitle;
-                                        this.allotdeptId = params.row.id
+                                        this.allotdeptId = params.row.id;
+                                        this.$refs.allotdept.orangize_getData(params.row.id)
                                     }
 
                                 },
@@ -275,9 +275,7 @@ export default {
     methods: {
         //enter事件
         enterEvent (e) {
-            if (e.target.value != '') {
                 this.getData(1)
-            }
         },
         btnEvent (res) {
             console.log(res, "res12345")

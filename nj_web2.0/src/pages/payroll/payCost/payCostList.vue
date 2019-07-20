@@ -15,11 +15,12 @@
                     style="width: 200px"
                     icon="search"
                     :readonly="true"
+					@on-enter="enterEvent"
                     placeholder="请选择项目名称"
                     @on-click="unitFnamePick"
                   />
                 </span>
-                <Input v-model="searchParams.costPer" placeholder="请输入期间" style="width: 200px"/>
+                <Input v-model="searchParams.costPer" placeholder="请输入期间" @on-enter="enterEvent" style="width: 200px"/>
                 <!-- 页面按钮 -->
                 <btnList
                   @buttonExport="expData"
@@ -331,6 +332,10 @@ export default {
     this.getColumns();
   },
   methods: {
+		 //enter事件
+		enterEvent(e){
+		    this.search()
+		},
     //获取列表项字段
     getColumns() {
       this.$store.commit("commonPage/setColumns", this.columns);

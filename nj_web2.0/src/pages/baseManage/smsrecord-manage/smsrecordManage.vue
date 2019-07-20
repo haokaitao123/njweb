@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="table">
     <Row>
       <Col span="24">
@@ -10,9 +10,9 @@
         <Row>
           <DatePicker type="date" :placeholder="$t('lang_baseManage.smsrecord.sdateIns')" :editable="false" v-model="smsTime" style="width: 200px"></DatePicker>
           <DatePicker type="date" :placeholder="$t('lang_baseManage.smsrecord.edateIns')" :editable="false" v-model="smsEtime" style="width: 200px"></DatePicker>
-          <Input :placeholder="$t('lang_baseManage.smsrecord.smsPhonesIns')" style="width: 200px" v-model="smsPhones"/>
-          <Input :placeholder="$t('lang_baseManage.smsrecord.smsContentIns')" style="width: 200px" v-model="smsContent"/>
-          <Input :placeholder="$t('lang_baseManage.smsrecord.smsStatusIns')" style="width: 200px" v-model="smsStatus"/>
+          <Input :placeholder="$t('lang_baseManage.smsrecord.smsPhonesIns')" style="width: 200px" @on-enter="enterEvent" v-model="smsPhones"/>
+          <Input :placeholder="$t('lang_baseManage.smsrecord.smsContentIns')" style="width: 200px" @on-enter="enterEvent" v-model="smsContent"/>
+          <Input :placeholder="$t('lang_baseManage.smsrecord.smsStatusIns')" style="width: 200px" @on-enter="enterEvent" v-model="smsStatus"/>
           <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <!--<Button type="primary" @click="importExcel">导入</Button>-->
           <Button type="primary"  @click="expData">{{$t('button.exp')}}</Button>
@@ -151,6 +151,10 @@
       this.getData(1)
     },
     methods: {
+		//enter事件
+		enterEvent (e) {
+		        this.getData(1)
+		},
       getData(page) {
         const t = this
         if (page) {

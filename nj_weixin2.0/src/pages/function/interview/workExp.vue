@@ -187,7 +187,7 @@ export default {
             },
             reweSdateShow: false,
             reweEdateShow: false,
-            rewePid: this.$route.query.id,
+            rewePid: "",
         }
     },
     verify: {
@@ -219,12 +219,16 @@ export default {
     mounted () {
         this.getData();
     },
+    created () {
+        let params = decodeURIComponent(window.location.href);
+        this.rewePid = params.split("=")[1];
+    },
     methods: {
         //保存
         save () {
             const t = this;
             if (this.$verify.check()) {
-            	t.$emit('change', 'fm')
+                t.$emit('change', 'fm')
                 const data = deepCopy(t.form);
                 data._mt = "wxRecruitWorkexp.addOrUpdNoLogin";
                 data.companyId = pubsource.companyId;
@@ -280,7 +284,7 @@ export default {
             if (t.id === '') {
                 let workExpForm = JSON.parse(window.localStorage.getItem('workExpForm' + this.id));
                 if (workExpForm) {
-                    if (workExpForm.id === t.$route.query.id) {
+                    if (workExpForm.id === t.rewePid) {
                         let createTime = new Date(workExpForm.createTime).getTime();
                         let nowTime = new Date().getTime();
                         if (nowTime - createTime < 5 * 60 * 1000) {
@@ -304,7 +308,7 @@ export default {
             getDataLevelNone(data).then((res) => {
                 if (isSuccess(res, t)) {
                     let workExpForm = JSON.parse(window.localStorage.getItem('workExpForm' + t.id));
-                    if (workExpForm !== null && workExpForm.id !== t.$route.query.id) {
+                    if (workExpForm !== null && workExpForm.id !== t.rewePid) {
                         localStorage.removeItem('workExpForm');
                         workExpForm = JSON.parse(window.localStorage.getItem('workExpForm'));
                     }
@@ -366,7 +370,7 @@ export default {
                 let tt = {};
                 tt.form = val;
                 tt.createTime = new Date();
-                tt.id = this.$route.query.id;
+                tt.id = this.rewePid;
                 tt = JSON.stringify(tt);
                 window.localStorage.setItem('workExpForm' + this.id, tt)
             },

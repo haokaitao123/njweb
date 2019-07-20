@@ -511,7 +511,7 @@ export default {
                     t.currentId = t.form.edCuntry;
                     t.form.edSchool = data.edSchool ? data.edSchool : '';
                     t.form.edDegree = data.edDegree ? data.edDegree : '';
-                    t.form.edSpecialty = data.edSpecialty ? data.edDegree : '';
+                    t.form.edSpecialty = data.edSpecialty ? data.edSpecialty : '';
                     t.form.edSdate = data.edSdate;
                     t.form.edEdate = data.edEdate;
                     t.form.note = data.note;

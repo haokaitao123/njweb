@@ -10,7 +10,7 @@
                     <Col span="4"
                          class="colTree">
                     <div>
-                        <Select style="width: 260px;"
+                        <Select style="width: 170px;"
                                 v-model="keyword"
                                 filterable
                                 @keyup.enter.native="knowEvent"
@@ -22,7 +22,10 @@
                                     :value="option.name"
                                     :key="index">{{option.name}}</Option>
                         </Select>
-                        
+                        <i-button style="margin-top: -52px; display: inline-block;margin-left: 180px;"
+                                  type="primary"
+                                  @click="addEvent"
+                                  icon="android-add">新增</i-button>
                     </div>
                     <div class="divtree"
                          :style="{height:treeheight + 'px'}">
@@ -49,14 +52,19 @@
                                   type="primary"
                                   @click="collects"
                                   icon="ios-heart-outline">我的收藏</i-button>
-                       
+                        <i-button style="margin-top: 0px; display: inline-block;margin-left: 30px;"
+                                  type="primary"
+                                  @click="addContent"
+                                  icon="android-add">新增内容</i-button>
                     </Row>
 					<row style="margin-left: 51%;"><div class="option">
+					
 							<div class="icons">		
 							 <Icon size="30" style="margin: 20px;" @click="fullScreen" class="fullScreen" type="arrow-expand"></Icon>
 							 <Icon size="30" style="margin: 20px;" @click="smallScreen" class="smallScreen" type="arrow-shrink"></Icon>
 							</div>
 							   <div class="operation">
+							       <div class="item-list">
 							           <div class="items">
 							               <Icon size=30
 							                     @click="like"
@@ -71,6 +79,7 @@
 							                     type="thumbsup"></Icon>
 							               <div>点赞</div>
 							           </div>
+							       </div>
 							   </div>
 							   </div></row>
                     <row class="table-form"
@@ -188,9 +197,9 @@ export default {
             //左边树的默认参数
             openChart: false,
             dataTree: [],
-            treeheight: document.body.offsetHeight - 270,
+            treeheight: document.body.offsetHeight - 260,
             //子页面所需参数，无需变更
-            tableheight: document.body.offsetHeight - 300,
+            tableheight: document.body.offsetHeight - 290,
             value: "",
             page: 0,
             logType: "",
@@ -337,6 +346,7 @@ export default {
 			var fullScreen = document.querySelector(".fullScreen");
 			fullScreen.style.display = 'block';
 			var operation = document.querySelector(".operation");
+			operation.style.marginLeft = "80%"
 			this.pageShow = true;
 			
 		},
@@ -934,30 +944,28 @@ export default {
     border: 1px #efefef solid;
     overflow: auto;
     position: relative;
-	margin-top: 30px;
 }
 .tabStyle {
     width: 100%;
 }
 .option{
-	margin-top: -50px;
-	width: 100%;
-	display: flex;	
+	width: 700px;
+	margin-top: -20px;
 	.icons{
 		.smallScreen{
 			display: none;
 		}
+		 margin-top: -60px;
 		 display: inline-block;
 	}
-	.operation {
-		margin-top: 18px;
-         margin-left: 75%;
-		 display: flex;
-		 justify-content: space-between;
-		 flex-wrap: nowrap;
+.operation {
+		width: 200px;
+	     margin-top: -50px;
+         margin-left: 80%;
         .items {
             margin-left: 20px;
             font-size: 10px;
+            display: inline-block;
             .addheart {
                 color: red;
             }
@@ -1009,4 +1017,5 @@ export default {
     color: #fff;
 }
 </style>
+
 

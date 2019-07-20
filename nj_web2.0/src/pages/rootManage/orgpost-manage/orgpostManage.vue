@@ -400,9 +400,7 @@ FlowNode() {
   methods: {
     //enter事件
     enterEvent(e){
-      if(e.target.value != ''){
         this.search()
-      }
     },
     //状态
     modityChange(res) {
