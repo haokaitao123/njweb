@@ -106,13 +106,13 @@
                           v-model="form.empnhSday"
                           v-verify="form.empnhSday"
                           @click.native="popupClick('empnhSdaydateShow','empnhSday')">
-                        <div slot="title">生效日期<span>*</span></div>
+                        <div slot="title">身份证生效期<span>*</span></div>
                     </cell>
                     <icon type="warn"
                           class="error"
                           v-show="form.empnhSday=='请选择'"
                           v-remind="form.empnhSday"></icon>
-                    <x-input title="生效日期<span>*</span>"
+                    <x-input title="身份证生效期<span>*</span>"
                              v-if="state"
                              v-model="form.empnhSday"
                              :show-clear="false"
@@ -129,13 +129,13 @@
                           v-model="form.empnhEday"
                           v-verify="form.empnhEday"
                           @click.native="popupClick('empnhEdaydateShow','empnhEday')">
-                        <div slot="title">证件到期日<span>*</span></div>
+                        <div slot="title">身份证到期日<span>*</span></div>
                     </cell>
                     <icon type="warn"
                           class="error"
                           v-show="form.empnhEday=='请选择'"
                           v-remind="form.empnhEday"></icon>
-                    <x-input title="证件到期日<span>*</span>"
+                    <x-input title="身份证到期日<span>*</span>"
                              v-if="state"
                              v-model="form.empnhEday"
                              :show-clear="false"

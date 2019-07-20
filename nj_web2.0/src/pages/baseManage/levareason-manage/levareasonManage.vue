@@ -10,7 +10,7 @@
         <Row>
           <Input :placeholder="$t('lang_baseManage.baseLevareason.levaCodeDis')" style="width: 200px"  @on-enter="enterEvent" v-model="levaCode"/>
           <Input :placeholder="$t('lang_baseManage.baseLevareason.levaname')" style="width: 200px" @on-enter="enterEvent" v-model="levaName"/>
-          <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
+          <span style="margin: 0;"><Button type="primary" icon="search" :loading="searchLoading" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
           <Button type="primary"  @click="expData">{{$t('button.exp')}}</Button>
@@ -48,6 +48,7 @@
   export default{
     data() {
       return {
+        searchLoading: false,
         loading: "",
         imp_mt: 'baseLevareason.importData',
         openImport: false,
@@ -142,6 +143,7 @@
           this.getData(1)
       },
       getData(page) {
+        this.searchLoading = true;
         const t = this
         if (page) {
           t.page = page
@@ -174,7 +176,9 @@
         }).catch(() => {
           t.loading = false;
         t.$Message.error(this.$t('reminder.errormessage'))
-        })
+        }).finally(() => {
+    	    t.searchLoading = false; //请求结束关闭loading
+        });
       },
       closeImport() {
         const t = this

@@ -11,11 +11,11 @@
       </div>
       <Row class="table-form">
         <Input :placeholder="$t('lang_employee.searchColumn.departDis')" style="width: 200px" v-model="unitFname"/>
-        <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(params, id, 1)">{{$t('button.ser')}}</Button></span>
+        <span style="margin: 0;"><Button type="primary" icon="search" :loading="searchLoading" @click="getData(params, id, 1)">{{$t('button.ser')}}</Button></span>
         <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">{{$t('button.cle')}}</Button></span>
       </Row>
       <row class="table-form" ref="table-form">
-        <Table height="320" size="small" border ref="selection" :columns="searchDeptClo" @on-sort-change="sortable" :data="data" @on-row-dblclick="dbCkick"></Table>
+        <Table height="320" size="small" border ref="selection" :loading="loading" :columns="searchDeptClo" @on-sort-change="sortable" :data="data" @on-row-dblclick="dbCkick"></Table>
       </row>
       <Page :total="total" size="small" :current="params.page" show-elevator show-sizer placement="top" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=params.rows :page-size-opts = "[10, 20, 50, 100]" ></Page>
     </div>
@@ -31,6 +31,8 @@
       	data: [],
         total: NaN,
         unitFname: '',
+        searchLoading: false,
+        loading: "",
       }
     },
     props: {
@@ -43,6 +45,7 @@
 	},
 	methods: {
 		getData(params, id, page) {
+      this.searchLoading = true;
 			const t = this
       if (page) {
         t.params.page = page
@@ -68,7 +71,10 @@
 					title: this.$t('reminder.err'),
 					content: this.$t('reminder.errormessage'),
 				})
-			})
+			}).finally(() => {
+          t.searchLoading = false; //请求结束关闭loading
+          t.loading = false;  //结束之后设置loading关闭
+      });
 		},
 		close() {
 			const t = this

@@ -124,7 +124,7 @@
 
             </group>
             <div class="save_button"
-                 v-if="state==='01draft'||state===''">
+                 v-if="state==='01draft'||state===''||state==='04draft'">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -398,7 +398,7 @@ export default {
                     t.empnhName = data.empnhName ? data.empnhName : '';
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
-                    if (t.state !== '01draft') {
+                    if (t.state !== '01draft' && t.state !== '04draft') {
                         t.disabled = true;
                     }
                     t.empnhSalbankDis = data.empnhSalbankDis ? data.empnhSalbankDis : "";;

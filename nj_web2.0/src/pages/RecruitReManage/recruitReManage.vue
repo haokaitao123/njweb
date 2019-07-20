@@ -64,6 +64,7 @@
               size="small"
               shape="circle"
               icon="refresh"
+              :loading="searchLoading"
               style="margin-left: 20px;display: inline-block;"
               @click="search()"
             ></Button>
@@ -121,6 +122,7 @@ export default {
   //页面初始化的所有变量值
   data() {
     return {
+      searchLoading: false,
       loading: "",
       tableOperate:false,
 			// 导入的mt名称
@@ -337,6 +339,7 @@ export default {
       if (page) {
         t.page = page;
       }
+      t.searchLoading = true;
       t.loading = true; //请求之前重置状态
       //请求列表数据的参数
       const data = {
@@ -380,7 +383,8 @@ export default {
         })
         .finally(() => {
           this.loading = false;
-          this.$store.commit('btnOperate/setSearchLoading',false)
+          this.searchLoading = false;
+          //this.$store.commit('btnOperate/setSearchLoading',false)
         });
     },
 
@@ -527,8 +531,8 @@ export default {
      //查询
     search() {
       this.page = 1;
-      this.getData();
-      this.$store.commit('btnOperate/setSearchLoading', true);
+     // this.$store.commit('btnOperate/setSearchLoading', true);
+      this.getData();     
       this.tableselected = [];
     },
   }

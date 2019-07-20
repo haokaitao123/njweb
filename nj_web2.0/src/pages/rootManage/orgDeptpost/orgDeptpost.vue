@@ -10,7 +10,7 @@
         <Row>
           <Input placeholder="请输入部门名称" style="width: 200px"  @on-enter="enterEvent" v-model="unitFname"/>
           <Input placeholder="请输入岗位名称" style="width: 200px" @on-enter="enterEvent"  v-model="postFname"/>
-          <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
+          <span style="margin: 0;"><Button type="primary" icon="search" :loading="searchLoading" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
           <Button type="primary" @click="expData">导出</Button>
@@ -69,6 +69,7 @@
   export default{
     data() {
       return {
+        searchLoading: false,
         tableOperate:false,  //加上这个变量
         // 导入的mt名称
         imp_mt: "orgDeptpost.importData",
@@ -166,6 +167,7 @@
           this.getData(1)
       },
       getData(page) {
+        this.searchLoading = true;
         const t = this
         if (page) {
           this.page = page
@@ -199,7 +201,9 @@
         }).catch(() => {
           t.loading = false;
           t.$Message.error(this.$t('reminder.errormessage'))
-        })
+        }).finally(() => {
+    	    t.searchLoading = false; //请求结束关闭loading
+        });
       },
       addNewArray(res) {
         const t = this

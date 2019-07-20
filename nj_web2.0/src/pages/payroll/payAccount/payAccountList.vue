@@ -29,7 +29,7 @@
             </DropdownMenu>-->
           </Dropdown>
           <span style="margin: 0;">
-            <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
+            <Button type="primary" icon="search" :loading="searchLoading" @click="getData(1)">{{$t('button.ser')}}</Button>
           </span>
           <Button type="primary" v-show="state==='01all' || state==='02accounting' ? true:false" @click="openUp(NaN, $t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" v-show="state ==='02accounting' ? true:false" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -73,6 +73,7 @@
   export default{
     data() {
       return {
+        searchLoading: false,
         tableheight: document.body.offsetHeight - 300,
         value: '',
         logType: '',
@@ -213,6 +214,7 @@
     },
     methods: {
       getData(page) {
+        this.searchLoading = true;
         const t = this
         if (page) {
           t.page = page
@@ -247,7 +249,9 @@
             title: this.$t('reminder.err'),
             content: this.$t('reminder.errormessage'),
           })
-        })
+        }).finally(() => {
+          t.searchLoading = false;
+        });
       },
       accounting(row, logType, index) {
 /*        const t = this

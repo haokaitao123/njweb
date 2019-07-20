@@ -88,12 +88,12 @@
 					</FormItem>
 				</i-col>
 				<i-col span="11">
-					<FormItem label="生效日期" prop="empnhSday">
+					<FormItem label="身份证生效期" prop="empnhSday">
 						<DatePicker type="date" placeholder="请选择生效日期" :editable="false" :disabled="disabled" :readonly="disabled" v-model="form.empnhSday" style="width: 100%"></DatePicker>
 					</FormItem>
 				</i-col>
 				<i-col span="11">
-					<FormItem label="证件到期日" prop="empnhEday">
+					<FormItem label="身份证到期日" prop="empnhEday">
 						<DatePicker type="date" placeholder="请选择证件到期日" :editable="false" :disabled="disabled" :readonly="disabled" v-model="form.empnhEday" style="width: 100%"></DatePicker>
 					</FormItem>
 				</i-col>

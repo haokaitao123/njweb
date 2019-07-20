@@ -10,7 +10,7 @@
                       :offset="10">
                 <div class="employInfoChangeItem"
                      @click="goTo(item.id,item.state)"
-                     v-for="(item,index) in list">
+                     v-for="(item,index) in list" :key="index">
                     <div class="item_left">
                         <span>
                             员工姓名：{{item.empnhName}}
@@ -56,7 +56,7 @@ export default {
             noData: false,
             rows: 10,
             page: 1,
-            sort: "id",
+            sort: "createTime",
             order: 'desc',
             totalPage: 0,
             companyName: pubsource.companyName,
@@ -76,11 +76,11 @@ export default {
     mounted () {
         // this.getData();
     },
-    methods: {
-        goTo (id, state) {
+    methods: {   
+        goTo (id, state) { 
             this.$router.push({ name: 'empChangeDeatail', query: { id: id, state: state } })
         },
-        //上拉加载
+        //上拉加载    
         onLoad () {
             if (this.list.length > 0) {
                 this.page++;
