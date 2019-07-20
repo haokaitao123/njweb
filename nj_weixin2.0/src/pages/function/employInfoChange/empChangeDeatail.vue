@@ -257,16 +257,15 @@ export default {
             if (valid.val_backNumber(this.form.empupdSalcount) == 1) {
                 this.bankVaild = false;
                 t.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-				return;
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 2) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-				return;
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 3) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-				return;
-            }
+            }else if(valid.val_backNumber(this.form.empupdSalcount) == 4){
+				this.bankVaild = true;
+			}
 
 
         },
@@ -316,7 +315,6 @@ export default {
                     t.$store.commit('hideLoading');
                 });
             } else {
-				this.this.bankCheck();
                 this.$vux.toast.text('请检查填写信息', 'middle');
             }
         },
