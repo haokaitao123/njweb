@@ -56,6 +56,7 @@
                   size="small"
                   shape="circle"
                   icon="refresh"
+                  :loading="searchLoading"
                   style="margin-left: 20px;display: inline-block;"
                   @click="search()"
                 ></Button>
@@ -126,6 +127,7 @@ import btnList from "../../components/btnAuth/btnAuth";
 export default {
   data() {
     return {
+      searchLoading: false,
       tableOperate: false,
       // 导入的mt名称
       imp_mt: "protocolManage.importData",
@@ -415,6 +417,7 @@ export default {
       this.getData();
     },
     getData(page) {
+      this.searchLoading = true;
       const t = this;
       this.loading = true;
       if (page == undefined) {
@@ -453,6 +456,7 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+          this.searchLoading = false;
           this.$store.commit('btnOperate/setSearchLoading',false)
         });
     },

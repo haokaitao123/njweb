@@ -181,7 +181,7 @@ checkWktm: "",
         },
         //页面查询
         search () {
-          debugger
+        //   debugger
           if(this.searchParams.checkWktm != ''){
             this.searchParams.checkWktm = this.searchParams.checkWktm.format("yyyy-MM-dd")
           }

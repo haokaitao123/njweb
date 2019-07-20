@@ -27,7 +27,7 @@
               v-model="bankSwiftcode"
             />
             <span style="margin: 0;">
-              <Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button>
+              <Button type="primary" icon="search" :loading="searchLoading" @click="getData(1)">{{$t('button.ser')}}</Button>
             </span>
             <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
             <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
@@ -132,6 +132,7 @@ import importExcel from "../../../components/importModel/importParam";
 export default {
   data() {
     return {
+      searchLoading: false,
       loading: "",
       imp_mt: "baseBankinfo.importData",
       openImport: false,
@@ -291,6 +292,7 @@ export default {
       }
     },
     getData(page) {
+      this.searchLoading = true;
       const t = this;
       if (page) {
         t.page = page;
@@ -326,6 +328,8 @@ export default {
         .catch(() => {
           t.loading = false;
           t.$Message.error(this.$t("reminder.errormessage"));
+        }).finally(() => {
+    	    t.searchLoading = false; //请求结束关闭loading
         });
     },
     closeImport() {
@@ -367,6 +371,7 @@ export default {
       t.$refs.expdow.getPriToken(t.filekey);
     },
     search() {
+      this.searchLoading = true;
       this.getData(1);
       this.tableselected = [];
     },

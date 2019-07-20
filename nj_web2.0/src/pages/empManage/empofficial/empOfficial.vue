@@ -61,6 +61,7 @@
                         size="small"
                         shape="circle"
                         icon="refresh"
+                        :loading="searchLoading"
                         style="margin-left: 20px;display: inline-block;"
                         @click="search()">
                 </Button>
@@ -126,6 +127,7 @@
   export default {
     data() {
       return {
+        searchLoading: false,
         tableOperate:false,  //加上这个变量
         loading: "",
         // 导入导出默认参数 无需变更
@@ -382,6 +384,7 @@
         this.openChart = false
       },//关闭员工转正图
       getData() {
+        this.searchLoading = true;
         const t = this
         this.tableselected = []
         t.loading = true; //请求之前重置状态
@@ -413,6 +416,7 @@
             content: this.$t('reminder.errormessage'),
           })
         }).finally(() => {
+          t.searchLoading = false;
           t.loading = false; //在成功之后改状态
           t.$store.commit('btnOperate/setSearchLoading',false);
         })
@@ -470,6 +474,7 @@
         this.getData()
       },//下拉选中
       search() {
+        
         this.page = 1
         this.$store.commit('btnOperate/setSearchLoading',true)
         this.getData()

@@ -28,12 +28,12 @@
               <Option value="11">11</Option>
               <Option value="12">12</Option>
             </Select>
-            <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
+            <span style="margin: 0;"><Button type="primary" icon="search" :loading="searchLoading" @click="getData(1)">{{$t('button.ser')}}</Button></span>
             <Button type="primary" @click="openIn($t('button.ini'))">{{$t('button.ini')}}</Button>
             <!-- <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button> -->
           </Row>
           <row class="table-form" ref="table-form">
-            <Table @on-select="selectedtable" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" size="small" border ref="selection" :columns="columns" :data="data" :height="tableheight"></Table>
+            <Table @on-select="selectedtable" :loading="loading" @on-select-cancel="selectedtable" @on-select-all="selectedtable" @on-sort-change="sortable" size="small" border ref="selection" :columns="columns" :data="data" :height="tableheight"></Table>
           </row>
           <Row style="display: flex">          <Page :total="total" size="small" show-elevator show-sizer placement="top" :current="page" @on-page-size-change="sizeChange" @on-change="pageChange" :page-size=rows :page-size-opts = "[10, 20, 50, 100]" ></Page><Button type="ghost" size="small" shape="circle" icon="refresh" style="margin-left: 20px;display: inline-block;" @click="getData(1)"></Button></Row>
         </div>
@@ -173,6 +173,8 @@
   export default{
     data() {
       return {
+        loading: "",
+        searchLoading: false,
         tableheight: document.body.offsetHeight - 290,
         value: '',
         logType: '',
@@ -275,7 +277,9 @@
         t.getCaldearData()
       },
       getData(page) {
+        this.searchLoading = true;
         const t = this
+        t.loading = true;
         if (page) {
           t.page = page
         }
@@ -304,7 +308,10 @@
             title: this.$t('reminder.err'),
             content: this.$t('reminder.errormessage'),
           })
-        })
+        }).finally(() => {
+          t.loading = false;
+          	t.searchLoading = false; //请求结束关闭loading
+          });
       },
       addNewArray(res) {
         const t = this

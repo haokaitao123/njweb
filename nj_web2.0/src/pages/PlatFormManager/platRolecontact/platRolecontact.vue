@@ -10,7 +10,7 @@
         <Row>
           <Input :placeholder="$t('lang_authorization.platRolecont.platRolecontCodeDis')" style="width: 160px"  @on-enter="enterEvent"  v-model="platRolecontCode"/>
           <Input :placeholder="$t('lang_authorization.platRolecont.platRolecontCnnameDis')" style="width: 160px" @on-enter="enterEvent" v-model="platRolecontCnname"/>
-          <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
+          <span style="margin: 0;"><Button type="primary" icon="search" :loading="searchLoading" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp('',$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
         </Row>
@@ -34,6 +34,7 @@
   export default{
     data() {
       return {
+        searchLoading: false,
         tableheight: document.body.offsetHeight - 280,
         value: '',
         logType: '',
@@ -164,6 +165,7 @@
         }
       },
       getData(page) {
+        this.searchLoading = true;
         const t = this
         if (page) {
           t.page = page
@@ -195,7 +197,9 @@
             title: this.$t('reminder.err'),
             content: this.$t('reminder.errormessage'),
           })
-        })
+        }).finally(() => {
+    	  t.searchLoading = false; //请求结束关闭loading
+        });
       },
       sizeChange(size) {
         const t = this

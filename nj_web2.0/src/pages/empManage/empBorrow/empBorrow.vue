@@ -61,6 +61,7 @@
                                 size="small"
                                 shape="circle"
                                 icon="refresh"
+                                :loading="searchLoading"
                                 style="margin-left: 20px;display: inline-block;"
                                 @click="search()">
                         </Button>
@@ -119,6 +120,7 @@ import importExcel from "../../../components/importModel/importParam";
 export default {
     data () {
         return {
+            searchLoading: false,
             tableOperate: false,  //加上这个变量
             loading: "",
             // 导入导出默认参数 无需变更
@@ -375,6 +377,7 @@ export default {
             this.openChart = false
         },//关闭借支信息图
         getData () {
+            this.searchLoading = true;
             const t = this
             //console.log("tableselected1--"+this.tableselected)
             this.tableselected = []
@@ -408,6 +411,8 @@ export default {
                 })
             }).finally(() => {
                 t.loading = false; //在成功之后改状态
+                t.searchLoading = false;
+                //t.$store.commit('btnOperate/setSearchLoading',false);
             })
         },
         sortable (column) {
@@ -452,7 +457,8 @@ export default {
             this.getData()
         },//下拉选中
         search () {
-            this.page = 1
+            this.searchLoading = true;
+            this.page = 1   
             this.getData()
         },
         /*导入、导出*/

@@ -76,6 +76,7 @@
                   size="small"
                   shape="circle"
                   icon="refresh"
+                  :loading="searchLoading"
                   style="margin-left: 20px;display: inline-block;"
                   @click="search()"
                 ></Button>
@@ -147,6 +148,8 @@ export default {
   data() {
 
       return {
+        //button loading状态
+        searchLoading: false,
           tableOperate:false,  //加上这个变量
         // 导入的mt名称
         imp_mt: "orgPost.importData",
@@ -407,6 +410,7 @@ FlowNode() {
       this.getData();
     },
     getData(page) {
+      this.searchLoading = true;
       const t = this;
       this.loading = true;
       if (page == undefined) {
@@ -445,6 +449,8 @@ FlowNode() {
           });
         })
         .finally(() => {
+          t.searchLoading = false;
+          t.$store.commit('btnOperate/setSearchLoading',false);
           this.loading = false;
         });
     },
@@ -549,6 +555,7 @@ FlowNode() {
     search() {
       this.tableselected = [];
       this.page = 1;
+      this.$store.commit('btnOperate/setSearchLoading', true)
       this.getData();
     },
     modifystatus(state) {

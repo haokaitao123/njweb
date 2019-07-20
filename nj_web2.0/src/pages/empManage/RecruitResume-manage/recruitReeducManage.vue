@@ -300,6 +300,7 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    t.$store.commit('btnOperate/setSearchLoading',false);
                 });
         },
 
@@ -387,6 +388,7 @@ export default {
         },
         search () {
             this.page = 1;
+            this.$store.commit('btnOperate/setSearchLoading', true);
             this.getData();
         },
         // 导入导出默认方法

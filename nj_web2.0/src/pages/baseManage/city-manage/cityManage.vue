@@ -17,7 +17,7 @@
           <Row>
             <Input :placeholder="$t('lang_baseManage.baseCity.cityNameDis')"  @on-enter="enterEvent" style="width: 200px" v-model="cityName"/>
             <Input :placeholder="$t('lang_baseManage.baseCity.cityCode1Dis')"  @on-enter="enterEvent" style="width: 200px" v-model="cityCode1"/>
-            <span style="margin: 0;"><Button type="primary" icon="search" @click="search()">{{$t('button.ser')}}</Button></span>
+            <span style="margin: 0;"><Button type="primary" icon="search" :loading="searchLoading" @click="search()">{{$t('button.ser')}}</Button></span>
             <Dropdown>
               <Button type="primary">
                 {{select}}
@@ -72,6 +72,7 @@
   export default{
     data() {
       return {
+        searchLoading: false,
         loading: "",
         imp_mt: 'baseCity.importData',
         openImport: false,
@@ -262,7 +263,9 @@
         }).catch(() => {
           t.loading = false; //在成功之后改状态
           t.$Message.error(this.$t('reminder.errormessage'))
-        })
+        }).finally(() => {
+        	t.searchLoading = false; //请求结束关闭loading
+      });
       },
       getTree() {
         const t = this
@@ -474,6 +477,7 @@
         this.getData('', 1)
       },
       search() {
+        this.searchLoading = true;
         this.treeid = ''
         this.page = 1
         this.getData('', 1)
