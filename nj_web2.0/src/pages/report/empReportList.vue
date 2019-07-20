@@ -129,6 +129,7 @@ export default {
                 { code: "empnhWklocatDis", name: "工作属地" },
                 { code: "empnhGenderDis", name: "性别" },
                 { code: "empnhEntrydate", name: "入职日期" },
+                { code: "submitTime", name: "提交时间" },
                 { code: "empnhEntrydate", name: "办理日期" },
                 { code: "recruitName", name: "招聘人" },
                 { code: "empnhCompmail", name: "邮箱号" },
@@ -237,6 +238,13 @@ export default {
                     title: "入职日期",
                     key: "empnhEntrydate",
                     width: 220
+                },
+                {
+                    title: "提交时间",
+                    key: "submitTime",
+                    width: 220,
+                    align: "center",
+                    sortable: "custom"
                 },
                 {
                     title: "办理日期",

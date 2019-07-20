@@ -104,7 +104,7 @@ const valid = {
       if (strBin.indexOf(bankCardnum.substring(0, 2)) == -1) {
         return 3;
       }
-      return true;
+       return 4;
     }
   },
   //email格式 205
