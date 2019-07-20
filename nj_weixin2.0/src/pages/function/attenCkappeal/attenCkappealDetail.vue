@@ -729,6 +729,7 @@ export default {
                     t.chkUpresnwDis = data.chkUpresnwDis ? data.chkUpresnwDis : '请选择';
                     t.chkDresnwDis = data.chkDresnwDis ? data.chkDresnwDis : '请选择';
                     t.chkLevpnwDis = data.chkLevpnwDis ? data.chkLevpnwDis : '请选择';
+                    t.form.fileKey = data.fileKey ? data.fileKey : ""
                     if (data.fileKey) {
                         t.fileName = data.fileKey.split(':')[0];
                         t.file = { name: data.fileKey.split(':')[0] }

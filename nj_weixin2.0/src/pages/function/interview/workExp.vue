@@ -238,11 +238,6 @@ export default {
                 } else {
                     data.rewePid = t.rewePid;
                 }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
-                }
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
                         localStorage.removeItem('workExpForm' + t.id)

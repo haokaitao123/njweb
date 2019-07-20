@@ -92,7 +92,7 @@ const valid = {
     var bankCardnum = bankCard.replace(/(^\s*)|(\s*$)/g, "");
     //console.log('bankCardnum',bankCard.replace(/(^\s*)|(\s*$)/g, ""))
     if (bankCardnum != "") {
-      if (bankCardnum.length < 15 || bankCardnum.length > 20) {
+      if (bankCardnum.length < 16 || bankCardnum.length > 19) {
         return 1;
       }
       var num = /^\d*$/; //全数字
@@ -104,7 +104,7 @@ const valid = {
       if (strBin.indexOf(bankCardnum.substring(0, 2)) == -1) {
         return 3;
       }
-       return 4;
+      return 4;
     }
   },
   //email格式 205

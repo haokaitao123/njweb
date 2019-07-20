@@ -92,30 +92,24 @@
                             :placeholder="disabled?'未填写':'请填写'"></x-textarea>
                 <!-- 证明人 -->
                 <div class="item_box">
-                    <x-input title="证明人<span>*</span>"
+                    <x-input title="证明人"
                              v-model="form.weContact"
                              :disabled="disabled"
-                             v-verify="form.weContact"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.weContact==''"
-                          v-remind="form.weContact"></icon>
                 </div>
                 <!-- 联系电话 -->
                 <div class="item_box">
-                    <x-input title="联系电话<span>*</span>"
+                    <x-input title="联系电话"
                              v-model="form.wePhone"
-                             :disabled="disabled"
                              v-verify="form.wePhone"
+                             :disabled="disabled"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.wePhone==''"
                           v-remind="form.wePhone"></icon>
                 </div>
                 <!-- 薪资 -->
@@ -232,9 +226,8 @@ export default {
             weSdate: "required",
             weEdate: "required",
             weComp: "required",
-            weContact: "required",
             weSalary: ["required", "number"],
-            wePhone: ["required", "mobile"],
+            wePhone: "mobile",
             weLevrason: "required",
         }
     },
@@ -272,11 +265,6 @@ export default {
                     data.id = listId
                 } else {
                     data.pkId = window.localStorage.getItem('empId');
-                }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
                 }
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {

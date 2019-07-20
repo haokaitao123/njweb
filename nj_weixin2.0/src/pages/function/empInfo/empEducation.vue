@@ -99,13 +99,17 @@
                 </div>
                 <!-- 专业 -->
                 <div class="item_box">
-                    <x-input title="专业"
+                    <x-input title="专业<span>*</span>"
                              v-model="form.edSpecialty"
                              v-verify="form.edSpecialty"
                              :disabled="disabled"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
+                    <icon type="warn"
+                          class="error"
+                          v-show="form.edSpecialty==''"
+                          v-remind="form.edSpecialty"></icon>
                 </div>
                 <!-- 录取方式 -->
                 <div class="item_box">
@@ -116,9 +120,9 @@
                           v-model="recruitTypeDis"
                           v-verify="form.recruitType"
                           @click.native="popupClick('recruitTypeShow','recruitType')">
-                        <div slot="title">录取方式</div>
+                        <div slot="title">录取方式<span>*</span></div>
                     </cell>
-                    <x-input title="录取方式"
+                    <x-input title="录取方式<span>*</span>"
                              v-if="disabled"
                              v-model="recruitTypeDis"
                              :show-clear="false"
@@ -350,6 +354,8 @@ export default {
             edSchool: "required",
             edSdate: "required",
             edEdate: "required",
+            recruitType: "required",
+            edSpecialty: "required",
         }
     },
     props: {
@@ -390,11 +396,6 @@ export default {
                     data.id = listId
                 } else {
                     data.pkId = window.localStorage.getItem('empId');
-                }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
                 }
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
@@ -512,9 +513,11 @@ export default {
                     t.form.edSchool = data.edSchool ? data.edSchool : '';
                     t.form.edDegree = data.edDegree ? data.edDegree : '';
                     t.form.edSpecialty = data.edSpecialty ? data.edSpecialty : '';
+                    t.form.recruitType = data.recruitType ? data.recruitType : '';
                     t.form.edSdate = data.edSdate;
                     t.form.edEdate = data.edEdate;
                     t.form.note = data.note;
+                    t.recruitTypeDis = data.recruitTypeDis ? data.recruitTypeDis : "";
                     t.edEducationlevelDis = data.edEducationlevelDis;
                     t.edIshighestDis = data.edIshighestDis;
                     t.edCuntryDis = data.edCuntryDis ? data.edCuntryDis : '中国';;
@@ -523,9 +526,12 @@ export default {
                         t.file = { name: data.fileKey.split(':')[0] }
                         t.filekey = data.fileKey.split(':')[1]
                     } else {
-                        t.file = {
-                            name: '未上传'
+                        if (t.disabled) {
+                            t.file = {
+                                name: '未上传'
+                            }
                         }
+
                     }
                     t.setSelectValue(data.edEducationlevel, 'selectEdEducationlevel', 'edEducationlevelIndex');
                     t.setSelectValue(data.edIshighest, 'selectEdIshighest', 'edIshighestIndex');

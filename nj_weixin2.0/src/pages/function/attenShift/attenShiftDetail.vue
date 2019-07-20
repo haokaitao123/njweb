@@ -476,7 +476,7 @@ export default {
                     t.form.shiftDays = data.shiftDays ? data.shiftDays : '';
                     t.form.shiftBgdate = data.shiftBgdate ? data.shiftBgdate : '请选择';
                     t.form.shiftEddate = data.shiftEddate ? data.shiftEddate : '请选择';
-                    t.form.shiftProof = data.shiftProof ? data.shiftProof : '';
+                    t.form.shiftProof = data.fileKey ? data.fileKey : '';
                     t.form.note = data.note;
                     t.empnhName = data.empnhName ? data.empnhName : '请选择';
                     t.unitFname = data.unitFname;
@@ -515,7 +515,7 @@ export default {
                     for (const key in res.data) {
                         t.file = { name: key }
                         t.filekey = res.data[key]
-                        t.form.fileKey = key + ':' + res.data[key]
+                        t.form.shiftProof = key + ':' + res.data[key]
                     }
                     // 用于展示，下载
                     t.$notify({

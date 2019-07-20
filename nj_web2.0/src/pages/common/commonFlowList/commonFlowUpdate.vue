@@ -1016,8 +1016,8 @@
 					if(this.tbName=='recruit_process'&&this.stepId=="1341"){
 						//console.log(this.stepId)
 						var localhour=new Date().getHours()
-						if(localhour>='11'&&localhour<='13'){
-							this.$Message.warning("初试提交时间控制  11：00-2：00不可提交复试");
+						if(localhour>='12'&&localhour<='13'){
+							this.$Message.warning("初试提交时间控制  12：00-2：00不可提交复试");
 							return 
 						}
 					}

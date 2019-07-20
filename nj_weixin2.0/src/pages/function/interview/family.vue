@@ -185,11 +185,6 @@ export default {
                 } else {
                     data.refaPid = t.reeduPid;
                 }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
-                }
                 getDataLevelNoneNew(data).then(res => {
                     if (isSuccess(res, t)) {
                         localStorage.removeItem('familyForm' + t.id)

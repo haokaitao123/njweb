@@ -59,7 +59,6 @@
                 <div class="item_box">
                     <x-input title="居住详细地址"
                              v-model="form.empupdResaddr"
-                             v-verify="form.empupdResaddr"
                              :show-clear="false"
                              :disabled="disabled"
                              :placeholder="disabled?'未填写':'请填写'">
@@ -98,27 +97,21 @@
                              v-model="form.empupdSalcount "
                              :disabled="disabled"
                              :show-clear="false"
-							 @on-blur="bankCheck()"
+                             @on-blur="bankCheck()"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="!bankVaild"
-                          v-remind="form.empupdSalcount"></icon>
+                          v-show="!bankVaild"></icon>
                 </div>
                 <!-- 户名 -->
                 <div class="item_box">
                     <x-input title="户名"
                              v-model="form.empupdSalcname "
-                             v-verify="form.empupdSalcname"
                              :disabled="disabled"
                              :show-clear="false"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
-                    <icon type="warn"
-                          class="error"
-                          v-show="form.empupdSalcname==''"
-                          v-remind="form.empupdSalcname"></icon>
                 </div>
                 <!-- 备注 -->
                 <x-textarea :max="300"
@@ -214,9 +207,6 @@ export default {
     verify: {
         form: {
             empId: "required",
-            empupdResaddr: "required",
-            empupdSalbank: "required",
-            empupdSalcname: "required"
         }
     },
     components: {
@@ -249,10 +239,10 @@ export default {
         //银行卡号校验
         //银行卡验证
         bankCheck () {
-			const t = this;
-            console.log(123)
+            const t = this;
             if (this.form.empupdSalcount == '') {
                 this.bankVaild = true;
+                return;
             }
             if (valid.val_backNumber(this.form.empupdSalcount) == 1) {
                 this.bankVaild = false;
@@ -263,16 +253,15 @@ export default {
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 3) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-            }else if(valid.val_backNumber(this.form.empupdSalcount) == 4){
-				this.bankVaild = true;
-			}
-
-
+            } else if (valid.val_backNumber(this.form.empupdSalcount) == 4) {
+                this.bankVaild = true;
+            }
+            return;
         },
         async save () {
             const t = this;
-		    this.bankCheck();
-           if (this.$verify.check() && this.bankVaild) {
+            this.bankCheck();
+            if (this.$verify.check() && this.bankVaild) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpupd.addAndUpd";
                 data.companyId = pubsource.companyId;
@@ -284,11 +273,11 @@ export default {
                 } else {
                     data.id = t.id;
                 }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
-                }
+                // for (const dat in data) {
+                //     if (data[dat] === "") {
+                //         delete data[dat];
+                //     }
+                // }
                 await getDataLevelUserLoginEmpId(data).then(res => {
                     if (isSuccess(res, t)) {
                         let data = JSON.parse(res.data.content[0].value);
@@ -315,14 +304,17 @@ export default {
                     t.$store.commit('hideLoading');
                 });
             } else {
-                this.$vux.toast.text('请检查填写信息', 'middle');
+                if (t.bankVaild) {
+                    this.$vux.toast.text('请检查填写信息', 'middle');
+                }
+
             }
         },
         popupClick (domShow) {
             this[domShow] = true;
         },
         comfirmSubmit () {
-			this.bankCheck();
+            this.bankCheck();
             if (this.$verify.check() && this.bankVaild) {
                 this.$dialog.confirm({
                     title: '',
@@ -398,10 +390,10 @@ export default {
                     t.form.deptId = data.deptId;
                     t.form.postId = data.postId;
                     t.form.empupdResaddr = !data.empupdResaddr ? '' : data.empupdResaddr;
-                    t.form.empupdSalbank = data.empupdSalbank;
-                    t.form.empupdSalcount = data.empupdSalcount;
-                    t.form.empupdSalcname = data.empupdSalcname;
-                    t.form.empupdReason = data.empupdReason;
+                    t.form.empupdSalbank = data.empupdSalbank ? data.empupdSalbank : "";
+                    t.form.empupdSalcount = data.empupdSalcount ? data.empupdSalcount : "";
+                    t.form.empupdSalcname = data.empupdSalcname ? data.empupdSalcname : "";
+                    t.form.empupdReason = data.empupdReason ? data.empupdReason : "";
                     t.form.note = data.note;
                     t.empnhName = data.empnhName ? data.empnhName : '';
                     t.unitFname = data.unitFname;
@@ -409,7 +401,7 @@ export default {
                     if (t.state !== '01draft') {
                         t.disabled = true;
                     }
-                    t.empnhSalbankDis = data.empnhSalbankDis;
+                    t.empnhSalbankDis = data.empnhSalbankDis ? data.empnhSalbankDis : "";;
                 }
             }).catch((err) => {
                 t.$notify({

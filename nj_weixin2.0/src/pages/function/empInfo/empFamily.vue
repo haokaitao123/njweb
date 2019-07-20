@@ -179,9 +179,9 @@ export default {
     verify: {
         form: {
             fmRelation: "required",
-            fmCname: [ "required","chinese"],
+            fmCname: ["required", "chinese"],
             fmCompany: "required",
-            fmPhone: "required",
+            fmPhone: ["required", "mobile"],
             fmIsurgent: "required",
         }
     },
@@ -220,11 +220,6 @@ export default {
                     data.id = listId
                 } else {
                     data.pkId = window.localStorage.getItem('empId');
-                }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
                 }
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
