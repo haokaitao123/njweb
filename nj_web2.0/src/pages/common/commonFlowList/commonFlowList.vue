@@ -75,7 +75,6 @@
                             size="small"
                             shape="circle"
                             icon="refresh"
-                            :loading="searchLoading"
                             style="margin-left: 20px;display: inline-block;"
                             @click="refresh"></Button>
                 </Row>
@@ -163,7 +162,6 @@ import expdow from "../../../components/fileOperations/expdow";
 export default {
     data () {
         return {
-            searchLoading: false,
             // 导出默认参数
             openExpDow: false,
             openExp: false,
@@ -265,7 +263,6 @@ export default {
             this.getColumns()
         },
         getColumns () {
-            this.searchLoading = true;
             const t = this
             t.data = []
             getDataLevelUserLogin({
@@ -321,7 +318,7 @@ export default {
                             if (aa[j].key == 'relibApplypost') {
                                 aa[j].fixed = 'left'
                             }
-                            if (aa[j].key == 'relibFilldate') {
+                            if (aa[j].key == 'relibFilldateDis') {
                                 aa[j].fixed = 'left'
                             }
                             if (aa[j].key == 'relibQueue') {
@@ -449,10 +446,7 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
-            }).finally(() => {
-            //请求结束后关闭loading
-                t.$store.commit('btnOperate/setSearchLoading',false);
-            });
+            })
         },
         formColumns (data) {
             for (let i = 0; i < data.length; i++) {

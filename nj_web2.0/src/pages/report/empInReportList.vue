@@ -127,7 +127,6 @@ export default {
                 { code: "ageNum", name: "年龄" },
                 { code: "ageSlice", name: "年龄分层" },
                 { code: "empnhMobile", name: "联系电话" },
-                { code: "empnhRegaddr", name: "户籍所在地" },
                 { code: "empnhResiaddr", name: "现居地址" },
                 { code: "empnhRegaddr", name: "身份证地址" },
                 { code: "edSchool", name: "毕业院校" },
@@ -267,11 +266,6 @@ export default {
                 {
                     title: "联系电话",
                     key: "empnhMobile",
-                    width: 220
-                },
-                {
-                    title: "户籍所在地",
-                    key: "empnhRegaddr",
                     width: 220
                 },
                 {
