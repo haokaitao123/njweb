@@ -21,9 +21,6 @@
                     ref="canvas">
             </canvas>
         </div>
-        <p class="goLink"
-           @click="doCopy">{{goLink}}</p>
-        <!-- <span class="goLink">链接：{{goLink}}</span> -->
     </div>
 </template>
 <script>
@@ -110,20 +107,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #fff;
 }
 .qrcode_box img {
     display: none;
-}
-.goLink {
-    background: #fff;
-    color: #333;
-    font-size: 36px;
-    width: 100%;
-    margin-top: 20px;
-    text-align: center;
-    line-height: 1.4;
-    height: 140px;
-    word-wrap: break-word;
 }
 </style>

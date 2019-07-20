@@ -96,14 +96,13 @@
                 <div class="item_box">
                     <x-input title="银行账号"
                              v-model="form.empupdSalcount "
+                             v-verify="form.empupdSalcount"
                              :disabled="disabled"
                              :show-clear="false"
-							 @on-blur="bankCheck()"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="!bankVaild"
                           v-remind="form.empupdSalcount"></icon>
                 </div>
                 <!-- 户名 -->
@@ -216,6 +215,7 @@ export default {
             empId: "required",
             empupdResaddr: "required",
             empupdSalbank: "required",
+            empupdSalcount: "number",
             empupdSalcname: "required"
         }
     },
@@ -249,31 +249,28 @@ export default {
         //银行卡号校验
         //银行卡验证
         bankCheck () {
-			const t = this;
             console.log(123)
             if (this.form.empupdSalcount == '') {
                 this.bankVaild = true;
             }
             if (valid.val_backNumber(this.form.empupdSalcount) == 1) {
                 this.bankVaild = false;
-                t.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-				return;
+                this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
+
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 2) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-				return;
+
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 3) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-				return;
             }
 
 
         },
         async save () {
             const t = this;
-		    this.bankCheck();
-           if (this.$verify.check() && this.bankVaild) {
+            if (this.$verify.check()) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpupd.addAndUpd";
                 data.companyId = pubsource.companyId;
@@ -285,11 +282,11 @@ export default {
                 } else {
                     data.id = t.id;
                 }
-                for (const dat in data) {
-                    if (data[dat] === "") {
-                        delete data[dat];
-                    }
-                }
+                // for (const dat in data) {
+                //     if (data[dat] === "") {
+                //         delete data[dat];
+                //     }
+                // }
                 await getDataLevelUserLoginEmpId(data).then(res => {
                     if (isSuccess(res, t)) {
                         let data = JSON.parse(res.data.content[0].value);
@@ -316,7 +313,6 @@ export default {
                     t.$store.commit('hideLoading');
                 });
             } else {
-				this.this.bankCheck();
                 this.$vux.toast.text('请检查填写信息', 'middle');
             }
         },
@@ -324,7 +320,6 @@ export default {
             this[domShow] = true;
         },
         comfirmSubmit () {
-			this.bankCheck();
             if (this.$verify.check() && this.bankVaild) {
                 this.$dialog.confirm({
                     title: '',

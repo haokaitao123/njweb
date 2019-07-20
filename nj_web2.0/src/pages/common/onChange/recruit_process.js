@@ -87,7 +87,6 @@ const recruit_process = {
   },
   //默认试岗申请时间为当前时间
   relibTrysqtime_set(t) {
-
     if (t.valueMap.relibTrysqtime && t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit.relibTrysqtime === '') {
       let nowDate = new Date()
       t.$refs[t.valueMap.relibTrysqtime][0].$set(t.$refs[t.valueMap.relibTrysqtime][0].formDataSubmit, 'relibTrysqtime', nowDate.format('yyyy-MM-dd'))
@@ -106,17 +105,16 @@ const recruit_process = {
         if ((nowDate - day1) > day2) { //可入职时间-试岗申请时间大于3，不可入职
           t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue);
           t.$store.commit('recruitProcess/setEntry', 'true');
-         // t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
+          // t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '1'
         } else {
           t.$refs[t.valueMap.relibTrypspass][0].$set(t.$refs[t.valueMap.relibTrypspass][0].formDataSubmit, 'relibTrypspass', t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue);
           t.$store.commit('recruitProcess/setEntry', 'false')
-         // t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
+          // t.$refs[t.valueMap.relibTrypspass][0].$refs.relibTrypspass.thisValue = '0'
         }
       }
     }
   },
   relibApplytype_dis(t) {
-
     if (t.valueMap.relibApplytype) {
       if (t.$refs[t.valueMap.relibApplytype][0].formDataSubmit.relibApplytype === '03introducer') {
         if (t.valueMap.relibIntrname) {
@@ -208,8 +206,21 @@ const recruit_process = {
     const th = this.$parent
     if (t.valueMap.relibAppsqus) {
       if (t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit.relibAppsqus === '') {
-        t.$refs[t.valueMap.relibAppsqus][0].$set(t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit, 'relibAppsqus', t.$store.state.user.userId)
-        t.$refs[t.valueMap.relibAppsqus][0].$refs.relibAppsqus.thisValue = t.$store.state.user.name
+        getDataLevelUserLogin({
+          _mt: 'sysUserinfo.getSysUserinfoByUserId',
+          logType: '查询复试者',
+          id: t.$store.state.user.userId,
+        }).then((res) => {
+          if (isSuccess(res, this.$parent)) {
+            t.$refs[t.valueMap.relibAppsqus][0].$set(t.$refs[t.valueMap.relibAppsqus][0].formDataSubmit, 'relibAppsqus', res.data.content[0].sysUsempid)
+            t.$refs[t.valueMap.relibAppsqus][0].$refs.relibAppsqus.thisValue = res.data.content[0].sysUsempidDis
+          }
+        }).catch(() => {
+          this.$Modal.error({
+            title: '错误',
+            content: '网络错误',
+          })
+        })
       }
     }
   },
@@ -314,8 +325,8 @@ const recruit_process = {
   // 入职部门
   relibHiredept_set(t) {
     if (t.valueMap.relibHiredept) {
-        t.$refs[t.valueMap.relibHirepost][0].$set(t.$refs[t.valueMap.relibHirepost][0].formDataSubmit, 'relibHirepost', '')
-        t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = ''
+      t.$refs[t.valueMap.relibHirepost][0].$set(t.$refs[t.valueMap.relibHirepost][0].formDataSubmit, 'relibHirepost', '')
+      t.$refs[t.valueMap.relibHirepost][0].$refs.relibHirepost.thisValue = ''
     }
   },
   // 是否担保

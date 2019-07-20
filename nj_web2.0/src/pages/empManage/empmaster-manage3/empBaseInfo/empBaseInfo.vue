@@ -770,14 +770,10 @@
 						trigger: "change"
 					}],
 					empnhSalaccount: [{
-							required: true,
-							message: "请输入银行账号",
-							trigger: "blur"
-						},
-						{
-							validator: numberCheck,
-							message: '请输入正确的数字格式',
-							trigger: 'blur'
+							required: false,
+                            validator: numberCheck,
+                            message: '请输入正确的数字格式',
+                            trigger: 'blur'
 						},
 					],
 					empnhSalaccname: [{

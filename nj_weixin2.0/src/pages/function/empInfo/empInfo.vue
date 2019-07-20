@@ -316,17 +316,15 @@
                 </div>
                 <!-- 银行账号 -->
                 <div class="item_box">
-                    <x-input title="银行账号<span>*</span>"
+                    <x-input title="银行账号"
                              v-model.trim="form.empnhSalaccount"
                              v-verify="form.empnhSalaccount"
                              :show-clear="false"
                              :disabled="state"
-                             :placeholder="state?'未填写':'请填写'"
-                             @on-blur="bankCheck">
+                             :placeholder="state?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.empnhSalaccount==''||!bankVaild"
                           v-remind="form.empnhSalaccount"></icon>
                 </div>
                 <!-- 户名 -->
@@ -905,7 +903,6 @@ export default {
             familyList: [],
             idNumberVaild: false,
             phoneVaild: false,
-            bankVaild: true,
             educationState: false,
             childCheck: false,
             // workState: false,
@@ -927,7 +924,7 @@ export default {
             empnhQq: "number",
             empnhPersmail: "email",
             empnhSalbank: "required",
-            empnhSalaccount: ["required", "backNumber"],
+            empnhSalaccount: "number",
             empnhSalaccname: "required",
             empnhFirstwkdate: "required",
             empnhEntrydate: "required",
@@ -1018,33 +1015,6 @@ export default {
             }
         },
         //银行卡号校验
-        //银行卡验证
-        bankCheck () {
-            console.log(123);
-            // debugger;
-            if (this.form.empnhSalaccount == '') {
-                this.bankVaild = false;
-                return;
-            } else {
-                console.log(valid.val_backNumber(this.form.empnhSalaccount), "123")
-                if (valid.val_backNumber(this.form.empnhSalaccount) === 1) {
-                    this.bankVaild = false;
-                    this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-                    return;
-                } else if (valid.val_backNumber(this.form.empnhSalaccount) === 2) {
-                    this.bankVaild = false;
-                    this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-                    return
-                } else if (valid.val_backNumber(this.form.empnhSalaccount) === 3) {
-                    this.bankVaild = false;
-                    this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-                    return
-                } else {
-                    this.bankVaild = true;
-                }
-            }
-
-        },
         //校验子表
         checkChild () {
             const t = this;
@@ -1094,15 +1064,13 @@ export default {
         save () {
             console.log(this.$verify.check());
             const t = this;
-            console.log(this.childCheck, "this.childCheck1")
             t.checkChild();
-            console.log(this.childCheck, "this.childCheck2")
             t.Positive()
             if (String(t.form.empnhResiaddr).length < 4) {
                 t.$vux.toast.text('请将现居住地址完善到门牌号');
                 return;
             }
-            if (this.$verify.check() && this.bankVaild && !this.childCheck) {
+            if (this.$verify.check() && !this.educationState && !this.workExpState && !this.familyState) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;
@@ -1111,11 +1079,11 @@ export default {
                     data.state = '03empstate'
                 }
                 for (const dat in data) {
-                    if (data[dat] === "" || data[dat] === "请选择") {
+                    if (data[dat] === "请选择") {
                         delete data[dat];
                     }
                 }
-                //console.log('data',data)
+                console.log('data', data)
                 getDataLevelUserLoginNew(data).then(res => {
                     if (isSuccess(res, t)) {
                         t.$notify({
