@@ -835,7 +835,28 @@ export default {
                     { code: "reason", name: "未通过原因" },
                     { code: "relibCheckopin", name: "筛选意见" },
                     { code: "relibMobile", name: "手机号" },
-
+                    { code: "relibAvaitime", name: "可到岗时间" },
+            { code: "relibIdentityDis", name: "身份" },
+            { code: "relibGenderDis", name: "性别" },
+            { code: "relibBirtplaceDis", name: "籍贯" },
+            { code: "relibNatalityDis", name: "民族" },
+            { code: "relibPoliticalDis", name: "政治面貌" },
+            { code: "relibHealthstaDis", name: "健康状况" },
+            { code: "relibMaritlstaDis", name: "婚姻状况" },
+            { code: "relibWithmeDis", name: "与本人关系" },
+            { code: "relibProstatusDis", name: "职业状态" },
+            { code: "relibIsrelativesDis", name: "是否有朋友在职" },
+            { code: "relibIscriminalDis", name: "是否有犯罪记录" },
+            { code: "relibIstattooDis", name: "是否有纹身" },
+            { code: "relibApplytypeDis", name: "通过何种方法应聘" },
+            { code: "relibIscomDis", name: "是否服从调配" },
+            { code: "relibEnrorageDis", name: "招生范围" },
+            { code: "relibIsgraduDis", name: "是否毕业" },
+            { code: "relibExaminaresDis", name: "补考结果" },
+            { code: "relibFirpassDis", name: "补考是否通过" },
+            { code: "relibIsguaranDis", name: "是否担保" },
+            { code: "relibExaminaDis", name: "考试结果" },
+            { code: "relibGuaranteeDis", name: "担保人" },
                 ]
 
                 return expDataTital;
@@ -866,19 +887,74 @@ export default {
                 return expDataTital;
             } else if (tbName === "atten_shift") {
                 //调班流程导出
-
+                expDataTital = [
+                { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhIdno", name: "证件号码" },
+                    { code: "unitFname", name: "部门名称" },
+                    { code: "postFname", name: "岗位名称" },
+                    { code: "shiftReason", name: "调班原因" },
+                    { code: "shiftDays", name: "调班天数" },
+                    { code: "shiftBgdate", name: "调班开始日期" },
+                    { code: "shiftEddate", name: "调班结束日期" },
+                    { code: "shiftEdays", name: "实际调班天数" },
+                    { code: "note", name: "备注" },
+                    
+                    ]
                 return expDataTital;
             } else if (tbName === "atten_vacation") {
                 //请假流程导出
-
+                 expDataTital = [
+                { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhIdno", name: "证件号码" },
+                    { code: "unitFname", name: "部门名称" },
+                    { code: "postFname", name: "岗位名称" },
+                    { code: "vacTypeDis", name: "请假类型" },
+                    { code: "vacIsreapply", name: "是否假后补办" },
+                    { code: "vacDay", name: "请假天数" },
+                    { code: "vacPerdays", name: "连续请假天数" },
+                    { code: "vacYeardays", name: "当年累计天数" },
+                    { code: "vacSdate", name: "请假开始日期" },
+                    { code: "vacEdate", name: "请假结束日期" },
+                    { code: "vacActdays", name: "实际请假天数" },
+                    { code: "vacActdate", name: "实际归来日期" },
+                    { code: "note", name: "备注" },
+                    ]
                 return expDataTital;
             } else if (tbName === "atten_gooutproc") {
                 //外出流程导出
-
+                 expDataTital = [
+                { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhIdno", name: "证件号码" },
+                    { code: "unitFname", name: "部门名称" },
+                    { code: "postFname", name: "岗位名称" },
+                    { code: "goutDate", name: "外出日期" },
+                    { code: "goutReason", name: "外出原因" },
+                    { code: "goutBgdate", name: "外出开始原因" },
+                    { code: "goutEddate", name: "外出结束原因" },
+                    { code: "note", name: "备注" },
+                    ]
                 return expDataTital;
             } else if (tbName === "atten_ckappeal") {
                 //考勤申诉流程导出
-
+                 expDataTital = [
+                { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhIdno", name: "证件号码" },
+                    { code: "unitFname", name: "部门名称" },
+                    { code: "postFname", name: "岗位名称" },
+                    { code: "checkWktm", name: "工作日期" },
+                    { code: "chkIndtod", name: "原上班打卡时间" },
+                    { code: "chkUpresodDis", name: "原上班考勤结果" },
+                    { code: "chkOutod", name: "原下班打卡时间" },
+                    { code: "chkDresodDis", name: "原下班考勤结果" },
+                    { code: "chkLevpodDis", name: "原请假类型" },
+                    { code: "chkReason", name: "申诉原因" },
+                    { code: "chkIndtnw", name: "现上班打卡时间" },
+                    { code: "chkUpresnwDis", name: "现上班考勤结果" },
+                    { code: "chkOutnw", name: "下班打卡时间" },
+                    { code: "chkDresnwDis", name: "现下班考勤结果" },
+                    { code: "chkLevpnwDis", name: "现请假类型" },
+                    { code: "note", name: "备注" },
+                    ]
                 return expDataTital;
             }
 
