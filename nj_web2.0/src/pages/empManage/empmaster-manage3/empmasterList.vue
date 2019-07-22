@@ -264,7 +264,7 @@ export default {
                 {
                     title: "员工姓名",
                     key: "empnhName",
-                    width: 140,
+                    width: 100,
                     align: "center",
                     sortable: "custom"
                 },
@@ -279,7 +279,7 @@ export default {
                 {
                     title: "性别",
                     key: "empnhGenderDis",
-                    width: 100,
+                    width: 80,
                     align: "center"
                 },
                 {
@@ -438,7 +438,7 @@ export default {
             data: [],
             total: 0,
             index: 0,
-            sort: "id",
+            sort: "querenTime",
             order: "desc",
             rows: 20,
             page: 1,
