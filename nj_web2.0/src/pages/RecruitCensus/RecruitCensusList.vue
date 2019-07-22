@@ -129,6 +129,8 @@ export default {
         { code: "trialPostNum", name: "试岗人数" },
         { code: "trainNum", name: "参训人数" },
         { code: "entryNum", name: "入职人数" },
+        { code: "entryNum", name: "入职人数" },
+        { code: "tryNum", name: "试岗中人数" },
         // { code: "QuitDateNum", name: "2019年入职后离职人数" },
         // { code: "QuitNUme", name: "离职人数" },
       ],
@@ -189,6 +191,11 @@ export default {
         {
           title: "入职人数",
           key: "entryNum",
+          width: 220
+        },
+        {
+          title: "试岗中人数",
+          key: "tryNum",
           width: 220
         },
         // {
