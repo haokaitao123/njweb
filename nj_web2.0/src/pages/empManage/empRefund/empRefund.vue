@@ -494,6 +494,7 @@
           })
         }).finally(() => {
           t.loading = false; //在成功之后改状态
+          t.$store.commit('btnOperate/setSearchLoading',false);
         })
       },
       sortable(column) {
@@ -533,7 +534,7 @@
       search() {
       this.tableselected = [];
       this.page = 1;
-      //this.$store.commit('btnOperate/setSearchLoading',true)
+      this.$store.commit('btnOperate/setSearchLoading',true)
       this.getData();
     },
       //关闭,并清除弹出页面的值

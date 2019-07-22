@@ -12,7 +12,7 @@
           <Input :placeholder="$t('lang_baseManage.baseTaxrate.taxCodeDis')"  @on-enter="enterEvent" style="width: 200px" v-model="taxCode"/>
           <!--<DatePicker type="date" :placeholder="$t('lang_baseManage.baseTaxrate.taxSdateDis')" :editable="false" v-model="taxSdate" style="width: 200px"></DatePicker>-->
           <!--<DatePicker type="date" :placeholder="$t('lang_baseManage.baseTaxrate.taxEdateDis')" :editable="false" v-model="taxEdate" style="width: 200px"></DatePicker>-->
-          <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
+          <span style="margin: 0;"><Button type="primary" icon="search" :loading="searchLoading" @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'))">{{$t('button.add')}}</Button>
           <Button type="error" @click="deletemsg">{{$t('button.del')}}</Button>
           <Button type="primary"  @click="expData">{{$t('button.exp')}}</Button>
@@ -35,7 +35,7 @@
       <expdow v-show="openExpDow" :filekey="filekey" :filename="filename"  @closeExpDowMain="closeExpDowMain" ref="expdow"></expdow>
     </transition>
     <transition name="fade">
-      <importExcel v-show="openImport" :impid="updateId" :imp_mt="imp_mt" @getData="getData"  @closeImport="closeImport"ref="importExcel"></importExcel>
+      <importExcel v-show="openImport" :impid="updateId" :imp_mt="imp_mt" @getData="getData"  @closeImport="closeImport" ref="importExcel"></importExcel>
     </transition>
   </div>
 </template>
@@ -50,6 +50,7 @@
   export default{
     data() {
       return {
+        searchLoading: false,
         loading: "",
         imp_mt: 'baseTaxrate.importData',
         openImport: false,
@@ -199,6 +200,7 @@
           this.getData(1)
       },
       getData(page) {
+        this.searchLoading = true;
         const t = this
         if (page) {
           t.page = page
@@ -239,7 +241,9 @@
         }).catch(() => {
           t.loading = false;
           t.$Message.error(this.$t('reminder.errormessage'))
-        })
+        }).finally(() => {
+    	    t.searchLoading = false; //请求结束关闭loading
+        }); 
       },
       closeImport() {
         const t = this
@@ -305,6 +309,7 @@
         t.getData()
       },
       search(){
+        this.searchLoading = true;
         this.getData(1);
         this.tableselected = [];
       },

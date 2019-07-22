@@ -28,7 +28,7 @@
                                   prop="edSchool">
                             <Input v-model="form.edSchool"
                                    :disabled="disabled"
-                                   placeholder="请输入学校"></Input>
+                                   placeholder="请填写学校"></Input>
                         </FormItem>
                     </i-col>
                     <i-col span="11"
@@ -37,7 +37,7 @@
                                   prop="edSpecialty">
                             <Input v-model="form.edSpecialty"
                                    :disabled="disabled"
-                                   placeholder="请输入专业"></Input>
+                                   placeholder="请填写专业"></Input>
                         </FormItem>
                     </i-col>
                     <i-col span="11">
@@ -45,7 +45,7 @@
                                   prop="edDegree">
                             <Input v-model="form.edDegree"
                                    :disabled="disabled"
-                                   placeholder="请输入学位"></Input>
+                                   placeholder="请填写学位"></Input>
                         </FormItem>
                     </i-col>
                     <i-col span="11"
@@ -252,8 +252,17 @@ export default {
                 edEducationlevel: [
                     { required: true, message: "请选择教育程度", trigger: "blur" }
                 ],
+                edSpecialty: [
+                  { required: true, message: "请填写专业名称", trigger: "blur" }
+                ],
+                edSchool: [
+                  { required: true, message: "请填写学校名称", trigger: "blur" }
+                ],
                 edIshighest: [
                     { required: true, message: "请选择是否是高学历", trigger: "change" }
+                ],
+                recruitType: [
+                  { required: true, message: "请选择录取方式", trigger: "change" }
                 ],
                 edSdate: [
                     {

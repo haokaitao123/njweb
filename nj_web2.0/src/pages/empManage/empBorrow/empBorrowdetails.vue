@@ -275,6 +275,7 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    t.$store.commit('btnOperate/setSearchLoading',false);
                 });
         },
         // 点击列表表头 调用排序方法 无需更改
@@ -341,6 +342,7 @@ export default {
         search () {
             this.page = 1;
             this.getData();
+            this.$store.commit('btnOperate/setSearchLoading', true)
         },
         // 导入导出默认方法
         expData () {

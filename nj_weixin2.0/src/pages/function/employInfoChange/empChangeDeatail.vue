@@ -96,14 +96,14 @@
                 <div class="item_box">
                     <x-input title="银行账号"
                              v-model="form.empupdSalcount "
-                             v-verify="form.empupdSalcount"
                              :disabled="disabled"
                              :show-clear="false"
+							 @on-blur="bankCheck()"
                              :placeholder="disabled?'未填写':'请填写'">
                     </x-input>
                     <icon type="warn"
                           class="error"
-                          v-show="form.empupdSalcount==''"
+                          v-show="!bankVaild"
                           v-remind="form.empupdSalcount"></icon>
                 </div>
                 <!-- 户名 -->
@@ -131,7 +131,7 @@
 
             </group>
             <div class="save_button"
-                 v-if="state==='01draft'||state===''">
+                 v-if="state==='01draft'||state===''||state==='04draft'">
                 <x-button type="default"
                           class="x_button button_left"
                           action-type="button"
@@ -216,7 +216,6 @@ export default {
             empId: "required",
             empupdResaddr: "required",
             empupdSalbank: "required",
-            empupdSalcount: ["required", "number"],
             empupdSalcname: "required"
         }
     },
@@ -250,28 +249,30 @@ export default {
         //银行卡号校验
         //银行卡验证
         bankCheck () {
+			const t = this;
             console.log(123)
             if (this.form.empupdSalcount == '') {
                 this.bankVaild = true;
             }
             if (valid.val_backNumber(this.form.empupdSalcount) == 1) {
                 this.bankVaild = false;
-                this.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
-
+                t.$vux.toast.text('银行卡号长度必须在16到19之间！', 'number');
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 2) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号码必须全为数字', 'number');
-
             } else if (valid.val_backNumber(this.form.empupdSalcount) == 3) {
                 this.bankVaild = false;
                 this.$vux.toast.text('银行卡号开头6位不符合规范', 'number');
-            }
+            }else if(valid.val_backNumber(this.form.empupdSalcount) == 4){
+				this.bankVaild = true;
+			}
 
 
         },
         async save () {
             const t = this;
-            if (this.$verify.check()) {
+		    this.bankCheck();
+           if (this.$verify.check() && this.bankVaild) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpupd.addAndUpd";
                 data.companyId = pubsource.companyId;
@@ -321,6 +322,7 @@ export default {
             this[domShow] = true;
         },
         comfirmSubmit () {
+			this.bankCheck();
             if (this.$verify.check() && this.bankVaild) {
                 this.$dialog.confirm({
                     title: '',
@@ -404,7 +406,7 @@ export default {
                     t.empnhName = data.empnhName ? data.empnhName : '';
                     t.unitFname = data.unitFname;
                     t.postFname = data.postFname;
-                    if (t.state !== '01draft') {
+                    if (t.state !== '01draft' && t.state !== '04draft') {
                         t.disabled = true;
                     }
                     t.empnhSalbankDis = data.empnhSalbankDis;

@@ -318,7 +318,7 @@ export default {
                             if (aa[j].key == 'relibApplypost') {
                                 aa[j].fixed = 'left'
                             }
-                            if (aa[j].key == 'relibFilldate') {
+                            if (aa[j].key == 'relibFilldateDis') {
                                 aa[j].fixed = 'left'
                             }
                             if (aa[j].key == 'relibQueue') {

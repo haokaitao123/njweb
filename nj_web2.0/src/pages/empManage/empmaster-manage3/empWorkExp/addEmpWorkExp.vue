@@ -227,20 +227,25 @@ export default {
                         trigger: "change"
                     }
                 ],
-                /*weComp: [
-                    { required: true, message: "请输入工作单位", trigger: "blur" }
-                ],*/
-                weContact: [
-                    { required: true, message: "请输入证明人", trigger: "blur" }
+                weComp: [
+                  { required: true, message: "请填写工作单位", trigger: "blur" }
                 ],
+/*                weContact: [
+                    { required: true, message: "请输入证明人", trigger: "blur" }
+                ],*/
                 weSalary: [
+                    {
+                      required: true,
+                      message: "请填写薪资",
+                      trigger: "blur"
+                    },
                     {
                         validator: numberCheck,
                         message: '请输入正确的数字格式',
                         trigger: 'blur'
                     }
                 ],
-                wePhone: [
+/*                wePhone: [
                     {
                         required: true,
                         message: "请输入手机号码",
@@ -256,10 +261,10 @@ export default {
                         message: '请输入正确的数字格式',
                         trigger: 'blur'
                     },
-                ],
-                weLevrason: [
+                ],*/
+/*                weLevrason: [
                     { required: true, message: "请输入离职原因", trigger: "blur" }
-                ],
+                ],*/
             },
             logTypeE: this.logType,
             spinShow: ''

@@ -65,19 +65,19 @@ const valid = {
       rtn = true;
     return rtn;
   },
-	//汉字验证
-	val_chinese: (str) => {
-	  let rtn = false,
-	    reg = /[^\0-9]/;
-		var reg1 = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]/im;
-	  var strs = str.replace(/(^\s*)|(\s*$)/g, "")
-	  if (strs.match(reg)){
-		  if(!strs.match(reg1)){
-			 rtn = true;
-			return rtn;  
-		  }
-	  }
-	},
+  //汉字验证
+  val_chinese: (str) => {
+    let rtn = false,
+      reg = /[^\0-9]/;
+    var reg1 = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]/im;
+    var strs = str.replace(/(^\s*)|(\s*$)/g, "")
+    if (strs.match(reg)) {
+      if (!strs.match(reg1)) {
+        rtn = true;
+        return rtn;
+      }
+    }
+  },
   //手机格式 204 必须以数字开头，除数字外，可含有-
   val_mobile: (str) => {
     let rtn = false,
@@ -92,7 +92,6 @@ const valid = {
     var bankCardnum = bankCard.replace(/(^\s*)|(\s*$)/g, "");
     //console.log('bankCardnum',bankCard.replace(/(^\s*)|(\s*$)/g, ""))
     if (bankCardnum != "") {
-      //   debugger;
       if (bankCardnum.length < 15 || bankCardnum.length > 20) {
         return 1;
       }
@@ -105,7 +104,7 @@ const valid = {
       if (strBin.indexOf(bankCardnum.substring(0, 2)) == -1) {
         return 3;
       }
-      return true;
+       return 4;
     }
   },
   //email格式 205

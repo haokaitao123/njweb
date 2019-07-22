@@ -362,6 +362,7 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    t.$store.commit('btnOperate/setSearchLoading',false);
                 });
         },
 
@@ -447,6 +448,7 @@ export default {
             t.openUpdate = false;
         },
         search () {
+            this.$store.commit('btnOperate/setSearchLoading', true)
             this.page = 1;
             this.getData();
         },

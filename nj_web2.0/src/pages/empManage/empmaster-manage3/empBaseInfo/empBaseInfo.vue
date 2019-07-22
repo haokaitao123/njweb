@@ -88,12 +88,12 @@
 					</FormItem>
 				</i-col>
 				<i-col span="11">
-					<FormItem label="生效日期" prop="empnhSday">
+					<FormItem label="身份证生效期" prop="empnhSday">
 						<DatePicker type="date" placeholder="请选择生效日期" :editable="false" :disabled="disabled" :readonly="disabled" v-model="form.empnhSday" style="width: 100%"></DatePicker>
 					</FormItem>
 				</i-col>
 				<i-col span="11">
-					<FormItem label="证件到期日" prop="empnhEday">
+					<FormItem label="身份证到期日" prop="empnhEday">
 						<DatePicker type="date" placeholder="请选择证件到期日" :editable="false" :disabled="disabled" :readonly="disabled" v-model="form.empnhEday" style="width: 100%"></DatePicker>
 					</FormItem>
 				</i-col>
@@ -126,9 +126,33 @@
 					</FormItem>
 				</i-col>
 				<i-col span="11">
+					<FormItem label="毕业院校" prop="empnhSchool">
+						<Input v-model="form.empnhSchool" :disabled="disabled" placeholder="请输入毕业院校"></Input>
+					</FormItem>
+				</i-col>
+				<i-col span="11">
+					<FormItem label="专业" prop="empnhMajor">
+						<Input v-model="form.empnhMajor" :disabled="disabled" placeholder="请输入专业名称"></Input>
+					</FormItem>
+				</i-col>
+				<i-col span="11">
+					<FormItem label="学历" prop="empnhRecorcd">
+						<Select v-model="form.empnhRecorcd" :clearable="!disabled" :disabled="disabled" placeholder="请选择学历">
+							<Option :value="item.paramCode" v-for="(item,index) in selectEducation" :key="index">{{item.paramInfoCn}}</Option>
+						</Select>
+					</FormItem>
+				</i-col>
+				<i-col span="11">
 					<FormItem label="户籍性质" prop="empnhRegtype">
 						<Select v-model="form.empnhRegtype" :clearable="!disabled" :disabled="disabled" placeholder="请选择户籍性质">
 							<Option :value="item.paramCode" v-for="(item,index) in selectRegtype" :key="index" @click.native="getIdByType(item.paramCode,'empnhRegtype')">{{item.paramInfoCn}}</Option>
+						</Select>
+					</FormItem>
+				</i-col>
+				<i-col span="11">
+					<FormItem label="员工工作地点" prop="empnhWork">
+						<Select v-model="form.empnhWork" :clearable="!disabled" :disabled="disabled" placeholder="请选择员工工作地点">
+							<Option :value="item.paramCode" v-for="(item,index) in selectEmpnhWork" :key="index">{{item.paramInfoCn}}</Option>
 						</Select>
 					</FormItem>
 				</i-col>
@@ -447,6 +471,10 @@
 					empnhBirthdate: "", // 出生日期
 					empnhMobile: "", // 手机号码
 					empnhResiaddr: "",//"武汉市", // 居住地址
+					empnhSchool:"",//毕业院校
+					empnhMajor:"",//专业
+					empnhRecorcd:"",//学历
+					empnhWork:"",//员工工作地点
 					empnhRegtype: "", // 户籍性质
 					empnhRegaddr: "", // 身份证地址
 					empnhPersmail: "", // 个人邮箱
@@ -616,6 +644,8 @@
 				selectNation: [],
 				selectIdtype: [],
 				selectRegtype: [],
+				selectEducation:[],
+				selectEmpnhWork:[],
 				selectSalbank: [],
 				selectAttendy: [],
 				ruleValidate: {
@@ -724,9 +754,24 @@
 						message: "请输入身份证地址",
 						trigger: "blur"
 					}],
+					empnhSchool: [{
+						required: true,
+						message: "请输入毕业院校",
+						trigger: "blur"
+					}],
+					empnhMajor: [{
+						required: true,
+						message: "请输入专业名称",
+						trigger: "blur"
+					}],
 					empnhRegtype: [{
 						required: true,
 						message: "请选择户籍性质",
+						trigger: "blur"
+					}],
+					empnhRecorcd: [{
+						required: true,
+						message: "请选择学历名称",
 						trigger: "blur"
 					}],
 					empnhPersmail: [{
@@ -770,14 +815,10 @@
 						trigger: "change"
 					}],
 					empnhSalaccount: [{
-							required: true,
-							message: "请输入银行账号",
-							trigger: "blur"
-						},
-						{
-							validator: numberCheck,
-							message: '请输入正确的数字格式',
-							trigger: 'blur'
+							required: false,
+                            validator: numberCheck,
+                            message: '请输入正确的数字格式',
+                            trigger: 'blur'
 						},
 					],
 					empnhSalaccname: [{
@@ -858,6 +899,10 @@
 							t.form.empnhCompmail = res.data.content[0].empnhCompmail ? res.data.content[0].empnhCompmail : '';
 							t.form.empnhQq = res.data.content[0].empnhQq;
 							t.form.empnhWechat = res.data.content[0].empnhWechat;
+							t.form.empnhWork = res.data.content[0].empnhWork;
+							t.form.empnhSchool = res.data.content[0].empnhSchool;
+							t.form.empnhMajor = res.data.content[0].empnhMajor;
+							t.form.empnhRecorcd = res.data.content[0].empnhRecorcd;
 							t.form.empnhWklocat = res.data.content[0].empnhWklocat;
 							t.empnhWklocatDis = res.data.content[0].empnhWklocatDis;
 							t.form.empnhEntrydate = res.data.content[0].empnhEntrydate;
@@ -918,7 +963,7 @@
 				const t = this;
 				getDataLevelUserLogin({
 						_mt: "baseParmInfo.getSelectValue",
-						typeCode: 'nationtype,idtype,registerproperty,marrystatus,political,techlevel,gender,yesno'
+						typeCode: 'nationtype,idtype,registerproperty,marrystatus,political,techlevel,gender,yesno,education,workPlace'
 					}).then(res => {
 						if(isSuccess(res, t)) {
 							t.selectNation = res.data.content[0].value[0].paramList;
@@ -929,6 +974,8 @@
 							t.selectTechnicaltitle = res.data.content[0].value[5].paramList;
 							t.selectGender = res.data.content[0].value[6].paramList;
 							t.selectAttendy = res.data.content[0].value[7].paramList;
+							t.selectEducation = res.data.content[0].value[8].paramList;
+							t.selectEmpnhWork = res.data.content[0].value[9].paramList;
 							console.log('123', t.selectGender);
 						}
 					})

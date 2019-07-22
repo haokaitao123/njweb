@@ -403,6 +403,7 @@ export default {
                     });
                 }).finally(() => {
                     t.loading = false;
+                    t.$store.commit('btnOperate/setSearchLoading',false);
                 });
         },
         /* 树点击事件 */
@@ -537,6 +538,7 @@ export default {
             this.treeid = "";
             this.page = 1;
             this.treeType = "";
+            this.$store.commit('btnOperate/setSearchLoading', true);
             this.getData(" ", 1);
             this.tableselected = [];
         },

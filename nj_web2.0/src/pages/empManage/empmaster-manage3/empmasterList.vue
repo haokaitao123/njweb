@@ -104,6 +104,7 @@
                                 size="small"
                                 shape="circle"
                                 icon="refresh"
+                                :loading="searchLoading"
                                 style="margin-left: 20px;display: inline-block;"
                                 @click="search"></Button>
                     </Row>
@@ -191,6 +192,7 @@ import { isSuccess, deepCopy } from "../../../lib/util";
 export default {
     data () {
         return {
+            searchLoading: false,
             // 导入的mt名称
             imp_mt: "empEmpnh.importData",
             // 导出字段设置, code字段名 name列名
@@ -204,8 +206,8 @@ export default {
                 { code: "empnhCostcentDis", name: "成本中心" },
                 { code: "empnhIdtypeDis", name: "证件类型" },
                 { code: "empnhIdno", name: "证件号码" },
-                { code: "empnhSday", name: "生效日期" },
-                { code: "empnhEday", name: "证件到期日" },
+                { code: "empnhSday", name: "身份证生效日期" },
+                { code: "empnhEday", name: "身份证到期日" },
                 { code: "empnhGenderDis", name: "性别" },
                 { code: "empnhBirthdate", name: "出生日期" },
                 { code: "empnhMobile", name: "手机号码" },
@@ -528,7 +530,7 @@ export default {
         search () {
             this.page = 1;
             this.treeid = "";
-            this.$store.commit('btnOperate/setSearchLoading', true)
+            this.searchLoading = true;
             this.getData();
             this.tableselected = [];
         },
@@ -583,7 +585,7 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
-                    this.$store.commit('btnOperate/setSearchLoading', false);
+                    t.searchLoading = false;
                 });
         },
         // 删除

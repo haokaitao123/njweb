@@ -312,7 +312,10 @@ export default {
                         title: this.$t("reminder.err"),
                         content: this.$t("reminder.errormessage")
                     });
-                });
+                }).finally(() => {
+                //请求结束后关闭loading
+                t.$store.commit('btnOperate/setSearchLoading',false);
+            });
         },
         //关闭
         closeUp () {
@@ -483,6 +486,7 @@ export default {
             this.treeid = "";
             this.page = 1;
             this.treeType = "";
+            this.$store.commit('btnOperate/setSearchLoading', true);
             this.getData(" ", 1);
         },
 
