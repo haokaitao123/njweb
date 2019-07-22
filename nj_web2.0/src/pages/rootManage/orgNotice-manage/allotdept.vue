@@ -22,9 +22,14 @@
                         <Col class="col border_2"
                              span="19">
                         <Tree :data="distribution_data"
+                              :empty-text="text"
                               show-checkbox
                               multiple
                               ref="orangize_tree"></Tree>
+                        <div class="demo-spin-container"
+                             v-if="loading">
+                            <Spin fix></Spin>
+                        </div>
                         </Col>
                         <Col span="4"
                              offset="1">
@@ -55,7 +60,9 @@ import { isSuccess, deepCopy } from '../../../lib/util'
 export default {
     data () {
         return {
-            id: "",
+            text: "",
+            loading: false,
+            // id: "",
             tableselected: [],
             total: NaN,
             // 分配组织架构
@@ -68,24 +75,30 @@ export default {
     },
     props: {
         title: String,
+        id: String
     },
     mounted () {
-
+        this.orangize_getData()
     },
     methods: {
         //  分配组织架构获取树
-        orangize_getData (id) {
+        orangize_getData () {
             const t = this
             const data = deepCopy(t.orangize_params)
-            data.userId = "999" + id;
-            data.id=0;
+            data.userId = "999" + this.id;
+            data.id = 0;
             data.logType = '查询'
-            this.id = id
+            this.loading = true;
             getDataLevelUserLoginNew(data).then((res) => {
                 if (isSuccess(res, t)) {
                     if (res.data.content[0]) {
-                        t.distribution_data = t.toTree(res.data.content[0].value)
-                        console.log(t.toTree(res.data.content[0].value))
+                        if (res.data.content[0].value.length > 0) {
+                            t.distribution_data = t.toTree(res.data.content[0].value)
+                        } else {
+                            t.text = "暂无数据"
+                        }
+                        console.log(t.toTree(res.data.content[0].value));
+
                     }
                 }
             }).catch(() => {
@@ -93,6 +106,8 @@ export default {
                     title: this.$t('reminder.err'),
                     content: this.$t('reminder.errormessage'),
                 })
+            }).finally(() => {
+                this.loading = false;
             })
         },
         /* 把后台数据转化为tree的格式 */
@@ -110,6 +125,9 @@ export default {
             const val = []
             data.forEach((item) => {
                 const parent = map[item.unitPid]
+                if (item.unitPid === "0") {
+                    item.expand = true;
+                }
                 if (parent) {
                     (parent.children || (parent.children = [])).push(item)
                 } else {
@@ -184,7 +202,7 @@ export default {
             }
         },
         close () {
-            this.treeData(this.distribution_data, 'expand', false)
+            // this.treeData(this.distribution_data, 'expand', false)
             this.$emit('close')
         }
     },
@@ -200,7 +218,7 @@ export default {
     padding: 20px 10px;
 }
 .border_2 {
-    max-height: 400px;
+    height: 400px;
     overflow-y: auto;
     border: 1px #efefef solid;
     padding: 20px 10px;
@@ -257,5 +275,12 @@ export default {
             }
         }
     }
+}
+.demo-spin-container {
+    display: inline-block;
+    width: 100%;
+    height: 350px;
+    position: relative;
+    border: 1px solid #eee;
 }
 </style>

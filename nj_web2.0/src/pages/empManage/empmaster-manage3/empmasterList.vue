@@ -49,13 +49,11 @@
                                     :editable="false"
                                     v-model="empnhLevday"
                                     style="width: 200px"></DatePicker>
-                                <Select
-                                v-model="empBankNoyn"
+                        <Select v-model="empBankNoyn"
                                 style="width: 200px"
                                 placeholder="请选择有无银行卡号"
-                                clearable
-                                >
                                 clearable>
+                            clearable>
                             <Option :value="item.paramCode"
                                     v-for="(item,index) in selectBank"
                                     :key="index"
@@ -256,7 +254,7 @@ export default {
             postName: "",
             empnhEntrydate: "",
             empnhLevday: "",
-            empBankNoyn:"",
+            empBankNoyn: "",
             columns: [
                 {
                     type: "selection",
@@ -310,7 +308,7 @@ export default {
                     align: "center",
                     sortable: "custom"
                 },
-                 {
+                {
                     title: "招聘状态",
                     key: "recruitState",
                     width: 140,
@@ -522,15 +520,16 @@ export default {
     },
     methods: {
         //enter事件
-      enterEvent(e){
-          console.log('1',e.target.value)
-          this.search()
-      },
+        enterEvent (e) {
+            console.log('1', e.target.value)
+            this.search()
+        },
         // 查询
         search () {
             this.page = 1;
             this.treeid = "";
             this.searchLoading = true;
+            this.$store.commit('btnOperate/setSearchLoading', true)
             this.getData();
             this.tableselected = [];
         },
@@ -551,7 +550,7 @@ export default {
                 empnhName: t.empnhName,
                 empnhIdno: t.empnhIdno,
                 empnhLevday: t.empnhLevday,
-                empBankNoyn:t.empBankNoyn,
+                empBankNoyn: t.empBankNoyn,
                 empnhEntrydate: t.empnhEntrydate,
                 deptId: id,
                 postId: t.postId,
@@ -586,6 +585,7 @@ export default {
                 .finally(() => {
                     this.loading = false;
                     t.searchLoading = false;
+                    t.$store.commit('btnOperate/setSearchLoading', false);
                 });
         },
         // 删除
@@ -634,15 +634,15 @@ export default {
             }
         },
         // 改变流程状态
-        changeState (name,type) {
+        changeState (name, type) {
             const t = this;
             if (t.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');
             } else {
-              let tips = "您确定继续操作吗？";
-              if(type==='quickleave'){
-                  tips = "选中的员工会快速离职，您确定继续操作吗？";
-              }
+                let tips = "您确定继续操作吗？";
+                if (type === 'quickleave') {
+                    tips = "选中的员工会快速离职，您确定继续操作吗？";
+                }
                 t.$Modal.confirm({
                     title: this.$t("reminder.remind"),
                     content: tips,
@@ -981,7 +981,7 @@ export default {
         closeTransaction () {
             this.openTransaction = false;
         },
-         //离职
+        //离职
         buttonQuits () {
             if (this.tableselected.length === 0) {
                 this.$Message.warning('请至少选择一条数据');

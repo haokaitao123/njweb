@@ -94,8 +94,9 @@
                           ref="searchPeople"></searchPeople>
         </transition>
         <transition name="fade">
-            <allotdept v-show="allotdeptState"
+            <allotdept v-if="allotdeptState"
                        :title="title"
+                       :id="allotdeptId"
                        @close="closeAllotdept"
                        ref="allotdept"></allotdept>
         </transition>
@@ -229,9 +230,8 @@ export default {
                                         this.allotdeptState = true;
                                         this.title = params.row.noticeTitle;
                                         this.allotdeptId = params.row.id;
-                                        this.$refs.allotdept.orangize_getData(params.row.id)
+                                        // this.$refs.allotdept.orangize_getData(params.row.id)
                                     }
-
                                 },
                             },
                         }, v.name))
@@ -275,7 +275,7 @@ export default {
     methods: {
         //enter事件
         enterEvent (e) {
-                this.getData(1)
+            this.getData(1)
         },
         btnEvent (res) {
             console.log(res, "res12345")

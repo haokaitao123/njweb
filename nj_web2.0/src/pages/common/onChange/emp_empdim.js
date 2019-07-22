@@ -1,8 +1,12 @@
 /**
  * Created by Aaron on 2018/4/19.
  */
-import { getDataLevelUserLogin } from '../../../axios/axios'
-import { isSuccess } from '../../../lib/util'
+import {
+  getDataLevelUserLogin
+} from '../../../axios/axios'
+import {
+  isSuccess
+} from '../../../lib/util'
 
 const emp_empdim = {
   all_dis() {
@@ -10,7 +14,7 @@ const emp_empdim = {
     emp_empdim.dimIsreceive_dis(this)
     emp_empdim.empdimApplicant_set(this)
     emp_empdim.dimSalday_set(this)
-    emp_empdim.dimLevsqday_dis(this)
+    // emp_empdim.dimLevsqday_dis(this)
     emp_empdim.dimReason_dis(this)
     emp_empdim.dimType_dis(this)
 
@@ -33,8 +37,7 @@ const emp_empdim = {
   dimReason(node) {
     //  emp_empdim.dimReason_set(this.$parent)
     emp_empdim.dimReason_dis(this.$parent)
-  }
-  ,
+  },
   empdimApplicant_set(t) {
     if (t.valueMap.dimApplicant) {
       //alert(t.$refs[t.valueMap.dimApplicant][0].formDataSubmit.dimApplicant)
@@ -52,6 +55,7 @@ const emp_empdim = {
     if (t.valueMap.dimLevsqday) {
       if (t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit.dimLevsqday.length <= 0) {
         t.$refs[t.valueMap.dimLevsqday][0].$set(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit, 'dimLevsqday', new Date().format('yyyy-MM-dd'))
+        t.$refs[t.valueMap.dimLevsqday][0].$refs.dimLevsqday.thisValue = new Date().format('yyyy-MM-dd')
       }
     }
   },
@@ -99,7 +103,6 @@ const emp_empdim = {
     },*/
 
   dimSalday_set(t) {
-    //debugger
     if (t.valueMap.dimSalday) {
       //alert(t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday)
       if (t.$refs[t.valueMap.dimSalday][0].formDataSubmit.dimSalday.length <= 0 && t.$refs[t.valueMap.dimLastsalday][0].formDataSubmit.dimLastsalday.length <= 0) {
@@ -129,9 +132,15 @@ const emp_empdim = {
   },
   empId_set(t) {
     if (t.valueMap.dimLevsqday) {
-      console.log(t.$store.state.autoSearch.row, "row");
       let time1 = new Date(t.$store.state.autoSearch.row.empnhEntrydate);
-      let time2 = new Date();
+      let dimLevsqDate = t.$refs[t.valueMap.dimLevsqday][0].$refs.dimLevsqday.thisValue;
+      let time2 = ""
+      if (dimLevsqDate !== "") {
+        time2 = new Date(dimLevsqDate);
+      } else {
+        time2 = new Date(dimLevsqDate);
+      }
+
       let diffyear = time2.getFullYear() - time1.getFullYear();
       let diffmonth = diffyear * 12 + time2.getMonth() - time1.getMonth();
       if (diffmonth < 0) {
@@ -161,24 +170,31 @@ const emp_empdim = {
   getSevenDayAfter(t, date) {
     let day = date.setDate(date.getDate() + 7);
     day = new Date(day).format("yyyy-MM-dd");
-    t.$refs[t.valueMap.dimLevday][0].$set(t.$refs[t.valueMap.dimLevday][0].formDataSubmit, 'dimLevday', day)
+    t.$refs[t.valueMap.dimLevday][0].$set(t.$refs[t.valueMap.dimLevday][0].formDataSubmit, 'dimLevday', day);
+    t.$refs[t.valueMap.dimLevday][0].$refs.dimLevday.thisValue = day;
+
   },
   //获取一个月后的日期
   getOneMonthAfter(t, date) {
     let Month = date.setMonth(date.getMonth() + 1);
     Month = new Date(Month).format("yyyy-MM-dd");
-    t.$refs[t.valueMap.dimLevday][0].$set(t.$refs[t.valueMap.dimLevday][0].formDataSubmit, 'dimLevday', Month)
+    t.$refs[t.valueMap.dimLevday][0].$set(t.$refs[t.valueMap.dimLevday][0].formDataSubmit, 'dimLevday', Month);
+    t.$refs[t.valueMap.dimLevday][0].$refs.dimLevday.thisValue = Month;
   },
   //申请离职日期默认
-  dimLevsqday_dis(t) {
-    if (t.valueMap.dimLevsqday) {
-      t.$refs[t.valueMap.dimLevsqday][0].$set(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit, 'dimLevsqday', new Date().format('yyyy-MM-dd'))
-    }
-  },
+  //   dimLevsqday_dis(t) {
+  //     debugger;
+  //     console.log(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit.dimLevsqday, "123")
+  //     if (t.valueMap.dimLevsqday && t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit.dimLevsqday === '') {
+  //       t.$refs[t.valueMap.dimLevsqday][0].$set(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit, 'dimLevsqday', new Date().format('yyyy-MM-dd'));
+  //       t.$refs[t.valueMap.dimLevsqday][0].$refs.dimLevsqday.thisValue = new Date().format('yyyy-MM-dd')
+  //     }
+  //   },
   dimLevsqday_set(t) {
+
     let empnhEntrydate = t.$store.state.autoSearch.row.empnhEntrydate;
     if (t.valueMap.dimLevsqday && empnhEntrydate) {
-      let time2 = new Date(t.$refs[t.valueMap.dimLevsqday][0].formDataSubmit.dimLevsqday);
+      let time2 = new Date(t.$refs[t.valueMap.dimLevsqday][0].$refs.dimLevsqday.thisValue);
       let time1 = new Date(t.$store.state.autoSearch.row.empnhEntrydate);
       let diffyear = time2.getFullYear() - time1.getFullYear();
       let diffmonth = diffyear * 12 + time2.getMonth() - time1.getMonth();
@@ -267,9 +283,9 @@ const emp_empdim = {
       } else {
         if (t.valueMap.dimReceive) t.$refs[t.valueMap.dimReceive][0].$set(t.$refs[t.valueMap.dimReceive][0].formshow, 'dimReceive', '')
         if (t.valueMap.dimActlevday)
-        t.$refs[t.valueMap.dimActlevday][0].$set(t.$refs[t.valueMap.dimActlevday][0].formshow, 'dimActlevday', '')
+          t.$refs[t.valueMap.dimActlevday][0].$set(t.$refs[t.valueMap.dimActlevday][0].formshow, 'dimActlevday', '')
         if (t.valueMap.dimLastsalday)
-        t.$refs[t.valueMap.dimLastsalday][0].$set(t.$refs[t.valueMap.dimLastsalday][0].formshow, 'dimLastsalday', '')
+          t.$refs[t.valueMap.dimLastsalday][0].$set(t.$refs[t.valueMap.dimLastsalday][0].formshow, 'dimLastsalday', '')
 
         // }
       }

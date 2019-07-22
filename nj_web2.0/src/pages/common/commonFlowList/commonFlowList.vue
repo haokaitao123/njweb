@@ -30,6 +30,7 @@
                     <Button class="btns"
                             v-for="(item, index) in btns"
                             :key="index"
+                            :loading="item.btn_id === 'button_search'?searchLoading:false"
                             :type="item.btn_id === 'button_del'||item.btn_id === 'button_blacklist' ? 'error':'primary'"
                             @click="btnFunction(item.btn_id)">{{item.btn_title}}</Button>
                     <div class="moditySelect">
@@ -167,6 +168,7 @@ export default {
             openExp: false,
             filekey: "",
             filename: "",
+            searchLoading: false,
             exportselected: [],
             showLoading: false,
             reexamineState: true,
@@ -340,11 +342,10 @@ export default {
                         }
                     }
                     for (let i = 0; i < aa.length; i++) {
-                        aa[i].sortable = false
+                        aa[i].sortable = false;
+                        aa[i].width = Number(aa[i].width)
                         if (!aa[i].width) {
                             aa[i].width = 120
-                        } else {
-                            aa[i].width = 60
                         }
                         if (aa[i].title == '姓名') {
                             aa[i].width = 80
@@ -457,12 +458,13 @@ export default {
         },
         //enter事件
         enterEvent (e) {
-                this.getData(1)
+            this.getData(1)
         },
         btnFunction (btnId) {
             if (btnId === 'button_search') {
                 const t = this;
                 if (valid.val_check(this.empnhName)) {
+                    this.searchLoading = true;
                     t.getData(1);
                 } else {
                     t.$Message.warning('搜索框内不能输入特殊字符！！！')
@@ -999,6 +1001,7 @@ export default {
                 })
             }).finally(() => {
                 t.loading = false;
+                t.searchLoading = false
             });
         },
 
