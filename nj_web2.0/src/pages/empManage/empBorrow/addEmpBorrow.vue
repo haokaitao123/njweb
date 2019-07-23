@@ -5,7 +5,8 @@
               fix
               v-if="spinShow">
         </Spin>
-        <Row style="max-height: 420px;overflow-y: auto;" ref="scrollBox">
+        <Row style="max-height: 420px;overflow-y: auto;"
+             ref="scrollBox">
             <Form ref="formValidate"
                   :model="formValidate"
                   :rules="ruleValidate"
@@ -219,7 +220,7 @@ export default {
         handleSubmit () {
 
             const t = this
-           
+
             // t.spinShow = true; //开启loading效果
             const data = deepCopy(t.formValidate)
             data.logType = t.logType
@@ -232,7 +233,7 @@ export default {
             }
             this.$refs.formValidate.validate((valid) => {
                 if (valid) {
-                     t.loadingStatus = true
+                    t.loadingStatus = true
                     getDataLevelUserLoginSenior(data).then((res) => {
                         if (isSuccess(res, t)) {
                             if (t.logType === '新增') {
@@ -253,14 +254,12 @@ export default {
                     }).finally(() => {
                         t.loadingStatus = false
                     })
-                }else{
-					 this.$nextTick(function(){
-                            let tt = document.querySelectorAll('.ivu-form-item-error');
-                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
-                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
-                            }
-                        }) 
-				}
+                } else {
+                    this.$nextTick(function () {
+                        let tt = document.querySelectorAll('.ivu-form-item-error');
+                        this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                    })
+                }
             })
         },
         /*选择员工*/

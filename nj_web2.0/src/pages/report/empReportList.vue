@@ -10,6 +10,10 @@
                     <Col span="18"
                          style="width: 100% !important">
                     <Row>
+                        <Input placeholder="请输入员工姓名"
+                               style="width: 160px"
+                               @on-enter="enterEvent"
+                               v-model="empnhName" />
                         <DatePicker
                         type="date"
                         placeholder="请选择入职日期区间"
@@ -420,7 +424,8 @@ export default {
             state: "",
             loading: "",
             empDate: "",
-            empnhEntrydate:""
+            empnhEntrydate:"",
+            empnhName: ""
         };
     },
     computed: {
@@ -480,6 +485,9 @@ export default {
             this.tableselected = [];
             this.getData();
         },
+        enterEvent(e){
+            this.search()
+        },
         getData (page) {
             const t = this;
             this.loading = true;
@@ -494,6 +502,7 @@ export default {
                 order: t.order,
                 logType: "招聘统计查询",
                 funId: "1000",
+                empnhName: t.empnhName,
                 empDate: t.empDate,
                 empnhEntrydate:t.empnhEntrydate,
                 state: "02empstate"
@@ -639,6 +648,7 @@ export default {
                 state: "02empstate",
                 empDate: t.empDate,
                 empnhEntrydate: t.empnhEntrydate,
+                empnhName: t.empnhName,
             };
             if (data.empDate !== undefined && data.empDate !== '') {
                 data.empDate = new Date(data.empDate).format('yyyy-MM--dd')
