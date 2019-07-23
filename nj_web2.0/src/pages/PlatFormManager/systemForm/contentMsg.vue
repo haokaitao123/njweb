@@ -123,7 +123,7 @@
           </i-col>
            <i-col span="11" offset="1" v-show="formValidate.sffIslist === '1'">
             <FormItem label="列宽">
-              <Input v-model="formValidate.sffLength" placeholder="请输入列宽"></Input>
+              <Input v-model="formValidate.sffWidth" placeholder="请输入列宽"></Input>
             </FormItem>
           </i-col>
           <i-col span="11" :offset="formValidate.sffIslist === '1' ? 0:1">
@@ -258,6 +258,7 @@
           sffDesc: '',
           sffFilter: '',
           sffCascadeget: '',
+          sffWidth:"",
         },
         ruleValidate: {
           sffOrder: [
@@ -376,6 +377,7 @@
             t.formValidate.sffPropertyDis = res.data.content[0].sffPropertyDis
             t.formValidate.sffType = res.data.content[0].sffType
             t.formValidate.sffLength = res.data.content[0].sffLength
+            t.formValidate.sffWidth = res.data.content[0].sffWidth
             t.formValidate.sffSysopt = res.data.content[0].sffSysopt
             t.sffSysoptDis = res.data.content[0].sffSysoptDis
             t.formValidate.sffCustoptDis = res.data.content[0].sffCustoptDis
@@ -489,6 +491,7 @@
         t.formValidate.sffOrder = ''
         t.formValidate.sffType = ''
         t.formValidate.sffLength = ''
+        t.formValidate.sffWidth = ''
         t.formValidate.sffPrecision = ''
         t.formValidate.sffLayout = ''
         t.formValidate.sffSelopt = '01none'
