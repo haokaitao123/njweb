@@ -280,6 +280,9 @@ export default {
         case "快速离职":
           name = 'buttonQkleave'
           break
+        case "拒绝":
+          name = 'buttonRefuse'
+          break
       }
       return name;
     },
@@ -394,6 +397,10 @@ export default {
           break
         case "button_opt_allotdept":
           btnName = '分配部门'
+          break
+        case "button_refuse":
+          btnName = '拒绝';
+          bType = 'success';
           break
       }
       let obj = {

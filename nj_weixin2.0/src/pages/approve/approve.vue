@@ -4,6 +4,7 @@
         <noData v-show="list.length <= 0"></noData>
         <van-pull-refresh v-model="isLoading"
                           @refresh="onRefresh"
+                          ref="scrollBox"
                           class="ref">
             <div class="itemWrap">
                 <div class="menus" style="width: 100%;">
@@ -300,6 +301,7 @@ export default {
             this.getInfor()
         },
         submit (type, logType) {
+
             const that = this;
             let params = []
             console.log(that.checkedCode)
@@ -336,7 +338,8 @@ export default {
             console.log('参数', data)
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    this.onRefresh()
+                    this.onRefresh();
+                    this.$refs.scrollBox.$el.scrollTop = "0";
                 }
             }).catch(() => {
                 t.$notify({
@@ -344,10 +347,8 @@ export default {
                     duration: 1500,
                     background: '#f44'
                 });
-            }).finally(() => {
-                console.log('rrr', t.list)
                 t.$store.commit('hideLoading');
-            });
+            })
         },
     },
 
