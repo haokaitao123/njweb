@@ -115,20 +115,25 @@
           </i-col>
           <i-col span="21"></i-col>
           <i-col span="11">
-            <FormItem :label="$t('lang_sysform.formField.sffIslist')" prop="sffIslist">
+            <FormItem :label="$t('lang_sysform.formField.sffIslist')" prop="sffIslist" style="margin-bottom:23px">
               <RadioGroup  v-model="formValidate.sffIslist">
                 <Radio :label="item.paramCode" v-for="(item,index) in yerOrNoOption" :key="index">{{item.paramInfoCn}}</Radio>
               </RadioGroup>
             </FormItem>
           </i-col>
-          <i-col span="11" offset="1">
+           <i-col span="11" offset="1" v-show="formValidate.sffIslist === '1'">
+            <FormItem label="列宽">
+              <Input v-model="formValidate.sffLength" placeholder="请输入列宽"></Input>
+            </FormItem>
+          </i-col>
+          <i-col span="11" :offset="formValidate.sffIslist === '1' ? 0:1">
             <FormItem :label="$t('lang_sysform.formField.sffComplexsearch')" prop="sffComplexsearch">
               <RadioGroup  v-model="formValidate.sffComplexsearch">
                 <Radio :label="item.paramCode" v-for="(item,index) in yerOrNoOption" :key="index">{{item.paramInfoCn}}</Radio>
               </RadioGroup>
             </FormItem>
           </i-col>
-          <i-col span="11">
+          <i-col span="11" :offset="formValidate.sffIslist === '1' ? 1:0">
             <FormItem :label="$t('lang_sysform.formField.sffQuicksearche')" prop="sffQuicksearche">
               <RadioGroup  v-model="formValidate.sffQuicksearche" >
                 <Radio :label="item.paramCode" v-for="(item,index) in yerOrNoOption" :key="index">{{item.paramInfoCn}}</Radio>
