@@ -1,6 +1,6 @@
 <template>
   <div class="menu" :style="{width: shrink?'64px':'200px',overflowX: shrink?'visible':'hidden',overflowY:  shrink?'visible':'auto'}">
-    <div class="btn" @click="toggleClick">
+    <div class="menu_btn" @click="toggleClick">
       <Icon  v-if="shrink" type="navicon-round" size="16" color="#fff"></Icon>
       <img v-if="!shrink" src="../../../static/employee/111.png" alt="">
     </div>
@@ -52,27 +52,27 @@
       </template>
 
     </el-menu>
-    <div class="btn1">
+    <div class="menu_btnT">
     </div>
   </div>
 </template>
 <style  lang="scss" scoped>
   .menu{
-    .btn{
+    .menu_btn{
       height: 40px;
       width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-  .btn1{
+  .menu_btnT{
     height: 40px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-    .btn:hover{
+    .menu_btn:hover{
       cursor: pointer;
       background-color: RGBA(92,173,255,.2);
     }

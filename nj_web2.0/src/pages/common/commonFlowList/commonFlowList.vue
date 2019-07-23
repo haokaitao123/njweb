@@ -343,25 +343,12 @@ export default {
                     }
                     for (let i = 0; i < aa.length; i++) {
                         aa[i].sortable = false;
-                        aa[i].width = Number(aa[i].width)
+
                         if (!aa[i].width) {
                             aa[i].width = 120
                         }
-                        if (aa[i].title == '姓名') {
-                            aa[i].width = 80
-                        } else if (aa[i].title == '初试人员') {
-                            aa[i].width = 120
-                        } else if (aa[i].title == '复试人员') {
-                            aa[i].width = 120
-                        } else if (aa[i].title == '面到时间') {
-                            aa[i].width = 150
-                        } else if (aa[i].title == '员工姓名') {
-                            aa[i].width = 80
-                        } else if (aa[i].title == '证件号码') {
-                            aa[i].width = 150
-                        } else if (aa[i].title == '部门名称') {
-                            aa[i].width = 150
-                        } else if (aa[i].type == 'selection') {
+                        aa[i].width = Number(aa[i].width)
+                        if (aa[i].type == 'selection') {
                             aa[i].fixed = 'left'
                         }
                         if (aa[i].className !== '') {
@@ -838,27 +825,27 @@ export default {
                     { code: "relibCheckopin", name: "筛选意见" },
                     { code: "relibMobile", name: "手机号" },
                     { code: "relibAvaitime", name: "可到岗时间" },
-            { code: "relibIdentityDis", name: "身份" },
-            { code: "relibGenderDis", name: "性别" },
-            { code: "relibBirtplaceDis", name: "籍贯" },
-            { code: "relibNatalityDis", name: "民族" },
-            { code: "relibPoliticalDis", name: "政治面貌" },
-            { code: "relibHealthstaDis", name: "健康状况" },
-            { code: "relibMaritlstaDis", name: "婚姻状况" },
-            { code: "relibWithmeDis", name: "与本人关系" },
-            { code: "relibProstatusDis", name: "职业状态" },
-            { code: "relibIsrelativesDis", name: "是否有朋友在职" },
-            { code: "relibIscriminalDis", name: "是否有犯罪记录" },
-            { code: "relibIstattooDis", name: "是否有纹身" },
-            { code: "relibApplytypeDis", name: "通过何种方法应聘" },
-            { code: "relibIscomDis", name: "是否服从调配" },
-            { code: "relibEnrorageDis", name: "招生范围" },
-            { code: "relibIsgraduDis", name: "是否毕业" },
-            { code: "relibExaminaresDis", name: "补考结果" },
-            { code: "relibFirpassDis", name: "补考是否通过" },
-            { code: "relibIsguaranDis", name: "是否担保" },
-            { code: "relibExaminaDis", name: "考试结果" },
-            { code: "relibGuaranteeDis", name: "担保人" },
+                    { code: "relibIdentityDis", name: "身份" },
+                    { code: "relibGenderDis", name: "性别" },
+                    { code: "relibBirtplaceDis", name: "籍贯" },
+                    { code: "relibNatalityDis", name: "民族" },
+                    { code: "relibPoliticalDis", name: "政治面貌" },
+                    { code: "relibHealthstaDis", name: "健康状况" },
+                    { code: "relibMaritlstaDis", name: "婚姻状况" },
+                    { code: "relibWithmeDis", name: "与本人关系" },
+                    { code: "relibProstatusDis", name: "职业状态" },
+                    { code: "relibIsrelativesDis", name: "是否有朋友在职" },
+                    { code: "relibIscriminalDis", name: "是否有犯罪记录" },
+                    { code: "relibIstattooDis", name: "是否有纹身" },
+                    { code: "relibApplytypeDis", name: "通过何种方法应聘" },
+                    { code: "relibIscomDis", name: "是否服从调配" },
+                    { code: "relibEnrorageDis", name: "招生范围" },
+                    { code: "relibIsgraduDis", name: "是否毕业" },
+                    { code: "relibExaminaresDis", name: "补考结果" },
+                    { code: "relibFirpassDis", name: "补考是否通过" },
+                    { code: "relibIsguaranDis", name: "是否担保" },
+                    { code: "relibExaminaDis", name: "考试结果" },
+                    { code: "relibGuaranteeDis", name: "担保人" },
                 ]
 
                 return expDataTital;
@@ -890,7 +877,7 @@ export default {
             } else if (tbName === "atten_shift") {
                 //调班流程导出
                 expDataTital = [
-                { code: "empnhName", name: "员工姓名" },
+                    { code: "empnhName", name: "员工姓名" },
                     { code: "empnhIdno", name: "证件号码" },
                     { code: "unitFname", name: "部门名称" },
                     { code: "postFname", name: "岗位名称" },
@@ -900,13 +887,13 @@ export default {
                     { code: "shiftEddate", name: "调班结束日期" },
                     { code: "shiftEdays", name: "实际调班天数" },
                     { code: "note", name: "备注" },
-                    
-                    ]
+
+                ]
                 return expDataTital;
             } else if (tbName === "atten_vacation") {
                 //请假流程导出
-                 expDataTital = [
-                { code: "empnhName", name: "员工姓名" },
+                expDataTital = [
+                    { code: "empnhName", name: "员工姓名" },
                     { code: "empnhIdno", name: "证件号码" },
                     { code: "unitFname", name: "部门名称" },
                     { code: "postFname", name: "岗位名称" },
@@ -920,12 +907,12 @@ export default {
                     { code: "vacActdays", name: "实际请假天数" },
                     { code: "vacActdate", name: "实际归来日期" },
                     { code: "note", name: "备注" },
-                    ]
+                ]
                 return expDataTital;
             } else if (tbName === "atten_gooutproc") {
                 //外出流程导出
-                 expDataTital = [
-                { code: "empnhName", name: "员工姓名" },
+                expDataTital = [
+                    { code: "empnhName", name: "员工姓名" },
                     { code: "empnhIdno", name: "证件号码" },
                     { code: "unitFname", name: "部门名称" },
                     { code: "postFname", name: "岗位名称" },
@@ -934,12 +921,12 @@ export default {
                     { code: "goutBgdate", name: "外出开始原因" },
                     { code: "goutEddate", name: "外出结束原因" },
                     { code: "note", name: "备注" },
-                    ]
+                ]
                 return expDataTital;
             } else if (tbName === "atten_ckappeal") {
                 //考勤申诉流程导出
-                 expDataTital = [
-                { code: "empnhName", name: "员工姓名" },
+                expDataTital = [
+                    { code: "empnhName", name: "员工姓名" },
                     { code: "empnhIdno", name: "证件号码" },
                     { code: "unitFname", name: "部门名称" },
                     { code: "postFname", name: "岗位名称" },
@@ -956,7 +943,7 @@ export default {
                     { code: "chkDresnwDis", name: "现下班考勤结果" },
                     { code: "chkLevpnwDis", name: "现请假类型" },
                     { code: "note", name: "备注" },
-                    ]
+                ]
                 return expDataTital;
             }
 
