@@ -1,12 +1,16 @@
 <template>
     <div class="approve">
+		
         <noData v-show="list.length <= 0"></noData>
         <van-pull-refresh v-model="isLoading"
                           @refresh="onRefresh"
                           ref="scrollBox"
                           class="ref">
             <div class="itemWrap">
-                <div style="width: 100%;">
+                <div class="menus" style="width: 100%;">
+					<van-dropdown-menu>
+					  <van-dropdown-item v-model="value2" :options="option2" @change="select" />
+					</van-dropdown-menu>
                     <div class="appItem"
                          v-for="(item,index) in list"
                          @click="goTo(item)">
@@ -156,7 +160,17 @@ export default {
             checked: false,
             isAllChecked: false, // 正在进行中的数据是否被选中
             isLoading: false,
-            formList: []
+            formList: [],
+			value2: '',
+			  option2: [
+				{ text: '全部', value: '' },
+				{ text: '离职', value: 'emp_empdim' },
+				{ text: ' 招聘', value: 'recruit_process' },
+				{ text: '异动', value: 'emp_transtion' },
+				{ text: '调班', value: 'atten_shift' },
+				{ text: '请假', value: 'atten_vacation' },
+				{ text: '请假', value: 'atten_gooutproc' },
+			  ]
         }
     },
     components: {
@@ -174,6 +188,9 @@ export default {
                 }
             })
         },
+		select(value){
+			console.log(value)
+		},
         // 用户单选
         singleChecked: function (checked, index, item) {
             const that = this
@@ -390,6 +407,9 @@ export default {
         }
         .itemWrap {
             height: 84%;
+			.menus/deep/.van-dropdown-menu{
+				font-size: 25px;
+			}
             .appItem {
                 background: white;
                 padding: 40px 40px;
