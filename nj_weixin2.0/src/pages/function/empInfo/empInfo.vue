@@ -360,7 +360,7 @@
                     </x-input>
                 </div>
                 <!--毕业院校-->
-                <!-- <div class="item_box">
+                <div class="item_box">
                     <x-input title="毕业院校<span>*</span>"
                              v-model.trim="form.empnhSchool"
                              v-verify="form.empnhSchool"
@@ -372,9 +372,9 @@
                           class="error"
                           v-show="form.empnhSchool==''"
                           v-remind="form.empnhSchool"></icon>
-                </div> -->
+                </div>
                 <!-- 专业 -->
-                <!-- <div class="item_box">
+                <div class="item_box">
                     <x-input title="专业<span>*</span>"
                              v-model.trim="form.empnhMajor"
                              v-verify="form.empnhMajor"
@@ -386,9 +386,9 @@
                           class="error"
                           v-show="form.empnhMajor==''"
                           v-remind="form.empnhMajor"></icon>
-                </div> -->
+                </div>
                 <!-- 学历 -->
-                <!-- <div class="item_box">
+                <div class="item_box">
                     <cell title="学历<span>*</span>"
                           is-link
                           v-if="!state"
@@ -409,7 +409,7 @@
                           class="error"
                           v-show="empnhRecorcdDis=='请选择'"
                           v-remind="empnhRecorcdDis"></icon>
-                </div> -->
+                </div>
                 <!-- 政治面貌 -->
                 <div class="item_box">
                     <cell title="政治面貌"
@@ -446,6 +446,24 @@
                     <x-input title="参加工作时间<span>*</span>"
                              v-if="state"
                              v-model="form.empnhFirstwkdate"
+                             :show-clear="false"
+                             :disabled="state"
+                             placeholder="未填写">
+                    </x-input>
+                </div>
+                <!-- 员工工作地点 -->
+                <div class="item_box">
+                    <cell title="员工工作地点"
+                          is-link
+                          v-if="!state"
+                          value-align="left"
+                          v-model="empnhWorkDis"
+                          @click.native="popupClick('empnhWorkShow','empnhWork')">
+                        <div slot="title">员工工作地点</div>
+                    </cell>
+                    <x-input title="员工工作地点"
+                             v-if="state"
+                             v-model="empnhWorkDis"
                              :show-clear="false"
                              :disabled="state"
                              placeholder="未填写">
@@ -546,11 +564,11 @@
                 <div class="title_left">
                     <img src="../../../../static/function/work.png"
                          alt="">
-                    <h3>工作经历管理<span>*</span></h3>
-                    <icon type="warn"
+                    <h3>工作经历管理</h3>
+                    <!-- <icon type="warn"
                           class="error"
                           style="margin-left:10px"
-                          v-show="workExpState"></icon>
+                          v-show="workExpState"></icon> -->
                 </div>
 
                 <span @click="goTo('empWorkExpShow')"
@@ -684,6 +702,16 @@
             <van-picker ref="vanPicker"
                         :defaultIndex="empnhPoliticalIndex"
                         :columns=selectPolitical
+                        show-toolbar
+                        @confirm="confirm"
+                        @cancel="cancel" />
+        </van-popup>
+        <!-- 员工工作地点 -->
+        <van-popup v-model="empnhWorkShow"
+                   position="bottom">
+            <van-picker ref="vanPicker"
+                        :defaultIndex="empnhWorkIndex"
+                        :columns=selectEmpnhWork
                         show-toolbar
                         @confirm="confirm"
                         @cancel="cancel" />
@@ -851,6 +879,7 @@ export default {
                 empnhRecorcd: "",                //学历
                 empnhPolitical: "请选择",        //政治面貌
                 empnhFirstwkdate: "请选择",      //参加工作时间
+                empnhWork: '',          //员工工作地点
                 empnhTechtil: "请选择",          //职称
                 empnhTechspec: "",              //职称专业
                 empnhTechdate: "请选择",         //职称取得时间
@@ -863,6 +892,7 @@ export default {
             empnhRegtypeDis: "请选择",
             empnhMarriageDis: "请选择",
             empnhPoliticalDis: "请选择",
+            empnhWorkDis: "请选择",
             empnhTechtilDis: "请选择",
             empnhRecorcdDis: "请选择",
             selectGender: [],
@@ -874,6 +904,7 @@ export default {
             selectRegtype: [],
             selectSalbank: [],
             selectEmpnhRecorcd: [],
+            selectEmpnhWork: [],
             dateShow: false,
             popupShow: false,
             empnhNationShow: false,
@@ -883,6 +914,7 @@ export default {
             empnhMarriageShow: false,
             empnhPoliticalShow: false,
             empnhRecorcdShow: false,
+            empnhWorkShow: false,
             empnhTechtilShow: false,
             empnhSdaydateShow: false,
             empnhEdaydateShow: false,
@@ -898,6 +930,7 @@ export default {
             empnhPoliticalIndex: 0,
             empnhTechtilIndex: 0,
             empnhRecorcdIndex: 0,
+            empnhWorkIndex: 0,
             workExpList: [],
             educationList: [],
             familyList: [],
@@ -1018,46 +1051,15 @@ export default {
         //校验子表
         checkChild () {
             const t = this;
-            if (t.workExpList.length < 1) {
-                t.childCheck = true
-                t.workExpState = true;
-                if (t.educationList.length < 1) {
-                    t.educationState = true;
-                    if (t.familyList.length < 1) {
-                        t.familyState = true;
-                    } else {
-                        t.familyState = false;
-                    }
-                } else {
-                    t.educationState = false;
-                    if (t.familyList.length < 1) {
-                        t.familyState = true;
-                    } else {
-                        t.familyState = false;
-                    }
-                }
+            if (t.educationList.length < 1) {
+                t.educationState = true;
             } else {
-                t.workExpState = false;
-                t.childCheck = false
-                if (t.educationList.length < 1) {
-                    if (t.familyList.length < 1) {
-                        t.familyState = true;
-                        t.childCheck = true;
-                    } else {
-                        t.familyState = false;
-                    }
-                    t.educationState = true;
-                    t.childCheck = true;
-                } else {
-                    if (t.familyList.length < 1) {
-                        t.familyState = true;
-                        t.childCheck = true;
-                    } else {
-                        t.familyState = false;
-                    }
-                    t.educationState = false;
-                    t.childCheck = false;
-                }
+                t.educationState = false;
+            }
+            if (t.familyList.length < 1) {
+                t.familyState = true;
+            } else {
+                t.familyState = false;
             }
         },
         //保存
@@ -1070,7 +1072,7 @@ export default {
                 t.$vux.toast.text('请将现居住地址完善到门牌号');
                 return;
             }
-            if (this.$verify.check() && !this.educationState && !this.workExpState && !this.familyState) {
+            if (this.$verify.check() && !this.educationState && !this.familyState) {
                 const data = deepCopy(t.form);
                 data._mt = "wxEmpEmpnh.addOrUpd";
                 data.companyId = pubsource.companyId;
@@ -1151,7 +1153,7 @@ export default {
             const t = this;
             getDataLevelUserLogin({
                 _mt: "baseParmInfo.getSelectValue",
-                typeCode: 'nationtype,idtype,registerproperty,marrystatus,political,techlevel,gender,education'
+                typeCode: 'nationtype,idtype,registerproperty,marrystatus,political,techlevel,gender,education,workPlace'
             }).then(res => {
                 if (isSuccess(res, t)) {
                     t.selectData(res.data.content[0].value[0].paramList, "selectNation");
@@ -1162,6 +1164,7 @@ export default {
                     t.selectData(res.data.content[0].value[5].paramList, "selectTechnicaltitle");
                     t.selectData(res.data.content[0].value[6].paramList, "selectGender");
                     t.selectData(res.data.content[0].value[7].paramList, "selectEmpnhRecorcd");
+                    t.selectData(res.data.content[0].value[8].paramList, "selectEmpnhWork");
                 }
             }).catch(() => {
                 t.$notify({
@@ -1229,6 +1232,7 @@ export default {
                     t.form.empnhEntrydate = data.empnhEntrydate ? data.empnhEntrydate : '请选择';
                     t.form.empnhFirstwkdate = data.empnhFirstwkdate ? data.empnhFirstwkdate : '请选择';
                     t.form.empnhTechtil = data.empnhTechtil;
+                    t.form.empnhWork = data.empnhWork ? data.empnhWork : "";
                     t.form.empnhTechspec = !data.empnhTechspec ? "" : data.empnhTechspec;
                     t.form.empnhTechdate = data.empnhTechdate ? data.empnhTechdate : '请选择';
                     t.form.empnhSchool = data.empnhSchool ? data.empnhSchool : '';
@@ -1247,6 +1251,7 @@ export default {
                     t.empnhPoliticalDis = data.empnhPoliticalDis ? data.empnhPoliticalDis : '请选择';
                     t.empnhTechtilDis = data.empnhTechtilDis ? data.empnhTechtilDis : '请选择';
                     t.empnhRecorcdDis = data.empnhRecorcdDis ? data.empnhRecorcdDis : '请选择';
+                    t.empnhWorkDis = data.empnhWorkDis ? data.empnhWorkDis : '请选择';
                     if (t.state) {
                         t.empnhNationDis = data.empnhNationDis ? data.empnhNationDis : '未填写';
                         t.empnhIdtypeDis = data.empnhIdtypeDis ? data.empnhIdtypeDis : '未填写';
@@ -1256,6 +1261,7 @@ export default {
                         t.empnhPoliticalDis = data.empnhPoliticalDis ? data.empnhPoliticalDis : '未填写';
                         t.empnhTechtilDis = data.empnhTechtilDis ? data.empnhTechtilDis : '未填写';
                         t.empnhRecorcdDis = data.empnhRecorcdDis ? data.empnhRecorcdDis : '未填写';
+                        t.empnhWorkDis = data.empnhWorkDis ? data.empnhWorkDis : '未填写';
                         t.form.empnhSday = data.empnhSday ? data.empnhSday : '未填写';
                         t.form.empnhEday = data.empnhEday ? data.empnhEday : '未填写';
                         t.form.empnhBirthdate = data.empnhBirthdate ? data.empnhBirthdate : '未填写';
@@ -1277,6 +1283,7 @@ export default {
                     t.setSelectValue(data.empnhPoliticalDis, 'selectPolitical', 'empnhPoliticalIndex');
                     t.setSelectValue(data.empnhTechtilDis, 'selectTechnicaltitle', 'empnhTechtilIndex');
                     t.setSelectValue(data.empnhRecorcdDis, 'selectEmpnhRecorcd', 'empnhRecorcdIndex');
+                    t.setSelectValue(data.empnhWorkDis, 'selectEmpnhWork', 'empnhWorkIndex');
                     t.getWorkExp();
                     t.getFamily();
                     t.getEducation();
