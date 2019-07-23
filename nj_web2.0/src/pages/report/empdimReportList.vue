@@ -9,6 +9,10 @@
           <Row>
             <Col span="18" style="width: 100% !important">
               <Row>
+                 <Input placeholder="请输入员工姓名"
+                               style="width: 160px"
+                               @on-enter="enterEvent"
+                               v-model="empnhName" />
                 <DatePicker
                   type="date"
                   placeholder="请选择离职日期区间"
@@ -427,7 +431,8 @@ export default {
       state: this.modity,
       loading: "",
       empnhLevday: "",
-      dimLevsqday: ""
+      dimLevsqday: "",
+      empnhName:""
     };
   },
   computed: {
@@ -486,6 +491,9 @@ export default {
       this.tableselected = [];
       this.getData();
     },
+    enterEvent(e){
+      this.search()
+    }, 
     getData(page) {
       const t = this;
       this.loading = true;
@@ -503,6 +511,7 @@ export default {
         funId: "1000",
         empnhLevday: t.empnhLevday,
         dimLevsqday: t.dimLevsqday,
+        empnhName:t.empnhName,
         state: "04empstate"
       };
       if (data.empnhLevday !== undefined && data.empnhLevday !== "") {
@@ -641,6 +650,7 @@ export default {
       const data = {
         empnhLevday: t.empnhLevday,
         dimLevsqday: t.dimLevsqday,
+        empnhName:t.empnhName,
         state: t.modity
       };
       if (data.empnhLevday !== undefined && data.empnhLevday !== "") {

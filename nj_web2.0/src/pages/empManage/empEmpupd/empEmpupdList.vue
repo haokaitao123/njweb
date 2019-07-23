@@ -94,6 +94,7 @@ export default {
             expDataTital: [
                 { code: "empnhName", name: "员工姓名" },
                 { code: "createTime", name: "申请时间" },
+                { code: "entryDate", name: "入职日期" },
                 { code: "unitFname", name: "部门名称" },
                 { code: "postFname", name: "岗位名称" },
                 { code: "empupdResaddr", name: "居住详细地址" },
@@ -107,6 +108,7 @@ export default {
             	{ type : "selection" , width: 54 , fixed : "left" , align : "center" },
                 { key: "empnhName", title: "员工姓名", sortable: "custom" , width : 110 , fixed : "left" },
                 { key: "createTime", title: "申请时间",sortable: "custom" , width : 190},
+                { key: "entryDate", title: "入职日期",width : 190},
                 { key: "unitFname", title: "部门名称", sortable: "custom" , width : 180},
                 { key: "postFname", title: "岗位名称", sortable: "custom" , width : 110},
                 { key: "empupdResaddr", title: "居住详细地址", width : 280},
