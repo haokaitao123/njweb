@@ -898,7 +898,7 @@ export default {
                     { code: "unitFname", name: "部门名称" },
                     { code: "postFname", name: "岗位名称" },
                     { code: "vacTypeDis", name: "请假类型" },
-                    { code: "vacIsreapply", name: "是否假后补办" },
+                    { code: "vacIsreapplyDis", name: "是否假后补办" },
                     { code: "vacDay", name: "请假天数" },
                     { code: "vacPerdays", name: "连续请假天数" },
                     { code: "vacYeardays", name: "当年累计天数" },
