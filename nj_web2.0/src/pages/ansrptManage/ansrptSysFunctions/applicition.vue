@@ -3,9 +3,24 @@
 		<Row>
 			<Col span="24">
 			<card>
-				<p slot="title">
+				<p slot="title" style="height:40px">
 					<Icon type="mouse"></Icon>
 					&nbsp;待审批项
+					<Dropdown style="margin-left: 20px"  @on-click="changeMenu">
+							<Button type="primary">
+								{{choice}}
+								<Icon type="ios-arrow-down"></Icon>
+							</Button>
+							<DropdownMenu slot="list">
+									<DropdownItem name="emp_empdim">离职</DropdownItem>
+									<DropdownItem name="recruit_process">招聘</DropdownItem>
+									<DropdownItem name="emp_transtion">异动</DropdownItem>
+									<DropdownItem name="atten_shift">调班</DropdownItem>
+									<DropdownItem name="atten_vacation">请假</DropdownItem>
+									<DropdownItem name="atten_gooutproc">外出</DropdownItem>
+									<DropdownItem name="atten_ckappeal">考勤申诉</DropdownItem>
+							</DropdownMenu>
+					</Dropdown>
 				</p>
 				<Row :style="{height: rowHeight + 'px'}" class="divContent">
 					<div style="height: 85%;overflow:auto;">
@@ -15,6 +30,8 @@
 						<div class="selects">
 
 						</div>
+						
+
 
 						<div v-for="(item, index) in toDoAllData" :key="index" class="dataClass">
 							<el-checkbox-group class="checkGroup" v-model="checkedCities" @change="handleCheckedCitiesChange">
@@ -52,6 +69,9 @@
 	export default {
 		data() {
 			return {
+				choice:'招聘',
+				name:'',
+				//list:['1','2'],
 				rowHeight: document.body.offsetHeight - 200,
 				userTodoKey: '',
 				toDoAllData: [],
@@ -79,6 +99,39 @@
 			this.getAllData()
 		},
 		methods: {
+			changeMenu(name){
+				if(name=="emp_empdim"){
+					this.choice="离职"
+				}else if(name=="recruit_process"){
+					this.choice="招聘"
+				}else if(name=="emp_transtion"){
+					this.choice="异动"
+				}else if(name=="atten_shift"){
+					this.choice="调班"
+				}else if(name=="atten_vacation"){
+					this.choice="请假"
+				}else if(name=="atten_gooutproc"){
+					this.choice="外出"
+				}else if(name=="atten_ckappeal"){
+					this.choice="考勤申诉"
+				}
+				const t = this
+				const data={
+					_mt:'ansrptTodoList.selectGetAllTodo',
+					logType: "审批筛选",
+					roleType: localStorage.roleType,
+					todoKey: t.userTodoKey,
+					tbName: name
+				}
+				getDataLevelUserLogin(data).then((res)=>{
+					if(isSuccess(res,t)){
+						
+					}
+				})
+				.catch(()=>{
+
+				})
+			},
 			handleCheckAllChange(val) {
 				console.log('a', val)
 				this.checkedCities = val ? this.toDoAllData : [];
