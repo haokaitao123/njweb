@@ -124,8 +124,13 @@
 					tbName: name
 				}
 				getDataLevelUserLogin(data).then((res)=>{
-					if(isSuccess(res,t)){
-						
+					if(isSuccess(res, t)) {
+						t.userTodoKey = res.data.content[0].value
+						if(res.data.content[0].value) {
+							t.setInterFunc()
+						} else {
+							this.isSpin = false
+						}
 					}
 				})
 				.catch(()=>{
