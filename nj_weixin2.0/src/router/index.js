@@ -1,11 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/vuex'
 import {
   resolve
 } from 'path';
-
+import {
+  getDataLevelUserLogin
+} from '@/axios/axios'
+import {
+  isSuccess
+} from '@/lib/util.js'
 Vue.use(Router)
+import {
+  Notify
+} from 'vant';
 
+Vue.use(Notify);
 const router = new Router({
   routes: [{
       path: '/',
@@ -393,10 +403,38 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let isLogin = window.localStorage.getItem('token');
   let empId = window.localStorage.getItem('empId');
+  let userId = window.localStorage.getItem("uid");
   if (to.meta.title) {
     document.title = to.meta.title
   }
   // 已登录状态；当路由到login时，跳转至home 
+  if (isLogin && empId && userId) {
+    const t = Vue
+    getDataLevelUserLogin({
+      _mt: 'wxEmpConrenewal.getEmpIdByUserId',
+      userId: userId,
+      companyId: pubsource.companyId
+    }).then((res) => {
+      if (isSuccess(res, t)) {
+        let state = JSON.parse(res.data.content[0].value).state;
+        // window.localStorage.setItem("empData", empData);
+        if (state === '06empstate') {
+          //   router.push({
+          //     name: 'login'
+          //   });
+          next('/login')
+        }
+      }
+    }).catch(() => {
+      Notify({
+        message: '网络错误',
+        duration: 1500,
+        background: '#f44'
+      });
+    }).finally(() => {
+      store.commit('hideLoading');
+    });
+  }
   if (to.name === 'login') {
     if (isLogin && empId) {
       router.push({

@@ -1386,7 +1386,7 @@ export default {
     },
 }
 </script>
-<style lang="less">
+<style lang="less" >
 .resumeInfo {
     height: calc(~"100% - 100px");
     background: #f6f6f6;
