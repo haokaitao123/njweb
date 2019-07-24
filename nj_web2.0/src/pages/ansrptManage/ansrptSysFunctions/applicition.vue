@@ -12,6 +12,7 @@
 								<Icon type="ios-arrow-down"></Icon>
 							</Button>
 							<DropdownMenu slot="list">
+									<DropdownItem name="all">全部</DropdownItem>
 									<DropdownItem name="emp_empdim">离职</DropdownItem>
 									<DropdownItem name="recruit_process">招聘</DropdownItem>
 									<DropdownItem name="emp_transtion">异动</DropdownItem>
@@ -69,10 +70,10 @@
 	export default {
 		data() {
 			return {
-				choice:'招聘',
+				choice:'全部',
 				name:'',
 				//list:['1','2'],
-				rowHeight: document.body.offsetHeight - 200,
+				rowHeight: document.body.offsetHeight - 220,
 				userTodoKey: '',
 				toDoAllData: [],
 				fID: '',
@@ -99,8 +100,12 @@
 			this.getAllData()
 		},
 		methods: {
+			
 			changeMenu(name){
-				if(name=="emp_empdim"){
+				
+				if(name=="all"){
+					this.choice="全部"
+				}else if(name=="emp_empdim"){
 					this.choice="离职"
 				}else if(name=="recruit_process"){
 					this.choice="招聘"
@@ -115,27 +120,45 @@
 				}else if(name=="atten_ckappeal"){
 					this.choice="考勤申诉"
 				}
-				const t = this
-				const data={
-					_mt:'ansrptTodoList.selectGetAllTodo',
-					logType: "审批筛选",
-					roleType: localStorage.roleType,
-					todoKey: t.userTodoKey,
-					tbName: name
-				}
-				getDataLevelUserLogin(data).then((res)=>{
-					if(isSuccess(res, t)) {
-						t.userTodoKey = res.data.content[0].value
-						if(res.data.content[0].value) {
-							t.setInterFunc()
-						} else {
-							this.isSpin = false
+					const t = this
+					t.toDoAllData=[]
+					const data={
+						_mt:'ansrptTodoList.selectGetAllTodo',
+						logType: "审批筛选",
+						roleType: localStorage.roleType,
+						todoKey: t.userTodoKey,
+						tbName: name
+					}	
+					getDataLevelUserLogin(data).then((res)=>{
+						if(isSuccess(res, t)) {
+							console.log(res.data.content[0].todoList[0].todo_data,"res")
+							if(res.data.content[0].todoList[0].todo_data!=""){
+								for(let i = 0; i < res.data.content[0].todoList.length; i++) {
+									if(res.data.content[0].todoList[i].todo_title) {
+										t.toDoAllData.push(res.data.content[0].todoList[i])
+									} else {
+										console.log(res.data.content[0].todoList[i].todo_data,"noTitle")
+										let noTitle = JSON.parse(res.data.content[0].todoList[i].todo_data)
+										console.log(noTitle,"noTitle")
+										// t.toDoAllData.push(noTitle)
+										for(let j = 0; j < noTitle.length; j++) {
+											t.toDoAllData.push(noTitle[j])
+										}
+									}
+								}
+								t.toDoAllData.forEach(function(item) {
+									item.checked = false
+								});
+								console.log(t.toDoAllData)
+							}else{
+								t.toDoAllData=[]
+							}
+							
 						}
-					}
-				})
-				.catch(()=>{
-
-				})
+					}).catch(()=>{
+						t.$Message.warning('网络错误');
+					})
+					
 			},
 			handleCheckAllChange(val) {
 				console.log('a', val)
@@ -264,9 +287,7 @@
 						},
 					})
 				} else {
-					t.$Modal.error({
-						title: this.$t('请至少选择一条数据')
-					})
+					 t.$Message.warning('请至少选择一条数据');
 				}
 			},
 			submit(type, logType) {
