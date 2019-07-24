@@ -517,9 +517,9 @@ export default {
                     t.form.edSdate = data.edSdate;
                     t.form.edEdate = data.edEdate;
                     t.form.note = data.note;
-                    t.recruitTypeDis = data.recruitTypeDis ? data.recruitTypeDis : "";
-                    t.edEducationlevelDis = data.edEducationlevelDis;
-                    t.edIshighestDis = data.edIshighestDis;
+                    t.recruitTypeDis = data.recruitTypeDis ? data.recruitTypeDis : "请选择";
+                    t.edEducationlevelDis = data.edEducationlevelDis ? data.edEducationlevelDis : "请选择";
+                    t.edIshighestDis = data.edIshighestDis ? data.edIshighestDis : "请选择";
                     t.edCuntryDis = data.edCuntryDis ? data.edCuntryDis : '中国';;
                     if (data.fileKey) {
                         t.fileName = data.fileKey.split(':')[0];
@@ -531,7 +531,6 @@ export default {
                                 name: '未上传'
                             }
                         }
-
                     }
                     t.setSelectValue(data.edEducationlevel, 'selectEdEducationlevel', 'edEducationlevelIndex');
                     t.setSelectValue(data.edIshighest, 'selectEdIshighest', 'edIshighestIndex');
@@ -619,7 +618,6 @@ export default {
             this.form.edCuntry = res.id;
             this.currentId = res.id;
             this.edCuntryDis = res.name;
-
         },
         //取消
         back () {
@@ -629,7 +627,7 @@ export default {
     },
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .empEducation {
     background: #f6f6f6;
     height: 100%;
@@ -652,7 +650,6 @@ export default {
                 height: 80px;
                 flex: 1;
             }
-
             .button_left {
                 color: #339afe;
                 background: #fff;

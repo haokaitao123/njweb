@@ -1,16 +1,12 @@
 <template>
     <div class="approve">
-		
         <noData v-show="list.length <= 0"></noData>
         <van-pull-refresh v-model="isLoading"
                           @refresh="onRefresh"
                           ref="scrollBox"
                           class="ref">
             <div class="itemWrap">
-                <div class="menus" style="width: 100%;">
-					<van-dropdown-menu>
-					  <van-dropdown-item v-model="value2" :options="option2" @change="select" />
-					</van-dropdown-menu>
+                <div style="width: 100%;">
                     <div class="appItem"
                          v-for="(item,index) in list"
                          @click="goTo(item)">
@@ -20,7 +16,7 @@
                                     <van-checkbox v-model="item.checked"
                                                   class="checkedBox"
                                                   :value="item"
-                                                  @click="singleChecked(item.checked,index,item)"></van-checkbox>
+                                                  @click="singleChecked($event,index,item)"></van-checkbox>
                                 </label>
                                 <div class="title">{{item.title}}</div>
                                 <div class="tranDate"
@@ -37,7 +33,6 @@
                                 </div>
                             </div>
                             <div class="outTem">
-
                                 <div class="actionTimers"
                                      v-if="item.dimReasonDis">
                                     <span class="one">
@@ -88,7 +83,6 @@
                                 </div>
                                 <!--请假-->
                                 <div v-if="item.tbname == 'atten_vacation'">
-
                                     <div class="actionTimer">
                                         <span class="ones">
                                             开始时间：{{item.vacEdate}}
@@ -122,7 +116,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </van-pull-refresh>
@@ -144,7 +137,6 @@
             </div>
         </div>
     </div>
-
 </template>
 <script>
 import {
@@ -160,17 +152,7 @@ export default {
             checked: false,
             isAllChecked: false, // 正在进行中的数据是否被选中
             isLoading: false,
-            formList: [],
-			value2: '',
-			  option2: [
-				{ text: '全部', value: '' },
-				{ text: '离职', value: 'emp_empdim' },
-				{ text: ' 招聘', value: 'recruit_process' },
-				{ text: '异动', value: 'emp_transtion' },
-				{ text: '调班', value: 'atten_shift' },
-				{ text: '请假', value: 'atten_vacation' },
-				{ text: '请假', value: 'atten_gooutproc' },
-			  ]
+            formList: []
         }
     },
     components: {
@@ -188,14 +170,16 @@ export default {
                 }
             })
         },
-		select(value){
-			console.log(value)
-		},
         // 用户单选
-        singleChecked: function (checked, index, item) {
+        singleChecked: function (e, index, item) {
             const that = this
-            console.log(checked, index)
-            if (checked) {
+            e.stopPropagation();
+            if (item.checked == false) {
+                item.checked = true
+            } else {
+                item.checked = false
+            }
+            if (item.checked) {
                 this.checkedCode.push(item)
             } else {
                 console.log('//', this.checkedCode)
@@ -215,11 +199,15 @@ export default {
                 this.isAllChecked = false;
             }
         },
-
         // 用户全选
         chooseAll () {
             console.log("checked", this.isAllChecked)
             var that = this;
+            if (this.isAllChecked == false) {
+                this.isAllChecked = true
+            } else {
+                this.isAllChecked = false
+            }
             if (that.checkedCode.length !== 0) {
                 that.checkedCode = [];
             }
@@ -257,9 +245,10 @@ export default {
                         });
                         t.list = listRes
                         t.list.length
+                        t.checkedCode = [];
                         t.isAllChecked = false;
                         //localStorage.setItem("tipNum", t.list.length);
-                        t.$store.commit('tabarTip', t.list.length);
+                        // t.$store.commit('tabarTip', t.list.length);
                     }
                     t.isLoading = false
                 }
@@ -269,7 +258,6 @@ export default {
                     duration: 1500,
                     background: '#f44'
                 });
-
             }).finally(() => {
                 t.$store.commit('hideLoading');
                 console.log('123', this.list)
@@ -301,7 +289,6 @@ export default {
             this.getInfor()
         },
         submit (type, logType) {
-
             const that = this;
             let params = []
             console.log(that.checkedCode)
@@ -351,10 +338,8 @@ export default {
             })
         },
     },
-
 }
 </script>
-
 <style lang="less" scoped>
 #app {
     .approve {
@@ -407,9 +392,6 @@ export default {
         }
         .itemWrap {
             height: 84%;
-			.menus/deep/.van-dropdown-menu{
-				font-size: 25px;
-			}
             .appItem {
                 background: white;
                 padding: 40px 40px;

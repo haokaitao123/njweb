@@ -348,7 +348,7 @@ export default {
     }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .empEducation {
     height: 100%;
     background: #f6f6f6;
