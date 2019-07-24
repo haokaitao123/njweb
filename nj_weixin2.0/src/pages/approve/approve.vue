@@ -248,11 +248,11 @@ export default {
                         t.checkedCode = [];
                         t.isAllChecked = false;
                         //localStorage.setItem("tipNum", t.list.length);
-                        // t.$store.commit('tabarTip', t.list.length);
+                         t.$store.commit('tabarTip', t.list.length);
                     }
-                    t.isLoading = false
                 }
             }).catch(() => {
+				 t.$store.commit('tabarTip', t.list.length);
                 t.$notify({
                     message: '网络错误',
                     duration: 1500,
