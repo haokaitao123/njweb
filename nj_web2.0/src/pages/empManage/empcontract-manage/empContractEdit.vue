@@ -16,9 +16,10 @@
             </div>
             <div class="option-main">
                 <Spin size="large"
-              fix
-              v-if="spinShow"></Spin>
-                <Row style="max-height: 460px;overflow-y: auto;" ref="scrollBox">
+                      fix
+                      v-if="spinShow"></Spin>
+                <Row style="max-height: 460px;overflow-y: auto;"
+                     ref="scrollBox">
                     <Form ref="form"
                           :model="form"
                           :rules="ruleValidate"
@@ -101,7 +102,8 @@
                                 </RadioGroup>
                             </FormItem>
                         </i-col>
-                        <i-col span="11" offset="1">
+                        <i-col span="11"
+                               offset="1">
                             <FormItem label="竞业限制协议"
                                       prop="contJzxy">
                                 <RadioGroup v-model="form.contJzxy">
@@ -234,7 +236,7 @@
                                             style="width: 100%"></DatePicker>
                             </FormItem>
                         </i-col>
-                        
+
                         <i-col span="22">
                             <FormItem label="附件上传"
                                       prop="fileKey">
@@ -332,7 +334,7 @@ export default {
         };
 
         return {
-            spinShow:false,
+            spinShow: false,
             type: "",
             distype: false,
             disabled: false,
@@ -345,7 +347,7 @@ export default {
             selectWorktimetype: [],
             selectProbperiod: [],
             selectAttendy: [],
-            loadingStatus:"",
+            loadingStatus: "",
             form: {
                 _mt: "empContractinfo.addOrUpd",
                 numberCode: "XXXXXX",
@@ -512,7 +514,7 @@ export default {
                 .catch(() => {
 
                     this.$Message.error(this.$t("reminder.errormessage"));
-                }) 
+                })
                 .finally(() => {
                     t.spinShow = false
                 });
@@ -609,23 +611,21 @@ export default {
                         .catch(() => {
                             this.$Message.error(this.$t("reminder.errormessage"));
                         });
-                }else{
-					this.$nextTick(function(){
-                            let tt = document.querySelectorAll('.ivu-form-item-error');
-                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
-                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
-                            }
-                        }) 
-				}
+                } else {
+                    this.$nextTick(function () {
+                        let tt = document.querySelectorAll('.ivu-form-item-error');
+                        this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                    })
+                }
             });
         },
 
         /*选择员工*/
         pickEmpData () {
             if (this.forbidden === null && !this.disabled) {
-            const t = this;
-            t.$refs.searchEmpMaster.getData();
-            t.openEmpMaster = true;
+                const t = this;
+                t.$refs.searchEmpMaster.getData();
+                t.openEmpMaster = true;
             }
         },
         closeEmp () {
@@ -670,7 +670,7 @@ export default {
             t.contPeriodDis = "";
             t.contWorktimeDis = "";
             t.contProbatDis = "";
-            t.file="";
+            t.file = "";
             t.$emit("closeUp");
         },
         //附件上传
@@ -820,9 +820,9 @@ export default {
         },
         //合同期限下拉选择事件
         contPeriodSelect (value) {
-            if(value===undefined){
-                this.form.contPeriod=""
-             }
+            if (value === undefined) {
+                this.form.contPeriod = ""
+            }
             if (this.form.contSdate !== "") {
                 this.calculateDate("contPeriod", "contSdate", "contEdate")
             }
@@ -838,8 +838,8 @@ export default {
         },
         //试用期限下拉选择事件
         contProbatSelect (value) {
-            if(value===undefined){
-                this.form.contProbat=""
+            if (value === undefined) {
+                this.form.contProbat = ""
             }
             if (this.form.contSdate !== "") {
                 this.calculateDate("contProbat", "contSdate", "contProbatdt")

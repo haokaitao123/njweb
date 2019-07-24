@@ -57,30 +57,36 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11">
-					        <FormItem label="考勤期间" prop="atmorPeriod">
-                                <DatePicker type="month" placeholder="请选择考勤月份" 
-                                :disabled="disabled" 
-                                v-model="form.atmorPeriod" 
-                                style="width: 100%"></DatePicker>
-					        </FormItem>
-				        </i-col>
+                            <FormItem label="考勤期间"
+                                      prop="atmorPeriod">
+                                <DatePicker type="month"
+                                            placeholder="请选择考勤月份"
+                                            :disabled="disabled"
+                                            v-model="form.atmorPeriod"
+                                            style="width: 100%"></DatePicker>
+                            </FormItem>
+                        </i-col>
                         <i-col span="11"
-                                offset="1">
-					        <FormItem label="开始日期" prop="atmorSdate">
-                                <DatePicker type="date" placeholder="请选择开始日期" 
-                                :disabled="disabled" 
-                                v-model="form.atmorSdate" 
-                                style="width: 100%"></DatePicker>
-					        </FormItem>
-				        </i-col>
+                               offset="1">
+                            <FormItem label="开始日期"
+                                      prop="atmorSdate">
+                                <DatePicker type="date"
+                                            placeholder="请选择开始日期"
+                                            :disabled="disabled"
+                                            v-model="form.atmorSdate"
+                                            style="width: 100%"></DatePicker>
+                            </FormItem>
+                        </i-col>
                         <i-col span="11">
-					        <FormItem label="结束日期" prop="atmorEdate">
-                                <DatePicker type="date" placeholder="请选择开始日期" 
-                                :disabled="disabled" 
-                                v-model="form.atmorEdate" 
-                                style="width: 100%"></DatePicker>
-					        </FormItem>
-				        </i-col>
+                            <FormItem label="结束日期"
+                                      prop="atmorEdate">
+                                <DatePicker type="date"
+                                            placeholder="请选择开始日期"
+                                            :disabled="disabled"
+                                            v-model="form.atmorEdate"
+                                            style="width: 100%"></DatePicker>
+                            </FormItem>
+                        </i-col>
                         <i-col span="11"
                                offset="1">
                             <FormItem label="出勤天数"
@@ -99,7 +105,7 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11"
-                                offset="1">
+                               offset="1">
                             <FormItem label="迟到次数"
                                       prop="atmorLatenums">
                                 <Input v-model="form.atmorLatenums"
@@ -116,7 +122,7 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11"
-                                offset="1">
+                               offset="1">
                             <FormItem label="缺卡次数"
                                       prop="atmorMissnums">
                                 <Input v-model="form.atmorMissnums"
@@ -133,7 +139,7 @@
                             </FormItem>
                         </i-col>
                         <i-col span="11"
-                                offset="1">
+                               offset="1">
                             <FormItem label="外勤次数"
                                       prop="atmorFieldnums">
                                 <Input v-model="form.atmorFieldnums"
@@ -149,8 +155,8 @@
                                        placeholder="请输入加班天数" />
                             </FormItem>
                         </i-col>
-                         <i-col span="11"
-                                offset="1">
+                        <i-col span="11"
+                               offset="1">
                             <FormItem label="考勤确认"
                                       prop="atmorConfirm">
                                 <RadioGroup v-model="form.atmorConfirm">
@@ -205,14 +211,14 @@ import searchEmpMaster from "../../../components/searchTable/searchEmpnhMaster";
 export default {
     data () {
         const numberCheck = (rule, value, numberValCheck) => {
-      if (value !== "" && value !== undefined) {
-        if (valid.val_number103(value)) {
-          return numberValCheck();
-        }
-        return numberValCheck(new Error(rule.message));
-      }
-      numberValCheck();
-    };      
+            if (value !== "" && value !== undefined) {
+                if (valid.val_number103(value)) {
+                    return numberValCheck();
+                }
+                return numberValCheck(new Error(rule.message));
+            }
+            numberValCheck();
+        };
         return {
             openPickUser: false, //员工信息默认false 隐藏  
             spinShow: false,
@@ -249,7 +255,7 @@ export default {
                 atmorFieldnums: "",
                 atmorOverdays: "",
                 atmorConfirm: '1',
-                state:'01State',
+                state: '01State',
                 note: "", //备注
                 funId: "1",
                 logType: "", //操作类型
@@ -278,100 +284,100 @@ export default {
                     { required: true, type: 'date', message: "请选择考勤期间", trigger: 'change' },
                 ],
                 atmorAttdays: [
-                {
-                    required: true,
-                    message: "请输入出勤天数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                    {
+                        required: true,
+                        message: "请输入出勤天数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
                 atmorOffdays: [
-                {
-                    required: true,
-                    message: "请输入休息天数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                    {
+                        required: true,
+                        message: "请输入休息天数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
-               atmorLatenums: [
-                {
-                    required: true,
-                    message: "请输入迟到次数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                atmorLatenums: [
+                    {
+                        required: true,
+                        message: "请输入迟到次数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
                 atmorEarlynums: [
-                {
-                    required: true,
-                    message: "请输入早退次数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                    {
+                        required: true,
+                        message: "请输入早退次数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
                 atmorMissnums: [
-                {
-                    required: true,
-                    message: "请输入缺卡次数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                    {
+                        required: true,
+                        message: "请输入缺卡次数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
-                 atmorComnums: [
-                {
-                    required: true,
-                    message: "请输入矿工次数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                atmorComnums: [
+                    {
+                        required: true,
+                        message: "请输入矿工次数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
-                 atmorFieldnums: [
-                {
-                    required: true,
-                    message: "请输入外勤次数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                atmorFieldnums: [
+                    {
+                        required: true,
+                        message: "请输入外勤次数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
-                 atmorOverdays: [
-                {
-                    required: true,
-                    message: "请输入加班天数",
-                    trigger: "blur"
-                },
-                {
-                    validator: numberCheck,
-                    message: "请输入正确的数字格式",
-                    trigger: "blur"
-                }
+                atmorOverdays: [
+                    {
+                        required: true,
+                        message: "请输入加班天数",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: numberCheck,
+                        message: "请输入正确的数字格式",
+                        trigger: "blur"
+                    }
                 ],
             }
         };
@@ -485,14 +491,12 @@ export default {
                         .catch(() => {
                             this.$Message.error(this.$t("reminder.errormessage"));
                         });
-                }else{
-					 this.$nextTick(function(){
-                            let tt = document.querySelectorAll('.ivu-form-item-error');
-                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
-                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
-                            }
-                        }) 
-				}
+                } else {
+                    this.$nextTick(function () {
+                        let tt = document.querySelectorAll('.ivu-form-item-error');
+                        this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                    })
+                }
             });
         },
 
