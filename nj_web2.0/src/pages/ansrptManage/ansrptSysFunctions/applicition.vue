@@ -100,9 +100,7 @@
 			this.getAllData()
 		},
 		methods: {
-			
 			changeMenu(name){
-				
 				if(name=="all"){
 					this.choice="全部"
 				}else if(name=="emp_empdim"){
@@ -132,7 +130,7 @@
 					getDataLevelUserLogin(data).then((res)=>{
 						if(isSuccess(res, t)) {
 							console.log(res.data.content[0].todoList[0].todo_data,"res")
-							if(res.data.content[0].todoList[0].todo_data!=""){
+							if(res.data.content[0].todoList[0].todo_data!="[]"){
 								for(let i = 0; i < res.data.content[0].todoList.length; i++) {
 									if(res.data.content[0].todoList[i].todo_title) {
 										t.toDoAllData.push(res.data.content[0].todoList[i])
@@ -152,6 +150,7 @@
 								console.log(t.toDoAllData)
 							}else{
 								t.toDoAllData=[]
+								t.$Message.warning('暂无数据');
 							}
 							
 						}
@@ -321,6 +320,7 @@
 							content: this.$t('审批成功'),
 						})
 						t.toDoAllData = []
+						t.choice="全部"
 						t.checkedCities = []
 						this.getAllData()
 						t.isIndeterminate = false;
