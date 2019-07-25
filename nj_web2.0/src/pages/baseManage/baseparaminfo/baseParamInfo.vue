@@ -8,8 +8,8 @@
           &nbsp;{{$t('lang_role.adminpminfo.pminfotitle')}}
         </p>
         <Row>
-          <Input v-model="paramCode" :placeholder="$t('lang_role.adminpminfo.pparamCode')"
-                 style="width: 200px" @on-enter="enterEvent"/>
+          <!-- <Input v-model="paramCode" :placeholder="$t('lang_role.adminpminfo.pparamCode')"
+                 style="width: 200px" @on-enter="enterEvent"/> -->
           <Input v-model="paramInfoName" :placeholder="$t('lang_role.adminpminfo.pparamInfoName')"
                  style="width: 200px" @on-enter="enterEvent"/>
           <span @dblclick="clear">

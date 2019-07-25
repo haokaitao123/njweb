@@ -9,6 +9,7 @@ const store = new Vuex.Store({
     contractRenewal: '',
     attenMonthrevi: '',
     pIndexKey: '',
+	tipNum: 0
   },
   mutations: {
     setEmpId(state, value) {
@@ -28,7 +29,10 @@ const store = new Vuex.Store({
     },
     setPIndexKey(state, value) {
       state.pIndexKey = value;
-    }
+    },
+    tabarTip(state,value){
+			state.tipNum = value
+	}
   },
   actions: {
 

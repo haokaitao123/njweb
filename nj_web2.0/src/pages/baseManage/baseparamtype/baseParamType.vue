@@ -8,7 +8,7 @@
           &nbsp;{{$t('lang_role.adminpmtype.pmtypetitle')}}
         </p>
         <Row>
-          <Input :placeholder="$t('lang_role.adminpmtype.ppmtypeCode')"style="width: 200px" @on-enter="enterEvent" v-model="pmtypeCode"/>
+          <Input placeholder="请输入参数类型名称" style="width: 200px" @on-enter="enterEvent" v-model="pmtypeName"/>
           <span style="margin: 0;"><Button type="primary" icon="search"
                                            @click="getData(1)">{{$t('button.ser')}}</Button></span>
           <Button type="primary" @click="openUp(NaN,$t('button.add'),0)">{{$t('button.add')}}</Button>
@@ -105,7 +105,7 @@
         page: 1,
         index: 0,
         likeName: '',
-        pmtypeCode: '',
+        pmtypeName: '',
         mobileNo: '',
         logType: '',
         imp_mt: 'baseParmType.importData',
@@ -138,7 +138,7 @@
           order: t.order,
           rows: t.rows,
           page: t.page,
-          pmtypeCode: t.pmtypeCode,
+          pmtypeName: t.pmtypeName,
         }).then((res) => {
           if (isSuccess(res, t)) {
             t.data = res.data.content[0].rows

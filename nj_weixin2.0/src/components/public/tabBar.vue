@@ -2,6 +2,9 @@
     <div class="wrapper">
         <div v-for="i in tabbar"
              class="tabBar_box">
+			   <div class="tabTip" v-show ="values > 0" v-if='i.title == "审批"'>
+			<badge class="tips" :text = "values" ></badge>
+			</div>
             <div class="tabbar_item"
                  @click="tabTo(i.key)">
                 <div class="tabbar_icon">
@@ -15,7 +18,11 @@
 </template>
 
 <script>
+	import { Badge } from 'vux'
 export default {
+	components: {
+    Badge
+  },
     props: {
         pIndexKey: {
             type: [String],
@@ -24,7 +31,10 @@ export default {
     computed: {
         pKey () {
             return this.$store.state.pIndexKey
-        }
+        },
+		values() {
+		  return this.$store.state.tipNum;
+		}
     },
     data () {
         return {
@@ -47,7 +57,7 @@ export default {
                     imgSrc: "../../../static/footer/kb_05-01.svg",
                     activeImgSrc: "../../../static/footer/zy_06-01.svg"
                 },
-            ]
+            ],
         };
     },
     methods: {
@@ -79,6 +89,19 @@ export default {
     border-top: 1px solid #dcdcdc;
     .tabBar_box {
         flex: 1;
+		.tabTip{
+			display: inline-block;
+			position: fixed;
+			bottom: 60px;
+			left: 395px;
+		.tips{
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			display: inline-block;
+			border-radius: 50%;
+		}
+		}
         .tabbar_item {
             height: 100%;
             display: flex;
