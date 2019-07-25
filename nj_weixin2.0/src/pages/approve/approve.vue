@@ -233,6 +233,7 @@ export default {
             const data = {
                 _mt: 'wxansrpttodo.getAllTodo',
                 companyId: pubsource.companyId,
+				tbName:'all',
                 empId: window.localStorage.getItem('empId')
             }
             getDataLevelUserLogin(data).then((res) => {
@@ -259,6 +260,8 @@ export default {
                     background: '#f44'
                 });
             }).finally(() => {
+				this.isLoading = false;
+				 t.$store.commit('tabarTip', t.list.length);
                 t.$store.commit('hideLoading');
                 console.log('123', this.list)
             })
