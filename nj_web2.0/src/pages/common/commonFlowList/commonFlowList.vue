@@ -58,7 +58,6 @@
                            ref="selection"
                            :columns="columns"
                            :loading="loading"
-                           @on-sort-change="sortable"
                            :data="data"></Table>
                 </row>
                 <Row style="display: flex">
@@ -332,9 +331,7 @@ export default {
                         }
                     }
                     for (let i = 0; i < aa.length; i++) {
-                        if (aa[i].sortable === 'false') {
-                            aa[i].sortable = false
-                        }
+                        aa[i].sortable = false;
                         if (!aa[i].width) {
                             aa[i].width = 120
                         }
