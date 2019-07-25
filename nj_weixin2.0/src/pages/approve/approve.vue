@@ -7,10 +7,11 @@
                           ref="scrollBox"
                           class="ref">
             <div class="itemWrap">
-                <!-- <div class="menus" style="width: 100%;"> -->
-					<van-dropdown-menu style="z-index:101">
+                <div class="menus" style="width: 100%;height:40px;padding-bottom:10px">
+					<van-dropdown-menu style="z-index:101;position:fixed;width: 100%;height:35px;padding-top:10px">
 					  <van-dropdown-item v-model="value2" :options="option2" @change="select" />
 					</van-dropdown-menu>
+                </div>
                     <noData v-show="this.list<=0"></noData>
                 <div style="width: 100%;">
                     <div class="appItem"
@@ -92,10 +93,10 @@
                                 <div v-if="item.tbname == 'atten_vacation'">
                                     <div class="actionTimer">
                                         <span class="ones">
-                                            开始时间：{{item.vacEdate}}
+                                            开始时间：{{item.vacSdate}}
                                         </span>
                                         <span class="ones">
-                                            结束时间：{{item.vacSdate}}
+                                            结束时间：{{item.vacEdate}}
                                         </span>
                                     </div>
                                     <div class="actionTimer">
@@ -436,6 +437,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+
 #app {
     .approve {
         height: calc(~"100% - 110px");
@@ -489,7 +491,7 @@ export default {
             height: 84%;
             .appItem {
                 background: white;
-                padding: 40px 40px;
+                padding: 40px 40px 40px 40px;
                 height: 100%;
                 margin-bottom: 20px;
                 overflow: hidden;

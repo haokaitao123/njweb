@@ -283,9 +283,9 @@ input[readonly] {
 .form .vux-x-textarea .weui-textarea {
     color: #333333;
 }
-// .van-dropdown-menu__item{
-//     height:1rem
-// }
+.van-ellipsis{
+    font-size: 35px
+}
 .van-dropdown-menu__title{
     font-size:25px
 }
