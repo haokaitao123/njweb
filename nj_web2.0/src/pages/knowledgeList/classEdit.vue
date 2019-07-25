@@ -14,72 +14,46 @@
 				<Row style="max-height: 460px;overflow-y: auto;" ref="scrollBox">
 					<Form ref="form" :label-width="120" :model="form" :rules="ruleValidate">
 						<i-col span="22" offset="1">
-							<div class="addContent" v-show="addconShow">
+							<div class="adds" v-show="addShow">
 								<Row>
-									<Col span="12" offset="0">
-									<FormItem label="标题" prop="title">
+									<Col span="11">
+									<FormItem label="类目名称:" prop="name">
 										<span>
-											<Input placeholder="请输入标题" :disabled='disabled' v-model="form.title" />
+											<Input placeholder="请输入类目名称" :disabled='disabled' :maxLength=100 v-model="form.name" />
+										</span>
+									</FormItem>
+									</Col>
+									<Col span="11" offset="1">
+									<FormItem label="是否通用" prop="universal">
+										<Radio-group v-model="form.universal">
+											<Radio label="是">
+
+											</Radio>
+											<Radio label="否">
+
+											</Radio>
+										</Radio-group>
+									</FormItem>
+									</Col>
+								</Row>
+								<Row>
+									<Col span="11">
+									<FormItem label="所属部门" prop="department" v-if="this.form.universal == '否'">
+										<span @dblclick="disabled ? '' : cleardeptId()">
+											<Input v-model="form.department" icon="search" :disabled="disabled" placeholder="选择部门" @on-click="disabled ? '' : pickDeptData()" />
+										</span>
+									</FormItem>
+									</Col>
+									<Col span="11">
+									<FormItem label="所属部门" v-if="this.form.universal == '是' ">
+										<span @dblclick="disabled ? '' : cleardeptId()">
+											<Input v-model="form.department" icon="search" :disabled="disabled" placeholder="选择部门" @on-click="disabled ? '' : pickDeptData()" />
 										</span>
 									</FormItem>
 									</Col>
 								</Row>
-								<Row style="position:relative;z-index: 0;">
-									<Col span="24" offset="0">
-									<FormItem label="内容" prop="content">
-										<div id="editor" style="z-index: 0;"></div>
-										<div id="txt" v-show="false" v-model="form.content"></div>
-									</FormItem>
-									</Col>
-								</Row>
-								<Row>
-									<Col span="24" offset="0">
-									<FormItem label="附件上传" prop="noticeAttach">
-										<Row>
-											<i-col span="3" v-show="!editdisabled">
-												<Upload :before-upload="handleUpload" action=" ">
-													<Button type="ghost" icon="ios-cloud-upload-outline" :disabled="editdisabled">{{$t('lang_platdoc.platDoc.plat_scan')}}</Button>
-												</Upload>
-											</i-col>
-											<i-col span="20">
-												<span v-if="file !== ''" @dblclick="clearFile(editdisabled)">
-													<i-col span="22">
-														<Input v-model="file.name" readonly="readonly">
-														<span slot="prepend">
-															<Icon type="folder" size="16"></Icon>
-														</span>
-														</Input>
-													</i-col>
-													<i-col span="2">
-														<Button type="text" @click="uploadLocalFile" v-if="loadingStatus">{{$t('lang_platdoc.platDoc.plat_upload')}}</Button>
-														<Button type="text" @click="downloadFile" v-if="!loadingStatus">{{$t('lang_platdoc.platDoc.plat_download')}}</Button>
-													</i-col>
-												</span>
-											</i-col>
-										</Row>
-									</FormItem>
-									</Col>
-								</Row>
-								<div class="adds">
-									<Row>
-										<Col span="11">
-										<FormItem label="链接名称" prop="attachments">
-											<span>
-												<Input placeholder="请输入链接名称" :disabled='disabled' v-model="form.attachments" />
-											</span>
-										</FormItem>
-										</Col>
-										<Col span="11" offset="1">
-											<FormItem label="标签" prop="tag">
-												<span>
-													<Input placeholder="请输入标签" :disabled='disabled' v-model="form.tag" />
-												</span>
-											</FormItem>
-										</Col>
-									</Row>
-									<div class="btns">
-										<i-button style="margin-left: 70%;" @click="Consave" type="primary">保存</i-button>
-									</div>
+								<div class="btns">
+									<i-button @click="save" type="primary">保存</i-button>
 								</div>
 							</div>
 						</i-col>
@@ -108,8 +82,6 @@
 	} from '@/lib/util';
 	import valid from '@/lib/pub_valid';
 	import qs from 'qs'
-	import E from "wangeditor";
-	let editor = new E("#editor");
 	export default {
 		data() {
 			return {
@@ -132,14 +104,6 @@
 					pid: "", //父id
 					department: '', //部门名称
 					universal: '是', //是否通过
-					attachments: '',
-					categoryId: '',
-					content: '',
-					expired: '',
-					id: '',
-					link: '',
-					tag: '',
-					title: '',
 					userId: ''
 				},
 				comInfo: [],
@@ -169,14 +133,14 @@
 				itemAtt: '',
 				allotdeptState: false,
 				ruleValidate: {
-					title: [{
+					name: [{
 						required: true,
-						message: '请输入标题',
+						message: '请输入类目名称',
 						trigger: 'blur'
 					}],
-					content: [{
+					department: [{
 						required: true,
-						message: '请输入知识内容',
+						message: '请输入部门',
 						trigger: 'blur'
 					}]
 				},
@@ -191,34 +155,8 @@
 		components: {
 			searchDept
 		},
-		mounted() {
-			//this.getSelectUser();
-			editor.customConfig.pasteFilterStyle = false
-			editor.customConfig.pasteTextHandle = function(content) {
-				// content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
-				if (content == '' && !content) return ''
-				let str = content;
-				//处理的标签里的多余代码
-				str = str.replace(/<xml>[\s\S]*?<\/xml>/ig, '');
-				str = str.replace('/(\\n|\\r| class=(")?Mso[a-zA-Z]+(")?)/g', '');
-				let reg = new RegExp('<!--(.*?)-->', 'g')
-				str = str.replace(reg, '');
-				str = str.replace(/<style>[\s\S]*?<\/style>/ig, '')
-				// str = str.replace(/<\/?[^>]*>/g, '')
-				str = str.replace(/[ | ]*\n/g, '\n')
-				str = str.replace(/&nbsp;/ig, '')
-				console.log('富文本的content', JSON.parse(JSON.stringify(content)))
-				console.log('****str修改后的content str', str)
-				return str
-			}
-			editor.customConfig.onchange = function(html) {
-				document.getElementById("txt").innerHTML = html;
-			};
-			editor.create();
-			console.log(this.form.state, "form");
-		},
-		created() {
-		},
+		mounted() {},
+		created() {},
 		computed: {
 			tableButton() {
 				return this.$store.state.knowledge.id;
@@ -227,27 +165,33 @@
 		methods: {
 			getMsgFormSon(data, data1) {
 				// this.msgFormSon = data
-				console.log(data, data1)
+				//console.log(data, data1)
 				this.form.department = data
 				this.departmentId = data1
 			},
-			sortable(column) {
-				console.log('column', column)
-				this.sort = column.key;
-				console.log(this.sort)
-				this.order = column.order;
-
-				if (this.order !== "normal") {
-					this.getData(this.treeid);
-				} else {
-					this.order = "desc";
-				}
-			}, 
 			dataClick(item) {
 				console.log(item)
 				this.itemTitle = item.title
 				this.itemCreated = item.created
 				this.itemAtt = item.attachments
+			},
+			celectDate() {
+				const t = this
+				getKnowledgeGet('ry/mustReadKnowledge/search', {
+						params: {
+							page: '1',
+							size: '20',
+							sort: 'asc',
+						}
+					})
+					.then((res) => {
+						console.log(res, "res")
+						t.coloData = res.data.content;
+
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			},
 			revise(e) {
 				console.log('213', e)
@@ -257,60 +201,17 @@
 				t.ifShows = false;
 				t.ifCollect = false;
 			},
-			Consave() {
+			save() {
 				const t = this;
-				this.form.content = document.getElementById("txt").innerHTML;
-				if(this.form.content == ''){
-					t.$Message.warning('内容为空');
-					var ifSave = false;
-				}else{
-					var ifSave = true;
-				}
-				if(this.form.title == ''){
-					t.$Message.warning('标题为空');
-					var ifSaves = false;
-				}else{
-					var ifSaves = true;
-				}
 				t.$refs.form.validate(valid => {
-                    if (valid) {
-						const t = this;
-						var readyData = JSON.stringify({
-							attachments: this.form.attachments,
-							categoryId: this.form.categoryId,
-							content: this.form.content,
-							id: this.form.id,
-							link: this.form.link,
-							tag: this.form.tag,
-							title: this.form.title,
-							userId: this.$store.state.user.userId
-						});
-						for (const dat in readyData) {
-						    if (data[dat] === "") {
-						        delete data[dat];
-						    }
-						}
-						console.log('readyData', readyData)
-						//var headers = {'Content-Type':'application/x-www-form-urlencoded'};
-						getKnowledgePost('ry/knowledge', {
-								headers: {
-									'Content-Type': 'application/x-www-form-urlencoded'
-								},
-								readyData
-							})
-							.then(function(response) {
-								console.log(response);
-								t.$Message.success('保存成功');
-							})
-							.catch(function(error) {
-								t.$Message.error('保存失败');
-								console.log(error);
-							});
-                    }
-                })			
+					if (valid) {
+						t.postQuest()
+					}
+				})
 			},
 			postQuest() {
 				const t = this;
+
 				var ifPass = 1
 				if (this.form.universal == '是') {
 					ifPass = 1
@@ -321,20 +222,16 @@
 				var readyData = JSON.stringify({
 					"operatorId": this.$store.state.user.userId,
 					"operatorName": this.$store.state.user.name,
-					"deleted": 1,
 					"departmentId": this.departmentId,
 					"level": this.form.tier,
 					"name": this.form.name,
-					"num": 1,
 					"path": this.form.urlname,
 					"pid": this.form.pid,
-					"pnum": 0,
 					"sort": this.form.sorts,
 					"universal": ifPass,
 					"updateBy": this.form.lastId
 				});
 				console.log('readyData', readyData)
-				//var headers = {'Content-Type':'application/x-www-form-urlencoded'};
 				getKnowledgePost('ry/knowledgeCategory', {
 						headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'
@@ -349,6 +246,28 @@
 						t.$Message.error('保存失败');
 						console.log(error);
 					});
+			},
+			newAdd(fId) {
+				this.form.pid = fId;
+				const t = this;
+				t.addShow = true;
+				t.ifShow = false;
+				t.ifShows = false;
+				t.addconShow = false;
+				t.ifCollect = false;
+			},
+			newAdds(params) {
+				console.log(params)
+				this.form.name = params.row.title;
+				this.form.pid = params.row.pid;
+				this.form.sorts = params.row.sort;
+				this.form.ids = params.row.id;
+				const t = this;
+				t.addShow = true;
+				t.ifShow = false;
+				t.ifShows = false;
+				t.addconShow = false;
+				t.ifCollect = false;
 			},
 			seleEvnt() {
 				const t = this;
@@ -382,6 +301,7 @@
 			addContent(params) {
 				this.form.title = params.row.title;
 				editor.txt.append(params.row.content);
+				document.getElementById("txt").innerHTML = params.row.content;
 				this.form.attachments = params.row.attachments;
 				this.form.categoryId = params.row.categoryId;
 				this.form.expired = params.row.expired;
@@ -404,7 +324,6 @@
 			},
 			handleReset() {
 				const t = this;
-				editor.txt.clear();
 				this.form.title = '';
 				this.form.attachments = '';
 				this.form.categoryId = '';
@@ -417,29 +336,10 @@
 					this.form.sorts = '', //排序
 					this.form.pid = "", //父id
 					this.fId = "0",
-
 					this.form.departmentId = '', //部门名称
 					this.$refs.form.resetFields();
 				this.$refs.scrollBox.$el.scrollTop = "0"
 				t.$emit('closeUp');
-			},
-			iframeDetail(id) {
-				this.ifShow = false;
-				this.ifShows = true;
-				const t = this
-				getKnowledgeGet('http://192.168.101.155/api/exam/ry/mustReadKnowledge', {
-						params: {
-							id: id
-						}
-					})
-					.then((res) => {
-						console.log(res, "res")
-						t.coloData = res.data.content;
-
-					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 			readIform() {
 				this.ifShows = false;

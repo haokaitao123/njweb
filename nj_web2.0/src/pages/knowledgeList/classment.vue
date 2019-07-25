@@ -4,131 +4,61 @@
             <Col span="24">
             <card>
                 <p slot="title">
-                    <Icon type="mouse"></Icon>&nbsp;知识库
+                    <Icon type="mouse"></Icon>&nbsp;类目管理
                 </p>
                 <Row>
-                    <Col span="4"
-                         class="colTree">
-                    <div>
-                        <Select style="width: 170px;"
-                                v-model="keyword"
-                                filterable
-                                @keyup.enter.native="knowEvent"
-                                :remote=true
+					 <Col span="4"
+					     class="colTree">
+					<div>
+					    <Select style="width: 170px;"
+					            v-model="keyword"
+					            filterable
+					            @keyup.enter.native="knowEvent"
+					            :remote=true
 								 clearable
-                                :remote-method="remoteMethod1"
-                                :loading="loading1">
-                            <Option v-for="(option, index) in options1"
-                                    :value="option.name"
-                                    :key="index">{{option.name}}</Option>
-                        </Select>
-                        <i-button style="margin-top: -52px; display: inline-block;margin-left: 180px;"
-                                  type="primary"
-                                  @click="addEvent"
-                                  icon="android-add">新增</i-button>
-                    </div>
-                    <div class="divtree"
-                         :style="{height:treeheight + 'px'}">
-                        <Tree v-if="dataTree != ''"
-                              :data="dataTree"
-                              @on-select-change="selectChange"></Tree>
-                        <Spin v-if="loading"
-                              size="large"
-                              :style="{height:treeheight + 'px'}"></Spin>
-                    </div>
-                    </Col>
-                    <Col span="21"
-                         style="width: 81.3333% !important">
-                    <Row>
-                        <Input placeholder="请输入文章名称"
-                               style="width: 200px"
-                               @keyup.enter.native="enterEvent"
-                               v-model="keywordr" />
-                        <Input placeholder="请输入内容"
-                               style="width: 200px"
-                               @keyup.enter.native="contSearh"
-                               v-model="keywords" />
-                        <i-button style="margin-top: 0px;margin-left: 30px;"
-                                  type="primary"
-                                  @click="collects"
-                                  icon="ios-heart-outline">我的收藏</i-button>
-                        <i-button style="margin-top: 0px; display: inline-block;margin-left: 30px;"
-                                  type="primary"
-                                  @click="addContent"
-                                  icon="android-add">新增内容</i-button>
-                    </Row>
-					<row style="margin-left: 51%;"><div class="option">
-					
-							<div class="icons">		
-							 <Icon size="30" style="margin: 20px;" @click="fullScreen" class="fullScreen" type="arrow-expand"></Icon>
-							 <Icon size="30" style="margin: 20px;" @click="smallScreen" class="smallScreen" type="arrow-shrink"></Icon>
-							</div>
-							   <div class="operation">
-							       <div class="item-list">
-							           <div class="items">
-							               <Icon size=30
-							                     @click="like"
-							                     class="heart"
-							                     type="ios-heart"></Icon>
-							               <div>收藏</div>
-							           </div>
-							           <div class="items">
-							               <Icon size=30
-							                     @click="will"
-							                     class="zan"
-							                     type="thumbsup"></Icon>
-							               <div>点赞</div>
-							           </div>
-							       </div>
-							   </div>
-							   </div></row>
+					            :remote-method="remoteMethod1"
+					            :loading="loading1">
+					        <Option v-for="(option, index) in options1"
+					                :value="option.name"
+					                :key="index">{{option.name}}</Option>
+					    </Select>
+					    <i-button style="margin-top: -52px; display: inline-block;margin-left: 180px;"
+					              type="primary"
+					              @click="knowEvent">搜索</i-button>
+								  
+					</div>
+					<div class="divtree"
+					     :style="{height:treeheight + 'px'}">
+					    <Tree v-if="dataTree != ''"
+					          :data="dataTree"
+					          @on-select-change="selectChange"></Tree>
+					    <Spin v-if="loading"
+					          size="large"
+					          :style="{height:treeheight + 'px'}"></Spin>
+					</div>
+					</Col>
+                    <Col span="19" style="margin-left: 20px;">
+					<div>
+					    <i-button style="margin-top: 0px; display: inline-block;margin-left: 20px;"
+					              type="primary"
+					              @click="addEvent"
+					              icon="android-add">新增</i-button>
+								   <i-button style="margin-top: 0px; display: inline-block;margin-left: 30px;" type="error" @click="deleteItem"
+								  >删除</i-button>
+								 
+					</div>
                     <row class="table-form"
                          ref="table-form">
                         <Table @on-selection-change="selectedtable"
                                class="tabStyle"
-                               :row-class-name="rowClassName"
                                @on-sort-change="sortable"
-                               @on-row-click="selectEvent"
                                :height="tableheight"
                                size="small"
                                border
                                ref="selection"
                                :columns="columns"
-                               :data="TabData"
+                               :data="treeData"
                                :loading="loading"></Table>
-                        <div class="right-div"
-                            :style="{height:tableheight + 'px'}"
-                             v-show="divShow">
-							 
-                            <div class="heads">内容详情</div>
-                        
-                            <div class="item-title">
-                                <p>标题:&nbsp;&nbsp;{{contentShow.title}}</p>
-                            </div>
-                            <div class="item-content">
-                                内容:
-                                <p id="myContent">
-                                </p>
-                            </div>
-                            <div class="item-list">
-                                <p>时间:&nbsp;&nbsp;{{contentShow.created}}</p>
-                            </div>
-                            <div class="item-list">
-                                <p>点击数:&nbsp;&nbsp;{{contentShow.clicked}}</p>
-                            </div>
-                            <div class="item-list">
-
-                            </div>
-                            <!-- <div class="item-list">
-                                <p>发布人:&nbsp;&nbsp;{{contentShow.unitCityName}}</p>
-                            </div>
-                            <div class="item-list">
-                                <p>创建人:&nbsp;&nbsp;{{contentShow.unitInvdate}}</p>
-                            </div> -->
-                            <div class="link">
-
-                            </div>
-                        </div>
                     </row>
                     <Row style="display: flex">
                         <Page :total="total"
@@ -169,7 +99,7 @@
 <script>
 import { isSuccess } from "@/lib/util"
 import expdow from "@/components/fileOperations/expdow";
-import newupdate from './orgframeEdit'
+import newupdate from './classEdit';
 import {
     getDataLevelUserLoginNew,
     getDataLevelUserLogin,
@@ -213,6 +143,7 @@ export default {
             unitTypeId: NaN,
             status: "",
             unitPid: "",
+			Pid:"",
             addShow: false,
             addconShow: false,
             ifShow: false,
@@ -229,32 +160,63 @@ export default {
             options1: [],
             contentShow: [],
 			pageShow:true,
+			treeData:[],
             columns: [
+				{
+				    type: 'selection',
+				    width: 60,
+				    align: 'center',
+					fixed: "left"
+				},
                 {
                     title: "标题",
                     key: "title",
-                    width: 400,
+                    width: 910,
                 },
                 {
-                    title: "点击数",
-                    width: 60,
-                    key: "clicked",
+                    title: "路径",
+                    width: 100,
+                    key: "pid",
                 },
-                {
-                    title: "点赞数",
-                    width: 60,
-                    key: "unitCode",
-                },
-                // {
-                //     title: "创建时间",
-                //     key: "created",
-                //     width: 140
-                // },
-                // {
-                //     title: "失效时间",
-                //     key: "unitCityName",
-                //     width: 140
-                // },
+				{
+					title:"创建时间",
+					width:100,
+					key:"created"
+				},
+				{
+				    title: "操作",
+				    key: "action",
+				    width: 100,
+					fixed: "right",
+				    align: "center",
+				    render: (h, params) => {
+				        let child = [];
+				            child.push(
+				                h(
+				                    "Button",
+				                    {
+				                        props: {
+				                            type: "primary",
+				                            size: "small"
+				                        },
+				                        style: {
+				                            marginRight: "5px",
+				                            display:"inline"
+				                        },
+				                        on: {
+				                            click: () => {
+												this.addEvents(params)
+				                                //this.openUp(params.row.id, v.name, params.index);
+				                            }
+				                        }
+				                    },
+				                    "修改"
+				                )
+				            );
+				       
+				        return h("div", [child]);
+				    }
+				}
             ],
             tabShow: false,
             TabData: [],
@@ -276,6 +238,9 @@ export default {
             unitType: "",
             openPick: false,
             knowledgeId: '',
+			selectCont:[],
+			partmentId:'',
+			unitPids:'',
             params: {
                 _mt: "orgUnits.getByOrgFramePageList",
                 sort: "id",
@@ -309,6 +274,7 @@ export default {
     },
     created () {
         this.openUps()
+		this.getData ()
     },
     mounted () {
         this.getTable()
@@ -325,38 +291,78 @@ export default {
         // }
     },
     methods: {
-		fullScreen(){
-			var righDiv = document.querySelector(".right-div");
-			var tabStyle = document.querySelector(".tabStyle");
-			var fullScreen = document.querySelector(".fullScreen");
-			var smallScreen = document.querySelector(".smallScreen");
-			this.pageShow = false;
-			smallScreen.style.display = "block";
-			fullScreen.style.display = 'none';
-			tabStyle.style.display = 'none';
-			righDiv.style.width = '100%';
+		getData () {
+		    const t = this;
+		    const data = {
+		        _mt: "orgUnits.getPidByUid",
+		        funId:"1234",
+				logType:'获取部门'
+		    };
+		    for (const dat in data) {
+		        if (data[dat] === "") {
+		            delete data[dat];
+		        }
+		    }
+		    getDataLevelUserLoginNew(data)
+		        .then(res => {
+		            if (isSuccess(res, t)) {
+		              if(res.data.content[0].length > 0){
+						  this.unitPids = res.data.content[0].unitPid
+						  this.partmentId = res.data.content[0].id
+					  }
+		            }
+		        })
+		        .catch(() => {
+		            t.$Message.error(this.$t('reminder.errormessage'))
+		        }).finally(() => {
+		            t.loading = false;
+		            t.$store.commit('btnOperate/setSearchLoading', false);
+		        });
 		},
-		smallScreen(){
-			var tabStyle = document.querySelector(".tabStyle");
-			tabStyle.style.display = 'block';
-			var smallScreen = document.querySelector(".smallScreen");
-			smallScreen.style.display = "none";
-			var fullScreen = document.querySelector(".fullScreen");
-			fullScreen.style.display = 'block';
-			var operation = document.querySelector(".operation");
-			operation.style.marginLeft = "80%"
-			this.pageShow = true;
+	deleteItem(){
+		if(this.selectCont.length == 0){
+			this.$Message.warning("至少选择一条数据");
+		}
+		if(this.selectCont.length > 0){
+			 const t = this;
+			 t.$Modal.confirm({
+			    title: this.$t("reminder.remind"),
+			    content: this.$t("reminder.confirmdelete"),
+			    onOk: () => {
+			        let str = ''
+			        t.selectCont.forEach(function(currentValue, index, arr) {
+			        	str += ','+currentValue.id  
+			        })
+			        t.idStr = str
+			        var readyData = {
+			            id:t.idStr,
+			            staffId: t.$store.state.user.userId
+			        };
+			        console.log('readyData', readyData)
+			        getKnowledgePost('ry/operationKnowledge/praise', {
+			            readyData
+			        })
+			            .then(function (response) {
+			                t.$Message.error('删除成功');
+			            })
+			            .catch(function (error) {
+			                t.$Message.error('保存失败');
+			                console.log(error);
+			            });
+			    },
+			    onCancel: () => { }
+			});
 			
-		},
+		}
+	},
         selectEvent (selection) {
             var oDiv = document.querySelector(".zan");
             oDiv.style.color = '#000000'
             var oDivs = document.querySelector(".heart");
             oDivs.style.color = '#000000'
-            console.log('cs',selection)
+            console.log(selection)
             const t = this;
             this.knowledgeId = selection.id
-			this.treeid = selection.categoryId
             this.TabData.forEach(function (currentValue, index, arr) {
                 if (currentValue.id == selection.id) {
                     t.contentShow = selection;
@@ -366,20 +372,22 @@ export default {
                 }
             })
         },
-        rowClassName (row, index) {
-            if (index === this.tabIndex) {
-                return 'demo-table-info-row';
-            }
-            return '';
-        },
         addEvent () {
             const t = this;
             t.openUpdates = true;
             t.addShow = true;
             t.ifShow = false;
             t.logTypes = "新增"
-            t.$refs.newupdate.newAdd()
+            t.$refs.newupdate.newAdd(this.Pid)
         },
+		addEvents(params){
+			const t = this;
+			t.openUpdates = true;
+			t.addShow = true;
+			t.ifShow = false;
+			t.logTypes = "修改"
+			t.$refs.newupdate.newAdds(params)
+		},
         addContent () {
             const t = this;
             t.openUpdates = true;
@@ -432,10 +440,14 @@ export default {
         getTreedata () {
             const t = this
             getKnowledgeGet('ry/knowledgeCategory/getPersonKnowledgeCategoryTree', {
-                nameLike: this.keyword
+                nameLike: this.keyword,
+				size: '20',
+				page: '1',
+				sort: 'asc',
             })
                 .then((res) => {
                     if(res.data.content[0].length > 0){
+						t.treeData = res.data.content[0];
 						  t.dataTree = t.toTree(res.data.content[0]);
 					}
                 })
@@ -446,7 +458,8 @@ export default {
         like () {
 			const t = this;
             var readyData = {
-               knowledgeId : this.knowledgeId,
+                categoryId: this.treeid,
+                knowledgeId: this.knowledgeId,
                 staffId: this.$store.state.user.userId
             };
 			console.log('id',readyData)
@@ -514,12 +527,14 @@ export default {
                 sort: 'asc',
             })
                 .then((res) => {
+					
                     console.log(res);
                     t.TabData = res.data.content[0].rows[0];
                     if (res.data.content[0].rows[0][0]) {
                         t.contentShow = res.data.content[0].rows[0][0];
 						t.treeid = res.data.content[0].rows[0][0].categoryId;
 						t.knowledgeId = res.data.content[0].rows[0][0].id;
+						
 						//console.log('t.TreeId',res.data.content[0].rows[0][0].categoryId)
                         document.getElementById('myContent').innerHTML = t.contentShow.content
                         console.log(t.contentShow, "t.contentShow")
@@ -628,14 +643,11 @@ export default {
             // t.logTypes = "修改"
             // t.$refs.newupdate.revise(e)
             // t.openUpdates = true;
-			var oDiv = document.querySelector(".zan");
-			oDiv.style.color = '#000000'
-			var oDivs = document.querySelector(".heart");
-			oDivs.style.color = '#000000'
             //this.treeid = e.id;
             this.page = 1;
             if (e[0].id) {
-                this.getTable(e[0].id);
+				this.Pid = e[0].id
+				this.getTreedata(e[0].id)
             }
         },
         /* 把后台数据转化为tree的格式 */
@@ -690,13 +702,10 @@ export default {
         pageChange (page) {
             const t = this;
             t.page = page;
-			var oDiv = document.querySelector(".zan");
-			oDiv.style.color = '#000000'
-			var oDivs = document.querySelector(".heart");
-			oDivs.style.color = '#000000'
             t.getTable(this.treeid, t.page);
         }, //分页
         selectedtable (selection) {
+			this.selectCont = selection 
             const newArr = [];
             this.selection = selection
             for (let i = 0; i < selection.length; i++) {
@@ -1024,5 +1033,7 @@ export default {
     color: #fff;
 }
 </style>
+
+
 
 
