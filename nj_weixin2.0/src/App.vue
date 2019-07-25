@@ -283,4 +283,18 @@ input[readonly] {
 .form .vux-x-textarea .weui-textarea {
     color: #333333;
 }
+// .van-dropdown-menu__item{
+//     height:1rem
+// }
+.van-dropdown-menu__title{
+    font-size:25px
+}
+.van-cell{
+    height: 70px;
+    font-size:25px;
+    line-height: 70px;
+}
+.van-cell:not(:last-child)::after{
+  border-bottom: 2px solid #ebedf0;
+}
 </style>

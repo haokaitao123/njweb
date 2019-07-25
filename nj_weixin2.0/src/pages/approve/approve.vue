@@ -1,14 +1,20 @@
 <template>
     <div class="approve">
-        <noData v-show="list.length <= 0"></noData>
+       
+        <noData v-show="reveal"></noData>
         <van-pull-refresh v-model="isLoading"
                           @refresh="onRefresh"
                           ref="scrollBox"
                           class="ref">
             <div class="itemWrap">
+                <!-- <div class="menus" style="width: 100%;"> -->
+					<van-dropdown-menu style="z-index:101">
+					  <van-dropdown-item v-model="value2" :options="option2" @change="select" />
+					</van-dropdown-menu>
+                    <noData v-show="this.list<=0"></noData>
                 <div style="width: 100%;">
                     <div class="appItem"
-                         v-for="(item,index) in list"
+                         v-for="(item,index) in list" :key="index"
                          @click="goTo(item)">
                         <div class="cent">
                             <div class="cent_top">
@@ -33,8 +39,9 @@
                                 </div>
                             </div>
                             <div class="outTem">
+
                                 <div class="actionTimers"
-                                     v-if="item.dimReasonDis">
+                                     v-if="item.tbname == 'emp_empdim'">
                                     <span class="one">
                                         离职原因：{{item.dimReasonDis}}
                                     </span>
@@ -136,6 +143,7 @@
                           type="primary">同意</x-button>
             </div>
         </div>
+        
     </div>
 </template>
 <script>
@@ -147,12 +155,24 @@ import noData from '@/components/public/noData'
 export default {
     data () {
         return {
+            reveal:false,
             list: [],
             checkedCode: [], // 用于保存被选中的数据
             checked: false,
             isAllChecked: false, // 正在进行中的数据是否被选中
             isLoading: false,
-            formList: []
+            formList: [],
+            usertodokey:'',
+            value2: 'all',
+			  option2: [
+				{ text: '全部', value: 'all' },
+				{ text: '离职', value: 'emp_empdim' },
+				{ text: '异动', value: 'emp_transtion' },
+				{ text: '调班', value: 'atten_shift' },
+				{ text: '请假', value: 'atten_vacation' },
+                { text: '外出', value: 'atten_gooutproc' },
+                { text: '考勤申诉', value: 'atten_ckappeal' },
+			  ]
         }
     },
     components: {
@@ -160,8 +180,73 @@ export default {
     },
     created () {
         this.getInfor()
+        this.todoKey()
     },
     methods: {
+        todoKey(){
+            const t = this
+            const data = {
+                _mt: 'wxansrpttodo.wxgetAllTodo',
+                logType: "微信筛选",
+                roleType:"3user"
+            }
+            getDataLevelUserLogin(data).then((res) => {
+                if (isSuccess(res, t)) {
+                    console.log(res)
+                    if (res.data.content[0].value) {
+                        t.usertodokey=res.data.content[0].value
+                    }
+                }
+            }).catch(() => {
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+            }).finally(() => {
+               
+            })
+        },
+        select(value){
+            const t = this
+            t.value2 = value
+            const data = {
+                _mt: 'wxansrpttodo.getAllTodo',
+                companyId: pubsource.companyId,
+                empId: window.localStorage.getItem('empId'),
+                tbName:value
+            }
+            getDataLevelUserLogin(data).then((res) => {
+                if (isSuccess(res, t)) {
+                    // console.log(res.data.content[0].value.todoList.todo_data)
+                   
+                    if (res.data.content[0].value!="[]") {
+                         t.list =[];
+                        const listRes = JSON.parse(res.data.content[0].value)
+                        listRes.forEach(function (item) {
+                            item.checked = false;
+                            console.log(item,"item")
+                            t.list.push(item)
+                        });
+                        t.checkedCode = [];
+                        t.isAllChecked = false;
+                    }else{
+                        t.list=[];
+                    }
+                   
+                }
+            }).catch(() => {
+                t.$notify({
+                    message: '网络错误',
+                    duration: 1500,
+                    background: '#f44'
+                });
+
+            }).finally(() => {
+                t.$store.commit('hideLoading');
+                console.log('123', this.list)
+            })
+		},
         goTo (item) {
             this.$router.push({
                 name: 'apprInfo',
@@ -233,7 +318,8 @@ export default {
             const data = {
                 _mt: 'wxansrpttodo.getAllTodo',
                 companyId: pubsource.companyId,
-                empId: window.localStorage.getItem('empId')
+                empId: window.localStorage.getItem('empId'),
+                tbName: t.value2
             }
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
@@ -243,8 +329,14 @@ export default {
                         listRes.forEach(function (item) {
                             item.checked = false
                         });
+
                         t.list = listRes
                         t.list.length
+                        if(t.list.length<=0){
+                            t.reveal=true
+                        }else{
+                            t.reveal=false
+                        }
                         t.checkedCode = [];
                         t.isAllChecked = false;
                         //localStorage.setItem("tipNum", t.list.length);
@@ -287,6 +379,7 @@ export default {
             this.page = 1;
             this.isLoading = true;
             this.getInfor()
+            // this.value2=this.value
         },
         submit (type, logType) {
             const that = this;
@@ -398,6 +491,15 @@ export default {
                 height: 100%;
                 margin-bottom: 20px;
                 overflow: hidden;
+                 .nomsg{
+                    width: 200px;
+                    height: 500px;
+                    margin-top:10%; 
+                    background-image: url("../../../static/main/No.png");
+                    .xxxx{
+                        margin: 60px
+                    }
+                }
                 .cent {
                     .cent_top {
                         display: flex;
