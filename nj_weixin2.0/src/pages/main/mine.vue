@@ -111,6 +111,7 @@ export default {
                 message: '是否确认退出？'
             }).then(() => {
                 window.localStorage.clear();
+				this.$store.commit('tabarTip', '0');
                 this.$router.push({ name: 'login' })
             }).catch(() => {
                 // on cancel

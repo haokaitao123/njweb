@@ -35,7 +35,11 @@ export default {
     components: {
         'tab-bar': tabBar,
     },
+	created() {
+		this.getInfor()
+	},
     methods: {
+		
         onTabTo (_result) {
             let _key = _result.data.key || '';
             this.$router && this.$router.push(_key)
