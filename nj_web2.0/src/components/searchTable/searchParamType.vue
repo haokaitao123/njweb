@@ -10,7 +10,7 @@
         </Button>
       </div>
       <Row class="table-form">
-        <Input :placeholder="searchText" style="width: 200px" v-model="pmtypeCode"/>
+        <Input placeholder="请输入参数名称" style="width: 200px" v-model="pmtypeName"/>
         <span style="margin: 0;"><Button type="primary" icon="search" @click="getData(1)">{{$t('button.ser')}}</Button></span>
         <span style="margin: 0;"><Button type="warning" icon="trash-b" @click="clear">清空</Button></span>
       </Row>
@@ -30,7 +30,7 @@ export default{
     return {
       data: [],
       total: NaN,
-      pmtypeCode: '',
+      pmtypeName: '',
       searchText: '请输入参数类型编码',
       params: {
         _mt: 'baseParmType.selectParamTypeByColumn',
@@ -65,7 +65,7 @@ export default{
         t.params.page = page
       }
       const data = deepCopy(t.params)
-      data['pmtypeCode'] = t.pmtypeCode
+      data['pmtypeName'] = t.pmtypeName
       for (const dat in data) {
         if (data[dat] === '') {
           delete data[dat]
