@@ -58,6 +58,7 @@
                            ref="selection"
                            :columns="columns"
                            :loading="loading"
+                           @on-sort-change="sortable"
                            :data="data"></Table>
                 </row>
                 <Row style="display: flex">
@@ -302,19 +303,10 @@ export default {
                     if (aa.length > 9) {
                         console.log(aa, "aa")
                         for (let j = 0; j < aa.length; j++) {
-                            // if (aa[j].key == '姓名') {
-                            //     aa[j].width = 80
-                            //     aa[j].fixed = 'left'
-                            // }
-                            // if (aa[j].title == '员工姓名') {
-                            //     aa[j].width = 80
-                            //     aa[j].fixed = 'left'
-                            // }
                             if (aa[j].key == 'empId') {
                                 aa[j].fixed = 'left'
                             }
                             if (aa[j].key == 'relibName') {
-                                aa[j].width = 100
                                 aa[j].fixed = 'left'
                             }
                             if (aa[j].key == 'relibApplypost') {
@@ -328,11 +320,9 @@ export default {
                             }
 
                             if (aa[j].key == 'relibFirstus') {
-                                aa[j].width = 100
                                 aa[j].fixed = 'left'
                             }
                             if (aa[j].key == 'relibReexamus') {
-                                aa[j].width = 100
                                 aa[j].fixed = 'left'
                             }
                             if (aa[j].type == 'selection') {
@@ -342,8 +332,9 @@ export default {
                         }
                     }
                     for (let i = 0; i < aa.length; i++) {
-                        aa[i].sortable = false;
-
+                        if (aa[i].sortable === 'false') {
+                            aa[i].sortable = false
+                        }
                         if (!aa[i].width) {
                             aa[i].width = 120
                         }

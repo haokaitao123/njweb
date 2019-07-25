@@ -699,14 +699,14 @@ export default {
                         // })
                         this.$Message.error(this.$t("reminder.errormessage"));
                     })
-                }else{
-					this.$nextTick(function(){
-                            let tt = document.querySelectorAll('.ivu-form-item-error');
-                            if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
-                                this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
-                            }
-                        }) 
-				}
+                } else {
+                    this.$nextTick(function () {
+                        let tt = document.querySelectorAll('.ivu-form-item-error');
+                        // if(tt[0].parentNode.offsetTop<this.$refs.scrollBox.$el.scrollTop){
+                        this.$refs.scrollBox.$el.scrollTop = tt[0].parentNode.offsetTop
+                        // }
+                    })
+                }
             })
         },
         close () {
@@ -786,9 +786,9 @@ export default {
             if (this.forbidden === null && !this.disabled) {
                 const t = this;
                 t.$refs.searchEmpMaster.getData();
-                t.openEmpMaster = true; 
+                t.openEmpMaster = true;
             }
-        },   
+        },
         closeEmp () {
             const t = this;
             t.openEmpMaster = false;
