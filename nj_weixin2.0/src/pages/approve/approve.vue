@@ -181,33 +181,8 @@ export default {
     },
     created () {
         this.getInfor()
-        this.todoKey()
     },
     methods: {
-        todoKey(){
-            const t = this
-            const data = {
-                _mt: 'wxansrpttodo.wxgetAllTodo',
-                logType: "微信筛选",
-                roleType:"3user"
-            }
-            getDataLevelUserLogin(data).then((res) => {
-                if (isSuccess(res, t)) {
-                    console.log(res)
-                    if (res.data.content[0].value) {
-                        t.usertodokey=res.data.content[0].value
-                    }
-                }
-            }).catch(() => {
-                t.$notify({
-                    message: '网络错误',
-                    duration: 1500,
-                    background: '#f44'
-                });
-            }).finally(() => {
-               
-            })
-        },
         select(value){
             const t = this
             t.value2 = value
@@ -219,8 +194,7 @@ export default {
             }
             getDataLevelUserLogin(data).then((res) => {
                 if (isSuccess(res, t)) {
-                    // console.log(res.data.content[0].value.todoList.todo_data)
-                   
+                    // console.log(res.data.content[0].value.todoList.todo_data)                   
                     if (res.data.content[0].value!="[]") {
                          t.list =[];
                         const listRes = JSON.parse(res.data.content[0].value)
