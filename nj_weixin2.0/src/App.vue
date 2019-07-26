@@ -302,4 +302,7 @@ input[readonly] {
     border: 0.08rem solid;
     border-color: transparent transparent currentColor currentColor;
 }
+.weui-cells{
+	margin-top: 0px;
+}
 </style>

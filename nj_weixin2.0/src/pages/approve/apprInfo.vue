@@ -402,9 +402,7 @@
 			</div>
 		</div>
 		</group>
-		<group>
-			<x-textarea class="textWrite" :max="300" v-model="value" placeholder="请填写审批意见"></x-textarea>
-		</group>
+			<x-textarea class="textWrite" :max="400" v-model="value" placeholder="请填写审批意见"></x-textarea>
 		<div class="save_button">
 			<x-button class="x_button button_left" @click.native="comfirmSubmit('02noneapproved','不同意')" type="primary">不同意</x-button>
 			<x-button class="x_button" @click.native="comfirmSubmit('01approved','同意')" type="primary">同意</x-button>
@@ -763,6 +761,9 @@
 		}
 
 		.textWrite {
+			// .textWrite/deep/.weui-cells{
+			// 	margin-top: -20px;
+			// }
 			font-size: 30px;
 			border-bottom: 1px solid gainsboro;
 		}
@@ -791,9 +792,8 @@
 
 		.item_box {
 			border-top: 0.1px solid #d9d9d9;
-			padding-top: 20px;
 			font-size: 30px;
-			height: 80px;
+			height: 100px;
 		}
 		.weui-cell /deep/ span {
 			display: inline-block;
@@ -801,7 +801,7 @@
 		}
 		.item_box /deep/.weui-icon-warn {
 			display: inline-block;
-			 margin-top: 7px;
+			 margin-top: -10px;
 			// float: right;
 		}
 		.item_box/deep/.vux-cell-bd{
@@ -819,5 +819,6 @@
 			overflow: scroll;
 			-webkit-overflow-scrolling: touch;
 		}
+		
 	}
 </style>
