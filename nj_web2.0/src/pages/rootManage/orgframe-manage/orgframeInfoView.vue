@@ -514,6 +514,9 @@ export default {
                 unitSysalig: [
                     { required: true, message: "请选择系统转正", trigger: 'change' },
                 ],
+                empId: [
+                  { required: true, message: "请选择负责人", trigger: 'change' },
+                ],
             },
         }
     },
