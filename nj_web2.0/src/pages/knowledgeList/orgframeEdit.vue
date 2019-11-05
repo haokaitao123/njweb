@@ -33,11 +33,12 @@
 									</Col>
 								</Row>
 								<Row>
-									<Col span="24" offset="0">
+									<Col span="24">
 									<FormItem label="附件上传" prop="noticeAttach">
 										<Row>
 											<i-col span="3" v-show="!editdisabled">
-												<Upload :before-upload="handleUpload" action=" ">
+												<Upload :before-upload="handleUpload" :format="['xls','xlsx','rar', 'txt', 'zip', 'ppt', 'xls', 'pdf','xlsx']"
+												 action=" ">
 													<Button type="ghost" icon="ios-cloud-upload-outline" :disabled="editdisabled">{{$t('lang_platdoc.platDoc.plat_scan')}}</Button>
 												</Upload>
 											</i-col>
@@ -52,7 +53,6 @@
 													</i-col>
 													<i-col span="2">
 														<Button type="text" @click="uploadLocalFile" v-if="loadingStatus">{{$t('lang_platdoc.platDoc.plat_upload')}}</Button>
-														<Button type="text" @click="downloadFile" v-if="!loadingStatus">{{$t('lang_platdoc.platDoc.plat_download')}}</Button>
 													</i-col>
 												</span>
 											</i-col>
@@ -70,11 +70,11 @@
 										</FormItem>
 										</Col>
 										<Col span="11" offset="1">
-											<FormItem label="标签" prop="tag">
-												<span>
-													<Input placeholder="请输入标签" :disabled='disabled' v-model="form.tag" />
-												</span>
-											</FormItem>
+										<FormItem label="标签" prop="tag">
+											<span>
+												<Input placeholder="请输入标签" :disabled='disabled' v-model="form.tag" />
+											</span>
+										</FormItem>
 										</Col>
 									</Row>
 									<div class="btns">
@@ -96,6 +96,7 @@
 <script>
 	import searchDept from './department';
 	import {
+		uploadKnowledge,
 		getDataLevelUserLogin,
 		getDataLevelNone,
 		getDataLevelUserLoginNew,
@@ -217,8 +218,7 @@
 			editor.create();
 			console.log(this.form.state, "form");
 		},
-		created() {
-		},
+		created() {},
 		computed: {
 			tableButton() {
 				return this.$store.state.knowledge.id;
@@ -242,7 +242,7 @@
 				} else {
 					this.order = "desc";
 				}
-			}, 
+			},
 			dataClick(item) {
 				console.log(item)
 				this.itemTitle = item.title
@@ -260,20 +260,8 @@
 			Consave() {
 				const t = this;
 				this.form.content = document.getElementById("txt").innerHTML;
-				if(this.form.content == ''){
-					t.$Message.warning('内容为空');
-					var ifSave = false;
-				}else{
-					var ifSave = true;
-				}
-				if(this.form.title == ''){
-					t.$Message.warning('标题为空');
-					var ifSaves = false;
-				}else{
-					var ifSaves = true;
-				}
 				t.$refs.form.validate(valid => {
-                    if (valid) {
+					if (valid) {
 						const t = this;
 						var readyData = JSON.stringify({
 							attachments: this.form.attachments,
@@ -285,11 +273,6 @@
 							title: this.form.title,
 							userId: this.$store.state.user.userId
 						});
-						for (const dat in readyData) {
-						    if (data[dat] === "") {
-						        delete data[dat];
-						    }
-						}
 						console.log('readyData', readyData)
 						//var headers = {'Content-Type':'application/x-www-form-urlencoded'};
 						getKnowledgePost('ry/knowledge', {
@@ -306,59 +289,50 @@
 								t.$Message.error('保存失败');
 								console.log(error);
 							});
-                    }
-                })			
+					}
+				})
 			},
-			postQuest() {
+			//上传
+			uploadLocalFile() {
 				const t = this;
-				var ifPass = 1
-				if (this.form.universal == '是') {
-					ifPass = 1
-				} else if (this.form.universal == '否') {
-					ifPass = 0
-				}
-				//this.form.fatherId = this.tableButton() 
-				var readyData = JSON.stringify({
-					"operatorId": this.$store.state.user.userId,
-					"operatorName": this.$store.state.user.name,
-					"deleted": 1,
-					"departmentId": this.departmentId,
-					"level": this.form.tier,
-					"name": this.form.name,
-					"num": 1,
-					"path": this.form.urlname,
-					"pid": this.form.pid,
-					"pnum": 0,
-					"sort": this.form.sorts,
-					"universal": ifPass,
-					"updateBy": this.form.lastId
-				});
-				console.log('readyData', readyData)
-				//var headers = {'Content-Type':'application/x-www-form-urlencoded'};
-				getKnowledgePost('ry/knowledgeCategory', {
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						},
-						readyData
+				const formData = new FormData();
+				formData.append("upfile", t.file);
+				console.log(formData);
+				uploadKnowledge(formData)
+					.then(res => {
+						for (const key in res.data) {
+							t.file = {
+								name: key
+							};
+							t.filekey = res.data[key];
+							t.form.noticeAttach = key + ":" + res.data[key];
+						}
+						t.$Modal.success({
+							title: this.$t("reminder.suc"),
+							content: "上传成功",
+							onOk: () => {
+								t.loadingStatus = false;
+							}
+						});
 					})
-					.then(function(response) {
-						t.$Message.success('保存成功');
-						console.log(response);
-					})
-					.catch(function(error) {
-						t.$Message.error('保存失败');
-						console.log(error);
+					.catch(() => {
+						t.$Message.error(this.$t("reminder.errormessage"));
 					});
 			},
-			seleEvnt() {
-				const t = this;
-				t.addShow = false;
-				t.ifShow = false;
-				t.ifShows = false;
-				t.addconShow = false;
-				t.ifCollect = false;
-				t.ifSelect = true;
-				console.log(t.ifSelect)
+			clearFile (ckdis) {
+			    if (!ckdis) {
+			        this.$Modal.confirm({
+			            title: this.$t("reminder.remind"),
+			            content: "是否清除已上传的附件",
+			            onOk: () => {
+			                this.file = "";
+			                this.filekey = "";
+			                this.form.noticeAttach = "";
+			                this.loadingStatus = false;
+			            },
+			            onCancel: () => { }
+			        });
+			    }
 			},
 			colEvent() {
 				const t = this;
@@ -441,53 +415,23 @@
 						console.log(err);
 					});
 			},
-			readIform() {
-				this.ifShows = false;
-				this.ifShow = true;
-				console.log(this.ifShows);
-			},
 			closeAllotdept() {
 				const t = this
 				t.allotdeptState = false
 			},
-			//上传
-			uploadLocalFile() {
-				const t = this;
-				var readyData = JSON.stringify({
-					file: t.file.name,
-				});
-				console.log('readyData', readyData)
-				//var headers = {'Content-Type':'application/x-www-form-urlencoded'};
-				getKnowledgePost('ry/upload', {
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						},
-						readyData
-					})
-					.then(function(response) {
-						console.log(response);
-						t.$Message.success('上传成功');
-					})
-					.catch(function(error) {
-						t.$Message.error('上传失败');
-						console.log(error);
-					});
-			},
 			handleUpload(file) {
-				console.log(file)
-				this.file = file;
 				this.loadingStatus = true;
+				let fileName = file.name
+				let fileType = fileName.slice(fileName.lastIndexOf('.') + 1).toLowerCase()
+				if (fileType !== 'doc' && fileType !== 'docx') {
+					this.file = file
+				} else {
+					this.$Message.error({
+						content: "暂不支持word格式",
+						duration: 2,
+					})
+				}
 				return false;
-			},
-			//部门
-			cleardeptId() {
-				const t = this;
-				t.unitFname = '';
-				t.formValidate.deptId = '';
-			},
-			pickDeptData() {
-				const t = this;
-				t.allotdeptState = true;
 			},
 			closeDept(msg) {
 				this.i = 0;

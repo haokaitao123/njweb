@@ -409,9 +409,6 @@
 			},
 			like() {
 				const t = this;
-				t.$refs.newupdate.seleEvnt()
-				t.openUpdates = true;
-				t.logTypes = "收藏"
 				var readyData = {
 					knowledgeId: this.knowledgeId,
 					staffId: this.$store.state.user.userId

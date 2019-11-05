@@ -6,7 +6,7 @@
                     <Icon type="mouse"
                           size="16"
                           style="margin-right: 10px;"></Icon>
-                    &nbsp;{{title}}
+                    &nbsp;选择部门
                 </div>
                 <Button type="text"
                         @click="close">
